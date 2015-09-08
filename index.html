@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html ng-app="ppl" lang="en">
+    <head>
+        <title>Percona Query Analytics</title>
+        <base href="/"></base>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <link rel="stylesheet" href="/bower_components/bootstrap/dist/css/bootstrap.min.css">
+        <link rel="stylesheet" href="/bower_components/angular-bootstrap/ui-bootstrap-csp.css">
+        <link rel="stylesheet" href="/bower_components/angular-ui-grid/ui-grid.css">
+        <link rel="stylesheet" href="/client/content/css/main.css">
+
+        <script src="/bower_components/jquery/dist/jquery.min.js"></script>
+        <script src="/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+
+        <script src="/bower_components/angular/angular.min.js"></script>
+        <script src="/bower_components/angular-bootstrap/ui-bootstrap.min.js"></script>
+        <script src="/bower_components/angular-resource/angular-resource.min.js"></script>
+        <script src="/bower_components/angular-ui-grid/ui-grid.min.js"></script>
+        <script src="/bower_components/angular-ui-router/release/angular-ui-router.min.js"></script>
+        <script src="/client/app/controllers.js"></script>
+        <script src="/client/app/services.js"></script>
+        <script src="/client/app/directives.js"></script>
+        <script src="/client/app/app.js"></script>
+    </head>
+    <body>
+        <div class="container-fluid">
+            <header class="page-header">
+                <h1>Percona <small>Query Analytics</small></h1>
+            </header>
+            <nav class="navbar navbar-default" topnav></nav>
+            <main>
+                <div ui-view></div>
+            </main>
+            <footer></footer>
+        </div>
+    </body>
+</html>

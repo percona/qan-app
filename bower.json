@@ -1,0 +1,30 @@
+{
+  "name": "Percona Platform",
+  "version": "1.0.1",
+  "homepage": "https://github.com/percona/platform",
+  "authors": [
+    "Andrii Skomorokhov <andrii.skomorokhov@percona.com>"
+  ],
+  "description": "Percona Platform provides a web access to Query Analytics tool.",
+  "main": "app.js",
+  "moduleType": [
+    "amd",
+    "es6"
+  ],
+  "license": "null",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "angular": "~1.4.5",
+    "angular-bootstrap": "~0.13.3",
+    "angular-resource": "~1.4.5",
+    "angular-ui-grid": "~3.0.5",
+    "angular-ui-router": "~0.2.15",
+    "bootstrap": "~3.3.5"
+  }
+}
