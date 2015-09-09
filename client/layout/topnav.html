@@ -8,68 +8,103 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
         </button>
-        <p class="navbar-text">Sep 2015, Thu 3 10:45 - Fri 4 10:45</p>
     </div>
 
     <!-- Collect the nav links, forms, and other content for toggling -->
     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+        <div class="row">
+            <div class="col-md-12">
+                <ul class="nav navbar-nav">
+                    <li>
+                        <p class="navbar-text">Sep 2015, Thu 3 10:45 - Fri 4 10:45</p>
+                    </li>
+                    <li>
+                        <p class="navbar-text">Time Range:</p>
+                        <div class="btn-group">
+                            <label class="btn btn-default navbar-btn" ng-model="time_range" btn-radio="'1h'">1h</label>
+                            <label class="btn btn-default navbar-btn" ng-model="time_range" btn-radio="'1d'">1d</label>
+                            <label class="btn btn-default navbar-btn" ng-model="time_range" btn-radio="'1w'">1w</label>
+                            <label class="btn btn-default navbar-btn" ng-model="time_range" btn-radio="'1m'">1m</label>
+                            <label class="btn btn-default navbar-btn" ng-model="time_range" btn-radio="'3m'">3m</label>
+                            <label class="btn btn-default navbar-btn" ng-model="time_range" btn-radio="'1y'">1y</label>
+                            <label class="btn btn-default navbar-btn" ng-model="time_range" btn-radio="'cal'"><i class="glyphicon glyphicon-calendar"></i></label>
+                            <label class="btn btn-default navbar-btn">UTC</label>
+                        </div>
+                    </li>
+                    <li>
+                        <p class="navbar-text">Hosts:</p>
+                    </li>
+                    <li>
+                        <form class="navbar-form navbar-left" role="host">
+                            <div class="form-group">
+                                <select class="form-control" id="host" name="host" ng-options="item as item for item in hosts"></select>
+                            </div>
+                        </form>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
 
-        <ul class="nav navbar-nav">
-            <li>
-                <p class="navbar-text">Sort by:</p>
-                <div class="btn-group" role="group" aria-label="Sort by:">
-                    <button type="button" class="btn btn-default navbar-btn">Max</button>
-                    <button type="button" class="btn btn-default navbar-btn">Min</button>
-                </div>
-            </li>
-            <li>
-                <p class="navbar-text">Query Status:</p>
-                <div class="btn-group" role="group" aria-label="Query Status:">
-                    <button type="button" class="btn btn-default navbar-btn">
-                        &nbsp;<div class="glyphicon glyphicon-log-in"></div>&nbsp;
+                <ul class="nav navbar-nav">
+                    <li>
+                    <p class="navbar-text">Sort by:</p>
+                    <div class="btn-group" role="group" aria-label="Sort by:">
+                        <button type="button" class="btn btn-default navbar-btn">Max</button>
+                        <button type="button" class="btn btn-default navbar-btn">Min</button>
+                    </div>
+                    </li>
+                    <li>
+                    <p class="navbar-text">Query Status:</p>
+                    <div class="btn-group" role="group" aria-label="Query Status:">
+                        <button type="button" class="btn btn-default navbar-btn">
+                            &nbsp;<div class="glyphicon glyphicon-log-in"></div>&nbsp;
+                        </button>
+                        <button type="button" class="btn btn-default navbar-btn">
+                            &nbsp;<div class="glyphicon glyphicon-ok"></div>&nbsp;
+                        </button>
+                        <button type="button" class="btn btn-default navbar-btn">
+                            &nbsp;<div class="glyphicon glyphicon-alert"></div>&nbsp;
+                        </button>
+                    </div>
+                    </li>
+                    <li>
+                    <p class="navbar-text">Tags:</p>
+                    <div class="btn-group">
+                        <button type="button" class="btn btn-default dropdown-toggle navbar-btn"
+                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <span class="glyphicon glyphicon-tags"></span>&nbsp; <span class="caret"></span>
+                        </button>
+                        <ul class="dropdown-menu">
+                            <li><a href="#">tag1</a></li>
+                            <li><a href="#">tag2</a></li>
+                            <li><a href="#">tag3</a></li>
+                            <li role="separator" class="divider"></li>
+                            <li>
+                            <input type="text" class="form-control" placeholder="New tag name">
+                            </li>
+                        </ul>
+                    </div>
+                    </li>
+                    <li>
+                    <p class="navbar-text">Show all:</p>
+                    <div class="btn-group" role="group" aria-label="Sort by:">
+                        <button type="button" class="btn btn-default navbar-btn">All</button>
+                        <button type="button" class="btn btn-default navbar-btn">New</button>
+                    </div>
+                    </li>
+                    <li>
+                    <p class="navbar-text"></p>
+                    <button type="button" class="btn btn-default navbar-btn" title="Erase filter">
+                        &nbsp;<div class="glyphicon glyphicon-erase"></div>&nbsp;
                     </button>
-                    <button type="button" class="btn btn-default navbar-btn">
-                        &nbsp;<div class="glyphicon glyphicon-ok"></div>&nbsp;
-                    </button>
-                    <button type="button" class="btn btn-default navbar-btn">
-                        &nbsp;<div class="glyphicon glyphicon-alert"></div>&nbsp;
-                    </button>
-                </div>
-            </li>
-            <li>
-            <p class="navbar-text">Tags:</p>
-                <div class="btn-group">
-                    <button type="button" class="btn btn-default dropdown-toggle navbar-btn"
-                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        <span class="glyphicon glyphicon-tags"></span>&nbsp; <span class="caret"></span>
-                    </button>
-                    <ul class="dropdown-menu">
-                        <li><a href="#">tag1</a></li>
-                        <li><a href="#">tag2</a></li>
-                        <li><a href="#">tag3</a></li>
-                        <li role="separator" class="divider"></li>
-                        <li>
-                        <input type="text" class="form-control" placeholder="New tag name">
-                        </li>
-                    </ul>
-                </div>
-            </li>
-            <li>
-                <p class="navbar-text">Show all:</p>
-                <div class="btn-group" role="group" aria-label="Sort by:">
-                    <button type="button" class="btn btn-default navbar-btn">All</button>
-                    <button type="button" class="btn btn-default navbar-btn">New</button>
-                </div>
-            </li>
-            <li>
-                <p class="navbar-text"></p>
-                <button type="button" class="btn btn-default navbar-btn" title="Erase filter">
-                    &nbsp;<div class="glyphicon glyphicon-erase"></div>&nbsp;
-                </button>
-            </li>
-        </ul>
-        <form class="navbar-form navbar-right" role="search">
-            <input type="text" class="form-control" placeholder="Search">
-        </form>
+                    </li>
+                </ul>
+                <form class="navbar-form navbar-right" role="search">
+                    <input type="text" class="form-control" placeholder="Search">
+                </form>
+            </div>
+        </div>
     </div><!-- /.navbar-collapse -->
 </div><!-- /.container-fluid -->

@@ -5,6 +5,7 @@
         'ngResource',
         'ui.router',
         'ui.grid',
+        'ui.grid.selection',
         'ui.bootstrap',
         'pplControllers',
         'pplServices',
