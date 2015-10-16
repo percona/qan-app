@@ -1,5 +1,24 @@
 <div class="row">
     <div class="col-md-12">
+        <h3>Info</h3>
+        <p class="text-info"><b>Instance DSN:</b> {{ instance.DSN }}</p>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-4">
+        <p class="text-info"><b>Instance UUID:</b> {{ instance.UUID }}</p>
+    </div>
+    <div class="col-md-4">
+        <p class="text-info"><b>Agent UUID:</b> {{ agent_uuid }}</p>
+    </div>
+    <div class="col-md-4">
+        <a href="/#/">System Info</a>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-12">
         <h3>Query Profile</h3>
         <div id="qan-grid"
              ui-grid="qanGridOptions"
@@ -9,8 +28,39 @@
              ></div>
     </div><!-- /div-col-md-12 -->
 </div><!-- /div-row -->
+<div ng-if="query">
 <div class="row">
     <div class="col-md-12">
+        <h3>Query Details</h3>
+        <div class="row">
+            <div class="col-md-1">
+                <b>Query:</b>
+            </div>
+            <div class="col-md-5">
+                <div class="well well-sm">{{ query.Fingerprint }}</div>
+            </div>
+            <div class="col-md-1">
+                <b>First Seen:</b>
+            </div>
+            <div class="col-md-5">
+                {{ query.FirstSeen }}
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-1">
+                <b>Checksum:</b>
+            </div>
+            <div class="col-md-5">
+                {{ query.Id }}
+            </div>
+            <div class="col-md-1">
+                <b>Last Seen:</b>
+            </div>
+            <div class="col-md-5">
+                {{ query.LastSeen }}
+            </div>
+        </div>
+
         <h3>Metrics</h3>
         <div id="metrics-grid"
              ui-grid="metricsGridOptions"
@@ -18,3 +68,49 @@
              class="grid"></div>
     </div><!-- /div-col-md-12 -->
 </div><!-- /div-row -->
+<hr />
+<h3>Table Info</h3>
+<span class="label label-info">QueryTime: {{ example.QueryTime }} </span>
+<span class="label label-info">DB: {{ example.Db }} </span>
+<div class="row">
+    <div class="col-md-12">
+        <div class="well">{{ example.Query }}</div>
+    </div><!-- /div-col-md-12 -->
+</div><!-- /div-row -->
+</div>
+
+<h3 ng-if="query">Query Execution (Mock-up)</h3>
+<div ng-if="query" class="row">
+    <div class="col-md-12">
+        <canvas ng-if="query" id="bar"
+            height="60"
+            chart-options='{height: 200}'
+            class="chart chart-bar"
+            chart-data="data"
+            chart-labels="labels">
+        </canvas>
+        <hr />
+        <button type="button"
+                ng-disabled="!example.Query.toLowerCase().startsWith('select')"
+                class="btn btn-info"
+                ng-click="getQueryExplain()">Explain</button>
+    </div><!-- /div-col-md-12 -->
+</div><!-- /div-row -->
+</div>
+
+
+<div ng-if="queryExplain">
+    <h3 >Explain Query</h3>
+    <div class="row">
+        <div class="col-md-12">
+            <div id="explainGrid"
+                 ng-if="!queryExplainError"
+                 ui-grid="queryExplainOptions"
+                 ng-style="getExplainQueryTableHeight()"
+                 class="grid"></div>
+             <div ng-if="queryExplainError"
+                  class="alert alert-danger"
+                  role="alert">{{ queryExplainError }}</div>
+        </div><!-- /div-col-md-12 -->
+    </div><!-- /div-row -->
+<div>

@@ -18,14 +18,53 @@
         }
     ]);
 
-    pplServices.factory('Metrics', [
+    pplServices.factory('Metric', [
         '$resource',
+        '$filter',
         function($resource, $filter) {
-            //return $resource('/api/v1/metrics/mysql:uuid1/query/:uuid2',
-            return $resource('client/content/metrics_data.json',
+            return $resource('/api/v1/qan/report/:instance_uuid/query/:query_uuid',
+                {
+                    begin: $filter('date')(new Date(), 'yyyy-MM-ddT00:00:00'),
+                    end: $filter('date')(new Date(), 'yyyy-MM-ddT23:59:59')
+                },
+                {
+                    query: {method: 'GET', params: {}},
+                }
+            );
+        }
+    ]);
+
+    pplServices.factory('Instance', [
+        '$resource',
+        function($resource) {
+            return $resource('/api/v1/instances/:instance_uuid',
                 {},
                 {
                     query: {method: 'GET', params: {}, isArray: true},
+                }
+            );
+        }
+    ]);
+
+    pplServices.factory('Agent', [
+        '$resource',
+        function($resource) {
+            return $resource('/api/v1/agents/:instance_uuid',
+                {},
+                {
+                    query: {method: 'GET', params: {}, isArray: true},
+                }
+            );
+        }
+    ]);
+
+    pplServices.factory('AgentCmd', [
+        '$resource',
+        function($resource) {
+            return $resource('/api/v1/agents/:agent_uuid/cmd',
+                {agent_uuid: '@agent_uuid'},
+                {
+                    update: {method: 'PUT', params: {}, isArray: false}
                 }
             );
         }

@@ -1,0 +1,48 @@
+footer {
+    height: 30px;
+}
+
+.logo-img-mobile {
+    display: block;
+    position: absolute;
+    width: 105px;
+    height: 32px;
+    background: url(/client/content/img/footer-logo.png);
+    background-size: 100px;
+    background-repeat: no-repeat;
+}
+.logo-text-mobile {
+    font-size: 7pt;
+    position: absolute;
+    bottom: 0;
+    left: 35px;
+}
+
+.logo-img {
+    display: block;
+    width: 105px;
+    height: 32px;
+    background: url(/client/content/img/footer-logo.png);
+    background-size: 100px;
+    background-repeat: no-repeat;
+}
+.logo-text {
+    font-size: 7pt;
+    position: absolute;
+    bottom: 3px;
+    left: 50px;
+}
+
+.query_link {
+}
+.query_link:hover {
+    position: fixed;
+    background: aliceblue;
+}
+
+.truncate {
+    width: initial;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
