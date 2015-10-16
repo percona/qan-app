@@ -4,16 +4,24 @@
         <title>Percona Query Analytics</title>
         <base href="/"></base>
         <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="icon" type="image/png" href="/client/content/img/favicon.ico">
 
         <link rel="stylesheet" href="/bower_components/bootstrap/dist/css/bootstrap.min.css">
         <link rel="stylesheet" href="/bower_components/angular-bootstrap/ui-bootstrap-csp.css">
+        <link rel="stylesheet" href="/bower_components/angular-bootstrap-datetimepicker/src/css/datetimepicker.css"/>
         <link rel="stylesheet" href="/bower_components/angular-ui-grid/ui-grid.css">
+        <link rel="stylesheet" href="/bower_components/angular-chart.js/dist/angular-chart.css">
         <link rel="stylesheet" href="/client/content/css/main.css">
 
         <script src="/bower_components/jquery/dist/jquery.min.js"></script>
         <script src="/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
 
+        <script src="/bower_components/Chart.js/Chart.js"></script>
+        <script src="/bower_components/moment/moment.js"></script>
         <script src="/bower_components/angular/angular.min.js"></script>
+        <script src="/bower_components/angular-chart.js/dist/angular-chart.js"></script>
+        <script src="/bower_components/angular-bootstrap-datetimepicker/src/js/datetimepicker.js"></script>
+        <script src="/bower_components/angular-moment/angular-moment.min.js"></script>
         <script src="/bower_components/angular-bootstrap/ui-bootstrap.min.js"></script>
         <script src="/bower_components/angular-resource/angular-resource.min.js"></script>
         <script src="/bower_components/angular-ui-grid/ui-grid.min.js"></script>
@@ -25,10 +33,11 @@
     </head>
     <body>
         <div class="container-fluid">
-            <header class="page-header">
+            <!--header class="page-header">
+                <img src="/client/content/img/logo.png">
                 <h1>Query Analytics <small>Percona</small></h1>
-            </header>
-            <nav class="navbar navbar-default" topnav></nav>
+            </header-->
+            <nav class="navbar navbar-default " topnav></nav>
             <main>
                 <div ui-view></div>
             </main>
