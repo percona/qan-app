@@ -18,6 +18,7 @@
                  Metric, Agent, Instance, AgentCmd, $modal, instance) {
             $scope.instance_uuid = instance.UUID;
             $scope.instance = instance;
+            $scope.instance_DSN = instance.DSN.replace(/:[0-9a-zA-Z]+@/, ':************@');
 
             $scope.init = function() {
                 $rootScope.fromDateCal = moment.utc().format('lll');
@@ -354,7 +355,7 @@
             $scope.getQueryExplain = function() {
                 console.log('DB', $scope.example.Db);
                 var data = {
-                    "UUID": "848fa7964b694b1962a51f5482133090",
+                    "UUID": $scope.instance_uuid,
                     "Db": $scope.example.Db,
                     "Query": $scope.example.Query
                 };
