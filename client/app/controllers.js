@@ -55,7 +55,6 @@
                 Agent.query()
                       .$promise
                       .then(function(resp) {
-                          console.log('agent', resp);
                           $scope.agent_uuid = resp[0].UUID;
                       })
                       .catch(function(resp){})
@@ -129,12 +128,12 @@
                 {
                     displayName: 'Query (distilled)',
                     field: 'Abstract',
-                    width: '25%',
-                    cellTemplate: '/client/qan/cell_abstract.html',
+                    cellTemplate: '<a href="#{{ row.entity.Id }}"><div class="ui-grid-cell-contents">{{ COL_FIELD }}</div></a>',
                     footerCellTemplate: '<div class="ui-grid-cell-contents">Total</div>'
                 },
                 {
                     displayName: 'Query ID',
+                    width: '16%',
                     field: 'Id'
                 },
                 {
@@ -154,6 +153,7 @@
                 {
                     displayName: 'QPS',
                     field: 'QPS',
+                    width: '6%',
                     type: 'number',
                     cellFilter: 'number: 5',
                     footerCellTemplate: '<div class="ui-grid-cell-contents">{{ col.getAggregationValue() }}</div>',
@@ -168,6 +168,7 @@
                 {
                     displayName: 'Load',
                     field: 'Stats.Sum',
+                    width: '6%',
                     cellFilter: 'number: 5',
                     footerCellTemplate: footerCellTemplateNumber,
                     aggregationType: function(row, col) {
@@ -181,6 +182,7 @@
                 {
                     displayName: 'Avg Time',
                     field: 'Stats.Avg',
+                    width: '7%',
                     cellFilter: 'number: 5',
                     footerCellTemplate: footerCellTemplateNumber,
                     aggregationType: function(row, col) {
@@ -194,6 +196,7 @@
                 {
                     displayName: '95%',
                     field: 'Stats.P95',
+                    width: '6%',
                     cellFilter: 'number: 5',
                     footerCellTemplate: footerCellTemplateNumber,
                     aggregationType: function(row, col) {
@@ -341,19 +344,10 @@
             };
 
             $scope.getQPTableHeight = function() {
-                /*
-                var rowHeight = 30; // row height
-                var headerHeight = 30; // header height
-                var footerHeight = 32; // footer height
-                return {
-                    height: ($scope.qanGridOptions.data.length * rowHeight + headerHeight + footerHeight) + "px"
-                };
-                */
                 return {height: "362px"};
             };
 
             $scope.getQueryExplain = function() {
-                console.log('DB', $scope.example.Db);
                 var data = {
                     "UUID": $scope.instance_uuid,
                     "Db": $scope.example.Db,
@@ -390,54 +384,8 @@
                 };
             };
 
-
-            // TODO: fix time range calendars
-            $rootScope.items = ['item1', 'item2', 'item3'];
-            $rootScope.open = function (size) {
-
-                var modalInstance = $modal.open({
-                    templateUrl: 'client/layout/range_calendars.html',
-                    controller: 'ModalInstanceCtrl',
-                    size: size,
-                    resolve: {
-                        items: function () {
-                            return $rootScope.items;
-                        }
-                    }
-                });
-
-                modalInstance.result.then(function (selectedItem) {
-                    $scope.selected = selectedItem;
-                }, function () {
-                    $log.info('Modal dismissed at: ' + new Date());
-                });
-            };
-
             $scope.init();
     }]);
-
-    pplControllers.controller('ModalInstanceCtrl', [
-        '$scope',
-        '$rootScope',
-        '$modalInstance',
-        function ($scope, $rootScope, $modalInstance, items) {
-
-            /*
-            $rootScope.items = items;
-            $rootScope.selected = {
-                item: $rootScope.items[0]
-            };
-
-            $rootScope.ok = function () {
-                $modalInstance.close($rootScope.selected.item);
-            };
-
-            $rootScope.cancel = function () {
-                $modalInstance.dismiss('cancel');
-            };
-            */
-        }
-    ]);
 
 
 })();
