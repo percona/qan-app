@@ -8,22 +8,33 @@ Setup for temporary use
 
 1. SPA should be accessible in browser http://localhost:8000/
 
-Setup for permanent  use
+Setup for permanent  use (with nginx)
 ==
 
 1. Install nginx
 
 1. Download latest archive with QA-webapp
 
-1. Unzip archive to public html directory (e.g. /usr/share/nginx/html)
+1. Unzip archive to public html directory (e.g. /opt/qa_web_app)
 
 1. Configure proxy in nginx config to datastore API (e.g /etc/nginx/sites-enabled/default)
 ```
-location ^~ /api/v1 {
-    rewrite /api/v1(.*) $1 break;
-    proxy_pass              http://localhost:9001;
-    proxy_redirect off;
-    #proxy_set_header   Host $host;
+server {
+    listen 9009;
+
+    # Path to unarchived QA web app.
+    root /opt/qa_web_app;
+    index index.html index.htm;
+
+    # Make site accessible from http://localhost/
+    server_name localhost;
+
+    location ^~ /api/v1 {
+        rewrite /api/v1(.*) $1 break;
+        proxy_pass              http://localhost:9001;
+        proxy_redirect off;
+    }
+
 }
 ```
 
