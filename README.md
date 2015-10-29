@@ -8,6 +8,18 @@ Setup for temporary use
 
 1. SPA should be accessible in browser http://localhost:8000/
 
+Setup at ubuntu (deb+upstart)
+==
+1. Download latest .deb package with [Query Analytics Web App] (https://www.percona.com/redir/downloads/TESTING/ppl/percona-webapp-latest.deb)
+
+1. `sudo dpkg -i percona-webapp-*.deb`
+
+1. To control use `sudo services percona-webapp start|stop|restart|status`
+
+1. Or `sudo initctrl start|stop|restart|status percona-webapp`
+
+1. SPA should be accessible in browser http://localhost:9003/
+
 Setup for permanent  use (with nginx)
 ==
 
