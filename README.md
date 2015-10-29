@@ -1,6 +1,6 @@
 Setup for temporary use
 ==
-1. Download latest archive with QA-webapp
+1. Download latest archive with [Query Analytics Web App] (https://www.percona.com/redir/downloads/TESTING/ppl/percona-webapp-latest.tar.bz2)
 
 1. Unzip.
 
@@ -40,7 +40,7 @@ server {
 
 
 
-Development environment setup.
+Setup development environment.
 ==
 1. Install NVM, NodeJS and bower:
 
