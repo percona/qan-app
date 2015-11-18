@@ -1,83 +1,24 @@
-<div class="row">
+<div class="row" collapse="!$parent.isCollapsed">
     <div class="col-md-12">
-        <h3>Info</h3>
-        <p class="text-info"><b>Instance DSN:</b> {{ instance_DSN }}</p>
+        <div class="well well-lg">
+            <p class="text-info">DSN: {{ instance.DSN }}</p>
+            <p class="text-info">Instance UUID: {{ instance.UUID }}</p>
+            <p class="text-info">Host: {{ instance.Name}}</p>
+        </div>
     </div>
 </div>
-
-<div class="row">
-    <div class="col-md-4">
-        <p class="text-info"><b>Instance UUID:</b> {{ instance.UUID }}</p>
-    </div>
-    <div class="col-md-4">
-        <p class="text-info"><b>Agent UUID:</b> {{ agent_uuid }}</p>
-    </div>
-    <div class="col-md-4">
-        <a href="/#/">System Info</a>
-    </div>
-</div>
-
 <div class="row">
     <div class="col-md-12">
-        <h3>Query Profile</h3>
+        <h3 style="display: inline">Query Profile</h3> <p style="display: inline" class="text-info pull-right">Top 10 Queries by % Grand Total Time</p>
+        <div class="clearfix"></div>
         <div id="qan-grid"
-             ui-grid="qanGridOptions"
-             class="grid"
-             ui-grid-selection
-             ng-style="getQPTableHeight()"
-             ></div>
+            ui-grid="qanGridOptions"
+            class="grid"
+            ui-grid-selection
+            ng-style="getQPTableHeight()"
+            ></div>
     </div><!-- /div-col-md-12 -->
 </div><!-- /div-row -->
-<div ng-if="query">
-<div class="row">
-    <div class="col-md-12">
-        <h3>Query Details</h3>
-        <div class="row">
-            <div class="col-md-1">
-                <b>Query:</b>
-            </div>
-            <div class="col-md-5">
-                <div class="well well-sm">{{ query.Fingerprint }}</div>
-            </div>
-            <div class="col-md-1">
-                <b>First Seen:</b>
-            </div>
-            <div class="col-md-5">
-                {{ query.FirstSeen }}
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-md-1">
-                <b>Checksum:</b>
-            </div>
-            <div class="col-md-5">
-                {{ query.Id }}
-            </div>
-            <div class="col-md-1">
-                <b>Last Seen:</b>
-            </div>
-            <div class="col-md-5">
-                {{ query.LastSeen }}
-            </div>
-        </div>
-
-        <h3>Metrics</h3>
-        <div id="metrics-grid"
-             ui-grid="metricsGridOptions"
-             ng-style="getMetricsTableHeight()"
-             class="grid"></div>
-    </div><!-- /div-col-md-12 -->
-</div><!-- /div-row -->
-<hr />
-<h3>Table Info</h3>
-<span class="label label-info">QueryTime: {{ example.QueryTime }} </span>
-<span class="label label-info">DB: {{ example.Db }} </span>
-<div class="row">
-    <div class="col-md-12">
-        <div class="well">{{ example.Query }}</div>
-    </div><!-- /div-col-md-12 -->
-</div><!-- /div-row -->
-</div>
 
 <h3 ng-if="query">Query Execution (Mock-up)</h3>
 <div ng-if="query" class="row">
@@ -90,27 +31,86 @@
             chart-labels="labels">
         </canvas>
         <hr />
-        <button type="button"
+    </div><!-- /div-col-md-12 -->
+</div><!-- /div-row -->
+
+<div ng-if="query">
+    <div class="row">
+        <div class="col-md-12">
+            <h3>Query Details</h3>
+            <div class="row">
+                <div class="col-md-12">
+                    <b>Query:</b>
+                    <div class="well well-sm">{{ query.Fingerprint }}</div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-1">
+                    <b>Query ID:</b>
+                </div>
+                <div class="col-md-3">
+                    {{ query.Id }}
+                </div>
+                <div class="col-md-1">
+                    <b>First Seen:</b>
+                </div>
+                <div class="col-md-3">
+                    {{ query.FirstSeen }}
+                </div>
+                <div class="col-md-1">
+                    <b>Last Seen:</b>
+                </div>
+                <div class="col-md-3">
+                    {{ query.LastSeen }}
+                </div>
+            </div>
+
+            <h3>Metrics</h3>
+            <div id="metrics-grid"
+                ui-grid="metricsGridOptions"
+                ng-style="getMetricsTableHeight()"
+                class="grid"></div>
+        </div><!-- /div-col-md-12 -->
+    </div><!-- /div-row -->
+    <hr />
+    <h3>Explain Query</h3>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="well">{{ example.Query }}</div>
+        </div><!-- /div-col-md-12 -->
+    </div><!-- /div-row -->
+    <div class="row">
+        <div class="col-md-3">
+            <span ng-show="example.Db"><b>DB:</b> {{ example.Db }} </span>
+            <span ng-hide="example.Db">
+                <input type="text"
+                       class="form-control"
+                       placeholder="Specify DB for explain if needed."
+                       name="queryDb"
+                       ng-model="$parent.queryDb" />
+               </span>
+        </div>
+        <div class="col-md-9">
+            <button type="button"
                 ng-disabled="!query.Abstract.startsWith('SELECT')"
                 class="btn btn-info"
                 ng-click="getQueryExplain()">Explain</button>
-    </div><!-- /div-col-md-12 -->
-</div><!-- /div-row -->
+        </div><!-- /div-col-md-12 -->
+    </div><!-- /div-row -->
 </div>
-
+<br />
 
 <div ng-if="queryExplain">
-    <h3 >Explain Query</h3>
     <div class="row">
         <div class="col-md-12">
             <div id="explainGrid"
-                 ng-if="!queryExplainError"
-                 ui-grid="queryExplainOptions"
-                 ng-style="getExplainQueryTableHeight()"
-                 class="grid"></div>
-             <div ng-if="queryExplainError"
-                  class="alert alert-danger"
-                  role="alert">{{ queryExplainError }}</div>
+                ng-if="!queryExplainError"
+                ui-grid="queryExplainOptions"
+                ng-style="getExplainQueryTableHeight()"
+                class="grid"></div>
+            <div ng-if="queryExplainError"
+                class="alert alert-danger"
+                role="alert">{{ queryExplainError }}</div>
         </div><!-- /div-col-md-12 -->
     </div><!-- /div-row -->
-<div>
+</div>

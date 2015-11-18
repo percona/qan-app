@@ -9,6 +9,7 @@ import sys
 
 SPA_HOST, SPA_PORT = '0.0.0.0', 8000
 PDS_HOST, PDS_PORT = '127.0.0.1', 9001
+#PDS_HOST, PDS_PORT = '10.10.11.204', 9001
 API_PATH = '/api/v1'
 PORTS = [1001, 2000, 3000, 4000, 5000, 6000, 7000, 8000, 9000, 10000,
          1111, 2222, 3333, 4444, 5555, 6666, 7777, 8888, 9999, 55555]
@@ -61,15 +62,15 @@ if __name__ == '__main__':
 
     try:
         httpd = SocketServer.ForkingTCPServer((SPA_HOST, port), HTTPSPAHandler)
-        print 'Serving at port', port, '\nPress Ctrl+C to exit.'
+        print('Serving at port %s \nPress Ctrl+C to exit.' % (port,))
         httpd.serve_forever()
     except socket.error:
         ports = PORTS
         if port in ports:
             ports.remove(port)
         port_to_try = random.choice(ports)
-        print 'Port %s is busy try another one. e.g.: ./run.py %s' % (port, port_to_try)
+        print('Port %s is busy try another one. e.g.: ./run.py %s' % (port, port_to_try))
         sys.exit(1)
     except KeyboardInterrupt:
-        print '\nBye!'
+        print('\nBye!')
         sys.exit(1)

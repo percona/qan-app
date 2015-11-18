@@ -14,7 +14,10 @@
         'pplDirectives',
         'angularMoment'
     ]).config(configure)
-      .constant('constants', {})
+      .constant('constants', {
+          // URI of datastore API
+          API_PATH: window.location.protocol + '//'+ window.location.hostname + ':9001'
+      })
       .constant('angularMomentConfig', {
               timezone: 'UTC'
       });
@@ -34,11 +37,18 @@
                     return Instance.query()
                           .$promise
                           .then(function(resp) {
+                              var mysqls = [];
                               for (var i=0; i < resp.length; i++) {
-                                  if (resp[i].DSN !== '') {
-                                      return resp[i];
+                                  if (resp[i].Subsystem.Name === 'mysql') {
+                                       resp[i].DSN = resp[i].DSN.replace(/:[0-9a-zA-Z]+@/, ':************@');
+                                       mysqls.push(resp[i]);
                                   }
                               }
+
+                              return {
+                                  instances: mysqls,
+                                  selected_instance: mysqls[0]
+                              };
                           })
                           .catch(function(resp){})
                           .finally(function(resp){});

@@ -1,22 +1,7 @@
 <div class="container-fluid">
 
-    <!-- Brand and toggle get grouped for better mobile display -->
-    <div class="navbar-header">
-        <a class="navbar-brand collapsed visible-xs-inline" href="#">
-            <div class="logo-img-mobile">
-                <span class="logo-text-mobile">Query Analytics</span>
-            </div>
-        </a>
-        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
-            <span class="sr-only">Toggle navigation</span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-        </button>
-    </div>
-
     <!-- Collect the nav links, forms, and other content for toggling -->
-    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+    <div class="" id="bs-example-navbar-collapse-1">
         <div class="row">
             <div class="col-md-12">
                 <ul class="nav navbar-nav">
@@ -29,17 +14,16 @@
                     </li>
                     <li>
                     <p class="well navbar-text"
-                       style="padding: 0px 5px 0px 5px; margin-bottom: 0px; min-width: 325px;">{{ begin }} to {{ end }}</p>
+                       style="padding: 0px 5px 0px 5px; margin-bottom: 0px; min-width: 327px;">{{ dtRange }}</p>
                     </li>
                     <li>
-                        <p class="navbar-text">Time Range:</p>
-                        <div class="btn-group">
+                         <div class="btn-group">
                             <label class="btn btn-default navbar-btn" ng-model="time_range" btn-radio="'1h'">1h</label>
+                            <label class="btn btn-default navbar-btn" ng-model="time_range" btn-radio="'3h'">3h</label>
+                            <label class="btn btn-default navbar-btn" ng-model="time_range" btn-radio="'6h'">6h</label>
+                            <label class="btn btn-default navbar-btn" ng-model="time_range" btn-radio="'12h'">12h</label>
                             <label class="btn btn-default navbar-btn" ng-model="time_range" btn-radio="'1d'">1d</label>
-                            <label class="btn btn-default navbar-btn" ng-model="time_range" btn-radio="'1w'">1w</label>
-                            <label class="btn btn-default navbar-btn" ng-model="time_range" btn-radio="'1m'">1m</label>
-                            <label class="btn btn-default navbar-btn" ng-model="time_range" btn-radio="'3m'">3m</label>
-                            <label class="btn btn-default navbar-btn" ng-model="time_range" btn-radio="'1y'">1y</label>
+                            <label class="btn btn-default navbar-btn" ng-model="time_range" btn-radio="'5d'">5d</label>
                             <div class="btn-group">
                                 <label class="btn btn-default navbar-btn dropdown-toggle"
                                        type="button"
@@ -51,63 +35,44 @@
                                     <i class="glyphicon glyphicon-calendar"></i>
                                     <span class="caret"></span>
                                 </label>
-                                <div class="dropdown-menu dropdown-menu-right" style="padding: 10px;">
-                                    <table style="padding: 10px; border-spacing: 10px; border-collapse: separate;">
-                                        <tr>
-                                            <td>
-                                                From: {{ fromDateCal | date:'yyyy-MM-dd HH:mm:ss' }}
-                                            </td>
-                                            <td>
-                                                To: {{ toDateCal | date:'yyyy-MM-dd HH:mm:ss' }}
-                                            </td>
-                                        </tr>
+                                <div class="dropdown-menu dropdown-menu-right" style="padding: 5px;">
+                                    <table style="padding: 5px; border-spacing: 5px; border-collapse: separate;">
                                         <tr>
                                             <td>
                                                 <div class="well">
-                                                <datetimepicker data-ng-model="fromDateCal"
-                                                data-datetimepicker-config="{ startView:'day', minView:'hour' }" />
+                                                <datetimepicker data-ng-model="dtCal"
+                                                                data-datetimepicker-config="{ startView: 'day', minView:'hour' }"
+                                                                data-before-render="beforeRender($view, $dates, $leftDate, $upDate, $rightDate)"
+                                                                data-on-set-time="onTimeSet(newDate, oldDate)"
+                                                                />
                                                 </div>
                                             </td>
-                                            <td>
-                                            <div class="well">
-                                                <datetimepicker data-ng-model="toDateCal"
-                                                data-datetimepicker-config="{ startView:'day', minView:'hour' }" />
-                                            </div>
-                                            </td>
                                         </tr>
-                                        <tr>
-                                            <td>
-                                            </td>
+                                        <!--tr>
                                             <td class="pull-right">
                                                 <button type="submit" ng-click="setCalRange();" class="btn btn-primary">Apply</button>
                                                 <button type="button" ng-click="cancelCalRange();" class="btn btn-default">Cancel</button>
                                             </td>
-                                        </tr>
+                                        </tr-->
                                     </table>
                                 </div>
                             </div>
-                            <label class="btn btn-default navbar-btn">UTC</label>
                         </div>
                     </li>
-                    <!--li>
-                        <p class="navbar-text">Hosts:</p>
+                    <li>
+                        &nbsp;&nbsp;
                     </li>
                     <li>
-                        <form class="navbar-form navbar-left" role="host">
-                            <div class="form-group">
-                                <select class="form-control" id="host" name="host">
-                                    <option value="848fa7964b694b1962a51f5482133090" selected="selected">ubuntu</option>
-                                </select>
-                            </div>
-                        </form>
+                    <select ng-model="instance" class="form-control navbar-btn"
+                            ng-options="inst.UUID group by inst.Name for inst in instances"></select>
+
                     </li>
                     <li>
-                    <p class="navbar-text">Sort by:</p>
-                    <div class="btn-group">
-                        <label class="btn btn-default navbar-btn" ng-model="sort_by" btn-radio="'Max'">Max</label>
-                        <label class="btn btn-default navbar-btn" ng-model="sort_by" btn-radio="'Min'">Min</label>
-                    </div>
-                    </li-->
+                        &nbsp;<button class="btn btn-default navbar-btn" ng-click="isCollapsed = !isCollapsed">
+                                <i class="glyphicon glyphicon-info-sign"></i>
+                                <span class="caret"></span>
+                            </button>
+                    </li>
                 </ul>
             </div>
         </div>
