@@ -1,0 +1,145 @@
+#!/usr/bin/env bash
+
+# Copyright (c) 2015, Percona LLC and/or its affiliates. All rights reserved.
+#
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU Affero General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU Affero General Public License for more details.
+#
+# You should have received a copy of the GNU Affero General Public License
+# along with this program.  If not, see <http://www.gnu.org/licenses/>
+
+set -ue
+
+BASEDIR="${BASEDIR:-"/usr/local/percona/qan-app"}"
+PORT="${PORT:-"8000"}"
+CHECK_REQ="${CHECK_REQ:-"yes"}"
+
+err() {
+   echo "ERROR: $*" >&2
+   exit 1
+}
+
+usage() {
+   echo "Usage: $0 [command]"
+   echo
+   echo "Commands:"
+   echo "  check    Check requirements"
+   echo "  help     Print this"
+   echo
+   echo "Environment variables:"
+   echo "  BASEDIR    ($BASEDIR)"
+   echo "  PORT       ($PORT)"
+}
+
+app_is_running() {
+   APP_PID="$(ps ax | grep "python -m SimpleHTTPServer $PORT" | grep -v grep | awk '{print $1}')"
+   [ "$APP_PID" ] && return 0 # running
+   return 1 # not running
+}
+
+run_app() {
+   app_is_running \
+      && err "Percona QAN App is already running (PID $APP_PID). Use the 'killall' command and try again."
+
+   # Run the API (via Revel) and the consumers.
+   (
+      cd "$BASEDIR"
+      ./start > /dev/null
+      if [ $? -eq 0 ]; then
+         echo "Started Percona QAN App on port $PORT. To check its log file:"
+         echo
+         echo "  tail -f $BASEDIR/percona-qan-app.log"
+         echo
+      fi
+   )
+}
+
+check_req() {
+   echo "Checking requirements..."
+
+   # 'python --version' prints to stderr, which is silly imho, because if we
+   # 2>&1 and check that we might false-positive on "command not found".
+   if [ -z "$(which python)" ]; then
+      echo
+      echo "Python is not installed or in the PATH." >&2
+      return 1
+   else
+      echo "OK: Python is installed"
+   fi
+
+   return 0
+}
+
+kill_all() {
+   killall percona-datastore 2>/dev/null    || true
+   killall revel 2>/dev/null                || true
+}
+
+# ###########################################################################
+# Execution starts here
+# ###########################################################################
+
+SCRIPT_DIR="$(dirname $0)"
+cd "$SCRIPT_DIR"
+
+if [ $# -eq 0 ]; then 
+   # Check system requirements, best effort to ensure install will succeed.
+   if [ "$CHECK_REQ" = "yes" ]; then
+      check_req || exit 1
+   fi
+
+   # Stop datastore if it's running, else cp will throw error:
+   # cp: cannot create regular file `/usr/local/percona/datastore/percona-datastore': Text file busy
+   if app_is_running; then
+      echo "The app is already running, stopping it..."
+      kill_all
+   fi
+
+   echo "Installing Percona QAN App..."
+
+   if [ ! -d "$BASEDIR" ]; then
+      mkdir -p "$BASEDIR" || err "Cannot create $BASEDIR"
+   fi
+
+   # Test privs on the basedir, else cp -r will spew errors.
+   touch "$BASEDIR/fipar" || err "Cannot write to $BASEDIR"
+   rm "$BASEDIR/fipar"    || err "fipar cannot be removed"
+
+   cp -r * "$BASEDIR"
+   rm "$BASEDIR/install"
+
+   sed -e "s/:PORT/$PORT/g" "./start" > "$BASEDIR/start"
+   sed -e "s/:PORT/$PORT/g" "./stop" > "$BASEDIR/stop"
+
+   run_app 
+
+elif [ $# -eq 1 ]; then
+   case $1 in
+      help)
+         usage
+         exit 0
+         ;;
+      check)
+         if check_req; then
+            exit 0
+         else
+            exit 1
+         fi
+         ;;
+      *)
+         echo "Unknown command: '$1'" >&2
+         echo "Run without arguments to list commands." >&2
+         exit 1
+         ;;
+   esac
+else
+   usage
+   exit 1
+fi
