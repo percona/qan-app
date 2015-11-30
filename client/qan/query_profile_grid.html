@@ -1,116 +1,225 @@
-<div class="row" collapse="!$parent.isCollapsed">
+<div class="row">
     <div class="col-md-12">
-        <div class="well well-lg">
-            <p class="text-info">DSN: {{ instance.DSN }}</p>
-            <p class="text-info">Instance UUID: {{ instance.UUID }}</p>
-            <p class="text-info">Host: {{ instance.Name}}</p>
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                Query Profile
+                <p class="text-info pull-right">Top 10 Queries by % Grand Total Time</p>
+            </div>
+            <div class="panel-body padding-free">
+                <div id="qan-grid"
+                    ui-grid="qanGridOptions"
+                    class="grid"
+                    ui-grid-selection
+                    ng-style="getQPTableHeight()"
+                    ></div>
+            </div>
         </div>
     </div>
 </div>
-<div class="row">
-    <div class="col-md-12">
-        <h3 style="display: inline">Query Profile</h3> <p style="display: inline" class="text-info pull-right">Top 10 Queries by % Grand Total Time</p>
-        <div class="clearfix"></div>
-        <div id="qan-grid"
-            ui-grid="qanGridOptions"
-            class="grid"
-            ui-grid-selection
-            ng-style="getQPTableHeight()"
-            ></div>
-    </div><!-- /div-col-md-12 -->
-</div><!-- /div-row -->
+<hr />
 
-<h3 ng-if="query">Query Execution (Mock-up)</h3>
-<div ng-if="query" class="row">
-    <div class="col-md-12">
-        <canvas ng-if="query" id="bar"
-            height="60"
-            chart-options='{height: 200}'
-            class="chart chart-bar"
-            chart-data="data"
-            chart-labels="labels">
-        </canvas>
-        <hr />
-    </div><!-- /div-col-md-12 -->
-</div><!-- /div-row -->
-
-<div ng-if="query">
-    <div class="row">
-        <div class="col-md-12">
-            <h3>Query Details</h3>
-            <div class="row">
-                <div class="col-md-12">
-                    <b>Query:</b>
-                    <div class="well well-sm">{{ query.Fingerprint }}</div>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-md-1">
-                    <b>Query ID:</b>
-                </div>
-                <div class="col-md-3">
-                    {{ query.Id }}
-                </div>
-                <div class="col-md-1">
-                    <b>First Seen:</b>
-                </div>
-                <div class="col-md-3">
-                    {{ query.FirstSeen }}
-                </div>
-                <div class="col-md-1">
-                    <b>Last Seen:</b>
-                </div>
-                <div class="col-md-3">
-                    {{ query.LastSeen }}
-                </div>
-            </div>
-
-            <h3>Metrics</h3>
-            <div id="metrics-grid"
-                ui-grid="metricsGridOptions"
-                ng-style="getMetricsTableHeight()"
-                class="grid"></div>
-        </div><!-- /div-col-md-12 -->
-    </div><!-- /div-row -->
-    <hr />
-    <h3>Explain Query</h3>
-    <div class="row">
-        <div class="col-md-12">
-            <div class="well">{{ example.Query }}</div>
-        </div><!-- /div-col-md-12 -->
-    </div><!-- /div-row -->
-    <div class="row">
-        <div class="col-md-3">
-            <span ng-show="example.Db"><b>DB:</b> {{ example.Db }} </span>
-            <span ng-hide="example.Db">
-                <input type="text"
-                       class="form-control"
-                       placeholder="Specify DB for explain if needed."
-                       name="queryDb"
-                       ng-model="$parent.queryDb" />
-               </span>
+<div class="row" ng-if="query_abstract">
+    <div class="col-md-4">
+        <div class="well well-sm">{{ query_abstract }}</div>
+    </div>
+    <div class="col-md-4">
+        <div class="btn-group btn-group-justified" role="group">
+            <label class="btn btn-default" ng-model="$parent.colSize" btn-radio="'col-md-12'">
+                <i class="glyphicon glyphicon-align-justify"></i>
+                One col. list</label>
+            <label class="btn btn-default" ng-model="$parent.colSize" btn-radio="'col-md-6'">
+                <i class="glyphicon glyphicon-th-large"></i>
+                Two col. grid</label>
         </div>
-        <div class="col-md-9">
-            <button type="button"
-                ng-disabled="!query.Abstract.startsWith('SELECT')"
-                class="btn btn-info"
-                ng-click="getQueryExplain()">Explain</button>
-        </div><!-- /div-col-md-12 -->
-    </div><!-- /div-row -->
+    </div>
+    <div class="col-md-4">
+        <div class="well well-sm">{{ query_id }}</div>
+    </div>
 </div>
-<br />
 
-<div ng-if="queryExplain">
-    <div class="row">
-        <div class="col-md-12">
-            <div id="explainGrid"
-                ng-if="!queryExplainError"
-                ui-grid="queryExplainOptions"
-                ng-style="getExplainQueryTableHeight()"
-                class="grid"></div>
-            <div ng-if="queryExplainError"
-                class="alert alert-danger"
-                role="alert">{{ queryExplainError }}</div>
-        </div><!-- /div-col-md-12 -->
-    </div><!-- /div-row -->
+<!-- 1/2 coulumn -->
+<div class="row">
+    <div ng-class="colSize">
+        <div ng-controller="MetricsController">
+            <div class="panel panel-default" ng-if="query">
+                <div class="panel-heading">METRICS</div>
+                <div class="panel-body padding-free">
+                    <div id="metrics-grid"
+                        ui-grid="$parent.metricsGridOptions"
+                        ng-style="$parent.getMetricsTableHeight()"
+                        ui-grid-auto-resize
+                        ui-grid-resize-columns
+                        class="grid"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div ng-class="colSize">
+        <div class="panel panel-default"
+            ng-if="$parent.query"
+            ng-controller="QueryController"
+            >
+            <div class="panel-heading">QUERY</div>
+            <div class="panel-body">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="row">
+                            <div class="col-md-4">
+                                Last seen {{ lastSeenAgo }}
+                            </div>
+                            <div class="col-md-8">
+                                ({{ lastSeen }})
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-4">
+                                First seen {{ firstSeenAgo }}
+                            </div>
+                            <div class="col-md-8">
+                                ({{ firstSeen }})
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="btn-group btn-group-justified" role="group">
+                            <label class="btn btn-default" ng-model="toggleQuery" btn-radio="'example'">Example</label>
+                            <label class="btn btn-default" ng-model="toggleQuery" btn-radio="'fingerprint'">Fingerprint</label>
+                        </div>
+                    </div>
+                </div>
+                <br />
+                <div class="row">
+                    <div class="col-md-12">
+                        <div ng-show="toggleQuery === 'example'" hljs hljs-source="example" hljs-language="sql"></div>
+                        <div ng-show="toggleQuery === 'fingerprint'" hljs hljs-source="fingerprint" hljs-language="sql"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+
+    <div ng-class="colSize">
+        <div class="panel panel-default"
+            ng-if="$parent.query"
+            ng-controller="QueryExplainController"
+            >
+            <div class="panel-heading">EXPLAIN</div>
+            <div class="panel-body">
+                <div class="row">
+                    <div class="col-md-4">
+                        <span><b>DB:</b> {{ db || '&lt;undefined&gt;' }} </span>
+                    </div>
+                    <div class="col-md-6">
+                        <span>
+                            <input type="text"
+                            class="form-control"
+                            placeholder="Specify DB for explain if needed."
+                            name="queryDb"
+                            ng-model="$parent.queryDb" />
+                        </span>
+                    </div>
+                    <div class="col-md-2">
+                        <button type="button"
+                            class="btn btn-info"
+                            ng-click="getQueryExplain()">Explain</button>
+                    </div><!-- /div-col-md-12 -->
+                </div><!-- /div-row -->
+                <br />
+                <div class="row">
+                    <div class="col-md-12">
+                        <div id="explainGrid"
+                            ng-if="queryExplainOptions.data.length && !queryExplainError"
+                            ui-grid="queryExplainOptions"
+                            ng-style="getExplainQueryTableHeight()"
+                            ui-grid-auto-resize
+                            ui-grid-resize-columns
+                            class="grid"></div>
+                        <div ng-if="queryExplainError"
+                            class="alert alert-danger"
+                            role="alert">{{ queryExplainError }}</div>
+                    </div><!-- /div-col-md-12 -->
+                </div><!-- /div-row -->
+            </div>
+        </div>
+    </div>
+    <div ng-class="colSize">
+        <div class="panel panel-default"
+            ng-if="$parent.query"
+            ng-controller="TableInfoController"
+            >
+            <div class="panel-heading">TABLES</div>
+            <div class="panel-body">
+                <div class="row">
+                    <div class="col-md-offset-4 col-md-8">
+                        <div class="btn-group btn-group-justified" role="group">
+                            <label class="btn btn-default" ng-model="toggleTableInfo" btn-radio="'create'">CREATE</label>
+                            <label class="btn btn-default" ng-model="toggleTableInfo" btn-radio="'status'">STATUS</label>
+                            <label class="btn btn-default" ng-model="toggleTableInfo" btn-radio="'indexes'">INDEXES</label>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-4">
+                        <select name="selectedDbTable"
+                                class="form-control"
+                                ng-model="selectedDbTable"
+                                ng-change="getTableInfo()"
+                                ng-options="(val.Db + '.' + val.Table) for val in dbTables" size="5" />
+                        <form name="dbTblForm" ng-keyup="$event.keyCode == 13 && dbTblForm.$valid && addDbTable()">
+                        <div class="form-group"
+                             ng-class="{ 'has-error': dbTblForm.dbTable.$dirty && dbTblForm.dbTable.$modelValue !== '' && dbTblForm.dbTable.$invalid }">
+                        <input type="text"
+                               ng-required="true"
+                               ng-pattern="/^[A-Za-z0-9_$]{1,64}\.[A-Za-z0-9_$]{1,64}$/"
+                               class="form-control"
+                               placeholder="Add db.table"
+                               name="dbTable"
+                               ng-model="dbTable" />
+                        </div>
+                        </form>
+                    </div>
+                    <div class="col-md-8">
+                        <div ng-show="toggleTableInfo === 'create' && !!tblCreate" hljs hljs-source="tblCreate" hljs-language="sql"></div>
+                        <span ng-show="toggleTableInfo === 'create'" ng-if="tblCreateError">
+                                <div class="alert alert-danger"
+                                    role="alert">
+                                    {{ tblCreateError }}
+                                </div>
+                            </span>
+                        <span ng-if="toggleTableInfo === 'status'">
+                            <span ng-if="tblStatus">
+                            {{ tblStatus }}
+                            </span>
+                            <span ng-if="tblStatusError">
+                                <div class="alert alert-danger"
+                                    role="alert">
+                                    {{ tblStatusError }}
+                                </div>
+                            </span>
+                        </span>
+                        <span ng-if="toggleTableInfo === 'indexes'">
+                            <div id="tblIndexesGrid"
+                                ng-if="tblIndexesOptions.data.length"
+                                ui-grid="tblIndexesOptions"
+                                ng-style="tblIndexesTableHeight()"
+                                ui-grid-auto-resize
+                                ui-grid-resize-columns
+                                class="grid"></div>
+                            <span ng-if="tblIndexError">
+                                <div class="alert alert-danger"
+                                    role="alert">
+                                    {{ tblIndexError }}
+                                </div>
+                            </span>
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>

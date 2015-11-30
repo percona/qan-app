@@ -29,6 +29,13 @@
     "bootstrap": "~3.3.5",
     "moment": "~2.10.6",
     "angular-bootstrap-datetimepicker": "~0.3.14",
-    "angular-chart.js": "~0.8.4"
+    "angular-chart.js": "~0.8.4",
+    "angular-highlightjs": "~0.5.1",
+    "highlightjs": "~8.9.1",
+    "vkBeautify": "vkbeautify#*",
+    "angular-cookies": "~1.4.8"
+  },
+  "resolutions": {
+    "angular": "~1.4.7"
   }
 }

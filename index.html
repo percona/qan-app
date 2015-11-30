@@ -6,6 +6,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link rel="icon" type="image/png" href="/client/content/img/favicon.ico">
 
+        <link rel="stylesheet" href="/bower_components/highlightjs/styles/github-gist.css">
         <link rel="stylesheet" href="/bower_components/bootstrap/dist/css/bootstrap.min.css">
         <link rel="stylesheet" href="/bower_components/angular-bootstrap/ui-bootstrap-csp.css">
         <link rel="stylesheet" href="/bower_components/angular-bootstrap-datetimepicker/src/css/datetimepicker.css"/>
@@ -14,16 +15,20 @@
         <link rel="stylesheet" href="/client/content/css/main.css">
 
         <script src="/bower_components/jquery/dist/jquery.min.js"></script>
+        <script src="/bower_components/vkBeautify/vkbeautify.js"></script>
         <script src="/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
 
         <script src="/bower_components/Chart.js/Chart.js"></script>
         <script src="/bower_components/moment/moment.js"></script>
+        <script src="/bower_components/highlightjs/highlight.pack.min.js"></script>
         <script src="/bower_components/angular/angular.min.js"></script>
+        <script src="/bower_components/angular-resource/angular-resource.min.js"></script>
+        <script src="/bower_components/angular-cookies/angular-cookies.min.js"></script>
+        <script src="/bower_components/angular-highlightjs/angular-highlightjs.min.js"></script>
         <script src="/bower_components/angular-chart.js/dist/angular-chart.js"></script>
         <script src="/bower_components/angular-bootstrap-datetimepicker/src/js/datetimepicker.js"></script>
         <script src="/bower_components/angular-moment/angular-moment.min.js"></script>
         <script src="/bower_components/angular-bootstrap/ui-bootstrap.min.js"></script>
-        <script src="/bower_components/angular-resource/angular-resource.min.js"></script>
         <script src="/bower_components/angular-ui-grid/ui-grid.min.js"></script>
         <script src="/bower_components/angular-ui-router/release/angular-ui-router.min.js"></script>
         <script src="/client/app/controllers.js"></script>
@@ -37,7 +42,7 @@
                 <img src="/client/content/img/logo.png">
                 <h1>Query Analytics <small>Percona</small></h1>
             </header-->
-            <nav class="navbar navbar-default " topnav></nav>
+            <nav class="navbar navbar-default navbar-fixed-top" topnav></nav>
             <main>
                 <div ui-view></div>
             </main>
@@ -45,7 +50,7 @@
                 <div class="row">
                     <div class="col-md-12">
                         <div class="pull-right text-muted">
-                            <small>v0.6.2</small>
+                            <small>v1.0.0</small>
                         </div>
                     </div>
                 </div>
