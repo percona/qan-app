@@ -1,0 +1,21 @@
+#!/usr/bin/env bash
+BASEDIR=$(cd "$(dirname "$0")"; pwd)
+PORT="${PORT:-":PORT"}"
+
+app_is_running() {
+   pid="$(ps ax | grep "python -m SimpleHTTPServer $PORT" | grep -v grep | awk '{print $1}')"
+   [ "$pid" ] && return 0 # running
+   return 1 # not running
+}
+
+if app_is_running; then
+   kill $pid
+fi
+
+python -m SimpleHTTPServer $PORT >> percona-qan-app.log 2>&1 &
+pid=$!
+if [ $? -ne 0 ]; then
+   echo "Error started Percona QAN app. Check the log file: $BASEDIR/percona-qan-app.log" >&2
+   exit 1
+fi
+echo "Percona QAN App running as PID $pid"
