@@ -54,3 +54,16 @@ footer {
 .padding-free {
     padding: 0px;
 }
+
+div.magrin-def-tl {
+    margin: 15px;
+}
+
+div.pull-right-ui-grid-cell > div {
+    float: right !important;
+
+}
+
+div[hljs] > pre {
+    background: white;
+}

@@ -2,8 +2,7 @@
     <div class="col-md-12">
         <div class="panel panel-default">
             <div class="panel-heading">
-                Query Profile
-                <p class="text-info pull-right">Top 10 Queries by % Grand Total Time</p>
+                Top 10 Queries by % Grand Total Time (%GTT)
             </div>
             <div class="panel-body padding-free">
                 <div id="qan-grid"
@@ -19,27 +18,17 @@
 <hr />
 
 <div class="row" ng-if="query_abstract">
-    <div class="col-md-4">
-        <div class="well well-sm">{{ query_abstract }}</div>
+    <div class="col-md-6">
+        <h3>{{ query_abstract }}</h3>
     </div>
-    <div class="col-md-4">
-        <div class="btn-group btn-group-justified" role="group">
-            <label class="btn btn-default" ng-model="$parent.colSize" btn-radio="'col-md-12'">
-                <i class="glyphicon glyphicon-align-justify"></i>
-                One col. list</label>
-            <label class="btn btn-default" ng-model="$parent.colSize" btn-radio="'col-md-6'">
-                <i class="glyphicon glyphicon-th-large"></i>
-                Two col. grid</label>
-        </div>
-    </div>
-    <div class="col-md-4">
-        <div class="well well-sm">{{ query_id }}</div>
+    <div class="col-md-6">
+        <h3 class="pull-right">{{ query_id }}</h3>
     </div>
 </div>
 
 <!-- 1/2 coulumn -->
 <div class="row">
-    <div ng-class="colSize">
+    <div class="col-md-12">
         <div ng-controller="MetricsController">
             <div class="panel panel-default" ng-if="query">
                 <div class="panel-heading">METRICS</div>
@@ -54,35 +43,27 @@
             </div>
         </div>
     </div>
-    <div ng-class="colSize">
+</div>
+<div class="row">
+    <div class="col-md-12">
         <div class="panel panel-default"
             ng-if="$parent.query"
             ng-controller="QueryController"
             >
-            <div class="panel-heading">QUERY</div>
+            <div class="panel-heading">QUERY
+                <span class="pull-right">
+                    <i class="glyphicon glyphicon-time"></i>
+                    <b class="text-info">Last seen {{ lastSeenAgo }}</b>
+                    <i class="text-muted">({{ lastSeen }})</i>
+                    &nbsp;&nbsp;
+                    <i class="glyphicon glyphicon-time"></i>
+                    <b class="text-info">First seen {{ firstSeenAgo }}</b>
+                    <i class="text-muted">({{ firstSeen }})</i>
+                </span>
+            </div>
             <div class="panel-body">
                 <div class="row">
-                    <div class="col-md-12">
-                        <div class="row">
-                            <div class="col-md-4">
-                                Last seen {{ lastSeenAgo }}
-                            </div>
-                            <div class="col-md-8">
-                                ({{ lastSeen }})
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-4">
-                                First seen {{ firstSeenAgo }}
-                            </div>
-                            <div class="col-md-8">
-                                ({{ firstSeen }})
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-md-12">
+                    <div class="col-md-offset-4 col-md-4">
                         <div class="btn-group btn-group-justified" role="group">
                             <label class="btn btn-default" ng-model="toggleQuery" btn-radio="'example'">Example</label>
                             <label class="btn btn-default" ng-model="toggleQuery" btn-radio="'fingerprint'">Fingerprint</label>
@@ -100,36 +81,40 @@
         </div>
     </div>
 
+</div>
+<div class="row">
 
-
-
-    <div ng-class="colSize">
+    <div class="col-md-12">
         <div class="panel panel-default"
             ng-if="$parent.query"
             ng-controller="QueryExplainController"
             >
             <div class="panel-heading">EXPLAIN</div>
-            <div class="panel-body">
+            <div class="panel-body padding-free">
                 <div class="row">
-                    <div class="col-md-4">
-                        <span><b>DB:</b> {{ db || '&lt;undefined&gt;' }} </span>
+                    <div class="col-md-12">
+                        <div class="magrin-def-tl">
+                            <form name="explainForm" class="form-inline" ng-submit="explainForm.$valid && getQueryExplain()">
+                                <div class="form-group" ng-class="{'has-error': explainForm.db.$invalid}">
+                                    <label for="db">DB:</label>
+                                    <input type="text"
+                                    class="form-control"
+                                    size="64"
+                                    ng-pattern="/^[_$A-Za-z0-9]{1,64}$/"
+                                    ng-required="true"
+                                    placeholder="Specify DB for explain."
+                                    id="db"
+                                    name="db"
+                                    ng-model="db" />
+                                </div>
+                                <button type="button"
+                                    class="btn btn-default"
+                                    ng-disabled="explainForm.$invalid"
+                                    ng-click="getQueryExplain()">Explain</button>
+                            </form>
+                        </div>
                     </div>
-                    <div class="col-md-6">
-                        <span>
-                            <input type="text"
-                            class="form-control"
-                            placeholder="Specify DB for explain if needed."
-                            name="queryDb"
-                            ng-model="$parent.queryDb" />
-                        </span>
-                    </div>
-                    <div class="col-md-2">
-                        <button type="button"
-                            class="btn btn-info"
-                            ng-click="getQueryExplain()">Explain</button>
-                    </div><!-- /div-col-md-12 -->
-                </div><!-- /div-row -->
-                <br />
+                </div>
                 <div class="row">
                     <div class="col-md-12">
                         <div id="explainGrid"
@@ -142,12 +127,16 @@
                         <div ng-if="queryExplainError"
                             class="alert alert-danger"
                             role="alert">{{ queryExplainError }}</div>
-                    </div><!-- /div-col-md-12 -->
-                </div><!-- /div-row -->
+                    </div>
+                </div>
             </div>
         </div>
     </div>
-    <div ng-class="colSize">
+
+</div>
+<div class="row">
+
+    <div class="col-md-12">
         <div class="panel panel-default"
             ng-if="$parent.query"
             ng-controller="TableInfoController"
@@ -155,7 +144,7 @@
             <div class="panel-heading">TABLES</div>
             <div class="panel-body">
                 <div class="row">
-                    <div class="col-md-offset-4 col-md-8">
+                    <div class="col-md-offset-3 col-md-9">
                         <div class="btn-group btn-group-justified" role="group">
                             <label class="btn btn-default" ng-model="toggleTableInfo" btn-radio="'create'">CREATE</label>
                             <label class="btn btn-default" ng-model="toggleTableInfo" btn-radio="'status'">STATUS</label>
@@ -164,26 +153,38 @@
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col-md-4">
-                        <select name="selectedDbTable"
+                    <div class="col-md-3">
+                        <form name="dbTblForm" ng-submit="dbTblForm.$valid && addDbTable()">
+                            <div class="form-group">
+                                <label for="selectedDbTable">Add/Select db.table for info:</label>
+                                <select name="selectedDbTable"
+                                    id="selectedDbTable"
+                                    class="form-control"
+                                    ng-model="selectedDbTable"
+                                    ng-change="getTableInfo()"
+                                    ng-options="(val.Db + '.' + val.Table) for val in dbTables" size="5">
+                                </select>
+                            </div>
+                            <div class="form-group"
+                                ng-class="{ 'has-error': dbTblForm.dbTable.$dirty && dbTblForm.dbTable.$modelValue !== '' && dbTblForm.dbTable.$invalid }">
+                                <input type="text"
+                                ng-required="true"
+                                ng-pattern="/^[A-Za-z0-9_$]{1,64}\.[A-Za-z0-9_$]{1,64}$/"
                                 class="form-control"
-                                ng-model="selectedDbTable"
-                                ng-change="getTableInfo()"
-                                ng-options="(val.Db + '.' + val.Table) for val in dbTables" size="5" />
-                        <form name="dbTblForm" ng-keyup="$event.keyCode == 13 && dbTblForm.$valid && addDbTable()">
-                        <div class="form-group"
-                             ng-class="{ 'has-error': dbTblForm.dbTable.$dirty && dbTblForm.dbTable.$modelValue !== '' && dbTblForm.dbTable.$invalid }">
-                        <input type="text"
-                               ng-required="true"
-                               ng-pattern="/^[A-Za-z0-9_$]{1,64}\.[A-Za-z0-9_$]{1,64}$/"
-                               class="form-control"
-                               placeholder="Add db.table"
-                               name="dbTable"
-                               ng-model="dbTable" />
-                        </div>
+                                placeholder="Add db.table"
+                                name="dbTable"
+                                ng-model="dbTable" />
+                            </div>
+                            <button type="button"
+                                class="btn btn-default form-control"
+                                ng-disabled="dbTblForm.dbTable.$modelValue === '' || dbTblForm.$invalid"
+                                ng-click="addDbTable()">
+                                <i class="glyphicon glyphicon-plus"></i>
+                                Add db.table to list
+                            </button>
                         </form>
                     </div>
-                    <div class="col-md-8">
+                    <div class="col-md-9">
                         <div ng-show="toggleTableInfo === 'create' && !!tblCreate" hljs hljs-source="tblCreate" hljs-language="sql"></div>
                         <span ng-show="toggleTableInfo === 'create'" ng-if="tblCreateError">
                                 <div class="alert alert-danger"
@@ -192,9 +193,20 @@
                                 </div>
                             </span>
                         <span ng-if="toggleTableInfo === 'status'">
-                            <span ng-if="tblStatus">
-                            {{ tblStatus }}
-                            </span>
+                            <table class="table table-striped">
+                                <thead>
+                                    <tr>
+                                        <th>Name</th>
+                                        <th>Value</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                <tr ng-repeat="(name, value) in tblStatus">
+                                    <td>{{ name }}</td>
+                                    <td>{{ value }}</td>
+                                </tr>
+                                </tbody>
+                            </table>
                             <span ng-if="tblStatusError">
                                 <div class="alert alert-danger"
                                     role="alert">

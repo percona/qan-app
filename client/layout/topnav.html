@@ -68,18 +68,21 @@
 
                     </li>
                     <li>
-                        &nbsp;<button class="btn btn-default navbar-btn dropdown-toggle"
-                                      data-toggle="dropdown"
+                        &nbsp;
+                        <div class="btn-group" dropdown auto-close="outsideClick">
+                        <button class="btn btn-default navbar-btn dropdown-toggle"
+                                      dropdown-toggle
                                       aria-haspopup="true"
                                       aria-expanded="true" >
                                 <i class="glyphicon glyphicon-info-sign"></i>
                                 <span class="caret"></span>
                             </button>
-                            <div class="dropdown-menu dropdown-menu-right well">
+                            <div class="dropdown-menu dropdown-menu-right well" role="menu">
                                     <p class="text-info text-nowrap">DSN: {{ instance.DSN }}</p>
                                     <p class="text-info">Instance UUID: {{ instance.UUID }}</p>
                                     <p class="text-info">Host: {{ instance.Name}}</p>
                             </div>
+                        </div>
                     </li>
                 </ul>
             </div>

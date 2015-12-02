@@ -30,8 +30,8 @@
                 $rootScope.dtCal = null;
                 $scope.queryExplain = '';
 
-                $rootScope.time_range = '1d';
-                $scope.setTimeRange('1d');
+                $rootScope.time_range = '1h';
+                $scope.setTimeRange('1h');
             };
 
             $scope.getAgent = function () {
@@ -164,12 +164,14 @@
             $scope.profile_columns = [
                 {
                     displayName: 'Rank',
+                    cellClass: 'pull-right-ui-grid-cell',
                     field: 'Rank',
                     width: '5%'
                 },
                 {
                     displayName: 'Query Abstract',
                     field: 'Abstract',
+                    width: '*',
                     cellTemplate: '<a ui-sref="root.instance-dt.query({query_id: row.entity.Id})"><div class="ui-grid-cell-contents">{{ COL_FIELD }}</div></a>',
                     footerCellTemplate: '<div class="ui-grid-cell-contents">Total</div>'
                 },
@@ -179,53 +181,55 @@
                     field: 'Id'
                 },
                 {
-                    displayName: '% of Grand Total Time',
-                    width: '14%',
+                    headerCellTemplate: '<div class="ui-grid-header-cell" title="% of Grand Total Time">&nbsp;%GTT</div>',
+                    width: '8%',
                     field: 'Percentage',
-                    cellTemplate: '<div class="ui-grid-cell-contents">{{ (COL_FIELD*100).toFixed(2) }}%</div>'
+                    cellTemplate: '<div class="ui-grid-cell-contents pull-right clearfix">{{ (COL_FIELD*100).toFixed(2) }}%</div>'
                 },
                 {
                     displayName: 'Total Time',
                     width: '8%',
                     field: 'Stats.Sum',
+                    cellClass: 'pull-right-ui-grid-cell',
                     cellFilter: 'number: 2',
                 },
                 {
                     displayName: 'QPS',
-                    width: '4%',
+                    width: '7%',
                     field: 'QPS',
                     type: 'number',
+                    cellClass: 'pull-right-ui-grid-cell',
                     cellFilter: 'number: 2',
                 },
                 {
                     displayName: 'Min',
                     field: 'Stats.Min',
                     width: '7%',
-                    cellTemplate: '<div class="ui-grid-cell-contents">{{ (COL_FIELD*1000).toFixed(2) }}ms</div>'
+                    cellTemplate: '<div class="ui-grid-cell-contents pull-right clearfix">{{ (COL_FIELD*1000).toFixed(2) }}ms</div>'
                 },
                 {
                     displayName: 'Avg',
                     field: 'Stats.Avg',
                     width: '7%',
-                    cellTemplate: '<div class="ui-grid-cell-contents">{{ (COL_FIELD*1000).toFixed(2) }}ms</div>'
+                    cellTemplate: '<div class="ui-grid-cell-contents pull-right clearfix">{{ (COL_FIELD*1000).toFixed(2) }}ms</div>'
                 },
                 {
                     displayName: 'Med',
                     field: 'Stats.Med',
                     width: '7%',
-                    cellTemplate: '<div class="ui-grid-cell-contents">{{ (COL_FIELD*1000).toFixed(2) }}ms</div>'
+                    cellTemplate: '<div class="ui-grid-cell-contents pull-right clearfix">{{ (COL_FIELD*1000).toFixed(2) }}ms</div>'
                 },
                 {
                     displayName: '95th',
                     field: 'Stats.P95',
                     width: '7%',
-                    cellTemplate: '<div class="ui-grid-cell-contents">{{ (COL_FIELD*1000).toFixed(2) }}ms</div>'
+                    cellTemplate: '<div class="ui-grid-cell-contents pull-right clearfix">{{ (COL_FIELD*1000).toFixed(2) }}ms</div>'
                 },
                 {
                     displayName: 'Max',
                     field: 'Stats.Max',
                     width: '7%',
-                    cellTemplate: '<div class="ui-grid-cell-contents">{{ (COL_FIELD*1000).toFixed(2) }}ms</div>'
+                    cellTemplate: '<div class="ui-grid-cell-contents pull-right clearfix">{{ (COL_FIELD*1000).toFixed(2) }}ms</div>'
                 }
             ];
 
@@ -369,8 +373,6 @@
                           $rootScope.query = resp.Query;
                           $scope.example = resp.Example;
                           $rootScope.example = resp.Example;
-                          console.log('query', $rootScope.query);
-                          console.log('example', $rootScope.example);
 
                           var data = [];
                           for (var key in resp.Metrics) {
@@ -442,12 +444,13 @@
                 };
                 $rootScope.$watch('query',
                     function (newValue, oldValue) {
-                            if (newValue.Tables === null || newValue.Tables.length === 0 || newValue.Tables[0].Db === '') {
-                                $scope.db = '';
-                            } else {
-                                $scope.db = newValue.Tables[0].Db;
-                                $scope.getQueryExplain();
-                            }
+                        if (newValue.Tables === null || newValue.Tables.length === 0 || newValue.Tables[0].Db === '') {
+                            $scope.db = '';
+                            $scope.queryExplainOptions.data = [];
+                        } else {
+                            $scope.db = newValue.Tables[0].Db;
+                            $scope.getQueryExplain();
+                        }
                     }
                 );
             };
@@ -455,72 +458,70 @@
                 {
                     displayName: 'Id',
                     field: 'Id',
-                    width: '10%'
+                    width: '3%'
                 },
                 {
                     displayName: 'SelectType',
                     field: 'SelectType',
-                    width: '20%'
+                    minWidth: 100,
+
                 },
                 {
                     displayName: 'Table',
                     field: 'Table',
-                    width: '15%'
+                    width: '**'
                 },
                 {
                     displayName: 'Partitions',
                     field: 'Partitions',
-                    width: '20%'
+                    minWidth: 100,
+                    width: '*'
                 },
                 {
                     displayName: 'CreateTable',
                     field: 'CreateTable',
-                    width: '20%'
+                    minWidth: 100,
                 },
                 {
                     displayName: 'Type',
                     field: 'Type',
-                    width: '10%'
+                    width: '*'
                 },
                 {
                     displayName: 'PossibleKeys',
                     field: 'PossibleKeys',
-                    width: '20%'
+                    minWidth: 110,
                 },
                 {
                     displayName: 'Key',
                     field: 'Key',
-                    width: '10%'
+                    width: '**'
                 },
                 {
                     displayName: 'KeyLen',
                     field: 'KeyLen',
-                    width: '15%'
+                    width: '*'
                 },
                 {
                     displayName: 'Ref',
                     field: 'Ref',
-                    width: '10%'
+                    width: '5%',
                 },
                 {
                     displayName: 'Rows',
                     field: 'Rows',
-                    width: '20%'
+                    width: '*'
                 },
                 {
                     displayName: 'Extra',
                     field: 'Extra',
-                    width: '80%'
+                    width: '*'
                 }
             ];
 
 
             $scope.getQueryExplain = function() {
                 var db = $scope.db;
-                if ($scope.queryDb) {
-                    db = $scope.queryDb;
-                }
-                console.log('db', db);
                 var data = {
                     "UUID": $rootScope.instance.UUID,
                     "Db": db,
@@ -572,15 +573,14 @@
                 $scope.toggleTableInfo = 'create';
                 $rootScope.$watch('query',
                     function (newValue, oldValue) {
-                            if (newValue.Tables === null) {
-                                $scope.dbTables = [
-                                    {'Db': 'mysql', 'Table': 'user'},
-                                ];
+                            if (newValue.Tables === null || newValue.Tables[0].Db === '') {
+                                $scope.dbTables = [];
+                                $scope.reset();
                             } else {
                                 $scope.dbTables = newValue.Tables;
+                                $scope.selectedDbTable = $scope.dbTables[0];
+                                $scope.getTableInfo();
                             }
-                            $scope.selectedDbTable = $scope.dbTables[0];
-                            $scope.getTableInfo();
                     }
                 );
 
@@ -595,58 +595,62 @@
                 };
             };
 
+            $scope.reset = function () {
+                $scope.tblCreateError = null;
+                $scope.tblIndexError = null;
+                $scope.tblStatusError = null;
+                $scope.tblCreate = false;
+                $scope.tblStatus = false;
+                $scope.tblIndexesOptions.data = [];
+            };
+
+
             $scope.tblIndexesColumns = [
                 {
                     displayName: 'KeyName',
                     field: 'KeyName',
-                    width: '25%'
+                    width: '**',
                 },
                 {
                     displayName: 'Type',
                     field: 'IndexType',
-                    width: '18%'
                 },
                 {
                     displayName: 'NonUnique',
                     field: 'NonUnique',
-                    width: '28%'
                 },
                 {
                     displayName: 'Packed',
                     field: 'Packed',
-                    width: '20%'
                 },
                 {
                     displayName: 'Column',
                     field: 'ColumnName',
-                    width: '30%'
                 },
                 {
                     displayName: 'Cardinality',
                     field: 'Cardinality',
-                    width: '27%'
                 },
                 {
                     displayName: 'Collation',
                     field: 'Collation',
-                    width: '25%'
                 },
                 {
                     displayName: 'Null',
                     field: 'Null',
-                    width: '15%'
                 },
                 {
                     displayName: 'Comment',
                     field: 'Comment',
-                    width: '20%'
                 },
             ];
 
             $scope.getTableInfo = function() {
+                $scope.reset();
                 var db = $scope.selectedDbTable.Db;
                 var tbl = $scope.selectedDbTable.Table;
                 var db_tbl = db + '.' + tbl;
+
                 var data = {
                     "UUID": $rootScope.instance.UUID,
                     "Create": [{
@@ -674,6 +678,7 @@
                 p.$promise
                 .then(function (data) {
                         $scope.tableInfo = JSON.parse(atob(data.Data));
+                        console.log('tblInfo', $scope.tableInfo);
                         if ('Errors' in $scope.tableInfo[db_tbl]) {
                             var errors = $scope.tableInfo[db_tbl].Errors;
                             for (var i=0; i<errors.length; i++) {
@@ -688,27 +693,64 @@
                                 }
                             }
                         }
+                        // Get table create
                         if ('Create' in $scope.tableInfo[db_tbl]) {
                             $scope.tblCreate = vkbeautify.sql($scope.tableInfo[db_tbl].Create);
-                        } else {
-                            $scope.tblCreate = false;
                         }
+
+                        // Get Status
                         if ('Status' in $scope.tableInfo[db_tbl]) {
+                            $scope.tblStatusTableHeight = function() {
+                                return {
+                                    height: (arr.length * 30 + 33) + "px"
+                                };
+                            };
                             $scope.tblStatus = $scope.tableInfo[db_tbl].Status;
                         } else {
-                            $scope.tblStatus = false;
+                            $scope.tblStatusTableHeight = function() {
+                                return {
+                                    height: "63px"
+                                };
+                            };
+                            $scope.tblIndexesOptions.data = [];
                         }
+
+                        // Get indexes
                         if ('Index' in $scope.tableInfo[db_tbl]) {
                             var arr = [];
+                            console.log('Index', $scope.tableInfo[db_tbl].Index);
                             for(var key in $scope.tableInfo[db_tbl].Index) {
-                                arr = arr.concat($scope.tableInfo[db_tbl].Index[key]);
+                                var row = {};
+                                var index = $scope.tableInfo[db_tbl].Index[key];
+                                var len = index.length;
+                                for (var i=0; i<len; i++) {
+                                    if (i === 0) {
+                                        row = index[0];
+                                    } else {
+                                        for (var k in index[i]) {
+                                            if (row[k] !== index[i][k]) {
+                                                row[k] += ',' + index[i][k];
+                                            }
+                                        }
+                                    }
+                                }
+                                arr = arr.concat(row);
+                                //arr = arr.concat($scope.tableInfo[db_tbl].Index[key]);
                             }
+
                             $scope.tblIndexesTableHeight = function() {
                                 return {
                                     height: (arr.length * 30 + 33) + "px"
                                 };
                             };
                             $scope.tblIndexesOptions.data = arr;
+                        } else {
+                            $scope.tblIndexesTableHeight = function() {
+                                return {
+                                    height: "63px"
+                                };
+                            };
+                            $scope.tblIndexesOptions.data = [];
                         }
                 })
                 .catch(function(resp) {});
