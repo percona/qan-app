@@ -20,8 +20,7 @@
     ]).config(configure)
       .constant('constants', {
           // URI of datastore API
-          //API_PATH: window.location.protocol + '//'+ window.location.hostname + ':9001'
-          API_PATH: 'http://10.10.7.105:9001'
+          API_PATH: window.location.protocol + '//'+ window.location.hostname + ':9001'
       })
       .constant('angularMomentConfig', {
               timezone: 'UTC'
