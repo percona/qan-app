@@ -584,15 +584,6 @@
                     }
                 );
 
-                $scope.tblIndexesOptions = {
-                    enableSorting: false,
-                    enableColumnMenus: false,
-                    enableColumnResizing: true,
-                    enableScrollbars: uiGridConstants.scrollbars.ALWAYS,
-                    enableHorizontalScrollbar: uiGridConstants.scrollbars.ALWAYS,
-                    columnDefs: $scope.tblIndexesColumns,
-                    data: []
-                };
             };
 
             $scope.reset = function () {
@@ -600,50 +591,9 @@
                 $scope.tblIndexError = null;
                 $scope.tblStatusError = null;
                 $scope.tblCreate = false;
-                $scope.tblStatus = false;
-                $scope.tblIndexesOptions.data = [];
+                $scope.tblStatus = [];
+                $scope.tblIndex = [];
             };
-
-
-            $scope.tblIndexesColumns = [
-                {
-                    displayName: 'KeyName',
-                    field: 'KeyName',
-                    width: '**',
-                },
-                {
-                    displayName: 'Type',
-                    field: 'IndexType',
-                },
-                {
-                    displayName: 'NonUnique',
-                    field: 'NonUnique',
-                },
-                {
-                    displayName: 'Packed',
-                    field: 'Packed',
-                },
-                {
-                    displayName: 'Column',
-                    field: 'ColumnName',
-                },
-                {
-                    displayName: 'Cardinality',
-                    field: 'Cardinality',
-                },
-                {
-                    displayName: 'Collation',
-                    field: 'Collation',
-                },
-                {
-                    displayName: 'Null',
-                    field: 'Null',
-                },
-                {
-                    displayName: 'Comment',
-                    field: 'Comment',
-                },
-            ];
 
             $scope.getTableInfo = function() {
                 $scope.reset();
@@ -678,7 +628,6 @@
                 p.$promise
                 .then(function (data) {
                         $scope.tableInfo = JSON.parse(atob(data.Data));
-                        console.log('tblInfo', $scope.tableInfo);
                         if ('Errors' in $scope.tableInfo[db_tbl]) {
                             var errors = $scope.tableInfo[db_tbl].Errors;
                             for (var i=0; i<errors.length; i++) {
@@ -700,57 +649,12 @@
 
                         // Get Status
                         if ('Status' in $scope.tableInfo[db_tbl]) {
-                            $scope.tblStatusTableHeight = function() {
-                                return {
-                                    height: (arr.length * 30 + 33) + "px"
-                                };
-                            };
                             $scope.tblStatus = $scope.tableInfo[db_tbl].Status;
-                        } else {
-                            $scope.tblStatusTableHeight = function() {
-                                return {
-                                    height: "63px"
-                                };
-                            };
-                            $scope.tblIndexesOptions.data = [];
                         }
 
                         // Get indexes
                         if ('Index' in $scope.tableInfo[db_tbl]) {
-                            var arr = [];
-                            console.log('Index', $scope.tableInfo[db_tbl].Index);
-                            for(var key in $scope.tableInfo[db_tbl].Index) {
-                                var row = {};
-                                var index = $scope.tableInfo[db_tbl].Index[key];
-                                var len = index.length;
-                                for (var i=0; i<len; i++) {
-                                    if (i === 0) {
-                                        row = index[0];
-                                    } else {
-                                        for (var k in index[i]) {
-                                            if (row[k] !== index[i][k]) {
-                                                row[k] += ',' + index[i][k];
-                                            }
-                                        }
-                                    }
-                                }
-                                arr = arr.concat(row);
-                                //arr = arr.concat($scope.tableInfo[db_tbl].Index[key]);
-                            }
-
-                            $scope.tblIndexesTableHeight = function() {
-                                return {
-                                    height: (arr.length * 30 + 33) + "px"
-                                };
-                            };
-                            $scope.tblIndexesOptions.data = arr;
-                        } else {
-                            $scope.tblIndexesTableHeight = function() {
-                                return {
-                                    height: "63px"
-                                };
-                            };
-                            $scope.tblIndexesOptions.data = [];
+                            $scope.tblIndex = $scope.tableInfo[db_tbl].Index;
                         }
                 })
                 .catch(function(resp) {});

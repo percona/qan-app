@@ -1,7 +1,7 @@
 {
-  "name": "Percona Platform",
-  "version": "1.0.0",
-  "homepage": "https://github.com/percona/platform",
+  "name": "Percona Query Analitics",
+  "version": "1.0.2",
+  "homepage": "https://github.com/percona/platform-app",
   "authors": [
     "Andrii Skomorokhov <andrii.skomorokhov@percona.com>"
   ],

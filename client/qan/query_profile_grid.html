@@ -96,13 +96,13 @@
                         <div class="magrin-def-tl">
                             <form name="explainForm" class="form-inline" ng-submit="explainForm.$valid && getQueryExplain()">
                                 <div class="form-group" ng-class="{'has-error': explainForm.db.$invalid}">
-                                    <label for="db">DB:</label>
+                                    <label for="db">Database:</label>
                                     <input type="text"
                                     class="form-control"
                                     size="64"
                                     ng-pattern="/^[_$A-Za-z0-9]{1,64}$/"
                                     ng-required="true"
-                                    placeholder="Specify DB for explain."
+                                    placeholder="Specify a database."
                                     id="db"
                                     name="db"
                                     ng-model="db" />
@@ -110,7 +110,7 @@
                                 <button type="button"
                                     class="btn btn-default"
                                     ng-disabled="explainForm.$invalid"
-                                    ng-click="getQueryExplain()">Explain</button>
+                                    ng-click="getQueryExplain()">EXPLAIN</button>
                             </form>
                         </div>
                     </div>
@@ -215,13 +215,34 @@
                             </span>
                         </span>
                         <span ng-if="toggleTableInfo === 'indexes'">
-                            <div id="tblIndexesGrid"
-                                ng-if="tblIndexesOptions.data.length"
-                                ui-grid="tblIndexesOptions"
-                                ng-style="tblIndexesTableHeight()"
-                                ui-grid-auto-resize
-                                ui-grid-resize-columns
-                                class="grid"></div>
+                            <table class="table table-bordered table-hover">
+                                <thead>
+                                    <tr>
+                                        <th>KeyName </th>
+                                        <th>Type</th>
+                                        <th>Unique</th>
+                                        <th>Packed</th>
+                                        <th>Column</th>
+                                        <th>Cardinality</th>
+                                        <th>Collation</th>
+                                        <th>Null</th>
+                                        <th>Comment</th>
+                                    </tr>
+                                </thead>
+                                <tbody ng-repeat="ind in tblIndex">
+                                <tr ng-repeat="row in ind">
+                                    <td ng-if="$first" rowspan="{{ ind.length }}">{{ row.KeyName }}</td>
+                                    <td ng-if="$first" rowspan="{{ ind.length }}">{{ row.IndexType }}</td>
+                                    <td ng-if="$first" rowspan="{{ ind.length }}">{{ row.NonUnique === false ? 'Yes' : 'No' }}</td>
+                                    <td ng-if="$first" rowspan="{{ ind.length }}">{{ row.Packed ? 'Yes' : 'No' }}</td>
+                                    <td>{{ row.ColumnName }}</td>
+                                    <td>{{ row.Cardinality }}</td>
+                                    <td>{{ row.Collation }}</td>
+                                    <td>{{ row.Null ? 'Yes' : 'No' }}</td>
+                                    <td ng-if="$first" rowspan="{{ ind.length }}">{{ row.Comment }}</td>
+                                </tr>
+                                </tbody>
+                            </table>
                             <span ng-if="tblIndexError">
                                 <div class="alert alert-danger"
                                     role="alert">
