@@ -24,7 +24,6 @@
     "angular-bootstrap": "~0.13.3",
     "angular-moment": "~0.10.3",
     "angular-resource": "~1.4.5",
-    "angular-ui-grid": "~3.0.5",
     "angular-ui-router": "~0.2.15",
     "bootstrap": "~3.3.5",
     "moment": "~2.10.6",

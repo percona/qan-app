@@ -7,15 +7,19 @@
         '$rootScope',
         '$filter',
         '$state',
-        'uiGridConstants',
         'QueryProfile',
         'Metric',
         'Agent',
         'Instance',
         '$modal',
         'instance',
-        function($scope, $rootScope, $filter, $state, uiGridConstants, QueryProfile,
+        function($scope, $rootScope, $filter, $state, QueryProfile,
                  Metric, Agent, Instance, $modal, instance) {
+            $scope.connection_error = false;
+            if ('error' in instance) {
+                $scope.connection_error = instance.error;
+                return null;
+            }
             $scope.instance_uuid = instance.selected_instance.UUID;
             $scope.instance_DSN = instance.selected_instance.DSN.replace(/:[0-9a-zA-Z]+@/, ':************@');
 
@@ -76,7 +80,7 @@
                     if ($view === 'hour') {
                         $dates[i].display = moment.utc($dates[i].utcDateValue).format('HH:mm');
                     }
-                    var date_i = moment($dates[i].utcDateValue);
+                    var date_i = moment.utc($dates[i].utcDateValue);
                     $dates[i].selectable = !date_i.isAfter(now, $view);
                     if ($scope.min_dt && $scope.max_dt) {
                         $dates[i].active = checkActive($view, $scope.min_dt, $scope.max_dt, date_i);
@@ -85,19 +89,28 @@
             };
 
             $rootScope.onTimeSet = function(newDate, oldDate) {
-                if (oldDate === null) {
-                    return;
-                }
-                var date1 = $filter('date')(newDate, 'yyyy-MM-dd HH:mm:ss');
-                date1 = moment.utc(date1, 'YYYY-MM-DD HH:mm:ss');
-                if (oldDate === undefined) {
-                    $rootScope.dtRange = date1.format('YYYY-MM-DD HH:mm:ss')
+                if ($scope.date1 === undefined) {
+                    $scope.begin = undefined;
+                    $scope.end = undefined;
+                    $scope.min_dt = undefined;
+                    $scope.max_dt = undefined;
+                    $scope.b = undefined;
+                    $scope.e = undefined;
+                    var date1 = $filter('date')(newDate, 'yyyy-MM-dd HH:mm:ss');
+                    $scope.date1 = moment.utc(date1, 'YYYY-MM-DD HH:mm:ss');
+
+                    $rootScope.dtRange = $scope.date1.format('YYYY-MM-DD HH:mm:ss')
                                        + ' - Please select one more date';
                 } else {
-                    var date2 = $filter('date')(oldDate, 'yyyy-MM-dd HH:mm:ss');
-                    date2 = moment.utc(date2, 'YYYY-MM-DD HH:mm:ss');
-                    $scope.begin = moment.min(date1, date2);
-                    $scope.end = moment.max(date1, date2);
+                    var date2 = $filter('date')(newDate, 'yyyy-MM-dd HH:mm:ss');
+                    $scope.date2 = moment.utc(date2, 'YYYY-MM-DD HH:mm:ss');
+                }
+
+
+                if ($scope.date1 !== undefined && $scope.date2 !== undefined) {
+                    $scope.begin = moment.min($scope.date1, $scope.date2);
+                    $scope.end = moment.max($scope.date1, $scope.date2);
+
                     $scope.min_dt = $scope.begin.clone();
                     $scope.max_dt = $scope.end.clone();
                     $scope.b = $scope.begin.clone();
@@ -114,6 +127,8 @@
                                        + $scope.e.format('YYYY-MM-DD HH:mm:ss')
                                        + ' UTC';
                     $scope.getProfile();
+                    $scope.date1 = undefined;
+                    $scope.date2 = undefined;
                 }
             };
 
@@ -159,98 +174,11 @@
                 $scope.getProfile();
             };
 
-            var footerCellTemplateNumber = '<div class="ui-grid-cell-contents">{{ col.getAggregationValue() | number: 5 }}</div>';
-
-            $scope.profile_columns = [
-                {
-                    displayName: 'Rank',
-                    cellClass: 'pull-right-ui-grid-cell',
-                    field: 'Rank',
-                    width: '5%'
-                },
-                {
-                    displayName: 'Query Abstract',
-                    field: 'Abstract',
-                    width: '*',
-                    cellTemplate: '<a ui-sref="root.instance-dt.query({query_id: row.entity.Id})"><div class="ui-grid-cell-contents">{{ COL_FIELD }}</div></a>',
-                    footerCellTemplate: '<div class="ui-grid-cell-contents">Total</div>'
-                },
-                {
-                    displayName: 'ID',
-                    width: '13%',
-                    field: 'Id'
-                },
-                {
-                    headerCellTemplate: '<div class="ui-grid-header-cell" title="% of Grand Total Time">&nbsp;%GTT</div>',
-                    width: '8%',
-                    field: 'Percentage',
-                    cellTemplate: '<div class="ui-grid-cell-contents pull-right clearfix">{{ (COL_FIELD*100).toFixed(2) }}%</div>'
-                },
-                {
-                    displayName: 'Total Time',
-                    width: '8%',
-                    field: 'Stats.Sum',
-                    cellClass: 'pull-right-ui-grid-cell',
-                    cellFilter: 'number: 2',
-                },
-                {
-                    displayName: 'QPS',
-                    width: '7%',
-                    field: 'QPS',
-                    type: 'number',
-                    cellClass: 'pull-right-ui-grid-cell',
-                    cellFilter: 'number: 2',
-                },
-                {
-                    displayName: 'Min',
-                    field: 'Stats.Min',
-                    width: '7%',
-                    cellTemplate: '<div class="ui-grid-cell-contents pull-right clearfix">{{ (COL_FIELD*1000).toFixed(2) }}ms</div>'
-                },
-                {
-                    displayName: 'Avg',
-                    field: 'Stats.Avg',
-                    width: '7%',
-                    cellTemplate: '<div class="ui-grid-cell-contents pull-right clearfix">{{ (COL_FIELD*1000).toFixed(2) }}ms</div>'
-                },
-                {
-                    displayName: 'Med',
-                    field: 'Stats.Med',
-                    width: '7%',
-                    cellTemplate: '<div class="ui-grid-cell-contents pull-right clearfix">{{ (COL_FIELD*1000).toFixed(2) }}ms</div>'
-                },
-                {
-                    displayName: '95th',
-                    field: 'Stats.P95',
-                    width: '7%',
-                    cellTemplate: '<div class="ui-grid-cell-contents pull-right clearfix">{{ (COL_FIELD*1000).toFixed(2) }}ms</div>'
-                },
-                {
-                    displayName: 'Max',
-                    field: 'Stats.Max',
-                    width: '7%',
-                    cellTemplate: '<div class="ui-grid-cell-contents pull-right clearfix">{{ (COL_FIELD*1000).toFixed(2) }}ms</div>'
-                }
-            ];
-
-            $scope.qanGridOptions = {
-                enableRowSelection: true,
-                multiSelect: false,
-                enableRowHeaderSelection: false,
-                enableSorting: false,
-                enableColumnMenus: false,
-                enableScrollbars: false,
-                columnDefs: $scope.profile_columns
-            };
-
-            $scope.qanGridOptions.onRegisterApi = function(gridApi) {
-                $scope.gridApi = gridApi;
-                gridApi.selection.on.rowSelectionChanged($scope, function(row) {
-                    $scope.query_id = row.entity.Id;
-                    $scope.query_abstract = row.entity.Abstract;
-                    $state.go('root.instance-dt.query', {
-                        query_id: row.entity.Id
-                    });
+            $scope.qanSelectRow = function(row) {
+                $scope.query_id = row.Id;
+                $scope.query_abstract = row.Abstract;
+                $state.go('root.instance-dt.query', {
+                    query_id: row.Id
                 });
             };
 
@@ -267,21 +195,9 @@
                             .then(function(resp) {
                                 if (resp.Query !== null) {
                                     var skip_summary = resp.Query.shift();
-                                    $scope.getQPTableHeight = function() {
-                                        var rowHeight = 30; // row height
-                                        var headerHeight = 33; // header height
-                                        return {
-                                            height: (resp.Query.length * rowHeight + headerHeight) + "px"
-                                        };
-                                    };
-                                    $scope.qanGridOptions.data = resp.Query;
+                                    $scope.qanData = resp.Query;
                                 } else {
-                                    $scope.getQPTableHeight = function() {
-                                        return {
-                                            height: "60px"
-                                        };
-                                    };
-                                    $scope.qanGridOptions.data = [];
+                                    $scope.qanData = [];
                                 }
                             })
                             .catch(function(resp){})
@@ -296,9 +212,8 @@
         '$scope',
         '$rootScope',
         '$state',
-        'uiGridConstants',
         'Metric',
-        function($scope, $rootScope, $state, uiGridConstants, Metric) {
+        function($scope, $rootScope, $state, Metric) {
             $scope.init = function () {
                 $rootScope.$on('$stateChangeSuccess',
                     function(event, toState, toParams, fromState, fromParams) {
@@ -307,55 +222,6 @@
                         }
                     }
                 );
-            };
-
-            $scope.metrics_columns = [
-                {
-                    displayName: 'Metrics',
-                    field: 'Metrics',
-                    cellTemplate: '<div class="ui-grid-cell-contents">{{ COL_FIELD.split("_").join(" ") }}</div>',
-                    sort: {
-                        direction: uiGridConstants.ASC
-                    }
-                },
-                {
-                    displayName: 'Total',
-                    field: 'Sum',
-                    cellTemplate: '<div class="ui-grid-cell-contents">{{ COL_FIELD % 1 === 0 ? COL_FIELD : COL_FIELD.toFixed(4) }}</div>'
-                },
-                {
-                    displayName: 'Min',
-                    field: 'Min',
-                    cellTemplate: '<div class="ui-grid-cell-contents">{{ COL_FIELD % 1 === 0 ? COL_FIELD : COL_FIELD.toFixed(4) }}</div>'
-                },
-                {
-                    displayName: 'Avg',
-                    field: 'Avg',
-                    cellTemplate: '<div class="ui-grid-cell-contents">{{ COL_FIELD % 1 === 0 ? COL_FIELD : COL_FIELD.toFixed(4) }}</div>'
-                },
-                {
-                    displayName: 'Med',
-                    field: 'Med',
-                    cellTemplate: '<div class="ui-grid-cell-contents">{{ COL_FIELD % 1 === 0 ? COL_FIELD : COL_FIELD.toFixed(4) }}</div>'
-                },
-                {
-                    displayName: '95th',
-                    field: 'P95',
-                    cellTemplate: '<div class="ui-grid-cell-contents">{{ COL_FIELD % 1 === 0 ? COL_FIELD : COL_FIELD.toFixed(4) }}</div>'
-                },
-                {
-                    displayName: 'Max',
-                    field: 'Max',
-                    cellTemplate: '<div class="ui-grid-cell-contents">{{ COL_FIELD % 1 === 0 ? COL_FIELD : COL_FIELD.toFixed(4) }}</div>'
-                }
-            ];
-            $scope.metricsGridOptions = {
-                enableSorting: false,
-                enableColumnMenus: false,
-                enableColumnResizing: true,
-                enableScrollbars: uiGridConstants.scrollbars.ALWAYS,
-                enableHorizontalScrollbar: uiGridConstants.scrollbars.ALWAYS,
-                columnDefs: $scope.metrics_columns
             };
 
             $scope.getMetrics = function () {
@@ -380,12 +246,7 @@
                               angular.extend(obj, resp.Metrics[key]);
                               data.push(obj)
                           }
-                          $scope.metricsGridOptions.data = data;
-                          $scope.getMetricsTableHeight = function() {
-                              return {
-                                  height: ($scope.metricsGridOptions.data.length * 30 + 32) + "px"
-                              };
-                          };
+                          $scope.metricsData = data;
                       })
                       .catch(function(resp){})
                       .finally(function(resp){});
@@ -429,24 +290,14 @@
         '$scope',
         '$rootScope',
         '$filter',
-        'uiGridConstants',
         'AgentCmd',
-        function($scope, $rootScope, $filter, uiGridConstants, AgentCmd) {
+        function($scope, $rootScope, $filter, AgentCmd) {
             $scope.init = function () {
-                $scope.queryExplainOptions = {
-                    enableSorting: false,
-                    enableColumnMenus: false,
-                    enableColumnResizing: true,
-                    enableScrollbars: uiGridConstants.scrollbars.ALWAYS,
-                    enableHorizontalScrollbar: uiGridConstants.scrollbars.ALWAYS,
-                    columnDefs: $scope.explainColumns,
-                    data: []
-                };
                 $rootScope.$watch('query',
                     function (newValue, oldValue) {
                         if (newValue.Tables === null || newValue.Tables.length === 0 || newValue.Tables[0].Db === '') {
                             $scope.db = '';
-                            $scope.queryExplainOptions.data = [];
+                            $scope.queryExplainData = [];
                         } else {
                             $scope.db = newValue.Tables[0].Db;
                             $scope.getQueryExplain();
@@ -454,71 +305,6 @@
                     }
                 );
             };
-            $scope.explainColumns = [
-                {
-                    displayName: 'Id',
-                    field: 'Id',
-                    width: '3%'
-                },
-                {
-                    displayName: 'SelectType',
-                    field: 'SelectType',
-                    minWidth: 100,
-
-                },
-                {
-                    displayName: 'Table',
-                    field: 'Table',
-                    width: '**'
-                },
-                {
-                    displayName: 'Partitions',
-                    field: 'Partitions',
-                    minWidth: 100,
-                    width: '*'
-                },
-                {
-                    displayName: 'CreateTable',
-                    field: 'CreateTable',
-                    minWidth: 100,
-                },
-                {
-                    displayName: 'Type',
-                    field: 'Type',
-                    width: '*'
-                },
-                {
-                    displayName: 'PossibleKeys',
-                    field: 'PossibleKeys',
-                    minWidth: 110,
-                },
-                {
-                    displayName: 'Key',
-                    field: 'Key',
-                    width: '**'
-                },
-                {
-                    displayName: 'KeyLen',
-                    field: 'KeyLen',
-                    width: '*'
-                },
-                {
-                    displayName: 'Ref',
-                    field: 'Ref',
-                    width: '5%',
-                },
-                {
-                    displayName: 'Rows',
-                    field: 'Rows',
-                    width: '*'
-                },
-                {
-                    displayName: 'Extra',
-                    field: 'Extra',
-                    width: '*'
-                }
-            ];
-
 
             $scope.getQueryExplain = function() {
                 var db = $scope.db;
@@ -542,14 +328,7 @@
                         $scope.queryExplainError = '';
                         if (data.Error === '') {
                             var explain = JSON.parse(atob(data.Data));
-                            $scope.queryExplainOptions.data = explain.Classic;
-                            $scope.getExplainQueryTableHeight = function() {
-                                var height = $scope.queryExplainOptions.data.length
-                                            * 30 + 33;
-                                return {
-                                    height: height + "px"
-                                };
-                            };
+                            $scope.queryExplainData = explain.Classic;
                         } else {
                             $scope.queryExplainError = data.Error;
                         }
@@ -566,9 +345,8 @@
         '$scope',
         '$rootScope',
         '$filter',
-        'uiGridConstants',
         'AgentCmd',
-        function($scope, $rootScope, $filter, uiGridConstants, AgentCmd) {
+        function($scope, $rootScope, $filter, AgentCmd) {
             $scope.init = function () {
                 $scope.toggleTableInfo = 'create';
                 $rootScope.$watch('query',
@@ -597,6 +375,9 @@
 
             $scope.getTableInfo = function() {
                 $scope.reset();
+                if (!('Db' in $scope.selectedDbTable) || !('Table' in $scope.selectedDbTable)) {
+                    return null;
+                }
                 var db = $scope.selectedDbTable.Db;
                 var tbl = $scope.selectedDbTable.Table;
                 var db_tbl = db + '.' + tbl;

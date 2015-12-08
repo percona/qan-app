@@ -1,16 +1,48 @@
 <div class="row">
     <div class="col-md-12">
-        <div class="panel panel-default">
+        <div ng-if="connection_error"
+            class="alert alert-danger"
+            role="alert">{{ connection_error }}</div>
+        <div class="panel panel-default" ng-if="!connection_error">
             <div class="panel-heading">
                 Top 10 Queries by % Grand Total Time (%GTT)
             </div>
             <div class="panel-body padding-free">
-                <div id="qan-grid"
-                    ui-grid="qanGridOptions"
-                    class="grid"
-                    ui-grid-selection
-                    ng-style="getQPTableHeight()"
-                    ></div>
+                <table
+                    style="margin-bottom: 0px !important;"
+                    class="table table-bordered table-striped table-hover table-condensed">
+                    <thead>
+                        <tr>
+                            <th width="5%" title="Rank">Rank</th>
+                            <th title="Query Abstract">Query Abstract</th>
+                            <th title="ID">ID</th>
+                            <th title="% of Grand Total Time">%GTT</th>
+                            <th title="Total Time">Total Time</th>
+                            <th title="QPS">QPS</th>
+                            <th title="Min">Min</th>
+                            <th title="Avg">Avg</th>
+                            <th title="Med">Med</th>
+                            <th title="95th">95th</th>
+                            <th title="Max">Max</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-repeat="row in qanData" ng-click="qanSelectRow(row)" ng-class="{'success': query_id === row.Id}">
+                            <td class="text-right" title="{{ row.Rank }}">{{ row.Rank }}</td>
+                            <td title="{{ row.Abstract }}"><a ui-sref="root.instance-dt.query({query_id: row.Id})">{{ row.Abstract }}</a></td>
+                            <td title="{{ row.Id }}">{{ row.Id }}</td>
+                            <td class="text-right" title="{{ (row.Percentage*100).toFixed(2) }}%">{{ (row.Percentage*100).toFixed(2) }}%</td>
+                            <td class="text-right" title="{{ row.Stats.Sum.toFixed(2) }}">{{ row.Stats.Sum.toFixed(2) }}</td>
+                            <td class="text-right" title="{{ row.QPS.toFixed(2) }}">{{ row.QPS.toFixed(2) }}</td>
+                            <td class="text-right" title="{{ (row.Stats.Min*1000).toFixed(2) }}ms">{{ (row.Stats.Min*1000).toFixed(2) }}ms</td>
+                            <td class="text-right" title="{{ (row.Stats.Avg*1000).toFixed(2) }}ms">{{ (row.Stats.Avg*1000).toFixed(2) }}ms</td>
+                            <td class="text-right" title="{{ (row.Stats.Med*1000).toFixed(2) }}ms">{{ (row.Stats.Med*1000).toFixed(2) }}ms</td>
+                            <td class="text-right" title="{{ (row.Stats.P95*1000).toFixed(2) }}ms">{{ (row.Stats.P95*1000).toFixed(2) }}ms</td>
+                            <td class="text-right" title="{{ (row.Stats.Max*1000).toFixed(2) }}ms">{{ (row.Stats.Max*1000).toFixed(2) }}ms</td>
+                        </tr>
+                        <tr ng-if="qanData.length===0"><td class="text-center" colspan="11">No data for selected time-range.</td></tr>
+                    </tbody>
+                </table>
             </div>
         </div>
     </div>
@@ -26,19 +58,38 @@
     </div>
 </div>
 
-<!-- 1/2 coulumn -->
 <div class="row">
     <div class="col-md-12">
         <div ng-controller="MetricsController">
             <div class="panel panel-default" ng-if="query">
                 <div class="panel-heading">METRICS</div>
                 <div class="panel-body padding-free">
-                    <div id="metrics-grid"
-                        ui-grid="$parent.metricsGridOptions"
-                        ng-style="$parent.getMetricsTableHeight()"
-                        ui-grid-auto-resize
-                        ui-grid-resize-columns
-                        class="grid"></div>
+                    <table
+                        style="margin-bottom: 0px !important;"
+                        class="table table-bordered table-striped table-hover table-condensed">
+                        <thead>
+                            <tr>
+                                <th title="Metrics">Metrics</th>
+                                <th title="Total">Total</th>
+                                <th title="Min">Min</th>
+                                <th title="Avg">Avg</th>
+                                <th title="Med">Med</th>
+                                <th title="95th">95th</th>
+                                <th title="Max">Max</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr ng-repeat="row in $parent.metricsData | orderBy : 'Metrics'">
+                                <td title="{{ row.Metrics.split('_').join(' ') }}">{{ row.Metrics.split('_').join(' ') }}</td>
+                                <td class="text-right" title="{{ row.Sum % 1 === 0 ? row.Sum : row.Sum.toFixed(4) }}">{{ row.Sum % 1 === 0 ? row.Sum : row.Sum.toFixed(4) }}</td>
+                                <td class="text-right" title="{{ row.Min % 1 === 0 ? row.Min : row.Min.toFixed(4) }}">{{ row.Min % 1 === 0 ? row.Min : row.Min.toFixed(4) }}</td>
+                                <td class="text-right" title="{{ row.Avg % 1 === 0 ? row.Avg : row.Avg.toFixed(4) }}">{{ row.Avg % 1 === 0 ? row.Avg : row.Avg.toFixed(4) }}</td>
+                                <td class="text-right" title="{{ row.Med % 1 === 0 ? row.Med : row.Med.toFixed(4) }}">{{ row.Med % 1 === 0 ? row.Med : row.Med.toFixed(4) }}</td>
+                                <td class="text-right" title="{{ row.P95 % 1 === 0 ? row.P95 : row.P95.toFixed(4) }}">{{ row.P95 % 1 === 0 ? row.P95 : row.P95.toFixed(4) }}</td>
+                                <td class="text-right" title="{{ row.Max % 1 === 0 ? row.Max : row.Max.toFixed(4) }}">{{ row.Max % 1 === 0 ? row.Max : row.Max.toFixed(4) }}</td>
+                            </tr>
+                        </tbody>
+                    </table>
                 </div>
             </div>
         </div>
@@ -117,16 +168,47 @@
                 </div>
                 <div class="row">
                     <div class="col-md-12">
-                        <div id="explainGrid"
-                            ng-if="queryExplainOptions.data.length && !queryExplainError"
-                            ui-grid="queryExplainOptions"
-                            ng-style="getExplainQueryTableHeight()"
-                            ui-grid-auto-resize
-                            ui-grid-resize-columns
-                            class="grid"></div>
+                        <table
+                            style="margin-bottom: 0px !important;"
+                            ng-if="queryExplainData.length && !queryExplainError"
+                            class="table table-bordered table-striped table-hover table-condensed">
+                            <thead>
+                                <tr>
+                                    <th width="3%" title="Id">Id</th>
+                                    <th style="min-width: 100px;" title="SelectType">SelectType</th>
+                                    <th title="Table">Table</th>
+                                    <th style="min-width: 100px;" title="Partitions">Partitions</th>
+                                    <th style="min-width: 100px;" title="CreateTable">CreateTable</th>
+                                    <th title="Type">Type</th>
+                                    <th style="min-width: 100px;" title="PossibleKeys">PossibleKeys</th>
+                                    <th title="Key">Key</th>
+                                    <th title="KeyLen">KeyLen</th>
+                                    <th width="5%" title="Ref">Ref</th>
+                                    <th title="Rows">Rows</th>
+                                    <th title="Extra">Extra</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr ng-repeat="row in queryExplainData">
+                                    <td title="{{ row.Id }}">{{ row.Id }}</td>
+                                    <td title="{{ row.SelectType }}">{{ row.SelectType }}</td>
+                                    <td title="{{ row.Table }}">{{ row.Table }}</td>
+                                    <td title="{{ row.Partitions }}">{{ row.Partitions }}</td>
+                                    <td title="{{ row.CreateTable }}">{{ row.CreateTable }}</td>
+                                    <td title="{{ row.Type }}">{{ row.Type }}</td>
+                                    <td title="{{ row.PossibleKeys }}">{{ row.PossibleKeys }}</td>
+                                    <td title="{{ row.Key }}">{{ row.Key }}</td>
+                                    <td title="{{ row.KeyLen }}">{{ row.KeyLen }}</td>
+                                    <td title="{{ row.Ref }}">{{ row.Ref }}</td>
+                                    <td title="{{ row.Rows }}">{{ row.Rows }}</td>
+                                    <td title="{{ row.Extra }}">{{ row.Extra }}</td>
+                                </tr>
+                            </tbody>
+                        </table>
                         <div ng-if="queryExplainError"
                             class="alert alert-danger"
                             role="alert">{{ queryExplainError }}</div>
+
                     </div>
                 </div>
             </div>
@@ -205,6 +287,7 @@
                                     <td>{{ name }}</td>
                                     <td>{{ value }}</td>
                                 </tr>
+                                <tr ng-if="tblStatus.length === 0"><td class="text-center" colspan="2">No data.</td></tr>
                                 </tbody>
                             </table>
                             <span ng-if="tblStatusError">
@@ -241,6 +324,9 @@
                                     <td>{{ row.Null ? 'Yes' : 'No' }}</td>
                                     <td ng-if="$first" rowspan="{{ ind.length }}">{{ row.Comment }}</td>
                                 </tr>
+                                </tbody>
+                                <tbody ng-if="tblIndex.length === 0">
+                                    <tr><td class="text-center" colspan="9">No data.</td></tr>
                                 </tbody>
                             </table>
                             <span ng-if="tblIndexError">

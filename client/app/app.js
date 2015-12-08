@@ -5,10 +5,6 @@
         'ngResource',
         'ngCookies',
         'ui.router',
-        'ui.grid',
-        'ui.grid.selection',
-        'ui.grid.autoResize',
-        'ui.grid.resizeColumns',
         'ui.bootstrap',
         'ui.bootstrap.datetimepicker',
         'chart.js',
@@ -27,9 +23,27 @@
       });
 
 
-    configure.$inject = ['$stateProvider', '$urlRouterProvider', '$resourceProvider'];
+    configure.$inject = ['$stateProvider', '$httpProvider', '$urlRouterProvider', '$resourceProvider'];
 
-    function configure($stateProvider, $urlRouterProvider, $resourceProvider) {
+    function configure($stateProvider, $httpProvider, $urlRouterProvider, $resourceProvider) {
+
+        // Intercept Angular external request to static files to append version number
+        // to defeat the cache problem.
+        $httpProvider.interceptors.push(function() {
+            return {
+                'request': function(config) {
+                    config.url = setVersionedUrl(config.url);
+                    return config;
+                }
+            };
+        });
+
+        function setVersionedUrl(url) {
+            // catch /ng/views/ HTML templates only
+            if (!url || url.indexOf('/client/') < 0) return url;
+            var param = 'v=' + STATIC_VERSION;
+            return url + '?' + param;
+        }
 
         $urlRouterProvider.otherwise('/');
 
@@ -55,20 +69,18 @@
                                   selected_instance: mysqls[0]
                               };
                           })
-                          .catch(function(resp){})
+                          .catch(function(resp, err){
+                              return {
+                                  error: 'Cannot connect to percona datastore.'
+                              };
+                          })
                           .finally(function(resp){});
                 }
             }
         })
         .state('root.instance-dt', {
-            //url: 'instance/:uuid/'
             url: 'instance/:uuid/begin/:begin/end/:end/',
         })
-        /*
-        .state('root.instance.dtrange', {
-            url: 'instance/:uuid/begin/:begin/end/:end/'
-        })
-        */
         .state('root.instance-dt.query', {
             url: 'query/:query_id/'
         });
@@ -78,7 +90,6 @@
         $rootScope.$state = $state;
         $rootScope.$stateParams = $stateParams;
         //$http.defaults.headers.common['X-Percona-API-Key'] = 1;
-        //$state.go('root');
     }]);
 
 })();
