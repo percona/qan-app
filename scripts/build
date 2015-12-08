@@ -85,9 +85,11 @@ if [ "$BRANCH" = "master" -a "$DEV" = "" ]; then
       fi
    else
       echo "Dev build of master branch @ $REV (latest commit has no version tag)"
+      DEV="yes"
    fi
 else
    echo "Dev build of $BRANCH branch @ $REV"
+   DEV="yes"
 fi
 
 # To distinguish dev and release builds, we append "-date.revision" to dev builds,
