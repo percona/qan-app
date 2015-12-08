@@ -77,11 +77,6 @@ check_req() {
    return 0
 }
 
-kill_all() {
-   killall percona-datastore 2>/dev/null    || true
-   killall revel 2>/dev/null                || true
-}
-
 # ###########################################################################
 # Execution starts here
 # ###########################################################################
@@ -99,7 +94,7 @@ if [ $# -eq 0 ]; then
    # cp: cannot create regular file `/usr/local/percona/datastore/percona-datastore': Text file busy
    if app_is_running; then
       echo "The app is already running, stopping it..."
-      kill_all
+      kill $APP_PID
    fi
 
    echo "Installing Percona QAN App..."
