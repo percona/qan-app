@@ -15,9 +15,7 @@
         'instance',
         function($scope, $rootScope, $filter, $state, QueryProfile,
                  Metric, Agent, Instance, $modal, instance) {
-            $scope.connection_error = false;
-            if ('error' in instance) {
-                $scope.connection_error = instance.error;
+            if ($rootScope.alerts.length) {
                 return null;
             }
             $scope.instance_uuid = instance.selected_instance.UUID;
@@ -375,7 +373,7 @@
 
             $scope.getTableInfo = function() {
                 $scope.reset();
-                if (!('Db' in $scope.selectedDbTable) || !('Table' in $scope.selectedDbTable)) {
+                if ($scope.selectedDbTable === null) {
                     return null;
                 }
                 var db = $scope.selectedDbTable.Db;

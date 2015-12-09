@@ -28,6 +28,7 @@
         <script src="/bower_components/angular-bootstrap-datetimepicker/src/js/datetimepicker.js"></script>
         <script src="/bower_components/angular-moment/angular-moment.min.js"></script>
         <script src="/bower_components/angular-bootstrap/ui-bootstrap.min.js"></script>
+        <script src="/bower_components/angular-bootstrap/ui-bootstrap-tpls.min.js"></script>
         <script src="/bower_components/angular-ui-router/release/angular-ui-router.min.js"></script>
         <script src="/client/app/controllers.js"></script>
         <script src="/client/app/services.js"></script>
@@ -36,12 +37,14 @@
     </head>
     <body>
         <div class="container-fluid">
-            <!--header class="page-header">
-                <img src="/client/content/img/logo.png">
-                <h1>Query Analytics <small>Percona</small></h1>
-            </header-->
             <nav class="navbar navbar-default navbar-fixed-top" topnav></nav>
             <main>
+                <div class="alert-float">
+                    <alert ng-repeat="alert in $root.alerts"
+                           type="{{ alert.type }}"
+                           close="closeAlert($index)"
+                           >{{ alert.msg }}</alert>
+                </div>
                 <div ui-view></div>
             </main>
             <footer>

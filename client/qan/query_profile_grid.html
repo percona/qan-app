@@ -1,8 +1,5 @@
 <div class="row">
     <div class="col-md-12">
-        <div ng-if="connection_error"
-            class="alert alert-danger"
-            role="alert">{{ connection_error }}</div>
         <div class="panel panel-default" ng-if="!connection_error">
             <div class="panel-heading">
                 Top 10 Queries by % Grand Total Time (%GTT)
@@ -205,9 +202,9 @@
                                 </tr>
                             </tbody>
                         </table>
-                        <div ng-if="queryExplainError"
-                            class="alert alert-danger"
-                            role="alert">{{ queryExplainError }}</div>
+                        <alert ng-if="queryExplainError"
+                            type="danger"
+                            role="alert">{{ queryExplainError }}</alert>
 
                     </div>
                 </div>

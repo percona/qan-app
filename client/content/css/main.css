@@ -67,3 +67,11 @@ div.pull-right-ui-grid-cell > div {
 div[hljs] > pre {
     background: white;
 }
+
+.alert-float {
+    position: fixed;
+    top: 10%;
+    left: 25%;
+    width: 50%;
+    z-index: 1050;
+}

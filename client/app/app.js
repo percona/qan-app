@@ -45,6 +45,43 @@
             return url + '?' + param;
         }
 
+        $httpProvider.interceptors.push(function($rootScope, $q) {
+            $rootScope.alerts = [];
+            $rootScope.closeAlert = function(index) {
+                $rootScope.alerts.splice(index, 1);
+            };
+            return {
+                request: function (config) {
+                    $rootScope.alerts = [];
+                    config.timeout = 1000;
+                    return config;
+                },
+                responseError: function (rejection) {
+                    switch (rejection.status) {
+                        case -1:
+                            $rootScope.alerts.pop();
+                            $rootScope.alerts.push({
+                                msg: 'Cannot connect to percona datastore.',
+                                type: 'danger'
+                            });
+                            break;
+                        case 408:
+                            $rootScope.alerts.push({
+                                msg: 'Connection timed out.',
+                                type: 'danger'
+                            });
+                            break;
+                        default:
+                            $rootScope.alerts.push({
+                                msg: 'Could not connect to percona datastore.',
+                                type: 'danger'
+                            });
+                    }
+                    return $q.reject(rejection);
+                }
+            }
+        });
+
         $urlRouterProvider.otherwise('/');
 
         $stateProvider.state('root', {
@@ -70,9 +107,6 @@
                               };
                           })
                           .catch(function(resp, err){
-                              return {
-                                  error: 'Cannot connect to percona datastore.'
-                              };
                           })
                           .finally(function(resp){});
                 }
