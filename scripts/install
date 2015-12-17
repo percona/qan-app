@@ -55,7 +55,7 @@ run_app() {
       cd "$BASEDIR"
       ./start > /dev/null
       if [ $? -eq 0 ]; then
-         echo "Started Percona QAN App on port $PORT. To check its log file:"
+         echo "Started Percona QAN App on $LISTEN To check its log file:"
          echo
          echo "  tail -f $BASEDIR/percona-qan-app.log"
          echo
