@@ -10,7 +10,6 @@
     pplDirectives.directive('topnav',  function topnav() {
         var controller = ['$scope', function ($scope) {
             var now = new Date();
-            //var start_time = 
         }];
         return {
             restrict: 'EA',

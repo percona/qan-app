@@ -66,6 +66,7 @@ div.pull-right-ui-grid-cell > div {
 
 div[hljs] > pre {
     background: white;
+    border: none;
 }
 
 .alert-float {
@@ -75,3 +76,11 @@ div[hljs] > pre {
     width: 50%;
     z-index: 1050;
 }
+
+/*
+div.tab-pane.ng-scope.active {
+    border-bottom: 1px #ddd solid;
+    border-left: 1px #ddd solid;
+    border-right: 1px #ddd solid;
+}
+*/

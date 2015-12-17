@@ -15,25 +15,39 @@
         'instance',
         function($scope, $rootScope, $filter, $state, QueryProfile,
                  Metric, Agent, Instance, $modal, instance) {
-            if ($rootScope.alerts.length) {
-                return null;
-            }
-            $scope.instance_uuid = instance.selected_instance.UUID;
-            $scope.instance_DSN = instance.selected_instance.DSN.replace(/:[0-9a-zA-Z]+@/, ':************@');
-
-            $rootScope.instances = instance.instances;
-            $rootScope.instance = instance.selected_instance;
 
             $scope.init = function() {
-                $scope.colSize = 'col-md-6';
-                $scope.getAgent();
-                $scope.query = '';
-                // it is need to disable future dates.
-                $rootScope.dtCal = null;
-                $scope.queryExplain = '';
+                $scope.qanData = [];
+                if ($rootScope.alerts.length === 0) {
+                    $scope.instance_uuid = instance.selected_instance.UUID;
+                    $scope.instance_DSN = instance.selected_instance.DSN.replace(/:[0-9a-zA-Z]+@/, ':************@');
 
-                $rootScope.time_range = '1h';
-                $scope.setTimeRange('1h');
+                    $rootScope.instances = instance.instances;
+                    $rootScope.instance = instance.selected_instance;
+
+
+                    $scope.getAgent();
+                    $scope.query = '';
+                    // it is need to disable future dates.
+                    $rootScope.dtCal = null;
+                    $scope.queryExplain = '';
+
+                    $rootScope.time_range = '1h';
+                    $scope.setTimeRange('1h');
+                    $rootScope.$watch('time_range', function(time_range, old_time_range) {
+                        if (time_range === 'cal') {
+                            $scope.old_time_range = old_time_range;
+                        } else {
+                            $scope.setTimeRange(time_range);
+                        }
+                    });
+                    $rootScope.$watch('instance', function(instance, old_instance) {
+                        $scope.getProfile();
+                        $state.go('root.instance-dt', {
+                            uuid: instance.UUID
+                        });
+                    });
+                }
             };
 
             $scope.getAgent = function () {
@@ -47,20 +61,7 @@
                       .finally(function(resp){});
             };
 
-            $rootScope.$watch('time_range', function(time_range, old_time_range) {
-                if (time_range === 'cal') {
-                    $scope.old_time_range = old_time_range;
-                } else {
-                    $scope.setTimeRange(time_range);
-                }
-            });
 
-            $rootScope.$watch('instance', function(instance, old_instance) {
-                $scope.getProfile();
-                $state.go('root.instance-dt', {
-                    uuid: instance.UUID
-                });
-            });
 
             var checkActive = function($view, min_date, max_date, date_i) {
                 var isBetween = date_i.isBetween(min_date, max_date);
@@ -115,6 +116,7 @@
                     $scope.e = $scope.end.clone();
                     $scope.begin = $scope.begin.format('YYYY-MM-DDTHH:mm:ss');
                     $scope.end = $scope.end.format('YYYY-MM-DDTHH:mm:ss');
+                    $rootScope.query = null;
                     $state.go('root.instance-dt', {
                         uuid: $rootScope.instance.UUID,
                         begin: $scope.begin,
@@ -131,6 +133,7 @@
             };
 
             $scope.setTimeRange = function(time_range) {
+                $rootScope.query = null;
                 var begin = moment.utc();
                 var end = moment.utc();
                 switch (time_range) {
@@ -175,6 +178,7 @@
             $scope.qanSelectRow = function(row) {
                 $scope.query_id = row.Id;
                 $scope.query_abstract = row.Abstract;
+                $rootScope.query_abstract = row.Abstract;
                 $state.go('root.instance-dt.query', {
                     query_id: row.Id
                 });
@@ -257,14 +261,15 @@
         '$scope',
         '$rootScope',
         '$state',
-        function($scope, $rootScope, $state) {
+        '$filter',
+        function($scope, $rootScope, $state, $filter) {
             $scope.init = function () {
                 $scope.toggleQuery = 'example';
-                $rootScope.$watch('query',
-                    function (newValue, oldValue) {
-                            $scope.changeQuery();
+                $rootScope.$watch('query', function (newValue, oldValue) {
+                    if ($rootScope.query !== null) {
+                        $scope.changeQuery();
                     }
-                );
+                });
             };
 
             $scope.changeQuery = function() {
@@ -277,8 +282,8 @@
                 $scope.lastSeenAgo = moment($rootScope.query.LastSeen,
                                             'YYYY-MM-DDTHH:mm:ssZ').fromNow();
 
-                $scope.example = vkbeautify.sql($rootScope.example.Query);
-                $scope.fingerprint = vkbeautify.sql($rootScope.query.Fingerprint);
+                $scope.example = $filter('sqlReformat')($rootScope.example.Query);
+                $scope.fingerprint = $filter('sqlReformat')($rootScope.query.Fingerprint);
             };
 
             $scope.init();
@@ -291,17 +296,33 @@
         'AgentCmd',
         function($scope, $rootScope, $filter, AgentCmd) {
             $scope.init = function () {
-                $rootScope.$watch('query',
-                    function (newValue, oldValue) {
-                        if (newValue.Tables === null || newValue.Tables.length === 0 || newValue.Tables[0].Db === '') {
-                            $scope.db = '';
-                            $scope.queryExplainData = [];
-                        } else {
-                            $scope.db = newValue.Tables[0].Db;
+                $rootScope.$watch('query', function (newValue, oldValue) {
+                    if ($rootScope.query !== null) {
+                        $scope.db = '';
+                        $scope.queryExplainData = [];
+                        $scope.queryExplainError = '';
+                        if (newValue.Tables !== null && newValue.Tables.length > 0 && newValue.Tables[0].Db !== '') {
+                            $scope.db = angular.copy(newValue.Tables[0].Db);
                             $scope.getQueryExplain();
                         }
                     }
-                );
+                });
+            };
+
+            $scope.explainErrorMsg = function() {
+                var allowedFor56= ['SELECT', 'DELETE', 'INSERT', 'REPLACE', 'UPDATE'];
+                var ver = $rootScope.instance.Version.split('.');
+                var majorVersion = ver[0];
+                var minorVersion = ver[1];
+                var isNewer56 = majorVersion == 5 && minorVersion >= 6 || majorVersion > 5;
+                var action = $rootScope.query_abstract.split(' ')[0];
+                if (allowedFor56.indexOf(action) === -1) {
+                    return 'MySQL cannot EXPLAIN ' + action + ' queries';
+                } else if (!isNewer56 && allowedFor56.indexOf(action) > 0) {
+                    return 'MySQL 5.6 or newer and ' + action + ' privileges are required to EXPLAIN this ' + action + ' query';
+                } else {
+                    return '';
+                }
             };
 
             $scope.getQueryExplain = function() {
@@ -323,10 +344,10 @@
                 p.$promise
                 .then(function (data) {
                         $scope.queryExplain = true;
-                        $scope.queryExplainError = '';
                         if (data.Error === '') {
                             var explain = JSON.parse(atob(data.Data));
                             $scope.queryExplainData = explain.Classic;
+                            $scope.queryExplainError = '';
                         } else {
                             $scope.queryExplainError = data.Error;
                         }
@@ -346,20 +367,20 @@
         'AgentCmd',
         function($scope, $rootScope, $filter, AgentCmd) {
             $scope.init = function () {
+                $scope.dbTables = [];
                 $scope.toggleTableInfo = 'create';
-                $rootScope.$watch('query',
-                    function (newValue, oldValue) {
-                            if (newValue.Tables === null || newValue.Tables[0].Db === '') {
-                                $scope.dbTables = [];
-                                $scope.reset();
-                            } else {
-                                $scope.dbTables = newValue.Tables;
-                                $scope.selectedDbTable = $scope.dbTables[0];
-                                $scope.getTableInfo();
-                            }
+                $rootScope.$watch('query', function (newValue, oldValue) {
+                    if ($rootScope.query !== null) {
+                        if (newValue.Tables === null || newValue.Tables[0].Db === '') {
+                            $scope.dbTables = [];
+                            $scope.reset();
+                        } else {
+                            $scope.dbTables = newValue.Tables;
+                            $scope.selectedDbTable = $scope.dbTables[0].Db + '.' + $scope.dbTables[0].Table;
+                            $scope.getTableInfo();
+                        }
                     }
-                );
-
+                });
             };
 
             $scope.reset = function () {
@@ -376,9 +397,10 @@
                 if ($scope.selectedDbTable === null) {
                     return null;
                 }
-                var db = $scope.selectedDbTable.Db;
-                var tbl = $scope.selectedDbTable.Table;
-                var db_tbl = db + '.' + tbl;
+                var dbTbl = $scope.selectedDbTable.split('.');
+                var db = dbTbl[0];
+                var tbl = dbTbl[1]
+                var db_tbl = $scope.selectedDbTable;
 
                 var data = {
                     "UUID": $rootScope.instance.UUID,
@@ -407,7 +429,7 @@
                 p.$promise
                 .then(function (data) {
                         $scope.tableInfo = JSON.parse(atob(data.Data));
-                        if ('Errors' in $scope.tableInfo[db_tbl]) {
+                        if ($scope.tableInfo instanceof Object && 'Errors' in $scope.tableInfo[db_tbl]) {
                             var errors = $scope.tableInfo[db_tbl].Errors;
                             for (var i=0; i<errors.length; i++) {
                                 if (errors[i].startsWith('SHOW CREATE')) {
@@ -422,17 +444,17 @@
                             }
                         }
                         // Get table create
-                        if ('Create' in $scope.tableInfo[db_tbl]) {
-                            $scope.tblCreate = vkbeautify.sql($scope.tableInfo[db_tbl].Create);
+                        if ($scope.tableInfo instanceof Object && 'Create' in $scope.tableInfo[db_tbl]) {
+                            $scope.tblCreate = $scope.tableInfo[db_tbl].Create;
                         }
 
                         // Get Status
-                        if ('Status' in $scope.tableInfo[db_tbl]) {
+                        if ($scope.tableInfo instanceof Object && 'Status' in $scope.tableInfo[db_tbl]) {
                             $scope.tblStatus = $scope.tableInfo[db_tbl].Status;
                         }
 
                         // Get indexes
-                        if ('Index' in $scope.tableInfo[db_tbl]) {
+                        if ($scope.tableInfo instanceof Object && 'Index' in $scope.tableInfo[db_tbl]) {
                             $scope.tblIndex = $scope.tableInfo[db_tbl].Index;
                         }
                 })
@@ -445,8 +467,13 @@
                     'Db': dbTbl[0],
                     'Table': dbTbl[1]
                 };
-                $scope.dbTables.unshift(option);
-                $scope.selectedDbTable = $scope.dbTables[0];
+
+                if ($scope.dbTables.length === 0) {
+                    $scope.dbTables = [option];
+                } else {
+                    $scope.dbTables.unshift(option);
+                }
+                $scope.selectedDbTable = $scope.dbTables[0].Db + '.' + $scope.dbTables[0].Table;
                 $scope.getTableInfo();
                 $scope.dbTable = '';
             };

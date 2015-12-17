@@ -119,8 +119,19 @@ sed -e "s/v[0-9].[0-9].[0-9]/v$VER/" "$ROOT_DIR/index.html" > index.html
 # Copy the AngularJS app.
 cp -R "$ROOT_DIR/client" ./client/
 
-# Copy 3rd-party JS and CSS.
-cp -R "$ROOT_DIR/bower_components" ./bower_components/
+# Copy only the needed 3rd-party JS scripts, i.e. ones loaded by index.html.
+mkdir bower_components
+for file in $(perl -ne 'm/(bower_components[^"]+)/ and print $1, "\n"' "$ROOT_DIR/index.html"); do
+   dir="$(dirname $file)"
+   mkdir -p "$dir"
+   cp "$ROOT_DIR/$file" "$dir"
+   if [ -e "$ROOT_DIR/$file.map" ]; then
+       cp "$ROOT_DIR/$file.map" "$dir"
+   fi
+done
+
+# Copy all of Bootstrap.
+cp -R "$ROOT_DIR/bower_components/bootstrap/dist/"* bower_components/bootstrap/dist
 
 # Go up one dir to distro/ and tarball the disto dir.
 cd ..

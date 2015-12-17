@@ -12,6 +12,7 @@
         'pplControllers',
         'pplServices',
         'pplDirectives',
+        'pplFilters',
         'angularMoment'
     ]).config(configure)
       .constant('constants', {
@@ -52,35 +53,39 @@
             };
             return {
                 request: function (config) {
-                    $rootScope.alerts = [];
                     config.timeout = 1000;
                     return config;
                 },
                 responseError: function (rejection) {
+                    $rootScope.alerts.pop();
+                    $rootScope.connect_error = false;
                     switch (rejection.status) {
                         case -1:
-                            $rootScope.alerts.pop();
                             $rootScope.alerts.push({
                                 msg: 'Cannot connect to percona datastore.',
                                 type: 'danger'
                             });
+                            $rootScope.connect_error = true;
                             break;
                         case 408:
                             $rootScope.alerts.push({
                                 msg: 'Connection timed out.',
                                 type: 'danger'
                             });
+                            $rootScope.connect_error = true;
                             break;
                         default:
                             $rootScope.alerts.push({
                                 msg: 'Could not connect to percona datastore.',
                                 type: 'danger'
                             });
+                            $rootScope.connect_error = true;
                     }
                     return $q.reject(rejection);
                 }
             }
         });
+
 
         $urlRouterProvider.otherwise('/');
 
