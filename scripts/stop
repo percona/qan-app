@@ -5,7 +5,7 @@ HOST="${LISTEN%:*}"
 PORT="${LISTEN#*:}"
 
 app_is_running() {
-   pid=$(ps ax | grep "python -c 'import BaseHTTPServer as bhs, SimpleHTTPServer as shs; bhs.HTTPServer((\"$HOST\", $PORT), shs.SimpleHTTPRequestHandler).serve_forever()'" | grep -v grep | awk '{print $1}')
+   pid=$(ps ax | grep "QAN-$HOST-$PORT" | grep -v grep | awk '{print $1}')
    [ "$pid" ] && return 0 # running
    return 1 # not running
 }
