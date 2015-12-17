@@ -18,7 +18,9 @@
 set -ue
 
 BASEDIR="${BASEDIR:-"/usr/local/percona/qan-app"}"
-PORT="${PORT:-"8000"}"
+LISTEN="${LISTEN:-"127.0.0.1:8000"}"
+HOST="${LISTEN%:*}"
+PORT="${LISTEN#*:}"
 CHECK_REQ="${CHECK_REQ:-"yes"}"
 
 err() {
@@ -35,11 +37,11 @@ usage() {
    echo
    echo "Environment variables:"
    echo "  BASEDIR    ($BASEDIR)"
-   echo "  PORT       ($PORT)"
+   echo "  LISTEN       ($LISTEN)"
 }
 
 app_is_running() {
-   APP_PID="$(ps ax | grep "python -m SimpleHTTPServer $PORT" | grep -v grep | awk '{print $1}')"
+   APP_PID=$(ps ax | grep "python -c 'import BaseHTTPServer as bhs, SimpleHTTPServer as shs; bhs.HTTPServer((\"$HOST\", $PORT), shs.SimpleHTTPRequestHandler).serve_forever()'" | grep -v grep | awk '{print $1}')
    [ "$APP_PID" ] && return 0 # running
    return 1 # not running
 }
@@ -84,7 +86,7 @@ check_req() {
 SCRIPT_DIR="$(dirname $0)"
 cd "$SCRIPT_DIR"
 
-if [ $# -eq 0 ]; then 
+if [ $# -eq 0 ]; then
    # Check system requirements, best effort to ensure install will succeed.
    if [ "$CHECK_REQ" = "yes" ]; then
       check_req || exit 1
@@ -110,10 +112,10 @@ if [ $# -eq 0 ]; then
    cp -r * "$BASEDIR"
    rm "$BASEDIR/install"
 
-   sed -e "s/:PORT/$PORT/g" "./start" > "$BASEDIR/start"
-   sed -e "s/:PORT/$PORT/g" "./stop" > "$BASEDIR/stop"
+   sed -e "s/:LISTEN/$LISTEN/g" "./start" > "$BASEDIR/start"
+   sed -e "s/:LISTEN/$LISTEN/g" "./stop" > "$BASEDIR/stop"
 
-   run_app 
+   run_app
 
 elif [ $# -eq 1 ]; then
    case $1 in
