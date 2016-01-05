@@ -18,7 +18,7 @@
 set -ue
 
 BASEDIR="${BASEDIR:-"/usr/local/percona/qan-app"}"
-LISTEN="${LISTEN:-"127.0.0.1:8000"}"
+LISTEN="${LISTEN:-"0.0.0.0:8000"}"
 HOST="${LISTEN%:*}"
 PORT="${LISTEN#*:}"
 CHECK_REQ="${CHECK_REQ:-"yes"}"
@@ -37,7 +37,7 @@ usage() {
    echo
    echo "Environment variables:"
    echo "  BASEDIR    ($BASEDIR)"
-   echo "  LISTEN       ($LISTEN)"
+   echo "  LISTEN     ($LISTEN)"
 }
 
 app_is_running() {
@@ -50,12 +50,19 @@ run_app() {
    app_is_running \
       && err "Percona QAN App is already running (PID $APP_PID). Use the 'killall' command and try again."
 
-   # Run the API (via Revel) and the consumers.
    (
       cd "$BASEDIR"
       ./start > /dev/null
       if [ $? -eq 0 ]; then
-         echo "Started Percona QAN App on $LISTEN To check its log file:"
+         if [ "$HOST" = "0.0.0.0" ]; then
+            echo
+            echo "WARNING: Percona QAN App is listening on all interfaces ($LISTEN). This could be a security risk." \
+               "To listen on a specific interface, reinstall and specify LISTEN=<interface IP>:<port>. For example:" \
+               "LISTEN=10.0.0.1:8000 ./install"
+            echo
+            sleep 1
+         fi
+         echo "Started Percona QAN App on $LISTEN. To check its log file:"
          echo
          echo "  tail -f $BASEDIR/percona-qan-app.log"
          echo
