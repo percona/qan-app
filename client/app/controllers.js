@@ -330,7 +330,8 @@
                 var data = {
                     "UUID": $rootScope.instance.UUID,
                     "Db": db,
-                    "Query": $rootScope.example.Query
+                    "Query": $rootScope.example.Query,
+                    "Convert": true,  // agent will convert if not SELECT and MySQL <= 5.5 or >= 5.6 but no privs
                 };
                 var params = {
                     AgentUUID: $rootScope.agent.UUID,
