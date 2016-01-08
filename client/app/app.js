@@ -3,6 +3,7 @@
 
     var ppl = angular.module('ppl', [
         'ngResource',
+        'ngSanitize',
         'ngCookies',
         'ui.router',
         'ui.bootstrap',
@@ -28,16 +29,6 @@
 
     function configure($stateProvider, $httpProvider, $urlRouterProvider, $resourceProvider) {
 
-        // Intercept Angular external request to static files to append version number
-        // to defeat the cache problem.
-        $httpProvider.interceptors.push(function() {
-            return {
-                'request': function(config) {
-                    config.url = setVersionedUrl(config.url);
-                    return config;
-                }
-            };
-        });
 
         function setVersionedUrl(url) {
             // catch /ng/views/ HTML templates only
@@ -46,15 +37,26 @@
             return url + '?' + param;
         }
 
-        $httpProvider.interceptors.push(function($rootScope, $q) {
+        $httpProvider.interceptors.push(function($rootScope, $q, constants) {
             $rootScope.alerts = [];
             $rootScope.closeAlert = function(index) {
                 $rootScope.alerts.splice(index, 1);
             };
             return {
                 request: function (config) {
-                    config.timeout = 1000;
+                    config.timeout = 10000;
+                    // Intercept Angular external request to static files
+                    // to append version number to defeat the cache problem.
+                    config.url = setVersionedUrl(config.url);
+                    config.useLegacyPromise = false;
                     return config;
+                },
+                requestError: function(rejection) {
+                    // do something on error
+                    return $q.reject(rejection);
+                },
+                response: function(response) {
+                    return response;
                 },
                 responseError: function (rejection) {
                     $rootScope.alerts.pop();
@@ -62,28 +64,29 @@
                     switch (rejection.status) {
                         case -1:
                             $rootScope.alerts.push({
-                                msg: 'Cannot connect to percona datastore.',
-                                type: 'danger'
-                            });
-                            $rootScope.connect_error = true;
-                            break;
-                        case 408:
-                            $rootScope.alerts.push({
-                                msg: 'Connection timed out.',
+                                msg: 'Cannot connect to the datastore. ' +
+                                     'Please check it is running at ' +
+                                     '<a href="' + constants.API_PATH + '">' +
+                                     constants.API_PATH +
+                                     '</a> and your firewall does not block it.',
                                 type: 'danger'
                             });
                             $rootScope.connect_error = true;
                             break;
                         default:
                             $rootScope.alerts.push({
-                                msg: 'Could not connect to percona datastore.',
+                                msg: 'Cannot connect to the datastore. ' +
+                                     'Please check it is running at ' +
+                                     '<a href="' + constants.API_PATH + '">' +
+                                     constants.API_PATH +
+                                     '</a> and your firewall does not block it.',
                                 type: 'danger'
                             });
                             $rootScope.connect_error = true;
                     }
                     return $q.reject(rejection);
                 }
-            }
+            };
         });
 
 
@@ -128,7 +131,6 @@
     ppl.run(['$rootScope', '$state', '$stateParams', '$http', function($rootScope, $state, $stateParams, $http) {
         $rootScope.$state = $state;
         $rootScope.$stateParams = $stateParams;
-        //$http.defaults.headers.common['X-Percona-API-Key'] = 1;
     }]);
 
 })();

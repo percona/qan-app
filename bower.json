@@ -20,21 +20,22 @@
     "tests"
   ],
   "dependencies": {
-    "angular": "~1.4.7",
+    "angular": "~1.4.8",
     "angular-bootstrap": "~0.13.3",
     "angular-moment": "~0.10.3",
     "angular-resource": "~1.4.5",
     "angular-ui-router": "~0.2.15",
     "bootstrap": "~3.3.5",
     "moment": "~2.10.6",
-    "angular-bootstrap-datetimepicker": "~0.3.14",
+    "angular-bootstrap-datetimepicker": "~0.4.0",
     "angular-chart.js": "~0.8.4",
     "angular-highlightjs": "~0.5.1",
     "highlightjs": "~8.9.1",
     "vkBeautify": "vkbeautify#*",
-    "angular-cookies": "~1.4.8"
+    "angular-cookies": "~1.4.8",
+    "angular-sanitize": "~1.4.8"
   },
   "resolutions": {
-    "angular": "~1.4.7"
+    "angular": "~1.4.8"
   }
 }

@@ -44,7 +44,7 @@
                     $rootScope.$watch('instance', function(instance, old_instance) {
                         $scope.getProfile();
                         $state.go('root.instance-dt', {
-                            uuid: instance.UUID
+                            uuid: $rootScope.instance.UUID,
                         });
                     });
                 }
@@ -98,8 +98,8 @@
                     var date1 = $filter('date')(newDate, 'yyyy-MM-dd HH:mm:ss');
                     $scope.date1 = moment.utc(date1, 'YYYY-MM-DD HH:mm:ss');
 
-                    $rootScope.dtRange = $scope.date1.format('YYYY-MM-DD HH:mm:ss')
-                                       + ' - Please select one more date';
+                    $rootScope.dtRange = $scope.date1.format('YYYY-MM-DD HH:mm:ss') +
+                                         ' - Please select one more date';
                 } else {
                     var date2 = $filter('date')(newDate, 'yyyy-MM-dd HH:mm:ss');
                     $scope.date2 = moment.utc(date2, 'YYYY-MM-DD HH:mm:ss');
@@ -122,10 +122,10 @@
                         begin: $scope.begin,
                         end: $scope.end
                     });
-                    $rootScope.dtRange = $scope.b.format('YYYY-MM-DD HH:mm:ss')
-                                       + ' to '
-                                       + $scope.e.format('YYYY-MM-DD HH:mm:ss')
-                                       + ' UTC';
+                    $rootScope.dtRange = $scope.b.format('YYYY-MM-DD HH:mm:ss') +
+                                         ' to ' +
+                                         $scope.e.format('YYYY-MM-DD HH:mm:ss') +
+                                         ' UTC';
                     $scope.getProfile();
                     $scope.date1 = undefined;
                     $scope.date2 = undefined;
@@ -136,36 +136,39 @@
                 $rootScope.query = null;
                 var begin = moment.utc();
                 var end = moment.utc();
+                $scope.min_dt = undefined;
+                $scope.max_dt = undefined;
+                $rootScope.$broadcast('resetCal');
                 switch (time_range) {
                     case '1h':
                         begin.subtract(1, 'hours');
-                        break
+                        break;
                     case '3h':
                         begin.subtract(3, 'hours');
-                        break
+                        break;
                     case '6h':
                         begin.subtract(6, 'hours');
-                        break
+                        break;
                     case '12h':
                         begin.subtract(12, 'hours');
-                        break
+                        break;
                     case '1d':
                         begin.subtract(1, 'days');
-                        break
+                        break;
                     case '5d':
                         begin.subtract(5, 'days');
-                        break
+                        break;
                     case 'cal':
-                        break
+                        break;
                     default:
                         begin.subtract(1, 'days');
                 }
                 $scope.begin = begin.format('YYYY-MM-DDTHH:mm:ss');
                 $scope.end = end.format('YYYY-MM-DDTHH:mm:ss');
-                $rootScope.dtRange = begin.format('YYYY-MM-DD HH:mm:ss')
-                                   + ' to '
-                                   + end.format('YYYY-MM-DD HH:mm:ss')
-                                   + ' UTC';
+                $rootScope.dtRange = begin.format('YYYY-MM-DD HH:mm:ss') +
+                                     ' to ' +
+                                     end.format('YYYY-MM-DD HH:mm:ss') +
+                                     ' UTC';
 
                 $state.go('root.instance-dt', {
                     uuid: $rootScope.instance.UUID,
@@ -187,6 +190,8 @@
             $scope.getProfile = function() {
                 $scope.queryExplain = '';
                 $scope.query = '';
+                $rootScope.query = null;
+                $scope.query_id = null;
                 var params = {
                     instance_uuid: $rootScope.instance.UUID,
                     begin: $scope.begin,
@@ -246,13 +251,13 @@
                           for (var key in resp.Metrics) {
                               var obj = {'Metrics': key};
                               angular.extend(obj, resp.Metrics[key]);
-                              data.push(obj)
+                              data.push(obj);
                           }
                           $scope.metricsData = data;
                       })
                       .catch(function(resp){})
                       .finally(function(resp){});
-            }
+            };
 
             $scope.init();
     }]);
@@ -400,7 +405,7 @@
                 }
                 var dbTbl = $scope.selectedDbTable.split('.');
                 var db = dbTbl[0];
-                var tbl = dbTbl[1]
+                var tbl = dbTbl[1];
                 var db_tbl = $scope.selectedDbTable;
 
                 var data = {
