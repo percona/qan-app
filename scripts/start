@@ -3,9 +3,10 @@ BASEDIR=$(cd "$(dirname "$0")"; pwd)
 LISTEN="${LISTEN:-":LISTEN"}"
 HOST="${LISTEN%:*}"
 PORT="${LISTEN#*:}"
+BG="${BG:-"yes"}"
 
 app_is_running() {
-   pid=$(ps ax | grep "QAN-$HOST-$PORT" | grep -v grep | awk '{print $1}')
+   pid=$(ps ax | grep "percona-qan-app-$PORT" | grep -v grep | awk '{print $1}')
    [ "$pid" ] && return 0 # running
    return 1 # not running
 }
@@ -14,10 +15,15 @@ if app_is_running; then
    kill $pid
 fi
 
-python -c "import BaseHTTPServer as bhs, SimpleHTTPServer as shs; bhs.HTTPServer(('$HOST', $PORT), shs.SimpleHTTPRequestHandler).serve_forever() # QAN-$HOST-$PORT" >> percona-qan-app.log 2>&1 &
-pid=$!
-if [ $? -ne 0 ]; then
-   echo "Error started Percona QAN app. Check the log file: $BASEDIR/percona-qan-app.log" >&2
-   exit 1
+cmd="python -c \"import BaseHTTPServer as bhs, SimpleHTTPServer as shs; bhs.HTTPServer(('$HOST', $PORT), shs.SimpleHTTPRequestHandler).serve_forever() # percona-qan-app-$PORT\""
+if [ "$BG" = "yes" ]; then
+   eval "$cmd >> percona-qan-app.log 2>&1 &"
+   pid=$!
+   if [ $? -ne 0 ]; then
+      echo "Error started Percona QAN app. Check the log file: $BASEDIR/percona-qan-app.log" >&2
+      exit 1
+   fi
+   echo "Percona Query Analytics app running as PID $pid"
+else
+   eval "$cmd"
 fi
-echo "Percona QAN App running as PID $pid"

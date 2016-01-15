@@ -5,14 +5,14 @@ HOST="${LISTEN%:*}"
 PORT="${LISTEN#*:}"
 
 app_is_running() {
-   pid=$(ps ax | grep "QAN-$HOST-$PORT" | grep -v grep | awk '{print $1}')
+   pid=$(ps ax | grep "percona-qan-app-$PORT" | grep -v grep | awk '{print $1}')
    [ "$pid" ] && return 0 # running
    return 1 # not running
 }
 
 if app_is_running; then
    kill $pid
-   echo "Stopped Percona QAN App"
+   echo "Stopped Percona Query Analytics app"
 else
-   echo "Percona QAN App is not running"
+   echo "Percona Query Analytics app is not running"
 fi

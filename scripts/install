@@ -22,6 +22,7 @@ LISTEN="${LISTEN:-"0.0.0.0:8000"}"
 HOST="${LISTEN%:*}"
 PORT="${LISTEN#*:}"
 CHECK_REQ="${CHECK_REQ:-"yes"}"
+START="${START:-"yes"}"
 
 err() {
    echo "ERROR: $*" >&2
@@ -122,8 +123,9 @@ if [ $# -eq 0 ]; then
    sed -e "s/:LISTEN/$LISTEN/g" "./start" > "$BASEDIR/start"
    sed -e "s/:LISTEN/$LISTEN/g" "./stop" > "$BASEDIR/stop"
 
-   run_app
-
+   if [ "$START" = "yes" ]; then
+      run_app
+   fi
 elif [ $# -eq 1 ]; then
    case $1 in
       help)
