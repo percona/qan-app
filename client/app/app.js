@@ -44,7 +44,7 @@
             };
             return {
                 request: function (config) {
-                    config.timeout = 10000;
+                    config.timeout = 5000;
                     // Intercept Angular external request to static files
                     // to append version number to defeat the cache problem.
                     config.url = setVersionedUrl(config.url);
@@ -97,16 +97,27 @@
             templateUrl: '/client/qan/query_profile_grid.html',
             controller: 'QueryProfileController',
             resolve: {
-                instance: function (Instance) {
+                instance: function (Instance, $rootScope) {
                     return Instance.query()
                           .$promise
                           .then(function(resp) {
                               var mysqls = [];
-                              for (var i=0; i < resp.length; i++) {
-                                  if (resp[i].Subsystem === 'mysql') {
-                                       resp[i].DSN = resp[i].DSN.replace(/:[0-9a-zA-Z]+@/, ':************@');
-                                       mysqls.push(resp[i]);
+                              if (resp.length === 0) {
+                                  $rootScope.alerts.push({
+                                      msg: 'There are no MySQL instances. ' +
+                                           'Install the agent on a server, ' +
+                                           'then refresh this page.',
+                                      type: 'danger'
+                                  });
+                                  $rootScope.connect_error = true;
+                              } else {
+                                  for (var i=0; i < resp.length; i++) {
+                                      if (resp[i].Subsystem === 'mysql') {
+                                          resp[i].DSN = resp[i].DSN.replace(/:[0-9a-zA-Z]+@/, ':************@');
+                                          mysqls.push(resp[i]);
+                                      }
                                   }
+
                               }
 
                               return {
@@ -115,6 +126,15 @@
                               };
                           })
                           .catch(function(resp, err){
+                              $rootScope.alerts.push({
+                                  msg: 'Datastore API error: ' +
+                                       'GET ' + API_PATH + '/instances ' +
+                                       'returned status code ' + resp.status +
+                                       ', expected 200. Check the datastore ' +
+                                       'log file for more information.',
+                                  type: 'danger'
+                              });
+                              $rootScope.connect_error = true;
                           })
                           .finally(function(resp){});
                 }

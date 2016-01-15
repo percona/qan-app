@@ -14,7 +14,7 @@
                             <th title="Query Abstract">Query Abstract</th>
                             <th title="ID">ID</th>
                             <th title="% of Grand Total Time">%GTT</th>
-                            <th title="Total Time">Total Time</th>
+                            <th title="Load">Load</th>
                             <th title="QPS">QPS</th>
                             <th title="Min">Min</th>
                             <th title="Avg">Avg</th>
@@ -29,13 +29,13 @@
                             <td title="{{ row.Abstract }}"><a ui-sref="root.instance-dt.query({query_id: row.Id})">{{ row.Abstract }}</a></td>
                             <td title="{{ row.Id }}">{{ row.Id }}</td>
                             <td class="text-right" title="{{ (row.Percentage*100).toFixed(2) }}%">{{ (row.Percentage*100).toFixed(2) }}%</td>
-                            <td class="text-right" title="{{ row.Stats.Sum.toFixed(2) }}">{{ row.Stats.Sum.toFixed(2) }}</td>
+                            <td class="text-right" title="{{ row.Load }}">{{ row.Load.toFixed(8) }}</td>
                             <td class="text-right" title="{{ row.QPS.toFixed(2) }}">{{ row.QPS.toFixed(2) }}</td>
-                            <td class="text-right" title="{{ (row.Stats.Min*1000).toFixed(2) }}ms">{{ (row.Stats.Min*1000).toFixed(2) }}ms</td>
-                            <td class="text-right" title="{{ (row.Stats.Avg*1000).toFixed(2) }}ms">{{ (row.Stats.Avg*1000).toFixed(2) }}ms</td>
-                            <td class="text-right" title="{{ (row.Stats.Med*1000).toFixed(2) }}ms">{{ (row.Stats.Med*1000).toFixed(2) }}ms</td>
-                            <td class="text-right" title="{{ (row.Stats.P95*1000).toFixed(2) }}ms">{{ (row.Stats.P95*1000).toFixed(2) }}ms</td>
-                            <td class="text-right" title="{{ (row.Stats.Max*1000).toFixed(2) }}ms">{{ (row.Stats.Max*1000).toFixed(2) }}ms</td>
+                            <td class="text-right" title="{{ (row.Stats.Min*1000).toFixed(2) }}ms">{{ row.Stats.Min | humanize }}</td>
+                            <td class="text-right" title="{{ (row.Stats.Avg*1000).toFixed(2) }}ms">{{ row.Stats.Avg | humanize }}</td>
+                            <td class="text-right" title="{{ (row.Stats.Med*1000).toFixed(2) }}ms">{{ row.Stats.Med | humanize }}</td>
+                            <td class="text-right" title="{{ (row.Stats.P95*1000).toFixed(2) }}ms">{{ row.Stats.P95 | humanize }}</td>
+                            <td class="text-right" title="{{ (row.Stats.Max*1000).toFixed(2) }}ms">{{ row.Stats.Max | humanize }}</td>
                         </tr>
                         <tr ng-if="qanData.length===0"><td class="text-center" colspan="11">No data for selected time-range.</td></tr>
                     </tbody>
