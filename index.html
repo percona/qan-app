@@ -48,6 +48,9 @@
                            ><span ng-bind-html="alert.msg"></span>
                     </alert>
                 </div>
+                <div class="load-float" ng-if="$root.loading">
+                    <span class="glyphicon glyphicon-refresh glyphicon-spin"></span>
+                </div>
                 <div ui-view></div>
             </main>
             <footer>

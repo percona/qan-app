@@ -39,11 +39,13 @@
 
         $httpProvider.interceptors.push(function($rootScope, $q, constants) {
             $rootScope.alerts = [];
+            $rootScope.loading = false;
             $rootScope.closeAlert = function(index) {
                 $rootScope.alerts.splice(index, 1);
             };
             return {
                 request: function (config) {
+                    $rootScope.loading = true;
                     config.timeout = 5000;
                     // Intercept Angular external request to static files
                     // to append version number to defeat the cache problem.
@@ -52,37 +54,29 @@
                     return config;
                 },
                 requestError: function(rejection) {
+                    $rootScope.loading = false;
                     // do something on error
                     return $q.reject(rejection);
                 },
                 response: function(response) {
+                    $rootScope.loading = false;
+                    $rootScope.alerts = [];
                     return response;
                 },
                 responseError: function (rejection) {
+                    $rootScope.loading = false;
                     $rootScope.alerts.pop();
-                    $rootScope.connect_error = false;
-                    switch (rejection.status) {
-                        case -1:
-                            $rootScope.alerts.push({
-                                msg: 'Cannot connect to the datastore. ' +
-                                     'Please check it is running at ' +
-                                     '<a href="' + constants.API_PATH + '">' +
-                                     constants.API_PATH +
-                                     '</a> and your firewall does not block it.',
-                                type: 'danger'
-                            });
-                            $rootScope.connect_error = true;
-                            break;
-                        default:
-                            $rootScope.alerts.push({
-                                msg: 'Cannot connect to the datastore. ' +
-                                     'Please check it is running at ' +
-                                     '<a href="' + constants.API_PATH + '">' +
-                                     constants.API_PATH +
-                                     '</a> and your firewall does not block it.',
-                                type: 'danger'
-                            });
-                            $rootScope.connect_error = true;
+                    $rootScope.connection_error = false;
+                    if (rejection.status === -1) {
+                        $rootScope.alerts.push({
+                            msg: 'Cannot connect to the datastore. ' +
+                                 'Please check it is running at ' +
+                                 '<a href="' + constants.API_PATH + '">' +
+                                 constants.API_PATH +
+                                 '</a> and your firewall does not block it.',
+                            type: 'danger'
+                        });
+                        $rootScope.connection_error = true;
                     }
                     return $q.reject(rejection);
                 }
@@ -109,7 +103,7 @@
                                            'then refresh this page.',
                                       type: 'danger'
                                   });
-                                  $rootScope.connect_error = true;
+                                  $rootScope.connection_error = true;
                               } else {
                                   for (var i=0; i < resp.length; i++) {
                                       if (resp[i].Subsystem === 'mysql') {
@@ -134,7 +128,7 @@
                                        'log file for more information.',
                                   type: 'danger'
                               });
-                              $rootScope.connect_error = true;
+                              $rootScope.connection_error = true;
                           })
                           .finally(function(resp){});
                 }

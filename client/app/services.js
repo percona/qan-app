@@ -75,4 +75,17 @@
         }
     ]);
 
+    pplServices.factory('Config', [
+        '$resource',
+        'constants',
+        function($resource, constants) {
+            return $resource(constants.API_PATH + '/qan/config/:instance_uuid',
+                {instance_uuid: '@instance_uuid'},
+                {
+                    query: {method: 'GET', params: {}, isArray: false},
+                }
+            );
+        }
+    ]);
+
 })();

@@ -29,7 +29,7 @@
                             <td title="{{ row.Abstract }}"><a ui-sref="root.instance-dt.query({query_id: row.Id})">{{ row.Abstract }}</a></td>
                             <td title="{{ row.Id }}">{{ row.Id }}</td>
                             <td class="text-right" title="{{ (row.Percentage*100).toFixed(2) }}%">{{ (row.Percentage*100).toFixed(2) }}%</td>
-                            <td class="text-right" title="{{ row.Load }}">{{ row.Load.toFixed(8) }}</td>
+                            <td class="text-right" title="{{ row.Load.toFixed(6) }}">{{ row.Load.toFixed(3) }}</td>
                             <td class="text-right" title="{{ row.QPS.toFixed(2) }}">{{ row.QPS.toFixed(2) }}</td>
                             <td class="text-right" title="{{ (row.Stats.Min*1000).toFixed(2) }}ms">{{ row.Stats.Min | humanize }}</td>
                             <td class="text-right" title="{{ (row.Stats.Avg*1000).toFixed(2) }}ms">{{ row.Stats.Avg | humanize }}</td>
@@ -42,7 +42,7 @@
                 </table>
             </div>
         </div>
-        <div ng-if="qanData.length === 0 && !$root.connect_error" class="text-center">
+        <div ng-if="!$root.connection_error && qanData.length === 0" class="text-center">
             There is no data for the selected MySQL instance and time range.
         </div>
     </div>
@@ -50,7 +50,7 @@
 
 <hr />
 
-<div class="row" ng-if="$parent.query && query_abstract">
+<div class="row" ng-if="!$root.connection_error && $parent.query && query_abstract">
     <div class="col-md-6">
         <h3>{{ query_abstract }}</h3>
     </div>
@@ -62,7 +62,7 @@
 <div class="row">
     <div class="col-md-12">
         <div ng-controller="MetricsController">
-            <div class="panel panel-default" ng-if="$root.query">
+            <div class="panel panel-default" ng-if="!$root.connection_error && $root.query">
                 <div class="panel-heading">METRICS</div>
                 <div class="panel-body padding-free">
                     <table
@@ -81,13 +81,51 @@
                         </thead>
                         <tbody>
                             <tr ng-repeat="row in $parent.metricsData | orderBy : 'Metrics'">
-                                <td title="{{ row.Metrics.split('_').join(' ') }}">{{ row.Metrics.split('_').join(' ') }}</td>
-                                <td class="text-right" title="{{ row.Sum % 1 === 0 ? row.Sum : row.Sum.toFixed(4) }}">{{ row.Sum % 1 === 0 ? row.Sum : row.Sum.toFixed(4) }}</td>
-                                <td class="text-right" title="{{ row.Min % 1 === 0 ? row.Min : row.Min.toFixed(4) }}">{{ row.Min % 1 === 0 ? row.Min : row.Min.toFixed(4) }}</td>
-                                <td class="text-right" title="{{ row.Avg % 1 === 0 ? row.Avg : row.Avg.toFixed(4) }}">{{ row.Avg % 1 === 0 ? row.Avg : row.Avg.toFixed(4) }}</td>
-                                <td class="text-right" title="{{ row.Med % 1 === 0 ? row.Med : row.Med.toFixed(4) }}">{{ row.Med % 1 === 0 ? row.Med : row.Med.toFixed(4) }}</td>
-                                <td class="text-right" title="{{ row.P95 % 1 === 0 ? row.P95 : row.P95.toFixed(4) }}">{{ row.P95 % 1 === 0 ? row.P95 : row.P95.toFixed(4) }}</td>
-                                <td class="text-right" title="{{ row.Max % 1 === 0 ? row.Max : row.Max.toFixed(4) }}">{{ row.Max % 1 === 0 ? row.Max : row.Max.toFixed(4) }}</td>
+                                <td title="{{ row.Metrics.split('_').join(' ') }}"
+                                    ng-init="is_time = row.Metrics.indexOf('time') > -1"
+                                    >{{ row.Metrics.split('_').join(' ') }}</td>
+
+                                <td class="text-right" ng-if="!is_time"
+                                    title="{{ row.Sum % 1 === 0 ? row.Sum : row.Sum.toFixed(4) }}"
+                                    >{{ row.Sum % 1 === 0 ? row.Sum : row.Sum.toFixed(4) }}</td>
+                                <td class="text-right" ng-if="is_time"
+                                    title="{{ row.Sum | humanize }}"
+                                    >{{ row.Sum | humanize}}</td>
+
+                                <td class="text-right" ng-if="!is_time"
+                                    title="{{ row.Min % 1 === 0 ? row.Min : row.Min.toFixed(4) }}"
+                                    >{{ row.Min % 1 === 0 ? row.Min : row.Min.toFixed(4) }}</td>
+                                <td class="text-right" ng-if="is_time"
+                                    title="{{ row.Min | humanize }}"
+                                    >{{ row.Min | humanize }}</td>
+
+                                <td class="text-right" ng-if="!is_time"
+                                    title="{{ row.Avg % 1 === 0 ? row.Avg : row.Avg.toFixed(4) }}"
+                                    >{{ row.Avg % 1 === 0 ? row.Avg : row.Avg.toFixed(4) }}</td>
+                                <td class="text-right" ng-if="is_time"
+                                    title="{{ row.Avg | humanize }}"
+                                    >{{ row.Avg | humanize }}</td>
+
+                                <td class="text-right" ng-if="!is_time"
+                                    title="{{ row.Med % 1 === 0 ? row.Med : row.Med.toFixed(4) }}"
+                                    >{{ row.Med % 1 === 0 ? row.Med : row.Med.toFixed(4) }}</td>
+                                <td class="text-right" ng-if="is_time"
+                                    title="{{ row.Med | humanize }}"
+                                    >{{ row.Med | humanize }}</td>
+
+                                <td class="text-right" ng-if="!is_time"
+                                    title="{{ row.P95 % 1 === 0 ? row.P95 : row.P95.toFixed(4) }}"
+                                    >{{ row.P95 % 1 === 0 ? row.P95 : row.P95.toFixed(4) }}</td>
+                                <td class="text-right" ng-if="is_time"
+                                    title="{{ row.P95 | humanize }}"
+                                    >{{ row.P95 | humanize }}</td>
+
+                                <td class="text-right" ng-if="!is_time"
+                                    title="{{ row.Max % 1 === 0 ? row.Max : row.Max.toFixed(4) }}"
+                                    >{{ row.Max % 1 === 0 ? row.Max : row.Max.toFixed(4) }}</td>
+                                <td class="text-right" ng-if="is_time"
+                                    title="{{ row.Max | humanize }}"
+                                    >{{ row.Max | humanize }}</td>
                             </tr>
                         </tbody>
                     </table>
@@ -99,7 +137,7 @@
 <div class="row">
     <div class="col-md-12">
         <div class="panel panel-default"
-            ng-if="$parent.query"
+            ng-if="!$root.connection_error && $parent.query"
             ng-controller="QueryController"
             >
             <div class="panel-heading">QUERY
@@ -133,7 +171,7 @@
 
     <div class="col-md-12">
         <div class="panel panel-default"
-            ng-if="$parent.query"
+            ng-if="!$root.connection_error && $parent.query"
             ng-controller="QueryExplainController"
             >
             <div class="panel-heading">EXPLAIN</div>
@@ -168,43 +206,45 @@
                 </div>
                 <div class="row" ng-if="explainErrorMsg() === ''">
                     <div class="col-md-12">
-                        <table
-                            style="margin-bottom: 0px !important;"
-                            ng-if="queryExplainData.length && !queryExplainError"
-                            class="table table-bordered table-striped table-hover table-condensed table-responsive">
-                            <thead>
-                                <tr>
-                                    <th width="3%" title="Id">Id</th>
-                                    <th style="min-width: 100px;" title="SelectType">SelectType</th>
-                                    <th title="Table">Table</th>
-                                    <th style="min-width: 100px;" title="Partitions">Partitions</th>
-                                    <th style="min-width: 100px;" title="CreateTable">CreateTable</th>
-                                    <th title="Type">Type</th>
-                                    <th style="min-width: 100px;" title="PossibleKeys">PossibleKeys</th>
-                                    <th title="Key">Key</th>
-                                    <th title="KeyLen">KeyLen</th>
-                                    <th width="5%" title="Ref">Ref</th>
-                                    <th title="Rows">Rows</th>
-                                    <th title="Extra">Extra</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr ng-repeat="row in queryExplainData">
-                                    <td title="{{ row.Id }}">{{ row.Id }}</td>
-                                    <td title="{{ row.SelectType }}">{{ row.SelectType }}</td>
-                                    <td title="{{ row.Table }}">{{ row.Table }}</td>
-                                    <td title="{{ row.Partitions }}">{{ row.Partitions }}</td>
-                                    <td title="{{ row.CreateTable }}">{{ row.CreateTable }}</td>
-                                    <td title="{{ row.Type }}">{{ row.Type }}</td>
-                                    <td title="{{ row.PossibleKeys }}">{{ row.PossibleKeys }}</td>
-                                    <td title="{{ row.Key }}">{{ row.Key }}</td>
-                                    <td title="{{ row.KeyLen }}">{{ row.KeyLen }}</td>
-                                    <td title="{{ row.Ref }}">{{ row.Ref }}</td>
-                                    <td title="{{ row.Rows }}">{{ row.Rows }}</td>
-                                    <td title="{{ row.Extra }}">{{ row.Extra }}</td>
-                                </tr>
-                            </tbody>
-                        </table>
+                        <div class="table-responsive">
+                            <table
+                                style="margin-bottom: 0px !important;"
+                                ng-if="queryExplainData.length && !queryExplainError"
+                                class="table table-bordered table-striped table-hover table-condensed">
+                                <thead>
+                                    <tr>
+                                        <th width="3%" title="Id">Id</th>
+                                        <th style="min-width: 100px;" title="SelectType">SelectType</th>
+                                        <th title="Table">Table</th>
+                                        <th style="min-width: 100px;" title="Partitions">Partitions</th>
+                                        <th style="min-width: 100px;" title="CreateTable">CreateTable</th>
+                                        <th title="Type">Type</th>
+                                        <th style="min-width: 100px;" title="PossibleKeys">PossibleKeys</th>
+                                        <th title="Key">Key</th>
+                                        <th title="KeyLen">KeyLen</th>
+                                        <th width="5%" title="Ref">Ref</th>
+                                        <th title="Rows">Rows</th>
+                                        <th title="Extra">Extra</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr ng-repeat="row in queryExplainData">
+                                        <td title="{{ row.Id }}">{{ row.Id }}</td>
+                                        <td title="{{ row.SelectType }}">{{ row.SelectType }}</td>
+                                        <td title="{{ row.Table }}">{{ row.Table }}</td>
+                                        <td title="{{ row.Partitions }}">{{ row.Partitions }}</td>
+                                        <td title="{{ row.CreateTable }}">{{ row.CreateTable }}</td>
+                                        <td title="{{ row.Type }}">{{ row.Type }}</td>
+                                        <td title="{{ row.PossibleKeys }}">{{ row.PossibleKeys }}</td>
+                                        <td title="{{ row.Key }}">{{ row.Key }}</td>
+                                        <td title="{{ row.KeyLen }}">{{ row.KeyLen }}</td>
+                                        <td title="{{ row.Ref }}">{{ row.Ref }}</td>
+                                        <td title="{{ row.Rows }}">{{ row.Rows }}</td>
+                                        <td title="{{ row.Extra }}">{{ row.Extra }}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
                         <alert ng-if="queryExplainError"
                             type="danger"
                             role="alert">{{ queryExplainError }}</alert>
@@ -219,7 +259,7 @@
 
     <div class="col-md-12">
         <div class="panel panel-default"
-            ng-if="$parent.query"
+            ng-if="!$root.connection_error && $parent.query"
             ng-controller="TableInfoController"
             >
             <div class="panel-heading">TABLES</div>
@@ -274,21 +314,23 @@
                             </span>
                         </tab>
                         <tab heading="STATUS">
-                            <table class="table table-striped table-responsive">
-                                <thead>
-                                    <tr>
-                                        <th>Name</th>
-                                        <th>Value</th>
+                            <div class="table-responsive">
+                                <table class="table table-striped">
+                                    <thead>
+                                        <tr>
+                                            <th>Name</th>
+                                            <th>Value</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                    <tr ng-repeat="(name, value) in tblStatus">
+                                        <td>{{ name }}</td>
+                                        <td>{{ value }}</td>
                                     </tr>
-                                </thead>
-                                <tbody>
-                                <tr ng-repeat="(name, value) in tblStatus">
-                                    <td>{{ name }}</td>
-                                    <td>{{ value }}</td>
-                                </tr>
-                                <tr ng-if="tblStatus.length === 0"><td class="text-center" colspan="2">No data.</td></tr>
-                                </tbody>
-                            </table>
+                                    <tr ng-if="tblStatus.length === 0"><td class="text-center" colspan="2">No data.</td></tr>
+                                    </tbody>
+                                </table>
+                            </div>
                             <span ng-if="tblStatusError">
                                 <div class="alert alert-danger"
                                     role="alert">
@@ -297,37 +339,39 @@
                             </span>
                         </tab>
                         <tab heading="INDEXES">
-                            <table class="table table-bordered table-hover table-responsive">
-                                <thead>
-                                    <tr>
-                                        <th>KeyName </th>
-                                        <th>Type</th>
-                                        <th>Unique</th>
-                                        <th>Packed</th>
-                                        <th>Column</th>
-                                        <th>Cardinality</th>
-                                        <th>Collation</th>
-                                        <th>Null</th>
-                                        <th>Comment</th>
+                            <div class="table-responsive">
+                                <table class="table table-bordered table-hover">
+                                    <thead>
+                                        <tr>
+                                            <th>KeyName </th>
+                                            <th>Type</th>
+                                            <th>Unique</th>
+                                            <th>Packed</th>
+                                            <th>Column</th>
+                                            <th>Cardinality</th>
+                                            <th>Collation</th>
+                                            <th>Null</th>
+                                            <th>Comment</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody ng-repeat="ind in tblIndex">
+                                    <tr ng-repeat="row in ind">
+                                        <td ng-if="$first" rowspan="{{ ind.length }}">{{ row.KeyName }}</td>
+                                        <td ng-if="$first" rowspan="{{ ind.length }}">{{ row.IndexType }}</td>
+                                        <td ng-if="$first" rowspan="{{ ind.length }}">{{ row.NonUnique === false ? 'Yes' : 'No' }}</td>
+                                        <td ng-if="$first" rowspan="{{ ind.length }}">{{ row.Packed ? 'Yes' : 'No' }}</td>
+                                        <td>{{ row.ColumnName }}</td>
+                                        <td>{{ row.Cardinality }}</td>
+                                        <td>{{ row.Collation }}</td>
+                                        <td>{{ row.Null ? 'Yes' : 'No' }}</td>
+                                        <td ng-if="$first" rowspan="{{ ind.length }}">{{ row.Comment }}</td>
                                     </tr>
-                                </thead>
-                                <tbody ng-repeat="ind in tblIndex">
-                                <tr ng-repeat="row in ind">
-                                    <td ng-if="$first" rowspan="{{ ind.length }}">{{ row.KeyName }}</td>
-                                    <td ng-if="$first" rowspan="{{ ind.length }}">{{ row.IndexType }}</td>
-                                    <td ng-if="$first" rowspan="{{ ind.length }}">{{ row.NonUnique === false ? 'Yes' : 'No' }}</td>
-                                    <td ng-if="$first" rowspan="{{ ind.length }}">{{ row.Packed ? 'Yes' : 'No' }}</td>
-                                    <td>{{ row.ColumnName }}</td>
-                                    <td>{{ row.Cardinality }}</td>
-                                    <td>{{ row.Collation }}</td>
-                                    <td>{{ row.Null ? 'Yes' : 'No' }}</td>
-                                    <td ng-if="$first" rowspan="{{ ind.length }}">{{ row.Comment }}</td>
-                                </tr>
-                                </tbody>
-                                <tbody ng-if="tblIndex.length === 0">
-                                    <tr><td class="text-center" colspan="9">No data.</td></tr>
-                                </tbody>
-                            </table>
+                                    </tbody>
+                                    <tbody ng-if="tblIndex.length === 0">
+                                        <tr><td class="text-center" colspan="9">No data.</td></tr>
+                                    </tbody>
+                                </table>
+                            </div>
                             <span ng-if="tblIndexError">
                                 <div class="alert alert-danger"
                                     role="alert">

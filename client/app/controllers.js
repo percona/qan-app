@@ -11,10 +11,11 @@
         'Metric',
         'Agent',
         'Instance',
+        'Config',
         '$modal',
         'instance',
         function($scope, $rootScope, $filter, $state, QueryProfile,
-                 Metric, Agent, Instance, $modal, instance) {
+                 Metric, Agent, Instance, Config, $modal, instance) {
 
             $scope.init = function() {
                 $scope.qanData = [];
@@ -26,7 +27,6 @@
                     $rootScope.instance = instance.selected_instance;
 
 
-                    $scope.getAgent();
                     $scope.query = '';
                     // it is need to disable future dates.
                     $rootScope.dtCal = null;
@@ -42,6 +42,7 @@
                         }
                     });
                     $rootScope.$watch('instance', function(instance, old_instance) {
+                        $scope.getConfig();
                         $scope.getProfile();
                         $state.go('root.instance-dt', {
                             uuid: $rootScope.instance.UUID,
@@ -50,12 +51,11 @@
                 }
             };
 
-            $scope.getAgent = function () {
-                Agent.query()
+            $scope.getConfig = function () {
+                Config.query({instance_uuid: $rootScope.instance.UUID})
                       .$promise
                       .then(function(resp) {
-                          $scope.agent_uuid = resp[0].UUID;
-                          $rootScope.agent = resp[0];
+                          $rootScope.config = resp;
                       })
                       .catch(function(resp){})
                       .finally(function(resp){});
@@ -339,14 +339,14 @@
                     "Convert": true,  // agent will convert if not SELECT and MySQL <= 5.5 or >= 5.6 but no privs
                 };
                 var params = {
-                    AgentUUID: $rootScope.agent.UUID,
+                    AgentUUID: $rootScope.config.AgentUUID,
                     Service: 'query',
                     Cmd: 'Explain',
                     Data: btoa(JSON.stringify(data))
                 };
 
                 var agentCmd = new AgentCmd(params);
-                var p = AgentCmd.update({agent_uuid: $rootScope.agent.UUID}, agentCmd);
+                var p = AgentCmd.update({agent_uuid: $rootScope.config.AgentUUID}, agentCmd);
                 p.$promise
                 .then(function (data) {
                         $scope.queryExplain = true;
@@ -358,7 +358,12 @@
                             $scope.queryExplainError = data.Error;
                         }
                     })
-                .catch(function(resp) {});
+                .catch(function(resp) {
+                    $rootScope.alerts.push({
+                        'type': 'danger',
+                        'msg': resp.data.Error
+                    });
+                });
             };
 
 
@@ -424,14 +429,14 @@
                     }],
                 };
                 var params = {
-                    AgentUUID: $rootScope.agent.UUID,
+                    AgentUUID: $rootScope.config.AgentUUID,
                     Service: 'query',
                     Cmd: 'TableInfo',
                     Data: btoa(JSON.stringify(data))
                 };
 
                 var agentCmd = new AgentCmd(params);
-                var p = AgentCmd.update({agent_uuid: $rootScope.agent.UUID}, agentCmd);
+                var p = AgentCmd.update({agent_uuid: $rootScope.config.AgentUUID}, agentCmd);
                 p.$promise
                 .then(function (data) {
                         $scope.tableInfo = JSON.parse(atob(data.Data));
@@ -464,7 +469,12 @@
                             $scope.tblIndex = $scope.tableInfo[db_tbl].Index;
                         }
                 })
-                .catch(function(resp) {});
+                .catch(function(resp) {
+                    $rootScope.alerts.push({
+                        'type': 'danger',
+                        'msg': resp.data.Error
+                    });
+                });
             };
 
             $scope.addDbTable = function() {
