@@ -20,7 +20,8 @@
           // URI of datastore API
           API_PATH: window.location.protocol + '//'+ window.location.hostname + ':9001',
           DEFAULT_ERR: 'Datastore API error. Check the datastore log file for more information.',
-          API_ERR: 'Datastore API error: "<err_msg>".<br />Check the datastore log file for more information.'
+          API_ERR: 'Datastore API error: "<err_msg>".<br />Check the datastore log file for more information.',
+          AGENT_ERR: 'Agent API error: "<err_msg>".<br />Check the agent log file for more information.'
       })
       .constant('angularMomentConfig', {
               timezone: 'UTC'

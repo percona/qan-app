@@ -482,15 +482,19 @@
                         $scope.tableInfo = JSON.parse(atob(data.Data));
                         if ($scope.tableInfo instanceof Object && 'Errors' in $scope.tableInfo[db_tbl]) {
                             var errors = $scope.tableInfo[db_tbl].Errors;
+                            var msg;
                             for (var i=0; i<errors.length; i++) {
                                 if (errors[i].startsWith('SHOW CREATE')) {
-                                    $scope.tblCreateError = errors[i];
+                                    msg = constants.AGENT_ERR;
+                                    $scope.tblCreateError = msg.replace('<err_msg>', errors[i]);
                                 }
                                 if (errors[i].startsWith('SHOW INDEX')) {
-                                    $scope.tblIndexError = errors[i];
+                                    msg = constants.AGENT_ERR;
+                                    $scope.tblIndexError = msg.replace('<err_msg>', errors[i]);
                                 }
                                 if (errors[i].startsWith('SHOW TABLE STATUS')) {
-                                    $scope.tblStatusError = errors[i];
+                                    msg = constants.AGENT_ERR;
+                                    $scope.tblStatusError = msg.replace('<err_msg>', errors[i]);
                                 }
                             }
                         }

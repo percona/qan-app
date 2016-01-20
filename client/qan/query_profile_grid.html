@@ -309,7 +309,7 @@
                             <span ng-if="tblCreateError">
                                 <div class="alert alert-danger"
                                     role="alert">
-                                    {{ tblCreateError }}
+                                     <span ng-bind-html="tblCreateError"></span>
                                 </div>
                             </span>
                         </tab>
@@ -334,7 +334,7 @@
                             <span ng-if="tblStatusError">
                                 <div class="alert alert-danger"
                                     role="alert">
-                                    {{ tblStatusError }}
+                                     <span ng-bind-html="tblStatusError"></span>
                                 </div>
                             </span>
                         </tab>
@@ -375,7 +375,7 @@
                             <span ng-if="tblIndexError">
                                 <div class="alert alert-danger"
                                     role="alert">
-                                    {{ tblIndexError }}
+                                   <span ng-bind-html="tblIndexError"></span>
                                 </div>
                             </span>
                         </tab>
