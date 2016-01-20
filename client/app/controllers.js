@@ -7,6 +7,7 @@
         '$rootScope',
         '$filter',
         '$state',
+        'constants',
         'QueryProfile',
         'Metric',
         'Agent',
@@ -14,7 +15,7 @@
         'Config',
         '$modal',
         'instance',
-        function($scope, $rootScope, $filter, $state, QueryProfile,
+        function($scope, $rootScope, $filter, $state, constants, QueryProfile,
                  Metric, Agent, Instance, Config, $modal, instance) {
 
             $scope.init = function() {
@@ -57,7 +58,16 @@
                       .then(function(resp) {
                           $rootScope.config = resp;
                       })
-                      .catch(function(resp){})
+                      .catch(function(resp) {
+                          var msg = constants.DEFAULT_ERR;
+                          if (resp.hasOwnProperty('data') && resp.data.hasOwnProperty('Error')) {
+                              msg = resp.data.Error;
+                          }
+                          $rootScope.alerts.push({
+                              'type': 'danger',
+                              'msg': msg
+                          });
+                      })
                       .finally(function(resp){});
             };
 
@@ -207,7 +217,16 @@
                                     $scope.qanData = [];
                                 }
                             })
-                            .catch(function(resp){})
+                            .catch(function(resp) {
+                                var msg = constants.DEFAULT_ERR;
+                                if (resp.hasOwnProperty('data') && resp.data.hasOwnProperty('Error')) {
+                                    msg = resp.data.Error;
+                                }
+                                $rootScope.alerts.push({
+                                    'type': 'danger',
+                                    'msg': msg
+                                });
+                            })
                             .finally(function(resp){});
 
             };
@@ -219,8 +238,9 @@
         '$scope',
         '$rootScope',
         '$state',
+        'constants',
         'Metric',
-        function($scope, $rootScope, $state, Metric) {
+        function($scope, $rootScope, $state, constants, Metric) {
             $scope.init = function () {
                 $rootScope.$on('$stateChangeSuccess',
                     function(event, toState, toParams, fromState, fromParams) {
@@ -255,7 +275,16 @@
                           }
                           $scope.metricsData = data;
                       })
-                      .catch(function(resp){})
+                      .catch(function(resp) {
+                          var msg = constants.DEFAULT_ERR;
+                          if (resp.hasOwnProperty('data') && resp.data.hasOwnProperty('Error')) {
+                              msg = resp.data.Error;
+                          }
+                          $rootScope.alerts.push({
+                              'type': 'danger',
+                              'msg': msg
+                          });
+                      })
                       .finally(function(resp){});
             };
 
@@ -267,7 +296,8 @@
         '$rootScope',
         '$state',
         '$filter',
-        function($scope, $rootScope, $state, $filter) {
+        'constants',
+        function($scope, $rootScope, $state, $filter, constants) {
             $scope.init = function () {
                 $scope.toggleQuery = 'example';
                 $rootScope.$watch('query', function (newValue, oldValue) {
@@ -298,8 +328,9 @@
         '$scope',
         '$rootScope',
         '$filter',
+        'constants',
         'AgentCmd',
-        function($scope, $rootScope, $filter, AgentCmd) {
+        function($scope, $rootScope, $filter, constants, AgentCmd) {
             $scope.init = function () {
                 $rootScope.$watch('query', function (newValue, oldValue) {
                     if ($rootScope.query !== null) {
@@ -359,9 +390,13 @@
                         }
                     })
                 .catch(function(resp) {
+                    var msg = constants.DEFAULT_ERR;
+                    if (resp.hasOwnProperty('data') && resp.data.hasOwnProperty('Error')) {
+                        msg = resp.data.Error;
+                    }
                     $rootScope.alerts.push({
                         'type': 'danger',
-                        'msg': resp.data.Error
+                        'msg': msg
                     });
                 });
             };
@@ -375,8 +410,9 @@
         '$scope',
         '$rootScope',
         '$filter',
+        'constants',
         'AgentCmd',
-        function($scope, $rootScope, $filter, AgentCmd) {
+        function($scope, $rootScope, $filter, constants, AgentCmd) {
             $scope.init = function () {
                 $scope.dbTables = [];
                 $scope.toggleTableInfo = 'create';
@@ -470,9 +506,13 @@
                         }
                 })
                 .catch(function(resp) {
+                    var msg = constants.DEFAULT_ERR;
+                    if (resp.hasOwnProperty('data') && resp.data.hasOwnProperty('Error')) {
+                        msg = resp.data.Error;
+                    }
                     $rootScope.alerts.push({
                         'type': 'danger',
-                        'msg': resp.data.Error
+                        'msg': msg
                     });
                 });
             };
