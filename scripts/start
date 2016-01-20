@@ -25,5 +25,6 @@ if [ "$BG" = "yes" ]; then
    fi
    echo "Percona Query Analytics app running as PID $pid"
 else
+   echo "Percona Query Analytics app listening on $LISTEN..."
    eval "$cmd"
 fi
