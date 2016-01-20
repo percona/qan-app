@@ -61,7 +61,8 @@
                       .catch(function(resp) {
                           var msg = constants.DEFAULT_ERR;
                           if (resp.hasOwnProperty('data') && resp.data.hasOwnProperty('Error')) {
-                              msg = resp.data.Error;
+                              msg = constants.API_ERR;
+                              msg = msg.replace('<err_msg>', resp.data.Error);
                           }
                           $rootScope.alerts.push({
                               'type': 'danger',
@@ -220,7 +221,8 @@
                             .catch(function(resp) {
                                 var msg = constants.DEFAULT_ERR;
                                 if (resp.hasOwnProperty('data') && resp.data.hasOwnProperty('Error')) {
-                                    msg = resp.data.Error;
+                                    msg = constants.API_ERR;
+                                    msg = msg.replace('<err_msg>', resp.data.Error);
                                 }
                                 $rootScope.alerts.push({
                                     'type': 'danger',
@@ -278,7 +280,8 @@
                       .catch(function(resp) {
                           var msg = constants.DEFAULT_ERR;
                           if (resp.hasOwnProperty('data') && resp.data.hasOwnProperty('Error')) {
-                              msg = resp.data.Error;
+                              msg = constants.API_ERR;
+                              msg = msg.replace('<err_msg>', resp.data.Error);
                           }
                           $rootScope.alerts.push({
                               'type': 'danger',
@@ -392,7 +395,8 @@
                 .catch(function(resp) {
                     var msg = constants.DEFAULT_ERR;
                     if (resp.hasOwnProperty('data') && resp.data.hasOwnProperty('Error')) {
-                        msg = resp.data.Error;
+                        msg = constants.API_ERR;
+                        msg = msg.replace('<err_msg>', resp.data.Error);
                     }
                     $rootScope.alerts.push({
                         'type': 'danger',
@@ -508,7 +512,8 @@
                 .catch(function(resp) {
                     var msg = constants.DEFAULT_ERR;
                     if (resp.hasOwnProperty('data') && resp.data.hasOwnProperty('Error')) {
-                        msg = resp.data.Error;
+                        msg = constants.API_ERR;
+                        msg = msg.replace('<err_msg>', resp.data.Error);
                     }
                     $rootScope.alerts.push({
                         'type': 'danger',
