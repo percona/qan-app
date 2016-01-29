@@ -116,7 +116,6 @@
                     $scope.date2 = moment.utc(date2, 'YYYY-MM-DD HH:mm:ss');
                 }
 
-
                 if ($scope.date1 !== undefined && $scope.date2 !== undefined) {
                     $scope.begin = moment.min($scope.date1, $scope.date2);
                     $scope.end = moment.max($scope.date1, $scope.date2);
@@ -548,5 +547,221 @@
 
     }]);
 
+    pplControllers.controller('ManagementController', [
+        '$scope',
+        '$rootScope',
+        'constants',
+        'clipboard',
+        'Instance',
+        'AgentCmd',
+        function($scope, $rootScope, constants, clipboard, Instance, AgentCmd) {
+            $scope.init = function () {
+                $scope.managementFormUrl = '';
+                $scope.getInstances();
+            };
+
+            $scope.clickHandler = function () {
+                clipboard.copyText($scope.instance.UUID);
+            };
+
+            $scope.getInstances = function() {
+                $scope.treeData = [];
+                Instance.query()
+                    .$promise
+                    .then(function(resp) {
+                        $scope.makeInstancesTree(resp);
+                    })
+                    .catch(function(resp) {})
+                    .finally(function(resp) {});
+            };
+
+            $scope.makeInstancesTree = function(instances) {
+
+                var n = 0;
+                var iter = 0;
+                $scope.agents = [];
+                while (instances.length > 0) {
+                    iter++;
+                    var i = n % instances.length;
+                    n++;
+                    if (instances[i].Subsystem === 'os') {
+                        $scope.treeData.push({
+                            //'expanded': true,
+                            'label': instances[i].Name,
+                            'data': instances[i],
+                            'children': []
+                        });
+                        n = 0;
+                        instances.splice(i, 1);
+                    } else {
+                        for(var k=0; k<$scope.treeData.length; k++) {
+                            if ($scope.treeData[k].data.UUID === instances[i].ParentUUID) {
+                                if (instances[i].Subsystem === 'agent') {
+                                    $scope.treeData[k].children.push({
+                                        'label': 'Agent',
+                                        'data': instances[i]
+                                    });
+                                    $scope.agents.push(instances[i]);
+                                    instances.splice(i, 1);
+                                } else {
+                                    $scope.treeData[k].children.push({
+                                        'label': 'MySQL',
+                                        //'expanded': true,
+                                        'children': [{
+                                            'label': instances[i].Name,
+                                            'data': instances[i]
+                                        }]
+                                    });
+                                    instances.splice(i, 1);
+                                }
+                            }
+                        }
+                    }
+                    if (iter > 300) {
+                        console.log('tree iter: ', iter);
+                        break;
+                    }
+                }
+            };
+
+            $scope.treeHandler = function(branch) {
+                var re = new RegExp(/^(.+):(.+)@(unix|tcp)\((.+)\)\/.*(?:allowOldPasswords=(true|false))?.*$/);
+                switch (true) {
+                    case 'data' in branch && branch.data.Subsystem === 'mysql':
+                        $scope.managementFormUrl = '/client/templates/mysql_form.html';
+                        $scope.instance = new Instance(branch.data);
+                        var arr = re.exec(branch.data.DSN);
+                        $scope.instance.user = arr[1];
+                        $scope.instance.password = arr[2];
+                        $scope.instance.type = arr[3];
+                        if ($scope.instance.type === 'unix') {
+                            $scope.instance.socket = arr[4];
+                            $scope.instance.hostname = '';
+                            $scope.instance.port = '';
+                        } else {
+                            var hostPort = arr[4].split(':');
+                            $scope.instance.hostname = hostPort[0];
+                            $scope.instance.port = hostPort[1];
+                            $scope.instance.socket = '';
+                        }
+                        $scope.instance.allowOldPasswords = arr[5] === undefined ? false : arr[5];
+                        $scope.getRelatedAgent($scope.instance);
+                        break;
+                    case 'data' in branch && branch.data.Subsystem === 'agent':
+                        $scope.managementFormUrl = '/client/templates/qan_form.html';
+                        break;
+                    default:
+                        $scope.managementFormUrl = '';
+                }
+            };
+
+            $scope.getRelatedAgent = function (instance) {
+                for (var i=0; i<$scope.agents.length; i++) {
+                    if (instance.ParentUUID === $scope.agents[i].ParentUUID) {
+                        $scope.selected_agent = $scope.agents[i];
+                    }
+
+                }
+            };
+
+            $scope.getDSN = function () {
+                var dsn = $scope.instance.user + ':' + $scope.instance.password + '@';
+                if ($scope.instance.type === 'tcp') {
+                    dsn += 'tcp(' + $scope.instance.hostname + ':' + $scope.instance.port + ')/';
+                } else {
+                    dsn += 'unix(' + $scope.instance.socket + ')/';
+                }
+                dsn += '?allowOldPasswords=' + $scope.instance.allowOldPasswords;
+                return dsn;
+            };
+
+            $scope.updateMySQLInstance = function () {
+                $scope.instance.DSN = $scope.getDSN();
+                Instance.update({'instance_uuid': $scope.instance.UUID}, $scope.instance)
+                    .$promise
+                    .then(function (resp) {
+                          $rootScope.alerts.push({
+                              'type': 'info',
+                              'msg': 'MySQL instance has been updated.'
+                          });
+                    })
+                    .catch(function (resp) {
+                        var msg = constants.DEFAULT_ERR;
+                        if (resp.hasOwnProperty('data') && resp.data.hasOwnProperty('Error')) {
+                            msg = constants.API_ERR;
+                            msg = msg.replace('<err_msg>', resp.data.Error);
+                        }
+                        $rootScope.alerts.push({
+                            'type': 'danger',
+                            'msg': msg
+                        });
+                    })
+                    .finally();
+            };
+
+            $scope.deleteMysqlInstance = function (name) {
+
+                var msg = 'Do you really want to remove MySQL instance "' + name + '"?' +
+                          '\n(Data associated with the instance will not be removed.)';
+                if(!confirm(msg)) {
+                    return void 0;
+                }
+                Instance.delete({'instance_uuid': $scope.instance.UUID})
+                    .$promise
+                    .then(function (resp) {
+                        $scope.init();
+                        $rootScope.alerts.push({
+                            'type': 'info',
+                            'msg': 'MySQL instance has been deleted.'
+                        });
+                    })
+                    .catch(function (resp) {
+                        var msg = constants.DEFAULT_ERR;
+                        if (resp.hasOwnProperty('data') && resp.data.hasOwnProperty('Error')) {
+                            msg = constants.API_ERR;
+                            msg = msg.replace('<err_msg>', resp.data.Error);
+                        }
+                        $rootScope.alerts.push({
+                            'type': 'danger',
+                            'msg': msg
+                        });
+                    })
+                    .finally();
+            };
+
+            $scope.testAgentConnection = function (agent) {
+                $scope.instanceError = '';
+                var params = {
+                    AgentUUID: agent.UUID,
+                    Service: 'instance',
+                    Cmd: 'GetInfo'
+                };
+
+                var agentCmd = new AgentCmd(params);
+                var p = AgentCmd.update({agent_uuid: agent.UUID}, agentCmd);
+                p.$promise
+                 .then(function (resp) {
+                     if (resp.Error !== "") {
+                         $scope.instanceError = resp.Error;
+                     }
+                 })
+                 .catch(function (resp) {
+                     var msg = constants.DEFAULT_ERR;
+                     if (resp.hasOwnProperty('data') && resp.data.hasOwnProperty('Error')) {
+                         msg = constants.API_ERR;
+                         msg = msg.replace('<err_msg>', resp.data.Error);
+                     }
+                     $rootScope.alerts.push({
+                         'type': 'danger',
+                         'msg': msg
+                     });
+                 })
+                 .finally();
+
+            };
+
+            $scope.init();
+
+    }]);
 
 })();

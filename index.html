@@ -9,9 +9,10 @@
         <link rel="stylesheet" href="/bower_components/highlightjs/styles/github-gist.css">
         <link rel="stylesheet" href="/bower_components/bootstrap/dist/css/bootstrap.min.css">
         <link rel="stylesheet" href="/bower_components/angular-bootstrap/ui-bootstrap-csp.css">
+        <link rel="stylesheet" href="/bower_components/angular-bootstrap-nav-tree/dist/abn_tree.css">
         <link rel="stylesheet" href="/bower_components/angular-bootstrap-datetimepicker/src/css/datetimepicker.css"/>
         <link rel="stylesheet" href="/bower_components/angular-chart.js/dist/angular-chart.css">
-        <link rel="stylesheet" href="/client/content/css/main.css">
+        <link rel="stylesheet" href="/client/content/css/main.css?v=v1.0.0">
 
         <script src="/bower_components/jquery/dist/jquery.min.js"></script>
         <script src="/bower_components/vkBeautify/vkbeautify.js"></script>
@@ -31,15 +32,18 @@
         <script src="/bower_components/angular-bootstrap/ui-bootstrap.min.js"></script>
         <script src="/bower_components/angular-bootstrap/ui-bootstrap-tpls.min.js"></script>
         <script src="/bower_components/angular-ui-router/release/angular-ui-router.min.js"></script>
-        <script src="/client/app/controllers.js"></script>
-        <script src="/client/app/services.js"></script>
-        <script src="/client/app/directives.js"></script>
-        <script src="/client/app/filters.js"></script>
-        <script src="/client/app/app.js"></script>
+        <script src="/bower_components/angular-bootstrap-nav-tree/dist/abn_tree_directive.js"></script>
+        <script src="/bower_components/angular-clipboard/angular-clipboard.js"></script>
+        <script src="/client/app/controllers.js?v=v1.0.0"></script>
+        <script src="/client/app/services.js?v=v1.0.0"></script>
+        <script src="/client/app/directives.js?v=v1.0.2"></script>
+        <script src="/client/app/filters.js?v=v1.0.0"></script>
+        <script src="/client/app/app.js?v=v1.0.0"></script>
     </head>
     <body>
         <div class="container-fluid">
-            <nav class="navbar navbar-default navbar-fixed-top" topnav></nav>
+            <nav ng-if="$state.includes('root')" class="navbar navbar-default navbar-fixed-top" query-nav></nav>
+            <nav ng-if="$state.includes('management')" class="navbar navbar-default navbar-fixed-top" management-nav></nav>
             <main>
                 <div class="alert-float">
                     <alert ng-repeat="alert in $root.alerts"

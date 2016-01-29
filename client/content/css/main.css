@@ -119,3 +119,7 @@ div.tab-pane.ng-scope.active {
         transform: rotate(359deg);
     }
 }
+
+div.popover {
+    max-width:800px;
+}

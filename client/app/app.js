@@ -10,11 +10,13 @@
         'ui.bootstrap.datetimepicker',
         'chart.js',
         'hljs',
+        'angularBootstrapNavTree',
+        'angularMoment',
+        'angular-clipboard',
         'pplControllers',
         'pplServices',
         'pplDirectives',
-        'pplFilters',
-        'angularMoment'
+        'pplFilters'
     ]).config(configure)
       .constant('constants', {
           // URI of datastore API
@@ -31,7 +33,6 @@
     configure.$inject = ['$stateProvider', '$httpProvider', '$urlRouterProvider', '$resourceProvider'];
 
     function configure($stateProvider, $httpProvider, $urlRouterProvider, $resourceProvider) {
-
 
         function setVersionedUrl(url) {
             // catch /ng/views/ HTML templates only
@@ -86,12 +87,9 @@
             };
         });
 
-
-        $urlRouterProvider.otherwise('/');
-
         $stateProvider.state('root', {
             url: '/',
-            templateUrl: '/client/qan/query_profile_grid.html',
+            templateUrl: '/client/templates/query_profile_grid.html',
             controller: 'QueryProfileController',
             resolve: {
                 instance: function (Instance, $rootScope) {
@@ -125,7 +123,7 @@
                           .catch(function(resp, err){
                               $rootScope.alerts.push({
                                   msg: 'Datastore API error: ' +
-                                       'GET ' + API_PATH + '/instances ' +
+                                       'GET ' + constants.API_PATH + '/instances ' +
                                        'returned status code ' + resp.status +
                                        ', expected 200. Check the datastore ' +
                                        'log file for more information.',
@@ -142,12 +140,27 @@
         })
         .state('root.instance-dt.query', {
             url: 'query/:query_id/'
+        })
+        .state('management', {
+            url: 'management/',
+            templateUrl: '/client/templates/management.html',
+            controller: 'ManagementController',
+            resolve: {
+                tree: function() {
+                    console.log('tree');
+                }
+            }
         });
+
+        $urlRouterProvider.otherwise('/');
+
     }
 
     ppl.run(['$rootScope', '$state', '$stateParams', '$http', function($rootScope, $state, $stateParams, $http) {
         $rootScope.$state = $state;
         $rootScope.$stateParams = $stateParams;
+        //$state.transitionTo('management');
+        $state.transitionTo('root');
     }]);
 
 })();

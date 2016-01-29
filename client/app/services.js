@@ -44,6 +44,7 @@
                 {},
                 {
                     query: {method: 'GET', params: {}, isArray: true},
+                    update: {method: 'PUT', params: {}, isArray: false}
                 }
             );
         }

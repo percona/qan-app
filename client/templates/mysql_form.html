@@ -1,0 +1,128 @@
+<div class="row">
+<div class="col-md-12">
+    <form class="form-horizontal" name="instanceForm">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <div class="row">
+                    <div class="col-md-1">
+                        <h4>MySQL</h4>
+                    </div>
+                    <div class="col-md-7" ng-init="$root.editNameFlag = 0">
+                        <h4 ng-if="!$root.editNameFlag">{{ instance.Name }}
+                        <a href="" ng-click="$root.editNameFlag = 1"><i class="glyphicon glyphicon-pencil"></i></a>
+                        </h4>
+                        <div class="clearfix"></div>
+                        <input ng-if="$root.editNameFlag" type="text" class="form-control" id="inputName" name="name" ng-model="instance.Name">
+                    </div>
+                    <div class="col-md-4">
+                        <a href="" ng-click="deleteMysqlInstance(instance.Name)" class="pull-right"><i class="glyphicon glyphicon-trash"></i> Remove</a>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        ID: <b>{{ instance.UUID }}</b> <a href="" ng-click="clickHandler()"><i class="glyphicon glyphicon-copy"></i></a>
+                    </div>
+                </div>
+            </div>
+            <div class="panel-body">
+
+                <div class="form-group">
+                    <label for="inputUser" class="col-sm-2 control-label">User</label>
+                    <div class="col-sm-10">
+                        <input type="text" class="form-control" id="inputUser" name="user" ng-model="instance.user">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="inputPassword" class="col-sm-2 control-label">Password</label>
+                    <div class="col-sm-7">
+                        <input type="{{ !!show_password ? 'text' : 'password' }}" class="form-control" id="inputPassword" name="password" ng-model="instance.password">
+                    </div>
+                    <div class="col-sm-3">
+                        <div class="checkbox">
+                            <label>
+                                <input type="checkbox" ng-model="show_password"> Show
+                            </label>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-sm-offset-2 col-sm-10">
+                        <div class="checkbox">
+                            <label>
+                                <input type="checkbox" name="allowOldPasswords"
+                                                       ng-model="instance.allowOldPasswords" ng-true-value="true" ng-false-value="false"> Allow old passwords
+                            </label>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="inputHostname" class="col-sm-2 control-label">
+                        Hostname
+                        <input type="radio" id="inputHostname" name="isHostname" ng-model="instance.type" ng-value="'tcp'">
+                    </label>
+                    <div class="col-sm-7">
+                        <input type="text" class="form-control" name="hostname" ng-model="instance.hostname">
+                    </div>
+                    <label for="inputPort" class="col-sm-1 control-label">Port</label>
+                    <div class="col-sm-2">
+                        <input type="text" class="form-control" name="port" ng-model="instance.port">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="inputSocket" class="col-sm-2 control-label">
+                        Socket
+                        <input type="radio" id="inputSocket" name="isHostname" ng-model="instance.type" ng-value="'unix'">
+                    </label>
+                    <div class="col-sm-10">
+                        <input type="text" class="form-control" name="socket" ng-model="instance.socket">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="inputVersion" class="col-sm-2 control-label">Version</label>
+                    <div class="col-sm-10">
+                        <p class="form-control-static">{{ instance.Version }}</p>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="inputAgent" class="col-sm-2 control-label">Agent</label>
+                    <div class="col-sm-7">
+                        <select class="form-control" ng-options="agent.Name for agent in agents" ng-model="selected_agent">
+                        </select>
+                    </div>
+                    <div class="col-sm-offset-1 col-sm-2">
+                        <button type="button" ng-click="testAgentConnection(selected_agent)" class="btn btn-default">Test Connection</button>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-sm-offset-2 col-sm-10">
+                    <p ng-if="instanceError" class="text-danger"><i class="glyphicon glyphicon-remove-circle"></i> Connection failed: {{ instanceError }}</p>
+                    </div>
+                </div>
+
+
+            </div>
+            <div class="panel-footer">
+                <div class="form-group">
+                    <div class="col-sm-2">
+                        <button type="button"
+                                class="btn btn-default"
+                                popover-append-to-body="true"
+                                popover-placement="bottom"
+                                popover="{{ instance.user }}:{{ instance.password }}@{{ instance.type }}({{ instance.type === 'unix' ? instance.socket : instance.hostname + ':' + instance.port }})/?allowOldPasswords={{instance.allowOldPasswords }}" >
+                                <i class="glyphicon glyphicon-search"></i>
+                                DSN
+                        </button>
+                    </div>
+                    <div class="col-sm-10">
+                        <button type="submit" ng-click="updateMySQLInstance()" class="btn btn-default">
+                            <i class="glyphicon glyphicon-ok"></i>
+                            Save
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+</div>
