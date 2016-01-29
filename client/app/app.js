@@ -152,7 +152,7 @@
             }
         });
 
-        $urlRouterProvider.otherwise('/');
+        //$urlRouterProvider.otherwise('/');
 
     }
 
