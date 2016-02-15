@@ -123,6 +123,8 @@ if [ $# -eq 0 ]; then
    sed -e "s/:LISTEN/$LISTEN/g" "./start" > "$BASEDIR/start"
    sed -e "s/:LISTEN/$LISTEN/g" "./stop" > "$BASEDIR/stop"
 
+   sed -e "s#/usr/local/percona/qan-app#$BASEDIR#g" "./start" > "$BASEDIR/start"
+
    if [ "$START" = "yes" ]; then
       run_app
    fi

@@ -27,6 +27,7 @@
                     $rootScope.instances = instance.instances;
                     $rootScope.instance = instance.selected_instance;
 
+                    $scope.getConfig();
 
                     $scope.query = '';
                     // it is need to disable future dates.
@@ -42,14 +43,15 @@
                             $scope.setTimeRange(time_range);
                         }
                     });
-                    $rootScope.$watch('instance', function(instance, old_instance) {
-                        $scope.getConfig();
-                        $scope.getProfile();
-                        $state.go('root.instance-dt', {
-                            uuid: $rootScope.instance.UUID,
-                        });
-                    });
                 }
+            };
+
+            $rootScope.changeInstance = function(instance) {
+                $scope.getConfig();
+                $scope.getProfile();
+                $state.go('root.instance-dt', {
+                    uuid: $rootScope.instance.UUID,
+                });
             };
 
             $scope.getConfig = function () {
@@ -414,14 +416,16 @@
         '$rootScope',
         '$filter',
         'constants',
+        'Table',
         'AgentCmd',
-        function($scope, $rootScope, $filter, constants, AgentCmd) {
+        function($scope, $rootScope, $filter, constants, Table, AgentCmd) {
             $scope.init = function () {
                 $scope.dbTables = [];
+                //$scope.isNewTable = false;
                 $scope.toggleTableInfo = 'create';
                 $rootScope.$watch('query', function (newValue, oldValue) {
                     if ($rootScope.query !== null) {
-                        if (newValue.Tables === null || newValue.Tables[0].Db === '') {
+                        if (newValue.Tables === null || newValue.Tables.length === 0 || newValue.Tables[0].Db === '') {
                             $scope.dbTables = [];
                             $scope.reset();
                         } else {
@@ -440,6 +444,30 @@
                 $scope.tblCreate = false;
                 $scope.tblStatus = [];
                 $scope.tblIndex = [];
+            };
+
+            $scope.updateTable = function () {
+                var tables = [];
+                var params = {
+                    'queryId': $rootScope.query.Id
+                };
+                var tbls = $scope.dbTables;
+                for(var i=0; i<tbls.length; i++) {
+                    if ($scope.dbTables[i].isPersistent !== false) {
+                        tables.push(new Table({
+                            'Db': tbls[i].Db,
+                            'Table': tbls[i].Table
+                        }));
+                    }
+                }
+
+                var p = Table.update(params, tables);
+                p.$promise
+                .then(function (resp) {
+                })
+                .catch(function (resp) {})
+                .finally(function (resp) {});
+
             };
 
             $scope.getTableInfo = function() {
@@ -482,6 +510,11 @@
                         if ($scope.tableInfo instanceof Object && 'Errors' in $scope.tableInfo[db_tbl]) {
                             var errors = $scope.tableInfo[db_tbl].Errors;
                             var msg;
+                            for (var t=0; t<$scope.dbTables.length; t++) {
+                                if ($scope.dbTables[t].Db + '.' + $scope.dbTables[t].Table === $scope.selectedDbTable) {
+                                    $scope.dbTables[t].isPersistent = false;
+                                }
+                            }
                             for (var i=0; i<errors.length; i++) {
                                 if (errors[i].startsWith('SHOW CREATE')) {
                                     msg = constants.AGENT_ERR;
@@ -500,6 +533,10 @@
                         // Get table create
                         if ($scope.tableInfo instanceof Object && 'Create' in $scope.tableInfo[db_tbl]) {
                             $scope.tblCreate = $scope.tableInfo[db_tbl].Create;
+                            if ($scope.isNewTable) {
+                                $scope.updateTable();
+                                $scope.isNewTable = false;
+                            }
                         }
 
                         // Get Status
@@ -531,11 +568,21 @@
                     'Db': dbTbl[0],
                     'Table': dbTbl[1]
                 };
+                $scope.isNewTable = true;
 
                 if ($scope.dbTables.length === 0) {
                     $scope.dbTables = [option];
                 } else {
-                    $scope.dbTables.unshift(option);
+                    var isUniq = true;
+                    for (var i=0; i<$scope.dbTables.length; i++) {
+                        if (option.Db === $scope.dbTables[i].Db && option.Table === $scope.dbTables[i].Table) {
+                            isUniq = false;
+                            $scope.isNewTable = false;
+                        }
+                    }
+                    if (isUniq) {
+                        $scope.dbTables.unshift(option);
+                    }
                 }
                 $scope.selectedDbTable = $scope.dbTables[0].Db + '.' + $scope.dbTables[0].Table;
                 $scope.getTableInfo();
@@ -554,7 +601,9 @@
         'clipboard',
         'Instance',
         'AgentCmd',
-        function($scope, $rootScope, constants, clipboard, Instance, AgentCmd) {
+        'AgentStatus',
+        'Config',
+        function($scope, $rootScope, constants, clipboard, Instance, AgentCmd, AgentStatus, Config) {
             $scope.init = function () {
                 $scope.managementFormUrl = '';
                 $scope.getInstances();
@@ -564,29 +613,30 @@
                 clipboard.copyText($scope.instance.UUID);
             };
 
-            $scope.getInstances = function() {
+            $scope.getInstances = function () {
                 $scope.treeData = [];
                 Instance.query()
                     .$promise
-                    .then(function(resp) {
+                    .then(function (resp) {
                         $scope.makeInstancesTree(resp);
                     })
-                    .catch(function(resp) {})
-                    .finally(function(resp) {});
+                    .catch(function (resp) {})
+                    .finally(function (resp) {});
             };
 
-            $scope.makeInstancesTree = function(instances) {
+            $scope.makeInstancesTree = function (instances) {
 
                 var n = 0;
                 var iter = 0;
                 $scope.agents = [];
+                $scope.mysqls = [];
                 while (instances.length > 0) {
                     iter++;
                     var i = n % instances.length;
                     n++;
                     if (instances[i].Subsystem === 'os') {
                         $scope.treeData.push({
-                            //'expanded': true,
+                            'expanded': true,
                             'label': instances[i].Name,
                             'data': instances[i],
                             'children': []
@@ -594,7 +644,7 @@
                         n = 0;
                         instances.splice(i, 1);
                     } else {
-                        for(var k=0; k<$scope.treeData.length; k++) {
+                        for (var k=0; k<$scope.treeData.length; k++) {
                             if ($scope.treeData[k].data.UUID === instances[i].ParentUUID) {
                                 if (instances[i].Subsystem === 'agent') {
                                     $scope.treeData[k].children.push({
@@ -612,19 +662,20 @@
                                             'data': instances[i]
                                         }]
                                     });
+                                    $scope.mysqls.push(instances[i]);
                                     instances.splice(i, 1);
                                 }
                             }
                         }
                     }
                     if (iter > 300) {
-                        console.log('tree iter: ', iter);
                         break;
                     }
                 }
             };
 
-            $scope.treeHandler = function(branch) {
+            $scope.treeHandler = function (branch) {
+                $scope.resetConnectionStatus();
                 var re = new RegExp(/^(.+):(.+)@(unix|tcp)\((.+)\)\/.*(?:allowOldPasswords=(true|false))?.*$/);
                 switch (true) {
                     case 'data' in branch && branch.data.Subsystem === 'mysql':
@@ -649,18 +700,170 @@
                         break;
                     case 'data' in branch && branch.data.Subsystem === 'agent':
                         $scope.managementFormUrl = '/client/templates/qan_form.html';
+                        $scope.agent = branch.data;
+                        $scope.related_mysql = $scope.getRelatedMySQL($scope.agent);
+
+                        $scope.getAgentStatus();
+
+                        //$scope.getConfig($scope.related_mysql.UUID);
+                        $scope.getAgentAllConfig(branch.data);
+                        $scope.getQanConfig(branch.data);
+                        $scope.getQanDefaults(branch.data);
+
                         break;
                     default:
                         $scope.managementFormUrl = '';
                 }
             };
 
-            $scope.getRelatedAgent = function (instance) {
+            $scope.getAgentStatus = function () {
+
+                AgentStatus.query({'agent_uuid': $scope.agent.UUID})
+                    .$promise
+                    .then(function (data) {
+                        $scope.agentStatus = data;
+                    })
+                    .catch(function(resp) {
+                        $scope.agentStatus = resp.data;
+                    })
+                    .finally(function() {});
+            };
+
+            $scope.getAgentAllConfig = function (agent) {
+                var data = {};
+                var params = {
+                    AgentUUID: agent.UUID,
+                    Service: 'agent',
+                    Cmd: 'GetAllConfigs',
+                    Data: btoa(JSON.stringify({}))
+                };
+
+                var agentCmd = new AgentCmd(params);
+                var p = AgentCmd.update({agent_uuid: agent.UUID}, agentCmd);
+                p.$promise
+                .then(function (data) {
+                        if (data.Error === '') {
+                            var config = JSON.parse(atob(data.Data));
+                        } else {
+                            $scope.data = data.Error;
+                        }
+                    })
+                .catch(function(resp) {})
+                .finally(function() {});
+            };
+
+            $scope.getQanConfig = function () {
+                var data = {};
+                var params = {
+                    AgentUUID: $scope.agent.UUID,
+                    Service: 'qan',
+                    Cmd: 'GetConfig',
+                    Data: btoa(JSON.stringify({}))
+                };
+
+                var agentCmd = new AgentCmd(params);
+                var p = AgentCmd.update({agent_uuid: $scope.agent.UUID}, agentCmd);
+                p.$promise
+                .then(function (data) {
+                        if (data.Error === '') {
+                            var config = JSON.parse(atob(data.Data));
+                            var runningConfig = JSON.parse(config[0].Running);
+                            $scope.agentConfigRunning = runningConfig;
+                            $scope.agentConfigRunning.StartKeyVals = {};
+                            for (var c=0; c<runningConfig.Start.length; c++) {
+                                var set = runningConfig.Start[c].match("^SET GLOBAL ([_a-z]+)=(.+)$");
+                                if (set[1] !== 'slow_query_log') {
+                                    $scope.agentConfigRunning.StartKeyVals[set[1]] = set[2];
+                                }
+                            }
+
+                        } else {
+                            $scope.data = data.Error;
+                        }
+                    })
+                .catch(function(resp) {})
+                .finally(function() {});
+            };
+
+            $scope.setQanConfig = function () {
+                var data = {
+                    'Interval': 52
+                };
+                var params = {
+                    AgentUUID: $scope.agent.UUID,
+                    Service: 'qan',
+                    Cmd: 'SetConfig',
+                    Data: btoa(JSON.stringify(data))
+                };
+
+                var agentCmd = new AgentCmd(params);
+                var p = AgentCmd.update({agent_uuid: $scope.agent.UUID}, agentCmd);
+                p.$promise
+                .then(function (data) {
+                    })
+                .catch(function(resp) {
+                })
+                .finally(function() {});
+            };
+
+            $scope.getQanDefaults = function (agent) {
+                var data = {};
+                var params = {
+                    AgentUUID: agent.UUID,
+                    Service: 'agent',
+                    Cmd: 'GetDefaults',
+                    Data: btoa(JSON.stringify({}))
+                };
+
+                var agentCmd = new AgentCmd(params);
+                var p = AgentCmd.update({agent_uuid: agent.UUID}, agentCmd);
+                p.$promise
+                .then(function (data) {
+                        if (data.Error === '') {
+                            var res = JSON.parse(atob(data.Data));
+                            $scope.qanDefaults = res.qan;
+                        } else {
+                            $scope.qanDefaults = null;
+                        }
+                    })
+                .catch(function(resp) {})
+                .finally(function() {});
+            };
+
+            $scope.stopAgent = function () {
+                var data = {};
+                var params = {
+                    AgentUUID: $scope.agent.UUID,
+                    Service: 'agent',
+                    Cmd: 'Stop'
+                };
+                if (!confirm(constants.CONFIRM_STOP_AGENT)) {
+                    return;
+                }
+
+                var agentCmd = new AgentCmd(params);
+                var p = AgentCmd.update({agent_uuid: $scope.agent.UUID}, agentCmd);
+                p.$promise
+                .then(function (data) {})
+                .catch(function(resp) {})
+                .finally(function() {
+                    $scope.getAgentStatus();
+                });
+            };
+
+            $scope.getRelatedAgent = function (mysql) {
                 for (var i=0; i<$scope.agents.length; i++) {
-                    if (instance.ParentUUID === $scope.agents[i].ParentUUID) {
+                    if (mysql.ParentUUID === $scope.agents[i].ParentUUID) {
                         $scope.selected_agent = $scope.agents[i];
                     }
+                }
+            };
 
+            $scope.getRelatedMySQL = function (agent) {
+                for (var i=0; i<$scope.mysqls.length; i++) {
+                    if (agent.ParentUUID === $scope.mysqls[i].ParentUUID) {
+                        return $scope.mysqls[i];
+                    }
                 }
             };
 
@@ -729,12 +932,18 @@
                     .finally();
             };
 
+            $scope.resetConnectionStatus = function () {
+                $scope.instanceOK = false;
+                $scope.instanceError = false;
+            };
+
             $scope.testAgentConnection = function (agent) {
                 $scope.instanceError = '';
                 var params = {
                     AgentUUID: agent.UUID,
                     Service: 'instance',
-                    Cmd: 'GetInfo'
+                    Cmd: 'GetInfo',
+                    Data: btoa(JSON.stringify($scope.instance))
                 };
 
                 var agentCmd = new AgentCmd(params);
@@ -743,21 +952,49 @@
                  .then(function (resp) {
                      if (resp.Error !== "") {
                          $scope.instanceError = resp.Error;
+                     } else {
+                        $scope.agentStatus = JSON.parse(atob(resp.Data));
+                        $scope.instanceOK = true;
+                        $scope.instanceError = false;
                      }
                  })
                  .catch(function (resp) {
-                     var msg = constants.DEFAULT_ERR;
-                     if (resp.hasOwnProperty('data') && resp.data.hasOwnProperty('Error')) {
-                         msg = constants.API_ERR;
-                         msg = msg.replace('<err_msg>', resp.data.Error);
-                     }
-                     $rootScope.alerts.push({
-                         'type': 'danger',
-                         'msg': msg
-                     });
+                     $scope.instanceOK = false;
+                     $scope.instanceError = resp.data.Error;
                  })
                  .finally();
+            };
 
+            $scope.getConfig = function (instance_uuid) {
+                Config.query({instance_uuid: instance_uuid})
+                      .$promise
+                      .then(function (resp) {
+                          $scope.config = JSON.parse(resp.SetConfig);
+                      })
+                      .catch(function (resp) {
+                          var msg = constants.DEFAULT_ERR;
+                          if (resp.hasOwnProperty('data') && resp.data.hasOwnProperty('Error')) {
+                              msg = constants.API_ERR;
+                              msg = msg.replace('<err_msg>', resp.data.Error);
+                          }
+                          $rootScope.alerts.push({
+                              'type': 'danger',
+                              'msg': msg
+                          });
+                      })
+                      .finally(function (resp) {});
+            };
+
+            $scope.setQanConfig = function (qanForm) {
+                var start = ['SET GLOBAL slow_query_log=OFF'];
+                for (var val in $scope.agentConfigRunning.StartKeyVals) {
+                    start.push('SET GLOBAL ' + val + '=' + $scope.agentConfigRunning.StartKeyVals[val]);
+                }
+                start.push('SET GLOBAL slow_query_log=ON');
+
+                $scope.agentConfigRunning.Start = start;
+                $scope.agentConfigRunningRes = angular.copy($scope.agentConfigRunning);
+                delete $scope.agentConfigRunningRes.StartKeyVals;
             };
 
             $scope.init();

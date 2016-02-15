@@ -23,7 +23,8 @@
           API_PATH: window.location.protocol + '//'+ window.location.hostname + ':9001',
           DEFAULT_ERR: 'Datastore API error. Check the datastore log file for more information.',
           API_ERR: 'Datastore API error: "<err_msg>".<br />Check the datastore log file for more information.',
-          AGENT_ERR: 'Agent API error: "<err_msg>".<br />Check the agent log file for more information.'
+          AGENT_ERR: 'Agent API error: "<err_msg>".<br />Check the agent log file for more information.',
+          CONFIRM_STOP_AGENT: 'Are you sure you want to stop the agent?\nPlease note: you cannot start it again from UI.'
       })
       .constant('angularMomentConfig', {
               timezone: 'UTC'
@@ -160,7 +161,7 @@
         $rootScope.$state = $state;
         $rootScope.$stateParams = $stateParams;
         //$state.transitionTo('management');
-        $state.transitionTo('root');
+        //$state.transitionTo('root');
     }]);
 
 })();

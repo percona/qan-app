@@ -26,13 +26,13 @@
             var dur_sec = moment.duration(input, 's');
             switch (true) {
                 case dur_sec.as('d') > 1:
-                    dur =  dur_sec.as('d').toFixed(2) + 'd';
+                    dur =  dur_sec.as('d').toFixed(2) + 'day';
                     break;
                 case dur_sec.as('h') > 1:
                     dur =  dur_sec.as('h').toFixed(2) + 'h';
                     break;
                 case dur_sec.as('m') > 1:
-                    dur =  dur_sec.as('m').toFixed(2) + 'm';
+                    dur =  dur_sec.as('m').toFixed(2) + 'min';
                     break;
                 case dur_sec.as('s') > 1:
                     dur =  dur_sec.as('s').toFixed(2) + 's';

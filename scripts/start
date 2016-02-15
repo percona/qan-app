@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
-BASEDIR=$(cd "$(dirname "$0")"; pwd)
+
+BASEDIR="${BASEDIR:-"/usr/local/percona/qan-app"}"
 LISTEN="${LISTEN:-":LISTEN"}"
 HOST="${LISTEN%:*}"
 PORT="${LISTEN#*:}"
@@ -16,6 +17,17 @@ if app_is_running; then
 fi
 
 cmd="python -c \"import BaseHTTPServer as bhs, SimpleHTTPServer as shs; bhs.HTTPServer(('$HOST', $PORT), shs.SimpleHTTPRequestHandler).serve_forever() # percona-qan-app-$PORT\""
+
+cd "$BASEDIR" || {
+    echo "Invalid base directory."
+    exit 1
+}
+
+touch percona-qan-app.log || {
+    echo "Permission denied to create log file."
+    exit 1
+}
+
 if [ "$BG" = "yes" ]; then
    eval "$cmd >> percona-qan-app.log 2>&1 &"
    pid=$!

@@ -58,6 +58,7 @@
                     </li>
                     <li>
                     <select ng-model="instance" class="form-control navbar-btn"
+                            ng-change="changeInstance(instance)"
                             ng-options="(inst.Subsystem + '@' +  inst.Name) for inst in instances"></select>
 
                     </li>

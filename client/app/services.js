@@ -36,6 +36,20 @@
         }
     ]);
 
+    pplServices.factory('Table', [
+        '$resource',
+        'constants',
+        function($resource, constants) {
+            return $resource(constants.API_PATH + '/queries/:queryId/tables',
+                {},
+                {
+                    query: {method: 'GET', params: {}},
+                    update: {method: 'PUT', params: {}, isArray: true}
+                }
+            );
+        }
+    ]);
+
     pplServices.factory('Instance', [
         '$resource',
         'constants',
@@ -58,6 +72,19 @@
                 {},
                 {
                     query: {method: 'GET', params: {}, isArray: true},
+                }
+            );
+        }
+    ]);
+
+    pplServices.factory('AgentStatus', [
+        '$resource',
+        'constants',
+        function($resource, constants) {
+            return $resource(constants.API_PATH + '/agents/:agent_uuid/status',
+                {},
+                {
+                    query: {method: 'GET', params: {}, isArray: false},
                 }
             );
         }

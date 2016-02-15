@@ -15,7 +15,8 @@
                         <input ng-if="$root.editNameFlag" type="text" class="form-control" id="inputName" name="name" ng-model="instance.Name">
                     </div>
                     <div class="col-md-4">
-                        <a href="" ng-click="deleteMysqlInstance(instance.Name)" class="pull-right"><i class="glyphicon glyphicon-trash"></i> Remove</a>
+                        <a href="" ng-if="instance.Deleted == '0001-01-01T00:00:00Z'" ng-click="deleteMysqlInstance(instance.Name)" class="pull-right"><i class="glyphicon glyphicon-trash"></i> Remove</a>
+                        <p ng-if="instance.Deleted !== '0001-01-01T00:00:00Z'" class="text-danger"> Deleted at {{ instance.Deleted | date: 'yyyy-MM-dd HH:mm:ss'}} </p>
                     </div>
                 </div>
                 <div class="row">
@@ -40,7 +41,7 @@
                     <div class="col-sm-3">
                         <div class="checkbox">
                             <label>
-                                <input type="checkbox" ng-model="show_password"> Show
+                                <input type="checkbox" ng-model="show_password"> <b>Show</b>
                             </label>
                         </div>
                     </div>
@@ -50,7 +51,7 @@
                         <div class="checkbox">
                             <label>
                                 <input type="checkbox" name="allowOldPasswords"
-                                                       ng-model="instance.allowOldPasswords" ng-true-value="true" ng-false-value="false"> Allow old passwords
+                                                       ng-model="instance.allowOldPasswords" ng-true-value="true" ng-false-value="false"> <b>Allow old passwords</b>
                             </label>
                         </div>
                     </div>
@@ -87,7 +88,10 @@
                 <div class="form-group">
                     <label for="inputAgent" class="col-sm-2 control-label">Agent</label>
                     <div class="col-sm-7">
-                        <select class="form-control" ng-options="agent.Name for agent in agents" ng-model="selected_agent">
+                        <select class="form-control"
+                                ng-change="resetConnectionStatus()"
+                                ng-options="agent.Name for agent in agents"
+                                ng-model="selected_agent">
                         </select>
                     </div>
                     <div class="col-sm-offset-1 col-sm-2">
@@ -97,6 +101,7 @@
                 <div class="form-group">
                     <div class="col-sm-offset-2 col-sm-10">
                     <p ng-if="instanceError" class="text-danger"><i class="glyphicon glyphicon-remove-circle"></i> Connection failed: {{ instanceError }}</p>
+                    <p ng-if="instanceOK" class="text-success"><i class="glyphicon glyphicon-ok-circle"></i> Connection OK</p>
                     </div>
                 </div>
 
