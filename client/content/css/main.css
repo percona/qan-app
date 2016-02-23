@@ -123,3 +123,10 @@ div.tab-pane.ng-scope.active {
 div.popover {
     max-width:800px;
 }
+
+.gold-mark {
+    border-right: 1px solid gold;
+    width: 7px;
+    height: 50px;
+    position: absolute;
+}

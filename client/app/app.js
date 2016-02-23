@@ -12,7 +12,7 @@
         'hljs',
         'angularBootstrapNavTree',
         'angularMoment',
-        'angular-clipboard',
+        'ngclipboard',
         'pplControllers',
         'pplServices',
         'pplDirectives',
@@ -88,6 +88,7 @@
             };
         });
 
+
         $stateProvider.state('root', {
             url: '/',
             templateUrl: '/client/templates/query_profile_grid.html',
@@ -143,18 +144,18 @@
             url: 'query/:query_id/'
         })
         .state('management', {
-            url: 'management/',
+            url: '/management/',
             templateUrl: '/client/templates/management.html',
-            controller: 'ManagementController',
-            resolve: {
-                tree: function() {
-                    console.log('tree');
-                }
-            }
+            controller: 'ManagementController'
         });
 
-        //$urlRouterProvider.otherwise('/');
-
+        $urlRouterProvider.rule(function ($injector, $location) {
+            var path = $location.url();
+            if (path === '') {
+                return '/';
+            }
+            return path;
+        });
     }
 
     ppl.run(['$rootScope', '$state', '$stateParams', '$http', function($rootScope, $state, $stateParams, $http) {

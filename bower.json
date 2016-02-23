@@ -35,7 +35,7 @@
     "angular-cookies": "~1.4.8",
     "angular-sanitize": "~1.4.8",
     "angular-bootstrap-nav-tree": "*",
-    "angular-clipboard": "~1.3.0"
+    "ngclipboard": "^1.1.0"
   },
   "resolutions": {
     "angular": "~1.4.8"

@@ -111,6 +111,7 @@
                 {instance_uuid: '@instance_uuid'},
                 {
                     query: {method: 'GET', params: {}, isArray: false},
+                    update: {method: 'PUT', params: {}, isArray: false}
                 }
             );
         }

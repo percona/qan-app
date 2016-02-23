@@ -1,105 +1,130 @@
 <div class="row">
-<div class="col-md-12">
+<div class="col-md-6">
     <form class="form-horizontal" name="instanceForm">
         <div class="panel panel-default">
             <div class="panel-heading">
                 <div class="row">
-                    <div class="col-md-1">
-                        <h4>MySQL</h4>
+                    <div class="col-md-6">
+                        <h4>MySQL DSN config</h4>
                     </div>
-                    <div class="col-md-7" ng-init="$root.editNameFlag = 0">
-                        <h4 ng-if="!$root.editNameFlag">{{ instance.Name }}
-                        <a href="" ng-click="$root.editNameFlag = 1"><i class="glyphicon glyphicon-pencil"></i></a>
-                        </h4>
-                        <div class="clearfix"></div>
-                        <input ng-if="$root.editNameFlag" type="text" class="form-control" id="inputName" name="name" ng-model="instance.Name">
-                    </div>
-                    <div class="col-md-4">
+                    <div class="col-md-6">
                         <a href="" ng-if="instance.Deleted == '0001-01-01T00:00:00Z'" ng-click="deleteMysqlInstance(instance.Name)" class="pull-right"><i class="glyphicon glyphicon-trash"></i> Remove</a>
-                        <p ng-if="instance.Deleted !== '0001-01-01T00:00:00Z'" class="text-danger"> Deleted at {{ instance.Deleted | date: 'yyyy-MM-dd HH:mm:ss'}} </p>
+                        <p ng-if="instance.Deleted !== '0001-01-01T00:00:00Z'" class="text-danger">
+                            <small>Deleted at {{ instance.Deleted | date: 'yyyy-MM-dd HH:mm:ss'}}</small>
+                        </p>
                     </div>
                 </div>
                 <div class="row">
                     <div class="col-md-12">
-                        ID: <b>{{ instance.UUID }}</b> <a href="" ng-click="clickHandler()"><i class="glyphicon glyphicon-copy"></i></a>
                     </div>
                 </div>
             </div>
             <div class="panel-body">
 
-                <div class="form-group">
-                    <label for="inputUser" class="col-sm-2 control-label">User</label>
-                    <div class="col-sm-10">
-                        <input type="text" class="form-control" id="inputUser" name="user" ng-model="instance.user">
+                <div class="form-group form-group-sm">
+                    <label for="inputID" class="col-md-3 control-label">ID</label>
+                    <div class="col-md-8">
+                        <p class="form-control-static input-sm" id="instanceUUID">{{ instance.UUID }}</p>
                     </div>
+                    <div class="col-sm-1">
+                        <span id="inputIdHelpBlock" class="help-block">
+                            <a href="" ngclipboard data-clipboard-target="#instanceUUID"
+                               ngclipboard-success="onSuccess(e);" ngclipboard-error="onError(e);"
+                               tooltip="{{ tooltipText }}"
+                               tooltip-append-to-body="true"
+                               tooltip-placement="bottom"
+                               popover-trigger="none"
+                               tooltip-is-open="tooltipIsOpen"
+                               >
+                                <i class="glyphicon glyphicon-copy"></i>
+                            </a>
+                        </span>
+                    </div>
+
                 </div>
-                <div class="form-group">
-                    <label for="inputPassword" class="col-sm-2 control-label">Password</label>
-                    <div class="col-sm-7">
-                        <input type="{{ !!show_password ? 'text' : 'password' }}" class="form-control" id="inputPassword" name="password" ng-model="instance.password">
-                    </div>
-                    <div class="col-sm-3">
-                        <div class="checkbox">
-                            <label>
-                                <input type="checkbox" ng-model="show_password"> <b>Show</b>
-                            </label>
-                        </div>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <div class="col-sm-offset-2 col-sm-10">
-                        <div class="checkbox">
-                            <label>
-                                <input type="checkbox" name="allowOldPasswords"
-                                                       ng-model="instance.allowOldPasswords" ng-true-value="true" ng-false-value="false"> <b>Allow old passwords</b>
-                            </label>
-                        </div>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label for="inputHostname" class="col-sm-2 control-label">
-                        Hostname
-                        <input type="radio" id="inputHostname" name="isHostname" ng-model="instance.type" ng-value="'tcp'">
-                    </label>
-                    <div class="col-sm-7">
-                        <input type="text" class="form-control" name="hostname" ng-model="instance.hostname">
-                    </div>
-                    <label for="inputPort" class="col-sm-1 control-label">Port</label>
-                    <div class="col-sm-2">
-                        <input type="text" class="form-control" name="port" ng-model="instance.port">
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label for="inputSocket" class="col-sm-2 control-label">
-                        Socket
-                        <input type="radio" id="inputSocket" name="isHostname" ng-model="instance.type" ng-value="'unix'">
-                    </label>
-                    <div class="col-sm-10">
-                        <input type="text" class="form-control" name="socket" ng-model="instance.socket">
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label for="inputVersion" class="col-sm-2 control-label">Version</label>
-                    <div class="col-sm-10">
-                        <p class="form-control-static">{{ instance.Version }}</p>
+
+                <div class="form-group form-group-sm">
+                    <label for="inputName" class="col-md-3 control-label">Label</label>
+                    <div class="col-md-9">
+                        <input type="text" class="form-control input-sm" id="inputName" name="name" ng-model="instance.Name">
                     </div>
                 </div>
 
-                <div class="form-group">
-                    <label for="inputAgent" class="col-sm-2 control-label">Agent</label>
-                    <div class="col-sm-7">
-                        <select class="form-control"
+                <div class="form-group form-group-sm">
+                    <label for="inputUser" class="col-md-3 control-label">User</label>
+                    <div class="col-md-9">
+                        <input type="text" class="form-control input-sm" id="inputUser" name="user" ng-model="instance.user">
+                    </div>
+                </div>
+                <div class="form-group form-group-sm">
+                    <label for="inputPassword" class="col-md-3 control-label">Password</label>
+                    <div class="col-md-6">
+                        <input type="{{ !!show_password ? 'text' : 'password' }}" class="form-control input-sm" id="inputPassword" name="password" ng-model="instance.password">
+                    </div>
+                    <div class="col-md-3">
+                        <div class="checkbox">
+                            <label>
+                                <input type="checkbox" ng-model="show_password">
+                                <small><b>Show</b></small>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group form-group-sm">
+                    <div class="col-md-offset-3 col-sm-9">
+                        <div class="checkbox">
+                            <label>
+                                <input type="checkbox" name="allowOldPasswords"
+                                                       ng-model="instance.allowOldPasswords" ng-true-value="true" ng-false-value="false">
+                                <small><b>Allow old passwords</b></small>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group form-group-sm">
+                    <label for="inputHostname" class="col-md-3 control-label">
+                        Hostname
+                        <input type="radio" id="inputHostname" name="isHostname" ng-model="instance.type" ng-value="'tcp'">
+                    </label>
+                    <div class="col-md-6">
+                        <input type="text" class="form-control input-sm" name="hostname" ng-model="instance.hostname">
+                    </div>
+                    <label for="inputPort" class="col-md-1 control-label">Port</label>
+                    <div class="col-md-2">
+                        <input type="text" class="form-control input-sm" name="port" ng-model="instance.port">
+                    </div>
+                </div>
+                <div class="form-group form-group-sm">
+                    <label for="inputSocket" class="col-md-3 control-label">
+                        Socket
+                        <input type="radio" id="inputSocket" name="isHostname" ng-model="instance.type" ng-value="'unix'">
+                    </label>
+                    <div class="col-md-9">
+                        <input type="text" class="form-control input-sm" name="socket" ng-model="instance.socket">
+                    </div>
+                </div>
+                <div class="form-group form-group-sm">
+                    <label for="inputVersion" class="col-md-3 control-label">Version</label>
+                    <div class="col-md-9">
+                        <p class="form-control-static input-sm">{{ instance.Version }}</p>
+                    </div>
+                </div>
+
+                <div class="form-group form-group-sm">
+                    <label for="inputAgent" class="col-md-3 control-label">Agent</label>
+                    <div class="col-md-4">
+                        <select class="form-control input-sm"
                                 ng-change="resetConnectionStatus()"
                                 ng-options="agent.Name for agent in agents"
                                 ng-model="selected_agent">
                         </select>
                     </div>
-                    <div class="col-sm-offset-1 col-sm-2">
-                        <button type="button" ng-click="testAgentConnection(selected_agent)" class="btn btn-default">Test Connection</button>
+                    <div class="col-sm-1">
+                        <button type="button" ng-click="testAgentConnection(selected_agent)" class="btn btn-default btn-sm">Test Connection</button>
                     </div>
                 </div>
-                <div class="form-group">
-                    <div class="col-sm-offset-2 col-sm-10">
+                <div class="form-group form-group-sm">
+                    <div class="col-md-offset-3 col-sm-9">
                     <p ng-if="instanceError" class="text-danger"><i class="glyphicon glyphicon-remove-circle"></i> Connection failed: {{ instanceError }}</p>
                     <p ng-if="instanceOK" class="text-success"><i class="glyphicon glyphicon-ok-circle"></i> Connection OK</p>
                     </div>
@@ -108,19 +133,19 @@
 
             </div>
             <div class="panel-footer">
-                <div class="form-group">
-                    <div class="col-sm-2">
+                <div class="form-group form-group-sm">
+                    <div class="col-md-2">
                         <button type="button"
-                                class="btn btn-default"
+                                class="btn btn-default btn-sm"
                                 popover-append-to-body="true"
-                                popover-placement="bottom"
-                                popover="{{ instance.user }}:{{ instance.password }}@{{ instance.type }}({{ instance.type === 'unix' ? instance.socket : instance.hostname + ':' + instance.port }})/?allowOldPasswords={{instance.allowOldPasswords }}" >
+                                popover-placement="bottom-left"
+                                popover="{{ getDSN() }}" >
                                 <i class="glyphicon glyphicon-search"></i>
                                 DSN
                         </button>
                     </div>
-                    <div class="col-sm-10">
-                        <button type="submit" ng-click="updateMySQLInstance()" class="btn btn-default">
+                    <div class="col-md-10">
+                        <button type="submit" ng-click="updateMySQLInstance()" class="btn btn-default btn-sm">
                             <i class="glyphicon glyphicon-ok"></i>
                             Save
                         </button>
@@ -130,4 +155,270 @@
         </div>
     </form>
 </div>
+
+<!-- QAN mgmt -->
+
+<div class="col-md-6">
+    <form class="form-horizontal" novalidate name="qanForm">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <div class="row">
+                    <div class="col-md-12">
+                        <h4>Query Analytics Config</h4>
+                    </div>
+                </div>
+            </div>
+            <div class="panel-body">
+
+                <div class="form-group form-group-sm">
+                    <label for="inputAgent" class="col-sm-3 control-label">Agent</label>
+                    <div class="col-sm-4">
+                        <select class="form-control"
+                                ng-change="resetConnectionStatus()"
+                                ng-options="agent.Name for agent in agents"
+                                ng-model="selected_agent">
+                        </select>
+                    </div>
+                    <div class="col-sm-3">
+                        <button type="button" ng-click="testAgentConnection(selected_agent)" class="btn btn-default btn-sm">Test Connection to MySQL</button>
+                    </div>
+                </div>
+
+                <div class="form-group form-group-sm">
+                    <div class="col-sm-offset-3 col-sm-9">
+                    <p ng-if="instanceError" class="text-danger"><i class="glyphicon glyphicon-remove-circle"></i> Connection failed: {{ instanceError }}</p>
+                    <p ng-if="instanceOK" class="text-success"><i class="glyphicon glyphicon-ok-circle"></i> Connection OK</p>
+                    </div>
+                </div>
+
+                <div class="form-group form-group-sm">
+                    <label for="inputInterval" class="col-sm-3 control-label">Collect interval</label>
+                    <div class="col-sm-4">
+                        <input class="form-control"
+                               type="number"
+                               min="0"
+                               id="inputInterval"
+                               name="interval"
+                               aria-describedby="intervalHelpBlock"
+                               ng-model="qanConf.Interval">
+                    </div>
+                    <div class="col-sm-4">
+                        <span id="intervalHelpBlock" class="help-block"><small>minute(s)</small></span>
+                    </div>
+                    <div class="col-sm-1">
+                        <i class="glyphicon"
+                           ng-class="qanConf.IntervalLock ? 'glyphicon-lock' : 'glyphicon-wrench'"
+                           title="{{ qanConf.IntervalLock ? 'Preset value in config file' : 'Default value' }}"
+                           ></i>
+                    </div>
+                </div>
+
+                <div class="form-group form-group-sm">
+                    <label for="inputMaxSlowLogSize" class="col-sm-3 control-label">Max slow log size</label>
+                    <div class="col-sm-4">
+                        <input class="form-control"
+                               type="text"
+                               id="inputMaxSlowLogSize"
+                               name="maxSlowLogSize"
+                               aria-describedby="maxSlowLogSizeHelpBlock"
+                               ng-model="qanConf.MaxSlowLogSize">
+                    </div>
+                    <div class="col-sm-4">
+                        <span id="maxSlowLogSizeHelpBlock" class="help-block"><small>Ex.: 1G, 200M, 0 = no max</small></span>
+                    </div>
+                    <div class="col-sm-1">
+                        <i class="glyphicon"
+                           ng-class="qanConf.MaxSlowLogSizeLock ? 'glyphicon-lock' : 'glyphicon-wrench'"
+                           title="{{ qanConf.MaxSlowLogSizeLock ? 'Preset value in config file' : 'Default value' }}"
+                           ></i>
+                    </div>
+                </div>
+
+                <div class="form-group form-group-sm">
+                    <div class="col-sm-offset-3 col-sm-8">
+                        <div class="checkbox">
+                            <label>
+                                <input type="checkbox" ng-true-value="'yes'" ng-false-value="'no'" ng-model="qanConf.RemoveOldSlowLogs">
+                                <small><b>Remove old slow logs</b></small>
+                            </label>
+                        </div>
+                    </div>
+                    <div class="col-sm-1">
+                        <i class="glyphicon"
+                           ng-class="qanConf.RemoveOldSlowLogsLock ? 'glyphicon-lock' : 'glyphicon-wrench'"
+                           title="{{ qanConf.RemoveOldSlowLogsLock ? 'Preset value in config file' : 'Default value' }}"
+                           ></i>
+                    </div>
+                </div>
+
+                <div class="form-group form-group-sm">
+                    <div class="col-sm-offset-3 col-sm-8">
+                        <div class="checkbox">
+                            <label>
+                                <input type="checkbox" ng-true-value="'yes'" ng-false-value="'no'" ng-model="qanConf.ExampleQueries">
+                                <small><b>Send real query examples</b></small>
+                            </label>
+                        </div>
+                    </div>
+                    <div class="col-sm-1">
+                        <i class="glyphicon"
+                           ng-class="qanConf.ExampleQueriesLock ? 'glyphicon-lock' : 'glyphicon-wrench'"
+                           title="{{ qanConf.ExampleQueriesLock ? 'Preset value in config file' : 'Default value' }}"
+                           ></i>
+                    </div>
+                </div>
+
+                <div class="form-group form-group-sm">
+                    <div class="col-sm-offset-3 col-sm-8">
+                        <h5>Slow Log Configuration</h5>
+                    </div>
+                    <div class="col-sm-1">
+                        <i class="glyphicon"
+                           style="color: gold;"
+                           ng-class="qanConf.SlowLogConfigurationLock ? 'glyphicon-lock' : 'glyphicon-wrench'"
+                           title="{{ qanConf.SlowLogConfigurationLock ? 'Preset value in config file' : 'Default value' }}"
+                           ></i>
+                        <div class="gold-mark">&nbsp;</div>
+                    </div>
+                </div>
+
+                <div class="form-group form-group-sm">
+                    <label for="inputSource" class="col-sm-3 control-label">Source</label>
+                    <div class="col-sm-4">
+                        <select class="form-control"
+                                id="inputSource"
+                                name="source"
+                                ng-options="k as v for (k, v) in {'slowlog': 'Slow log', 'perfschema': 'Performance Schema'}"
+                                ng-model="qanConf.CollectFrom">
+                        </select>
+                    </div>
+                    <div class="col-sm-offset-4 col-sm-1">
+                        <div class="gold-mark">&nbsp;</div>
+                    </div>
+                </div>
+
+                <div class="form-group form-group-sm">
+                    <label for="inputLongQueryTime" class="col-sm-3 control-label">Long query time</label>
+                    <div class="col-sm-4">
+                        <input class="form-control"
+                               type="number"
+                               min="0"
+                               id="inputLongQueryTime"
+                               name="longQueryTime"
+                               aria-describedby="longQueryTimeHelpBlock"
+                               ng-model="qanConf.long_query_time">
+                    </div>
+                    <div class="col-sm-4">
+                        <span id="longQueryTimeHelpBlock" class="help-block"><small>second</small></span>
+                    </div>
+                    <div class="col-sm-1">
+                        <div class="gold-mark">&nbsp;</div>
+                    </div>
+                </div>
+
+                <div class="form-group form-group-sm">
+                    <div class="col-sm-offset-3 col-sm-8">
+                        <h5>Percona Server</h5>
+                    </div>
+                    <div class="col-sm-1">
+                        <div class="gold-mark">&nbsp;</div>
+                    </div>
+                </div>
+
+                <div class="form-group form-group-sm">
+                    <label for="inputSlowLogVerbosity" class="col-sm-3 control-label">Slow log verbosity</label>
+                    <div class="col-sm-4">
+                        <select class="form-control"
+                                id="inputSlowLogVerbosity"
+                                name="slowLogVerbosity"
+                                ng-options="i for i in ['Full', 'Standard', 'Minimal']"
+                                ng-model="qanConf.log_slow_verbosity">
+                        </select>
+                    </div>
+                    <div class="col-sm-offset-4 col-sm-1">
+                        <div class="gold-mark">&nbsp;</div>
+                    </div>
+                </div>
+
+                <div class="form-group form-group-sm">
+                    <label for="inputRateLimit" class="col-sm-3 control-label">Rate limit</label>
+                    <div class="col-sm-4">
+                        <input class="form-control"
+                               type="number"
+                               min="0"
+                               id="inputRateLimit"
+                               name="rateLimit"
+                               aria-describedby="rateLimitHelpBlock"
+                               ng-model="qanConf.log_slow_rate_limit">
+                    </div>
+                    <div class="col-sm-4">
+                        <span id="rateLimitHelpBlock" class="help-block"><small>0 and 1 = disabled</small></span>
+                    </div>
+                    <div class="col-sm-1">
+                        <div class="gold-mark">&nbsp;</div>
+                    </div>
+                </div>
+
+                <div class="form-group form-group-sm">
+                    <div class="col-sm-offset-3 col-sm-8">
+                        <div class="checkbox">
+                            <label>
+                                <input type="checkbox" ng-true-value="'ON'" ng-false-value="'OFF'" ng-model="qanConf.log_slow_admin_statements">
+                                <small><b>Log slow admin statements</b></small>
+                            </label>
+                        </div>
+                    </div>
+                    <div class="col-sm-1">
+                        <div class="gold-mark">&nbsp;</div>
+                    </div>
+                </div>
+
+                <div class="form-group form-group-sm">
+                    <div class="col-sm-offset-3 col-sm-8">
+                        <div class="checkbox">
+                            <label>
+                                <input type="checkbox" ng-true-value="'ON'" ng-false-value="'OFF'" ng-model="qanConf.log_slow_slave_statements">
+                                <small><b>Log slow slave statements</b></small>
+                            </label>
+                        </div>
+                    </div>
+                    <div class="col-sm-1">
+                        <div class="gold-mark">&nbsp;</div>
+                    </div>
+                </div>
+
+
+
+            </div>
+            <div class="panel-footer">
+                <div class="form-group form-group-sm">
+                    <div class="col-sm-2">
+                        <button type="button"
+                                class="btn btn-default btn-sm"
+                                popover-append-to-body="true"
+                                popover-placement="up"
+                                popover-template="'jsonPopoverTemplate.html'" popover-title="Qan Config:"
+                                >
+                                <i class="glyphicon glyphicon-search"></i>
+                                Config
+                        </button>
+                    </div>
+                    <div class="col-sm-10">
+                        <button type="submit"
+                                ng-click="setQanConfig()"
+                                class="btn btn-default btn-sm" >
+                            <i class="glyphicon glyphicon-ok"></i>
+                            Apply
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+
 </div>
+</div>
+
+<script type="text/ng-template" id="jsonPopoverTemplate.html">
+    <pre>{{ qanConf | json }}</pre>
+</script>
