@@ -136,6 +136,9 @@ done
 # Copy all of Bootstrap.
 cp -R "$ROOT_DIR/bower_components/bootstrap/dist/"* bower_components/bootstrap/dist
 
+# Copy fonts
+cp -R "$ROOT_DIR/bower_components/font-awesome/fonts/" ./bower_components/font-awesome/fonts/
+
 # Go up one dir to distro/ and tarball the disto dir.
 cd ..
 tar cvfz $BIN-$VER.tar.gz $BIN-$VER/ > /dev/null

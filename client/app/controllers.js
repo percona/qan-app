@@ -938,18 +938,26 @@
                 Config.query({instance_uuid: mysql.UUID})
                       .$promise
                       .then(function (resp) {
-                          var conf = JSON.parse(resp.SetConfig);
-                          console.log('rddd', conf);
-                          for (var attr in conf) {
-                              $scope.qanConf[attr] = conf[attr];
-                              if ($scope.qanConfSimpleOptions.indexOf(attr) > -1) {
-                                  $scope.qanConf[attr + 'Lock'] = true;
-                              } else {
-                                  $scope.qanConf.SlowLogConfigurationLock = true;
+                          if (resp.Error !== "") {
+                              var msg = constants.API_ERR;
+                              msg = msg.replace('<err_msg>', resp.Error);
+                              $rootScope.alerts.push({
+                                  'type': 'danger',
+                                  'msg': msg
+                              });
+                          } else {
+                              var conf = JSON.parse(resp.SetConfig);
+                              for (var attr in conf) {
+                                  $scope.qanConf[attr] = conf[attr];
+                                  if ($scope.qanConfSimpleOptions.indexOf(attr) > -1) {
+                                      $scope.qanConf[attr + 'Lock'] = true;
+                                  } else {
+                                      $scope.qanConf.SlowLogConfigurationLock = true;
+                                  }
                               }
-                          }
-                          if (attr === 'MaxSlowLogSize') {
-                              $scope.qanConf.MaxSlowLogSize = numeral($scope.qanConf.MaxSlowLogSize).format('0b');
+                              if (attr === 'MaxSlowLogSize') {
+                                  $scope.qanConf.MaxSlowLogSize = numeral($scope.qanConf.MaxSlowLogSize).format('0b');
+                              }
                           }
                       })
                       .catch(function (resp) {
@@ -978,22 +986,29 @@
                 var agentCmd = new AgentCmd(params);
                 var p = AgentCmd.update({agent_uuid: agent.UUID}, agentCmd);
                 p.$promise
-                .then(function (data) {
-                    if (data.Error === '') {
-                        var res = JSON.parse(atob(data.Data));
-                        var conf = res.qan;
-                        for (var attr in conf) {
-                            if ($scope.qanConfSimpleOptions.indexOf(attr) > -1 && $scope.qanConf[attr + 'Lock'] === false) {
-                                $scope.qanConf[attr] = conf[attr];
-                            } else if ($scope.qanConfSimpleOptions.indexOf(attr) === -1 && $scope.qanConf.SlowLogConfigurationLock === false) {
-                                $scope.qanConf[attr] = conf[attr];
-                            }
-                            if (attr === 'MaxSlowLogSize') {
-                                $scope.qanConf.MaxSlowLogSize = numeral($scope.qanConf.MaxSlowLogSize).format('0b');
+                    .then(function (data) {
+                        if (data.Error !== "") {
+                            var msg = constants.API_ERR;
+                            msg = msg.replace('<err_msg>', data.Error);
+                            $rootScope.alerts.push({
+                                'type': 'danger',
+                                'msg': msg
+                            });
+                        } else {
+                            var res = JSON.parse(atob(data.Data));
+                            var conf = res.qan;
+                            for (var attr in conf) {
+                                if ($scope.qanConfSimpleOptions.indexOf(attr) > -1 && $scope.qanConf[attr + 'Lock'] === false) {
+                                    $scope.qanConf[attr] = conf[attr];
+                                } else if ($scope.qanConfSimpleOptions.indexOf(attr) === -1 && $scope.qanConf.SlowLogConfigurationLock === false) {
+                                    $scope.qanConf[attr] = conf[attr];
+                                }
+                                if (attr === 'MaxSlowLogSize') {
+                                    $scope.qanConf.MaxSlowLogSize = numeral($scope.qanConf.MaxSlowLogSize).format('0b');
+                                }
                             }
                         }
-                    }
-                })
+                    })
                 .catch(function(resp) {})
                 .finally(function() {});
             };
