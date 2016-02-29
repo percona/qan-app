@@ -17,7 +17,7 @@
                 </li>
                 <li role="separator" class="divider">&nbsp;</li>
                 <li>
-                    <div class="btn-group" dropdown dropdown-append-to-body auto-close="outsideClick">
+                    <div class="btn-group" dropdown dropdown-append-to-body >
                         <button type="button"
                                 dropdown-toggle
                                 class="btn btn-default navbar-btn dropdown-toggle"
@@ -28,9 +28,8 @@
                             <span class="caret"></span>
                         </button>
                         <div class="dropdown-menu" dropdown-menu role="menu" style="padding: 5px;">
-                            <div class="well" style="width: 200px">
+                            <div class="well" style="width: 300px">
                                 <abn-tree tree-data="treeData"
-                                          expand-level="2"
                                           icon-leaf=""
                                           on-select="treeHandler(branch)"
                                           ></abn-tree>

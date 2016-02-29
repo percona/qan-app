@@ -13,6 +13,7 @@
         'angularBootstrapNavTree',
         'angularMoment',
         'ngclipboard',
+        'ngNumeraljs',
         'pplControllers',
         'pplServices',
         'pplDirectives',
@@ -31,9 +32,16 @@
       });
 
 
-    configure.$inject = ['$stateProvider', '$httpProvider', '$urlRouterProvider', '$resourceProvider'];
+    configure.$inject = ['$stateProvider', '$httpProvider', '$urlRouterProvider', '$resourceProvider', '$tooltipProvider'];
 
-    function configure($stateProvider, $httpProvider, $urlRouterProvider, $resourceProvider) {
+    function configure($stateProvider, $httpProvider, $urlRouterProvider, $resourceProvider, $tooltipProvider) {
+
+        $tooltipProvider.setTriggers({
+            'mouseenter': 'mouseleave',
+            'click': 'click',
+            'focus': 'blur',
+            'bebebe': 'fefefe'
+        });
 
         function setVersionedUrl(url) {
             // catch /ng/views/ HTML templates only

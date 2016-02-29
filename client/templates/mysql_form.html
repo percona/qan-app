@@ -5,7 +5,7 @@
             <div class="panel-heading">
                 <div class="row">
                     <div class="col-md-6">
-                        <h4>MySQL DSN config</h4>
+                        <h4>MySQL Connection</h4>
                     </div>
                     <div class="col-md-6">
                         <a href="" ng-if="instance.Deleted == '0001-01-01T00:00:00Z'" ng-click="deleteMysqlInstance(instance.Name)" class="pull-right"><i class="glyphicon glyphicon-trash"></i> Remove</a>
@@ -23,30 +23,29 @@
 
                 <div class="form-group form-group-sm">
                     <label for="inputID" class="col-md-3 control-label">ID</label>
-                    <div class="col-md-8">
+                    <div class="col-md-5">
                         <p class="form-control-static input-sm" id="instanceUUID">{{ instance.UUID }}</p>
                     </div>
                     <div class="col-sm-1">
-                        <span id="inputIdHelpBlock" class="help-block">
-                            <a href="" ngclipboard data-clipboard-target="#instanceUUID"
-                               ngclipboard-success="onSuccess(e);" ngclipboard-error="onError(e);"
-                               tooltip="{{ tooltipText }}"
+                        <span id="inputIdHelpBlock"
+                            class="help-block">
+                            <a href=""
+                               tooltip-html="tooltipText"
                                tooltip-append-to-body="true"
                                tooltip-placement="bottom"
-                               popover-trigger="none"
-                               tooltip-is-open="tooltipIsOpen"
+                               ngclipboard data-clipboard-target="#instanceUUID"
+                               ngclipboard-success="onSuccess(e);" ngclipboard-error="onError(e);"
                                >
                                 <i class="glyphicon glyphicon-copy"></i>
                             </a>
                         </span>
                     </div>
-
                 </div>
 
-                <div class="form-group form-group-sm">
+                <div class="form-group form-group-sm" ng-class="{ 'has-error' : instanceForm.name.$invalid && !instanceForm.name.$pristine }">
                     <label for="inputName" class="col-md-3 control-label">Label</label>
                     <div class="col-md-9">
-                        <input type="text" class="form-control input-sm" id="inputName" name="name" ng-model="instance.Name">
+                        <input type="text" class="form-control input-sm" id="inputName" name="name" ng-model="instance.Name" ng-required="true">
                     </div>
                 </div>
 
@@ -91,7 +90,7 @@
                     </div>
                     <label for="inputPort" class="col-md-1 control-label">Port</label>
                     <div class="col-md-2">
-                        <input type="text" class="form-control input-sm" name="port" ng-model="instance.port">
+                        <input type="number" min="1" max="65535" class="form-control input-sm" name="port" ng-model="instance.port">
                     </div>
                 </div>
                 <div class="form-group form-group-sm">
@@ -106,7 +105,7 @@
                 <div class="form-group form-group-sm">
                     <label for="inputVersion" class="col-md-3 control-label">Version</label>
                     <div class="col-md-9">
-                        <p class="form-control-static input-sm">{{ instance.Version }}</p>
+                        <p class="form-control-static input-sm">{{ instance.Version }} {{ instance.Distro }}</p>
                     </div>
                 </div>
 
@@ -134,21 +133,24 @@
             </div>
             <div class="panel-footer">
                 <div class="form-group form-group-sm">
-                    <div class="col-md-2">
-                        <button type="button"
-                                class="btn btn-default btn-sm"
-                                popover-append-to-body="true"
-                                popover-placement="bottom-left"
-                                popover="{{ getDSN() }}" >
-                                <i class="glyphicon glyphicon-search"></i>
-                                DSN
-                        </button>
-                    </div>
-                    <div class="col-md-10">
-                        <button type="submit" ng-click="updateMySQLInstance()" class="btn btn-default btn-sm">
+                    <div class="col-md-offset-3 col-md-3">
+                        <button type="submit" ng-disabled="instanceForm.$invalid" ng-click="updateMySQLInstance()" class="btn btn-primary btn-sm">
                             <i class="glyphicon glyphicon-ok"></i>
                             Save
                         </button>
+                    </div>
+                    <div class="col-md-offset-1 col-md-2" style="padding-top: 5px !important;">
+                        <a href=""
+                           popover="{{ popoverDSN }}" 
+                           popover-popup-delay="100"
+                           popover-append-to-body="true"
+                           popover-placement="bottom"
+                           popover-trigger="click"
+                           ng-click="getDSN()"
+                               >
+                           <i class="glyphicon glyphicon-search"></i>
+                           DSN
+                        </a>
                     </div>
                 </div>
             </div>
@@ -164,7 +166,7 @@
             <div class="panel-heading">
                 <div class="row">
                     <div class="col-md-12">
-                        <h4>Query Analytics Config</h4>
+                        <h4>Query Analytics</h4>
                     </div>
                 </div>
             </div>
@@ -180,7 +182,7 @@
                         </select>
                     </div>
                     <div class="col-sm-3">
-                        <button type="button" ng-click="testAgentConnection(selected_agent)" class="btn btn-default btn-sm">Test Connection to MySQL</button>
+                        <button type="button" ng-click="getAgentStatus(selected_agent)" class="btn btn-default btn-sm">Test Connection to MySQL</button>
                     </div>
                 </div>
 
@@ -206,8 +208,8 @@
                         <span id="intervalHelpBlock" class="help-block"><small>minute(s)</small></span>
                     </div>
                     <div class="col-sm-1">
-                        <i class="glyphicon"
-                           ng-class="qanConf.IntervalLock ? 'glyphicon-lock' : 'glyphicon-wrench'"
+                        <i class="fa"
+                           ng-class="qanConf.IntervalLock ? 'fa-lock' : 'fa-unlock'"
                            title="{{ qanConf.IntervalLock ? 'Preset value in config file' : 'Default value' }}"
                            ></i>
                     </div>
@@ -224,11 +226,11 @@
                                ng-model="qanConf.MaxSlowLogSize">
                     </div>
                     <div class="col-sm-4">
-                        <span id="maxSlowLogSizeHelpBlock" class="help-block"><small>Ex.: 1G, 200M, 0 = no max</small></span>
+                        <span id="maxSlowLogSizeHelpBlock" class="help-block"><small>Ex.: 1GB, 200MB, 0 = no max</small></span>
                     </div>
                     <div class="col-sm-1">
-                        <i class="glyphicon"
-                           ng-class="qanConf.MaxSlowLogSizeLock ? 'glyphicon-lock' : 'glyphicon-wrench'"
+                        <i class="fa"
+                           ng-class="qanConf.MaxSlowLogSizeLock ? 'fa-lock' : 'fa-unlock'"
                            title="{{ qanConf.MaxSlowLogSizeLock ? 'Preset value in config file' : 'Default value' }}"
                            ></i>
                     </div>
@@ -244,8 +246,8 @@
                         </div>
                     </div>
                     <div class="col-sm-1">
-                        <i class="glyphicon"
-                           ng-class="qanConf.RemoveOldSlowLogsLock ? 'glyphicon-lock' : 'glyphicon-wrench'"
+                        <i class="fa"
+                           ng-class="qanConf.RemoveOldSlowLogsLock ? 'fa-lock' : 'fa-unlock'"
                            title="{{ qanConf.RemoveOldSlowLogsLock ? 'Preset value in config file' : 'Default value' }}"
                            ></i>
                     </div>
@@ -261,8 +263,8 @@
                         </div>
                     </div>
                     <div class="col-sm-1">
-                        <i class="glyphicon"
-                           ng-class="qanConf.ExampleQueriesLock ? 'glyphicon-lock' : 'glyphicon-wrench'"
+                        <i class="fa"
+                           ng-class="qanConf.ExampleQueriesLock ? 'fa-lock' : 'fa-unlock'"
                            title="{{ qanConf.ExampleQueriesLock ? 'Preset value in config file' : 'Default value' }}"
                            ></i>
                     </div>
@@ -273,9 +275,9 @@
                         <h5>Slow Log Configuration</h5>
                     </div>
                     <div class="col-sm-1">
-                        <i class="glyphicon"
+                        <i class="fa"
                            style="color: gold;"
-                           ng-class="qanConf.SlowLogConfigurationLock ? 'glyphicon-lock' : 'glyphicon-wrench'"
+                           ng-class="qanConf.SlowLogConfigurationLock ? 'fa-lock' : 'fa-unlock'"
                            title="{{ qanConf.SlowLogConfigurationLock ? 'Preset value in config file' : 'Default value' }}"
                            ></i>
                         <div class="gold-mark">&nbsp;</div>
@@ -392,24 +394,23 @@
             </div>
             <div class="panel-footer">
                 <div class="form-group form-group-sm">
-                    <div class="col-sm-2">
-                        <button type="button"
-                                class="btn btn-default btn-sm"
+                    <div class="col-sm-offset-3 col-md-2">
+                        <button type="submit"
+                                ng-click="setQanConfig()"
+                                class="btn btn-primary btn-sm" >
+                            <i class="glyphicon glyphicon-ok"></i>
+                            Apply
+                        </button>
+                    </div>
+                    <div class="col-md-offset-2 col-md-2" style="padding-top: 5px !important;">
+                        <a href=""
                                 popover-append-to-body="true"
                                 popover-placement="up"
                                 popover-template="'jsonPopoverTemplate.html'" popover-title="Qan Config:"
                                 >
                                 <i class="glyphicon glyphicon-search"></i>
                                 Config
-                        </button>
-                    </div>
-                    <div class="col-sm-10">
-                        <button type="submit"
-                                ng-click="setQanConfig()"
-                                class="btn btn-default btn-sm" >
-                            <i class="glyphicon glyphicon-ok"></i>
-                            Apply
-                        </button>
+                        </a>
                     </div>
                 </div>
             </div>
