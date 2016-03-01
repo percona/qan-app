@@ -599,12 +599,14 @@
         '$rootScope',
         'constants',
         '$timeout',
+        '$interval',
         '$filter',
         'Instance',
         'AgentCmd',
         'AgentStatus',
+        'AgentLog',
         'Config',
-        function($scope, $rootScope, constants, $timeout, $filter, Instance, AgentCmd, AgentStatus, Config) {
+        function($scope, $rootScope, constants, $timeout, $interval, $filter, Instance, AgentCmd, AgentStatus, AgentLog, Config) {
             $scope.init = function () {
                 $rootScope.treeRootLabel = 'Please select instance';
                 $scope.managementFormUrl = '';
@@ -632,7 +634,56 @@
                     'log_slow_admin_statements': 'OFF',
                     'log_slow_slave_statements': 'OFF',
                 };
+                $scope.logTimeFrame = '1 h';
+                $scope.agentLabelEditeble = false;
+                $scope.severityLeveles = ['emerg', 'alert', 'crit', 'err', 'warning', 'notice', 'info', 'debug'];
                 $scope.tooltipText = 'Copy the ID';
+            };
+
+            $rootScope.treeHandler = function (branch) {
+                $scope.resetConnectionStatus();
+                var re = new RegExp(/^(.+):(.+)@(unix|tcp)\((.+)\)\/.*(?:allowOldPasswords=(true|false))?.*$/);
+                switch (true) {
+                    case 'data' in branch && branch.data.Subsystem === 'mysql':
+                        $rootScope.treeRootLabel = 'MySQL: ' + branch.label;
+                        $scope.managementFormUrl = '/client/templates/mysql_form.html';
+                        $scope.instance = new Instance(branch.data);
+                        var arr = re.exec(branch.data.DSN);
+                        $scope.instance.user = arr[1];
+                        $scope.instance.password = arr[2];
+                        $scope.instance.type = arr[3];
+                        if ($scope.instance.type === 'unix') {
+                            $scope.instance.socket = arr[4];
+                            $scope.instance.hostname = '';
+                            $scope.instance.port = 3306;
+                        } else {
+                            var hostPort = arr[4].split(':');
+                            $scope.instance.hostname = hostPort[0];
+                            $scope.instance.port = parseInt(hostPort[1]) || 3306;
+                            $scope.instance.socket = '';
+                        }
+                        $scope.rawInstance= angular.copy($scope.instance);
+                        $scope.instance.allowOldPasswords = arr[5] === undefined ? false : arr[5];
+                        $scope.getRelatedAgent($scope.instance);
+                        // watch form changing to update DSN
+                        $scope.$watchCollection('instance', function(){
+                            $scope.getDSN();
+                        });
+
+                        // QAN mgmt
+                        $scope.getConfig(branch.data);
+                        break;
+                    case 'data' in branch && branch.data.Subsystem === 'agent':
+                        $rootScope.treeRootLabel = 'Agent: ' + branch.label;
+                        $scope.agent = branch.data;
+                        $scope.managementFormUrl = '/client/templates/agent_form.html';
+                        $scope.getAgentStatus(branch.data);
+                        $scope.getAgentLog(branch.data, $scope.logTimeFrame);
+                        break;
+                    default:
+                        $scope.managementFormUrl = '';
+                        $rootScope.treeRootLabel = 'Please select instance';
+                }
             };
 
             $scope.onSuccess = function(e) {
@@ -717,48 +768,6 @@
                 }
             };
 
-            $rootScope.treeHandler = function (branch) {
-                $scope.resetConnectionStatus();
-                var re = new RegExp(/^(.+):(.+)@(unix|tcp)\((.+)\)\/.*(?:allowOldPasswords=(true|false))?.*$/);
-                switch (true) {
-                    case 'data' in branch && branch.data.Subsystem === 'mysql':
-                        $rootScope.treeRootLabel = 'MySQL: ' + branch.label;
-                        $scope.managementFormUrl = '/client/templates/mysql_form.html';
-                        $scope.instance = new Instance(branch.data);
-                        var arr = re.exec(branch.data.DSN);
-                        $scope.instance.user = arr[1];
-                        $scope.instance.password = arr[2];
-                        $scope.instance.type = arr[3];
-                        if ($scope.instance.type === 'unix') {
-                            $scope.instance.socket = arr[4];
-                            $scope.instance.hostname = '';
-                            $scope.instance.port = 3306;
-                        } else {
-                            var hostPort = arr[4].split(':');
-                            $scope.instance.hostname = hostPort[0];
-                            $scope.instance.port = parseInt(hostPort[1]) || 3306;
-                            $scope.instance.socket = '';
-                        }
-                        $scope.instance.allowOldPasswords = arr[5] === undefined ? false : arr[5];
-                        $scope.getRelatedAgent($scope.instance);
-                        // watch form changing to update DSN
-                        $scope.$watchCollection('instance', function(){
-                            $scope.getDSN();
-                        });
-
-                        // QAN mgmt
-                        $scope.getConfig(branch.data);
-                        break;
-                    case 'data' in branch && branch.data.Subsystem === 'agent':
-                        $rootScope.treeRootLabel = 'Agent: ' + branch.label;
-                        $scope.managementFormUrl = '';
-                        break;
-                    default:
-                        $scope.managementFormUrl = '';
-                        $rootScope.treeRootLabel = 'Please select instance';
-                }
-            };
-
 
             $scope.stopAgent = function () {
                 var data = {};
@@ -833,6 +842,30 @@
                 return dsn;
             };
 
+            $scope.updateAgentInstance = function () {
+                Instance.update({'instance_uuid': $scope.agent.UUID}, $scope.agent)
+                    .$promise
+                    .then(function (resp) {
+                          $scope.agentLabelEditeble = false;
+                          $rootScope.alerts.push({
+                              'type': 'info',
+                              'msg': 'Agent has been updated.'
+                          });
+                    })
+                    .catch(function (resp) {
+                        var msg = constants.DEFAULT_ERR;
+                        if (resp.hasOwnProperty('data') && resp.data.hasOwnProperty('Error')) {
+                            msg = constants.API_ERR;
+                            msg = msg.replace('<err_msg>', resp.data.Error);
+                        }
+                        $rootScope.alerts.push({
+                            'type': 'danger',
+                            'msg': msg
+                        });
+                    })
+                    .finally();
+            };
+
             $scope.updateMySQLInstance = function () {
                 $scope.instance.DSN = $scope.getDSN();
                 Instance.update({'instance_uuid': $scope.instance.UUID}, $scope.instance)
@@ -892,10 +925,37 @@
                 $scope.instanceError = false;
             };
 
+            $scope.testConnectionToMySQL = function (agent) {
+                $scope.qanError = '';
+                var params = {
+                    AgentUUID: agent.UUID,
+                    Service: 'instance',
+                    Cmd: 'GetInfo',
+                    Data: btoa(JSON.stringify($scope.rawInstance))
+                };
+
+                var agentCmd = new AgentCmd(params);
+                var p = AgentCmd.update({agent_uuid: agent.UUID}, agentCmd);
+                p.$promise
+                 .then(function (resp) {
+                     if (resp.Error !== "") {
+                        $scope.qanError = resp.Error;
+                        $scope.qanOK = false;
+                     } else {
+                        $scope.qanOK = true;
+                        $scope.qanError = false;
+                     }
+                 })
+                 .catch(function (resp) {
+                     $scope.qanOK = false;
+                     $scope.qanError = resp.data.Error;
+                 })
+                 .finally();
+            };
+
             $scope.testAgentConnection = function (agent) {
                 $scope.instanceError = '';
                 $scope.instance.DSN = $scope.getDSN();
-                console.log('dasldasjl', $scope.instance);
                 var params = {
                     AgentUUID: agent.UUID,
                     Service: 'instance',
@@ -925,12 +985,64 @@
             };
 
             $scope.getAgentStatus = function (agent) {
+                $interval.cancel($scope.statusUpdatedFromNowObj);
+                var updated = moment();
+                $scope.statusUpdatedFromNow = updated.fromNow();
+                $scope.statusUpdatedFromNowObj = $interval(function() {
+                    $scope.statusUpdatedFromNow = updated.fromNow();
+                    console.log('tt', $scope.statusUpdatedFromNow);
+                }, 60000);
                 AgentStatus.query({agent_uuid: agent.UUID})
                     .$promise
                     .then(function (resp) {
-                        console.log('as', resp);
+                        $scope.agentStatus = resp;
+                        var qanAnalyzerKey = Object.keys($scope.agentStatus)
+                            .filter(function(v) {
+                                return v.startsWith('qan-analyzer') && !v.endsWith('interval') && !v.endsWith('worker');
+                            });
+                        $scope.agentStatus['qan-analyzer'] = resp[qanAnalyzerKey];
+
                     })
-                    .catch(function (resp) {})
+                    .catch(function (resp) {
+                          var msg = constants.DEFAULT_ERR;
+                          if (resp.hasOwnProperty('data') && resp.data.hasOwnProperty('Error')) {
+                              msg = constants.API_ERR;
+                              msg = msg.replace('<err_msg>', resp.data.Error);
+                          }
+                          $rootScope.alerts.push({
+                              'type': 'danger',
+                              'msg': msg
+                          });
+                    })
+                    .finally(function (resp) {});
+            };
+
+            $scope.getAgentLog = function (agent, period) {
+                period = period.split(' ');
+                var begin = moment.utc().subtract(period[0], period[1]).format(constants.DTM_FORMAT);
+                var end = moment.utc().format(constants.DTM_FORMAT);
+                var params = {
+                    agent_uuid: agent.UUID,
+                    begin: begin,
+                    end: end
+                };
+                AgentLog.query(params)
+                    .$promise
+                    .then(function (resp) {
+                        console.log('al', resp);
+                        $scope.agentLog = resp;
+                    })
+                    .catch(function (resp) {
+                          var msg = constants.DEFAULT_ERR;
+                          if (resp.hasOwnProperty('data') && resp.data.hasOwnProperty('Error')) {
+                              msg = constants.API_ERR;
+                              msg = msg.replace('<err_msg>', resp.data.Error);
+                          }
+                          $rootScope.alerts.push({
+                              'type': 'danger',
+                              'msg': msg
+                          });
+                    })
                     .finally(function (resp) {});
             };
 
@@ -938,14 +1050,7 @@
                 Config.query({instance_uuid: mysql.UUID})
                       .$promise
                       .then(function (resp) {
-                          if (resp.Error !== "") {
-                              var msg = constants.API_ERR;
-                              msg = msg.replace('<err_msg>', resp.Error);
-                              $rootScope.alerts.push({
-                                  'type': 'danger',
-                                  'msg': msg
-                              });
-                          } else {
+                          if (resp.Error === "") {
                               var conf = JSON.parse(resp.SetConfig);
                               for (var attr in conf) {
                                   $scope.qanConf[attr] = conf[attr];

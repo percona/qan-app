@@ -1,0 +1,137 @@
+<div class="row">
+<div class="col-md-6">
+    <h4 ng-hide="agentLabelEditeble">
+        Agent {{ agent.Name }} <a href="" ng-click="agentLabelEditeble=true"><i class="glyphicon glyphicon-pencil"></i></a>
+    </h4>
+    <h4 ng-show="agentLabelEditeble">
+        <div class="input-group" ng-class="{ 'has-error' : !agent.Name}">
+            <input type="text" maxlength="20" class="form-control" ng-model="agent.Name" placeholder="Agent label...">
+            <span class="input-group-btn">
+                <button class="btn btn-default" ng-disabled="!agent.Name" ng-click="updateAgentInstance();" type="button"><i class="glyphicon glyphicon-ok"></i></button>
+            </span>
+        </div>
+    </h4>
+</div>
+</div>
+<div class="row">
+<div class="col-md-12">
+    <h5>ID <b id="agentUUID">{{ agent.UUID }}</b>
+        &nbsp;<a href=""
+           tooltip-html="tooltipText"
+           tooltip-append-to-body="true"
+           tooltip-placement="bottom"
+           ngclipboard data-clipboard-target="#agentUUID"
+           ngclipboard-success="onSuccess(e);" ngclipboard-error="onError(e);">
+              <i class="glyphicon glyphicon-copy"></i>
+        </a>
+    </h5>
+</div>
+</div>
+
+<div class="row">
+
+    <!-- Status -->
+
+    <div class="col-md-3">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <div class="row">
+                    <div class="col-md-2">
+                        <h4>Status</h4>
+                    </div>
+                    <div class="col-md-offset-7 col-md-3">
+                        <button class="btn btn-default" title="Refresh status" ng-click="getAgentStatus(agent)">
+                            <i class="glyphicon glyphicon-refresh"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <div class="panel-body">
+                <table class="table table-bordered">
+                    <tr>
+                        <td>agent</td>
+                        <td>{{ agentStatus.agent }}</td>
+                    </tr>
+                    <tr>
+                        <td>agent-ws</td>
+                        <td>{{ agentStatus['agent-ws'] | limitTo: agentStatus['agent-ws'].indexOf(' ') }}</td>
+                    </tr>
+                    <tr>
+                        <td>data</td>
+                        <td>{{ agentStatus.data }}</td>
+                    </tr>
+                    <tr>
+                        <td>data-spooler-size</td>
+                        <td>{{ agentStatus['data-spooler-size'] }}</td>
+                    </tr>
+                    <tr>
+                        <td>log-buf2</td>
+                        <td>{{ agentStatus['log-buf2'] }}</td>
+                    </tr>
+                    <tr>
+                        <td>qan</td>
+                        <td>{{ agentStatus.qan }}</td>
+                    </tr>
+                    <tr>
+                        <td>qan-analyzer</td>
+                        <td>{{ agentStatus['qan-analyzer'] }}</td>
+                    </tr>
+                </table>
+            </div>
+            <div class="panel-footer">
+                <p class="text-info">Updated {{ statusUpdatedFromNow }}</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Log -->
+
+    <div class="col-md-9">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <div class="row">
+                    <div class="col-md-3">
+                        <h4>Log</h4>
+                    </div>
+                    <div class="col-md-offset-4 col-md-5">
+                        <div class="btn-group">
+                            <label class="btn btn-default" ng-click="getAgentLog(agent, '1 h')" ng-model="logTimeFrame" btn-radio="'1 h'" uncheckable>1h</label>
+                            <label class="btn btn-default" ng-click="getAgentLog(agent, '2 h')" ng-model="logTimeFrame" btn-radio="'2 h'" uncheckable>2h</label>
+                            <label class="btn btn-default" ng-click="getAgentLog(agent, '6 h')" ng-model="logTimeFrame" btn-radio="'6 h'" uncheckable>6h</label>
+                            <label class="btn btn-default" ng-click="getAgentLog(agent, '12 h')" ng-model="logTimeFrame" btn-radio="'12 h'" uncheckable>12h</label>
+                            <label class="btn btn-default" ng-click="getAgentLog(agent, '1 d')" ng-model="logTimeFrame" btn-radio="'1 d'" uncheckable>1d</label>
+                            <label class="btn btn-default" ng-click="getAgentLog(agent, '5 d')" ng-model="logTimeFrame" btn-radio="'5 d'" uncheckable>5d</label>
+                        </div>
+                        <button class="btn btn-default" title="Refresh log" ng-click="getAgentLog(agent, logTimeFrame)">
+                            <i class="glyphicon glyphicon-refresh"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <div class="panel-body">
+                <div class="table-responsive" style="height: 400px; overflow-y: scroll">
+                    <table class="table table-bordered">
+                        <thead>
+                            <tr>
+                                <th>Timestamp</th>
+                                <th>Service</th>
+                                <th>Level</th>
+                                <th>Msg</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr ng-repeat="log in agentLog">
+                                <td nowrap>{{ log.Ts }}</td>
+                                <td nowrap>{{ log.Service }}</td>
+                                <td nowrap>{{ severityLeveles[log.Level] }}</td>
+                                <td nowrap>{{ log.Msg }}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+</div>

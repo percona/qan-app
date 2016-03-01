@@ -25,7 +25,8 @@
           DEFAULT_ERR: 'Datastore API error. Check the datastore log file for more information.',
           API_ERR: 'Datastore API error: "<err_msg>".<br />Check the datastore log file for more information.',
           AGENT_ERR: 'Agent API error: "<err_msg>".<br />Check the agent log file for more information.',
-          CONFIRM_STOP_AGENT: 'Are you sure you want to stop the agent?\nPlease note: you cannot start it again from UI.'
+          CONFIRM_STOP_AGENT: 'Are you sure you want to stop the agent?\nPlease note: you cannot start it again from UI.',
+          DTM_FORMAT: 'YYYY-MM-DDTHH:mm:ss'
       })
       .constant('angularMomentConfig', {
               timezone: 'UTC'
@@ -59,7 +60,7 @@
             return {
                 request: function (config) {
                     $rootScope.loading = true;
-                    config.timeout = 5000;
+                    config.timeout = 10000;
                     // Intercept Angular external request to static files
                     // to append version number to defeat the cache problem.
                     config.url = setVersionedUrl(config.url);
@@ -107,7 +108,13 @@
                           .$promise
                           .then(function(resp) {
                               var mysqls = [];
-                              if (resp.length === 0) {
+                              for (var i=0; i < resp.length; i++) {
+                                  if (resp[i].Subsystem === 'mysql') {
+                                      resp[i].DSN = resp[i].DSN.replace(/:[0-9a-zA-Z]+@/, ':************@');
+                                      mysqls.push(resp[i]);
+                                  }
+                              }
+                              if (mysqls.length === 0) {
                                   $rootScope.alerts.push({
                                       msg: 'There are no MySQL instances. ' +
                                            'Install the agent on a server, ' +
@@ -115,14 +122,6 @@
                                       type: 'danger'
                                   });
                                   $rootScope.connection_error = true;
-                              } else {
-                                  for (var i=0; i < resp.length; i++) {
-                                      if (resp[i].Subsystem === 'mysql') {
-                                          resp[i].DSN = resp[i].DSN.replace(/:[0-9a-zA-Z]+@/, ':************@');
-                                          mysqls.push(resp[i]);
-                                      }
-                                  }
-
                               }
 
                               return {

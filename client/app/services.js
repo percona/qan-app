@@ -90,6 +90,19 @@
         }
     ]);
 
+    pplServices.factory('AgentLog', [
+        '$resource',
+        'constants',
+        function($resource, constants) {
+            return $resource(constants.API_PATH + '/agents/:agent_uuid/log',
+                {},
+                {
+                    query: {method: 'GET', params: {}, isArray: true},
+                }
+            );
+        }
+    ]);
+
     pplServices.factory('AgentCmd', [
         '$resource',
         'constants',

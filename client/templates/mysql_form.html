@@ -161,7 +161,7 @@
 <!-- QAN mgmt -->
 
 <div class="col-md-6">
-    <form class="form-horizontal" novalidate name="qanForm">
+    <form class="form-horizontal" name="qanForm">
         <div class="panel panel-default">
             <div class="panel-heading">
                 <div class="row">
@@ -182,14 +182,14 @@
                         </select>
                     </div>
                     <div class="col-sm-3">
-                        <button type="button" ng-click="getAgentStatus(selected_agent)" class="btn btn-default btn-sm">Test Connection to MySQL</button>
+                        <button type="button" ng-click="testConnectionToMySQL(selected_agent)" class="btn btn-default btn-sm">Test Connection to MySQL</button>
                     </div>
                 </div>
 
                 <div class="form-group form-group-sm">
                     <div class="col-sm-offset-3 col-sm-9">
-                    <p ng-if="instanceError" class="text-danger"><i class="glyphicon glyphicon-remove-circle"></i> Connection failed: {{ instanceError }}</p>
-                    <p ng-if="instanceOK" class="text-success"><i class="glyphicon glyphicon-ok-circle"></i> Connection OK</p>
+                    <p ng-if="qanError" class="text-danger"><i class="glyphicon glyphicon-remove-circle"></i> Connection failed: {{ instanceError }}</p>
+                    <p ng-if="qanOK" class="text-success"><i class="glyphicon glyphicon-ok-circle"></i> Connection OK</p>
                     </div>
                 </div>
 
@@ -215,12 +215,13 @@
                     </div>
                 </div>
 
-                <div class="form-group form-group-sm">
+                <div class="form-group form-group-sm" ng-class="{ 'has-error' : qanForm.maxSlowLogSize.$invalid && !qanForm.maxSlowLogSize.$pristine }">
                     <label for="inputMaxSlowLogSize" class="col-sm-3 control-label">Max slow log size</label>
                     <div class="col-sm-4">
                         <input class="form-control"
                                type="text"
                                id="inputMaxSlowLogSize"
+                               ng-pattern="'(|0|[1-9][0-9]*[KMGPY]?B)?'"
                                name="maxSlowLogSize"
                                aria-describedby="maxSlowLogSizeHelpBlock"
                                ng-model="qanConf.MaxSlowLogSize">
@@ -397,6 +398,7 @@
                     <div class="col-sm-offset-3 col-md-2">
                         <button type="submit"
                                 ng-click="setQanConfig()"
+                                ng-disabled="qanForm.$invalid"
                                 class="btn btn-primary btn-sm" >
                             <i class="glyphicon glyphicon-ok"></i>
                             Apply
