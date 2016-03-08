@@ -1,17 +1,12 @@
 #!/usr/bin/env bash
+
 BASEDIR=$(cd "$(dirname "$0")"; pwd)
-LISTEN="${LISTEN:-":LISTEN"}"
-HOST="${LISTEN%:*}"
-PORT="${LISTEN#*:}"
+. "$BASEDIR/start"
 
-app_is_running() {
-   pid=$(ps ax | grep "percona-qan-app-$PORT" | grep -v grep | awk '{print $1}')
-   [ "$pid" ] && return 0 # running
-   return 1 # not running
-}
-
+FIXPIDFILE="no"
 if app_is_running; then
-   kill $pid
+   kill $PID
+   rm -f "$PIDFILE"
    echo "Stopped Percona Query Analytics app"
 else
    echo "Percona Query Analytics app is not running"
