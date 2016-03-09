@@ -57,7 +57,7 @@ start_app() {
       eval "$cmd >> $LOGFILE 2>&1 &"
       PID=$!
       if [ $? -ne 0 ]; then
-         echo "Error started Percona QAN app. Check the log file: $BASEDIR/$SERVICE.log" >&2
+         echo "ERROR: $BIN did not start (exit status $?), check $LOGFILE" >&2
          exit 1
       fi
       echo $PID > "$PIDFILE"
