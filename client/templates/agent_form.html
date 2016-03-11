@@ -32,7 +32,7 @@
 
     <!-- Status -->
 
-    <div class="col-md-3">
+    <div class="col-md-5">
         <div class="panel panel-default">
             <div class="panel-heading">
                 <div class="row">
@@ -40,43 +40,21 @@
                         <h4>Status</h4>
                     </div>
                     <div class="col-md-offset-7 col-md-3">
-                        <button class="btn btn-default" title="Refresh status" ng-click="getAgentStatus(agent)">
+                        <button class="btn btn-default pull-right" title="Refresh status" ng-click="getAgentStatus(agent)">
                             <i class="glyphicon glyphicon-refresh"></i>
                         </button>
                     </div>
                 </div>
             </div>
             <div class="panel-body">
-                <table class="table table-bordered">
-                    <tr>
-                        <td>agent</td>
-                        <td>{{ agentStatus.agent }}</td>
-                    </tr>
-                    <tr>
-                        <td>agent-ws</td>
-                        <td>{{ agentStatus['agent-ws'] | limitTo: agentStatus['agent-ws'].indexOf(' ') }}</td>
-                    </tr>
-                    <tr>
-                        <td>data</td>
-                        <td>{{ agentStatus.data }}</td>
-                    </tr>
-                    <tr>
-                        <td>data-spooler-size</td>
-                        <td>{{ agentStatus['data-spooler-size'] }}</td>
-                    </tr>
-                    <tr>
-                        <td>log-buf2</td>
-                        <td>{{ agentStatus['log-buf2'] }}</td>
-                    </tr>
-                    <tr>
-                        <td>qan</td>
-                        <td>{{ agentStatus.qan }}</td>
-                    </tr>
-                    <tr>
-                        <td>qan-analyzer</td>
-                        <td>{{ agentStatus['qan-analyzer'] }}</td>
-                    </tr>
-                </table>
+                <div class="table-responsive" style="height: 400px; overflow-y: scroll">
+                    <table class="table table-bordered">
+                        <tr ng-repeat="(key, val) in agentStatus">
+                            <td nowrap>{{ key }}</td>
+                            <td nowrap>{{ val }}</td>
+                        </tr>
+                    </table>
+                </div>
             </div>
             <div class="panel-footer">
                 <p class="text-info">Updated {{ statusUpdatedFromNow }}</p>
@@ -86,14 +64,14 @@
 
     <!-- Log -->
 
-    <div class="col-md-9">
+    <div class="col-md-7">
         <div class="panel panel-default">
             <div class="panel-heading">
                 <div class="row">
-                    <div class="col-md-3">
+                    <div class="col-md-2">
                         <h4>Log</h4>
                     </div>
-                    <div class="col-md-offset-4 col-md-5">
+                    <div class="col-md-offset-3 col-md-6 pull-right">
                         <div class="btn-group">
                             <label class="btn btn-default" ng-click="getAgentLog(agent, '1 h')" ng-model="logTimeFrame" btn-radio="'1 h'" uncheckable>1h</label>
                             <label class="btn btn-default" ng-click="getAgentLog(agent, '2 h')" ng-model="logTimeFrame" btn-radio="'2 h'" uncheckable>2h</label>
@@ -109,7 +87,7 @@
                 </div>
             </div>
             <div class="panel-body">
-                <div class="table-responsive" style="height: 400px; overflow-y: scroll">
+                <div class="table-responsive" style="height: 450px; overflow-y: scroll">
                     <table class="table table-bordered">
                         <thead>
                             <tr>

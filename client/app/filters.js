@@ -19,23 +19,21 @@
      * @desc humanize time duration
      * @example <div>{{ duration | humanize }}</div>
      */
-    pplFilters.filter('humanize',  function() {
+    pplFilters.filter('humanize', function() {
 
         return function(input) {
             var dur = '';
             var dur_sec = moment.duration(input, 's');
+            console.log('dur', dur_sec);
             switch (true) {
-                case dur_sec.as('d') > 1:
-                    dur =  dur_sec.as('d').toFixed(2) + 'day';
-                    break;
-                case dur_sec.as('h') > 1:
-                    dur =  dur_sec.as('h').toFixed(2) + 'h';
-                    break;
-                case dur_sec.as('m') > 1:
-                    dur =  dur_sec.as('m').toFixed(2) + 'min';
+                case input === 0:
+                    dur = 0;
                     break;
                 case dur_sec.as('s') > 1:
                     dur =  dur_sec.as('s').toFixed(2) + 's';
+                    break;
+                case dur_sec.as('ms') < 1:
+                    dur =  (dur_sec.as('ms') * 1000).toFixed(2) + '\µ';
                     break;
                 default:
                     dur =  dur_sec.as('ms').toFixed(2) + 'ms';
@@ -45,5 +43,11 @@
         };
 
     });
+
+    pplFilters.filter('unsafe', ['$sce', function($sce) {
+        return function(val) {
+            return $sce.trustAsHtml(val);
+        };
+    }]);
 
 })();

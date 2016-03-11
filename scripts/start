@@ -1,6 +1,4 @@
-#!/usr/bin/env bash
-
-BASEDIR="${BASEDIR:-"$(cd "$(dirname "$0")"; pwd)"}"
+SEDIR="${BASEDIR:-"$(cd "$(dirname "$0")"; pwd)"}"
 LISTEN="${LISTEN:-":LISTEN"}"
 HOST="${LISTEN%:*}"
 PORT="${LISTEN#*:}"
@@ -68,26 +66,6 @@ start_app() {
    fi
 }
 
-<<<<<<< HEAD
-cmd="python -c \"import BaseHTTPServer as bhs, SimpleHTTPServer as shs; bhs.HTTPServer(('$HOST', $PORT), shs.SimpleHTTPRequestHandler).serve_forever() # percona-qan-app-$PORT\""
-
-cd "$BASEDIR" || {
-    echo "Invalid base directory."
-    exit 1
-}
-
-touch percona-qan-app.log || {
-    echo "Permission denied to create log file."
-    exit 1
-}
-
-if [ "$BG" = "yes" ]; then
-   eval "$cmd >> percona-qan-app.log 2>&1 &"
-   pid=$!
-   if [ $? -ne 0 ]; then
-      echo "Error started Percona QAN app. Check the log file: $BASEDIR/percona-qan-app.log" >&2
-      exit 1
-=======
 # This super fancy line is true if this script is called from the command line,
 # else it's false and it's probably being sourced by an init script.
 if [ "${0##*/}" = "start" ] || [ "${0##*/}" = "bash" -a "${_:-""}" = "$0" ]; then
@@ -95,6 +73,5 @@ if [ "${0##*/}" = "start" ] || [ "${0##*/}" = "bash" -a "${_:-""}" = "$0" ]; the
       echo "Percona Query Analytics app is already running (PID $PID)"
    else
       start_app
->>>>>>> 55b031c6e7729f7797e2b8ab2a751a0ec1e0c333
    fi
 fi

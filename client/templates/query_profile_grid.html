@@ -82,7 +82,7 @@
                         <tbody>
                             <tr ng-repeat="row in $parent.metricsData | orderBy : 'Metrics'">
                                 <td title="{{ row.Metrics.split('_').join(' ') }}"
-                                    ng-init="is_time = row.Metrics.indexOf('time') > -1"
+                                    ng-init="is_time = (row.Metrics.indexOf('time') > -1 || row.Metrics.indexOf('wait') > -1)"
                                     >{{ row.Metrics.split('_').join(' ') }}</td>
 
                                 <td class="text-right" ng-if="!is_time"
@@ -94,10 +94,10 @@
 
                                 <td class="text-right" ng-if="!is_time"
                                     title="{{ row.Min % 1 === 0 ? row.Min : row.Min.toFixed(4) }}"
-                                    >{{ row.Min % 1 === 0 ? row.Min : row.Min.toFixed(4) }}</td>
+                                    >{{ row.Min % 1 === 0 ? row.Min : row.Min.toFixed(4)}}</td>
                                 <td class="text-right" ng-if="is_time"
-                                    title="{{ row.Min | humanize }}"
-                                    >{{ row.Min | humanize }}</td>
+                                    title="{{ row.Min }}"
+                                    >{{ row.Min | humanize }}</td> 
 
                                 <td class="text-right" ng-if="!is_time"
                                     title="{{ row.Avg % 1 === 0 ? row.Avg : row.Avg.toFixed(4) }}"

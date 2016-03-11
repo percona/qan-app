@@ -1189,64 +1189,66 @@
 
             $scope.setQanConfig = function () {
 
-                var params = {
+                var stopParams = {
                     AgentUUID: $scope.selected_agent.UUID,
                     Service: 'qan',
                     Cmd: 'StopTool',
                     Data: $scope.instance.UUID
                 };
 
-                var agentCmd = new AgentCmd(params);
-                var p = AgentCmd.update({agent_uuid: $scope.selected_agent.UUID}, agentCmd);
+                var stopAgentCmd = new AgentCmd(stopParams);
+                var p = AgentCmd.update({agent_uuid: $scope.selected_agent.UUID}, stopAgentCmd);
                 p.$promise
-                    .then(function (data) {
-                        console.log('data', data);
-                        if (data.Error !== "") {
+                    .then(function (resp) {
+                        if (resp.Error !== "") {
                             var msg = constants.API_ERR;
-                            msg = msg.replace('<err_msg>', data.Error);
+                            msg = msg.replace('<err_msg>', resp.Error);
                             $rootScope.alerts.push({
                                 'type': 'danger',
                                 'msg': msg
                             });
                         } else {
-                            var res = JSON.parse(atob(data.Data));
+                            var res = JSON.parse(atob(resp.Data));
                             var conf = res.qan;
                         }
-                    })
+
+                        var data = angular.copy($scope.qanConf);
+                        data.MaxSlowLogSize =  numeral().unformat($scope.qanConf.MaxSlowLogSize);
+                        data.UUID = $scope.instance.UUID;
+                        var startParams = {
+                            AgentUUID: $scope.selected_agent.UUID,
+                            Service: 'qan',
+                            Cmd: 'StartTool',
+                            Data: btoa(JSON.stringify(data))
+                        };
+
+                        var startAgentCmd = new AgentCmd(startParams);
+                        p = AgentCmd.update({agent_uuid: $scope.selected_agent.UUID}, startAgentCmd);
+                        p.$promise
+                            .then(function (data) {
+                                if (data.Error !== "") {
+                                    var msg = constants.API_ERR;
+                                    msg = msg.replace('<err_msg>', data.Error);
+                                    $rootScope.alerts.push({
+                                        'type': 'danger',
+                                        'msg': msg
+                                    });
+                                } else {
+                                    var res = JSON.parse(atob(data.Data));
+                                    var conf = res.qan;
+                                }
+                            })
+                        .catch(function(resp) {})
+                        .finally(function() {});
+
+
+                })
                 .catch(function(resp) {
                     console.log('resp', resp);
                 })
                 .finally(function() {});
 
-                var data = angular.copy($scope.qanConf);
-                console.table('$scope', $scope);
-                data.MaxSlowLogSize =  numeral().unformat($scope.qanConf.MaxSlowLogSize);
-                data.UUID = $scope.instance.UUID;
-                params = {
-                    AgentUUID: $scope.selected_agent.UUID,
-                    Service: 'qan',
-                    Cmd: 'StartTool',
-                    Data: btoa(JSON.stringify(data))
-                };
 
-                agentCmd = new AgentCmd(params);
-                p = AgentCmd.update({agent_uuid: $scope.selected_agent.UUID}, agentCmd);
-                p.$promise
-                    .then(function (data) {
-                        if (data.Error !== "") {
-                            var msg = constants.API_ERR;
-                            msg = msg.replace('<err_msg>', data.Error);
-                            $rootScope.alerts.push({
-                                'type': 'danger',
-                                'msg': msg
-                            });
-                        } else {
-                            var res = JSON.parse(atob(data.Data));
-                            var conf = res.qan;
-                        }
-                    })
-                .catch(function(resp) {})
-                .finally(function() {});
             };
 
             $scope.init();
