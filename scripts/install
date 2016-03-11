@@ -24,6 +24,10 @@ PORT="${LISTEN#*:}"
 CHECK_REQ="${CHECK_REQ:-"yes"}"
 START="${START:-"yes"}"
 
+BIN="percona-qan-app"
+INIT_SCRIPT="/etc/init.d/$BIN"
+KERNEL=`uname -s`
+
 err() {
    echo "ERROR: $*" >&2
    exit 1
@@ -39,36 +43,37 @@ usage() {
    echo "Environment variables:"
    echo "  BASEDIR    ($BASEDIR)"
    echo "  LISTEN     ($LISTEN)"
+   echo "  START      ($START)"
 }
 
 app_is_running() {
-   APP_PID=$(ps ax | grep "python -c 'import BaseHTTPServer as bhs, SimpleHTTPServer as shs; bhs.HTTPServer((\"$HOST\", $PORT), shs.SimpleHTTPRequestHandler).serve_forever()'" | grep -v grep | awk '{print $1}')
+   APP_PID=$(ps ax | grep "$BIN-$PORT" | grep -v grep | awk '{print $1}')
    [ "$APP_PID" ] && return 0 # running
    return 1 # not running
 }
 
 run_app() {
-   app_is_running \
-      && err "Percona QAN App is already running (PID $APP_PID). Use the 'killall' command and try again."
-
-   (
-      cd "$BASEDIR"
-      ./start > /dev/null
-      if [ $? -eq 0 ]; then
-         if [ "$HOST" = "0.0.0.0" ]; then
-            echo
-            echo "WARNING: Percona QAN App is listening on all interfaces ($LISTEN). This could be a security risk." \
-               "To listen on a specific interface, reinstall and specify LISTEN=<interface IP>:<port>. For example:" \
-               "LISTEN=10.0.0.1:8000 ./install"
-            echo
-            sleep 1
-         fi
-         echo "Started Percona QAN App on $LISTEN. To check its log file:"
+   if [ "$KERNEL" != "Darwin" ]; then
+      "$INIT_SCRIPT" start
+   else
+      "$BASEDIR/start"
+   fi
+   if [ $? -ne 0 ]; then
+      err "$BIN did not start, check $BASEDIR/$BIN.log"
+   else
+      if [ "$HOST" = "0.0.0.0" ]; then
          echo
-         echo "  tail -f $BASEDIR/percona-qan-app.log"
+         echo "WARNING: Percona QAN app is listening on all interfaces ($LISTEN). This could be a security risk." \
+            "To listen on a specific interface, reinstall and specify LISTEN=<interface IP>:<port>. For example:" \
+            "LISTEN=10.0.0.1:8000 ./install"
          echo
+         sleep 1
       fi
-   )
+      echo "Started Percona QAN App on $LISTEN. To check its log file:"
+      echo
+      echo "  tail -f $BASEDIR/$BIN.log"
+      echo
+   fi
 }
 
 check_req() {
@@ -82,6 +87,14 @@ check_req() {
       return 1
    else
       echo "OK: Python is installed"
+   fi
+
+   if [ "$KERNEL" != "Linux" -a "$KERNEL" != "Darwin" ]; then
+      echo
+      echo "Linux or Mac OS required, detected $KERNEL" >&2
+      return 1
+   else
+      echo "OK: Linux or Mac OS"
    fi
 
    return 0
@@ -100,14 +113,10 @@ if [ $# -eq 0 ]; then
       check_req || exit 1
    fi
 
-   # Stop datastore if it's running, else cp will throw error:
-   # cp: cannot create regular file `/usr/local/percona/datastore/percona-datastore': Text file busy
    if app_is_running; then
-      echo "The app is already running, stopping it..."
       kill $APP_PID
+      [ -f "$BASEDIR/$BIN.pid" ] && rm -f "$BASEDIR/$BIN.pid"
    fi
-
-   echo "Installing Percona QAN App..."
 
    if [ ! -d "$BASEDIR" ]; then
       mkdir -p "$BASEDIR" || err "Cannot create $BASEDIR"
@@ -119,9 +128,29 @@ if [ $# -eq 0 ]; then
 
    cp -r * "$BASEDIR"
    rm "$BASEDIR/install"
+   rm "$BASEDIR/$BIN"
 
-   sed -e "s/:LISTEN/$LISTEN/g" -e "s#/usr/local/percona/qan-app#$BASEDIR#g" "./start" > "$BASEDIR/start"
-   sed -e "s/:LISTEN/$LISTEN/g" "./stop" > "$BASEDIR/stop"
+   sed -e "s/:LISTEN/$LISTEN/g" "./start" > "$BASEDIR/start"
+
+   # Register the init script to make "service percona-qan-app start|stop" work.
+   if [ "$KERNEL" != "Darwin" ]; then
+      cp -f "./$BIN" "$INIT_SCRIPT"
+      chmod a+x "$INIT_SCRIPT"
+
+      if hash update-rc.d 2>/dev/null; then
+         echo "Using update-rc.d to install $BIN service"
+         update-rc.d $BIN defaults >/dev/null
+      elif hash chkconfig 2>/dev/null; then
+         echo "Using chkconfig to install $BIN service"
+         chkconfig $BIN on >/dev/null
+      else
+         echo "Cannot find chkconfig or update-rc.d. $BIN is installed," \
+            "but it will not start automatically when the server start." \
+            "To start it manually, run: $BASEDIR/start" >&2
+      fi
+   else
+      echo "Mac OS detected, not installing sys-init script"
+   fi
 
    if [ "$START" = "yes" ]; then
       run_app
