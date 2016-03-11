@@ -9,7 +9,7 @@
                     </div>
                     <div class="col-md-6">
                         <a href="" ng-if="instance.Deleted == '0001-01-01T00:00:00Z'" ng-click="deleteMysqlInstance(instance.Name)" class="pull-right"><i class="glyphicon glyphicon-trash"></i> Remove</a>
-                        <p ng-if="instance.Deleted !== '0001-01-01T00:00:00Z'" class="text-danger">
+                        <p ng-if="instance.hasOwnProperty('Deleted') && instance.Deleted !== '0001-01-01T00:00:00Z'" class="text-danger">
                             <small>Deleted at {{ instance.Deleted | date: 'yyyy-MM-dd HH:mm:ss'}}</small>
                         </p>
                     </div>
@@ -21,7 +21,7 @@
             </div>
             <div class="panel-body">
 
-                <div class="form-group form-group-sm">
+                <div class="form-group form-group-sm" ng-if="instance.hasOwnProperty('UUID')">
                     <label for="inputID" class="col-md-3 control-label">ID</label>
                     <div class="col-md-5">
                         <p class="form-control-static input-sm" id="instanceUUID">{{ instance.UUID }}</p>
@@ -45,20 +45,31 @@
                 <div class="form-group form-group-sm" ng-class="{ 'has-error' : instanceForm.name.$invalid && !instanceForm.name.$pristine }">
                     <label for="inputName" class="col-md-3 control-label">Label</label>
                     <div class="col-md-9">
-                        <input type="text" class="form-control input-sm" id="inputName" name="name" ng-model="instance.Name" ng-required="true">
+                        <input type="text" class="form-control input-sm" id="inputName" name="name"
+                               ng-model="instance.Name"
+                               ng-pattern="'[-a-zA-Z0-9_]+'"
+                               ng-required="true">
                     </div>
                 </div>
 
-                <div class="form-group form-group-sm">
+                <div class="form-group form-group-sm" ng-class="{ 'has-error' : instanceForm.user.$invalid && !instanceForm.user.$pristine }">
                     <label for="inputUser" class="col-md-3 control-label">User</label>
                     <div class="col-md-9">
-                        <input type="text" class="form-control input-sm" id="inputUser" name="user" ng-model="instance.user">
+                        <input type="text"
+                               class="form-control input-sm"
+                               id="inputUser"
+                               ng-required="true"
+                               name="user" ng-model="instance.user">
                     </div>
                 </div>
-                <div class="form-group form-group-sm">
+                <div class="form-group form-group-sm" ng-class="{ 'has-error' : instanceForm.password.$invalid && !instanceForm.password.$pristine }">
                     <label for="inputPassword" class="col-md-3 control-label">Password</label>
                     <div class="col-md-6">
-                        <input type="{{ !!show_password ? 'text' : 'password' }}" class="form-control input-sm" id="inputPassword" name="password" ng-model="instance.password">
+                        <input type="{{ !!show_password ? 'text' : 'password' }}"
+                               class="form-control input-sm"
+                               id="inputPassword"
+                               ng-required="true"
+                               name="password" ng-model="instance.password">
                     </div>
                     <div class="col-md-3">
                         <div class="checkbox">
@@ -80,29 +91,39 @@
                         </div>
                     </div>
                 </div>
-                <div class="form-group form-group-sm">
+                <div class="form-group form-group-sm"
+                     ng-class="{ 'has-error' : (instanceForm.hostname.$invalid && !instanceForm.hostname.$pristine) || (instanceForm.port.$invalid && !instanceForm.port.$pristine) }">
                     <label for="inputHostname" class="col-md-3 control-label">
                         Hostname
-                        <input type="radio" id="inputHostname" name="isHostname" ng-model="instance.type" ng-value="'tcp'">
+                        <input type="radio" id="inputHostname" name="isHostname"
+                               ng-model="instance.type"
+                               ng-value="'tcp'">
                     </label>
                     <div class="col-md-6">
-                        <input type="text" class="form-control input-sm" name="hostname" ng-model="instance.hostname">
+                        <input type="text" class="form-control input-sm" name="hostname"
+                               ng-pattern="'[-a-zA-Z0-9_.]*'"
+                               ng-required="instance.type === 'tcp'"
+                               ng-model="instance.hostname">
                     </div>
                     <label for="inputPort" class="col-md-1 control-label">Port</label>
                     <div class="col-md-2">
-                        <input type="number" min="1" max="65535" class="form-control input-sm" name="port" ng-model="instance.port">
+                        <input type="number" min="1" max="65535"
+                               class="form-control input-sm" name="port" ng-model="instance.port">
                     </div>
                 </div>
-                <div class="form-group form-group-sm">
+                <div class="form-group form-group-sm"
+                     ng-class="{ 'has-error' : instanceForm.socket.$invalid && !instanceForm.socket.$pristine }">
                     <label for="inputSocket" class="col-md-3 control-label">
                         Socket
                         <input type="radio" id="inputSocket" name="isHostname" ng-model="instance.type" ng-value="'unix'">
                     </label>
                     <div class="col-md-9">
-                        <input type="text" class="form-control input-sm" name="socket" ng-model="instance.socket">
+                        <input type="text" class="form-control input-sm" name="socket"
+                               ng-required="instance.type === 'unix'"
+                               ng-model="instance.socket">
                     </div>
                 </div>
-                <div class="form-group form-group-sm">
+                <div class="form-group form-group-sm" ng-if="instance.hasOwnProperty('UUID')">
                     <label for="inputVersion" class="col-md-3 control-label">Version</label>
                     <div class="col-md-9">
                         <p class="form-control-static input-sm">{{ instance.Version }} {{ instance.Distro }}</p>
@@ -134,9 +155,11 @@
             <div class="panel-footer">
                 <div class="form-group form-group-sm">
                     <div class="col-md-offset-3 col-md-3">
-                        <button type="submit" ng-disabled="instanceForm.$invalid" ng-click="updateMySQLInstance()" class="btn btn-primary btn-sm">
+                        <button type="submit" ng-disabled="instanceForm.$invalid"
+                                ng-click="instance.hasOwnProperty('UUID') ? updateMySQLInstance() : createMySQLInstance()"
+                                class="btn btn-primary btn-sm">
                             <i class="glyphicon glyphicon-ok"></i>
-                            Save
+                            {{ instance.hasOwnProperty('UUID') ? 'Save' : 'Create' }}
                         </button>
                     </div>
                     <div class="col-md-offset-1 col-md-2" style="padding-top: 5px !important;">
