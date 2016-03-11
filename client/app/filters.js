@@ -21,25 +21,43 @@
      */
     pplFilters.filter('humanize', function() {
 
-        return function(input) {
-            var dur = '';
-            var dur_sec = moment.duration(input, 's');
-            console.log('dur', dur_sec);
-            switch (true) {
-                case input === 0:
-                    dur = 0;
-                    break;
-                case dur_sec.as('s') > 1:
-                    dur =  dur_sec.as('s').toFixed(2) + 's';
-                    break;
-                case dur_sec.as('ms') < 1:
-                    dur =  (dur_sec.as('ms') * 1000).toFixed(2) + '\µ';
-                    break;
-                default:
-                    dur =  dur_sec.as('ms').toFixed(2) + 'ms';
-                    break;
+
+        return function(input, name) {
+            function parceTime (input) {
+                var dur = '';
+                var dur_sec = moment.duration(input, 's');
+                switch (true) {
+                    case input === 0:
+                        dur = 0;
+                        break;
+                    case dur_sec.as('s') > 1:
+                        dur =  dur_sec.as('s').toFixed(2) + 's';
+                        break;
+                    case dur_sec.as('ms') < 1:
+                        dur =  (dur_sec.as('ms') * 1000).toFixed(2) + '\µ';
+                        break;
+                    default:
+                        dur =  dur_sec.as('ms').toFixed(2) + 'ms';
+                        break;
+                }
+                return dur;
             }
-            return dur;
+            var res = 0;
+            switch (true) {
+                case name === undefined:
+                        res =  parceTime(input);
+                        break;
+                case name.indexOf('time') > -1 || name.indexOf('wait') > -1:
+                        res =  parceTime(input);
+                        break;
+                case name.indexOf('size') > -1:
+                        res =  numeral(input).format('0.0b');
+                        break;
+                default:
+                        res =  numeral(input).format('0.0a');
+                        break;
+            }
+            return res;
         };
 
     });

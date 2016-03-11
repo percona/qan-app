@@ -82,50 +82,31 @@
                         <tbody>
                             <tr ng-repeat="row in $parent.metricsData | orderBy : 'Metrics'">
                                 <td title="{{ row.Metrics.split('_').join(' ') }}"
-                                    ng-init="is_time = (row.Metrics.indexOf('time') > -1 || row.Metrics.indexOf('wait') > -1)"
                                     >{{ row.Metrics.split('_').join(' ') }}</td>
 
-                                <td class="text-right" ng-if="!is_time"
-                                    title="{{ row.Sum % 1 === 0 ? row.Sum : row.Sum.toFixed(4) }}"
-                                    >{{ row.Sum % 1 === 0 ? row.Sum : row.Sum.toFixed(4) }}</td>
-                                <td class="text-right" ng-if="is_time"
-                                    title="{{ row.Sum | humanize }}"
-                                    >{{ row.Sum | humanize}}</td>
+                                <td class="text-right"
+                                    title="{{ row.Sum | humanize : row.Metrics }}"
+                                    >{{ row.Sum | humanize : row.Metrics }}</td>
 
-                                <td class="text-right" ng-if="!is_time"
-                                    title="{{ row.Min % 1 === 0 ? row.Min : row.Min.toFixed(4) }}"
-                                    >{{ row.Min % 1 === 0 ? row.Min : row.Min.toFixed(4)}}</td>
-                                <td class="text-right" ng-if="is_time"
-                                    title="{{ row.Min }}"
-                                    >{{ row.Min | humanize }}</td> 
+                                <td class="text-right"
+                                    title="{{ row.Min | humanize : row.Metrics }}"
+                                    >{{ row.Min | humanize : row.Metrics }}</td> 
 
-                                <td class="text-right" ng-if="!is_time"
-                                    title="{{ row.Avg % 1 === 0 ? row.Avg : row.Avg.toFixed(4) }}"
-                                    >{{ row.Avg % 1 === 0 ? row.Avg : row.Avg.toFixed(4) }}</td>
-                                <td class="text-right" ng-if="is_time"
-                                    title="{{ row.Avg | humanize }}"
-                                    >{{ row.Avg | humanize }}</td>
+                                <td class="text-right"
+                                    title="{{ row.Avg | humanize : row.Metrics }}"
+                                    >{{ row.Avg | humanize  : row.Metrics}}</td>
 
-                                <td class="text-right" ng-if="!is_time"
-                                    title="{{ row.Med % 1 === 0 ? row.Med : row.Med.toFixed(4) }}"
-                                    >{{ row.Med % 1 === 0 ? row.Med : row.Med.toFixed(4) }}</td>
-                                <td class="text-right" ng-if="is_time"
-                                    title="{{ row.Med | humanize }}"
-                                    >{{ row.Med | humanize }}</td>
+                                <td class="text-right"
+                                    title="{{ row.Med | humanize : row.Metrics }}"
+                                    >{{ row.Med | humanize : row.Metrics }}</td>
 
-                                <td class="text-right" ng-if="!is_time"
-                                    title="{{ row.P95 % 1 === 0 ? row.P95 : row.P95.toFixed(4) }}"
-                                    >{{ row.P95 % 1 === 0 ? row.P95 : row.P95.toFixed(4) }}</td>
-                                <td class="text-right" ng-if="is_time"
-                                    title="{{ row.P95 | humanize }}"
-                                    >{{ row.P95 | humanize }}</td>
+                                <td class="text-right"
+                                    title="{{ row.P95 | humanize : row.Metrics }}"
+                                    >{{ row.P95 | humanize : row.Metrics }}</td>
 
-                                <td class="text-right" ng-if="!is_time"
-                                    title="{{ row.Max % 1 === 0 ? row.Max : row.Max.toFixed(4) }}"
-                                    >{{ row.Max % 1 === 0 ? row.Max : row.Max.toFixed(4) }}</td>
-                                <td class="text-right" ng-if="is_time"
-                                    title="{{ row.Max | humanize }}"
-                                    >{{ row.Max | humanize }}</td>
+                                <td class="text-right"
+                                    title="{{ row.Max | humanize : row.Metrics }}"
+                                    >{{ row.Max | humanize : row.Metrics }}</td>
                             </tr>
                         </tbody>
                     </table>

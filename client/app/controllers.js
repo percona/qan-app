@@ -731,7 +731,6 @@
 
 
             $scope.getInstances = function () {
-                console.log('getInstances');
                 $rootScope.treeData = $scope.treeData = [];
                 Instance.query()
                     .$promise
@@ -792,7 +791,6 @@
                         }
                     }
                 }
-                console.log('tree', $scope.treeData);
             };
 
 
@@ -836,7 +834,6 @@
 
 
             $scope.getDSN = function () {
-                console.log('getDSN');
                 var dsn = '';
                 if ($scope.instance.user) {
                     dsn = $scope.instance.user;
@@ -898,7 +895,6 @@
                 Instance.update({'instance_uuid': $scope.instance.UUID}, $scope.instance)
                     .$promise
                     .then(function (resp) {
-                        console.log('resp', resp);
                           $rootScope.treeRootLabel = 'MySQL: ' + $scope.instance.Name;
                           $rootScope.alerts.push({
                               'type': 'info',
@@ -1040,7 +1036,6 @@
                         $scope.instanceOK = false;
                      } else {
                         $scope.agentStatus = JSON.parse(atob(resp.Data));
-                        console.log('status', $scope.agentStatus);
                         $scope.instanceOK = true;
                         $scope.instanceError = false;
                      }
@@ -1058,7 +1053,6 @@
                 $scope.statusUpdatedFromNow = updated.fromNow();
                 $scope.statusUpdatedFromNowObj = $interval(function() {
                     $scope.statusUpdatedFromNow = updated.fromNow();
-                    console.log('tt', $scope.statusUpdatedFromNow);
                 }, 60000);
                 AgentStatus.query({agent_uuid: agent.UUID})
                     .$promise
@@ -1097,7 +1091,6 @@
                 AgentLog.query(params)
                     .$promise
                     .then(function (resp) {
-                        console.log('al', resp);
                         $scope.agentLog = resp;
                     })
                     .catch(function (resp) {
@@ -1135,7 +1128,6 @@
                       })
                       .catch(function (resp) {
                           var msg = constants.DEFAULT_ERR;
-                          console.log('resp', resp);
                           if (resp.hasOwnProperty('data') && resp.data !== null && resp.data.hasOwnProperty('Error')) {
                               msg = constants.API_ERR;
                               msg = msg.replace('<err_msg>', resp.data.Error);
@@ -1244,7 +1236,6 @@
 
                 })
                 .catch(function(resp) {
-                    console.log('resp', resp);
                 })
                 .finally(function() {});
 
