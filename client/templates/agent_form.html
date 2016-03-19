@@ -1,13 +1,14 @@
 <div class="row">
 <div class="col-md-6">
-    <h4 ng-hide="agentLabelEditeble">
-        Agent {{ agent.Name }} <a href="" ng-click="agentLabelEditeble=true"><i class="glyphicon glyphicon-pencil"></i></a>
+    <h4 ng-hide="agentLabelEditable">
+        Agent: {{ agent.Name }} <a href="" ng-click="agentLabelEditable=true"><i class="glyphicon glyphicon-pencil"></i></a>
     </h4>
-    <h4 ng-show="agentLabelEditeble">
+    <h4 ng-show="agentLabelEditable">
         <div class="input-group" ng-class="{ 'has-error' : !agent.Name}">
             <input type="text" maxlength="20" class="form-control" ng-model="agent.Name" placeholder="Agent label...">
             <span class="input-group-btn">
-                <button class="btn btn-default" ng-disabled="!agent.Name" ng-click="updateAgentInstance();" type="button"><i class="glyphicon glyphicon-ok"></i></button>
+                <button class="btn btn-default" ng-click="agentLabelEditable = false;" title="Cancel" type="button"><i class="fa fa-undo"></i></button>
+                <button class="btn btn-default" ng-disabled="!agent.Name" title="Save" ng-click="updateAgentInstance(); agentLabelEditable = false;" type="button"><i class="glyphicon glyphicon-ok"></i></button>
             </span>
         </div>
     </h4>
@@ -48,7 +49,7 @@
             </div>
             <div class="panel-body">
                 <div class="table-responsive" style="height: 400px; overflow-y: scroll">
-                    <table class="table table-bordered">
+                    <table class="table table-bordered table-condensed">
                         <tr ng-repeat="(key, val) in agentStatus">
                             <td nowrap>{{ key }}</td>
                             <td nowrap>{{ val }}</td>
@@ -88,7 +89,7 @@
             </div>
             <div class="panel-body">
                 <div class="table-responsive" style="height: 450px; overflow-y: scroll">
-                    <table class="table table-bordered">
+                    <table class="table table-bordered table-condensed">
                         <thead>
                             <tr>
                                 <th>Timestamp</th>
@@ -98,7 +99,7 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr ng-repeat="log in agentLog">
+                            <tr ng-repeat="log in agentLog | orderBy: 'Ts' : 'reverse'">
                                 <td nowrap>{{ log.Ts }}</td>
                                 <td nowrap>{{ log.Service }}</td>
                                 <td nowrap>{{ severityLeveles[log.Level] }}</td>

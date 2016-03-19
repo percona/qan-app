@@ -140,7 +140,8 @@
                         </select>
                     </div>
                     <div class="col-sm-1">
-                        <button type="button" ng-click="testAgentConnection(selected_agent)" class="btn btn-default btn-sm">Test Connection</button>
+                        <button type="button" ng-disabled="!selected_agent"
+                                ng-click="testAgentConnection(selected_agent)" class="btn btn-default btn-sm">Test Connection</button>
                     </div>
                 </div>
                 <div class="form-group form-group-sm">
@@ -195,17 +196,19 @@
             </div>
             <div class="panel-body">
 
-                <div class="form-group form-group-sm">
+                <div class="form-group form-group-sm" ng-class="{ 'has-error' : qanForm.selected_agent.$invalid }">
                     <label for="inputAgent" class="col-sm-3 control-label">Agent</label>
                     <div class="col-sm-4">
                         <select class="form-control"
+                                name="selected_agent"
+                                ng-required="true"
                                 ng-change="resetConnectionStatus()"
                                 ng-options="agent.Name for agent in agents"
                                 ng-model="selected_agent">
                         </select>
                     </div>
                     <div class="col-sm-3">
-                        <button type="button" ng-click="testConnectionToMySQL(selected_agent)" class="btn btn-default btn-sm">Test Connection to MySQL</button>
+                        <button type="button" ng-disabled="!selected_agent" ng-click="testConnectionToMySQL(selected_agent)" class="btn btn-default btn-sm">Test Connection to MySQL</button>
                     </div>
                 </div>
 
@@ -232,8 +235,8 @@
                     </div>
                     <div class="col-sm-1">
                         <i class="fa"
-                           ng-class="qanConf.IntervalLock ? 'fa-lock' : 'fa-unlock'"
-                           title="{{ qanConf.IntervalLock ? 'Preset value in config file' : 'Default value' }}"
+                           ng-class="qanConfLock.IntervalLock ? 'fa-lock' : 'fa-unlock'"
+                           title="{{ qanConfLock.IntervalLock ? 'Preset value in config file' : 'Default value' }}"
                            ></i>
                     </div>
                 </div>
@@ -254,8 +257,8 @@
                     </div>
                     <div class="col-sm-1">
                         <i class="fa"
-                           ng-class="qanConf.MaxSlowLogSizeLock ? 'fa-lock' : 'fa-unlock'"
-                           title="{{ qanConf.MaxSlowLogSizeLock ? 'Preset value in config file' : 'Default value' }}"
+                           ng-class="qanConfLock.MaxSlowLogSizeLock ? 'fa-lock' : 'fa-unlock'"
+                           title="{{ qanConfLocl.MaxSlowLogSizeLock ? 'Preset value in config file' : 'Default value' }}"
                            ></i>
                     </div>
                 </div>
@@ -271,8 +274,8 @@
                     </div>
                     <div class="col-sm-1">
                         <i class="fa"
-                           ng-class="qanConf.RemoveOldSlowLogsLock ? 'fa-lock' : 'fa-unlock'"
-                           title="{{ qanConf.RemoveOldSlowLogsLock ? 'Preset value in config file' : 'Default value' }}"
+                           ng-class="qanConfLock.RemoveOldSlowLogsLock ? 'fa-lock' : 'fa-unlock'"
+                           title="{{ qanConfLock.RemoveOldSlowLogsLock ? 'Preset value in config file' : 'Default value' }}"
                            ></i>
                     </div>
                 </div>
@@ -288,8 +291,8 @@
                     </div>
                     <div class="col-sm-1">
                         <i class="fa"
-                           ng-class="qanConf.ExampleQueriesLock ? 'fa-lock' : 'fa-unlock'"
-                           title="{{ qanConf.ExampleQueriesLock ? 'Preset value in config file' : 'Default value' }}"
+                           ng-class="qanConfLock.ExampleQueriesLock ? 'fa-lock' : 'fa-unlock'"
+                           title="{{ qanConfLock.ExampleQueriesLock ? 'Preset value in config file' : 'Default value' }}"
                            ></i>
                     </div>
                 </div>
@@ -301,8 +304,8 @@
                     <div class="col-sm-1">
                         <i class="fa"
                            style="color: gold;"
-                           ng-class="qanConf.SlowLogConfigurationLock ? 'fa-lock' : 'fa-unlock'"
-                           title="{{ qanConf.SlowLogConfigurationLock ? 'Preset value in config file' : 'Default value' }}"
+                           ng-class="qanConfLock.SlowLogConfigurationLock ? 'fa-lock' : 'fa-unlock'"
+                           title="{{ qanConfLock.SlowLogConfigurationLock ? 'Preset values in config file' : 'Default values' }}"
                            ></i>
                         <div class="gold-mark">&nbsp;</div>
                     </div>
@@ -420,7 +423,7 @@
                 <div class="form-group form-group-sm">
                     <div class="col-sm-offset-3 col-md-2">
                         <button type="submit"
-                                ng-click="setQanConfig()"
+                                ng-click="setQanConfig(selected_agent)"
                                 ng-disabled="qanForm.$invalid"
                                 class="btn btn-primary btn-sm" >
                             <i class="glyphicon glyphicon-ok"></i>

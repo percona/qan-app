@@ -1,6 +1,6 @@
 <div class="row">
     <div class="col-md-12">
-        <div ng-if="!managementFormUrl" class="alert alert-warning" role="alert">Please select Agent or MySQL instance.</div>
-        <div ng-include="managementFormUrl"></div>
+        <div ng-if="!$root.managementFormUrl" class="alert alert-warning" role="alert">Select an instance from the dropdown above.</div>
+        <div ng-include="$root.managementFormUrl"></div>
     </div>
 </div>

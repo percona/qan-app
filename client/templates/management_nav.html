@@ -20,7 +20,7 @@
                     <div class="btn-group" dropdown dropdown-append-to-body >
                         <button type="button"
                                 dropdown-toggle
-                                class="btn btn-default navbar-btn dropdown-toggle"
+                                class="btn btn-warning navbar-btn dropdown-toggle"
                                 data-toggle="dropdown"
                                 aria-haspopup="true"
                                 aria-expanded="true">
@@ -40,7 +40,7 @@
                 <li role="separator" class="divider">&nbsp;</li>
                 <li>
                     <button title="Add MySQL Connection"
-                            ng-click="treeHandler({'label': 'Add MySQL Connection'})"
+                            ui-sref="management({subsystem: 'new-mysql', uuid: null})"
                             class="btn btn-default navbar-btn"><i class="glyphicon glyphicon-plus"></i>Add MySQL Connection</button>
                 </li>
             </ul>

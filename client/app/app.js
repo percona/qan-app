@@ -22,8 +22,8 @@
       .constant('constants', {
           // URI of datastore API
           API_PATH: window.location.protocol + '//'+ window.location.hostname + ':9001',
-          DEFAULT_ERR: 'Datastore API error. Check the datastore log file for more information.',
-          API_ERR: 'Datastore API error: "<err_msg>".<br />Check the datastore log file for more information.',
+          DEFAULT_ERR: 'QAN API error. Check the datastore log file for more information.',
+          API_ERR: 'QAN API error: "<err_msg>".<br />Check the datastore log file for more information.',
           AGENT_ERR: 'Agent API error: "<err_msg>".<br />Check the agent log file for more information.',
           CONFIRM_STOP_AGENT: 'Are you sure you want to stop the agent?\nPlease note: you cannot start it again from UI.',
           DTM_FORMAT: 'YYYY-MM-DDTHH:mm:ss'
@@ -51,7 +51,7 @@
             return url + '?' + param;
         }
 
-        $httpProvider.interceptors.push(function($rootScope, $q, constants) {
+        $httpProvider.interceptors.push(function($rootScope, $q, constants, $timeout) {
             $rootScope.alerts = [];
             $rootScope.loading = false;
             $rootScope.closeAlert = function(index) {
@@ -74,7 +74,11 @@
                 },
                 response: function(response) {
                     $rootScope.loading = false;
-                    $rootScope.alerts = [];
+                    if ($rootScope.alerts.length) {
+                        $timeout(function () {
+                            $rootScope.alerts = [];
+                        }, 5000);
+                    }
                     return response;
                 },
                 responseError: function (rejection) {
@@ -151,7 +155,7 @@
             url: 'query/:query_id/'
         })
         .state('management', {
-            url: '/management/',
+            url: '/management/:subsystem/:uuid',
             templateUrl: '/client/templates/management.html',
             controller: 'ManagementController'
         });

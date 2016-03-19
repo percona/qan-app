@@ -44,6 +44,7 @@
                         }
                     });
                 }
+
             };
 
             $rootScope.changeInstance = function(instance) {
@@ -63,9 +64,14 @@
                       })
                       .catch(function(resp) {
                           var msg = constants.DEFAULT_ERR;
-                          if (resp.hasOwnProperty('data') && resp.data.hasOwnProperty('Error')) {
+                          if (resp.status === 404) {
                               msg = constants.API_ERR;
-                              msg = msg.replace('<err_msg>', resp.data.Error);
+                              msg = msg.replace('<err_msg>', 'MySQL Query Analytics configuration not found');
+                          } else {
+                              if (resp.hasOwnProperty('data') && resp.data.hasOwnProperty('Error')) {
+                                  msg = constants.API_ERR;
+                                  msg = msg.replace('<err_msg>', resp.data.Error);
+                              }
                           }
                           $rootScope.alerts.push({
                               'type': 'danger',
@@ -602,14 +608,16 @@
         '$timeout',
         '$interval',
         '$filter',
+        '$state',
         'Instance',
         'AgentCmd',
         'AgentStatus',
         'AgentLog',
         'Config',
-        function($scope, $rootScope, constants, $timeout, $interval, $filter, Instance, AgentCmd, AgentStatus, AgentLog, Config) {
+        function($scope, $rootScope, constants, $timeout, $interval, $filter, $state,
+                 Instance, AgentCmd, AgentStatus, AgentLog, Config) {
             $scope.init = function () {
-                $rootScope.treeRootLabel = 'Please select instance';
+                $rootScope.treeRootLabel = 'Select an Instance';
                 $scope.managementFormUrl = '';
                 $scope.getInstances();
                 $scope.qanConfSimpleOptions = [
@@ -620,14 +628,9 @@
                 ];
                 $scope.qanConf = {
                     'Interval': '',
-                    'IntervalLock': false,
                     'MaxSlowLogSize': '',
-                    'MaxSlowLogSizeLock': false,
                     'RemoveOldSlowLogs': 'yes',
-                    'RemoveOldSlowLogsLock': false,
                     'ExampleQueries': 'yes',
-                    'ExampleQueriesLock': false,
-                    'SlowLogConfigurationLock': false,
                     'CollectFrom': 'slowlog',
                     'long_query_time': '',
                     'log_slow_verbosity': 'Full',
@@ -635,77 +638,129 @@
                     'log_slow_admin_statements': 'OFF',
                     'log_slow_slave_statements': 'OFF',
                 };
+                $scope.qanConfLock = {
+                    'IntervalLock': false,
+                    'MaxSlowLogSizeLock': false,
+                    'RemoveOldSlowLogsLock': false,
+                    'ExampleQueriesLock': false,
+                    'SlowLogConfigurationLock': false,
+                };
                 $scope.logTimeFrame = '1 h';
-                $scope.agentLabelEditeble = false;
                 $scope.severityLeveles = ['emerg', 'alert', 'crit', 'err', 'warning', 'notice', 'info', 'debug'];
                 $scope.tooltipText = 'Copy the ID';
+                $scope.initManagement();
+
+            };
+
+            $scope.initManagement = function () {
+                $scope.$on('$stateChangeSuccess', function(event, toState, toParams, fromState, fromParams) {
+
+                        if ($state.is('management')) {
+                            $scope.resetConnectionStatus();
+                            switch (toParams.subsystem) {
+                                case 'mysql':
+                                    $rootScope.managementFormUrl = '/client/templates/mysql_form.html';
+                                    $timeout(function () {
+                                        $scope.editMySQLFormData(toParams.uuid);
+                                    }, 500);
+                                    break;
+                                case 'new-mysql':
+                                    $rootScope.managementFormUrl = '/client/templates/mysql_form.html';
+                                    $timeout(function () {
+                                        $scope.newMySQLFormData();
+                                    }, 200);
+                                    break;
+                                case 'agent':
+                                    $rootScope.managementFormUrl = '/client/templates/agent_form.html';
+                                    $timeout(function () {
+                                        $scope.agentData(toParams.uuid);
+                                    }, 200);
+                                    break;
+                                case 'os':
+                                    $rootScope.managementFormUrl = '';
+                                    $timeout(function () {
+                                        var os = $scope.instancesByUUID[toParams.uuid];
+                                        $rootScope.treeRootLabel = 'Host: ' + os.Name;
+                                    }, 200);
+                                    break;
+                                default:
+                                    $rootScope.managementFormUrl = '';
+                                    $rootScope.treeRootLabel = 'Select an Instance';
+                                    break;
+                            }
+                        }
+                });
+            };
+
+            $scope.editMySQLFormData = function(uuid) {
+                var re = new RegExp(/^(.+):(.+)@(unix|tcp)\((.+)\)\/.*(?:allowOldPasswords=(true|false))?.*$/);
+                var mysql = $scope.instancesByUUID[uuid];
+                if (mysql.Name.startsWith('MySQL')) {
+                    $rootScope.treeRootLabel = mysql.Name;
+                } else {
+                    $rootScope.treeRootLabel = 'MySQL: ' + mysql.Name;
+                }
+                $scope.instance = new Instance(mysql);
+                var arr = re.exec(mysql.DSN);
+                $scope.instance.user = arr[1];
+                $scope.instance.password = arr[2];
+                $scope.instance.type = arr[3];
+                if ($scope.instance.type === 'unix') {
+                    $scope.instance.socket = arr[4];
+                    $scope.instance.hostname = '';
+                    $scope.instance.port = 3306;
+                } else {
+                    var hostPort = arr[4].split(':');
+                    $scope.instance.hostname = hostPort[0];
+                    $scope.instance.port = parseInt(hostPort[1]) || 3306;
+                    $scope.instance.socket = '';
+                }
+                $scope.rawInstance= angular.copy($scope.instance);
+                $scope.instance.allowOldPasswords = arr[5] === undefined ? false : arr[5];
+                // QAN mgmt
+                $scope.getRelatedAgent($scope.instance);
+                // watch form changing to update DSN
+                $scope.$watchCollection('instance', function(){
+                    $scope.getDSN();
+                });
+            };
+
+            $scope.newMySQLFormData = function() {
+                $rootScope.treeRootLabel = 'Add MySQL Connection';
+                $scope.instance = new Instance({});
+                $scope.instance.user = '';
+                $scope.instance.password = '';
+                $scope.instance.type = 'tcp';
+                $scope.instance.hostname = '';
+                $scope.instance.port = 3306;
+                $scope.instance.socket = '';
+                $scope.rawInstance= angular.copy($scope.instance);
+                $scope.instance.allowOldPasswords = false;
+                $scope.getRelatedAgent($scope.instance);
+                // watch form changing to update DSN
+                $scope.$watchCollection('instance', function(){
+                    $scope.getDSN();
+                });
+            };
+
+            $scope.agentData = function(uuid) {
+                $scope.agent = $scope.instancesByUUID[uuid];
+                $rootScope.treeRootLabel = 'Agent: ' + $scope.agent.Name;
+                $scope.getAgentStatus($scope.agent);
+                $scope.getAgentLog($scope.agent, $scope.logTimeFrame);
             };
 
             $rootScope.treeHandler = function (branch) {
-                $scope.resetConnectionStatus();
-                var re = new RegExp(/^(.+):(.+)@(unix|tcp)\((.+)\)\/.*(?:allowOldPasswords=(true|false))?.*$/);
-                switch (true) {
-                    case 'data' in branch && branch.data.Subsystem === 'mysql':
-                        if (branch.label.startsWith('MySQL')) {
-                            $rootScope.treeRootLabel = branch.label;
-                        } else {
-                            $rootScope.treeRootLabel = 'MySQL: ' + branch.label;
-                        }
-                        $scope.managementFormUrl = '/client/templates/mysql_form.html';
-                        $scope.instance = new Instance(branch.data);
-                        var arr = re.exec(branch.data.DSN);
-                        $scope.instance.user = arr[1];
-                        $scope.instance.password = arr[2];
-                        $scope.instance.type = arr[3];
-                        if ($scope.instance.type === 'unix') {
-                            $scope.instance.socket = arr[4];
-                            $scope.instance.hostname = '';
-                            $scope.instance.port = 3306;
-                        } else {
-                            var hostPort = arr[4].split(':');
-                            $scope.instance.hostname = hostPort[0];
-                            $scope.instance.port = parseInt(hostPort[1]) || 3306;
-                            $scope.instance.socket = '';
-                        }
-                        $scope.rawInstance= angular.copy($scope.instance);
-                        $scope.instance.allowOldPasswords = arr[5] === undefined ? false : arr[5];
-                        $scope.getRelatedAgent($scope.instance);
-                        // watch form changing to update DSN
-                        $scope.$watchCollection('instance', function(){
-                            $scope.getDSN();
-                        });
-
-                        // QAN mgmt
-                        $scope.getConfig(branch.data);
-                        break;
-                    case branch.label == 'Add MySQL Connection':
-                        $rootScope.treeRootLabel = branch.label;
-                        $scope.managementFormUrl = '/client/templates/mysql_form.html';
-                        $scope.instance = new Instance(branch.data);
-                        $scope.instance.user = '';
-                        $scope.instance.password = '';
-                        $scope.instance.type = '';
-                        $scope.instance.hostname = '';
-                        $scope.instance.port = 3306;
-                        $scope.instance.socket = '';
-                        $scope.rawInstance= angular.copy($scope.instance);
-                        $scope.instance.allowOldPasswords = false;
-                        $scope.getRelatedAgent($scope.instance);
-                        // watch form changing to update DSN
-                        $scope.$watchCollection('instance', function(){
-                            $scope.getDSN();
-                        });
-                        break;
-                    case 'data' in branch && branch.data.Subsystem === 'agent':
-                        $rootScope.treeRootLabel = 'Agent: ' + branch.label;
-                        $scope.agent = branch.data;
-                        $scope.managementFormUrl = '/client/templates/agent_form.html';
-                        $scope.getAgentStatus(branch.data);
-                        $scope.getAgentLog(branch.data, $scope.logTimeFrame);
-                        break;
-                    default:
-                        $scope.managementFormUrl = '';
-                        $rootScope.treeRootLabel = 'Please select instance';
+                if (branch.hasOwnProperty('data')) {
+                    $state.go('management', {
+                        'subsystem': branch.data.Subsystem,
+                        'uuid': branch.data.UUID
+                    });
+                } else {
+                    $state.go('management', {
+                        'subsystem': 'none',
+                        'uuid': ''
+                    });
                 }
             };
 
@@ -749,7 +804,10 @@
                 var len = instances.length;
                 $scope.agents = [];
                 $scope.mysqls = [];
+                $scope.instancesByUUID = {};
                 for (var i=0; len > i; i++) {
+                    $scope.instancesByUUID[instances[i].UUID] = instances[i];
+
                     if (instances[i].Subsystem === 'os') {
                         $scope.treeData.push({
                             'expanded': true,
@@ -792,7 +850,6 @@
                     }
                 }
             };
-
 
             $scope.stopAgent = function () {
                 var data = {};
@@ -870,7 +927,7 @@
                 Instance.update({'instance_uuid': $scope.agent.UUID}, $scope.agent)
                     .$promise
                     .then(function (resp) {
-                          $scope.agentLabelEditeble = false;
+                          $rootScope.treeRootLabel = 'Agent: ' + $scope.agent.Name;
                           $rootScope.alerts.push({
                               'type': 'info',
                               'msg': 'Agent has been updated.'
@@ -1067,7 +1124,7 @@
                     })
                     .catch(function (resp) {
                           var msg = constants.DEFAULT_ERR;
-                          if (resp.hasOwnProperty('data') && resp.data.hasOwnProperty('Error')) {
+                          if (resp.hasOwnProperty('data') && resp.data !== null && resp.data.hasOwnProperty('Error')) {
                               msg = constants.API_ERR;
                               msg = msg.replace('<err_msg>', resp.data.Error);
                           }
@@ -1095,7 +1152,7 @@
                     })
                     .catch(function (resp) {
                           var msg = constants.DEFAULT_ERR;
-                          if (resp.hasOwnProperty('data') && resp.data.hasOwnProperty('Error')) {
+                          if (resp.hasOwnProperty('data') && resp.data !== null && resp.data.hasOwnProperty('Error')) {
                               msg = constants.API_ERR;
                               msg = msg.replace('<err_msg>', resp.data.Error);
                           }
@@ -1107,19 +1164,20 @@
                     .finally(function (resp) {});
             };
 
-            $scope.getConfig = function (mysql) {
+            /**
+             * Get QAN config (then marge it with defaults)
+             */
+            $scope.getQanConfig = function (mysql) {
                 Config.query({instance_uuid: mysql.UUID})
                       .$promise
                       .then(function (resp) {
-                          if (resp.Error === "") {
-                              var conf = JSON.parse(resp.SetConfig);
-                              for (var attr in conf) {
-                                  $scope.qanConf[attr] = conf[attr];
-                                  if ($scope.qanConfSimpleOptions.indexOf(attr) > -1) {
-                                      $scope.qanConf[attr + 'Lock'] = true;
-                                  } else {
-                                      $scope.qanConf.SlowLogConfigurationLock = true;
-                                  }
+                          var conf = JSON.parse(resp.SetConfig);
+                          for (var attr in conf) {
+                              $scope.qanConf[attr] = conf[attr];
+                              if ($scope.qanConfSimpleOptions.indexOf(attr) > -1) {
+                                  $scope.qanConfLock[attr + 'Lock'] = true;
+                              } else {
+                                  $scope.qanConfLock.SlowLogConfigurationLock = true;
                               }
                               if (attr === 'MaxSlowLogSize') {
                                   $scope.qanConf.MaxSlowLogSize = numeral($scope.qanConf.MaxSlowLogSize).format('0b');
@@ -1140,6 +1198,9 @@
                       .finally(function (resp) {});
             };
 
+            /**
+             * Get QAN defaults
+             */
             $scope.getQanDefaults = function (agent) {
                 var data = {};
                 var params = {
@@ -1164,32 +1225,34 @@
                             var res = JSON.parse(atob(data.Data));
                             var conf = res.qan;
                             for (var attr in conf) {
-                                if ($scope.qanConfSimpleOptions.indexOf(attr) > -1 && $scope.qanConf[attr + 'Lock'] === false) {
+                                if ($scope.qanConfSimpleOptions.indexOf(attr) > -1 && $scope.qanConfLock[attr + 'Lock'] === false) {
                                     $scope.qanConf[attr] = conf[attr];
-                                } else if ($scope.qanConfSimpleOptions.indexOf(attr) === -1 && $scope.qanConf.SlowLogConfigurationLock === false) {
+                                } else if ($scope.qanConfSimpleOptions.indexOf(attr) === -1 && $scope.qanConfLock.SlowLogConfigurationLock === false) {
                                     $scope.qanConf[attr] = conf[attr];
                                 }
                                 if (attr === 'MaxSlowLogSize') {
                                     $scope.qanConf.MaxSlowLogSize = numeral($scope.qanConf.MaxSlowLogSize).format('0b');
                                 }
                             }
+                            $scope.getQanConfig($scope.instance);
                         }
                     })
                 .catch(function(resp) {})
                 .finally(function() {});
             };
 
-            $scope.setQanConfig = function () {
+            $scope.setQanConfig = function (selected_agent) {
 
+                console.log('$scope', $scope);
                 var stopParams = {
-                    AgentUUID: $scope.selected_agent.UUID,
+                    AgentUUID: selected_agent.UUID,
                     Service: 'qan',
                     Cmd: 'StopTool',
-                    Data: $scope.instance.UUID
+                    Data: btoa($scope.instance.UUID)
                 };
 
                 var stopAgentCmd = new AgentCmd(stopParams);
-                var p = AgentCmd.update({agent_uuid: $scope.selected_agent.UUID}, stopAgentCmd);
+                var p = AgentCmd.update({agent_uuid: selected_agent.UUID}, stopAgentCmd);
                 p.$promise
                     .then(function (resp) {
                         if (resp.Error !== "") {
@@ -1200,40 +1263,37 @@
                                 'msg': msg
                             });
                         } else {
-                            var res = JSON.parse(atob(resp.Data));
-                            var conf = res.qan;
+                            var data = angular.copy($scope.qanConf);
+                            data.MaxSlowLogSize =  numeral().unformat($scope.qanConf.MaxSlowLogSize);
+                            data.UUID = $scope.instance.UUID;
+                            var startParams = {
+                                AgentUUID: selected_agent.UUID,
+                                Service: 'qan',
+                                Cmd: 'StartTool',
+                                Data: btoa(JSON.stringify(data))
+                            };
+
+                            var startAgentCmd = new AgentCmd(startParams);
+                            p = AgentCmd.update({agent_uuid: selected_agent.UUID}, startAgentCmd);
+                            p.$promise
+                                .then(function (data) {
+                                    if (data.Error !== "") {
+                                        var msg = constants.API_ERR;
+                                        msg = msg.replace('<err_msg>', data.Error);
+                                        $rootScope.alerts.push({
+                                            'type': 'danger',
+                                            'msg': msg
+                                        });
+                                    } else {
+                                        var res = JSON.parse(atob(data.Data));
+                                        var conf = res.qan;
+                                    }
+                                })
+                            .catch(function(resp) {})
+                                .finally(function() {});
+
+
                         }
-
-                        var data = angular.copy($scope.qanConf);
-                        data.MaxSlowLogSize =  numeral().unformat($scope.qanConf.MaxSlowLogSize);
-                        data.UUID = $scope.instance.UUID;
-                        var startParams = {
-                            AgentUUID: $scope.selected_agent.UUID,
-                            Service: 'qan',
-                            Cmd: 'StartTool',
-                            Data: btoa(JSON.stringify(data))
-                        };
-
-                        var startAgentCmd = new AgentCmd(startParams);
-                        p = AgentCmd.update({agent_uuid: $scope.selected_agent.UUID}, startAgentCmd);
-                        p.$promise
-                            .then(function (data) {
-                                if (data.Error !== "") {
-                                    var msg = constants.API_ERR;
-                                    msg = msg.replace('<err_msg>', data.Error);
-                                    $rootScope.alerts.push({
-                                        'type': 'danger',
-                                        'msg': msg
-                                    });
-                                } else {
-                                    var res = JSON.parse(atob(data.Data));
-                                    var conf = res.qan;
-                                }
-                            })
-                        .catch(function(resp) {})
-                        .finally(function() {});
-
-
                 })
                 .catch(function(resp) {
                 })
