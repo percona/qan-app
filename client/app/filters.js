@@ -102,7 +102,7 @@
                         dur =  dur_sec.as('s').toFixed(2) + 's';
                         break;
                     case dur_sec.as('ms') < 1:
-                        dur =  (dur_sec.as('ms') * 1000).toFixed(2) + '\µ';
+                        dur =  (dur_sec.as('ms') * 1000).toFixed(2) + '\µs';
                         break;
                     default:
                         dur =  dur_sec.as('ms').toFixed(2) + 'ms';

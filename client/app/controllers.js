@@ -620,31 +620,30 @@
                 $rootScope.treeRootLabel = 'Select an Instance';
                 $scope.managementFormUrl = '';
                 $scope.getInstances();
-                $scope.qanConfSimpleOptions = [
-                    'Interval',
-                    'MaxSlowLogSize',
-                    'RemoveOldSlowLogs',
-                    'ExampleQueries'
-                ];
                 $scope.qanConf = {
                     'Interval': '',
                     'MaxSlowLogSize': '',
                     'RemoveOldSlowLogs': 'yes',
                     'ExampleQueries': 'yes',
                     'CollectFrom': 'slowlog',
-                    'long_query_time': '',
-                    'log_slow_verbosity': 'Full',
-                    'log_slow_rate_limit': '',
-                    'log_slow_admin_statements': 'OFF',
-                    'log_slow_slave_statements': 'OFF',
+                    'LongQueryTime': '',
+                    'SlowLogVerbosity': 'Full',
+                    'RateLimit': '',
+                    'LogSlowAdminStatements': 'OFF',
+                    'LogSlowSlaveStatemtents': 'OFF',
                 };
                 $scope.qanConfLock = {
-                    'IntervalLock': false,
-                    'MaxSlowLogSizeLock': false,
-                    'RemoveOldSlowLogsLock': false,
-                    'ExampleQueriesLock': false,
-                    'SlowLogConfigurationLock': false,
+                    'Interval': false,
+                    'MaxSlowLogSize': false,
+                    'RemoveOldSlowLogs': false,
+                    'ExampleQueries': false,
+                    'LongQueryTime': false,
+                    'SlowLogVerbosity': false,
+                    'RateLimit': false,
+                    'LogSlowAdminStatements': false,
+                    'LogSlowSlaveStatemtents': false,
                 };
+                $scope.qanConfNew = {};
                 $scope.logTimeFrame = '1 h';
                 $scope.severityLeveles = ['emerg', 'alert', 'crit', 'err', 'warning', 'notice', 'info', 'debug'];
                 $scope.tooltipText = 'Copy the ID';
@@ -729,6 +728,7 @@
                 $rootScope.treeRootLabel = 'Add MySQL Connection';
                 $scope.instance = new Instance({});
                 $scope.instance.user = '';
+                $scope.instance.Distro = '';
                 $scope.instance.password = '';
                 $scope.instance.type = 'tcp';
                 $scope.instance.hostname = '';
@@ -1164,6 +1164,81 @@
                     .finally(function (resp) {});
             };
 
+            $scope.trackQanConf = function () {
+                $scope.$watchCollection('qanConf', function(newVal, oldVal){
+                    $scope.confToApiRepresentation();
+                });
+            };
+
+            $scope.confToApiRepresentation = function() {
+                $scope.qanConfNew = {};
+                if ($scope.qanConf.config === 'auto') {
+                    $scope.qanConfNew = {UUID: $scope.qanConf.UUID};
+                } else {
+                    $scope.qanConfNew.UUID = $scope.qanConf.UUID;
+
+                    if($scope.qanConfLock.Interval) {
+                        $scope.qanConfNew.Interval = String(moment.duration($scope.qanConf.Interval, 'm').asSeconds());
+                    }
+                    if($scope.qanConfLock.ExampleQueries) {
+                        $scope.qanConfNew.ExampleQueries = $scope.qanConf.ExampleQueries ? 'yes' : 'no';
+                    }
+                    if ($scope.qanConfLock.CollectFrom) {
+                        $scope.qanConfNew.CollectFrom = $scope.qanConf.CollectFrom;
+                    }
+
+                    if ($scope.qanConf.CollectFrom === 'slowlog') {
+
+                        if ($scope.qanConfLock.LongQueryTime) {
+                            $scope.qanConfNew.LongQueryTime = String($scope.qanConf.LongQueryTime);
+                        }
+
+                        if ($scope.qanConfLock.MaxSlowLogSize) {
+                            $scope.qanConfNew.MaxSlowLogSize = numeral().unformat($scope.qanConf.MaxSlowLogSize);
+                        }
+
+                        if ($scope.qanConfLock.RemoveOldSlowLogs) {
+                            $scope.qanConfNew.RemoveOldSlowLogs = $scope.qanConf.RemoveOldSlowLogs ? 'yes' : 'no';
+                        }
+
+                        if ($scope.instance.Distro.toLowerCase().indexOf('percona server') > -1) {
+
+                            if ($scope.qanConfLock.SlowLogVerbosity) {
+                                $scope.qanConfNew.SlowLogVerbosity = $scope.qanConf.SlowLogVerbosity;
+                            }
+                            if ($scope.qanConfLock.ReportLimit) {
+                                $scope.qanConfNew.RateLimit = String($scope.qanConf.RateLimit);
+                            }
+                            if ($scope.qanConfLock.LogSlowAdminStatements) {
+                                $scope.qanConfNew.LogSlowAdminStatements = $scope.qanConf.LogSlowAdminStatements ? 'yes' : 'no';
+                            }
+                            if ($scope.qanConfLock.LogSlowSlaveStatemtents) {
+                                $scope.qanConfNew.LogSlowSlaveStatemtents = $scope.qanConf.LogSlowSlaveStatemtents ? 'yes' : 'no';
+                            }
+                        } else {
+                            delete $scope.qanConfNew.SlowLogVerbosity;
+                            delete $scope.qanConfNew.RateLimit;
+                            delete $scope.qanConfNew.LogSlowAdminStatements;
+                            delete $scope.qanConfNew.LogSlowSlaveStatemtents;
+                        }
+                    } else {
+                        delete $scope.qanConfNew.LongQueryTime;
+                        delete $scope.qanConfNew.MaxSlowLogSize;
+                        delete $scope.qanConfNew.RemoveOldSlowLogs;
+                        delete $scope.qanConfNew.SlowLogVerbosity;
+                        delete $scope.qanConfNew.RateLimit;
+                        delete $scope.qanConfNew.LogSlowAdminStatements;
+                        delete $scope.qanConfNew.LogSlowSlaveStatemtents;
+                    }
+                }
+            };
+
+            $scope.trackQanConfLock = function () {
+                $scope.$watchCollection('qanConfLock', function(newVal, oldVal){
+                    $scope.confToApiRepresentation();
+                });
+            };
+
             /**
              * Get QAN config (then marge it with defaults)
              */
@@ -1172,17 +1247,31 @@
                       .$promise
                       .then(function (resp) {
                           var conf = JSON.parse(resp.SetConfig);
+                          if (Object.keys(conf).length > 1) {
+                              $scope.qanConf.config = 'manual';
+                          } else {
+                              $scope.qanConf.config = 'auto';
+                          }
                           for (var attr in conf) {
                               $scope.qanConf[attr] = conf[attr];
-                              if ($scope.qanConfSimpleOptions.indexOf(attr) > -1) {
-                                  $scope.qanConfLock[attr + 'Lock'] = true;
+                              if (['SlowLogVerbosity', 'RateLimit', 'LogSlowAdminStatements', 'LogSlowSlaveStatemtents'].indexOf(attr) > -1) {
+                                  if ($scope.instance.Distro.toLowerCase().indexOf('percona server') > -1) {
+                                      $scope.qanConfLock[attr] = true;
+                                  }
                               } else {
-                                  $scope.qanConfLock.SlowLogConfigurationLock = true;
+                                  $scope.qanConfLock[attr] = true;
                               }
+
                               if (attr === 'MaxSlowLogSize') {
                                   $scope.qanConf.MaxSlowLogSize = numeral($scope.qanConf.MaxSlowLogSize).format('0b');
                               }
+                              if (attr === 'Interval') {
+                                  $scope.qanConf.Interval = moment.duration($scope.qanConf.Interval, 's').asMinutes();
+                              }
                           }
+                          $scope.confToApiRepresentation();
+                          $scope.trackQanConf();
+                          $scope.trackQanConfLock();
                       })
                       .catch(function (resp) {
                           var msg = constants.DEFAULT_ERR;
@@ -1202,6 +1291,7 @@
              * Get QAN defaults
              */
             $scope.getQanDefaults = function (agent) {
+
                 var data = {};
                 var params = {
                     AgentUUID: agent.UUID,
@@ -1225,13 +1315,15 @@
                             var res = JSON.parse(atob(data.Data));
                             var conf = res.qan;
                             for (var attr in conf) {
-                                if ($scope.qanConfSimpleOptions.indexOf(attr) > -1 && $scope.qanConfLock[attr + 'Lock'] === false) {
-                                    $scope.qanConf[attr] = conf[attr];
-                                } else if ($scope.qanConfSimpleOptions.indexOf(attr) === -1 && $scope.qanConfLock.SlowLogConfigurationLock === false) {
-                                    $scope.qanConf[attr] = conf[attr];
+                                if (['ReportLimit', 'WorkerRunTime'].indexOf(attr) > -1) {
+                                    continue;
                                 }
+                                $scope.qanConf[attr] = conf[attr];
                                 if (attr === 'MaxSlowLogSize') {
                                     $scope.qanConf.MaxSlowLogSize = numeral($scope.qanConf.MaxSlowLogSize).format('0b');
+                                }
+                                if (attr === 'Interval') {
+                                    $scope.qanConf.Interval = moment.duration($scope.qanConf.Interval, 's').asMinutes();
                                 }
                             }
                             $scope.getQanConfig($scope.instance);
@@ -1243,7 +1335,6 @@
 
             $scope.setQanConfig = function (selected_agent) {
 
-                console.log('$scope', $scope);
                 var stopParams = {
                     AgentUUID: selected_agent.UUID,
                     Service: 'qan',
@@ -1263,9 +1354,7 @@
                                 'msg': msg
                             });
                         } else {
-                            var data = angular.copy($scope.qanConf);
-                            data.MaxSlowLogSize =  numeral().unformat($scope.qanConf.MaxSlowLogSize);
-                            data.UUID = $scope.instance.UUID;
+                            var data = angular.copy($scope.qanConfNew);
                             var startParams = {
                                 AgentUUID: selected_agent.UUID,
                                 Service: 'qan',
@@ -1291,14 +1380,11 @@
                                 })
                             .catch(function(resp) {})
                                 .finally(function() {});
-
-
                         }
                 })
                 .catch(function(resp) {
                 })
                 .finally(function() {});
-
 
             };
 

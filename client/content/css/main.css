@@ -130,3 +130,33 @@ div.popover {
     height: 50px;
     position: absolute;
 }
+
+.text-bigger {
+    font-size: 15px;
+}
+
+fieldset {
+    border: 1px solid #eee;
+    padding: 4px;
+    margin: 5px;
+    -webkit-border-radius: 4px;
+    -moz-border-radius: 4px;
+    border-radius: 4px;
+}
+
+legend {
+    width: initial; /* Or auto */
+    padding:0 10px; /* To give a bit of padding on the left and right */
+    border-bottom:none;
+    color: grey;
+    font-size: 14px;
+}
+
+.pinned {
+    filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=1);
+    -webkit-transform: rotate(-45deg);
+    -moz-transform: rotate(-45deg);
+    -ms-transform: rotate(-45deg);
+    -o-transform: rotate(-45deg);
+    transform: rotate(-45deg);
+}
