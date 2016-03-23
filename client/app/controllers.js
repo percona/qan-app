@@ -393,7 +393,7 @@
                 .then(function (data) {
                         $scope.queryExplain = true;
                         if (data.Error === '') {
-                            if (data.hasOwnProperty('Data') && data.Data !=== null) {
+                            if (data.hasOwnProperty('Data') && data.Data !== null) {
                                 var explain = JSON.parse(atob(data.Data));
                                 $scope.queryExplainData = explain.Classic;
                                 $scope.queryExplainError = '';
@@ -1205,7 +1205,7 @@
                         }
 
                         if ($scope.qanConfLock.MaxSlowLogSize) {
-                            $scope.qanConfNew.MaxSlowLogSize = numeral().unformat($scope.qanConf.MaxSlowLogSize);
+                            $scope.qanConfNew.MaxSlowLogSize = String(numeral().unformat($scope.qanConf.MaxSlowLogSize));
                         } else {
                             $scope.qanConf.MaxSlowLogSize = $scope.qanConfDefault.MaxSlowLogSize;
                         }
@@ -1276,9 +1276,11 @@
                                   $scope.qanConf.MaxSlowLogSize = numeral($scope.qanConf.MaxSlowLogSize).format('0b');
                               }
                               if (attr === 'Interval') {
-                                  $scope.qanConf.Interval = moment.duration($scope.qanConf.Interval, 's').asMinutes();
+                                  $scope.qanConf.Interval = moment.duration(parseInt($scope.qanConf.Interval), 's').asMinutes();
                               }
                           }
+
+                          console.log('qanConf', $scope.qanConf);
                           $scope.confToApiRepresentation();
                           $scope.trackQanConf();
                           $scope.trackQanConfLock();

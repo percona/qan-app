@@ -339,12 +339,12 @@
                 <fieldset ng-if="qanConf.CollectFrom === 'slowlog'">
                     <legend>Slow Log Configuration</legend>
 
-                <div class="form-group form-group-sm">
+                <div class="form-group form-group-sm" ng-class="{ 'has-error' : qanForm.longQueryTime.$invalid && !qanForm.longQueryTime.$pristine }">
                     <label for="inputLongQueryTime" class="col-sm-3 control-label">Long query time</label>
                     <div class="col-sm-2">
                         <input class="form-control"
-                               type="number"
-                               min="0"
+                               type="text"
+                               ng-pattern="'(0|0\.[0-9]{1,6})'"
                                id="inputLongQueryTime"
                                name="longQueryTime"
                                ng-disabled="!qanConfLock.LongQueryTime"
