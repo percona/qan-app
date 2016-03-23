@@ -271,14 +271,26 @@
                     </div>
                     <div class="col-sm-3">
                         <span id="intervalLockHelpBlock"
-                              class="help-block pull-right"><abbr class="text-danger" title="Pins show which options are set or not set. Options with grey pins are not set, so the agent will use its built-in default value, which can change depending on the agent and MySQL version. Options with red pins are set, so the agent will always use the value shown.">What's this?</abbr>&nbsp;<i class="glyphicon glyphicon-arrow-right"></i></span>
+                              class="help-block pull-right">
+                            <abbr class="text-danger"
+                                  title=""
+                                  popover-append-to-body="true"
+                                  popover-placement="left"
+                                  popover-trigger="mouseenter"
+                                  popover="Pins show which options are set or not set.
+                                           Options with grey pins are not set, so the agent will use its built-in default value,
+                                           which can change depending on the agent and MySQL version.
+                                           Options with red pins are set, so the agent will always use the value shown."
+                                  >What's this?</abbr>
+                            &nbsp;<i class="glyphicon glyphicon-arrow-right"></i>
+                        </span>
                     </div>
                     <div class="col-sm-2">
                         <button type="button" class="btn btn-default"
                                 id="IntervalLock"
                                 aria-describedby="intervalLockHelpBlock"
                                 ng-model="qanConfLock.Interval"
-                                title="{{ qanConfLock.Interval ? 'Click to use value by default' : 'Click to set specific value' }}"
+                                title="{{ qanConfLock.Interval ? 'Use default value' : 'Set specific value' }}"
                                 btn-checkbox >
                             <i class="glyphicon glyphicon-pushpin text-muted"
                                 ng-class="{'text-danger pinned': qanConfLock.Interval}"
@@ -301,7 +313,7 @@
                     <div class="col-sm-2">
                         <button type="button" class="btn btn-default"
                                 ng-model="qanConfLock.ExampleQueries"
-                                title="{{ qanConfLock.ExampleQueries ? 'Click to use value by default' : 'Click to set specific value' }}"
+                                title="{{ qanConfLock.ExampleQueries ? 'Use default value' : 'Set specific value' }}"
                                 btn-checkbox>
                             <i class="glyphicon glyphicon-pushpin text-muted"
                                 ng-class="{'text-danger pinned': qanConfLock.ExampleQueries}"
@@ -345,7 +357,7 @@
                     <div class="col-sm-2">
                         <button type="button" class="btn btn-default"
                                 ng-model="qanConfLock.LongQueryTime"
-                                title="{{ qanConfLock.LongQueryTime ? 'Click to use value by default' : 'Click to set specific value' }}"
+                                title="{{ qanConfLock.LongQueryTime ? 'Use default value' : 'Set specific value' }}"
                                 btn-checkbox>
                             <i class="glyphicon glyphicon-pushpin text-muted"
                                 ng-class="{'text-danger pinned': qanConfLock.LongQueryTime}"
@@ -372,7 +384,7 @@
                     <div class="col-sm-2">
                         <button type="button" class="btn btn-default"
                                 ng-model="qanConfLock.MaxSlowLogSize"
-                                title="{{ qanConfLock.MaxSlowLogSize ? 'Click to use value by default' : 'Click to set specific value' }}"
+                                title="{{ qanConfLock.MaxSlowLogSize ? 'Use default value' : 'Set specific value' }}"
                                 btn-checkbox>
                             <i class="glyphicon glyphicon-pushpin text-muted"
                                 ng-class="{'text-danger pinned': qanConfLock.MaxSlowLogSize}"
@@ -395,7 +407,7 @@
                     <div class="col-sm-2">
                         <button type="button" class="btn btn-default"
                                 ng-model="qanConfLock.RemoveOldSlowLogs"
-                                title="{{ qanConfLock.RemoveOldSlowLogs ? 'Click to use value by default' : 'Click to set specific value' }}"
+                                title="{{ qanConfLock.RemoveOldSlowLogs ? 'Use default value' : 'Set specific value' }}"
                                 btn-checkbox>
                             <i class="glyphicon glyphicon-pushpin text-muted"
                                 ng-class="{'text-danger pinned': qanConfLock.RemoveOldSlowLogs}"
@@ -422,14 +434,14 @@
                                         id="inputSlowLogVerbosity"
                                         name="slowLogVerbosity"
                                         ng-disabled="!qanConfLock.SlowLogVerbosity"
-                                        ng-options="i for i in ['Full', 'Standard', 'Minimal']"
+                                        ng-options="k as v for (k, v) in {'full': 'Full', 'standard': 'Standard', 'minimal': 'Minimal'}"
                                         ng-model="qanConf.SlowLogVerbosity">
                                 </select>
                             </div>
                             <div class="col-sm-offset-3 col-sm-2">
                                 <button type="button" class="btn btn-default"
                                                       ng-model="qanConfLock.SlowLogVerbosity"
-                                                      title="{{ qanConfLock.SlowLogVerbosity ? 'Click to use value by default' : 'Click to set specific value' }}"
+                                                      title="{{ qanConfLock.SlowLogVerbosity ? 'Use default value' : 'Set specific value' }}"
                                                       btn-checkbox>
                                     <i class="glyphicon glyphicon-pushpin text-muted"
                                        ng-class="{'text-danger pinned': qanConfLock.SlowLogVerbosity}"
@@ -456,7 +468,7 @@
                             <div class="col-sm-2">
                                 <button type="button" class="btn btn-default"
                                                       ng-model="qanConfLock.RateLimit"
-                                                      title="{{ qanConfLock.RateLimit ? 'Click to use value by default' : 'Click to set specific value' }}"
+                                                      title="{{ qanConfLock.RateLimit ? 'Use default value' : 'Set specific value' }}"
                                                       btn-checkbox>
                                     <i class="glyphicon glyphicon-pushpin text-muted"
                                        ng-class="{'text-danger pinned': qanConfLock.RateLimit}"
@@ -479,7 +491,7 @@
                             <div class="col-sm-2">
                                 <button type="button" class="btn btn-default"
                                                       ng-model="qanConfLock.LogSlowAdminStatements"
-                                                      title="{{ qanConfLock.LogSlowAdminStatements ? 'Click to use value by default' : 'Click to set specific value' }}"
+                                                      title="{{ qanConfLock.LogSlowAdminStatements ? 'Use default value' : 'Set specific value' }}"
                                                       btn-checkbox>
                                     <i class="glyphicon glyphicon-pushpin text-muted"
                                        ng-class="{'text-danger pinned': qanConfLock.LogSlowAdminStatements}"
@@ -503,7 +515,7 @@
                             <div class="col-sm-2">
                                 <button type="button" class="btn btn-default"
                                                       ng-model="qanConfLock.LogSlowSlaveStatemtents"
-                                                      title="{{ qanConfLock.LogSlowSlaveStatemtents ? 'Click to use value by default' : 'Click to set specific value' }}"
+                                                      title="{{ qanConfLock.LogSlowSlaveStatemtents ? 'Use default value' : 'Set specific value' }}"
                                                       btn-checkbox>
                                     <i class="glyphicon glyphicon-pushpin text-muted"
                                        ng-class="{'text-danger pinned': qanConfLock.LogSlowSlaveStatemtents}"

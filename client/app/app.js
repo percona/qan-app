@@ -22,8 +22,8 @@
       .constant('constants', {
           // URI of datastore API
           API_PATH: window.location.protocol + '//'+ window.location.hostname + ':9001',
-          DEFAULT_ERR: 'QAN API error. Check the datastore log file for more information.',
-          API_ERR: 'QAN API error: "<err_msg>".<br />Check the datastore log file for more information.',
+          DEFAULT_ERR: 'QAN API error. Check the percona-qan-api log file for more information.',
+          API_ERR: 'QAN API error: "<err_msg>".<br />Check the percona-qan-api log file for more information.',
           AGENT_ERR: 'Agent API error: "<err_msg>".<br />Check the agent log file for more information.',
           CONFIRM_STOP_AGENT: 'Are you sure you want to stop the agent?\nPlease note: you cannot start it again from UI.',
           DTM_FORMAT: 'YYYY-MM-DDTHH:mm:ss'
@@ -87,7 +87,7 @@
                     $rootScope.connection_error = false;
                     if (rejection.status === -1) {
                         $rootScope.alerts.push({
-                            msg: 'Cannot connect to the datastore. ' +
+                            msg: 'Cannot connect to the QAN API. ' +
                                  'Please check it is running at ' +
                                  '<a href="' + constants.API_PATH + '">' +
                                  constants.API_PATH +
@@ -135,10 +135,10 @@
                           })
                           .catch(function(resp, err){
                               $rootScope.alerts.push({
-                                  msg: 'Datastore API error: ' +
+                                  msg: 'QAN API error: ' +
                                        'GET ' + constants.API_PATH + '/instances ' +
                                        'returned status code ' + resp.status +
-                                       ', expected 200. Check the datastore ' +
+                                       ', expected 200. Check the percona-qan-api ' +
                                        'log file for more information.',
                                   type: 'danger'
                               });
@@ -157,7 +157,37 @@
         .state('management', {
             url: '/management/:subsystem/:uuid',
             templateUrl: '/client/templates/management.html',
-            controller: 'ManagementController'
+            controller: 'ManagementController',
+            resolve: {
+                instances: function (Instance, $rootScope) {
+                    return Instance.query()
+                          .$promise
+                          .then(function(resp) {
+                              console.log('get Instances in app.js');
+                              var instancesByUUID = {};
+                              var len = resp.length;
+                              for (var i=0; len > i; i++) {
+                                  instancesByUUID[resp[i].UUID] = resp[i];
+                              }
+                              return {
+                                  'asDict': instancesByUUID,
+                                  'asArray': resp
+                              };
+                          })
+                          .catch(function(resp, err){
+                              $rootScope.alerts.push({
+                                  msg: 'QAN API error: ' +
+                                       'GET ' + constants.API_PATH + '/instances ' +
+                                       'returned status code ' + resp.status +
+                                       ', expected 200. Check the percona-qan-api ' +
+                                       'log file for more information.',
+                                  type: 'danger'
+                              });
+                              return {};
+                          })
+                          .finally(function(resp){});
+                }
+            }
         });
 
         $urlRouterProvider.rule(function ($injector, $location) {
@@ -169,9 +199,26 @@
         });
     }
 
-    ppl.run(['$rootScope', '$state', '$stateParams', '$http', function($rootScope, $state, $stateParams, $http) {
+    ppl.run(['$rootScope', '$state', '$stateParams', '$http', 'constants', function($rootScope, $state, $stateParams, $http, constants) {
         $rootScope.$state = $state;
         $rootScope.$stateParams = $stateParams;
+
+        $rootScope.showAlert = function(resp, text) {
+            var msg = constants.DEFAULT_ERR;
+            if (text !== undefined) {
+                msg = constants.API_ERR;
+                msg = msg.replace('<err_msg>', text);
+            } else {
+                if (resp.hasOwnProperty('data') && resp.data !== null && resp.data.hasOwnProperty('Error')) {
+                    msg = constants.API_ERR;
+                    msg = msg.replace('<err_msg>', resp.data.Error);
+                }
+            }
+            $rootScope.alerts.push({
+                'type': 'danger',
+                'msg': msg
+            });
+        };
         //$state.transitionTo('management');
         //$state.transitionTo('root');
     }]);

@@ -7,7 +7,7 @@
         <div class="input-group" ng-class="{ 'has-error' : !agent.Name}">
             <input type="text" maxlength="20" class="form-control" ng-model="agent.Name" placeholder="Agent label...">
             <span class="input-group-btn">
-                <button class="btn btn-default" ng-click="agentLabelEditable = false;" title="Cancel" type="button"><i class="fa fa-undo"></i></button>
+                <button class="btn btn-default" ng-click="agentLabelEditable = false;" title="Cancel" type="button"><i class="glyphicon glyphicon-remove"></i></button>
                 <button class="btn btn-default" ng-disabled="!agent.Name" title="Save" ng-click="updateAgentInstance(); agentLabelEditable = false;" type="button"><i class="glyphicon glyphicon-ok"></i></button>
             </span>
         </div>
@@ -99,7 +99,7 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr ng-repeat="log in agentLog | orderBy: 'Ts' : 'reverse'">
+                            <tr ng-repeat="log in agentLog">
                                 <td nowrap>{{ log.Ts }}</td>
                                 <td nowrap>{{ log.Service }}</td>
                                 <td nowrap>{{ severityLeveles[log.Level] }}</td>
