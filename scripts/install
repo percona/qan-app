@@ -23,6 +23,7 @@ HOST="${LISTEN%:*}"
 PORT="${LISTEN#*:}"
 CHECK_REQ="${CHECK_REQ:-"yes"}"
 START="${START:-"yes"}"
+SYSINT="${SYSINT:-"yes"}"
 
 BIN="percona-qan-app"
 INIT_SCRIPT="/etc/init.d/$BIN"
@@ -44,6 +45,7 @@ usage() {
    echo "  BASEDIR    ($BASEDIR)"
    echo "  LISTEN     ($LISTEN)"
    echo "  START      ($START)"
+   echo "  SYSINT     ($SYSINT)"
 }
 
 app_is_running() {
@@ -133,23 +135,25 @@ if [ $# -eq 0 ]; then
    sed -e "s/:LISTEN/$LISTEN/g" "./start" > "$BASEDIR/start"
 
    # Register the init script to make "service percona-qan-app start|stop" work.
-   if [ "$KERNEL" != "Darwin" ]; then
-      cp -f "./$BIN" "$INIT_SCRIPT"
-      chmod a+x "$INIT_SCRIPT"
+   if [ "$SYSINT" = "yes" ]; then
+      if [ "$KERNEL" != "Darwin" ]; then
+         cp -f "./$BIN" "$INIT_SCRIPT"
+         chmod a+x "$INIT_SCRIPT"
 
-      if hash update-rc.d 2>/dev/null; then
-         echo "Using update-rc.d to install $BIN service"
-         update-rc.d $BIN defaults >/dev/null
-      elif hash chkconfig 2>/dev/null; then
-         echo "Using chkconfig to install $BIN service"
-         chkconfig $BIN on >/dev/null
+         if hash update-rc.d 2>/dev/null; then
+            echo "Using update-rc.d to install $BIN service"
+            update-rc.d $BIN defaults >/dev/null
+         elif hash chkconfig 2>/dev/null; then
+            echo "Using chkconfig to install $BIN service"
+            chkconfig $BIN on >/dev/null
+         else
+            echo "Cannot find chkconfig or update-rc.d. $BIN is installed," \
+               "but it will not start automatically when the server start." \
+               "To start it manually, run: $BASEDIR/start" >&2
+         fi
       else
-         echo "Cannot find chkconfig or update-rc.d. $BIN is installed," \
-            "but it will not start automatically when the server start." \
-            "To start it manually, run: $BASEDIR/start" >&2
+         echo "Mac OS detected, not installing sys-init script"
       fi
-   else
-      echo "Mac OS detected, not installing sys-init script"
    fi
 
    if [ "$START" = "yes" ]; then
