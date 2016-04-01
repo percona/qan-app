@@ -1,4 +1,6 @@
-SEDIR="${BASEDIR:-"$(cd "$(dirname "$0")"; pwd)"}"
+#!/usr/bin/env bash
+
+BASEDIR="${BASEDIR:-"$(cd "$(dirname "$0")"; pwd)"}"
 LISTEN="${LISTEN:-":LISTEN"}"
 HOST="${LISTEN%:*}"
 PORT="${LISTEN#*:}"
