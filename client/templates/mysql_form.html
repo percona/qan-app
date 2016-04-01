@@ -43,7 +43,7 @@
                 </div>
 
                 <div class="form-group form-group-sm" ng-class="{ 'has-error' : instanceForm.name.$invalid && !instanceForm.name.$pristine }">
-                    <label for="inputName" class="col-md-3 control-label">Label</label>
+                    <label for="inputName" class="col-md-3 control-label">Name</label>
                     <div class="col-md-9">
                         <input type="text" class="form-control input-sm" id="inputName" name="name"
                                ng-model="instance.Name"
@@ -244,9 +244,9 @@
                             The agent will automatically configure MySQL based on its distribution and version. This is safe for production.
                         </div>
 
-                        <div ng-if="instance.Distro.toLowerCase().indexOf('percona server') === -1" class="alert alert-warning" role="alert">
+                        <div ng-if="instance.Distro !== '' && instance.Distro.toLowerCase().indexOf('percona server') === -1" class="alert alert-warning" role="alert">
                             This MySQL instance is not running
-                            <a href=”https://www.percona.com/software/mysql-database/percona-server”>Percona Server</a>.
+                            <a href="https://www.percona.com/software/mysql-database/percona-server">Percona Server</a>.
                             For best results, upgrade to Percona Server.
                         </div>
                     </div>
