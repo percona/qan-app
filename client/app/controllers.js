@@ -610,6 +610,7 @@
     pplControllers.controller('ManagementController', [
         '$scope',
         '$rootScope',
+        '$window',
         'constants',
         '$timeout',
         '$interval',
@@ -621,11 +622,11 @@
         'AgentLog',
         'Config',
         'instances',
-        function($scope, $rootScope, constants, $timeout, $interval, $filter, $state,
-                 Instance, AgentCmd, AgentStatus, AgentLog, Config, instances) {
+        function($scope, $rootScope, $window, constants, $timeout, $interval, $filter,
+                 $state, Instance, AgentCmd, AgentStatus, AgentLog, Config, instances) {
             $scope.init = function () {
                 $rootScope.treeRootLabel = 'Select an Instance';
-
+                $scope.isSafari = $window.navigator.vendor.indexOf('Apple') > -1;
                 $scope.instancesByUUID = instances.asDict;
                 $scope.instances = instances.asArray;
                 $scope.makeInstancesTree($scope.instances);
@@ -785,23 +786,11 @@
             };
 
             $scope.onSuccess = function(e) {
-                $scope.$broadcast('clipboard', {'copied': true});
                 e.clearSelection();
             };
 
-            $scope.$on('clipboard', function(event, args) {
-                if (args.copied) {
-                    $scope.tooltipText = 'Copied!';
-                } else {
-                    $scope.tooltipText = 'Press &#8984;-C to copy';
-                }
-                $timeout(function () {
-                    $scope.tooltipText = 'Copy the ID';
-                }, 10000);
-            });
-
             $scope.onError = function(e) {
-                $scope.$broadcast('clipboard', {'copied': false});
+                // silent
             };
 
 
@@ -931,8 +920,8 @@
                 }
 
                 if ($scope.instance.type === 'tcp') {
-                    dsn += 'tcp';
-                    if ($scope.instance.hostname !== '') {
+                    if (!($scope.instance.hostname === '' || $scope.instance.hostname === undefined)) {
+                        dsn += 'tcp';
                         dsn += '(' + $scope.instance.hostname;
                         if ($scope.instance.port) {
                             dsn += ':' + $scope.instance.port;
@@ -987,8 +976,10 @@
                               'type': 'info',
                               'msg': 'MySQL instance has been updated.'
                           });
-                          $scope.getInstances();
-                          $scope.treeHandler({'data': resp});
+                          $state.go('management', {
+                              subsystem: 'mysql',
+                              uuid: resp.UUID
+                          });
                     })
                     .catch(function (resp) {
                         $rootScope.showAlert(resp);

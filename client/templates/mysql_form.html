@@ -27,11 +27,14 @@
                         <p class="form-control-static input-sm" id="instanceUUID">{{ instance.UUID }}</p>
                     </div>
                     <div class="col-sm-1">
+                        <!-- tooltip-html="tooltipText" -->
                         <span id="inputIdHelpBlock"
                             class="help-block">
                             <a href=""
-                               tooltip-html="tooltipText"
+                               tooltip="{{ copied ? ( isSafari ? 'Press &#8984;-C to copy' : 'Copied!') : 'Copy the ID' }}"
                                tooltip-append-to-body="true"
+                               ng-click="copied = true"
+                               ng-mouseover="copied = false"
                                tooltip-placement="bottom"
                                ngclipboard data-clipboard-target="#instanceUUID"
                                ngclipboard-success="onSuccess(e);" ngclipboard-error="onError(e);"
@@ -194,7 +197,12 @@
                     </div>
                 </div>
             </div>
-            <div class="panel-body">
+            <div class="panel-body" ng-if="!instance.UUID">
+                <div class="alert alert-info" role="alert">
+                    Create MySQL Connection first.
+                </div>
+            </div>
+            <div class="panel-body" ng-if="!!instance.UUID">
 
                 <div class="form-group form-group-sm" ng-class="{ 'has-error' : qanForm.selected_agent.$invalid }">
                     <label for="inputAgent" class="col-sm-3 control-label">Agent</label>
@@ -532,8 +540,8 @@
 
 
             </div>
-            <div class="panel-footer">
-                <div class="form-group form-group-sm">
+            <div class="panel-footer" ng-if="!!instance.UUID">
+                <div class="form-group form-group-sm" >
                     <div class="col-sm-offset-3 col-md-2">
                         <button type="submit"
                                 ng-click="setQanConfig(selected_agent)"
