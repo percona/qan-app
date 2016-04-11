@@ -57,7 +57,7 @@
             return $resource(constants.API_PATH + '/instances/:instance_uuid',
                 {},
                 {
-                    query: {method: 'GET', params: {}, isArray: true},
+                    query: {method: 'GET', params: {'deleted': 'no'}, isArray: true},
                     update: {method: 'PUT', params: {}, isArray: false}
                 }
             );

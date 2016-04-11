@@ -22,8 +22,8 @@
       .constant('constants', {
           // URI of datastore API
           API_PATH: window.location.protocol + '//'+ window.location.hostname + ':9001',
-          DEFAULT_ERR: 'QAN API error. Check the percona-qan-api log file for more information.',
-          API_ERR: 'QAN API error: "<err_msg>".<br />Check the percona-qan-api log file for more information.',
+          DEFAULT_ERR: 'QAN API error. Check the /var/log/qan-api.log file for more information.',
+          API_ERR: 'QAN API error: "<err_msg>".<br />Check the /var/log/qan-api.log file for more information.',
           AGENT_ERR: 'Agent API error: "<err_msg>".<br />Check the agent log file for more information.',
           CONFIRM_STOP_AGENT: 'Are you sure you want to stop the agent?\nPlease note: you cannot start it again from UI.',
           DTM_FORMAT: 'YYYY-MM-DDTHH:mm:ss'
@@ -113,7 +113,8 @@
                           .then(function(resp) {
                               var mysqls = [];
                               for (var i=0; i < resp.length; i++) {
-                                  if (resp[i].Subsystem === 'mysql') {
+                                  // if deleted - skip
+                                  if (resp[i].Subsystem === 'mysql' && moment(resp[i].Deleted) < moment('0001-01-02')) {
                                       resp[i].DSN = resp[i].DSN.replace(/:[0-9a-zA-Z]+@/, ':************@');
                                       mysqls.push(resp[i]);
                                   }
@@ -138,8 +139,8 @@
                                   msg: 'QAN API error: ' +
                                        'GET ' + constants.API_PATH + '/instances ' +
                                        'returned status code ' + resp.status +
-                                       ', expected 200. Check the percona-qan-api ' +
-                                       'log file for more information.',
+                                       ', expected 200. Check the /var/log/qan-api.log ' +
+                                       'file for more information.',
                                   type: 'danger'
                               });
                               $rootScope.connection_error = true;
@@ -163,11 +164,13 @@
                     return Instance.query()
                           .$promise
                           .then(function(resp) {
-                              console.log('get Instances in app.js');
                               var instancesByUUID = {};
                               var len = resp.length;
                               for (var i=0; len > i; i++) {
-                                  instancesByUUID[resp[i].UUID] = resp[i];
+                                  // if deleted - skip
+                                  if(moment(resp[i].Deleted) < moment('0001-01-02')) {
+                                      instancesByUUID[resp[i].UUID] = resp[i];
+                                  }
                               }
                               return {
                                   'asDict': instancesByUUID,
@@ -179,8 +182,8 @@
                                   msg: 'QAN API error: ' +
                                        'GET ' + constants.API_PATH + '/instances ' +
                                        'returned status code ' + resp.status +
-                                       ', expected 200. Check the percona-qan-api ' +
-                                       'log file for more information.',
+                                       ', expected 200. Check the /var/log/qan-api.log ' +
+                                       'file for more information.',
                                   type: 'danger'
                               });
                               return {};
@@ -203,14 +206,12 @@
         $rootScope.$state = $state;
         $rootScope.$stateParams = $stateParams;
 
-        $rootScope.showAlert = function(resp, text) {
-            var msg = constants.DEFAULT_ERR;
+        $rootScope.showAlert = function(resp, text, msg) {
+            var msg = msg || constants.API_ERR;
             if (text !== undefined) {
-                msg = constants.API_ERR;
                 msg = msg.replace('<err_msg>', text);
             } else {
                 if (resp.hasOwnProperty('data') && resp.data !== null && resp.data.hasOwnProperty('Error')) {
-                    msg = constants.API_ERR;
                     msg = msg.replace('<err_msg>', resp.data.Error);
                 }
             }
@@ -219,8 +220,6 @@
                 'msg': msg
             });
         };
-        //$state.transitionTo('management');
-        //$state.transitionTo('root');
     }]);
 
 })();

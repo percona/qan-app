@@ -1,5 +1,16 @@
 (function(){
     'use strict';
+
+    function utf8_to_b64(str) {
+        return btoa(encodeURIComponent(str).replace(/%([0-9A-F]{2})/g, function(match, p1) {
+            return String.fromCharCode('0x' + p1);
+        }))
+    }
+
+    function b64_to_utf8(str) {
+        return decodeURIComponent(unescape(window.atob(str)));
+    }
+
     var pplControllers = angular.module('pplControllers', []);
 
     pplControllers.controller('QueryProfileController', [
@@ -387,7 +398,7 @@
                     AgentUUID: $rootScope.config.AgentUUID,
                     Service: 'query',
                     Cmd: 'Explain',
-                    Data: btoa(JSON.stringify(data))
+                    Data: utf8_to_b64(JSON.stringify(data))
                 };
 
                 var agentCmd = new AgentCmd(params);
@@ -397,7 +408,7 @@
                         $scope.queryExplain = true;
                         if (data.Error === '') {
                             if (data.hasOwnProperty('Data') && data.Data !== null) {
-                                var explain = JSON.parse(atob(data.Data));
+                                var explain = JSON.parse(b64_to_utf8(data.Data));
                                 $scope.queryExplainData = explain.Classic;
                                 $scope.queryExplainError = '';
                             } else {
@@ -512,14 +523,14 @@
                     AgentUUID: $rootScope.config.AgentUUID,
                     Service: 'query',
                     Cmd: 'TableInfo',
-                    Data: btoa(JSON.stringify(data))
+                    Data: utf8_to_b64(JSON.stringify(data))
                 };
 
                 var agentCmd = new AgentCmd(params);
                 var p = AgentCmd.update({agent_uuid: $rootScope.config.AgentUUID}, agentCmd);
                 p.$promise
                 .then(function (data) {
-                        $scope.tableInfo = JSON.parse(atob(data.Data));
+                        $scope.tableInfo = JSON.parse(b64_to_utf8(data.Data));
                         if ($scope.tableInfo instanceof Object && 'Errors' in $scope.tableInfo[db_tbl]) {
                             var errors = $scope.tableInfo[db_tbl].Errors;
                             var msg;
@@ -829,7 +840,9 @@
                             }]
                         });
                     }
-                    if (instances[i].Subsystem === 'mysql' && instances[i].ParentUUID === '') {
+                    if (instances[i].Subsystem === 'mysql'
+                            && instances[i].ParentUUID === ''
+                            && moment(instances[i].Deleted) < moment('0001-01-02')) {
                         $scope.treeData.push({
                             'expanded': true,
                             'label': 'MySQL: ' + instances[i].Name,
@@ -971,15 +984,16 @@
                 Instance.update({'instance_uuid': $scope.instance.UUID}, $scope.instance)
                     .$promise
                     .then(function (resp) {
-                          $rootScope.treeRootLabel = 'MySQL: ' + $scope.instance.Name;
-                          $rootScope.alerts.push({
-                              'type': 'info',
-                              'msg': 'MySQL instance has been updated.'
-                          });
-                          $state.go('management', {
-                              subsystem: 'mysql',
-                              uuid: resp.UUID
-                          });
+                        $scope.rawInstance = resp;
+                        $rootScope.treeRootLabel = 'MySQL: ' + $scope.instance.Name;
+                        $rootScope.alerts.push({
+                            'type': 'info',
+                            'msg': 'MySQL instance has been updated.'
+                        });
+                        $state.go('management', {
+                            subsystem: 'mysql',
+                            uuid: resp.UUID
+                        });
                     })
                     .catch(function (resp) {
                         $rootScope.showAlert(resp);
@@ -1065,30 +1079,30 @@
                 $scope.qanError = '';
                 var data = {
                     'Subsystem': 'mysql',
-                    'DSN': $scope.instance.DSN
+                    'DSN': $scope.rawInstance.DSN
                 };
                 var params = {
                     AgentUUID: agent.UUID,
                     Service: 'instance',
                     Cmd: 'GetInfo',
-                    Data: btoa(JSON.stringify(data))
+                    Data: utf8_to_b64(JSON.stringify(data))
                 };
 
                 var agentCmd = new AgentCmd(params);
                 var p = AgentCmd.update({agent_uuid: agent.UUID}, agentCmd);
                 p.$promise
-                 .then(function (resp) {
-                     if (resp.Error !== "") {
-                        $scope.qanError = resp.Error;
-                        $scope.qanOK = false;
-                     } else {
-                        $scope.qanOK = true;
-                        $scope.qanError = false;
-                     }
-                 })
+                    .then(function (resp) {
+                        if (resp.Error !== "") {
+                            $scope.qanError = resp.Error;
+                            $scope.qanOK = false;
+                        } else {
+                            $scope.qanOK = true;
+                            $scope.qanError = resp.Error;
+                        }
+                    })
                  .catch(function (resp) {
                      $scope.qanOK = false;
-                     $scope.qanError = resp.data.Error;
+                     $scope.qanError = resp.Error;
                  })
                  .finally();
             };
@@ -1104,7 +1118,7 @@
                     AgentUUID: agent.UUID,
                     Service: 'instance',
                     Cmd: 'GetInfo',
-                    Data: btoa(JSON.stringify(data))
+                    Data: utf8_to_b64(JSON.stringify(data))
                 };
 
                 var agentCmd = new AgentCmd(params);
@@ -1115,14 +1129,14 @@
                         $scope.instanceError = resp.Error;
                         $scope.instanceOK = false;
                      } else {
-                        $scope.agentStatus = JSON.parse(atob(resp.Data));
+                        $scope.agentStatus = JSON.parse(b64_to_utf8(resp.Data));
                         $scope.instanceOK = true;
                         $scope.instanceError = false;
                      }
                  })
                  .catch(function (resp) {
                      $scope.instanceOK = false;
-                     $scope.instanceError = resp.data.Error;
+                     $scope.instanceError = resp.Error;
                  })
                  .finally();
             };
@@ -1295,7 +1309,6 @@
                             $scope.qanConf.Interval = moment.duration(parseInt($scope.qanConf.Interval), 's').asMinutes();
                         }
                     }
-                    //TODO: remove from here?
                     $scope.trackQanConf();
                     $scope.trackQanConfLock();
                 }
@@ -1331,7 +1344,7 @@
                     AgentUUID: agent.UUID,
                     Service: 'agent',
                     Cmd: 'GetDefaults',
-                    Data: btoa(JSON.stringify({}))
+                    Data: utf8_to_b64('{}')
                 };
 
                 var agentCmd = new AgentCmd(params);
@@ -1346,7 +1359,7 @@
                                 'msg': msg
                             });
                         } else {
-                            var res = JSON.parse(atob(data.Data));
+                            var res = JSON.parse(b64_to_utf8(data.Data));
                             var conf = res.qan;
                             for (var attr in conf) {
                                 if (['ReportLimit', 'WorkerRunTime'].indexOf(attr) > -1) {
@@ -1365,7 +1378,9 @@
                         }
                     })
                 .catch(function(resp) {
-                    $rootScope.showAlert(resp);
+                    var msg = 'QAN API error: "<err_msg>".<br />Check whether percona-qan-agent is started.'
+                            + '<br /> <code>sudo /etc/init.d/percona-qan-agent start|stop|restart|status<code>'
+                    $rootScope.showAlert(resp, undefined, msg);
                 })
                 .finally(function() {});
             };
@@ -1376,7 +1391,7 @@
                     AgentUUID: selected_agent.UUID,
                     Service: 'qan',
                     Cmd: 'StopTool',
-                    Data: btoa($scope.instance.UUID)
+                    Data: utf8_to_b64($scope.instance.UUID)
                 };
 
                 var stopAgentCmd = new AgentCmd(stopParams);
@@ -1396,7 +1411,7 @@
                                 AgentUUID: selected_agent.UUID,
                                 Service: 'qan',
                                 Cmd: 'StartTool',
-                                Data: btoa(JSON.stringify(data))
+                                Data: utf8_to_b64(JSON.stringify(data))
                             };
 
                             var startAgentCmd = new AgentCmd(startParams);
@@ -1411,7 +1426,7 @@
                                             'msg': msg
                                         });
                                     } else {
-                                        var res = JSON.parse(atob(data.Data));
+                                        var res = JSON.parse(b64_to_utf8(data.Data));
                                         var conf = res.qan;
                                     }
                                 })
