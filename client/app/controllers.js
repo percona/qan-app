@@ -1398,14 +1398,11 @@
                 var p = AgentCmd.update({agent_uuid: selected_agent.UUID}, stopAgentCmd);
                 p.$promise
                     .then(function (resp) {
-                        if (resp.Error !== "") {
-                            var msg = constants.API_ERR;
-                            msg = msg.replace('<err_msg>', resp.Error);
-                            $rootScope.alerts.push({
-                                'type': 'danger',
-                                'msg': msg
-                            });
+                        if (resp.Error !== '') {
+                            $rootScope.showAlert(null, resp.Error);
                         } else {
+                            var msg = 'Query Analytics configuration was applied.';
+                            $rootScope.showAlert(null, '', msg, 'info');
                             var data = angular.copy($scope.qanConfNew);
                             var startParams = {
                                 AgentUUID: selected_agent.UUID,
@@ -1430,11 +1427,13 @@
                                         var conf = res.qan;
                                     }
                                 })
-                            .catch(function(resp) {})
-                                .finally(function() {});
+                            .catch(function(resp) {
+                            })
+                            .finally(function() {});
                         }
                 })
                 .catch(function(resp) {
+                    $rootScope.showAlert(resp);
                 })
                 .finally(function() {});
 

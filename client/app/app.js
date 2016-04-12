@@ -206,7 +206,7 @@
         $rootScope.$state = $state;
         $rootScope.$stateParams = $stateParams;
 
-        $rootScope.showAlert = function(resp, text, msg) {
+        $rootScope.showAlert = function(resp, text, msg, type) {
             var msg = msg || constants.API_ERR;
             if (text !== undefined) {
                 msg = msg.replace('<err_msg>', text);
@@ -216,7 +216,7 @@
                 }
             }
             $rootScope.alerts.push({
-                'type': 'danger',
+                'type': type || 'danger',
                 'msg': msg
             });
         };
