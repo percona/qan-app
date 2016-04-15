@@ -50,7 +50,7 @@
                     <div class="col-md-9">
                         <input type="text" class="form-control input-sm" id="inputName" name="name"
                                ng-model="instance.Name"
-                               ng-pattern="'[-a-zA-Z0-9_]+'"
+                               ng-pattern="'[-a-zA-Z0-9_.]+'"
                                ng-required="true">
                     </div>
                 </div>
@@ -97,7 +97,7 @@
                 <div class="form-group form-group-sm"
                      ng-class="{ 'has-error' : (instanceForm.hostname.$invalid && !instanceForm.hostname.$pristine) || (instanceForm.port.$invalid && !instanceForm.port.$pristine) }">
                     <label for="inputHostname" class="col-md-3 control-label">
-                        Hostname
+                        Host
                         <input type="radio" id="inputHostname" name="isHostname"
                                ng-model="instance.type"
                                ng-value="'tcp'">
