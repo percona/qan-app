@@ -10,28 +10,39 @@
         'ui.bootstrap.datetimepicker',
         'chart.js',
         'hljs',
+        'angularBootstrapNavTree',
+        'angularMoment',
+        'ngclipboard',
+        'ngNumeraljs',
         'pplControllers',
         'pplServices',
         'pplDirectives',
-        'pplFilters',
-        'angularMoment'
+        'pplFilters'
     ]).config(configure)
       .constant('constants', {
           // URI of datastore API
           API_PATH: window.location.protocol + '//'+ window.location.hostname + ':9001',
-          DEFAULT_ERR: 'Datastore API error. Check the datastore log file for more information.',
-          API_ERR: 'Datastore API error: "<err_msg>".<br />Check the datastore log file for more information.',
-          AGENT_ERR: 'Agent API error: "<err_msg>".<br />Check the agent log file for more information.'
+          DEFAULT_ERR: 'QAN API error. Check the /var/log/qan-api.log file for more information.',
+          API_ERR: 'QAN API error: "<err_msg>".<br />Check the /var/log/qan-api.log file for more information.',
+          AGENT_ERR: 'Agent API error: "<err_msg>".<br />Check the agent log file for more information.',
+          CONFIRM_STOP_AGENT: 'Are you sure you want to stop the agent?\nPlease note: you cannot start it again from UI.',
+          DTM_FORMAT: 'YYYY-MM-DDTHH:mm:ss'
       })
       .constant('angularMomentConfig', {
               timezone: 'UTC'
       });
 
 
-    configure.$inject = ['$stateProvider', '$httpProvider', '$urlRouterProvider', '$resourceProvider'];
+    configure.$inject = ['$stateProvider', '$httpProvider', '$urlRouterProvider', '$resourceProvider', '$tooltipProvider'];
 
-    function configure($stateProvider, $httpProvider, $urlRouterProvider, $resourceProvider) {
+    function configure($stateProvider, $httpProvider, $urlRouterProvider, $resourceProvider, $tooltipProvider) {
 
+        $tooltipProvider.setTriggers({
+            'mouseenter': 'mouseleave',
+            'click': 'click',
+            'focus': 'blur',
+            'bebebe': 'fefefe'
+        });
 
         function setVersionedUrl(url) {
             // catch /ng/views/ HTML templates only
@@ -40,7 +51,7 @@
             return url + '?' + param;
         }
 
-        $httpProvider.interceptors.push(function($rootScope, $q, constants) {
+        $httpProvider.interceptors.push(function($rootScope, $q, constants, $timeout) {
             $rootScope.alerts = [];
             $rootScope.loading = false;
             $rootScope.closeAlert = function(index) {
@@ -49,7 +60,7 @@
             return {
                 request: function (config) {
                     $rootScope.loading = true;
-                    config.timeout = 5000;
+                    config.timeout = 10000;
                     // Intercept Angular external request to static files
                     // to append version number to defeat the cache problem.
                     config.url = setVersionedUrl(config.url);
@@ -63,7 +74,11 @@
                 },
                 response: function(response) {
                     $rootScope.loading = false;
-                    $rootScope.alerts = [];
+                    if ($rootScope.alerts.length) {
+                        $timeout(function () {
+                            $rootScope.alerts = [];
+                        }, 5000);
+                    }
                     return response;
                 },
                 responseError: function (rejection) {
@@ -72,7 +87,7 @@
                     $rootScope.connection_error = false;
                     if (rejection.status === -1) {
                         $rootScope.alerts.push({
-                            msg: 'Cannot connect to the datastore. ' +
+                            msg: 'Cannot connect to the QAN API. ' +
                                  'Please check it is running at ' +
                                  '<a href="' + constants.API_PATH + '">' +
                                  constants.API_PATH +
@@ -87,11 +102,9 @@
         });
 
 
-        $urlRouterProvider.otherwise('/');
-
         $stateProvider.state('root', {
             url: '/',
-            templateUrl: '/client/qan/query_profile_grid.html',
+            templateUrl: '/client/templates/query_profile_grid.html',
             controller: 'QueryProfileController',
             resolve: {
                 instance: function (Instance, $rootScope) {
@@ -99,7 +112,14 @@
                           .$promise
                           .then(function(resp) {
                               var mysqls = [];
-                              if (resp.length === 0) {
+                              for (var i=0; i < resp.length; i++) {
+                                  // if deleted - skip
+                                  if (resp[i].Subsystem === 'mysql' && moment(resp[i].Deleted) < moment('0001-01-02')) {
+                                      resp[i].DSN = resp[i].DSN.replace(/:[0-9a-zA-Z]+@/, ':************@');
+                                      mysqls.push(resp[i]);
+                                  }
+                              }
+                              if (mysqls.length === 0) {
                                   $rootScope.alerts.push({
                                       msg: 'There are no MySQL instances. ' +
                                            'Install the agent on a server, ' +
@@ -107,14 +127,6 @@
                                       type: 'danger'
                                   });
                                   $rootScope.connection_error = true;
-                              } else {
-                                  for (var i=0; i < resp.length; i++) {
-                                      if (resp[i].Subsystem === 'mysql') {
-                                          resp[i].DSN = resp[i].DSN.replace(/:[0-9a-zA-Z]+@/, ':************@');
-                                          mysqls.push(resp[i]);
-                                      }
-                                  }
-
                               }
 
                               return {
@@ -124,11 +136,11 @@
                           })
                           .catch(function(resp, err){
                               $rootScope.alerts.push({
-                                  msg: 'Datastore API error: ' +
-                                       'GET ' + API_PATH + '/instances ' +
+                                  msg: 'QAN API error: ' +
+                                       'GET ' + constants.API_PATH + '/instances ' +
                                        'returned status code ' + resp.status +
-                                       ', expected 200. Check the datastore ' +
-                                       'log file for more information.',
+                                       ', expected 200. Check the /var/log/qan-api.log ' +
+                                       'file for more information.',
                                   type: 'danger'
                               });
                               $rootScope.connection_error = true;
@@ -142,12 +154,72 @@
         })
         .state('root.instance-dt.query', {
             url: 'query/:query_id/'
+        })
+        .state('management', {
+            url: '/management/:subsystem/:uuid',
+            templateUrl: '/client/templates/management.html',
+            controller: 'ManagementController',
+            resolve: {
+                instances: function (Instance, $rootScope) {
+                    return Instance.query()
+                          .$promise
+                          .then(function(resp) {
+                              var instancesByUUID = {};
+                              var len = resp.length;
+                              for (var i=0; len > i; i++) {
+                                  // if deleted - skip
+                                  if(moment(resp[i].Deleted) < moment('0001-01-02')) {
+                                      instancesByUUID[resp[i].UUID] = resp[i];
+                                  }
+                              }
+                              return {
+                                  'asDict': instancesByUUID,
+                                  'asArray': resp
+                              };
+                          })
+                          .catch(function(resp, err){
+                              $rootScope.alerts.push({
+                                  msg: 'QAN API error: ' +
+                                       'GET ' + constants.API_PATH + '/instances ' +
+                                       'returned status code ' + resp.status +
+                                       ', expected 200. Check the /var/log/qan-api.log ' +
+                                       'file for more information.',
+                                  type: 'danger'
+                              });
+                              return {};
+                          })
+                          .finally(function(resp){});
+                }
+            }
+        });
+
+        $urlRouterProvider.rule(function ($injector, $location) {
+            var path = $location.url();
+            if (path === '') {
+                return '/';
+            }
+            return path;
         });
     }
 
-    ppl.run(['$rootScope', '$state', '$stateParams', '$http', function($rootScope, $state, $stateParams, $http) {
+    ppl.run(['$rootScope', '$state', '$stateParams', '$http', 'constants', function($rootScope, $state, $stateParams, $http, constants) {
         $rootScope.$state = $state;
         $rootScope.$stateParams = $stateParams;
+
+        $rootScope.showAlert = function(resp, text, msg, type) {
+            var msg = msg || constants.API_ERR;
+            if (text !== undefined) {
+                msg = msg.replace('<err_msg>', text);
+            } else {
+                if (resp.hasOwnProperty('data') && resp.data !== null && resp.data.hasOwnProperty('Error')) {
+                    msg = msg.replace('<err_msg>', resp.data.Error);
+                }
+            }
+            $rootScope.alerts.push({
+                'type': type || 'danger',
+                'msg': msg
+            });
+        };
     }]);
 
 })();

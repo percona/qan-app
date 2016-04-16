@@ -128,10 +128,16 @@ for file in $(perl -ne 'm/(bower_components[^"]+)/ and print $1, "\n"' "$ROOT_DI
    if [ -e "$ROOT_DIR/$file.map" ]; then
        cp "$ROOT_DIR/$file.map" "$dir"
    fi
+   if [ -e "$ROOT_DIR/${file%.*}.map" ]; then
+       cp "$ROOT_DIR/${file%.*}.map" "$dir"
+   fi
 done
 
 # Copy all of Bootstrap.
 cp -R "$ROOT_DIR/bower_components/bootstrap/dist/"* bower_components/bootstrap/dist
+
+# Copy fonts
+cp -R "$ROOT_DIR/bower_components/font-awesome/fonts/" ./bower_components/font-awesome/fonts/
 
 # Go up one dir to distro/ and tarball the disto dir.
 cd ..

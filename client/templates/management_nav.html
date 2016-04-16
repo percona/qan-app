@@ -1,0 +1,50 @@
+<div class="container-fluid">
+<div class="" id="bs-example-navbar-collapse-1">
+    <div class="row">
+        <div class="col-md-12">
+            <ul class="nav navbar-nav">
+                <li class="hidden-xs">
+                    <a class="navbar-brand" ui-sref="root" ui-sref-opts="{reload: true}">
+                        <div class="logo-img">
+                            <span class="logo-text">Query Analytics</span>
+                        </div>
+                    </a>
+                </li>
+                <li>
+                    <button title="Back to Query Analitics"
+                            ui-sref="root"
+                            class="btn btn-default navbar-btn"><i class="glyphicon glyphicon-arrow-left"></i> Back to Query Analytics</button>
+                </li>
+                <li role="separator" class="divider">&nbsp;</li>
+                <li>
+                    <div class="btn-group" dropdown dropdown-append-to-body >
+                        <button type="button"
+                                dropdown-toggle
+                                class="btn btn-warning navbar-btn dropdown-toggle"
+                                data-toggle="dropdown"
+                                aria-haspopup="true"
+                                aria-expanded="true">
+                            {{ $root.treeRootLabel }}
+                            <span class="caret"></span>
+                        </button>
+                        <div class="dropdown-menu" dropdown-menu role="menu" style="padding: 5px;">
+                            <div class="well" style="width: 300px">
+                                <abn-tree tree-data="treeData"
+                                          icon-leaf=""
+                                          on-select="treeHandler(branch)"
+                                          ></abn-tree>
+                            </div>
+                        </div>
+                    </div>
+                </li>
+                <li role="separator" class="divider">&nbsp;</li>
+                <li>
+                    <button title="Add MySQL Connection"
+                            ui-sref="management({subsystem: 'new-mysql', uuid: null})"
+                            class="btn btn-default navbar-btn"><i class="glyphicon glyphicon-plus"></i>Add MySQL Connection</button>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
+</div>

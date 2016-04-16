@@ -6,7 +6,7 @@
             <div class="col-md-12">
                 <ul class="nav navbar-nav">
                     <li class="hidden-xs">
-                        <a class="navbar-brand" href="#">
+                        <a class="navbar-brand" ui-sref="root" ui-sref-opts="{reload: true}">
                             <div class="logo-img">
                                 <span class="logo-text">Query Analytics</span>
                             </div>
@@ -18,16 +18,16 @@
                     </li>
                     <li>
                          <div class="btn-group">
-                            <label class="btn btn-default navbar-btn" ng-model="time_range" btn-radio="'1h'">1h</label>
-                            <label class="btn btn-default navbar-btn" ng-model="time_range" btn-radio="'3h'">3h</label>
-                            <label class="btn btn-default navbar-btn" ng-model="time_range" btn-radio="'6h'">6h</label>
-                            <label class="btn btn-default navbar-btn" ng-model="time_range" btn-radio="'12h'">12h</label>
-                            <label class="btn btn-default navbar-btn" ng-model="time_range" btn-radio="'1d'">1d</label>
-                            <label class="btn btn-default navbar-btn" ng-model="time_range" btn-radio="'5d'">5d</label>
+                            <label class="btn btn-default navbar-btn" ng-model="$root.time_range" btn-radio="'1h'">1h</label>
+                            <label class="btn btn-default navbar-btn" ng-model="$root.time_range" btn-radio="'3h'">3h</label>
+                            <label class="btn btn-default navbar-btn" ng-model="$root.time_range" btn-radio="'6h'">6h</label>
+                            <label class="btn btn-default navbar-btn" ng-model="$root.time_range" btn-radio="'12h'">12h</label>
+                            <label class="btn btn-default navbar-btn" ng-model="$root.time_range" btn-radio="'1d'">1d</label>
+                            <label class="btn btn-default navbar-btn" ng-model="$root.time_range" btn-radio="'5d'">5d</label>
                             <div class="btn-group">
                                 <label class="btn btn-default navbar-btn dropdown-toggle"
                                        type="button"
-                                       ng-model="time_range"
+                                       ng-model="$root.time_range"
                                        btn-radio="'cal'"
                                        data-toggle="dropdown"
                                        aria-haspopup="true"
@@ -58,6 +58,7 @@
                     </li>
                     <li>
                     <select ng-model="instance" class="form-control navbar-btn"
+                            ng-change="changeInstance(instance)"
                             ng-options="(inst.Subsystem + '@' +  inst.Name) for inst in instances"></select>
 
                     </li>
@@ -77,6 +78,12 @@
                                     <p class="text-info">Host: {{ instance.Name}}</p>
                             </div>
                         </div>
+                    </li>
+                    <li>
+                        &nbsp;
+                        <button title="Manage mysql instances & agents"
+                                ui-sref="management({subsystem: 'mysql', uuid: instance.UUID })"
+                                class="btn btn-default navbar-btn"><i class="glyphicon glyphicon-cog"></i></button
                     </li>
                 </ul>
             </div>

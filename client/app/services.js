@@ -36,6 +36,20 @@
         }
     ]);
 
+    pplServices.factory('Table', [
+        '$resource',
+        'constants',
+        function($resource, constants) {
+            return $resource(constants.API_PATH + '/queries/:queryId/tables',
+                {},
+                {
+                    query: {method: 'GET', params: {}},
+                    update: {method: 'PUT', params: {}, isArray: true}
+                }
+            );
+        }
+    ]);
+
     pplServices.factory('Instance', [
         '$resource',
         'constants',
@@ -43,7 +57,8 @@
             return $resource(constants.API_PATH + '/instances/:instance_uuid',
                 {},
                 {
-                    query: {method: 'GET', params: {}, isArray: true},
+                    query: {method: 'GET', params: {'deleted': 'no'}, isArray: true},
+                    update: {method: 'PUT', params: {}, isArray: false}
                 }
             );
         }
@@ -54,6 +69,32 @@
         'constants',
         function($resource, constants) {
             return $resource(constants.API_PATH + '/agents/:instance_uuid',
+                {},
+                {
+                    query: {method: 'GET', params: {}, isArray: true},
+                }
+            );
+        }
+    ]);
+
+    pplServices.factory('AgentStatus', [
+        '$resource',
+        'constants',
+        function($resource, constants) {
+            return $resource(constants.API_PATH + '/agents/:agent_uuid/status',
+                {},
+                {
+                    query: {method: 'GET', params: {}, isArray: false},
+                }
+            );
+        }
+    ]);
+
+    pplServices.factory('AgentLog', [
+        '$resource',
+        'constants',
+        function($resource, constants) {
+            return $resource(constants.API_PATH + '/agents/:agent_uuid/log',
                 {},
                 {
                     query: {method: 'GET', params: {}, isArray: true},
@@ -83,6 +124,7 @@
                 {instance_uuid: '@instance_uuid'},
                 {
                     query: {method: 'GET', params: {}, isArray: false},
+                    update: {method: 'PUT', params: {}, isArray: false}
                 }
             );
         }
