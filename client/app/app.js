@@ -155,6 +155,9 @@
         .state('root.instance-dt.query', {
             url: 'query/:query_id/'
         })
+        .state('root.instance-dt.summary', {
+            url: 'summary/'
+        })
         .state('management', {
             url: '/management/:subsystem/:uuid',
             templateUrl: '/client/templates/management.html',

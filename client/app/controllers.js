@@ -41,6 +41,7 @@
                     $scope.getConfig();
 
                     $scope.query = '';
+                    $scope.metricsData = null;
                     // it is need to disable future dates.
                     $rootScope.dtCal = null;
                     $scope.queryExplain = '';
@@ -148,6 +149,7 @@
                     $scope.begin = $scope.begin.format('YYYY-MM-DDTHH:mm:ss');
                     $scope.end = $scope.end.format('YYYY-MM-DDTHH:mm:ss');
                     $rootScope.query = null;
+                    $rootScope.metricsData = null;
                     $state.go('root.instance-dt', {
                         uuid: $rootScope.instance.UUID,
                         begin: $scope.begin,
@@ -165,6 +167,7 @@
 
             $scope.setTimeRange = function(time_range) {
                 $rootScope.query = null;
+                $rootScope.metricsData = null;
                 var begin = moment.utc();
                 var end = moment.utc();
                 $scope.min_dt = undefined;
@@ -213,15 +216,30 @@
                 $scope.query_id = row.Id;
                 $scope.query_abstract = row.Abstract;
                 $rootScope.query_abstract = row.Abstract;
+                $rootScope.metricsData = null;
+                $scope.metricsData = null;
                 $state.go('root.instance-dt.query', {
                     query_id: row.Id
                 });
             };
 
+            $scope.qanSelectSummary = function(row) {
+                $scope.query_id = null;
+                $scope.query_abstract = null;
+                $scope.server_summary = true;
+                $rootScope.query_abstract = null;
+                $rootScope.query = null;
+                $rootScope.metricsData = null;
+                $scope.metricsData = null;
+                $state.go('root.instance-dt.summary', {});
+            };
+
             $scope.getProfile = function() {
                 $scope.queryExplain = '';
                 $scope.query = '';
+                $scope.metricsData = '';
                 $rootScope.query = null;
+                $rootScope.metricsData = null;
                 $scope.query_id = null;
                 $scope.qanData = [];
                 var params = {
@@ -233,7 +251,7 @@
                             .$promise
                             .then(function(resp) {
                                 if (resp.Query !== null) {
-                                    var skip_summary = resp.Query.shift();
+                                    $scope.profileTotal = resp.Query.shift();
                                     $scope.qanData = resp.Query;
                                 } else {
                                     $scope.qanData = [];
@@ -264,8 +282,10 @@
         '$state',
         'constants',
         'Metric',
-        function($scope, $rootScope, $state, constants, Metric) {
+        'MetricSummary',
+        function($scope, $rootScope, $state, constants, Metric, MetricSummary) {
             $scope.init = function () {
+                $rootScope.isServerSummary = false;
                 $rootScope.$on('$stateChangeSuccess',
                     function(event, toState, toParams, fromState, fromParams) {
                         if ($state.is('root.instance-dt.query')) {
@@ -273,10 +293,58 @@
                         }
                     }
                 );
+
+                $rootScope.$on('$stateChangeSuccess',
+                    function(event, toState, toParams, fromState, fromParams) {
+                        if ($state.is('root.instance-dt.summary')) {
+                            $scope.getSummary();
+                        }
+                    }
+                );
+            };
+
+            $scope.getSummary = function () {
+                $scope.queryExplain = '';
+                var params = {
+                    instance_uuid: $state.params.uuid,
+                    begin: $state.params.begin,
+                    end: $state.params.end
+                };
+                MetricSummary.query(params)
+                      .$promise
+                      .then(function(resp) {
+                          $scope.query = null;
+                          $rootScope.query = null;
+                          $scope.example = null;
+                          $rootScope.example = null;
+                          $rootScope.isServerSummary = true;
+
+                          var data = [];
+                          for (var key in resp.Metrics) {
+                              var obj = {'Metrics': key};
+                              angular.extend(obj, resp.Metrics[key]);
+                              data.push(obj);
+                          }
+                          $scope.metricsData = data;
+                          $rootScope.metricsData = data;
+                      })
+                      .catch(function(resp) {
+                          var msg = constants.DEFAULT_ERR;
+                          if (resp.hasOwnProperty('data') && resp.data.hasOwnProperty('Error')) {
+                              msg = constants.API_ERR;
+                              msg = msg.replace('<err_msg>', resp.data.Error);
+                          }
+                          $rootScope.alerts.push({
+                              'type': 'danger',
+                              'msg': msg
+                          });
+                      })
+                      .finally(function(resp){});
             };
 
             $scope.getMetrics = function () {
                 $scope.queryExplain = '';
+                $rootScope.isServerSummary = false;
                 var params = {
                     instance_uuid: $state.params.uuid,
                     query_uuid: $state.params.query_id,
@@ -298,6 +366,7 @@
                               data.push(obj);
                           }
                           $scope.metricsData = data;
+                          $rootScope.metricsData = data;
                       })
                       .catch(function(resp) {
                           var msg = constants.DEFAULT_ERR;
@@ -371,6 +440,9 @@
             };
 
             $scope.explainErrorMsg = function() {
+                if ($rootScope.query === null ) {
+                    return false;
+                }
                 var allowedFor56= ['SELECT', 'DELETE', 'INSERT', 'REPLACE', 'UPDATE'];
                 var ver = $rootScope.instance.Version.split('.');
                 var majorVersion = ver[0];
