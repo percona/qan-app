@@ -41,7 +41,7 @@
                     $scope.getConfig();
 
                     $scope.query = '';
-                    $scope.metricsData = null;
+                    $rootScope.metricsData = null;
                     // it is need to disable future dates.
                     $rootScope.dtCal = null;
                     $scope.queryExplain = '';
@@ -229,8 +229,6 @@
                 $scope.server_summary = true;
                 $rootScope.query_abstract = null;
                 $rootScope.query = null;
-                $rootScope.metricsData = null;
-                $scope.metricsData = null;
                 $state.go('root.instance-dt.summary', {});
             };
 

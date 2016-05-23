@@ -41,7 +41,7 @@
         '$filter',
         'constants',
         function($resource, $filter, constants) {
-            return $resource(constants.API_PATH + '/qan/report/:instance_uuid/summary',
+            return $resource(constants.API_PATH + '/qan/report/:instance_uuid/server-summary',
                 {
                     begin: $filter('date')(new Date(), 'yyyy-MM-ddT00:00:00'),
                     end: $filter('date')(new Date(), 'yyyy-MM-ddT23:59:59')
