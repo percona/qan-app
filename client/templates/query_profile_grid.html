@@ -23,6 +23,21 @@
                             <th title="Max">Max</th>
                         </tr>
                     </thead>
+                    <thead>
+                        <tr ng-click="qanSelectSummary()">
+                            <th></th>
+                            <th><a ui-click="qanSelectSummary()">TOTAL</a></th>
+                            <th></th>
+                            <th class="text-right">100%</th>
+                            <th class="text-right">{{ profileTotal.Load.toFixed(3) }}</th>
+                            <th class="text-right">{{ profileTotal.QPS.toFixed(2) }}</th>
+                            <th class="text-right">{{ profileTotal.Stats.Min | humanize }}</th>
+                            <th class="text-right">{{ profileTotal.Stats.Avg | humanize }}</th>
+                            <th class="text-right">{{ profileTotal.Stats.Med | humanize }}</th>
+                            <th class="text-right">{{ profileTotal.Stats.P95 | humanize }}</th>
+                            <th class="text-right">{{ profileTotal.Stats.Max | humanize }}</th>
+                        </tr>
+                    </thead>
                     <tbody>
                         <tr ng-repeat="row in qanData" ng-click="qanSelectRow(row)" ng-class="{'success': query_id === row.Id}">
                             <td class="text-right" title="{{ row.Rank }}">{{ row.Rank }}</td>
@@ -59,10 +74,16 @@
     </div>
 </div>
 
+<div class="row" ng-if="!$root.connection_error && $root.isServerSummary">
+    <div class="col-md-12">
+        <h3>Server Summary</h3>
+    </div>
+</div>
+
 <div class="row">
     <div class="col-md-12">
         <div ng-controller="MetricsController">
-            <div class="panel panel-default" ng-if="!$root.connection_error && $root.query">
+            <div class="panel panel-default" ng-if="!$root.connection_error && $root.metricsData">
                 <div class="panel-heading">METRICS</div>
                 <div class="panel-body padding-free">
                     <table
@@ -80,7 +101,7 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr ng-repeat="row in $parent.metricsData | orderBy : 'Metrics'">
+                            <tr ng-repeat="row in $root.metricsData | orderBy : 'Metrics'">
                                 <td title="{{ row.Metrics.split('_').join(' ') }}"
                                     >{{ row.Metrics.split('_').join(' ') }}</td>
 
@@ -118,7 +139,7 @@
 <div class="row">
     <div class="col-md-12">
         <div class="panel panel-default"
-            ng-if="!$root.connection_error && $parent.query"
+            ng-if="!$root.connection_error && $root.query"
             ng-controller="QueryController"
             >
             <div class="panel-heading">QUERY
@@ -148,11 +169,10 @@
     </div>
 
 </div>
-<div class="row">
 
+<div class="row" ng-if="!$root.connection_error && $root.query">
     <div class="col-md-12">
         <div class="panel panel-default"
-            ng-if="!$root.connection_error && $parent.query"
             ng-controller="QueryExplainController"
             >
             <div class="panel-heading">EXPLAIN</div>
