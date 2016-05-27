@@ -11,7 +11,7 @@ footer {
     position: absolute;
     width: 105px;
     height: 32px;
-    background: url(/client/content/img/footer-logo.png);
+    background: url(../img/footer-logo.png);
     background-size: 100px;
     background-repeat: no-repeat;
 }
@@ -26,7 +26,7 @@ footer {
     display: block;
     width: 105px;
     height: 32px;
-    background: url(/client/content/img/footer-logo.png);
+    background: url(../img/footer-logo.png);
     background-size: 100px;
     background-repeat: no-repeat;
 }

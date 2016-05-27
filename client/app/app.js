@@ -104,7 +104,7 @@
 
         $stateProvider.state('root', {
             url: '/',
-            templateUrl: '/client/templates/query_profile_grid.html',
+            templateUrl: 'client/templates/query_profile_grid.html',
             controller: 'QueryProfileController',
             resolve: {
                 instance: function (Instance, $rootScope) {
@@ -157,7 +157,7 @@
         })
         .state('management', {
             url: '/management/:subsystem/:uuid',
-            templateUrl: '/client/templates/management.html',
+            templateUrl: 'client/templates/management.html',
             controller: 'ManagementController',
             resolve: {
                 instances: function (Instance, $rootScope) {

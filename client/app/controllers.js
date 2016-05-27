@@ -685,19 +685,19 @@
                             $scope.resetConnectionStatus();
                             switch (toParams.subsystem) {
                                 case 'mysql':
-                                    $rootScope.managementFormUrl = '/client/templates/mysql_form.html';
+                                    $rootScope.managementFormUrl = 'client/templates/mysql_form.html';
                                     $timeout(function () {
                                         $scope.editMySQLFormData(toParams.uuid);
                                     }, 500);
                                     break;
                                 case 'new-mysql':
-                                    $rootScope.managementFormUrl = '/client/templates/mysql_form.html';
+                                    $rootScope.managementFormUrl = 'client/templates/mysql_form.html';
                                     $timeout(function () {
                                         $scope.newMySQLFormData();
                                     }, 200);
                                     break;
                                 case 'agent':
-                                    $rootScope.managementFormUrl = '/client/templates/agent_form.html';
+                                    $rootScope.managementFormUrl = 'client/templates/agent_form.html';
                                     $timeout(function () {
                                         $scope.agentData(toParams.uuid);
                                     }, 200);

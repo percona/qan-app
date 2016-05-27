@@ -13,7 +13,7 @@
         }];
         return {
             restrict: 'EA',
-            templateUrl: '/client/templates/query_nav.html',
+            templateUrl: 'client/templates/query_nav.html',
             link: function(scope, element, attrs) {},
             controller: controller
         };
@@ -29,7 +29,7 @@
         }];
         return {
             restrict: 'EA',
-            templateUrl: '/client/templates/management_nav.html',
+            templateUrl: 'client/templates/management_nav.html',
             link: function(scope, element, attrs) {},
             controller: controller
         };
