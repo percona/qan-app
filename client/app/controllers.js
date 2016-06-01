@@ -213,14 +213,16 @@
             };
 
             $scope.qanSelectRow = function(row) {
-                $scope.query_id = row.Id;
-                $scope.query_abstract = row.Abstract;
-                $rootScope.query_abstract = row.Abstract;
-                $rootScope.metricsData = null;
-                $scope.metricsData = null;
-                $state.go('root.instance-dt.query', {
-                    query_id: row.Id
-                });
+                if ($scope.query_id !== row.Id) {
+                    $scope.query_id = row.Id;
+                    $scope.query_abstract = row.Abstract;
+                    $rootScope.query_abstract = row.Abstract;
+                    $rootScope.metricsData = null;
+                    $scope.metricsData = null;
+                    $state.go('root.instance-dt.query', {
+                        query_id: row.Id
+                    });
+                }
             };
 
             $scope.qanSelectSummary = function(row) {
@@ -249,7 +251,10 @@
                             .$promise
                             .then(function(resp) {
                                 if (resp.Query !== null) {
+                                    $rootScope.totalTime = resp.TotalTime;
+                                    $scope.totalQueries = resp.TotalQueries;
                                     $scope.profileTotal = resp.Query.shift();
+                                    $scope.returnedQueries = resp.Query.length;
                                     $scope.qanData = resp.Query;
                                 } else {
                                     $scope.qanData = [];
