@@ -22,7 +22,7 @@
     pplFilters.filter('humanize', function() {
 
 
-        return function(input, name) {
+        return function(input, name, duration) {
            var timeCols = [
                'start_ts', 'End_ts', 'Query_time_sum',
                'Query_time_min', 'Query_time_max', 'Query_time_avg',
@@ -111,21 +111,52 @@
                 return dur;
             }
             var res = 0;
+            var n = 0;
             switch (true) {
+                // top 10 queries no name parameters 
                 case name === undefined:
                         res =  parceTime(input);
                         break;
+                // time
                 case name.indexOf('time') > -1 || name in timeCols:
-                        res =  parceTime(input);
+                        if (duration === undefined) {
+                            res =  parceTime(input);
+                        } else {
+                            n = input/duration;
+                            res = n > 0.01 ? '' : '< ';
+                            res += numeral(n).format('0.00 %');
+                        }
                         break;
+                // size
                 case name.indexOf('size') > -1 || name in sizeCols:
-                        res =  numeral(input).format('0.0b');
+                        if (duration === undefined) {
+                            res =  numeral(input).format('0.0b');
+                        } else {
+                            n = input/duration;
+                            res = n > 0.01 ? '' : '< ';
+                            res += numeral(n).format('0.00b') + ' /b';
+                        }
                         break;
+                // ops
                 case name in countCols:
-                        res =  numeral(input).format('0.0a');
+                        if (duration === undefined) {
+                            res = numeral(input).format('0.0a');
+                        } else {
+                            n = input/duration;
+                            res = n > 0.01 ? '' : '< ';
+                            res += numeral(n).format('0.00a') + ' ops/sec';
+                        }
                         break;
+                // ops
                 default:
-                        res =  numeral(input).format('0.0a');
+                        if (duration === undefined) {
+                            res =  numeral(input).format('0.0a');
+                        } else {
+                            n = input/duration;
+                            console.log('n', n);
+                            res = n > 0.01 ? '' : '< ';
+                            res += numeral(n).format('0.00a') + ' ops/sec';
+                        }
                         break;
             }
             return res;

@@ -2,7 +2,7 @@
     <div class="col-md-12">
         <div class="panel panel-default" ng-if="qanData.length !== 0">
             <div class="panel-heading">
-                Top 10 Queries by % Grand Total Time (%GTT)
+                Top {{ returnedQueries }} of {{ totalQueries }} Queries by % Grand Total Time (%GTT)
             </div>
             <div class="panel-body padding-free">
                 <table
@@ -26,7 +26,7 @@
                     <thead>
                         <tr ng-click="qanSelectSummary()">
                             <th></th>
-                            <th><a ui-click="qanSelectSummary()">TOTAL</a></th>
+                            <th><a href="" ui-click="qanSelectSummary()">TOTAL</a></th>
                             <th></th>
                             <th class="text-right">100%</th>
                             <th class="text-right">{{ profileTotal.Load.toFixed(3) }}</th>
@@ -84,50 +84,48 @@
     <div class="col-md-12">
         <div ng-controller="MetricsController">
             <div class="panel panel-default" ng-if="!$root.connection_error && $root.metricsData">
-                <div class="panel-heading">METRICS</div>
+                <div class="panel-heading">
+                    <div class="btn-group" role="group" aria-label="Toggle Metrics data" ng-init="duration=undefined">
+                        <button type="button" class="btn btn-default" ng-model="duration" btn-radio="undefined">METRIC COUNTERS</button>
+                        <button type="button" class="btn btn-default" ng-model="duration" btn-radio="$root.totalTime">METRIC RATES</button>
+                    </div>
+                </div>
                 <div class="panel-body padding-free">
                     <table
                         style="margin-bottom: 0px !important;"
                         class="table table-bordered table-striped table-hover table-condensed">
                         <thead>
                             <tr>
-                                <th title="Metrics">Metrics</th>
-                                <th title="Total">Total</th>
-                                <th title="Min">Min</th>
-                                <th title="Avg">Avg</th>
-                                <th title="Med">Med</th>
-                                <th title="95th">95th</th>
-                                <th title="Max">Max</th>
+                                <th title="Metrics" width="16%">Metrics</th>
+                                <th title="Total" width="14%">Total</th>
+                                <th title="Min" width="14%">Min</th>
+                                <th title="Avg" width="14%">Avg</th>
+                                <th title="Med" width="14%">Med</th>
+                                <th title="95th" width="14%">95th</th>
+                                <th title="Max" width="14%">Max</th>
                             </tr>
                         </thead>
                         <tbody>
                             <tr ng-repeat="row in $root.metricsData | orderBy : 'Metrics'">
-                                <td title="{{ row.Metrics.split('_').join(' ') }}"
-                                    >{{ row.Metrics.split('_').join(' ') }}</td>
+                                <td>{{ row.Metrics.split('_').join(' ') }}</td>
 
                                 <td class="text-right"
-                                    title="{{ row.Sum | humanize : row.Metrics }}"
-                                    >{{ row.Sum | humanize : row.Metrics }}</td>
+                                    >{{ row.Sum | humanize : row.Metrics : duration }}</td>
 
                                 <td class="text-right"
-                                    title="{{ row.Min | humanize : row.Metrics }}"
-                                    >{{ row.Min | humanize : row.Metrics }}</td> 
+                                    >{{ row.Min | humanize : row.Metrics : duration }}</td> 
 
                                 <td class="text-right"
-                                    title="{{ row.Avg | humanize : row.Metrics }}"
-                                    >{{ row.Avg | humanize  : row.Metrics}}</td>
+                                    >{{ row.Avg | humanize  : row.Metrics : duration }}</td>
 
                                 <td class="text-right"
-                                    title="{{ row.Med | humanize : row.Metrics }}"
-                                    >{{ row.Med | humanize : row.Metrics }}</td>
+                                    >{{ row.Med | humanize : row.Metrics : duration }}</td>
 
                                 <td class="text-right"
-                                    title="{{ row.P95 | humanize : row.Metrics }}"
-                                    >{{ row.P95 | humanize : row.Metrics }}</td>
+                                    >{{ row.P95 | humanize : row.Metrics : duration }}</td>
 
                                 <td class="text-right"
-                                    title="{{ row.Max | humanize : row.Metrics }}"
-                                    >{{ row.Max | humanize : row.Metrics }}</td>
+                                    >{{ row.Max | humanize : row.Metrics : duration }}</td>
                             </tr>
                         </tbody>
                     </table>
@@ -157,11 +155,11 @@
                 <tabset justified="true">
                     <tab>
                         <tab-heading>Example</tab-heading>
-                        <div hljs hljs-source="example" hljs-language="sql"></div>
+                        <div ng-if="example" hljs hljs-source="example" hljs-language="sql"></div>
                     </tab>
                     <tab>
                         <tab-heading>Fingerprint</tab-heading>
-                        <div hljs hljs-source="fingerprint" hljs-language="sql"></div>
+                        <div ng-if="fingerprint" hljs hljs-source="fingerprint" hljs-language="sql"></div>
                     </tab>
                 </tabset>
             </div>
@@ -190,7 +188,7 @@
                                     <input type="text"
                                     class="form-control"
                                     size="64"
-                                    ng-pattern="/^[_$A-Za-z0-9]{1,64}$/"
+                                    ng-pattern="/^[-_$A-Za-z0-9]{1,64}$/"
                                     ng-required="true"
                                     placeholder="Specify a database."
                                     id="db"
@@ -288,7 +286,7 @@
                                 ng-class="{ 'has-error': dbTblForm.dbTable.$dirty && dbTblForm.dbTable.$modelValue !== '' && dbTblForm.dbTable.$invalid }">
                                 <input type="text"
                                 ng-required="true"
-                                ng-pattern="/^[A-Za-z0-9_$]{1,64}\.[A-Za-z0-9_$]{1,64}$/"
+                                ng-pattern="/^[-A-Za-z0-9_$]{1,64}\.[-A-Za-z0-9_$]{1,64}$/"
                                 class="form-control"
                                 placeholder="Add db.table"
                                 name="dbTable"

@@ -31,6 +31,7 @@
 
             $scope.init = function() {
                 $scope.qanData = [];
+                $rootScope.DEMO =constants.DEMO
                 if ($rootScope.alerts.length === 0) {
                     $scope.instance_uuid = instance.selected_instance.UUID;
                     $scope.instance_DSN = instance.selected_instance.DSN.replace(/:[0-9a-zA-Z]+@/, ':************@');
@@ -213,14 +214,16 @@
             };
 
             $scope.qanSelectRow = function(row) {
-                $scope.query_id = row.Id;
-                $scope.query_abstract = row.Abstract;
-                $rootScope.query_abstract = row.Abstract;
-                $rootScope.metricsData = null;
-                $scope.metricsData = null;
-                $state.go('root.instance-dt.query', {
-                    query_id: row.Id
-                });
+                if ($scope.query_id !== row.Id) {
+                    $scope.query_id = row.Id;
+                    $scope.query_abstract = row.Abstract;
+                    $rootScope.query_abstract = row.Abstract;
+                    $rootScope.metricsData = null;
+                    $scope.metricsData = null;
+                    $state.go('root.instance-dt.query', {
+                        query_id: row.Id
+                    });
+                }
             };
 
             $scope.qanSelectSummary = function(row) {
@@ -238,6 +241,7 @@
                 $scope.metricsData = '';
                 $rootScope.query = null;
                 $rootScope.metricsData = null;
+                $rootScope.isServerSummary = false;
                 $scope.query_id = null;
                 $scope.qanData = [];
                 var params = {
@@ -249,7 +253,10 @@
                             .$promise
                             .then(function(resp) {
                                 if (resp.Query !== null) {
+                                    $rootScope.totalTime = resp.TotalTime;
+                                    $scope.totalQueries = resp.TotalQueries;
                                     $scope.profileTotal = resp.Query.shift();
+                                    $scope.returnedQueries = resp.Query.length;
                                     $scope.qanData = resp.Query;
                                 } else {
                                     $scope.qanData = [];
@@ -712,6 +719,8 @@
                 $scope.instances = instances.asArray;
                 $scope.makeInstancesTree($scope.instances);
                 $scope.managementFormUrl = '';
+                $scope.DEMO = constants.DEMO;
+                $rootScope.DEMO = constants.DEMO;
                 $scope.rawQanConfig = null;
                 $scope.qanConf = {
                     'config': 'auto',
@@ -1021,7 +1030,11 @@
                 if ($scope.instance.allowOldPasswords) {
                     dsn += '?allowOldPasswords=true';
                 }
-                $scope.popoverDSN = dsn;
+                if (constants.DEMO) {
+                    $scope.popoverDSN = dsn.replace(/:.+@/, ':********@');
+                } else {
+                    $scope.popoverDSN = dsn;
+                }
                 return dsn;
             };
 

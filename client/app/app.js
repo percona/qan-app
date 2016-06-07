@@ -26,7 +26,8 @@
           API_ERR: 'QAN API error: "<err_msg>".<br />Check the /var/log/qan-api.log file for more information.',
           AGENT_ERR: 'Agent API error: "<err_msg>".<br />Check the agent log file for more information.',
           CONFIRM_STOP_AGENT: 'Are you sure you want to stop the agent?\nPlease note: you cannot start it again from UI.',
-          DTM_FORMAT: 'YYYY-MM-DDTHH:mm:ss'
+          DTM_FORMAT: 'YYYY-MM-DDTHH:mm:ss',
+          DEMO: false
       })
       .constant('angularMomentConfig', {
               timezone: 'UTC'
