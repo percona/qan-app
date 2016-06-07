@@ -8,10 +8,7 @@
                         <h4>MySQL Connection</h4>
                     </div>
                     <div class="col-md-6">
-                        <a href="" ng-if="instance.Deleted == '0001-01-01T00:00:00Z'" ng-click="deleteMysqlInstance(instance.Name)" class="pull-right"><i class="glyphicon glyphicon-trash"></i> Remove</a>
-                        <p ng-if="instance.hasOwnProperty('Deleted') && instance.Deleted !== '0001-01-01T00:00:00Z'" class="text-danger">
-                            <small>Deleted at {{ instance.Deleted | date: 'yyyy-MM-dd HH:mm:ss'}}</small>
-                        </p>
+                        <a href="" ng-if="!DEMO" ng-click="deleteMysqlInstance(instance.Name)" class="pull-right"><i class="glyphicon glyphicon-trash"></i> Remove</a>
                     </div>
                 </div>
                 <div class="row">
@@ -27,7 +24,6 @@
                         <p class="form-control-static input-sm" id="instanceUUID">{{ instance.UUID }}</p>
                     </div>
                     <div class="col-sm-1">
-                        <!-- tooltip-html="tooltipText" -->
                         <span id="inputIdHelpBlock"
                             class="help-block">
                             <a href=""
@@ -70,14 +66,15 @@
                     <div class="col-md-6">
                         <input type="{{ !!show_password ? 'text' : 'password' }}"
                                class="form-control input-sm"
+                               ng-readonly="DEMO"
                                id="inputPassword"
                                ng-required="true"
                                name="password" ng-model="instance.password">
                     </div>
-                    <div class="col-md-3">
+                    <div ng-if="!DEMO" class="col-md-3">
                         <div class="checkbox">
                             <label>
-                                <input type="checkbox" ng-model="show_password">
+                                <input type="checkbox" ng-model="$root.show_password">
                                 <small><b>Show</b></small>
                             </label>
                         </div>
@@ -159,7 +156,7 @@
             <div class="panel-footer">
                 <div class="form-group form-group-sm">
                     <div class="col-md-offset-3 col-md-3">
-                        <button type="submit" ng-disabled="instanceForm.$invalid"
+                        <button type="submit" ng-disabled="DEMO || instanceForm.$invalid"
                                 ng-click="instance.hasOwnProperty('UUID') ? updateMySQLInstance() : createMySQLInstance()"
                                 class="btn btn-primary btn-sm">
                             <i class="glyphicon glyphicon-ok"></i>
@@ -545,7 +542,7 @@
                     <div class="col-sm-offset-3 col-md-2">
                         <button type="submit"
                                 ng-click="setQanConfig(selected_agent)"
-                                ng-disabled="qanForm.$invalid"
+                                ng-disabled="DEMO || qanForm.$invalid"
                                 class="btn btn-primary btn-sm" >
                             <i class="glyphicon glyphicon-ok"></i>
                             Apply

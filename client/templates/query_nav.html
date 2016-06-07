@@ -83,9 +83,10 @@
                         &nbsp;
                         <button title="Manage mysql instances & agents"
                                 ui-sref="management({subsystem: 'mysql', uuid: instance.UUID })"
-                                class="btn btn-default navbar-btn"><i class="glyphicon glyphicon-cog"></i></button
+                                class="btn btn-default navbar-btn"><i class="glyphicon glyphicon-cog"></i></button>
                     </li>
                 </ul>
+                <p ng-if="$root.DEMO" class="navbar-text bg-danger navbar-right" title="Limited functionality">&nbsp;DEMO MODE&nbsp;</p>
             </div>
         </div>
     </div><!-- /.navbar-collapse -->

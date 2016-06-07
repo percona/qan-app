@@ -31,6 +31,7 @@
 
             $scope.init = function() {
                 $scope.qanData = [];
+                $rootScope.DEMO =constants.DEMO
                 if ($rootScope.alerts.length === 0) {
                     $scope.instance_uuid = instance.selected_instance.UUID;
                     $scope.instance_DSN = instance.selected_instance.DSN.replace(/:[0-9a-zA-Z]+@/, ':************@');
@@ -240,6 +241,7 @@
                 $scope.metricsData = '';
                 $rootScope.query = null;
                 $rootScope.metricsData = null;
+                $rootScope.isServerSummary = false;
                 $scope.query_id = null;
                 $scope.qanData = [];
                 var params = {
@@ -717,6 +719,8 @@
                 $scope.instances = instances.asArray;
                 $scope.makeInstancesTree($scope.instances);
                 $scope.managementFormUrl = '';
+                $scope.DEMO = constants.DEMO;
+                $rootScope.DEMO = constants.DEMO;
                 $scope.rawQanConfig = null;
                 $scope.qanConf = {
                     'config': 'auto',
@@ -1026,7 +1030,11 @@
                 if ($scope.instance.allowOldPasswords) {
                     dsn += '?allowOldPasswords=true';
                 }
-                $scope.popoverDSN = dsn;
+                if (constants.DEMO) {
+                    $scope.popoverDSN = dsn.replace(/:.+@/, ':********@');
+                } else {
+                    $scope.popoverDSN = dsn;
+                }
                 return dsn;
             };
 
