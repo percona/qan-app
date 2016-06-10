@@ -123,7 +123,7 @@
                             res =  parceTime(input);
                         } else {
                             n = input/duration;
-                            res = n > 0.01 ? '' : '< ';
+                            res = n > 0.0001 ? '' : '< ';
                             res += numeral(n).format('0.00 %');
                         }
                         break;
@@ -134,7 +134,7 @@
                         } else {
                             n = input/duration;
                             res = n > 0.01 ? '' : '< ';
-                            res += numeral(n).format('0.00b') + ' /b';
+                            res += numeral(n).format('0.00b') + '/sec';
                         }
                         break;
                 // ops
