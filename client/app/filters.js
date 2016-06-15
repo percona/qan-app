@@ -23,6 +23,7 @@
 
 
         return function(input, name, duration) {
+        /*
            var timeCols = [
                'start_ts', 'End_ts', 'Query_time_sum',
                'Query_time_min', 'Query_time_max', 'Query_time_avg',
@@ -90,6 +91,43 @@
                'Sort_rows_sum', 'Sort_scan_sum', 'No_index_used_sum',
                'No_good_index_used_sum'
            ];
+           */
+
+           var timeCols = [
+               'start_ts', 'End_ts', 'Query_time',
+               'Lock_time',
+               'InnoDB_IO_r_bytes',
+               'InnoDB_IO_r_wait',
+               'InnoDB_rec_lock_wait',
+               'InnoDB_queue_wait',
+           ];
+           var sizeCols = [
+               'Query_length',
+               'Bytes_sent',
+               'Tmp_tables',
+               'Tmp_disk_tables',
+               'Tmp_table_sizes',
+           ];
+
+           var countCols = [
+               'query_count', 'lrq_count',
+               'Rows_sent',
+               'Rows_examined',
+               'Rows_affected',
+               'Rows_read',
+               'Merge_passes',
+               'InnoDB_IO_r_ops',
+               'InnoDB_pages_distinct',
+               'QC_Hit', 'Full_scan',
+               'Full_join',
+               'Tmp_table',
+               'Tmp_table_on_disk',
+               'Filesort', 'Filesort_on_disk', 'Errors',
+               'Warnings', 'Select_full_range_join',
+               'Select_range', 'Select_range_check', 'Sort_range',
+               'Sort_rows', 'Sort_scan', 'No_index_used',
+               'No_good_index_used'
+           ];
 
             function parceTime (input) {
                 var dur = '';
@@ -113,7 +151,7 @@
             var res = 0;
             var n = 0;
             switch (true) {
-                // top 10 queries no name parameters 
+                // top 10 queries no name parameters
                 case name === undefined:
                         res =  parceTime(input);
                         break;
@@ -130,32 +168,34 @@
                 // size
                 case name.indexOf('size') > -1 || name in sizeCols:
                         if (duration === undefined) {
-                            res =  numeral(input).format('0.0b');
+                            res =  numeral(input).format('0.00b');
                         } else {
                             n = input/duration;
-                            res = n > 0.01 ? '' : '< ';
-                            res += numeral(n).format('0.00b') + '/sec';
+                            if (n > 0.01) {
+                                res += numeral(n).format('0.00b');
+                            } else {
+                                res += '< 0.00b/sec';
+                            }
                         }
                         break;
                 // ops
                 case name in countCols:
                         if (duration === undefined) {
-                            res = numeral(input).format('0.0a');
+                            res = numeral(input).format('0.00a');
                         } else {
                             n = input/duration;
                             res = n > 0.01 ? '' : '< ';
-                            res += numeral(n).format('0.00a') + ' ops/sec';
+                            res += numeral(n).format('0.00a');
                         }
                         break;
                 // ops
                 default:
                         if (duration === undefined) {
-                            res =  numeral(input).format('0.0a');
+                            res =  numeral(input).format('0.00a');
                         } else {
                             n = input/duration;
-                            console.log('n', n);
                             res = n > 0.01 ? '' : '< ';
-                            res += numeral(n).format('0.00a') + ' ops/sec';
+                            res += numeral(n).format('0.00a');
                         }
                         break;
             }

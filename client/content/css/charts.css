@@ -1,0 +1,64 @@
+.chart {
+    background: #eee;
+    padding: 1px;
+}
+
+.chart div {
+    width: 0;
+    transition: all 1s ease-out;
+    -moz-transition: all 1s ease-out;
+    -webkit-transition: all 1s ease-out;
+}
+
+.chart div {
+    font: 10px sans-serif;
+    background-color: steelblue;
+    text-align: right;
+    white-space: nowrap;
+    padding: 1px;
+    margin: 1px;
+    color: black;
+    box-shadow: 1px 1px 1px #666;
+}
+
+.latency-box {
+    width: 100%;
+    height: 15px;
+}
+
+.latency-box-line {
+    stroke: #eee;
+    fill: #eee;
+    stroke-width: 1px;
+}
+
+.latency-box-values {
+    stroke: steelblue;
+    fill: steelblue;
+    stroke-width: 3px;
+}
+
+.latency-box-values, .latency-box-max, .latency-box-min {
+    stroke: steelblue;
+    fill: steelblue;
+    stroke-width: 3px;
+}
+
+.latency-box-med {
+    stroke: #8a6d3b;
+    fill: #8a6d3b;
+    stroke-width: 3px;
+}
+
+.latency-box-avg {
+    stroke: #3c763d;
+    fill: #3c763d;
+    stroke-width: 3px;
+}
+
+.latency-box-p95 {
+    stroke: #a94442;
+    fill: #a94442;
+    stroke-width: 3px;
+}
+
