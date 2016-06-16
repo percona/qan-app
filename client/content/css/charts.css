@@ -21,44 +21,53 @@
     box-shadow: 1px 1px 1px #666;
 }
 
-.latency-box {
-    width: 100%;
+.load-sparklines {
+    width: 200px;
     height: 15px;
+    font: 5px sans-serif;
 }
 
-.latency-box-line {
-    stroke: #eee;
-    fill: #eee;
+.line {
+    fill: none;
+    stroke: steelblue;
     stroke-width: 1px;
 }
 
-.latency-box-values {
+.circle {
+    fill: white;
     stroke: steelblue;
-    fill: steelblue;
-    stroke-width: 3px;
+    stroke-width: 1px;
 }
 
-.latency-box-values, .latency-box-max, .latency-box-min {
+.area {
+    fill: steelblue;
+    stroke: none;
+    opacity: 0.1;
+}
+
+.zeroline {
+    fill: none;
+    stroke: red;
+    stroke-width: 0.5px;
+    stroke-dasharray: 5 5;
+}
+
+.zerolinetext {
+    fill: red;
+}
+
+.overlay {
+    fill: none;
+    stroke: none;
+    pointer-events: all;
+}
+
+.focusLine {
+    fill: none;
     stroke: steelblue;
+    stroke-width: 0.5px;
+}
+
+.focusCircle {
     fill: steelblue;
-    stroke-width: 3px;
 }
-
-.latency-box-med {
-    stroke: #8a6d3b;
-    fill: #8a6d3b;
-    stroke-width: 3px;
-}
-
-.latency-box-avg {
-    stroke: #3c763d;
-    fill: #3c763d;
-    stroke-width: 3px;
-}
-
-.latency-box-p95 {
-    stroke: #a94442;
-    fill: #a94442;
-    stroke-width: 3px;
-}
-

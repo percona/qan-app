@@ -16,11 +16,6 @@
                             <th title="Load">Load</th>
                             <th title="Count">Count</th>
                             <th title="Latency">Latency</th>
-                            <!--th>Min</th>
-                            <th>Avg</th>
-                            <th>Med</th>
-                            <th>95th</th>
-                            <th>Max</th-->
                         </tr>
                     </thead>
                     <thead>
@@ -28,18 +23,19 @@
                             <th></th>
                             <th><a href="" ui-click="qanSelectSummary()">TOTAL</a></th>
                             <th></th>
-                            <td><load-bar chart-data="[{'gtt': (100).toFixed(2), 'load': profileTotal.Load.toFixed(2) }]"></load-bar></td>
-                            <td><count-bar chart-data="[{'qps': profileTotal.QPS.toFixed(2), 'percentage': (100).toFixed(2) }]"></count-bar></td>
-                            <td popover-trigger="mouseenter"
-                                popover-append-to-body="true"
-                                popover-template="'latencyPopoverTotal.html'" >
-                                <latency-box chart-data="{'total': profileTotal.Stats, 'row': null}"></latency-box>
+                            <td>
+                                <span class="">{{ profileTotal.Load.toFixed(2)}} (100%)</span>
                             </td>
-                            <!--th class="text-right">{{ profileTotal.Stats.Min | humanize}}</th>
-                            <th class="text-right">{{ profileTotal.Stats.Avg | humanize }}</th>
-                            <th class="text-right">{{ profileTotal.Stats.Med | humanize }}</th>
-                            <th class="text-right">{{ profileTotal.Stats.P95 | humanize }}</th>
-                            <th class="text-right">{{ profileTotal.Stats.Max | humanize}}</th-->
+                            <td>
+                                <span class="">{{profileTotal.QPS.toFixed(2)}} ( {{ (profileTotal.QPS / profileTotal.QPS * 100).toFixed(2) }} %)</span>
+                            </td>
+                            <td>
+                                {{ profileTotal.Stats.Avg | humanize }} AVG
+                                <span class="pull-right" style="width: 50%; border-bottom: solid 2px steelblue; ">
+                                    <small title="Min" class="pull-left">{{ profileTotal.Stats.Min | humanize }}</small>
+                                    <small title="Max" class="pull-right">{{profileTotal.Stats.Max | humanize }}</small>
+                                </span>
+                            </td>
                         </tr>
                     </thead>
                     <tbody>
@@ -49,20 +45,21 @@
                                 <a ui-sref="root.instance-dt.query({query_id: row.Id})">{{ row.Abstract }}</a>
                             </td>
                             <td title="{{ row.Id }}">{{ row.Id }}</td>
-                            <td><load-bar chart-data="[{'gtt': (row.Percentage*100).toFixed(2), 'load': row.Load.toFixed(2) }]"></load-bar></td>
-                            <td><count-bar chart-data="[{'qps': row.QPS.toFixed(2), 'percentage': (row.QPS / profileTotal.QPS * 100).toFixed(2) }]"></count-bar></td>
-                            <!--popover="Min: {{row.Stats.Min}},  Avg: {{row.Stats.Avg}}, Med: {{row.Stats.Med}}, P95: {{row.Stats.P95}}, Max: {{row.Stats.Max}}"-->
-                            <td popover-trigger="mouseenter"
-                                popover-append-to-body="true"
-                                popover-placement="top"
-                                popover-template="'latencyPopoverRow.html'" >
-                                <latency-box chart-data="{'total': profileTotal.Stats, 'row': row.Stats}"></latency-box>
+                            <td>
+                                <load-sparklines class="display: inline;" chart-data="row.Log"></load-sparklines>
+                                <span class="pull-right">{{ row.Load.toFixed(2)}} ({{(row.Percentage*100).toFixed(2)}}%)</span>
                             </td>
-                            <!--td class="text-right">{{ row.Stats.Min | humanize }}</td>
-                            <td class="text-right">{{ row.Stats.Avg | humanize }}</td>
-                            <td class="text-right">{{ row.Stats.Med | humanize }}</td>
-                            <td class="text-right">{{ row.Stats.P95 | humanize }}</td>
-                            <td class="text-right">{{ row.Stats.Max | humanize }}</td-->
+                            <td>
+                                <count-sparklines style="display: inline;" chart-data="row.Log"></count-sparklines>
+                                <span class="pull-right">{{row.QPS.toFixed(2)}} ({{ (row.QPS / profileTotal.QPS * 100).toFixed(2) }}%)</span>
+                            </td>
+                            <td>
+                                {{ row.Stats.Avg | humanize }} AVG
+                                <span class="pull-right" style="width: 50%; border-bottom: solid 2px steelblue; ">
+                                    <small title="Min" class="pull-left">{{ row.Stats.Min | humanize }}</small>
+                                    <small title="Max" class="pull-right">{{row.Stats.Max | humanize }}</small>
+                                </span>
+                            </td>
                         </tr>
                         <tr ng-if="qanData.length===0"><td class="text-center" colspan="11">No data for selected time-range.</td></tr>
                     </tbody>
@@ -74,25 +71,6 @@
         </div>
     </div>
 </div>
-
-<script type="text/ng-template" id="latencyPopoverRow.html">
-    <ul>
-        <li class="text-info">Min: {{row.Stats.Min | humanize}}</li>
-        <li class="text-warning">Med: {{row.Stats.Med | humanize}}</li>
-        <li class="text-success">Avg: {{row.Stats.Avg | humanize}}</li>
-        <li class="text-danger">P95: {{row.Stats.P95 | humanize}}</li>
-        <li class="text-info">Max: {{row.Stats.Max | humanize}}</li>
-    </ul>
-</script>
-<script type="text/ng-template" id="latencyPopoverTotal.html">
-    <ul>
-        <li class="text-info">Min: {{profileTotal.Stats.Min | humanize}}</li>
-        <li class="text-warning">Med: {{profileTotal.Stats.Med | humanize}}</li>
-        <li class="text-success">Avg: {{profileTotal.Stats.Avg | humanize}}</li>
-        <li class="text-danger">P95: {{profileTotal.Stats.P95 | humanize}}</li>
-        <li class="text-info">Max: {{profileTotal.Stats.Max | humanize}}</li>
-    </ul>
-</script>
 
 <hr />
 
