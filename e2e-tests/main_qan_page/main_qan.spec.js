@@ -16,9 +16,6 @@ describe('Main QAN Page', function () {
 
   it('should check Server Summary', function () {
     mainQANPage.clickTotal();
-  //  mainQANPage.serverSummary.isDisplayed();
-  //  mainQANPage.clickMetricCounters();
-  //  mainQANPage.clickMetricRates();
         
   });
 

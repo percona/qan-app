@@ -14,7 +14,7 @@ module.exports = {
     metricRates: element(by.buttonText('METRIC RATES')),
     serverSummary: element(by.xpath('//*[contains(text(), "Server Summary")]')),
     timeRangeDspl: element(by.xpath('//p[@class="well navbar-text ng-binding"]')),  
-    selectQuery: element(by.linkText('SELECT sbtest'))  
+    selectQuery: element(by.linkText('COMMIT'))  
   },  
       
   get: function() {  

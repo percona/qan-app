@@ -17,34 +17,28 @@ describe('Landing Page', function () {
 
   it('should click on QAN link', function () {
      landingPage.clickQan();
-     //expect(browser.getCurrentUrl()).toContain(browser.baseUrl + '/qan/#/instance')
-
   });
 
   it('should click on Grafana link', function () {
      landingPage.clickGrafana();
-     //expect(browser.getCurrentUrl()).toContain(browser.baseUrl + '/qan/#/instance')
 
   });
 
 
   it('should click on Documentation link', function () {
      landingPage.clickDocs();
-     //expect(browser.getCurrentUrl()).toContain(browser.baseUrl + '/qan/#/instance')
 
   });
 
 
   it('should check Feedback button', function () {
      landingPage.checkFeedbackButton();
-     //expect(browser.getCurrentUrl()).toContain(browser.baseUrl + '/qan/#/instance')
 
   });
 
 
   it('should submit the form', function () {
      landingPage.submitForm();
-     //expect(browser.getCurrentUrl()).toContain(browser.baseUrl + '/qan/#/instance')
 
   });
 

@@ -30,7 +30,6 @@ exports.config = {
   suites: {
     landingPage: 'landing_page/**/*spec.js',
     mainQanPage: 'main_qan_page/*spec.js',
-  //  managementPage   'management_page/**/*spec.js',
   },
 
  
@@ -89,7 +88,7 @@ exports.config = {
  
   // A base URL for your application under test. Calls to browser.get()
   // with relative paths will be prepended with this.
-//  baseUrl: 'http://10.10.11.50:8888',
+  // baseUrl: 'http://localhost',
  
   // Selector for the element housing the angular app - this defaults to
   // body, but is necessary if ng-app is on a descendant of 
