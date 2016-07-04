@@ -3,9 +3,9 @@ var mainQANPage = require('./mainQan.po.js');
 describe('Main QAN Page', function () {
  
   beforeEach(function () {
-     browser.ignoreSynchronization = false;
-     mainQANPage.get();
-     expect(browser.getCurrentUrl()).toContain(browser.baseUrl)    
+    browser.ignoreSynchronization = false;
+    mainQANPage.get();
+    expect(browser.getCurrentUrl()).toContain(browser.baseUrl);
   });
   
   afterEach(function() {
@@ -16,11 +16,12 @@ describe('Main QAN Page', function () {
 
   it('should check Server Summary', function () {
     mainQANPage.clickTotal();
-        
+    mainQANPage.clickMetricCounters();  
+    mainQANPage.clickMetricRates();
   });
 
-  it('should select time range 1h', function () {
-    //mainQANPage.returnTimeRangeDisplayed();
+  it('should select time range 3h', function () {
+    mainQANPage.returnTimeRangeDisplayed();
   });
 
   it('should click on management button', function () {
@@ -29,9 +30,9 @@ describe('Main QAN Page', function () {
     expect(browser.getCurrentUrl()).toContain(browser.baseUrl + '/qan/#/management/mysql')
   });
   
-  it('should click on select query', function () {
-    mainQANPage.clickSelectQuery();
-
+  it('should click on each query', function () {
+    mainQANPage.clickEachQuery();
+    mainQANPage.clickMetricRates();
   });
 
 });

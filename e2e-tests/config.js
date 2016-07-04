@@ -3,7 +3,7 @@ var HtmlScreenshotReporter = require('protractor-jasmine2-screenshot-reporter');
 var reporter = new HtmlScreenshotReporter({
   dest: 'screenshots',
   filename: 'my-report.html',
-  captureOnlyFailedSpecs: true
+  captureOnlyFailedSpecs: false
 });
  
 exports.config = {
@@ -30,6 +30,7 @@ exports.config = {
   suites: {
     landingPage: 'landing_page/**/*spec.js',
     mainQanPage: 'main_qan_page/*spec.js',
+    mysqlPage: 'mysql_connection_page/*spec.js',
   },
 
  
@@ -63,25 +64,22 @@ exports.config = {
   // -----------------------------------------------------------------
   // Browser and Capabilities: Chrome
   // -----------------------------------------------------------------
- 
   capabilities: {
     browserName: 'chrome',
     version: '',
     platform: 'ANY'
   },
- 
   // -----------------------------------------------------------------
   // Browser and Capabilities: Firefox
   // -----------------------------------------------------------------
- 
-/*  
+/* 
+  
   capabilities: {
     browserName: 'firefox',
     version: '',
     platform: 'ANY'
   },
-  */
- 
+ */
   // -----------------------------------------------------------------
   // Application configuration.
   // -----------------------------------------------------------------
@@ -119,7 +117,12 @@ exports.config = {
   onPrepare: function() {
     // At this point, global 'protractor' object will be set up, and
     // jasmine will be available.
+    var width = 1600;
+    var height = 1200;
     var jasmineReporters = require('jasmine-reporters');
+    
+    browser.driver.manage().window().setSize(width, height);
+    
     jasmine.getEnv().addReporter(new jasmineReporters.JUnitXmlReporter({
         consolidateAll: true,
         savePath: 'testresults',
@@ -127,7 +130,7 @@ exports.config = {
     }));
 
     jasmine.getEnv().addReporter(reporter);
- 
+    //browser.driver.manage().window().maximize(); 
   },
 
   afterLaunch: function(exitCode) {

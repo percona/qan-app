@@ -1,36 +1,27 @@
-'use strict';
+  var LandingPage = function() {
+    this.qanLink = element(by.css('a[href*="/qan"]'));
+    this.grafanaLink = element(by.css('a[href*="/graph"]'));
+    this.feedbackButton = element(by.className('btn btn-primary'));
+    this.docsLink = element(by.linkText('DOCUMENTATION'));
+    this.feedbackEmail = 'pmm@percona.com';  
+    this.firstName =  element(by.xpath('//input[@name=firstname]'));
+    this.lastName = element(by.name('lastname'));
+    this.companyName = element(by.name('company'));
+    this.email = element(by.name('email'));
+    this.submitBtn = element(by.className('hs-button primary large'));
+    this.checkUpdates = element(by.name('pmm_product_updates'));
+    this.submittedMesage = element(by.xpath('//div[@class=submitted-message]'));
 
-module.exports = {
-    landingPage: {
-        qanLink:  element(by.css('a[href*="/qan"]')),
-        grafanaLink: element(by.css('a[href*="/graph"]')),
-        feedbackButton: element(by.className('btn btn-primary')),
-        docsLink: element(by.linkText('DOCUMENTATION')),
-        feedbackEmail: 'pmm@percona.com',  
-        firstName: element(by.xpath('//input[@name=firstname]')),
-        lastName: element(by.name('lastname')),
-        companyName: element(by.name('company')),
-        email: element(by.name('email')),
-        submitBtn: element(by.xpath('//input[@value="Submit"]')),
-        checkUpdates: element(by.name('pmm_product_updates')),
-        submittedMesage: element(by.xpath('//div[@class=submitted-message]')),
-        firstNameRqd: element(by.xpath('//label[@data-reactid=".0.1:$0.$firstname.3.$0.0"]')),  
-    },
-
-    clickQan: function() {
-        var landingPage = this.landingPage;
-
-        landingPage.qanLink.isDisplayed();
-        landingPage.qanLink.click();
-    },
+    this.clickQan = function() {
+        qanLink.isDisplayed();
+        qanLink.click();
+    };
     
-    clickGrafana: function() {
-        var landingPage = this.landingPage;
-
-        landingPage.grafanaLink.isDisplayed();
-        landingPage.grafanaLink.click();
-    },
-
+    this.clickGrafana = function() {
+        grafanaLink.isDisplayed();
+        grafanaLink.click();
+    };
+/*
     checkFeedbackButton: function() {
         var landingPage = this.landingPage;
 
@@ -93,5 +84,7 @@ module.exports = {
     returnSubmittedMsg: function() {
         return this.landingPage.submittedMessage.getValue();
     }
-
+*/
 };
+
+module.exports = new LandingPage();

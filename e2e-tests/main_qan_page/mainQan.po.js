@@ -13,8 +13,8 @@ module.exports = {
     metricCounters: element(by.buttonText('METRIC COUNTERS')),
     metricRates: element(by.buttonText('METRIC RATES')),
     serverSummary: element(by.xpath('//*[contains(text(), "Server Summary")]')),
-    timeRangeDspl: element(by.xpath('//p[@class="well navbar-text ng-binding"]')),  
-    selectQuery: element(by.linkText('COMMIT'))  
+    timeRangeDspl: element(by.xpath('//li/p[@class="well navbar-text ng-binding"]')),  
+    allQueries: element.all(by.repeater('row in qanData'))  
   },  
       
   get: function() {  
@@ -48,6 +48,7 @@ module.exports = {
 
     mainPage.metricRates.isDisplayed();
     mainPage.metricRates.click();
+    
   },
 
   clickSelectQuery: function() {
@@ -58,6 +59,18 @@ module.exports = {
   },
 
   returnTimeRangeDisplayed: function() {
-    this.mainPage.timeRangeDispl.isDisplayed();
+    var mainPage = this.mainPage;
+    element.all(by.xpath('//label[@class="btn btn-default navbar-btn ng-untouched ng-valid ng-dirty"]')).each(function (label) {
+      label.click();
+      mainPage.timeRangeDspl.getText().then(function(text) {
+        console.log('My log is '+ text);
+      });
+    });
   },
+  
+  clickEachQuery: function() {
+    var mainPage = this.mainPage;
+    element(by.partialLinkText('SELECT')).click();
+  }
+
 };
