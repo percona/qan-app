@@ -1,7 +1,7 @@
 <div class="row">
     <div class="col-md-12">
         <div class="panel panel-default" ng-if="qanData.length !== 0">
-            <div class="panel-heading">
+            <div class="panel-heading" id="text_count_queries">
                 Top {{ returnedQueries }} of {{ totalQueries }} Queries by % Grand Total Time (%GTT)
             </div>
             <div class="panel-body padding-free">
@@ -24,17 +24,19 @@
                             <th><a href="" ui-click="qanSelectSummary()">TOTAL</a></th>
                             <th></th>
                             <td>
-                                <span class="">{{ profileTotal.Load.toFixed(2)}} (100%)</span>
+                                <load-sparklines class="display: inline;" chart-data="profileTotal.Log"></load-sparklines>
+                                <span class="pull-right">{{ profileTotal.Load.toFixed(2)}} (100%)</span>
                             </td>
                             <td>
-                                <span class="">{{profileTotal.QPS.toFixed(2)}} ( {{ (profileTotal.QPS / profileTotal.QPS * 100).toFixed(2) }} %)</span>
+                                <count-sparklines style="display: inline;" chart-data="profileTotal.Log"></count-sparklines>
+                                <span class="pull-right">{{profileTotal.Stats.Cnt.toFixed(0)}} (100%)</span>
                             </td>
-                            <td>
-                                {{ profileTotal.Stats.Avg | humanize }} AVG
-                                <span class="pull-right" style="width: 50%; border-bottom: solid 2px steelblue; ">
-                                    <small title="Min" class="pull-left">{{ profileTotal.Stats.Min | humanize }}</small>
-                                    <small title="Max" class="pull-right">{{profileTotal.Stats.Max | humanize }}</small>
-                                </span>
+                            <td class="text-right" nowrap
+                                popover-trigger="mouseenter"
+                                popover-append-to-body="true"
+                                popover-placement="top"
+                                popover-template="'latencyPopoverTotal.html'" >
+                                {{ profileTotal.Stats.Avg | humanize }}&nbsp;avg&nbsp;<latency-chart chart-data="profileTotal.Stats"></latency-chart>
                             </td>
                         </tr>
                     </thead>
@@ -47,18 +49,18 @@
                             <td title="{{ row.Id }}">{{ row.Id }}</td>
                             <td>
                                 <load-sparklines class="display: inline;" chart-data="row.Log"></load-sparklines>
-                                <span class="pull-right">{{ row.Load.toFixed(2)}} ({{(row.Percentage*100).toFixed(2)}}%)</span>
+                                <span class="pull-right">{{ row.Load.toFixed(2)}} ({{(row.Load / profileTotal.Load * 100).toFixed(2)}}%)</span>
                             </td>
                             <td>
                                 <count-sparklines style="display: inline;" chart-data="row.Log"></count-sparklines>
-                                <span class="pull-right">{{row.QPS.toFixed(2)}} ({{ (row.QPS / profileTotal.QPS * 100).toFixed(2) }}%)</span>
+                                <span class="pull-right">{{row.Stats.Cnt.toFixed(0)}} ({{ (row.Stats.Cnt / profileTotal.Stats.Cnt * 100).toFixed(2) }}%)</span>
                             </td>
-                            <td>
-                                {{ row.Stats.Avg | humanize }} AVG
-                                <span class="pull-right" style="width: 50%; border-bottom: solid 2px steelblue; ">
-                                    <small title="Min" class="pull-left">{{ row.Stats.Min | humanize }}</small>
-                                    <small title="Max" class="pull-right">{{row.Stats.Max | humanize }}</small>
-                                </span>
+                            <td class="text-right" nowrap
+                                popover-trigger="mouseenter"
+                                popover-append-to-body="true"
+                                popover-placement="top"
+                                popover-template="'latencyPopoverRow.html'" >
+                                {{ row.Stats.Avg | humanize }}&nbsp;avg&nbsp;<latency-chart chart-data="row.Stats"></latency-chart>
                             </td>
                         </tr>
                         <tr ng-if="qanData.length===0"><td class="text-center" colspan="11">No data for selected time-range.</td></tr>
@@ -66,11 +68,30 @@
                 </table>
             </div>
         </div>
-        <div ng-if="!$root.connection_error && qanData.length === 0" class="text-center">
+        <div ng-if="!$root.connection_error && qanData.length === 0" class="text-center" id="text_no_profile_data">
             There is no data for the selected MySQL instance and time range.
         </div>
     </div>
 </div>
+
+<script type="text/ng-template" id="latencyPopoverRow.html">
+    <ul class="latency-popup">
+        <li class="li-min">Min: {{row.Stats.Min | humanize}}</li>
+        <li class="li-med">Med: {{row.Stats.Med | humanize}}</li>
+        <li class="li-avg">Avg: {{row.Stats.Avg | humanize}}</li>
+        <li class="li-p95">P95: {{row.Stats.P95 | humanize}}</li>
+        <li class="li-max">Max: {{row.Stats.Max | humanize}}</li>
+    </ul>
+</script>
+<script type="text/ng-template" id="latencyPopoverTotal.html">
+    <ul class="latency-popup">
+        <li class="li-min">Min: {{profileTotal.Stats.Min | humanize}}</li>
+        <li class="li-med">Med: {{profileTotal.Stats.Med | humanize}}</li>
+        <li class="li-avg">Avg: {{profileTotal.Stats.Avg | humanize}}</li>
+        <li class="li-p95">P95: {{profileTotal.Stats.P95 | humanize}}</li>
+        <li class="li-max">Max: {{profileTotal.Stats.Max | humanize}}</li>
+    </ul>
+</script>
 
 <hr />
 
@@ -122,7 +143,7 @@
                                     >{{ row.Sum | humanize : row.Metrics : duration }}</td>
 
                                 <td class="text-right"
-                                    >{{ row.Min | humanize : row.Metrics : duration }}</td> 
+                                    >{{ row.Min | humanize : row.Metrics : duration }}</td>
 
                                 <td class="text-right"
                                     >{{ row.Avg | humanize  : row.Metrics : duration }}</td>

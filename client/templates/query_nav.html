@@ -18,17 +18,18 @@
                     </li>
                     <li>
                          <div class="btn-group">
-                            <label class="btn btn-default navbar-btn" ng-model="$root.time_range" btn-radio="'1h'">1h</label>
-                            <label class="btn btn-default navbar-btn" ng-model="$root.time_range" btn-radio="'3h'">3h</label>
-                            <label class="btn btn-default navbar-btn" ng-model="$root.time_range" btn-radio="'6h'">6h</label>
-                            <label class="btn btn-default navbar-btn" ng-model="$root.time_range" btn-radio="'12h'">12h</label>
-                            <label class="btn btn-default navbar-btn" ng-model="$root.time_range" btn-radio="'1d'">1d</label>
-                            <label class="btn btn-default navbar-btn" ng-model="$root.time_range" btn-radio="'5d'">5d</label>
+                            <label class="btn btn-default navbar-btn" ng-model="$root.time_range" id="btn_1h" btn-radio="'1h'">1h</label>
+                            <label class="btn btn-default navbar-btn" ng-model="$root.time_range" id="btn_3h" btn-radio="'3h'">3h</label>
+                            <label class="btn btn-default navbar-btn" ng-model="$root.time_range" id="btn_6h" btn-radio="'6h'">6h</label>
+                            <label class="btn btn-default navbar-btn" ng-model="$root.time_range" id="btn_12" btn-radio="'12h'">12h</label>
+                            <label class="btn btn-default navbar-btn" ng-model="$root.time_range" id="btn_1d" btn-radio="'1d'">1d</label>
+                            <label class="btn btn-default navbar-btn" ng-model="$root.time_range" id="btn_5d" btn-radio="'5d'">5d</label>
                             <div class="btn-group">
                                 <label class="btn btn-default navbar-btn dropdown-toggle"
                                        type="button"
                                        ng-model="$root.time_range"
                                        btn-radio="'cal'"
+                                       id="btn_cal"
                                        data-toggle="dropdown"
                                        aria-haspopup="true"
                                        aria-expanded="true">
@@ -57,9 +58,9 @@
                         &nbsp;&nbsp;
                     </li>
                     <li>
-                    <select ng-model="instance" class="form-control navbar-btn"
+                    <select ng-model="$root.instance" class="form-control navbar-btn" id="host_selector"
                             ng-change="changeInstance(instance)"
-                            ng-options="(inst.Subsystem + '@' +  inst.Name) for inst in instances"></select>
+                            ng-options="(inst.Name + ' (' + inst.Subsystem + ')') for inst in instances"></select>
 
                     </li>
                     <li>

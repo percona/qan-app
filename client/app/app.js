@@ -115,7 +115,7 @@
                               var mysqls = [];
                               for (var i=0; i < resp.length; i++) {
                                   // if deleted - skip
-                                  if (resp[i].Subsystem === 'mysql' && moment(resp[i].Deleted) < moment('0001-01-02')) {
+                                  if (resp[i].Subsystem === 'mysql') {
                                       resp[i].DSN = resp[i].DSN.replace(/:[0-9a-zA-Z]+@/, ':************@');
                                       mysqls.push(resp[i]);
                                   }
@@ -130,6 +130,7 @@
                                   $rootScope.connection_error = true;
                               }
 
+                              $rootScope.instance = mysqls[0];
                               return {
                                   instances: mysqls,
                                   selected_instance: mysqls[0]
@@ -171,10 +172,7 @@
                               var instancesByUUID = {};
                               var len = resp.length;
                               for (var i=0; len > i; i++) {
-                                  // if deleted - skip
-                                  if(moment(resp[i].Deleted) < moment('0001-01-02')) {
-                                      instancesByUUID[resp[i].UUID] = resp[i];
-                                  }
+                                  instancesByUUID[resp[i].UUID] = resp[i];
                               }
                               return {
                                   'asDict': instancesByUUID,

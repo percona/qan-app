@@ -920,8 +920,7 @@
                         });
                     }
                     if (instances[i].Subsystem === 'mysql'
-                            && instances[i].ParentUUID === ''
-                            && moment(instances[i].Deleted) < moment('0001-01-02')) {
+                            && instances[i].ParentUUID === '') {
                         $scope.treeData.push({
                             'expanded': true,
                             'label': 'MySQL: ' + instances[i].Name,
