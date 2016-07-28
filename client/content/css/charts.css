@@ -1,0 +1,148 @@
+/* --------------------- */
+
+.load-sparklines {
+    width: 150px;
+    height: 15px;
+    font: 5px sans-serif;
+    cursor: crosshair;
+}
+
+.line {
+    fill: none;
+    stroke: steelblue;
+    stroke-width: 1px;
+}
+
+.circle {
+    fill: white;
+    stroke: steelblue;
+    stroke-width: 1px;
+}
+
+.area {
+    fill: steelblue;
+    stroke: none;
+    opacity: 0.1;
+}
+
+.zeroline {
+    fill: none;
+    stroke: red;
+    stroke-width: 0.5px;
+    stroke-dasharray: 5 5;
+}
+
+.zerolinetext {
+    fill: red;
+}
+
+.overlay {
+    fill: none;
+    stroke: none;
+    pointer-events: all;
+}
+
+.focusLine {
+    fill: none;
+    stroke: steelblue;
+    stroke-width: 0.5px;
+}
+
+.focusCircle {
+    fill: steelblue;
+}
+
+/* --------------------- */
+
+.latency-chart {
+    width: 150px;
+    /* width: 60%; */
+    height: 19px;
+    font: 5px sans-serif;
+}
+
+.latency-chart-x {
+    stroke: #aaa;
+    stroke-width: 1px;
+}
+
+.latency-chart-line {
+    stroke: steelblue;
+    fill: steelblue;
+    stroke-width: 2px;
+}
+
+.latency-chart-min {
+    stroke: steelblue;
+    fill: steelblue;
+    stroke-width: 2px;
+}
+
+.latency-chart-max {
+    stroke: steelblue;
+    fill: steelblue;
+    stroke-width: 2px;
+}
+
+.latency-chart-avg {
+    fill: white;
+    stroke: steelblue;
+    stroke-width: 1px;
+}
+
+.latency-chart-p95 {
+    fill: red;
+    stroke: red;
+    stroke-width: 1px;
+}
+
+.latency-text-min {
+    font-size: 14px;
+    font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+}
+
+.latency-text-max {
+    font-size: 14px;
+    font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+}
+
+
+.latency-popup {
+    list-style: none; /* Remove list bullets */
+    padding: 0;
+    margin: 0;
+}
+
+.latency-popup > li { 
+    padding-left: 6px; 
+}
+
+li.li-min:before {
+    content: "⌜";
+    padding-right: 8px;
+    color: steelblue;
+}
+
+li.li-med:before {
+    content: "-";
+    padding-right: 8px;
+    color: steelblue;
+}
+
+li.li-avg:before {
+    content: "◦";
+    padding-right: 8px;
+    color: steelblue;
+}
+
+li.li-p95:before {
+    content: "•";
+    padding-right: 8px;
+    color: red;
+}
+
+li.li-max:before {
+    content: "⌟";
+    padding-right: 8px;
+    color: steelblue;
+}

@@ -1,5 +1,5 @@
 <div class="row">
-<div class="col-md-6">
+<div class="col-md-offset-2 col-md-4">
     <h4 ng-hide="agentLabelEditable">
         Agent: {{ agent.Name }} <a href="" ng-click="agentLabelEditable=true"><i class="glyphicon glyphicon-pencil"></i></a>
     </h4>
@@ -13,9 +13,7 @@
         </div>
     </h4>
 </div>
-</div>
-<div class="row">
-<div class="col-md-12">
+<div class="col-md-6">
     <h5>ID <b id="agentUUID">{{ agent.UUID }}</b>
         &nbsp;<a href=""
            tooltip-html="tooltipText"
@@ -33,7 +31,7 @@
 
     <!-- Status -->
 
-    <div class="col-md-5">
+    <div class="col-md-12">
         <div class="panel panel-default">
             <div class="panel-heading">
                 <div class="row">
@@ -62,10 +60,11 @@
             </div>
         </div>
     </div>
+</div>
+<!-- Log -->
+<div class="row">
 
-    <!-- Log -->
-
-    <div class="col-md-7">
+    <div class="col-md-12">
         <div class="panel panel-default">
             <div class="panel-heading">
                 <div class="row">
