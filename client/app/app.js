@@ -22,8 +22,8 @@
       .constant('constants', {
           // URI of datastore API
           API_PATH: window.location.protocol + '//'+ window.location.hostname + ':9001',
-          DEFAULT_ERR: 'QAN API error. Check the /var/log/qan-api.log file for more information.',
-          API_ERR: 'QAN API error: "<err_msg>".<br />Check the /var/log/qan-api.log file for more information.',
+          DEFAULT_ERR: 'QAN API error. <br />Check the /var/log/qan-api.log file in docker container for more information.',
+          API_ERR: 'QAN API error: "<err_msg>".<br />Check the /var/log/qan-api.log file in docker container for more information.',
           AGENT_ERR: 'Agent API error: "<err_msg>".<br />Check the agent log file for more information.',
           CONFIRM_STOP_AGENT: 'Are you sure you want to stop the agent?\nPlease note: you cannot start it again from UI.',
           DTM_FORMAT: 'YYYY-MM-DDTHH:mm:ss',
@@ -88,11 +88,7 @@
                     $rootScope.connection_error = false;
                     if (rejection.status === -1) {
                         $rootScope.alerts.push({
-                            msg: 'Cannot connect to the QAN API. ' +
-                                 'Please check it is running at ' +
-                                 '<a href="' + constants.API_PATH + '">' +
-                                 constants.API_PATH +
-                                 '</a> and your firewall does not block it.',
+                            msg: 'Cannot connect to the QAN API.',
                             type: 'danger'
                         });
                         $rootScope.connection_error = true;
@@ -138,11 +134,7 @@
                           })
                           .catch(function(resp, err){
                               $rootScope.alerts.push({
-                                  msg: 'QAN API error: ' +
-                                       'GET ' + constants.API_PATH + '/instances ' +
-                                       'returned status code ' + resp.status +
-                                       ', expected 200. Check the /var/log/qan-api.log ' +
-                                       'file for more information.',
+                                  msg: constants.DEFAULT_ERR,
                                   type: 'danger'
                               });
                               $rootScope.connection_error = true;
@@ -181,11 +173,7 @@
                           })
                           .catch(function(resp, err){
                               $rootScope.alerts.push({
-                                  msg: 'QAN API error: ' +
-                                       'GET ' + constants.API_PATH + '/instances ' +
-                                       'returned status code ' + resp.status +
-                                       ', expected 200. Check the /var/log/qan-api.log ' +
-                                       'file for more information.',
+                                  msg: constants.DEFAULT_ERR,
                                   type: 'danger'
                               });
                               return {};

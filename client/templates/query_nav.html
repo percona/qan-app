@@ -60,7 +60,7 @@
                     <li>
                     <select ng-model="$root.instance" class="form-control navbar-btn" id="host_selector"
                             ng-change="changeInstance(instance)"
-                            ng-options="(inst.Name + ' (' + inst.Subsystem + ')') for inst in instances"></select>
+                            ng-options="(inst.Name + (inst.Subsystem === 'mysql' ? ' (MySQL)' : '')) for inst in instances"><img src="http://findicons.com/files/icons/2779/simple_icons/64/mysql_64_black.png"></select>
 
                     </li>
                     <li>
@@ -74,9 +74,8 @@
                                 <span class="caret"></span>
                             </button>
                             <div class="dropdown-menu dropdown-menu-right well" role="menu">
-                                    <p class="text-info text-nowrap">DSN: {{ instance.DSN }}</p>
-                                    <p class="text-info">Instance UUID: {{ instance.UUID }}</p>
-                                    <p class="text-info">Host: {{ instance.Name}}</p>
+                                    <p class="text-info text-nowrap">DSN: {{ instance_DSN }}</p>
+                                    <p class="text-info text-nowrap">Version: {{ instance.Version }} {{ instance.Distro }}</p>
                             </div>
                         </div>
                     </li>

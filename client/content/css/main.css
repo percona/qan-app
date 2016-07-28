@@ -160,3 +160,9 @@ legend {
     -o-transform: rotate(-45deg);
     transform: rotate(-45deg);
 }
+
+table.metrics td span.sum {
+    min-width: 20%;
+    display: inline-block;
+    text-align: right;
+}

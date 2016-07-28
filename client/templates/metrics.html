@@ -1,0 +1,450 @@
+<div class="panel panel-default">
+    <div class="panel-heading">
+        {{ cnt }} Queries ({{ qps }}QPS,  {{ percentage }}%, {{ load }}Load) 
+    </div>
+    <div class="panel-body padding-free">
+        <table
+         style="margin-bottom: 0px !important;"
+         class="table table-bordered table-striped table-hover table-condensed metrics">
+            <thead>
+                <tr>
+                    <th nowrap width="30%">Metrics</th>
+                    <th>Rate/Sec</th>
+                    <th>Sum</th>
+                    <th width="270px">Per Query Stats</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Query Count</td>
+                    <td align="right">{{ data.queryCount.perSec }} (per sec)</td>
+                    <td>
+                        <span class="sum">{{ data.queryCount.sum }}</span>
+                        <small>
+                            <span ng-if="!$root.isServerSummary" class="text-primary">{{ data.queryCount.sumPercent }} of total</span>
+                        </small>
+                    </td>
+                    <td></td>
+                </tr>
+                <tr ng-if="data.lockTime.show">
+                    <td>Lock Time</td>
+                    <td align="right">{{ data.lockTime.avgLoad }} (avg load)</td>
+                    <td>
+                        <span class="sum">{{ data.lockTime.sum }}</span>
+                        <small>
+                            <span ng-if="!$root.isServerSummary" class="text-primary">{{ data.lockTime.percentOfTotal }} of total</span>
+                            <span class="text-success">{{ data.lockTime.percentOfQueryTime }} of query time</span>
+                        </small>
+                    </td>
+                    <td class="text-right" nowrap
+                                ng-mouseover="popoverData = metrics.Lock_time; measurement = 'time'"
+                                popover-trigger="mouseenter"
+                                popover-append-to-body="true"
+                                popover-placement="top"
+                                popover-template="'latencyPopover.html'" >
+                        {{ data.lockTime.avg }}&nbsp;avg&nbsp;<latency-chart chart-data="metrics.Lock_time"></latency-chart>
+                    </td>
+                </tr>
+                <tr ng-if="data.innodbRowLockWait.show">
+                    <td>Innodb Row Lock Wait</td>
+                    <td align="right">{{ data.innodbRowLockWait.avg }} (avg load)</td>
+                    <td>
+                        <span class="sum">{{ data.innodbRowLockWait.sum }}</span>
+                        <small>
+                            <span ng-if="!$root.isServerSummary" class="text-primary">{{ data.innodbRowLockWait.percentOfTotal }} of total</span>
+                            <span class="text-success">{{ data.innodbRowLockWait.percentOfQueryTime }} of query time</span>
+                        </small>
+                    </td>
+                    <td class="text-right" nowrap
+                                ng-mouseover="popoverData = metrics.InnoDB_rec_lock_wait; measurement = 'time'"
+                                popover-trigger="mouseenter"
+                                popover-append-to-body="true"
+                                popover-placement="top"
+                                popover-template="'latencyPopover.html'" >
+                        {{ metrics.InnoDB_rec_lock_wait.Avg }}&nbsp;avg&nbsp;<latency-chart chart-data="metrics.InnoDB_rec_lock_wait"></latency-chart>
+                    </td>
+                </tr>
+                <tr ng-if="data.innodbIOReadWait.show">
+                    <td>Innodb IO Read Wait</td>
+                    <td align="right">{{ data.innodbIOReadWait.avg }} (avg load)</td>
+                    <td>
+                        <span class="sum">{{ data.innodbIOReadWait.sum }}</span>
+                        <small>
+                            <span ng-if="!$root.isServerSummary" class="text-primary">{{ data.innodbIOReadWait.percentOfTotal }} of total</span>
+                            <span class="text-success">{{ data.innodbIOReadWait.percentOfQueryTime }} of query time</span>
+                        </small>
+                    </td>
+                    <td class="text-right" nowrap
+                                ng-mouseover="popoverData = metrics.InnoDB_IO_r_wait; measurement = 'time'"
+                                popover-trigger="mouseenter"
+                                popover-append-to-body="true"
+                                popover-placement="top"
+                                popover-template="'latencyPopover.html'" >
+                        {{ metrics.InnoDB_IO_r_wait.Avg | humanize : 'time' }}&nbsp;avg&nbsp;<latency-chart chart-data="metrics.InnoDB_IO_r_wait"></latency-chart>
+                    </td>
+                </tr>
+                <tr ng-if="data.innodbQueueWait.show">
+                    <td>Innodb Queue Wait</td>
+                    <td align="right">{{ data.innodbQueueWait.avg }} (avg load)</td>
+                    <td>
+                        <span class="sum">{{ data.innodbQueueWait.sum }}</span>
+                        <small>
+                            <span ng-if="!$root.isServerSummary" class="text-primary">{{ data.innodbQueueWait.percentOfTotal }} of total</span>
+                            <span class="text-success">{{ data.innodbQueueWait.percentOfQueryTime }} of query time</span>
+                        </small>
+                    </td>
+                    <td class="text-right" nowrap
+                                ng-mouseover="popoverData = metrics.InnoDB_queue_wait; measurement = 'time'"
+                                popover-trigger="mouseenter"
+                                popover-append-to-body="true"
+                                popover-placement="top"
+                                popover-template="'latencyPopover.html'" >
+                        {{ metrics.InnoDB_queue_wait.Avg | humanize : 'time' }}&nbsp;avg&nbsp;<latency-chart chart-data="metrics.InnoDB_queue_wait"></latency-chart>
+                    </td>
+                </tr>
+                <tr ng-if="data.innodbReadOps.show">
+                    <td>Innodb Read Ops</td>
+                    <td align="right">{{ data.innodbReadOps.perSec }} (per sec)</td>
+                    <td>
+                        <span class="sum">{{ data.innodbReadOps.sum }}</span>
+                        <small>
+                            <span ng-if="!$root.isServerSummary" class="text-primary">{{ data.innodbReadOps.percentOfTotal }} of total</span>
+                        </small>
+                    </td>
+                    <td class="text-right" nowrap
+                                ng-mouseover="popoverData = metrics.InnoDB_IO_r_ops; measurement = 'number'"
+                                popover-trigger="mouseenter"
+                                popover-append-to-body="true"
+                                popover-placement="top"
+                                popover-template="'latencyPopover.html'" >
+                        {{ metrics.InnoDB_IO_r_ops.Avg | humanize : 'number' }}&nbsp;avg&nbsp;<latency-chart chart-data="metrics.InnoDB_IO_r_ops"></latency-chart>
+                    </td>
+                </tr>
+                <tr ng-if="data.innodbReadBytes.show">
+                    <td>Innodb Read Bytes</td>
+                    <td align="right">{{ data.innodbReadBytes.perSec }} (per sec)</td>
+                    <td>
+                        <span class="sum">{{ data.innodbReadBytes.sum }}</span>
+                        <small>
+                            <span ng-if="!$root.isServerSummary" class="text-primary">{{ data.innodbReadBytes.percentOfTotal }} of total</span>
+                            <span class="text-success">{{ data.innodbReadBytes.avg }} avg io size</span>
+                        </small>
+                    </td>
+                    <td class="text-right" nowrap
+                                ng-mouseover="popoverData = metrics.InnoDB_IO_r_bytes; measurement = 'size'"
+                                popover-trigger="mouseenter"
+                                popover-append-to-body="true"
+                                popover-placement="top"
+                                popover-template="'latencyPopover.html'" >
+                        {{ metrics.InnoDB_IO_r_bytes.Avg | humanize : 'size' }}&nbsp;avg&nbsp;<latency-chart chart-data="metrics.InnoDB_IO_r_bytes"></latency-chart>
+                    </td>
+                </tr>
+                <tr ng-if="data.innodbDistinctPages.show">
+                    <td>Innodb Distinct Pages</td>
+                    <td align="right">-</td>
+                    <td><span class="sum">-</span></td>
+                    <td class="text-right" nowrap
+                                ng-mouseover="popoverData = metrics.InnoDB_pages_distinct; measurement = 'number' "
+                                popover-trigger="mouseenter"
+                                popover-append-to-body="true"
+                                popover-placement="top"
+                                popover-template="'latencyPopover.html'" >
+                        {{ metrics.InnoDB_pages_distinct.Avg | humanize : 'number' }}&nbsp;avg&nbsp;<latency-chart chart-data="metrics.InnoDB_pages_distinct"></latency-chart>
+                    </td>
+                </tr>
+                <tr ng-if="data.queryCacheHits.show">
+                    <td>Query Cache Hits</td>
+                    <td align="right">{{ data.queryCacheHits.perSec }} (per sec)</td>
+                    <td>
+                        <span class="sum">{{ data.queryCacheHits.sum }}</span>
+                        <small>
+                            <span ng-if="!$root.isServerSummary" class="text-primary">{{ data.queryCacheHits.percentOfTotal }} of total</span>
+                            <span class="text-success">{{ data.queryCacheHits.percentRation }} QC hit ratio</span>
+                        </small>
+                    </td>
+                    <td class="text-right" nowrap
+                                ng-mouseover="popoverData = metrics.QC_Hit; measurement = 'number'"
+                                popover-trigger="mouseenter"
+                                popover-append-to-body="true"
+                                popover-placement="top"
+                                popover-template="'latencyPopover.html'" >
+                        {{ metrics.QC_Hit.Avg | humanize : 'number' }}&nbsp;avg&nbsp;<latency-chart chart-data="metrics.QC_Hit"></latency-chart>
+                    </td>
+                </tr>
+                <tr ng-if="data.rowsSent.show">
+                    <td>Rows Sent</td>
+                    <td align="right">{{ data.rowsSent.perSec }} (per sec)</td>
+                    <td>
+                        <span class="sum">{{ data.rowsSent.sum }}</span>
+                        <small>
+                            <span ng-if="!$root.isServerSummary" class="text-primary">{{ data.rowsSent.percentOfTotal }} of total</span>
+                        </small>
+                    </td>
+                    <td class="text-right" nowrap
+                                ng-mouseover="popoverData = metrics.Rows_sent; measurement = 'number'"
+                                popover-trigger="mouseenter"
+                                popover-append-to-body="true"
+                                popover-placement="top"
+                                popover-template="'latencyPopover.html'" >
+                        {{ metrics.Rows_sent.Avg | humanize : 'number' }}&nbsp;avg&nbsp;<latency-chart chart-data="metrics.Rows_sent"></latency-chart>
+                    </td>
+                </tr>
+                <tr ng-if="data.bytesSent.show">
+                    <td>Bytes Sent</td>
+                    <td align="right">{{ data.bytesSent.perSec }} (per sec)</td>
+                    <td>
+                        <span class="sum">{{ data.bytesSent.sum }}</span>
+                        <small>
+                            <span ng-if="!$root.isServerSummary" class="text-primary">{{ data.bytesSent.percentOfTotal }} of total</span>
+                            <span class="text-success">{{ data.bytesSent.perRow }} bytes/row</span>
+                        </small>
+                    </td>
+                    <td class="text-right" nowrap
+                                ng-mouseover="popoverData = metrics.Bytes_sent; measurement = 'size'"
+                                popover-trigger="mouseenter"
+                                popover-append-to-body="true"
+                                popover-placement="top"
+                                popover-template="'latencyPopover.html'" >
+                        {{ metrics.Bytes_sent.Avg | humanize : 'size' }}&nbsp;avg&nbsp;<latency-chart chart-data="metrics.Bytes_sent"></latency-chart>
+                    </td>
+                </tr>
+                <tr ng-if="data.rowsExamined.show">
+                    <td>Rows Examined</td>
+                    <td align="right">{{ data.rowsExamined.perSec }} (per sec)</td>
+                    <td>
+                        <span class="sum">{{ data.rowsExamined.sum }}</span>
+                        <small>
+                            <span ng-if="!$root.isServerSummary" class="text-primary">{{ data.rowsExamined.percentOfTotal }} of total</span>
+                            <span class="text-success">{{ data.rowsExamined.perRow }} per row sent</span>
+                        </small>
+                    </td>
+                    <td class="text-right" nowrap
+                                ng-mouseover="popoverData = metrics.Rows_examined; measurement = 'number'"
+                                popover-trigger="mouseenter"
+                                popover-append-to-body="true"
+                                popover-placement="top"
+                                popover-template="'latencyPopover.html'" >
+                        {{ metrics.Rows_examined.Avg | humanize : 'number' }}&nbsp;avg&nbsp;<latency-chart chart-data="metrics.Rows_examined"></latency-chart>
+                    </td>
+                </tr>
+                <tr ng-if="data.rowsAffected.show">
+                    <td>Rows Affected</td>
+                    <td align="right">{{ data.rowsAffected.perSec }} (per sec)</td>
+                    <td>
+                        <span class="sum">{{ data.rowsAffected.sum }}</span>
+                        <small>
+                            <span ng-if="!$root.isServerSummary" class="text-primary">{{ data.rowsAffected.percentOfTotal }} of total</span>
+                        </small>
+                    </td>
+                    <td class="text-right" nowrap
+                                ng-mouseover="popoverData = metrics.Rows_affected; measurement = 'number'"
+                                popover-trigger="mouseenter"
+                                popover-append-to-body="true"
+                                popover-placement="top"
+                                popover-template="'latencyPopover.html'" >
+                        {{ metrics.Rows_affected.Avg | humanize : 'number' }}&nbsp;avg&nbsp;<latency-chart chart-data="metrics.Rows_affected"></latency-chart>
+                    </td>
+                </tr>
+                <tr ng-if="data.externalSorts.show">
+                    <td>External Sorts <small>(Filesort)</small></td>
+                    <td align="right">{{ data.externalSorts.perSec }} (per sec)</td>
+                    <td>
+                        <span class="sum">{{ data.externalSorts.sum }}</span>
+                        <small>
+                            <span ng-if="!$root.isServerSummary" class="text-primary">{{ data.externalSorts.percentOfTotal }} of total</span>
+                            <span class="text-success">{{ data.externalSorts.perQueries }} of queries</span>
+                        </small>
+                    </td>
+                    <td class="text-right" nowrap
+                                ng-mouseover="popoverData = metrics.Filesort; measurement = 'number'"
+                                popover-trigger="mouseenter"
+                                popover-append-to-body="true"
+                                popover-placement="top"
+                                popover-template="'latencyPopover.html'" >
+                        {{ metrics.Filesort.Avg | humanize : 'number' }}&nbsp;avg&nbsp;<latency-chart chart-data="metrics.Filesort"></latency-chart>
+                    </td>
+                </tr>
+                <tr ng-if="data.externalSortsDisk.show">
+                    <td>External Sorts of Disk <small>(Filesort on disk)</small></td>
+                    <td align="right">{{ data.externalSortsDisk.perSec }} (per sec)</td>
+                    <td>
+                        <span class="sum">{{ data.externalSortsDisk.sum }}</span>
+                        <small>
+                            <span ng-if="!$root.isServerSummary" class="text-primary">{{ data.externalSortsDisk.percentOfTotal }} of total</span>
+                            <span class="text-success">{{ data.externalSortsDisk.perQueries }} of queries</span>
+                        </small>
+                    </td>
+                    <td class="text-right" nowrap
+                                ng-mouseover="popoverData = metrics.Filesort_on_disk; measurement = 'number'"
+                                popover-trigger="mouseenter"
+                                popover-append-to-body="true"
+                                popover-placement="top"
+                                popover-template="'latencyPopover.html'" >
+                        {{ metrics.Filesort_on_disk.Avg | humanize : 'number' }}&nbsp;avg&nbsp;<latency-chart chart-data="metrics.Filesort_on_disk"></latency-chart>
+                    </td>
+                </tr>
+                <tr ng-if="data.externalSortPasses.show">
+                    <td>External Sort Passes <small>(Merge Passes)</small></td>
+                    <td align="right">{{ data.externalSortPasses.perSec }} (per sec)</td>
+                    <td>
+                        <span class="sum">{{ data.externalSortPasses.sum }}</span>
+                        <small>
+                            <span ng-if="!$root.isServerSummary" class="text-primary">{{ data.externalSortPasses.percentOfTotal }} of total</span>
+                            <span class="text-success">{{ data.externalSortPasses.perExternalSort }} per external sort</span>
+                        </small>
+                    </td>
+                    <td class="text-right" nowrap
+                                ng-mouseover="popoverData = metrics.Merge_passes; measurement = 'number'"
+                                popover-trigger="mouseenter"
+                                popover-append-to-body="true"
+                                popover-placement="top"
+                                popover-template="'latencyPopover.html'" >
+                        {{ metrics.Merge_passes.Avg | humanize : 'number' }}&nbsp;avg&nbsp;<latency-chart chart-data="metrics.Merge_passes"></latency-chart>
+                    </td>
+                </tr>
+                <tr ng-if="data.cartesianProducts.show">
+                    <td>Cartesian Products <small>(Full Joins)</small></td>
+                    <td align="right">{{ data.cartesianProducts.perSec }} (per sec)</td>
+                    <td>
+                        <span class="sum">{{ data.cartesianProducts.sum }}</span>
+                        <small>
+                            <span ng-if="!$root.isServerSummary" class="text-primary">{{ data.cartesianProducts.percentOfTotal }} of total</span>
+                            <span class="text-success">{{ data.cartesianProducts.perQueries }} of queries</span>
+                        </small>
+                    </td>
+                    <td class="text-right" nowrap
+                                ng-mouseover="popoverData = metrics.Full_join; measurement = 'number'"
+                                popover-trigger="mouseenter"
+                                popover-append-to-body="true"
+                                popover-placement="top"
+                                popover-template="'latencyPopover.html'" >
+                        {{ metrics.Full_join.Avg | humanize : 'number' }}&nbsp;avg&nbsp;<latency-chart chart-data="metrics.Full_join"></latency-chart>
+                    </td>
+                </tr>
+                <tr ng-if="data.fullTableScans.show">
+                    <td>Full Table Scans</td>
+                    <td align="right">{{ data.fullTableScans.perSec }} (per sec)</td>
+                    <td>
+                        <span class="sum">{{ data.fullTableScans.sum }}</span>
+                        <small>
+                            <span ng-if="!$root.isServerSummary" class="text-primary">{{ data.fullTableScans.percentOfTotal }} of total</span>
+                            <span class="text-success">{{ data.fullTableScans.perQueries }} of queries</span>
+                        </small>
+                    </td>
+                    <td class="text-right" nowrap
+                                ng-mouseover="popoverData = metrics.Full_scan; measurement = 'number'"
+                                popover-trigger="mouseenter"
+                                popover-append-to-body="true"
+                                popover-placement="top"
+                                popover-template="'latencyPopover.html'" >
+                        {{ metrics.Full_scan.Avg | humanize : 'number' }}&nbsp;avg&nbsp;<latency-chart chart-data="metrics.Full_scan"></latency-chart>
+                    </td>
+                </tr>
+                <tr ng-if="data.queriesRequiringTmpTableInMemory.show">
+                    <td>Queries Requiring Tmp Table In Memory</td>
+                    <td align="right">{{ data.queriesRequiringTmpTableInMemory.perSec }} (per sec)</td>
+                    <td>
+                        <span class="sum">{{ data.queriesRequiringTmpTableInMemory.sum }}</span>
+                        <small>
+                            <span ng-if="!$root.isServerSummary" class="text-primary">{{ data.queriesRequiringTmpTableInMemory.percentOfTotal }} of total</span>
+                            <span class="text-success">{{ data.queriesRequiringTmpTableInMemory.perQueries }} of queries</span>
+                        </small>
+                    </td>
+                    <td class="text-right" nowrap
+                                ng-mouseover="popoverData = metrics.Tmp_table; measurement = 'number'"
+                                popover-trigger="mouseenter"
+                                popover-append-to-body="true"
+                                popover-placement="top"
+                                popover-template="'latencyPopover.html'" >
+                        {{ metrics.Tmp_table.Avg | humanize : 'number' }}&nbsp;avg&nbsp;<latency-chart chart-data="metrics.Tmp_table"></latency-chart>
+                    </td>
+                </tr>
+                <tr ng-if="data.numberTmpTableMemory.show">
+                    <td>Number of Tmp table in Memory</td>
+                    <td align="right">{{ data.numberTmpTableMemory.perSec }} (per sec)</td>
+                    <td>
+                        <span class="sum">{{ data.numberTmpTableMemory.sum }}</span>
+                        <small>
+                            <span ng-if="!$root.isServerSummary" class="text-primary">{{ data.numberTmpTableMemory.percentOfTotal }} of total</span>
+                            <span class="text-success">{{ data.numberTmpTableMemory.perQueryWithTmpTable }} per query with tmp table</span>
+                        </small>
+                    </td>
+                    <td class="text-right" nowrap
+                                ng-mouseover="popoverData = metrics.Tmp_tables; measurement = 'number'"
+                                popover-trigger="mouseenter"
+                                popover-append-to-body="true"
+                                popover-placement="top"
+                                popover-template="'latencyPopover.html'" >
+                        {{ metrics.Tmp_tables.Avg | humanize : 'number' }}&nbsp;avg&nbsp;<latency-chart chart-data="metrics.Tmp_tables"></latency-chart>
+                    </td>
+                </tr>
+                <tr ng-if="data.queriesRequiringTmpTableonDisk.show">
+                    <td>Queries Requiring Tmp Table on Disk</td>
+                    <td align="right">{{ data.queriesRequiringTmpTableonDisk.perSec }} (per sec)</td>
+                    <td>
+                        <span class="sum">{{ data.queriesRequiringTmpTableonDisk.sum }}</span>
+                        <small>
+                            <span ng-if="!$root.isServerSummary" class="text-primary">{{ data.queriesRequiringTmpTableonDisk.percentOfTotal }} of total</span>
+                            <span class="text-success">{{ data.queriesRequiringTmpTableInMemory.perQueries }} of queries</span>
+                        </small>
+                    </td>
+                    <td class="text-right" nowrap
+                                ng-mouseover="popoverData = metrics.Tmp_table_on_disk; measurement = 'number'"
+                                popover-trigger="mouseenter"
+                                popover-append-to-body="true"
+                                popover-placement="top"
+                                popover-template="'latencyPopover.html'" >
+                        {{ metrics.Tmp_table_on_disk.Avg | humanize : 'number' }}&nbsp;avg&nbsp;<latency-chart chart-data="metrics.Tmp_table_on_disk"></latency-chart>
+                    </td>
+                </tr>
+                <tr ng-if="data.numberTmpTablesDisk.show">
+                    <td>Number of Tmp Tables on Disk</td>
+                    <td align="right">{{ data.numberTmpTablesDisk.perSec }} (per sec)</td>
+                    <td>
+                        <span class="sum">{{ data.numberTmpTablesDisk.sum }}</span>
+                        <small>
+                            <span ng-if="!$root.isServerSummary" class="text-primary">{{ data.numberTmpTablesDisk.percentOfTotal }} of total</span>
+                            <span class="text-success">{{ data.numberTmpTablesDisk.perQueryWithTmpTable }} per query with disk tmp table</span>
+                        </small>
+                    </td>
+                    <td class="text-right" nowrap
+                                ng-mouseover="popoverData = metrics.Tmp_disk_tables; measurement = 'number'"
+                                popover-trigger="mouseenter"
+                                popover-append-to-body="true"
+                                popover-placement="top"
+                                popover-template="'latencyPopover.html'" >
+                        {{ metrics.Tmp_disk_tables.Avg | humanize : 'number' }}&nbsp;avg&nbsp;<latency-chart chart-data="metrics.Tmp_disk_tables"></latency-chart>
+                    </td>
+                </tr>
+                <tr ng-if="data.totalSizeTmpTables.show">
+                    <td>Total Size of Tmp Tables</td>
+                    <td align="right">{{ data.totalSizeTmpTables.perSec }} (per sec)</td>
+                    <td>
+                        <span class="sum">{{ data.totalSizeTmpTables.sum }}</span>
+                        <small>
+                            <span ng-if="!$root.isServerSummary" class="text-primary">{{ data.totalSizeTmpTables.percentOfTotal }} of total</span>
+                            <span class="text-success">{{ data.totalSizeTmpTables.perQuery }} per query</span>
+                        </small>
+                    </td>
+                    <td class="text-right" nowrap
+                                ng-mouseover="popoverData = metrics.Tmp_table_sizes; measurement = 'number'"
+                                popover-trigger="mouseenter"
+                                popover-append-to-body="true"
+                                popover-placement="top"
+                                popover-template="'latencyPopover.html'" >
+                        {{ metrics.Tmp_table_sizes.Avg | humanize : 'number' }}&nbsp;avg&nbsp;<latency-chart chart-data="metrics.Tmp_table_sizes"></latency-chart>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+<script type="text/ng-template" id="latencyPopover.html">
+    <ul class="latency-popup">
+        <li class="li-min">Min: {{ popoverData.Min | humanize : measurement }}</li>
+        <li class="li-med">Med: {{ popoverData.Med | humanize : measurement }}</li>
+        <li class="li-avg">Avg: {{ popoverData.Avg | humanize : measurement }}</li>
+        <li class="li-p95">P95: {{ popoverData.P95 | humanize : measurement }}</li>
+        <li class="li-max">Max: {{ popoverData.Max | humanize : measurement }}</li>
+    </ul>
+</script>
