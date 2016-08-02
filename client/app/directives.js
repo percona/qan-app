@@ -85,17 +85,44 @@
                 var height = 15 - margin.top - margin.bottom;
                 var width = 150 - margin.left - margin.right;
 
-                var xDomain = d3.extent(scope.data, function(d) {
-                    return iso.parse(d.Start_ts);
-                })
+                // padding time with 0
+                var begin =  moment.utc($rootScope.begin);
+                var end =  moment.utc($rootScope.end);
+                var duration = moment.duration(end.diff(begin));
+                if (duration.asMinutes() <= 180) {
+
+                    var dateRange = d3.time.minutes(begin, end, 1);
+                    var m = d3.map(scope.data, function(d) { return String(d.Start_ts).replace(/\d\dZ/, '00Z') });
+
+                    var newData = dateRange.map(function(bucket) {
+                        bucket = moment.utc(bucket).format('YYYY-MM-DDTHH:mm:ss[Z]');
+                        return m.get(bucket) || {Start_ts: bucket, Query_count: 0, Query_time_sum: 0};
+                    });
+
+                    scope.data = newData;
+                    var xDomain = d3.extent(scope.data, function(d) {
+                        return iso.parse(d.Start_ts);
+                    });
+
+                    var xScale = d3.time.scale().range([0, width]).domain(xDomain);
+
+                } else {
+
+                    var xDomain = d3.extent(scope.data, function(d) {
+                        return iso.parse(d.Start_ts);
+                    });
+
+                    var xScale = d3.time.scale().range([0, width]).domain(xDomain);
+
+                }
+
                 var yDomain = d3.extent(scope.data, function(d) {
                     return d.Query_time_sum/60;
                 });
 
-                var xScale = d3.time.scale().range([0, width]).domain(xDomain);
                 var yScale = d3.scale.linear().range([height, 0]).domain(yDomain);
 
-                var line = d3.svg.line()
+                var line = d3.svg.line().interpolate('basis')
                     .x(function(d) {
                         return xScale(iso.parse(d.Start_ts));
                     })
@@ -103,14 +130,14 @@
                     return yScale(d.Query_time_sum/60);
                 });
 
-                var area = d3.svg.area()
+                var area = d3.svg.area().interpolate('basis')
                     .x(function(d) {
                         return xScale(iso.parse(d.Start_ts));
                     })
                 .y0(function(d) {
                     return yScale(d.Query_time_sum/60);
                 })
-                .y1(height);
+                .y1(height-1);
 
                 var g = svg.append('g').attr('transform', 'translate(' + margin.left + ', ' + margin.top + ')');
 
@@ -131,10 +158,10 @@
                         .attr('id', 'focusLineX')
                         .attr('class', 'focusLine');
 
-                        focus.append('circle')
-                        .attr('id', 'focusCircle')
-                        .attr('r', 1)
-                        .attr('class', 'circle focusCircle');
+                        //focus.append('circle')
+                        //.attr('id', 'focusCircle')
+                        //.attr('r', 1)
+                        //.attr('class', 'circle focusCircle');
 
                         focus.append('text')
                             .attr('id', 'focusText')
@@ -170,9 +197,9 @@
 
                             var MIN = 0,
                             MAX = 1;
-                            focus.select('#focusCircle')
-                                .attr('cx', x)
-                                .attr('cy', y);
+                            //focus.select('#focusCircle')
+                            //    .attr('cx', x)
+                            //    .attr('cy', y);
                             focus.select('#focusLineX')
                                 .attr('x1', x).attr('y1', yScale(yDomain[MIN]))
                                 .attr('x2', x).attr('y2', yScale(yDomain[MAX]));
@@ -217,17 +244,45 @@
                 var height = 15 - margin.top - margin.bottom;
                 var width = 150 - margin.left - margin.right;
 
-                var xDomain = d3.extent(scope.data, function(d) {
-                    return iso.parse(d.Start_ts);
-                })
+                // padding time with 0
+                var begin =  moment.utc($rootScope.begin);
+                var end =  moment.utc($rootScope.end);
+                var duration = moment.duration(end.diff(begin));
+                if (duration.asMinutes() <= 180) {
+
+                    var dateRange = d3.time.minutes(begin, end, 1);
+                    var m = d3.map(scope.data, function(d) { return String(d.Start_ts).replace(/\d\dZ/, '00Z') });
+
+                    var newData = dateRange.map(function(bucket) {
+                        bucket = moment.utc(bucket).format('YYYY-MM-DDTHH:mm:ss[Z]');
+                        return m.get(bucket) || {Start_ts: bucket, Query_count: 0, Query_time_sum: 0};
+                    });
+
+                    scope.data = newData;
+                    var xDomain = d3.extent(scope.data, function(d) {
+                        return iso.parse(d.Start_ts);
+                    });
+
+                    var xScale = d3.time.scale().range([0, width]).domain(xDomain);
+
+                } else {
+
+                    var xDomain = d3.extent(scope.data, function(d) {
+                        return iso.parse(d.Start_ts);
+                    });
+
+                    var xScale = d3.time.scale().range([0, width]).domain(xDomain);
+
+                }
+
                 var yDomain = d3.extent(scope.data, function(d) {
                     return d.Query_count;
                 });
 
-                var xScale = d3.time.scale().range([0, width]).domain(xDomain);
+
                 var yScale = d3.scale.linear().range([height, 0]).domain(yDomain);
 
-                var line = d3.svg.line()
+                var line = d3.svg.line().interpolate('basis')
                     .x(function(d) {
                         return xScale(iso.parse(d.Start_ts));
                     })
@@ -235,7 +290,7 @@
                     return yScale(d.Query_count);
                 });
 
-                var area = d3.svg.area()
+                var area = d3.svg.area().interpolate('basis')
                     .x(function(d) {
                         return xScale(iso.parse(d.Start_ts));
                     })
@@ -264,10 +319,10 @@
                         .attr('id', 'focusLineX')
                         .attr('class', 'focusLine');
 
-                        focus.append('circle')
-                            .attr('id', 'focusCircle')
-                            .attr('r', 1)
-                            .attr('class', 'circle focusCircle');
+                        //focus.append('circle')
+                        //    .attr('id', 'focusCircle')
+                        //    .attr('r', 1)
+                        //    .attr('class', 'circle focusCircle');
 
                         focus.append('text')
                             .attr('id', 'focusText')
@@ -303,9 +358,9 @@
 
                             var MIN = 0,
                             MAX = 1;
-                            focus.select('#focusCircle')
-                                .attr('cx', x)
-                                .attr('cy', y);
+                            //focus.select('#focusCircle')
+                            //    .attr('cx', x)
+                            //    .attr('cy', y);
                             focus.select('#focusLineX')
                                 .attr('x1', x).attr('y1', yScale(yDomain[MIN]))
                                 .attr('x2', x).attr('y2', yScale(yDomain[MAX]));

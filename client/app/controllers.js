@@ -161,8 +161,8 @@
                         $scope.max_dt = $scope.end.clone();
                         $scope.b = $scope.begin.clone();
                         $scope.e = $scope.end.clone();
-                        $scope.begin = $scope.begin.format('YYYY-MM-DDTHH:mm:ss');
-                        $scope.end = $scope.end.format('YYYY-MM-DDTHH:mm:ss');
+                        $rootScope.begin = $scope.begin = $scope.begin.format('YYYY-MM-DDTHH:mm:ss');
+                        $rootScope.end = $scope.end = $scope.end.format('YYYY-MM-DDTHH:mm:ss');
                         $rootScope.query = null;
                         $rootScope.metricsData = null;
                         $state.go('root.instance-dt', {
@@ -225,8 +225,8 @@
                         default:
                             begin.subtract(1, 'days');
                     }
-                    $scope.begin = begin.format('YYYY-MM-DDTHH:mm:ss');
-                    $scope.end = end.format('YYYY-MM-DDTHH:mm:ss');
+                    $rootScope.begin = $scope.begin = begin.format('YYYY-MM-DDTHH:mm:ss');
+                    $rootScope.end = $scope.end = end.format('YYYY-MM-DDTHH:mm:ss');
                     $rootScope.dtRange = begin.format('YYYY-MM-DD HH:mm:ss') +
                         ' to ' +
                         end.format('YYYY-MM-DD HH:mm:ss') +

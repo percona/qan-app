@@ -23,18 +23,22 @@
                             <th></th>
                             <th><a href="" ui-click="qanSelectSummary()">TOTAL</a></th>
                             <th></th>
-                            <td popover-trigger="mouseenter"
-                                popover-append-to-body="true"
-                                popover-placement="top"
-                                popover-template="'sparklinePopover.html'">
-                                <load-sparklines class="display: inline;" chart-data="profileTotal.Log"></load-sparklines>
+                            <td>
+                                <load-sparklines
+                                    popover-trigger="mouseenter"
+                                    popover-append-to-body="true"
+                                    popover-placement="top"
+                                    popover-template="'sparklinePopover.html'"
+                                    class="display: inline;" chart-data="profileTotal.Log"></load-sparklines>
                                 <span class="pull-right">{{ profileTotal.Load | humanize : 'number' }} (100%)</span>
                             </td>
-                            <td popover-trigger="mouseenter"
-                                popover-append-to-body="true"
-                                popover-placement="top"
-                                popover-template="'sparklinePopover.html'">
-                                <count-sparklines style="display: inline;" chart-data="profileTotal.Log"></count-sparklines>
+                            <td>
+                                <count-sparklines
+                                      popover-trigger="mouseenter"
+                                      popover-append-to-body="true"
+                                      popover-placement="top"
+                                      popover-template="'sparklinePopover.html'"
+                                style="display: inline;" chart-data="profileTotal.Log"></count-sparklines>
                                 <span class="pull-right">{{profileTotal.Stats.Cnt | humanize : 'number'}} (100%)</span>
                             </td>
                             <td class="text-right" nowrap
@@ -55,19 +59,22 @@
                                 </a>
                             </td>
                             <td title="{{ row.Id }}">{{ row.Id }}</td>
-                            <td popover-trigger="mouseenter"
-                                popover-append-to-body="true"
-                                popover-placement="top"
-                                popover-template="'sparklinePopover.html'">
+                            <td>
                                 <load-sparklines
+                                    popover-trigger="mouseenter"
+                                    popover-append-to-body="true"
+                                    popover-placement="top"
+                                    popover-template="'sparklinePopover.html'"
                                     class="display: inline;" chart-data="row.Log"></load-sparklines>
                                 <span class="pull-right">{{ row.Load | humanize : 'number' }} ({{(row.Load / profileTotal.Load * 100).toFixed(2)}}%)</span>
                             </td>
-                            <td popover-trigger="mouseenter"
-                                popover-append-to-body="true"
-                                popover-placement="top"
-                                popover-template="'sparklinePopover.html'">
-                                <count-sparklines style="display: inline;" chart-data="row.Log"></count-sparklines>
+                            <td>
+                                <count-sparklines
+                                      popover-trigger="mouseenter"
+                                      popover-append-to-body="true"
+                                      popover-placement="top"
+                                      popover-template="'sparklinePopover.html'"
+                                style="display: inline;" chart-data="row.Log"></count-sparklines>
                                 <span class="pull-right">{{row.Stats.Cnt | humanize : 'number'}} ({{ (row.Stats.Cnt / profileTotal.Stats.Cnt * 100).toFixed(2) }}%)</span>
                             </td>
                             <td class="text-right" nowrap

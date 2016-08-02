@@ -89,18 +89,18 @@
                     // time
                 case name.indexOf('time') > -1 || name in timeCols:
                     if (duration === undefined) {
-                        res = input > 0.00001 ? '' : '<';
+                        res = (input !== 0 && input < 0.00001) ? '<' : '';
                         res += parceTime(input);
                     } else {
                         n = input/duration;
-                        res = n > 0.0001 ? '' : '<';
+                        res = (n !== 0 && n < 0.0001) ? '<' : '';
                         res += numeral(n).format('0.00%');
                     }
                     break;
                     // size
                 case name.indexOf('size') > -1 || name in sizeCols:
                     if (duration === undefined) {
-                        res = input > 0.01 ? '' : '<';
+                        res = (input !== 0 && input < 0.01) ? '<' : '';
                         res += numeral(input).format('0.00b');
                     } else {
                         n = input/duration;
@@ -114,7 +114,7 @@
                     // ops
                 case name.indexOf('number') > -1 || name in countCols:
                     if (duration === undefined) {
-                        res = input > 0.01 ? '' : '<';
+                        res = (input !== 0 && input < 0.01) ? '<' : '';
                         res += numeral(input).format('0.00a');
                     } else {
                         n = input/duration;
@@ -125,7 +125,7 @@
                     // ops
                 default:
                     if (duration === undefined) {
-                        res = input > 0.01 ? '' : '<';
+                        res = (input !== 0 && input < 0.01) ? '<' : '';
                         res += numeral(input).format('0.00a');
                     } else {
                         n = input/duration;
