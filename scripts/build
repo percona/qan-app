@@ -53,7 +53,7 @@ cd "$ROOT_DIR"
 # Determine if this is a dev or release build. A release build requires using
 # the master branch that's tagged with the same version in conf/app.conf. Else,
 # we presume dev build.
-VER="$(awk -F: '/version/ {print $2}' bower.json | sed -e 's/[^0-9.]*//g')"
+VER="$(awk -F: '/version/ {print $2}' bower.json | sed -e 's/[^0-9.a-z-]*//g')"
 REV="$(git log -n 1 --no-walk --pretty="%h")"
 BRANCH="$(git rev-parse --abbrev-ref HEAD)"
 if [ "$BRANCH" = "master" -a "$DEV" = "" ]; then
