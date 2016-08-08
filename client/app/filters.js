@@ -67,6 +67,14 @@
                     case input === 0:
                         dur = 0;
                         break;
+                    /*
+                    case dur_sec.as('s') > 3600:
+                        dur =  dur_sec.as('h').toFixed(2) + 'hour(s)';
+                        break;
+                    case dur_sec.as('s') > 60:
+                        dur =  dur_sec.as('m').toFixed(2) + 'minute(s)';
+                        break;
+                    */
                     case dur_sec.as('s') > 1:
                         dur =  dur_sec.as('s').toFixed(2) + 's';
                         break;
@@ -102,6 +110,7 @@
                     if (duration === undefined) {
                         res = (input !== 0 && input < 0.01) ? '<' : '';
                         res += numeral(input).format('0.00b');
+                        res = res.replace(/([\d])B/, '$1Bytes');
                     } else {
                         n = input/duration;
                         if (n > 0.01) {

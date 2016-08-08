@@ -94,7 +94,7 @@ fi
 
 # To distinguish dev and release builds, we append "-date.revision" to dev builds,
 # e.g. release 1.0.0 = "1.0.0", but dev 1.0.0 = "1.0.0-20150825.a73cd9e".
-if [ "$DEV" = "yes" ]; then
+if [ "$DEV" = "yes" ] && [ "$DIRTY_BUILD" = "no" ]; then
    ymd="$(TZ="UTC" date "+%Y%m%d")"
    VER="$VER-$ymd.$REV"
 fi

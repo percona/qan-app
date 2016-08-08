@@ -54,26 +54,41 @@
                         'Query_time_sum': 0,
                         'Query_count': 0
                     });
+                    scope.data.unshift({
+                        'Start_ts': moment(scope.data[0].Start_ts).subtract(2, 'm').utc().format('YYYY-MM-DD[T]HH:mm:ss[Z]'),
+                        'Query_time_sum': 0,
+                        'Query_count': 0
+                    }
+                    );
                 }
 
                 if (scope.data.length === 0) {
                     scope.data = [{
+                        'Start_ts': moment.utc().subtract(2, 'm').format('YYYY-MM-DD[T]HH:mm:ss[Z]'),
+                        'Query_time_sum': 0,
+                        'Query_count': 0
+                    },
+                    {
                         'Start_ts': moment.utc().subtract(1, 'm').format('YYYY-MM-DD[T]HH:mm:ss[Z]'),
                         'Query_time_sum': 0,
                         'Query_count': 0
                     },
-                        {
-                            'Start_ts': moment.utc().format('YYYY-MM-DD[T]HH:mm:ss[Z]'),
-                            'Query_time_sum': 0,
-                            'Query_count': 0
-                        }];
+                    {
+                        'Start_ts': moment.utc().format('YYYY-MM-DD[T]HH:mm:ss[Z]'),
+                        'Query_time_sum': 0,
+                        'Query_count': 0
+                    }];
                 }
 
                 var iso = d3.time.format.utc('%Y-%m-%dT%H:%M:%SZ');
 
                 var chart = d3.select(element[0]);
                 var svg = chart.append('svg')
-                    .attr('class', 'load-sparklines');
+                    .attr('height', '20')
+                    .attr('width', '100')
+                    .attr('class', 'scaling-svg')
+                    .attr('preserveAspectRatio', 'none')
+                    .attr('viewBox', '0 0 100 20');
 
                 var margin = {
                     top: 0,
@@ -82,8 +97,9 @@
                     bottom: 0
                 };
 
-                var height = 15 - margin.top - margin.bottom;
-                var width = 150 - margin.left - margin.right;
+                var height = 15;
+                var width = Math.floor(svg.node().getBoundingClientRect().width);
+                svg.attr('width', width).attr('viewBox', '0 0 ' + width + ' 20');
 
                 // padding time with 0
                 var begin =  moment.utc($rootScope.begin);
@@ -108,6 +124,22 @@
 
                 } else {
 
+                    begin = scope.data[scope.data.length-1].Start_ts;
+                    end = scope.data[0].Start_ts;
+
+                    var begin =  moment.utc(begin);
+                    var end =  moment.utc(end);
+                    var dateRange = d3.time.minutes(begin, end, 30).map(function(d) {
+                        return moment.utc(d).format('YYYY-MM-DDTHH:mm:ss[Z]');
+                    });
+                    var m = d3.map(scope.data, function(d) { return String(d.Start_ts).replace(/\d\dZ/, '00Z') });
+                    var newRange = d3.merge([dateRange, m.keys()]);
+
+                    var newData = newRange.sort().map(function(bucket) {
+                        return m.get(bucket) || {Start_ts: bucket, Query_count: 0, Query_time_sum: 0};
+                    });
+                    scope.data = newData;
+
                     var xDomain = d3.extent(scope.data, function(d) {
                         return iso.parse(d.Start_ts);
                     });
@@ -122,7 +154,7 @@
 
                 var yScale = d3.scale.linear().range([height, 0]).domain(yDomain);
 
-                var line = d3.svg.line().interpolate('basis')
+                var line = d3.svg.line()
                     .x(function(d) {
                         return xScale(iso.parse(d.Start_ts));
                     })
@@ -130,7 +162,7 @@
                     return yScale(d.Query_time_sum/60);
                 });
 
-                var area = d3.svg.area().interpolate('basis')
+                var area = d3.svg.area()
                     .x(function(d) {
                         return xScale(iso.parse(d.Start_ts));
                     })
@@ -158,10 +190,10 @@
                         .attr('id', 'focusLineX')
                         .attr('class', 'focusLine');
 
-                        //focus.append('circle')
-                        //.attr('id', 'focusCircle')
-                        //.attr('r', 1)
-                        //.attr('class', 'circle focusCircle');
+                        focus.append('circle')
+                        .attr('id', 'focusCircle')
+                        .attr('r', 1)
+                        .attr('class', 'circle focusCircle');
 
                         focus.append('text')
                             .attr('id', 'focusText')
@@ -197,9 +229,9 @@
 
                             var MIN = 0,
                             MAX = 1;
-                            //focus.select('#focusCircle')
-                            //    .attr('cx', x)
-                            //    .attr('cy', y);
+                            focus.select('#focusCircle')
+                                .attr('cx', x)
+                                .attr('cy', y);
                             focus.select('#focusLineX')
                                 .attr('x1', x).attr('y1', yScale(yDomain[MIN]))
                                 .attr('x2', x).attr('y2', yScale(yDomain[MAX]));
@@ -232,7 +264,11 @@
 
                 var chart = d3.select(element[0]);
                 var svg = chart.append('svg')
-                    .attr('class', 'load-sparklines');
+                    .attr('height', '20')
+                    .attr('width', '100')
+                    .attr('class', 'scaling-svg')
+                    .attr('preserveAspectRatio', 'none')
+                    .attr('viewBox', '0 0 100 20');
 
                 var margin = {
                     top: 0,
@@ -241,14 +277,15 @@
                     bottom: 0
                 };
 
-                var height = 15 - margin.top - margin.bottom;
-                var width = 150 - margin.left - margin.right;
+                var height = 15;
+                var width = Math.floor(svg.node().getBoundingClientRect().width);
+                svg.attr('width', width).attr('viewBox', '0 0 ' + width + ' 20');
 
                 // padding time with 0
                 var begin =  moment.utc($rootScope.begin);
                 var end =  moment.utc($rootScope.end);
                 var duration = moment.duration(end.diff(begin));
-                if (duration.asMinutes() <= 180) {
+                if (duration.asMinutes() < 185) {
 
                     var dateRange = d3.time.minutes(begin, end, 1);
                     var m = d3.map(scope.data, function(d) { return String(d.Start_ts).replace(/\d\dZ/, '00Z') });
@@ -267,6 +304,22 @@
 
                 } else {
 
+                    begin = scope.data[scope.data.length-1].Start_ts;
+                    end = scope.data[0].Start_ts;
+
+                    var begin =  moment.utc(begin);
+                    var end =  moment.utc(end);
+                    var dateRange = d3.time.minutes(begin, end, 30).map(function(d) {
+                        return moment.utc(d).format('YYYY-MM-DDTHH:mm:ss[Z]');
+                    });
+                    var m = d3.map(scope.data, function(d) { return String(d.Start_ts).replace(/\d\dZ/, '00Z') });
+                    var newRange = d3.merge([dateRange, m.keys()]);
+
+                    var newData = newRange.sort().map(function(bucket) {
+                        return m.get(bucket) || {Start_ts: bucket, Query_count: 0, Query_time_sum: 0};
+                    });
+                    scope.data = newData;
+
                     var xDomain = d3.extent(scope.data, function(d) {
                         return iso.parse(d.Start_ts);
                     });
@@ -280,9 +333,9 @@
                 });
 
 
-                var yScale = d3.scale.linear().range([height, 0]).domain(yDomain);
+                var yScale = d3.scale.linear().range([height, 1]).domain(yDomain);
 
-                var line = d3.svg.line().interpolate('basis')
+                var line = d3.svg.line()
                     .x(function(d) {
                         return xScale(iso.parse(d.Start_ts));
                     })
@@ -290,7 +343,7 @@
                     return yScale(d.Query_count);
                 });
 
-                var area = d3.svg.area().interpolate('basis')
+                var area = d3.svg.area()
                     .x(function(d) {
                         return xScale(iso.parse(d.Start_ts));
                     })
@@ -301,16 +354,14 @@
 
                 var g = svg.append('g').attr('transform', 'translate(' + margin.left + ', ' + margin.top + ')');
 
-                        g.append('path')
-                        .datum(scope.data)
-                        .attr('class', 'area')
-                        .attr('d', area);
-
-
-                        g.append('path')
-                        .datum(scope.data)
-                        .attr('class', 'line')
-                        .attr('d', line);
+                g.append('path')
+                    .datum(scope.data)
+                    .attr('class', 'area')
+                    .attr('d', area);
+                g.append('path')
+                    .datum(scope.data)
+                    .attr('class', 'line')
+                    .attr('d', line);
 
                         // focus tracking
                         var focus = g.append('g').style('display', 'none');
@@ -319,10 +370,10 @@
                         .attr('id', 'focusLineX')
                         .attr('class', 'focusLine');
 
-                        //focus.append('circle')
-                        //    .attr('id', 'focusCircle')
-                        //    .attr('r', 1)
-                        //    .attr('class', 'circle focusCircle');
+                        focus.append('circle')
+                            .attr('id', 'focusCircle')
+                            .attr('r', 1)
+                            .attr('class', 'circle focusCircle');
 
                         focus.append('text')
                             .attr('id', 'focusText')
@@ -358,9 +409,9 @@
 
                             var MIN = 0,
                             MAX = 1;
-                            //focus.select('#focusCircle')
-                            //    .attr('cx', x)
-                            //    .attr('cy', y);
+                            focus.select('#focusCircle')
+                                .attr('cx', x)
+                                .attr('cy', y);
                             focus.select('#focusLineX')
                                 .attr('x1', x).attr('y1', yScale(yDomain[MIN]))
                                 .attr('x2', x).attr('y2', yScale(yDomain[MAX]));
@@ -389,12 +440,19 @@
             link: function(scope, element, attrs) {
                 var chart = d3.select(element[0]);
                 var svg = chart.append('svg')
-                    .attr('class', 'latency-chart');
+                    .attr('height', '20')
+                    .attr('width', '100')
+                    .attr('class', 'scaling-svg')
+                    .attr('viewBox', '0 0 100 20');
+
+                var width = Math.floor(svg.node().getBoundingClientRect().width);
+                svg.attr('width', width).attr('viewBox', '0 0 ' + width + ' 20');
 
                 var x = d3.scale.log()
+                    .clamp(true)
                     .domain([0.00001, 10000])
-                    .range([2, 98])
-                    .clamp(true);
+                    .range([2, width-2])
+                    .nice();
                 if (scope.data === undefined) {
                     return;
                 }
@@ -404,52 +462,47 @@
                 var avg = scope.data.hasOwnProperty('Avg') ? scope.data.Avg : 0;
                 var p95 = scope.data.hasOwnProperty('P95') ? scope.data.P95 : 0;
 
-                min = min ? min : 0.00001;
-                max = max ? max : 0.00001;
-                avg = avg ? avg : 0.00001;
-                p95 = p95 ? p95 : 0.00001;
-
                 var g = svg.append('g');
 
                 var hrAxes = g.append('line')
                     .attr('class', 'latency-chart-x')
-                    .attr('x1', '0%')
+                    .attr('x1', '0')
                     .attr('stroke-dasharray', '1, 1')
                     .attr('y1', '13px')
-                    .attr('x2', '100%')
+                    .attr('x2', width)
                     .attr('y2', '13px');
 
                 var hrLine = g.append('line')
                     .attr('class', 'latency-chart-line')
-                    .attr('x1', x(min) + '%')
+                    .attr('x1', x(min) + '')
                     .attr('y1', '13px')
-                    .attr('x2', x(max) + '%')
+                    .attr('x2', x(max) + '')
                     .attr('y2', '13px');
 
                 var minMark = g.append('line')
                     .attr('class', 'latency-chart-min')
-                    .attr('x1', x(min) + '%')
+                    .attr('x1', x(min) + '')
                     .attr('y1', '13px')
-                    .attr('x2', x(min) + '%')
+                    .attr('x2', x(min) + '')
                     .attr('y2', '19px');
 
                 var maxMark = g.append('line')
                     .attr('class', 'latency-chart-max')
-                    .attr('x1', x(max) + '%')
+                    .attr('x1', x(max) + '')
                     .attr('y1', '8px')
-                    .attr('x2', x(max) + '%')
+                    .attr('x2', x(max) + '')
                     .attr('y2', '13px');
 
                 var avgMark = g.append('circle')
                     .attr('class', 'latency-chart-avg')
                     .attr('r', 3)
-                    .attr('cx', x(avg) + '%')
+                    .attr('cx', x(avg) + '')
                     .attr('cy', '13px');
 
                 var p95Mark = g.append('circle')
                     .attr('class', 'latency-chart-p95')
                     .attr('r', 2)
-                    .attr('cx', x(p95) + '%')
+                    .attr('cx', x(p95) + '')
                     .attr('cy', '13px');
             }
         };
@@ -487,9 +540,9 @@
                 var queryTime = $rootScope.totalTime;
                 var cnt = summary.Query_time.Cnt;
 
-                scope.cnt = numeral(cnt).format('0a');
-                scope.qps = maybeLessHundredth(qps) || numeral(qps).format('0.00');
-                scope.percentage = maybeLessHundredth(percentage) || numeral(percentage).format('0.00');
+                scope.cnt = numeral(cnt).format('0.00a');
+                scope.qps = maybeLessHundredth(qps) || numeral(qps).format('0.00a');
+                scope.percentage = maybeLessHundredth(percentage) || numeral(percentage).format('0.00%');
                 scope.load = maybeLessHundredth(load) || numeral(load).format('0.00');
 
             } else {
@@ -500,25 +553,30 @@
                 var queryTime = scope.metrics.Query_time.Avg;
                 var cnt = scope.metrics.Query_time.Cnt;
 
-                scope.cnt = numeral(cnt).format('0a');
-                scope.qps = maybeLessHundredth(qps) || numeral(qps).format('0.00');
-                scope.percentage = maybeLessHundredth(percentage) || numeral(percentage).format('0.00');
-                scope.load = maybeLessHundredth(load) || numeral(load).format('0.00');
+                scope.cnt = numeral(cnt).format('0.00a');
+                scope.qps = maybeLessHundredth(qps) || numeral(qps).format('0.00a');
+                scope.percentage = maybeLessHundredth(percentage) || numeral(percentage).format('0.00%');
+                scope.load = maybeLessHundredth(load) || numeral(load).format('0.00a');
             }
-
-
-
 
             data['queryCount'] = {
                 'perSec': function() {
-                    var perSec =  cnt / totalTime;
-                    return maybeLessHundredth(perSec) || numeral(perSec).format('0.00');
+                    var perSec =  cnt / scope.duration;
+                    return maybeLessHundredth(perSec) || numeral(perSec).format('0.00a');
                 }(),
                 'sum': function() {
-                    return numeral(cnt).format('0a');
+                    return numeral(cnt).format('0.00a');
                 }()
             };
 
+            data['queryTime'] = {
+                'avgLoad': function() {
+                    var avgLoad = metrics.Query_time.Avg / scope.duration;
+                    return maybeLessHundredth(avgLoad) ||  numeral(avgLoad).format('0.00%')
+                }(),
+                'avg': $filter('humanize')(metrics.Query_time.Avg),
+                'sum': $filter('humanize')(metrics.Query_time.Sum)
+            };
 
             data['lockTime'] = {
                 'show': function () {
@@ -529,7 +587,7 @@
                     }
                 }(),
                 'avgLoad': function() {
-                    var avgLoad = metrics.Lock_time.Avg / totalTime;
+                    var avgLoad = metrics.Lock_time.Avg / scope.duration;
                     return maybeLessHundredth(avgLoad) ||  numeral(avgLoad).format('0.00%')
                 }(),
                 'avg': $filter('humanize')(metrics.Lock_time.Avg),
@@ -552,8 +610,7 @@
                 }(),
                 'avg': function() {
                     try {
-                        var avg =  metrics.InnoDB_rec_lock_wait.Avg;
-                        return maybeLessHundredth(avg) || numeral(avg).format('0.00');
+                        $filter('humanize')(metrics.InnoDB_rec_lock_wait.Avg)
                     } catch (err) {
                         return '0.00';
                     }
@@ -585,8 +642,7 @@
                 }(),
                 'avg': function() {
                     try {
-                        var avg =  metrics.InnoDB_IO_r_wait.Avg;
-                        return maybeLessHundredth(avg) || numeral(avg).format('0.00');
+                        return $filter('humanize')(metrics.InnoDB_IO_r_wait.Avg / scope.duration, 'number');
                     } catch (err) {
                         return '0.00';
                     }
@@ -618,8 +674,7 @@
                 }(),
                 'avg': function() {
                     try {
-                        var avg =  metrics.InnoDB_queue_wait.Avg;
-                        return maybeLessHundredth(avg) || numeral(avg).format('0.00');
+                        return $filter('humanize')(metrics.InnoDB_queue_wait.Avg);
                     } catch (err) {
                         return '0.00';
                     }
@@ -651,8 +706,8 @@
                 }(),
                 'perSec': function() {
                     try {
-                        var perSec = metrics.InnoDB_IO_r_ops.Avg / totalTime;
-                        return maybeLessHundredth(perSec) || numeral(perSec).format('0.00');
+                        var perSec = metrics.InnoDB_IO_r_ops.Sum / scope.duration;
+                        return maybeLessHundredth(perSec) || numeral(perSec).format('0.00a');
                     } catch (err) {
                         return '0.00';
 
@@ -660,7 +715,7 @@
                 }(),
                 'sum': function () {
                     try {
-                        return numeral(metrics.InnoDB_IO_r_ops.Sum).format('0a');
+                        return numeral(metrics.InnoDB_IO_r_ops.Sum).format('0.00a');
                     } catch (err) {
                         return '0';
                     }
@@ -677,8 +732,8 @@
                 }(),
                 'perSec': function() {
                     try {
-                        var perSec = metrics.InnoDB_IO_r_bytes.Avg / totalTime;
-                        return maybeLessHundredth(perSec) || numeral(perSec).format('0.00');
+                        var perSec = metrics.InnoDB_IO_r_bytes.Sum / scope.duration;
+                        return maybeLessHundredth(perSec) || numeral(perSec).format('0.00b');
                     } catch (err) {
                         return '0.00';
                     }
@@ -690,9 +745,9 @@
                         return '0.00';
                     }
                 }(),
-                'avg': function () {
+                'avgio': function () {
                     try {
-                        return numeral(metrics.InnoDB_IO_r_bytes.Avg).format('0.00b');
+                        return numeral(metrics.InnoDB_IO_r_bytes.Sum/metrics.InnoDB_IO_r_ops.Sum).format('0.00b');
                     } catch (err) {
                         return '0.00';
                     }
@@ -719,8 +774,8 @@
                 }(),
                 'perSec': function() {
                     try {
-                        var perSec = metrics.QC_Hit.Avg / totalTime;
-                        return maybeLessHundredth(perSec) || numeral(perSec).format('0.00');
+                        var perSec = metrics.QC_Hit.Sum / scope.duration;
+                        return maybeLessHundredth(perSec) || numeral(perSec).format('0.00a');
                     } catch (err) {
                         return '0.00';
                     }
@@ -752,8 +807,8 @@
                 }(),
                 'perSec': function() {
                     try {
-                        var perSec = metrics.Rows_sent.Avg / totalTime;
-                        return maybeLessHundredth(perSec) || numeral(perSec).format('0.00');
+                        var perSec = metrics.Rows_sent.Sum / scope.duration;
+                        return maybeLessHundredth(perSec) || numeral(perSec).format('0.00a');
                     } catch (err) {
                         return '0.00';
                     }
@@ -777,8 +832,8 @@
                 }(),
                 'perSec': function() {
                     try {
-                        var perSec = metrics.Bytes_sent.Avg / totalTime;
-                        return maybeLessHundredth(perSec) || numeral(perSec).format('0.00');
+                        var perSec = metrics.Bytes_sent.Sum / scope.duration;
+                        return $filter('humanize')(perSec, 'size');
                     } catch (err) {
                         return '0.00';
                     }
@@ -792,7 +847,7 @@
                 }(),
                 'perRow': function() {
                     try {
-                        var i = metrics.Bytes_sent.Sum / summary.Rows_sent.Sum;
+                        var i = metrics.Bytes_sent.Sum / metrics.Rows_sent.Sum;
                         return maybeLessHundredth(i) || numeral(i).format('0.00');
                     } catch (err) {
                         return '0.00';
@@ -810,8 +865,8 @@
                 }(),
                 'perSec': function() {
                     try {
-                        var perSec = metrics.Rows_examined.Avg / totalTime;
-                        return maybeLessHundredth(perSec) || numeral(perSec).format('0.00');
+                        var perSec = metrics.Rows_examined.Sum / scope.duration;
+                        return maybeLessHundredth(perSec) || numeral(perSec).format('0.00a');
                     } catch (err) {
                         return '0.00';
                     }
@@ -825,7 +880,7 @@
                 }(),
                 'perRow': function() {
                     try {
-                        var i = metrics.Rows_examined.Sum / summary.Rows_sent.Sum;
+                        var i = metrics.Rows_examined.Sum / metrics.Rows_sent.Sum;
                         return maybeLessHundredth(i) || numeral(i).format('0.00a');
                     } catch (err) {
                         return '0.00';
@@ -843,8 +898,8 @@
                 }(),
                 'perSec': function() {
                     try {
-                        var perSec = metrics.Rows_affected.Avg / totalTime;
-                        return maybeLessHundredth(perSec) || numeral(perSec).format('0.00');
+                        var perSec = metrics.Rows_affected.Sum / scope.duration;
+                        return maybeLessHundredth(perSec) || numeral(perSec).format('0.00a');
                     } catch (err) {
                         return '0.00';
                     }
@@ -868,8 +923,8 @@
                 }(),
                 'perSec': function() {
                     try {
-                        var perSec = metrics.Filesort.Avg / totalTime;
-                        return maybeLessHundredth(perSec) || numeral(perSec).format('0.00');
+                        var perSec = metrics.Filesort.Sum / scope.duration;
+                        return maybeLessHundredth(perSec) || numeral(perSec).format('0.00a');
                     } catch (err) {
                         return '0.00';
                     }
@@ -901,8 +956,8 @@
                 }(),
                 'perSec': function() {
                     try {
-                        var perSec = metrics.Filesort_on_disk.Avg / totalTime;
-                        return maybeLessHundredth(perSec) || numeral(perSec).format('0.00');
+                        var perSec = metrics.Filesort_on_disk.Sum / scope.duration;
+                        return maybeLessHundredth(perSec) || numeral(perSec).format('0.00a');
                     } catch (err) {
                         return '0.00';
                     }
@@ -934,8 +989,8 @@
                 }(),
                 'perSec': function() {
                     try {
-                        var perSec = metrics.Merge_passes.Avg / totalTime;
-                        return maybeLessHundredth(perSec) || numeral(perSec).format('0.00');
+                        var perSec = metrics.Merge_passes.Sum / scope.duration;
+                        return maybeLessHundredth(perSec) || numeral(perSec).format('0.00a');
                     } catch (err) {
                         return '0.00';
                     }
@@ -967,8 +1022,8 @@
                 }(),
                 'perSec': function() {
                     try {
-                        var perSec = metrics.Full_join.Avg / totalTime;
-                        return maybeLessHundredth(perSec) || numeral(perSec).format('0.00');
+                        var perSec = metrics.Full_join.Sum / scope.duration;
+                        return maybeLessHundredth(perSec) || numeral(perSec).format('0.00a');
                     } catch (err) {
                         return '0.00';
                     }
@@ -1000,8 +1055,8 @@
                 }(),
                 'perSec': function() {
                     try {
-                        var perSec = metrics.Full_scan.Avg / totalTime;
-                        return maybeLessHundredth(perSec) || numeral(perSec).format('0.00');
+                        var perSec = metrics.Full_scan.Sum / scope.duration;
+                        return maybeLessHundredth(perSec) || numeral(perSec).format('0.00a');
                     } catch (err) {
                         return '0.00';
                     }
@@ -1033,8 +1088,8 @@
                 }(),
                 'perSec': function() {
                     try {
-                        var perSec = metrics.Tmp_table.Avg / totalTime;
-                        return maybeLessHundredth(perSec) || numeral(perSec).format('0.00');
+                        var perSec = metrics.Tmp_table.Sum / scope.duration;
+                        return maybeLessHundredth(perSec) || numeral(perSec).format('0.00a');
                     } catch (err) {
                         return '0.00';
                     }
@@ -1066,8 +1121,8 @@
                 }(),
                 'perSec': function() {
                     try {
-                        var perSec = metrics.Tmp_tables.Avg / totalTime;
-                        return maybeLessHundredth(perSec) || numeral(perSec).format('0.00');
+                        var perSec = metrics.Tmp_tables.Sum / scope.duration;
+                        return maybeLessHundredth(perSec) || numeral(perSec).format('0.00a');
                     } catch (err) {
                         return '0.00';
                     }
@@ -1099,8 +1154,8 @@
                 }(),
                 'perSec': function() {
                     try {
-                        var perSec = metrics.Tmp_table_on_disk.Avg / totalTime;
-                        return maybeLessHundredth(perSec) || numeral(perSec).format('0.00');
+                        var perSec = metrics.Tmp_table_on_disk.Sum / scope.duration;
+                        return maybeLessHundredth(perSec) || numeral(perSec).format('0.00a');
                     } catch (err) {
                         return '0.00';
                     }
@@ -1133,8 +1188,8 @@
                 }(),
                 'perSec': function() {
                     try {
-                        var perSec = metrics.Tmp_disk_tables.Avg / totalTime;
-                        return maybeLessHundredth(perSec) || numeral(perSec).format('0.00');
+                        var perSec = metrics.Tmp_disk_tables.Sum / scope.duration;
+                        return maybeLessHundredth(perSec) || numeral(perSec).format('0.00a');
                     } catch (err) {
                         return '0.00';
                     }
@@ -1167,8 +1222,8 @@
                 }(),
                 'perSec': function() {
                     try {
-                        var perSec = metrics.Tmp_table_on_disk.Avg / totalTime;
-                        return maybeLessHundredth(perSec) || numeral(perSec).format('0.00');
+                        var perSec = metrics.Tmp_table_on_disk.Sum / scope.duration;
+                        return maybeLessHundredth(perSec) || numeral(perSec).format('0.00a');
                     } catch (err) {
                         return '0.00';
                     }
@@ -1200,15 +1255,15 @@
                 }(),
                 'perSec': function() {
                     try {
-                        var perSec = metrics.Tmp_table_sizes.Avg / totalTime;
-                        return maybeLessHundredth(perSec) || numeral(perSec).format('0.00');
+                        var perSec = metrics.Tmp_table_sizes.Sum / scope.duration;
+                        return maybeLessHundredth(perSec) || numeral(perSec).format('0.00b');
                     } catch (err) {
                         return '0.00';
                     }
                 }(),
                 'sum': function () {
                     try {
-                        return numeral(metrics.Tmp_table_sizes.Sum).format('0.00a');
+                        return numeral(metrics.Tmp_table_sizes.Sum).format('0.00b');
                     } catch (err) {
                         return '0.00';
                     }
@@ -1216,7 +1271,7 @@
                 'perQuery': function() {
                     try {
                         var i = metrics.Tmp_table_sizes.Sum / cnt;
-                        return maybeLessHundredth(i) || numeral(i).format('0.00a');
+                        return maybeLessHundredth(i) || numeral(i).format('0.00b');
                     } catch (err) {
                         return '0.00';
                     }
@@ -1236,10 +1291,21 @@
                     }()
                 };
 
+                data2['queryTime'] = {
+                    'percentOfTotal': function() {
+                        try {
+                            var i = metrics.Query_time.Sum / summary.Query_time.Sum;
+                            return maybeLessHundredth(i, '%') || numeral(i).format('0.00%')
+                        } catch (err) {
+                            return '0.00%';
+                        }
+                    }()
+                };
+
                 data2['lockTime'] = {
                     'percentOfTotal': function() {
                         try {
-                            var i = metrics.Lock_time.Avg / totalTime;
+                            var i = metrics.Lock_time.Sum / summary.Lock_time.Sum;
                             return maybeLessHundredth(i, '%') || numeral(i).format('0.00%')
                         } catch (err) {
                             return '0.00%';
@@ -1250,7 +1316,7 @@
                 data2['innodbRowLockWait'] = {
                     'percentOfTotal': function() {
                         try {
-                            var i = metrics.InnoDB_rec_lock_wait.Avg / totalTime;
+                            var i = metrics.InnoDB_rec_lock_wait.Sum / summary.InnoDB_rec_lock_wait.Sum ;
                             return maybeLessHundredth(i, '%') || numeral(i).format('0.00%');
                         } catch (err) {
                             return '0.00%';
@@ -1261,7 +1327,7 @@
                 data2['innodbIOReadWait'] = {
                     'percentOfTotal': function() {
                         try {
-                            var i = metrics.InnoDB_IO_r_wait.Avg / totalTime;
+                            var i = metrics.InnoDB_IO_r_wait.Sum / summary.InnoDB_IO_r_wait.Sum;
                             return maybeLessHundredth(i, '%') || numeral(i).format('0.00%');
                         } catch (err) {
                             return '0.00%';
@@ -1272,7 +1338,7 @@
                 data2['innodbQueueWait'] = {
                     'percentOfTotal': function() {
                         try {
-                            var i = metrics.InnoDB_queue_wait.Avg / totalTime;
+                            var i = metrics.InnoDB_queue_wait.Sum / summary.InnoDB_queue_wait.Sum ;
                             return maybeLessHundredth(i, '%') || numeral(i).format('0.00%')
                         } catch (err) {
                             return '0.00%';
@@ -1294,7 +1360,7 @@
                 data2['innodbReadBytes'] = {
                     'percentOfTotal': function() {
                         try {
-                            var i = metrics.InnoDB_IO_r_bytes.Avg / summary.InnoDB_IO_r_bytes.Avg;
+                            var i = metrics.InnoDB_IO_r_bytes.Sum / summary.InnoDB_IO_r_bytes.Sum;
                             return maybeLessHundredth(i, '%') || numeral(i).format('0.00%');
                         } catch (err) {
                             return '0.00%';
@@ -1305,7 +1371,7 @@
                 data2['queryCacheHits'] = {
                     'percentOfTotal': function() {
                         try {
-                            var i = metrics.QC_Hit.Avg / summary.QC_Hit.Avg;
+                            var i = metrics.QC_Hit.Sum / summary.QC_Hit.Sum;
                             return maybeLessHundredth(i, '%') || numeral(i).format('0.00%');
                         } catch (err) {
                             return '0.00%';
