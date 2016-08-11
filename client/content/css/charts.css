@@ -1,22 +1,40 @@
 /* --------------------- */
 
 .load-sparklines {
-    width: 150px;
     height: 15px;
+    /* width: inherit; */
+    width: auto;
     font: 5px sans-serif;
     cursor: crosshair;
+}
+
+.scaling-svg-container {
+    position: relative;
+    height: 0;
+    width: 100%;
+    padding: 0;
+    padding-bottom: 14%;
+    /* override this inline for aspect ratio other than square */
+}
+.scaling-svg {
+    cursor: crosshair;
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    left: 0;
+    top: 0;
 }
 
 .line {
     fill: none;
     stroke: steelblue;
-    stroke-width: 1px;
+    stroke-width: 0.5px;
 }
 
 .circle {
     fill: white;
     stroke: steelblue;
-    stroke-width: 1px;
+    stroke-width: 0.5px;
 }
 
 .area {
@@ -56,7 +74,6 @@
 
 .latency-chart {
     width: 150px;
-    /* width: 60%; */
     height: 19px;
     font: 5px sans-serif;
 }
@@ -113,8 +130,8 @@
     margin: 0;
 }
 
-.latency-popup > li { 
-    padding-left: 6px; 
+.latency-popup > li {
+    padding-left: 6px;
 }
 
 li.li-min:before {

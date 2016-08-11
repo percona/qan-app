@@ -10,72 +10,119 @@
                     class="table table-bordered table-striped table-hover table-condensed">
                     <thead>
                         <tr>
-                            <th width="4%" title="Rank">Rank</th>
-                            <th title="Query Abstract">Query Abstract</th>
-                            <th title="ID">ID</th>
-                            <th title="Load">Load</th>
-                            <th title="Count">Count</th>
-                            <th width="260px" title="Latency">Latency</th>
+                            <th title="Rank">#</th>
+                            <th style="width: 14em;" title="Query Abstract">Query Abstract</th>
+                            <th style="width: 10em;" title="ID">ID</th>
+                            <th title="Load" colspan="2">Load</th>
+                            <th title="Count" colspan="3">Count</th>
+                            <th colspan="2" title="Latency">Latency</th>
                         </tr>
                     </thead>
                     <thead>
-                        <tr ng-click="qanSelectSummary()">
+                        <tr ng-click="qanSelectSummary()" ng-class="{'success': query_id === null}">
                             <th></th>
                             <th><a href="" ui-click="qanSelectSummary()">TOTAL</a></th>
                             <th></th>
-                            <td popover-trigger="mouseenter"
-                                popover-append-to-body="true"
-                                popover-placement="top"
-                                popover-template="'sparklinePopover.html'">
-                                <load-sparklines class="display: inline;" chart-data="profileTotal.Log"></load-sparklines>
-                                <span class="pull-right">{{ profileTotal.Load | humanize : 'number' }} (100%)</span>
-                            </td>
-                            <td popover-trigger="mouseenter"
-                                popover-append-to-body="true"
-                                popover-placement="top"
-                                popover-template="'sparklinePopover.html'">
-                                <count-sparklines style="display: inline;" chart-data="profileTotal.Log"></count-sparklines>
-                                <span class="pull-right">{{profileTotal.Stats.Cnt | humanize : 'number'}} (100%)</span>
-                            </td>
-                            <td class="text-right" nowrap
+                            <th style="width: 12%" class="no-right-border">
+                                <div class="scaling-svg-container">
+                                <load-sparklines
+                                    popover-trigger="mouseenter"
+                                    popover-append-to-body="true"
+                                    popover-placement="top"
+                                    popover-template="'sparklinePopover.html'"
+                                    xkey="Start_ts"
+                                    ykey="Query_time_sum"
+                                    chart-data="profileTotal.Log"></load-sparklines>
+                                </div>
+                            </th>
+                            <th class="no-left-border text-right">
+                                {{ profileTotal.Load | humanize : 'number' }} (100%)
+                            </th>
+                            <th class="no-right-border text-right">
+                                {{profileTotal.QPS | humanize : 'number'}}&nbsp;QPS
+                            </th>
+                            <th style="width: 120px" class="no-left-border no-right-border">
+                                <div class="scaling-svg-container">
+                                <load-sparklines
+                                      popover-trigger="mouseenter"
+                                      popover-append-to-body="true"
+                                      popover-placement="top"
+                                      popover-template="'sparklinePopover.html'"
+                                      xkey="Start_ts"
+                                      ykey="Query_count"
+                                      chart-data="profileTotal.Log"></load-sparklines>
+                                </div>
+                            </th>
+                            <th class="no-left-border text-right">
+                                    {{ profileTotal.Stats.Cnt | humanize : 'number'}} (100%)
+                            </th>
+                            <th class="no-right-border text-right">
+                                {{ profileTotal.Stats.Avg | humanize }}&nbsp;avg
+                            </th>
+                            <th style="width: 120px" class="no-left-border"
                                 popover-trigger="mouseenter"
                                 popover-append-to-body="true"
                                 popover-placement="top"
                                 popover-template="'latencyPopoverTotal.html'" >
-                                {{ profileTotal.Stats.Avg | humanize }}&nbsp;avg&nbsp;<latency-chart chart-data="profileTotal.Stats"></latency-chart>
-                            </td>
+                                <div class="scaling-svg-container">
+                                    <latency-chart chart-data="profileTotal.Stats"></latency-chart>
+                                </div>
+                            </th>
                         </tr>
                     </thead>
                     <tbody>
                         <tr ng-repeat="row in qanData" ng-click="qanSelectRow(row)" ng-class="{'success': query_id === row.Id}" >
                             <td class="text-right">{{ $index + 1 }}</td>
                             <td>
-                                <a href="" title="{{ row.Abstract }}" ng-click="qanSelectRow(row)">
-                                    {{ (row.Abstract | limitTo : 30) + (row.Abstract.length > 30 ? '...' : '') }}
+                                <a href="" title="{{ row.Fingerprint }}" ng-click="qanSelectRow(row)">
+                                    {{ (row.Abstract | limitTo : 22) + (row.Abstract.length > 22 ? '...' : '') }}
                                 </a>
                             </td>
                             <td title="{{ row.Id }}">{{ row.Id }}</td>
-                            <td popover-trigger="mouseenter"
-                                popover-append-to-body="true"
-                                popover-placement="top"
-                                popover-template="'sparklinePopover.html'">
+                            <td class="no-right-border">
+                                <div class="scaling-svg-container">
                                 <load-sparklines
-                                    class="display: inline;" chart-data="row.Log"></load-sparklines>
-                                <span class="pull-right">{{ row.Load | humanize : 'number' }} ({{(row.Load / profileTotal.Load * 100).toFixed(2)}}%)</span>
+                                    popover-trigger="mouseenter"
+                                    popover-append-to-body="true"
+                                    popover-placement="top"
+                                    popover-template="'sparklinePopover.html'"
+                                    xkey="Start_ts"
+                                    ykey="Query_time_sum"
+                                    chart-data="row.Log"></load-sparklines>
+                                </div>
                             </td>
-                            <td popover-trigger="mouseenter"
-                                popover-append-to-body="true"
-                                popover-placement="top"
-                                popover-template="'sparklinePopover.html'">
-                                <count-sparklines style="display: inline;" chart-data="row.Log"></count-sparklines>
-                                <span class="pull-right">{{row.Stats.Cnt | humanize : 'number'}} ({{ (row.Stats.Cnt / profileTotal.Stats.Cnt * 100).toFixed(2) }}%)</span>
+                            <td class="no-left-border text-right">
+                                    {{ row.Load | humanize : 'number' }} ({{(row.Load / profileTotal.Load * 100).toFixed(2)}}%)
                             </td>
-                            <td class="text-right" nowrap
+                            <td class="no-right-border text-right">
+                                    {{row.QPS | humanize : 'number'}}&nbsp;QPS
+                            </td>
+                            <td class="no-left-border no-right-border">
+                                <div class="scaling-svg-container">
+                                <load-sparklines
+                                      popover-trigger="mouseenter"
+                                      popover-append-to-body="true"
+                                      popover-placement="top"
+                                      popover-template="'sparklinePopover.html'"
+                                      xkey="Start_ts"
+                                      ykey="Query_count"
+                                      chart-data="row.Log"></load-sparklines>
+                                </div>
+                            </td>
+                            <td class="no-left-border text-right">
+                                    {{row.Stats.Cnt | humanize : 'number'}} ({{ (row.Stats.Cnt / profileTotal.Stats.Cnt * 100).toFixed(2) }}%)
+                            </td>
+                            <td class="no-right-border text-right">
+                                {{ row.Stats.Avg | humanize }}&nbsp;avg
+                            </td>
+                            <td class="no-left-border"
                                 popover-trigger="mouseenter"
                                 popover-append-to-body="true"
                                 popover-placement="top"
                                 popover-template="'latencyPopoverRow.html'" >
-                                {{ row.Stats.Avg | humanize }}&nbsp;avg&nbsp;<latency-chart chart-data="row.Stats"></latency-chart>
+                                <div class="scaling-svg-container">
+                                    <latency-chart chart-data="row.Stats"></latency-chart>
+                                </div>
                             </td>
                         </tr>
                         <tr ng-if="qanData.length===0"><td class="text-center" colspan="11">No data for selected time-range.</td></tr>
@@ -138,12 +185,13 @@
 
 <div class="row">
     <div class="col-md-12" ng-controller="MetricsController">
-        <metrics ng-if="!$root.connection_error && $root.summary" metrics-data="$root.metrics" summary-data="$root.summary"></metrics>
+        <metrics ng-if="!$root.connection_error && $root.summary !== null && $root.summary !== undefined"
+            metrics-data="$root.metrics" summary-data="$root.summary"></metrics>
     </div>
 </div>
 
 
-
+<div class="clearfix"></div>
 <div class="row">
     <div class="col-md-12">
         <div class="panel panel-default"
@@ -151,7 +199,7 @@
             ng-controller="QueryController"
             >
             <div class="panel-heading">QUERY
-                <span class="pull-right">
+                <span class="pull-right clearfix text-nowrap">
                     <i class="glyphicon glyphicon-time"></i>
                     <b class="text-info">Last seen {{ lastSeenAgo }}</b>
                     <i class="text-muted">({{ lastSeen }})</i>
@@ -334,9 +382,9 @@
                                     <tbody>
                                     <tr ng-repeat="(name, value) in tblStatus">
                                         <td>{{ name }}</td>
-                                        <td ng-if="['AvgRowLength', 'DataLength', 'IndexLength', 'DataFree'].indexOf(name) > -1">{{ value | humanize : 'size' }}</td>
+                                        <td ng-if="['AvgRowLength', 'DataLength', 'IndexLength', 'DataFree', 'MaxDataLength'].indexOf(name) > -1">{{ value | humanize : 'size' }}</td>
                                         <td ng-if="['Rows', 'AutoIncrement'].indexOf(name) > -1">{{ value | humanize : 'number' }}</td>
-                                        <td ng-if="['Rows', 'AvgRowLength', 'DataLength', 'IndexLength', 'DataFree', 'AutoIncrement'].indexOf(name) === -1">{{ value }}</td>
+                                        <td ng-if="['Rows', 'AvgRowLength', 'DataLength', 'IndexLength', 'DataFree', 'AutoIncrement', 'MaxDataLength'].indexOf(name) === -1">{{ value }}</td>
                                     </tr>
                                     <tr ng-if="tblStatus.length === 0"><td class="text-center" colspan="2">No data.</td></tr>
                                     </tbody>

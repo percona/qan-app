@@ -44,7 +44,6 @@
                             $scope.getConfig();
 
                             $scope.query = '';
-                            $rootScope.metricsData = null;
                             // it is need to disable future dates.
                             $rootScope.dtCal = null;
                             $scope.queryExplain = '';
@@ -63,12 +62,13 @@
 
                 $rootScope.changeInstance = function(instance) {
                     $rootScope.instance = instance;
-                    console.log('sss', instance);
                     $state.go('root.instance-dt', {
                         uuid: $rootScope.instance.UUID,
                     });
-                    $scope.metrics = false;
-                    $rootScope.summary = false;
+                    $scope.metrics = null;
+                    $rootScope.metrics = null;
+                    $rootScope.summary = null;
+                    $scope.summary = null;
                     $scope.getConfig();
                     $scope.qanData = [];
                     $scope.offset = 0;
@@ -76,9 +76,7 @@
 
                     $scope.queryExplain = '';
                     $scope.query = '';
-                    $scope.metricsData = '';
                     $rootScope.query = null;
-                    $rootScope.metricsData = null;
                     $rootScope.isServerSummary = false;
 
                     $scope.getProfile();
@@ -136,6 +134,12 @@
                 };
 
                 $rootScope.onTimeSet = function(newDate, oldDate) {
+                        $scope.metrics = null;
+                        $rootScope.metrics = null;
+                        $rootScope.summary = null;
+                        $scope.summary = null;
+                        $scope.query_id = '';
+
                     if ($scope.date1 === undefined) {
                         $scope.begin = undefined;
                         $scope.end = undefined;
@@ -161,10 +165,9 @@
                         $scope.max_dt = $scope.end.clone();
                         $scope.b = $scope.begin.clone();
                         $scope.e = $scope.end.clone();
-                        $scope.begin = $scope.begin.format('YYYY-MM-DDTHH:mm:ss');
-                        $scope.end = $scope.end.format('YYYY-MM-DDTHH:mm:ss');
+                        $rootScope.begin = $scope.begin = $scope.begin.format('YYYY-MM-DDTHH:mm:ss');
+                        $rootScope.end = $scope.end = $scope.end.format('YYYY-MM-DDTHH:mm:ss');
                         $rootScope.query = null;
-                        $rootScope.metricsData = null;
                         $state.go('root.instance-dt', {
                             uuid: $rootScope.instance.UUID,
                             begin: $scope.begin,
@@ -177,14 +180,10 @@
                         $scope.qanData = [];
                         $scope.offset = 0;
                         $scope.loadedToTableQueries = 0;
-                        $scope.metrics = false;
-                        $rootScope.summary = false;
 
                         $scope.queryExplain = '';
                         $scope.query = '';
-                        $scope.metricsData = '';
                         $rootScope.query = null;
-                        $rootScope.metricsData = null;
                         $rootScope.isServerSummary = false;
 
                         $scope.getProfile();
@@ -194,8 +193,13 @@
                 };
 
                 $scope.setTimeRange = function(time_range) {
+                    $scope.metrics = null;
+                    $rootScope.metrics = null;
+                    $rootScope.summary = null;
+                    $scope.summary = null;
                     $rootScope.query = null;
-                    $rootScope.metricsData = null;
+                    $scope.query_id = '';
+
                     var begin = moment.utc();
                     var end = moment.utc();
                     $scope.min_dt = undefined;
@@ -225,8 +229,8 @@
                         default:
                             begin.subtract(1, 'days');
                     }
-                    $scope.begin = begin.format('YYYY-MM-DDTHH:mm:ss');
-                    $scope.end = end.format('YYYY-MM-DDTHH:mm:ss');
+                    $rootScope.begin = $scope.begin = begin.format('YYYY-MM-DDTHH:mm:ss');
+                    $rootScope.end = $scope.end = end.format('YYYY-MM-DDTHH:mm:ss');
                     $rootScope.dtRange = begin.format('YYYY-MM-DD HH:mm:ss') +
                         ' to ' +
                         end.format('YYYY-MM-DD HH:mm:ss') +
@@ -240,14 +244,10 @@
                     $scope.qanData = [];
                     $scope.offset = 0;
                     $scope.loadedToTableQueries = 0;
-                    $scope.metrics = false;
-                    $rootScope.summary = false;
 
                     $scope.queryExplain = '';
                     $scope.query = '';
-                    $scope.metricsData = '';
                     $rootScope.query = null;
-                    $rootScope.metricsData = null;
                     $rootScope.isServerSummary = false;
 
                     $scope.getProfile();
@@ -259,11 +259,11 @@
                         $scope.query_id = row.Id;
                         $scope.query_abstract = row.Abstract;
                         $rootScope.query_abstract = row.Abstract;
-                        $rootScope.metricsData = null;
-                        $scope.metricsData = null;
+
                         $state.go('root.instance-dt.query', {
                             query_id: row.Id
                         });
+
                     }
                 };
 
@@ -354,6 +354,11 @@
                                 $scope.queryExplain = '';
 
                                 if ($state.is('root.instance-dt.query')) {
+                                    $scope.metrics = null;
+                                    $rootScope.metrics = null;
+                                    $scope.summary = null;
+                                    $rootScope.summary = null;
+
                                     $rootScope.isMetrics = true;
                                     $rootScope.isServerSummary = false;
 
@@ -363,8 +368,10 @@
                                     $scope.getMetrics();
                                 }
                                 if ($state.is('root.instance-dt.summary')) {
-                                    $scope.metricsData = [];
-                                    $rootScope.metricsData = [];
+                                    $scope.metrics = null;
+                                    $rootScope.metrics = null;
+                                    $scope.summary = null;
+                                    $rootScope.summary = null;
 
                                     $rootScope.isServerSummary = true;
                                     $rootScope.isMetrics = false;
@@ -377,26 +384,25 @@
                     );
                 };
 
+
                 $scope.getSummary = function () {
                     var params = {
                         instance_uuid: $state.params.uuid,
                         begin: $state.params.begin,
                         end: $state.params.end
                     };
+                    if ($scope.isServerSummary) {
+                        params['include'] = 'sparklines';
+                    }
                     MetricSummary.query(params)
                         .$promise
                         .then(function(resp) {
+                            $scope.duration = moment.duration(moment(resp.End).diff(moment(resp.Begin))).asSeconds();
                             $scope.summary = resp.Metrics;
                             $rootScope.summary = resp.Metrics;
-
-                            var data = [];
-                            for (var key in resp.Metrics) {
-                                var obj = {'Metrics': key};
-                                angular.extend(obj, resp.Metrics[key]);
-                                data.push(obj);
+                            if ($scope.isServerSummary) {
+                                $scope.sparks = resp.Sparks;
                             }
-                            $scope.metricsData = data;
-                            $rootScope.metricsData = data;
 
                         })
                     .catch(function(resp) {
@@ -418,7 +424,8 @@
                         instance_uuid: $state.params.uuid,
                         query_uuid: $state.params.query_id,
                         begin: $state.params.begin,
-                        end: $state.params.end
+                        end: $state.params.end,
+                        include: 'sparklines'
                     };
                     Metric.query(params)
                         .$promise
@@ -428,16 +435,10 @@
                             $scope.example = resp.Example;
                             $rootScope.example = resp.Example;
 
+
                             $scope.metrics = resp.Metrics;
-                            var data = [];
-                            for (var key in resp.Metrics) {
-                                var obj = {'Metrics': key};
-                                angular.extend(obj, resp.Metrics[key]);
-                                data.push(obj);
-                            }
-                            $scope.metricsData = data;
-                            $rootScope.metricsData = data;
-                            // get summary to calculate rates
+                            $rootScope.metrics = resp.Metrics;
+                            $scope.sparks = resp.Sparks;
                             $scope.getSummary();
                         })
                     .catch(function(resp) {
@@ -836,7 +837,6 @@
                                     }, 500);
 
                                     $timeout(function () {
-                                        console.log('llllll');
                                         Config.query({instance_uuid: toParams.uuid})
                                             .$promise
                                             .then(function (resp) {
@@ -1015,7 +1015,6 @@
                 };
 
                 $scope.getRelatedAgent = function (mysql) {
-                    console.log('sssss', mysql);
                     Config.query({instance_uuid: mysql.UUID})
                         .$promise
                         .then(function (resp) {
@@ -1435,7 +1434,6 @@
                     }
 
                     if ($scope.rawQanConfig === null) {
-                        console.log('ddddd');
 
                         Config.query({instance_uuid: mysql.UUID})
                             .$promise

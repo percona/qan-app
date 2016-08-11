@@ -166,3 +166,13 @@ table.metrics td span.sum {
     display: inline-block;
     text-align: right;
 }
+
+.table-bordered>thead>tr>th.no-right-border,
+.table-bordered>tbody>tr>td.no-right-border {
+    border-right-style: none;
+}
+
+.table-bordered>thead>tr>th.no-left-border,
+.table-bordered>tbody>tr>td.no-left-border {
+    border-left-style: none;
+}
