@@ -391,12 +391,19 @@
                         begin: $state.params.begin,
                         end: $state.params.end
                     };
+                    if ($scope.isServerSummary) {
+                        params['include'] = 'sparklines';
+                    }
                     MetricSummary.query(params)
                         .$promise
                         .then(function(resp) {
                             $scope.duration = moment.duration(moment(resp.End).diff(moment(resp.Begin))).asSeconds();
                             $scope.summary = resp.Metrics;
                             $rootScope.summary = resp.Metrics;
+                            if ($scope.isServerSummary) {
+                                $scope.sparks = resp.Sparks;
+                            }
+
                         })
                     .catch(function(resp) {
                         var msg = constants.DEFAULT_ERR;
@@ -417,7 +424,8 @@
                         instance_uuid: $state.params.uuid,
                         query_uuid: $state.params.query_id,
                         begin: $state.params.begin,
-                        end: $state.params.end
+                        end: $state.params.end,
+                        include: 'sparklines'
                     };
                     Metric.query(params)
                         .$promise
@@ -427,8 +435,10 @@
                             $scope.example = resp.Example;
                             $rootScope.example = resp.Example;
 
+
                             $scope.metrics = resp.Metrics;
                             $rootScope.metrics = resp.Metrics;
+                            $scope.sparks = resp.Sparks;
                             $scope.getSummary();
                         })
                     .catch(function(resp) {

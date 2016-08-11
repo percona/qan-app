@@ -46,41 +46,9 @@
             scope: {data: '=chartData'},
             link: function(scope, element, attrs) {
 
-                // handle case when it is not enough data to draw chart by adding empty data
-                // works with parent scope. No need to add this to countSparklines chart
-                if (scope.data.length === 1) {
-                    scope.data.unshift({
-                        'Start_ts': moment(scope.data[0].Start_ts).subtract(1, 'm').utc().format('YYYY-MM-DD[T]HH:mm:ss[Z]'),
-                        'Query_time_sum': 0,
-                        'Query_count': 0
-                    });
-                    scope.data.unshift({
-                        'Start_ts': moment(scope.data[0].Start_ts).subtract(2, 'm').utc().format('YYYY-MM-DD[T]HH:mm:ss[Z]'),
-                        'Query_time_sum': 0,
-                        'Query_count': 0
-                    }
-                    );
-                }
-
-                if (scope.data.length === 0) {
-                    scope.data = [{
-                        'Start_ts': moment.utc().subtract(2, 'm').format('YYYY-MM-DD[T]HH:mm:ss[Z]'),
-                        'Query_time_sum': 0,
-                        'Query_count': 0
-                    },
-                    {
-                        'Start_ts': moment.utc().subtract(1, 'm').format('YYYY-MM-DD[T]HH:mm:ss[Z]'),
-                        'Query_time_sum': 0,
-                        'Query_count': 0
-                    },
-                    {
-                        'Start_ts': moment.utc().format('YYYY-MM-DD[T]HH:mm:ss[Z]'),
-                        'Query_time_sum': 0,
-                        'Query_count': 0
-                    }];
-                }
-
                 var iso = d3.time.format.utc('%Y-%m-%dT%H:%M:%SZ');
+                var xkey = attrs.xkey;
+                var ykey = attrs.ykey;
 
                 var chart = d3.select(element[0]);
                 var svg = chart.append('svg')
@@ -90,88 +58,40 @@
                     .attr('preserveAspectRatio', 'none')
                     .attr('viewBox', '0 0 100 20');
 
-                var margin = {
-                    top: 0,
-                    left: 0,
-                    right: 0,
-                    bottom: 0
-                };
-
                 var height = 15;
                 var width = Math.floor(svg.node().getBoundingClientRect().width);
                 svg.attr('width', width).attr('viewBox', '0 0 ' + width + ' 20');
 
-                // padding time with 0
-                var begin =  moment.utc($rootScope.begin);
-                var end =  moment.utc($rootScope.end);
-                var duration = moment.duration(end.diff(begin));
-                if (duration.asMinutes() <= 180) {
+                var xDomain = d3.extent(scope.data, function(d) {
+                    return moment.utc(d[xkey]);
+                });
 
-                    var dateRange = d3.time.minutes(begin, end, 1);
-                    var m = d3.map(scope.data, function(d) { return String(d.Start_ts).replace(/\d\dZ/, '00Z') });
-
-                    var newData = dateRange.map(function(bucket) {
-                        bucket = moment.utc(bucket).format('YYYY-MM-DDTHH:mm:ss[Z]');
-                        return m.get(bucket) || {Start_ts: bucket, Query_count: 0, Query_time_sum: 0};
-                    });
-
-                    scope.data = newData;
-                    var xDomain = d3.extent(scope.data, function(d) {
-                        return iso.parse(d.Start_ts);
-                    });
-
-                    var xScale = d3.time.scale().range([0, width]).domain(xDomain);
-
-                } else {
-
-                    begin = scope.data[scope.data.length-1].Start_ts;
-                    end = scope.data[0].Start_ts;
-
-                    var begin =  moment.utc(begin);
-                    var end =  moment.utc(end);
-                    var dateRange = d3.time.minutes(begin, end, 30).map(function(d) {
-                        return moment.utc(d).format('YYYY-MM-DDTHH:mm:ss[Z]');
-                    });
-                    var m = d3.map(scope.data, function(d) { return String(d.Start_ts).replace(/\d\dZ/, '00Z') });
-                    var newRange = d3.merge([dateRange, m.keys()]);
-
-                    var newData = newRange.sort().map(function(bucket) {
-                        return m.get(bucket) || {Start_ts: bucket, Query_count: 0, Query_time_sum: 0};
-                    });
-                    scope.data = newData;
-
-                    var xDomain = d3.extent(scope.data, function(d) {
-                        return iso.parse(d.Start_ts);
-                    });
-
-                    var xScale = d3.time.scale().range([0, width]).domain(xDomain);
-
-                }
+                var xScale = d3.time.scale().range([0, width]).domain(xDomain);
 
                 var yDomain = d3.extent(scope.data, function(d) {
-                    return d.Query_time_sum/60;
+                    return d[ykey];
                 });
 
                 var yScale = d3.scale.linear().range([height, 0]).domain(yDomain);
 
                 var line = d3.svg.line()
                     .x(function(d) {
-                        return xScale(iso.parse(d.Start_ts));
+                        return xScale(moment.utc(d[xkey]));
                     })
                 .y(function(d) {
-                    return yScale(d.Query_time_sum/60);
+                    return yScale(d[ykey]);
                 });
 
                 var area = d3.svg.area()
                     .x(function(d) {
-                        return xScale(iso.parse(d.Start_ts));
+                        return xScale(moment.utc(d[xkey]));
                     })
                 .y0(function(d) {
-                    return yScale(d.Query_time_sum/60);
+                    return yScale(d[ykey]);
                 })
                 .y1(height-1);
 
-                var g = svg.append('g').attr('transform', 'translate(' + margin.left + ', ' + margin.top + ')');
+                var g = svg.append('g').attr('transform', 'translate(0, 0)');
 
                         g.append('path')
                         .datum(scope.data)
@@ -201,9 +121,9 @@
                             .attr('x', 1)
                             .attr('y', 8);
 
-                        var bisectDate = d3.bisector(function(d) {
-                            return iso.parse(d.Start_ts);
-                        }).left;
+                        var bisectDate = d3.bisector(function(d, x) {
+                            return moment.utc(d[xkey]).isBefore(x);
+                        }).right;
 
                         g.append('rect')
                             .attr('class', 'overlay')
@@ -217,15 +137,17 @@
                         })
                         .on('mousemove', function() {
                             var mouse = d3.mouse(this);
-                            var mouseDate = xScale.invert(mouse[0]);
-                            var i = bisectDate(scope.data, mouseDate) || 1; // returns the index to the current data item
+                            var mouseDate = moment.utc(xScale.invert(mouse[0]));
+                            var i = bisectDate(scope.data, mouseDate); // returns the index to the current data item
+                            i = i > 59 ? 59 : i;
+                            i = i < 1 ? 1 : i;
                             var d0 = scope.data[i-1]
                             var d1 = scope.data[i];
                             // work out which date value is closest to the mouse
-                            var d = mouseDate - iso.parse(d0.Start_ts) > iso.parse(d1.Start_ts) - mouseDate ? d1 : d0;
+                            var d = mouseDate - moment.utc(d0[xkey]) > moment.utc(d1[xkey]) - mouseDate ? d1 : d0;
 
-                            var x = xScale(iso.parse(d.Start_ts));
-                            var y = yScale(d.Query_time_sum/60);
+                            var x = xScale(iso.parse(d[xkey]));
+                            var y = yScale(d[ykey]);
 
                             var MIN = 0,
                             MAX = 1;
@@ -236,191 +158,11 @@
                                 .attr('x1', x).attr('y1', yScale(yDomain[MIN]))
                                 .attr('x2', x).attr('y2', yScale(yDomain[MAX]));
 
-                            var load = d.Query_time_sum/60;
-                            $rootScope.popover = $filter('humanize')(load, 'number') + ' at ' + moment(d.Start_ts).utc().format('YYYY-MM-DD HH:mm:ss [UTC]');
+                            var load = d[ykey];
+                            $rootScope.popover = $filter('humanize')(load, 'number') + ' at ' + moment(d[xkey]).utc().format('YYYY-MM-DD HH:mm:ss [UTC]');
                             $rootScope.$apply();
                             //focus.select("#focusText")
-                            //    .text($filter('humanize')(load, 'number') + ' at ' + moment(d.Start_ts).utc().format('YYYY-MM-DD HH:mm:ss [UTC]'));
-                        });
-
-            }
-        };
-    });
-
-    /**
-     * @desc count sparklines
-     * @example <count-sparklines></count-sparklines>
-     * handling case when it is not enough data to draw chart is in loadSparklines directive
-     */
-    pplDirectives.directive('countSparklines',  function ($parse, $filter, $rootScope) {
-        return {
-            restrict: 'E',
-            replace: false,
-            scope: {data: '=chartData'},
-            link: function(scope, element, attrs) {
-
-
-                var iso = d3.time.format.utc('%Y-%m-%dT%H:%M:%SZ');
-
-                var chart = d3.select(element[0]);
-                var svg = chart.append('svg')
-                    .attr('height', '20')
-                    .attr('width', '100')
-                    .attr('class', 'scaling-svg')
-                    .attr('preserveAspectRatio', 'none')
-                    .attr('viewBox', '0 0 100 20');
-
-                var margin = {
-                    top: 0,
-                    left: 0,
-                    right: 0,
-                    bottom: 0
-                };
-
-                var height = 15;
-                var width = Math.floor(svg.node().getBoundingClientRect().width);
-                svg.attr('width', width).attr('viewBox', '0 0 ' + width + ' 20');
-
-                // padding time with 0
-                var begin =  moment.utc($rootScope.begin);
-                var end =  moment.utc($rootScope.end);
-                var duration = moment.duration(end.diff(begin));
-                if (duration.asMinutes() < 185) {
-
-                    var dateRange = d3.time.minutes(begin, end, 1);
-                    var m = d3.map(scope.data, function(d) { return String(d.Start_ts).replace(/\d\dZ/, '00Z') });
-
-                    var newData = dateRange.map(function(bucket) {
-                        bucket = moment.utc(bucket).format('YYYY-MM-DDTHH:mm:ss[Z]');
-                        return m.get(bucket) || {Start_ts: bucket, Query_count: 0, Query_time_sum: 0};
-                    });
-
-                    scope.data = newData;
-                    var xDomain = d3.extent(scope.data, function(d) {
-                        return iso.parse(d.Start_ts);
-                    });
-
-                    var xScale = d3.time.scale().range([0, width]).domain(xDomain);
-
-                } else {
-
-                    begin = scope.data[scope.data.length-1].Start_ts;
-                    end = scope.data[0].Start_ts;
-
-                    var begin =  moment.utc(begin);
-                    var end =  moment.utc(end);
-                    var dateRange = d3.time.minutes(begin, end, 30).map(function(d) {
-                        return moment.utc(d).format('YYYY-MM-DDTHH:mm:ss[Z]');
-                    });
-                    var m = d3.map(scope.data, function(d) { return String(d.Start_ts).replace(/\d\dZ/, '00Z') });
-                    var newRange = d3.merge([dateRange, m.keys()]);
-
-                    var newData = newRange.sort().map(function(bucket) {
-                        return m.get(bucket) || {Start_ts: bucket, Query_count: 0, Query_time_sum: 0};
-                    });
-                    scope.data = newData;
-
-                    var xDomain = d3.extent(scope.data, function(d) {
-                        return iso.parse(d.Start_ts);
-                    });
-
-                    var xScale = d3.time.scale().range([0, width]).domain(xDomain);
-
-                }
-
-                var yDomain = d3.extent(scope.data, function(d) {
-                    return d.Query_count;
-                });
-
-
-                var yScale = d3.scale.linear().range([height, 1]).domain(yDomain);
-
-                var line = d3.svg.line()
-                    .x(function(d) {
-                        return xScale(iso.parse(d.Start_ts));
-                    })
-                .y(function(d) {
-                    return yScale(d.Query_count);
-                });
-
-                var area = d3.svg.area()
-                    .x(function(d) {
-                        return xScale(iso.parse(d.Start_ts));
-                    })
-                .y0(function(d) {
-                    return yScale(d.Query_count);
-                })
-                .y1(height);
-
-                var g = svg.append('g').attr('transform', 'translate(' + margin.left + ', ' + margin.top + ')');
-
-                g.append('path')
-                    .datum(scope.data)
-                    .attr('class', 'area')
-                    .attr('d', area);
-                g.append('path')
-                    .datum(scope.data)
-                    .attr('class', 'line')
-                    .attr('d', line);
-
-                        // focus tracking
-                        var focus = g.append('g').style('display', 'none');
-
-                        focus.append('line')
-                        .attr('id', 'focusLineX')
-                        .attr('class', 'focusLine');
-
-                        focus.append('circle')
-                            .attr('id', 'focusCircle')
-                            .attr('r', 1)
-                            .attr('class', 'circle focusCircle');
-
-                        focus.append('text')
-                            .attr('id', 'focusText')
-                            .attr('font-size', '10')
-                            .attr('x', 1)
-                            .attr('y', 8);
-
-                        var bisectDate = d3.bisector(function(d) {
-                            return iso.parse(d.Start_ts);
-                        }).left;
-
-                        g.append('rect')
-                            .attr('class', 'overlay')
-                            .attr('width', width)
-                            .attr('height', height)
-                            .on('mouseover', function() {
-                                focus.style('display', null);
-                            })
-                        .on('mouseout', function() {
-                            focus.style('display', 'none');
-                        })
-                        .on('mousemove', function() {
-                            var mouse = d3.mouse(this);
-                            var mouseDate = xScale.invert(mouse[0]);
-                            var i = bisectDate(scope.data, mouseDate) || 1; // returns the index to the current data item
-                            var d0 = scope.data[i-1]
-                            var d1 = scope.data[i];
-                            // work out which date value is closest to the mouse
-                            var d = mouseDate - iso.parse(d0.Start_ts) > iso.parse(d1.Start_ts) - mouseDate ? d1 : d0;
-
-                            var x = xScale(iso.parse(d.Start_ts));
-                            var y = yScale(d.Query_count);
-
-                            var MIN = 0,
-                            MAX = 1;
-                            focus.select('#focusCircle')
-                                .attr('cx', x)
-                                .attr('cy', y);
-                            focus.select('#focusLineX')
-                                .attr('x1', x).attr('y1', yScale(yDomain[MIN]))
-                                .attr('x2', x).attr('y2', yScale(yDomain[MAX]));
-
-                            $rootScope.popover = $filter('humanize')(d.Query_count, 'number') + ' at ' + moment(d.Start_ts).utc().format('YYYY-MM-DD HH:mm:ss [UTC]');
-                            $rootScope.$apply();
-
-                            // focus.select("#focusText")
-                            //     .text($filter('humanize')(d.Query_count, 'number') + ' at ' + moment(d.Start_ts).utc().format('YYYY-MM-DD HH:mm:ss [UTC]'));
+                            //    .text($filter('humanize')(load, 'number') + ' at ' + moment(d[xkey]).utc().format('YYYY-MM-DD HH:mm:ss [UTC]'));
                         });
 
             }

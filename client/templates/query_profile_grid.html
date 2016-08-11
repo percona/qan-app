@@ -30,6 +30,8 @@
                                     popover-append-to-body="true"
                                     popover-placement="top"
                                     popover-template="'sparklinePopover.html'"
+                                    xkey="Start_ts"
+                                    ykey="Query_time_sum"
                                     chart-data="profileTotal.Log"></load-sparklines>
                                 </div>
                             </th>
@@ -39,14 +41,16 @@
                             <th class="no-right-border text-right">
                                 {{profileTotal.QPS | humanize : 'number'}}&nbsp;QPS
                             </th>
-                            <th style="width: 12%" class="no-left-border no-right-border">
+                            <th style="width: 120px" class="no-left-border no-right-border">
                                 <div class="scaling-svg-container">
-                                <count-sparklines
+                                <load-sparklines
                                       popover-trigger="mouseenter"
                                       popover-append-to-body="true"
                                       popover-placement="top"
                                       popover-template="'sparklinePopover.html'"
-                                      chart-data="profileTotal.Log"></count-sparklines>
+                                      xkey="Start_ts"
+                                      ykey="Query_count"
+                                      chart-data="profileTotal.Log"></load-sparklines>
                                 </div>
                             </th>
                             <th class="no-left-border text-right">
@@ -55,7 +59,7 @@
                             <th class="no-right-border text-right">
                                 {{ profileTotal.Stats.Avg | humanize }}&nbsp;avg
                             </th>
-                            <th style="width: 10%" class="no-left-border"
+                            <th style="width: 120px" class="no-left-border"
                                 popover-trigger="mouseenter"
                                 popover-append-to-body="true"
                                 popover-placement="top"
@@ -70,7 +74,7 @@
                         <tr ng-repeat="row in qanData" ng-click="qanSelectRow(row)" ng-class="{'success': query_id === row.Id}" >
                             <td class="text-right">{{ $index + 1 }}</td>
                             <td>
-                                <a href="" title="{{ row.Abstract }}" ng-click="qanSelectRow(row)">
+                                <a href="" title="{{ row.Fingerprint }}" ng-click="qanSelectRow(row)">
                                     {{ (row.Abstract | limitTo : 22) + (row.Abstract.length > 22 ? '...' : '') }}
                                 </a>
                             </td>
@@ -82,6 +86,8 @@
                                     popover-append-to-body="true"
                                     popover-placement="top"
                                     popover-template="'sparklinePopover.html'"
+                                    xkey="Start_ts"
+                                    ykey="Query_time_sum"
                                     chart-data="row.Log"></load-sparklines>
                                 </div>
                             </td>
@@ -93,12 +99,14 @@
                             </td>
                             <td class="no-left-border no-right-border">
                                 <div class="scaling-svg-container">
-                                <count-sparklines
+                                <load-sparklines
                                       popover-trigger="mouseenter"
                                       popover-append-to-body="true"
                                       popover-placement="top"
                                       popover-template="'sparklinePopover.html'"
-                                      chart-data="row.Log"></count-sparklines>
+                                      xkey="Start_ts"
+                                      ykey="Query_count"
+                                      chart-data="row.Log"></load-sparklines>
                                 </div>
                             </td>
                             <td class="no-left-border text-right">
@@ -183,7 +191,7 @@
 </div>
 
 
-
+<div class="clearfix"></div>
 <div class="row">
     <div class="col-md-12">
         <div class="panel panel-default"
@@ -191,7 +199,7 @@
             ng-controller="QueryController"
             >
             <div class="panel-heading">QUERY
-                <span class="pull-right">
+                <span class="pull-right clearfix text-nowrap">
                     <i class="glyphicon glyphicon-time"></i>
                     <b class="text-info">Last seen {{ lastSeenAgo }}</b>
                     <i class="text-muted">({{ lastSeen }})</i>
