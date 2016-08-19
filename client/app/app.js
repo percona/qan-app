@@ -104,7 +104,7 @@
             templateUrl: 'client/templates/query_profile_grid.html',
             controller: 'QueryProfileController',
             resolve: {
-                instance: function (Instance, $rootScope) {
+                instance: function (Instance, $rootScope, constants) {
                     return Instance.query()
                           .$promise
                           .then(function(resp) {

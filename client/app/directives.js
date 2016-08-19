@@ -282,10 +282,10 @@
                 var queryTime = $rootScope.totalTime;
                 var cnt = summary.Query_time.Cnt;
 
-                scope.cnt = numeral(cnt).format('0.00a');
-                scope.qps = maybeLessHundredth(qps) || numeral(qps).format('0.00a');
-                scope.percentage = maybeLessHundredth(percentage) || numeral(percentage).format('0.00%');
-                scope.load = maybeLessHundredth(load) || numeral(load).format('0.00');
+                scope.cnt = $filter('humanize')(cnt, 'number');
+                scope.qps = $filter('humanize')(qps, 'number');
+                scope.percentage = $filter(percentage, 'percent');
+                scope.load = $filter('humanize')(load, 'number');
 
             } else {
                 var metrics = scope.metrics;
@@ -295,26 +295,26 @@
                 var queryTime = scope.metrics.Query_time.Avg;
                 var cnt = scope.metrics.Query_time.Cnt;
 
-                scope.cnt = numeral(cnt).format('0.00a');
-                scope.qps = maybeLessHundredth(qps) || numeral(qps).format('0.00a');
-                scope.percentage = maybeLessHundredth(percentage) || numeral(percentage).format('0.00%');
-                scope.load = maybeLessHundredth(load) || numeral(load).format('0.00a');
+                scope.cnt = $filter('humanize')(cnt, 'number');
+                scope.qps = $filter('humanize')(qps, 'number');
+                scope.percentage = $filter('humanize')(percentage, 'percent');
+                scope.load = $filter('humanize')(load, 'number');
             }
 
             data['queryCount'] = {
                 'perSec': function() {
                     var perSec =  cnt / scope.duration;
-                    return maybeLessHundredth(perSec) || numeral(perSec).format('0.00a');
+                    return $filter('humanize')(perSec, 'number');
                 }(),
                 'sum': function() {
-                    return numeral(cnt).format('0.00a');
+                    return $filter('humanize')(cnt, 'number');
                 }()
             };
 
             data['queryTime'] = {
-                'avgLoad': function() {
-                    var avgLoad = metrics.Query_time.Avg / scope.duration;
-                    return maybeLessHundredth(avgLoad) ||  numeral(avgLoad).format('0.00%')
+                'sumLoad': function() {
+                    var sumLoad = metrics.Query_time.Sum / scope.duration;
+                    return $filter('humanize')(sumLoad, 'number');
                 }(),
                 'avg': $filter('humanize')(metrics.Query_time.Avg),
                 'sum': $filter('humanize')(metrics.Query_time.Sum)
@@ -330,14 +330,14 @@
                 }(),
                 'avgLoad': function() {
                     var avgLoad = metrics.Lock_time.Avg / scope.duration;
-                    return maybeLessHundredth(avgLoad) ||  numeral(avgLoad).format('0.00%')
+                    return $filter('humanize')(avgLoad, 'percent');
                 }(),
                 'avg': $filter('humanize')(metrics.Lock_time.Avg),
                 'stats': metrics.Lock_time,
                 'sum': $filter('humanize')(metrics.Lock_time.Sum),
                 'percentOfQueryTime': function() {
                     var i = metrics.Lock_time.Avg / queryTime;
-                    return maybeLessHundredth(i, '%') || numeral(i).format('0.00%')
+                    return $filter('humanize')(i, 'percent');
                 }()
             };
 
@@ -345,21 +345,21 @@
             data['innodbRowLockWait'] = {
                 'show': function () {
                     try {
-                        return Boolean(metrics.InnoDB_rec_lock_wait.Max);
+                        return Boolean(metrics.InnoDB_rec_lock_wait.Max, 'number');
                     } catch (err) {
                         return false;
                     }
                 }(),
                 'avg': function() {
                     try {
-                        $filter('humanize')(metrics.InnoDB_rec_lock_wait.Avg)
+                        return $filter('humanize')(metrics.InnoDB_rec_lock_wait.Avg, 'number');
                     } catch (err) {
                         return '0.00';
                     }
                 }(),
                 'sum': function () {
                     try {
-                        return $filter('humanize')(metrics.InnoDB_rec_lock_wait.Sum);
+                        return $filter('humanize')(metrics.InnoDB_rec_lock_wait.Sum, 'number');
                     } catch (err) {
                         return '0.00';
                     }
@@ -367,7 +367,7 @@
                 'percentOfQueryTime': function() {
                     try {
                         var i = metrics.InnoDB_rec_lock_wait.Avg / queryTime;
-                        return maybeLessHundredth(i, '%') || numeral(i).format('0.00%');
+                        return $filter('humanize')(i, 'percent');
                     } catch (err) {
                         return '0.00%';
                     }
@@ -399,7 +399,7 @@
                 'percentOfQueryTime': function() {
                     try {
                         var i = metrics.InnoDB_IO_r_wait.Avg / queryTime;
-                        return maybeLessHundredth(i, '%') || numeral(i).format('0.00%');
+                        return $filter('humanize')(i, 'percent');
                     } catch (err) {
                         return '0.00%';
                     }
@@ -431,7 +431,7 @@
                 'percentOfQueryTime': function() {
                     try {
                         var i = metrics.InnoDB_queue_wait.Avg / queryTime;
-                        return maybeLessHundredth(i, '%') || numeral(i).format('0.00%');
+                        return $filter('humanize')(i, 'percent');
                     } catch (err) {
                         return '0.00%';
                     }
@@ -449,7 +449,7 @@
                 'perSec': function() {
                     try {
                         var perSec = metrics.InnoDB_IO_r_ops.Sum / scope.duration;
-                        return maybeLessHundredth(perSec) || numeral(perSec).format('0.00a');
+                        return $filter('humanize')(perSec, 'number');
                     } catch (err) {
                         return '0.00';
 
@@ -457,7 +457,7 @@
                 }(),
                 'sum': function () {
                     try {
-                        return numeral(metrics.InnoDB_IO_r_ops.Sum).format('0.00a');
+                        return $filter('humanize')(metrics.InnoDB_IO_r_ops.Sum, 'number');
                     } catch (err) {
                         return '0';
                     }
@@ -475,21 +475,21 @@
                 'perSec': function() {
                     try {
                         var perSec = metrics.InnoDB_IO_r_bytes.Sum / scope.duration;
-                        return maybeLessHundredth(perSec) || numeral(perSec).format('0.00b');
+                        return $filter('humanize')(perSec, 'size');
                     } catch (err) {
                         return '0.00';
                     }
                 }(),
                 'sum': function () {
                     try {
-                        return numeral(metrics.InnoDB_IO_r_bytes.Sum).format('0.00b');
+                        return $filter('humanize')(metrics.InnoDB_IO_r_bytes.Sum, 'size');
                     } catch (err) {
                         return '0.00';
                     }
                 }(),
                 'avgio': function () {
                     try {
-                        return numeral(metrics.InnoDB_IO_r_bytes.Sum/metrics.InnoDB_IO_r_ops.Sum).format('0.00b');
+                        return $filter('humanize')(metrics.InnoDB_IO_r_bytes.Sum/metrics.InnoDB_IO_r_ops.Sum, 'size');
                     } catch (err) {
                         return '0.00';
                     }
@@ -517,14 +517,14 @@
                 'perSec': function() {
                     try {
                         var perSec = metrics.QC_Hit.Sum / scope.duration;
-                        return maybeLessHundredth(perSec) || numeral(perSec).format('0.00a');
+                        return $filter('humanize')(perSec, 'number');
                     } catch (err) {
                         return '0.00';
                     }
                 }(),
                 'sum': function () {
                     try {
-                        return numeral(metrics.QC_Hit.Sum).format('0.00a');
+                        return $filter('humanize')(metrics.QC_Hit.Sum, 'number');
                     } catch (err) {
                         return '0.00';
                     }
@@ -532,7 +532,7 @@
                 'percentRation': function() {
                     try {
                         var i = scope.QC_Hit.Avg / cnt;
-                        return maybeLessHundredth(i, '%') || numeral(i).format('0.00%')
+                        return $filter('humanize')(i, 'percent');
                     } catch (err) {
                         return '0.00%';
                     }
@@ -550,14 +550,14 @@
                 'perSec': function() {
                     try {
                         var perSec = metrics.Rows_sent.Sum / scope.duration;
-                        return maybeLessHundredth(perSec) || numeral(perSec).format('0.00a');
+                        return $filter('humanize')(perSec, 'number');
                     } catch (err) {
                         return '0.00';
                     }
                 }(),
                 'sum': function () {
                     try {
-                        return numeral(metrics.Rows_sent.Sum).format('0.00a');
+                        return $filter('humanize')(metrics.Rows_sent.Sum, 'number');
                     } catch (err) {
                         return '0.00';
                     }
@@ -582,7 +582,7 @@
                 }(),
                 'sum': function () {
                     try {
-                        return numeral(metrics.Bytes_sent.Sum).format('0.00b');
+                        return $filter('humanize')(metrics.Bytes_sent.Sum, 'size');
                     } catch (err) {
                         return '0.00B';
                     }
@@ -590,7 +590,7 @@
                 'perRow': function() {
                     try {
                         var i = metrics.Bytes_sent.Sum / metrics.Rows_sent.Sum;
-                        return maybeLessHundredth(i) || numeral(i).format('0.00');
+                        return $filter('humanize')(i, 'number');
                     } catch (err) {
                         return '0.00';
                     }
@@ -608,14 +608,14 @@
                 'perSec': function() {
                     try {
                         var perSec = metrics.Rows_examined.Sum / scope.duration;
-                        return maybeLessHundredth(perSec) || numeral(perSec).format('0.00a');
+                        return $filter('humanize')(perSec, 'number');
                     } catch (err) {
                         return '0.00';
                     }
                 }(),
                 'sum': function () {
                     try {
-                        return numeral(metrics.Rows_examined.Sum).format('0.00a');
+                        return $filter('humanize')(metrics.Rows_examined.Sum, 'number');
                     } catch (err) {
                         return '0.00';
                     }
@@ -623,7 +623,7 @@
                 'perRow': function() {
                     try {
                         var i = metrics.Rows_examined.Sum / metrics.Rows_sent.Sum;
-                        return maybeLessHundredth(i) || numeral(i).format('0.00a');
+                        return $filter('humanize')(i, 'number');
                     } catch (err) {
                         return '0.00';
                     }
@@ -641,14 +641,14 @@
                 'perSec': function() {
                     try {
                         var perSec = metrics.Rows_affected.Sum / scope.duration;
-                        return maybeLessHundredth(perSec) || numeral(perSec).format('0.00a');
+                        return $filter('humanize')(perSec, 'number');
                     } catch (err) {
                         return '0.00';
                     }
                 }(),
                 'sum': function () {
                     try {
-                        return numeral(metrics.Rows_affected.Sum).format('0.00b');
+                        return $filter('humanize')(metrics.Rows_affected.Sum, 'size');
                     } catch (err) {
                         return '0.00B';
                     }
@@ -666,14 +666,14 @@
                 'perSec': function() {
                     try {
                         var perSec = metrics.Filesort.Sum / scope.duration;
-                        return maybeLessHundredth(perSec) || numeral(perSec).format('0.00a');
+                        return $filter('humanize')(perSec, 'number');
                     } catch (err) {
                         return '0.00';
                     }
                 }(),
                 'sum': function () {
                     try {
-                        return numeral(metrics.Filesort.Sum).format('0.00a');
+                        return $filter('humanize')(metrics.Filesort.Sum, 'number');
                     } catch (err) {
                         return '0.00';
                     }
@@ -681,7 +681,7 @@
                 'perQueries': function() {
                     try {
                         var i = metrics.Filesort.Sum / cnt;
-                        return maybeLessHundredth(i, '%') || numeral(i).format('0.00%');
+                        return $filter('humanize')(i, 'percent');
                     } catch (err) {
                         return '0.00%';
                     }
@@ -699,14 +699,14 @@
                 'perSec': function() {
                     try {
                         var perSec = metrics.Filesort_on_disk.Sum / scope.duration;
-                        return maybeLessHundredth(perSec) || numeral(perSec).format('0.00a');
+                        return $filter('humanize')(perSec, 'number');
                     } catch (err) {
                         return '0.00';
                     }
                 }(),
                 'sum': function () {
                     try {
-                        return numeral(metrics.Filesort_on_disk.Sum).format('0.00a');
+                        return $filter('humanize')(metrics.Filesort_on_disk.Sum, 'number');
                     } catch (err) {
                         return '0.00';
                     }
@@ -714,7 +714,7 @@
                 'perQueries': function() {
                     try {
                         var i = metrics.Filesort_on_disk.Sum / cnt;
-                        return maybeLessHundredth(i, '%') || numeral(i).format('0.00%');
+                        return $filter('humanize')(i, 'percent');
                     } catch (err) {
                         return '0.00%';
                     }
@@ -732,14 +732,14 @@
                 'perSec': function() {
                     try {
                         var perSec = metrics.Merge_passes.Sum / scope.duration;
-                        return maybeLessHundredth(perSec) || numeral(perSec).format('0.00a');
+                        return $filter('humanize')(perSec, 'number');
                     } catch (err) {
                         return '0.00';
                     }
                 }(),
                 'sum': function () {
                     try {
-                        return numeral(metrics.Merge_passes.Sum).format('0.00a');
+                        return $filter('humanize')(metrics.Merge_passes.Sum, 'number');
                     } catch (err) {
                         return '0.00';
                     }
@@ -747,7 +747,7 @@
                 'perExternalSort': function() {
                     try {
                         var i = metrics.Merge_passes.Sum / metrics.Merge_passes.Sum;
-                        return maybeLessHundredth(i, '%') || numeral(i).format('0.00a');
+                        return $filter('humanize')(i, 'number');
                     } catch (err) {
                         return '0.00';
                     }
@@ -765,14 +765,14 @@
                 'perSec': function() {
                     try {
                         var perSec = metrics.Full_join.Sum / scope.duration;
-                        return maybeLessHundredth(perSec) || numeral(perSec).format('0.00a');
+                        return $filter('humanize')(perSec, 'number');
                     } catch (err) {
                         return '0.00';
                     }
                 }(),
                 'sum': function () {
                     try {
-                        return numeral(metrics.Full_join.Sum).format('0.00a');
+                        return $filter('humanize')(metrics.Full_join.Sum, 'number');
                     } catch (err) {
                         return '0.00';
                     }
@@ -780,7 +780,7 @@
                 'perQueries': function() {
                     try {
                         var i = metrics.Full_join.Sum / totalQueries;
-                        return maybeLessHundredth(i, '%') || numeral(i).format('0.00%');
+                        return $filter('humanize')(i, 'percent');
                     } catch (err) {
                         return '0.00%';
                     }
@@ -798,14 +798,14 @@
                 'perSec': function() {
                     try {
                         var perSec = metrics.Full_scan.Sum / scope.duration;
-                        return maybeLessHundredth(perSec) || numeral(perSec).format('0.00a');
+                        return $filter('humanize')(perSec, 'number');
                     } catch (err) {
                         return '0.00';
                     }
                 }(),
                 'sum': function () {
                     try {
-                        return numeral(metrics.Full_scan.Sum).format('0.00a')
+                        return $filter('humanize')(metrics.Full_scan.Sum, 'number');
                     } catch (err) {
                         return '0.00';
                     }
@@ -813,7 +813,7 @@
                 'perQueries': function() {
                     try {
                         var i = metrics.Full_scan.Sum / totalQueries;
-                        return maybeLessHundredth(i, '%') || numeral(i).format('0.00%');
+                        return $filter('humanize')(i, 'percent');
                     } catch (err) {
                         return '0.00%';
                     }
@@ -831,14 +831,14 @@
                 'perSec': function() {
                     try {
                         var perSec = metrics.Tmp_table.Sum / scope.duration;
-                        return maybeLessHundredth(perSec) || numeral(perSec).format('0.00a');
+                        return $filter('humanize')(perSec, 'number');
                     } catch (err) {
                         return '0.00';
                     }
                 }(),
                 'sum': function () {
                     try {
-                        return numeral(metrics.Tmp_table.Sum).format('0.00a');
+                        return $filter('humanize')(metrics.Tmp_table.Sum, 'number');
                     } catch (err) {
                         return '0.00';
                     }
@@ -846,7 +846,7 @@
                 'perQueries': function() {
                     try {
                         var i = metrics.Tmp_table.Sum / totalQueries;
-                        return maybeLessHundredth(i, '%') || numeral(i).format('0.00%');
+                        return $filter('humanize')(i, 'percent');
                     } catch (err) {
                         return '0.00%';
                     }
@@ -864,14 +864,14 @@
                 'perSec': function() {
                     try {
                         var perSec = metrics.Tmp_tables.Sum / scope.duration;
-                        return maybeLessHundredth(perSec) || numeral(perSec).format('0.00a');
+                        return $filter('humanize')(perSec, 'number');
                     } catch (err) {
                         return '0.00';
                     }
                 }(),
                 'sum': function () {
                     try {
-                        return numeral(metrics.Tmp_tables.Sum).format('0.00a');
+                        return $filter('humanize')(metrics.Tmp_tables.Sum, 'number');
                     } catch (err) {
                         return '0.00';
                     }
@@ -879,7 +879,7 @@
                 'perQueryWithTmpTable': function() {
                     try {
                         var i = metrics.Tmp_tables.Sum / metrics.Tmp_table.avg;
-                        return maybeLessHundredth(i, '%') || numeral(i).format('0.00a');
+                        return $filter('humanize')(i, 'number');
                     } catch (err) {
                         return '0.00';
                     }
@@ -897,14 +897,14 @@
                 'perSec': function() {
                     try {
                         var perSec = metrics.Tmp_table_on_disk.Sum / scope.duration;
-                        return maybeLessHundredth(perSec) || numeral(perSec).format('0.00a');
+                        return $filter('humanize')(perSec, 'number');
                     } catch (err) {
                         return '0.00';
                     }
                 }(),
                 'sum': function () {
                     try {
-                        return numeral(metrics.Tmp_table_on_disk.Sum).format('0.00a');
+                        return $filter('humanize')(metrics.Tmp_table_on_disk.Sum, 'number');
                     } catch (err) {
                         return '0.00';
                     }
@@ -912,7 +912,7 @@
                 'perQueries': function() {
                     try {
                         var i = metrics.Tmp_table_on_disk.Sum / totalQueries;
-                        return maybeLessHundredth(i, '%') || numeral(i).format('0.00a');
+                        return $filter('humanize')(i, 'number');
                     } catch (err) {
                         return '0.00';
                     }
@@ -931,14 +931,14 @@
                 'perSec': function() {
                     try {
                         var perSec = metrics.Tmp_disk_tables.Sum / scope.duration;
-                        return maybeLessHundredth(perSec) || numeral(perSec).format('0.00a');
+                        return $filter('humanize')(perSec, 'number');
                     } catch (err) {
                         return '0.00';
                     }
                 }(),
                 'sum': function () {
                     try {
-                        return numeral(metrics.Tmp_disk_tables.Sum).format('0.00a');
+                        return $filter('humanize')(metrics.Tmp_disk_tables.Sum, 'number');
                     } catch (err) {
                         return '0.00';
                     }
@@ -946,7 +946,7 @@
                 'perQueryWithTmpTable': function() {
                     try {
                         var i = metrics.Tmp_disk_tables.Sum / metrics.Tmp_table_on_disk.avg;
-                        return maybeLessHundredth(i) || numeral(i).format('0.00a');
+                        return $filter('humanize')(i, 'number');
                     } catch (err) {
                         return '0.00';
                     }
@@ -965,14 +965,14 @@
                 'perSec': function() {
                     try {
                         var perSec = metrics.Tmp_table_on_disk.Sum / scope.duration;
-                        return maybeLessHundredth(perSec) || numeral(perSec).format('0.00a');
+                        return $filter('humanize')(perSec, 'number');
                     } catch (err) {
                         return '0.00';
                     }
                 }(),
                 'sum': function () {
                     try {
-                        return numeral(metrics.Tmp_table_on_disk.Sum).format('0.00a');
+                        return $filter('humanize')(metrics.Tmp_table_on_disk.Sum, 'number');
                     } catch (err) {
                         return '0.00';
                     }
@@ -980,7 +980,7 @@
                 'perQueries': function() {
                     try {
                         var i = metrics.Tmp_table_on_disk.Sum / totalQueries;
-                        return maybeLessHundredth(i, '%') || numeral(i).format('0.00%');
+                        return $filter('humanize')(i, 'percent');
                     } catch (err) {
                         return '0.00%';
                     }
@@ -998,14 +998,14 @@
                 'perSec': function() {
                     try {
                         var perSec = metrics.Tmp_table_sizes.Sum / scope.duration;
-                        return maybeLessHundredth(perSec) || numeral(perSec).format('0.00b');
+                        return $filter('humanize')(perSec, 'number');
                     } catch (err) {
                         return '0.00';
                     }
                 }(),
                 'sum': function () {
                     try {
-                        return numeral(metrics.Tmp_table_sizes.Sum).format('0.00b');
+                        return $filter('humanize')(metrics.Tmp_table_sizes.Sum, 'size');
                     } catch (err) {
                         return '0.00';
                     }
@@ -1013,7 +1013,7 @@
                 'perQuery': function() {
                     try {
                         var i = metrics.Tmp_table_sizes.Sum / cnt;
-                        return maybeLessHundredth(i) || numeral(i).format('0.00b');
+                        return $filter('humanize')(i, 'size');
                     } catch (err) {
                         return '0.00';
                     }
@@ -1026,7 +1026,7 @@
                     'sumPercent': function() {
                         try {
                             var i =  cnt / totalQueries;
-                            return maybeLessHundredth(i) || numeral(i).format('0.00%');
+                            return $filter('humanize')(i, 'percent');
                         } catch (err) {
                             return '0.00%';
                         }
@@ -1037,7 +1037,7 @@
                     'percentOfTotal': function() {
                         try {
                             var i = metrics.Query_time.Sum / summary.Query_time.Sum;
-                            return maybeLessHundredth(i, '%') || numeral(i).format('0.00%')
+                            return $filter('humanize')(i, 'percent');
                         } catch (err) {
                             return '0.00%';
                         }
@@ -1048,7 +1048,7 @@
                     'percentOfTotal': function() {
                         try {
                             var i = metrics.Lock_time.Sum / summary.Lock_time.Sum;
-                            return maybeLessHundredth(i, '%') || numeral(i).format('0.00%')
+                            return $filter('humanize')(i, 'percent');
                         } catch (err) {
                             return '0.00%';
                         }
@@ -1059,7 +1059,7 @@
                     'percentOfTotal': function() {
                         try {
                             var i = metrics.InnoDB_rec_lock_wait.Sum / summary.InnoDB_rec_lock_wait.Sum ;
-                            return maybeLessHundredth(i, '%') || numeral(i).format('0.00%');
+                            return $filter('humanize')(i, 'percent');
                         } catch (err) {
                             return '0.00%';
                         }
@@ -1070,7 +1070,7 @@
                     'percentOfTotal': function() {
                         try {
                             var i = metrics.InnoDB_IO_r_wait.Sum / summary.InnoDB_IO_r_wait.Sum;
-                            return maybeLessHundredth(i, '%') || numeral(i).format('0.00%');
+                            return $filter('humanize')(i, 'percent');
                         } catch (err) {
                             return '0.00%';
                         }
@@ -1081,7 +1081,7 @@
                     'percentOfTotal': function() {
                         try {
                             var i = metrics.InnoDB_queue_wait.Sum / summary.InnoDB_queue_wait.Sum ;
-                            return maybeLessHundredth(i, '%') || numeral(i).format('0.00%')
+                            return $filter('humanize')(i, 'percent');
                         } catch (err) {
                             return '0.00%';
                         }
@@ -1092,7 +1092,7 @@
                     'percentOfTotal': function() {
                         try {
                             var i = metrics.InnoDB_IO_r_ops.Sum / summary.InnoDB_IO_r_ops.Sum;
-                            return maybeLessHundredth(i, '%') || numeral(i).format('0.00%')
+                            return $filter('humanize')(i, 'percent');
                         } catch (err) {
                             return '0.00%'
                         }
@@ -1103,7 +1103,7 @@
                     'percentOfTotal': function() {
                         try {
                             var i = metrics.InnoDB_IO_r_bytes.Sum / summary.InnoDB_IO_r_bytes.Sum;
-                            return maybeLessHundredth(i, '%') || numeral(i).format('0.00%');
+                            return $filter('humanize')(i, 'percent');
                         } catch (err) {
                             return '0.00%';
                         }
@@ -1114,7 +1114,7 @@
                     'percentOfTotal': function() {
                         try {
                             var i = metrics.QC_Hit.Sum / summary.QC_Hit.Sum;
-                            return maybeLessHundredth(i, '%') || numeral(i).format('0.00%');
+                            return $filter('humanize')(i, 'percent');
                         } catch (err) {
                             return '0.00%';
                         }
@@ -1125,7 +1125,7 @@
                     'percentOfTotal': function() {
                         try {
                             var i = metrics.Rows_sent.Sum / summary.Rows_sent.Sum;
-                            return maybeLessHundredth(i, '%') || numeral(i).format('0.00%');
+                            return $filter('humanize')(i, 'percent');
                         } catch (err) {
                             return '0.00%';
                         }
@@ -1136,7 +1136,7 @@
                     'percentOfTotal': function() {
                         try {
                             var i = metrics.Bytes_sent.Sum / summary.Bytes_sent.Sum;
-                            return maybeLessHundredth(i, '%') || numeral(i).format('0.00%');
+                            return $filter('humanize')(i, 'percent');
                         } catch (err) {
                             return '0.00%';
                         }
@@ -1147,7 +1147,7 @@
                     'percentOfTotal': function() {
                         try {
                             var i = metrics.Rows_examined.Sum / summary.Rows_examined.Sum;
-                            return maybeLessHundredth(i, '%') || numeral(i).format('0.00%');
+                            return $filter('humanize')(i, 'percent');
                         } catch (err) {
                             return '0.00%';
                         }
@@ -1158,7 +1158,7 @@
                     'percentOfTotal': function() {
                         try {
                             var i = metrics.Rows_affected.Sum / summary.Rows_affected.Sum;
-                            return maybeLessHundredth(i, '%') || numeral(i).format('0.00%');
+                            return $filter('humanize')(i, 'percent');
                         } catch (err) {
                             return '0.00%';
                         }
@@ -1169,7 +1169,7 @@
                     'percentOfTotal': function() {
                         try {
                             var i = metrics.Filesort.Sum / summary.Filesort.Sum;
-                            return maybeLessHundredth(i, '%') || numeral(i).format('0.00%');
+                            return $filter('humanize')(i, 'percent');
                         } catch (err) {
                             return '0.00%';
                         }
@@ -1180,7 +1180,7 @@
                     'percentOfTotal': function() {
                         try {
                             var i = metrics.Filesort_on_disk.Sum / summary.Filesort_on_disk.Sum;
-                            return maybeLessHundredth(i, '%') || numeral(i).format('0.00%');
+                            return $filter('humanize')(i, 'percent');
                         } catch (err) {
                             return '0.00%';
                         }
@@ -1191,7 +1191,7 @@
                     'percentOfTotal': function() {
                         try {
                             var i = metrics.Merge_passes.Sum / summary.Merge_passes.Sum;
-                            return maybeLessHundredth(i, '%') || numeral(i).format('0.00%');
+                            return $filter('humanize')(i, 'percent');
                         } catch (err) {
                             return '0.00%';
                         }
@@ -1202,7 +1202,7 @@
                     'percentOfTotal': function() {
                         try {
                             var i = metrics.Full_join.Sum / summary.Full_join.Sum;
-                            return maybeLessHundredth(i, '%') || numeral(i).format('0.00%');
+                            return $filter('humanize')(i, 'percent');
                         } catch (err) {
                             return '0.00%';
                         }
@@ -1213,7 +1213,7 @@
                     'percentOfTotal': function() {
                         try {
                             var i = metrics.Full_scan.Sum / summary.Full_scan.Sum;
-                            return maybeLessHundredth(i, '%') || numeral(i).format('0.00%');
+                            return $filter('humanize')(i, 'percent');
                         } catch (err) {
                             return '0.00%';
                         }
@@ -1224,7 +1224,7 @@
                     'percentOfTotal': function() {
                         try {
                             var i = metrics.Tmp_table_on_disk.Sum / summary.Tmp_table_on_disk.Sum;
-                            return maybeLessHundredth(i, '%') || numeral(i).format('0.00%');
+                            return $filter('humanize')(i, 'percent');
                         } catch (err) {
                             return '0.00%';
                         }
@@ -1235,7 +1235,7 @@
                     'percentOfTotal': function() {
                         try {
                             var i = metrics.Tmp_tables.Sum / summary.Tmp_tables.Sum;
-                            return maybeLessHundredth(i, '%') || numeral(i).format('0.00%');
+                            return $filter('humanize')(i, 'percent');
                         } catch (err) {
                             return '0.00%';
                         }
@@ -1246,7 +1246,7 @@
                     'percentOfTotal': function() {
                         try {
                             var i = metrics.Tmp_disk_tables.Sum / summary.Tmp_disk_tables.Sum;
-                            return maybeLessHundredth(i, '%') || numeral(i).format('0.00%');
+                            return $filter('humanize')(i, 'percent');
                         } catch (err) {
                             return '0.00%';
                         }
@@ -1257,7 +1257,7 @@
                     'percentOfTotal': function() {
                         try {
                             var i = metrics.Tmp_table.Sum / summary.Tmp_table.Sum;
-                            return maybeLessHundredth(i, '%') || numeral(i).format('0.00%');
+                            return $filter('humanize')(i, 'percent');
                         } catch (err) {
                             return '0.00%';
                         }
@@ -1269,7 +1269,7 @@
                     'percentOfTotal': function() {
                         try {
                             var i = metrics.Tmp_table_on_disk.Sum / summary.Tmp_table_on_disk.Sum;
-                            return maybeLessHundredth(i, '%') || numeral(i).format('0.00%');
+                            return $filter('humanize')(i, 'percent');
                         } catch (err) {
                             return '0.00%';
                         }
@@ -1280,7 +1280,7 @@
                     'percentOfTotal': function() {
                         try {
                             var i = metrics.Tmp_table_sizes.Sum / summary.Tmp_table_sizes.Sum;
-                            return maybeLessHundredth(i, '%') || numeral(i).format('0.00%');
+                            return $filter('humanize')(i, 'percent');
                         } catch (err) {
                             return '0.00%';
                         }

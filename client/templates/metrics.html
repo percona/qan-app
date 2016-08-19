@@ -40,7 +40,7 @@
                 </tr>
                 <tr>
                     <td>Query Time</td>
-                    <td class="no-right-border" align="right">{{ data.queryTime.avgLoad }} (avg of load)</td>
+                    <td class="no-right-border" align="right">{{ data.queryTime.sumLoad }} load <span ng-if="!$root.isServerSummary">({{ data.queryTime.percentOfTotal }})</span></td>
                     <td class="no-left-border" widht="150px">
                         <div class="scaling-svg-container">
                             <load-sparklines

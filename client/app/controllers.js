@@ -50,6 +50,7 @@
 
                             $rootScope.time_range = '1h';
                             $rootScope.$watch('time_range', function(time_range, old_time_range) {
+                                //$scope.setTimeRange(time_range);
                                 if (time_range === 'cal') {
                                     $scope.old_time_range = old_time_range;
                                 } else {
@@ -133,6 +134,24 @@
                     }
                 };
 
+                $rootScope.doSearch = function() {
+                    $scope.metrics = null;
+                    $rootScope.metrics = null;
+                    $rootScope.summary = null;
+                    $scope.summary = null;
+                    $scope.qanData = [];
+                    $scope.offset = 0;
+                    $scope.loadedToTableQueries = 0;
+
+                    $scope.queryExplain = '';
+                    $scope.query = '';
+                    $rootScope.query = null;
+                    $rootScope.isServerSummary = false;
+                    $scope.offset = 0;
+
+                    $scope.getProfile();
+                };
+
                 $rootScope.onTimeSet = function(newDate, oldDate) {
                         $scope.metrics = null;
                         $rootScope.metrics = null;
@@ -177,6 +196,7 @@
                             ' to ' +
                             $scope.e.format('YYYY-MM-DD HH:mm:ss') +
                             ' UTC';
+                        $rootScope.time_range = '';
                         $scope.qanData = [];
                         $scope.offset = 0;
                         $scope.loadedToTableQueries = 0;
@@ -226,8 +246,8 @@
                             break;
                         case 'cal':
                             break;
-                        default:
-                            begin.subtract(1, 'days');
+                        //default:
+                        //    begin.subtract(1, 'days');
                     }
                     $rootScope.begin = $scope.begin = begin.format('YYYY-MM-DDTHH:mm:ss');
                     $rootScope.end = $scope.end = end.format('YYYY-MM-DDTHH:mm:ss');
@@ -280,6 +300,7 @@
                     $scope.offset += 10;
                     $scope.getProfile();
                 };
+
                 $scope.getProfile = function() {
 
                     var params = {
@@ -288,6 +309,9 @@
                         end: $scope.end,
                         offset: $scope.offset
                     };
+                    if ($rootScope.search) {
+                        params['search'] = utf8_to_b64($rootScope.search);
+                    }
                     QueryProfile.query(params)
                         .$promise
                         .then(function(resp) {
@@ -1508,14 +1532,15 @@
 
                 $scope.setQanConfig = function (selected_agent) {
 
-                    var stopParams = {
+                    var data = angular.copy($scope.qanConfNew);
+                    var restartParams = {
                         AgentUUID: selected_agent.UUID,
                         Service: 'qan',
-                        Cmd: 'StopTool',
-                        Data: utf8_to_b64($scope.instance.UUID)
+                        Cmd: 'RestartTool',
+                        Data: utf8_to_b64(JSON.stringify(data))
                     };
 
-                    var stopAgentCmd = new AgentCmd(stopParams);
+                    var stopAgentCmd = new AgentCmd(restartParams);
                     var p = AgentCmd.update({agent_uuid: selected_agent.UUID}, stopAgentCmd);
                     p.$promise
                         .then(function (resp) {
@@ -1524,33 +1549,6 @@
                             } else {
                                 var msg = 'Query Analytics configuration was applied.';
                                 $rootScope.showAlert(null, '', msg, 'info');
-                                var data = angular.copy($scope.qanConfNew);
-                                var startParams = {
-                                    AgentUUID: selected_agent.UUID,
-                                    Service: 'qan',
-                                    Cmd: 'StartTool',
-                                    Data: utf8_to_b64(JSON.stringify(data))
-                                };
-
-                                var startAgentCmd = new AgentCmd(startParams);
-                                p = AgentCmd.update({agent_uuid: selected_agent.UUID}, startAgentCmd);
-                                p.$promise
-                                    .then(function (data) {
-                                        if (data.Error !== "") {
-                                            var msg = constants.API_ERR;
-                                            msg = msg.replace('<err_msg>', data.Error);
-                                            $rootScope.alerts.push({
-                                                'type': 'danger',
-                                                'msg': msg
-                                            });
-                                        } else {
-                                            var res = JSON.parse(b64_to_utf8(data.Data));
-                                            var conf = res.qan;
-                                        }
-                                    })
-                                .catch(function(resp) {
-                                })
-                                .finally(function() {});
                             }
                         })
                     .catch(function(resp) {
