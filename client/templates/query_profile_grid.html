@@ -92,7 +92,7 @@
                                 </div>
                             </td>
                             <td class="no-left-border text-right">
-                                    {{ row.Load | humanize : 'number' }} ({{(row.Load / profileTotal.Load * 100).toFixed(2)}}%)
+                                    {{ row.Load | humanize : 'number' }} ({{(row.Percentage).toFixed(2)}}%)
                             </td>
                             <td class="no-right-border text-right">
                                     {{row.QPS | humanize : 'number'}}&nbsp;QPS
@@ -139,7 +139,7 @@
             </button>
         </div>
         <div ng-if="!$root.connection_error && qanData.length === 0" class="text-center" id="text_no_profile_data">
-            There is no data for the selected MySQL instance and time range.
+            There is no data for the selected MySQL instance, time range or search query.
         </div>
     </div>
 </div>

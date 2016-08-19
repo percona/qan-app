@@ -17,18 +17,9 @@
                        style="padding: 0px 5px 0px 5px; margin-bottom: 0px; min-width: 327px;">{{ dtRange }}</p>
                     </li>
                     <li>
-                         <div class="btn-group">
-                            <label class="btn btn-default navbar-btn" ng-model="$root.time_range" id="btn_1h" btn-radio="'1h'">1h</label>
-                            <label class="btn btn-default navbar-btn" ng-model="$root.time_range" id="btn_3h" btn-radio="'3h'">3h</label>
-                            <label class="btn btn-default navbar-btn" ng-model="$root.time_range" id="btn_6h" btn-radio="'6h'">6h</label>
-                            <label class="btn btn-default navbar-btn" ng-model="$root.time_range" id="btn_12" btn-radio="'12h'">12h</label>
-                            <label class="btn btn-default navbar-btn" ng-model="$root.time_range" id="btn_1d" btn-radio="'1d'">1d</label>
-                            <label class="btn btn-default navbar-btn" ng-model="$root.time_range" id="btn_5d" btn-radio="'5d'">5d</label>
                             <div class="btn-group">
                                 <label class="btn btn-default navbar-btn dropdown-toggle"
                                        type="button"
-                                       ng-model="$root.time_range"
-                                       btn-radio="'cal'"
                                        id="btn_cal"
                                        data-toggle="dropdown"
                                        aria-haspopup="true"
@@ -38,6 +29,19 @@
                                 </label>
                                 <div class="dropdown-menu dropdown-menu-right" style="padding: 5px;">
                                     <table style="padding: 5px; border-spacing: 5px; border-collapse: separate;">
+                                        <tr>
+                                            <td>
+                                                <b>Hot intervals:</b>
+                                                <div class="btn-group">
+                                                    <label class="btn btn-default navbar-btn" ng-model="$root.time_range" id="btn_1h" btn-radio="'1h'">1h</label>
+                                                    <label class="btn btn-default navbar-btn" ng-model="$root.time_range" id="btn_3h" btn-radio="'3h'">3h</label>
+                                                    <label class="btn btn-default navbar-btn" ng-model="$root.time_range" id="btn_6h" btn-radio="'6h'">6h</label>
+                                                    <label class="btn btn-default navbar-btn" ng-model="$root.time_range" id="btn_12" btn-radio="'12h'">12h</label>
+                                                    <label class="btn btn-default navbar-btn" ng-model="$root.time_range" id="btn_1d" btn-radio="'1d'">1d</label>
+                                                    <label class="btn btn-default navbar-btn" ng-model="$root.time_range" id="btn_5d" btn-radio="'5d'">5d</label>
+                                                </div>
+                                            </td>
+                                        </tr>
                                         <tr>
                                             <td>
                                                 <div class="well">
@@ -51,39 +55,60 @@
                                         </tr>
                                     </table>
                                 </div>
-                            </div>
                         </div>
                     </li>
                     <li>
-                        &nbsp;&nbsp;
+                        <form class="navbar-form navbar-left" role="search">
+                            <div class="form-group">
+                                <div class="input-group">
+                                    <input class="form-control" name="search" ng-model="$root.search" id="search" type="text" placeholder="Search by Fingerprint">
+                                    <span class="input-group-btn">
+                                        <button class="btn btn-default" ng-click="$root.doSearch();" type="submit"><i class="glyphicon glyphicon-search"></i></button>
+                                    </span>
+                                </div>
+                            </div>
+                        </form>
                     </li>
                     <li>
-                    <select ng-model="$root.instance" class="form-control navbar-btn" id="host_selector"
-                            ng-change="changeInstance(instance)"
-                            ng-options="(inst.Name + (inst.Subsystem === 'mysql' ? ' (MySQL)' : '')) for inst in instances"><img src="http://findicons.com/files/icons/2779/simple_icons/64/mysql_64_black.png"></select>
 
-                    </li>
-                    <li>
-                        &nbsp;
-                        <div class="btn-group" dropdown auto-close="outsideClick">
-                        <button class="btn btn-default navbar-btn dropdown-toggle"
-                                      dropdown-toggle
-                                      aria-haspopup="true"
-                                      aria-expanded="true" >
-                                <i class="glyphicon glyphicon-info-sign"></i>
+                        <div class="btn-group">
+                        <div class="btn-group">
+                            <button class="btn btn-default dropdown-toggle navbar-btn"
+                                    type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true"
+                                    aria-expanded="true" title="Databases">
                                 <span class="caret"></span>
+                                <span ng-switch="database">
+                                    <span ng-switch-when="null">------</span>
+                                    <span ng-switch-default>{{ $root.instance.Name }}
+                                        <img style="width:18px; height:18px"
+                                             ng-if="$root.instance.Subsystem === 'mysql'"
+                                             src="client/content/img/mysql_64_black.png">
+                                    </span>
+                                </span>
                             </button>
-                            <div class="dropdown-menu dropdown-menu-right well" role="menu">
-                                    <p class="text-info text-nowrap">DSN: {{ instance_DSN }}</p>
-                                    <p class="text-info text-nowrap">Version: {{ instance.Version }} {{ instance.Distro }}</p>
+                            <div class="dropdown-menu dropdown-menu-right list-group" style="margin: 0; padding: 0; min-width: 600px; max-width: 900px">
+                                <a class="list-group-item"
+                                   style="cursor: pointer;"
+                                   ng-click="changeInstance(db);"
+                                   ng-repeat="db in instances"
+                                   ng-class="{active: db.UUID === $root.instance.UUID }">
+                                    <h4 class="list-group-item-heading">{{ db.Name }}
+                                        <img ng-if="db.Subsystem === 'mysql'"
+                                        style="width:18px; height:18px"
+                                        src="client/content/img/mysql_64_black.png"></h4>
+                                    <p class="list-group-item-text">DSN: {{ db.DSN }}</p>
+                                    <p class="list-group-item-text">Version: {{ db.Version }} {{ db.Distro }}</p>
+                                </a>
                             </div>
                         </div>
-                    </li>
-                    <li>
-                        &nbsp;
-                        <button title="Manage mysql instances & agents"
-                                ui-sref="management({subsystem: 'mysql', uuid: instance.UUID })"
-                                class="btn btn-default navbar-btn"><i class="glyphicon glyphicon-cog"></i></button>
+                            <button title="Configure query analitics. View status and log of agent."
+                                    class="btn btn-default navbar-btn"
+                                    ui-sref="management({subsystem: 'mysql', uuid: instance.UUID })">
+                                <i class="glyphicon glyphicon-cog"></i>
+                            </button>
+
+                        </div>
+
                     </li>
                 </ul>
                 <p ng-if="$root.DEMO" class="navbar-text bg-danger navbar-right" title="Limited functionality">&nbsp;DEMO MODE&nbsp;</p>
