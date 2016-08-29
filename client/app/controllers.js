@@ -196,7 +196,7 @@
                             ' to ' +
                             $scope.e.format('YYYY-MM-DD HH:mm:ss') +
                             ' UTC';
-                        $rootScope.time_range = '';
+                        $rootScope.time_range = 'cal';
                         $scope.qanData = [];
                         $scope.offset = 0;
                         $scope.loadedToTableQueries = 0;
@@ -246,8 +246,8 @@
                             break;
                         case 'cal':
                             break;
-                        //default:
-                        //    begin.subtract(1, 'days');
+                        default:
+                            begin.subtract(1, 'hours');
                     }
                     $rootScope.begin = $scope.begin = begin.format('YYYY-MM-DDTHH:mm:ss');
                     $rootScope.end = $scope.end = end.format('YYYY-MM-DDTHH:mm:ss');
@@ -1391,7 +1391,9 @@
                                 $scope.qanConf.RemoveOldSlowLogs = $scope.qanConfDefault.RemoveOldSlowLogs;
                             }
 
-                            if ($scope.instance.Distro.toLowerCase().indexOf('percona server') > -1) {
+                            if ($scope.instance !== undefined &&
+                                    $scope.instance.hasOwnProperty('Distro') &&
+                                    $scope.instance.Distro.toLowerCase().indexOf('percona server') > -1) {
 
                                 if ($scope.qanConfLock.SlowLogVerbosity) {
                                     $scope.qanConfNew.SlowLogVerbosity = $scope.qanConf.SlowLogVerbosity;
@@ -1401,7 +1403,7 @@
                                 if ($scope.qanConfLock.RateLimit) {
                                     $scope.qanConfNew.RateLimit = String($scope.qanConf.RateLimit);
                                 } else {
-                                    $scope.qanConf.RateLimit = $scope.qanConfDefault.RateLimit
+                                    $scope.qanConf.RateLimit = $scope.qanConfDefault.RateLimit;
                                 }
                                 if ($scope.qanConfLock.LogSlowAdminStatements) {
                                     $scope.qanConfNew.LogSlowAdminStatements = $scope.qanConf.LogSlowAdminStatements ? 'yes' : 'no';
@@ -1540,8 +1542,8 @@
                         Data: utf8_to_b64(JSON.stringify(data))
                     };
 
-                    var stopAgentCmd = new AgentCmd(restartParams);
-                    var p = AgentCmd.update({agent_uuid: selected_agent.UUID}, stopAgentCmd);
+                    var restartAgentCmd = new AgentCmd(restartParams);
+                    var p = AgentCmd.update({agent_uuid: selected_agent.UUID}, restartAgentCmd);
                     p.$promise
                         .then(function (resp) {
                             if (resp.Error !== '') {

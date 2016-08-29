@@ -292,7 +292,7 @@
                                         <td title="{{ row.Partitions }}">{{ row.Partitions }}</td>
                                         <td title="{{ row.CreateTable }}">{{ row.CreateTable }}</td>
                                         <td title="{{ row.Type }}">{{ row.Type }}</td>
-                                        <td title="{{ row.PossibleKeys }}">{{ row.PossibleKeys }}</td>
+                                        <td title="{{ row.PossibleKeys }}">{{ row.PossibleKeys.replace(',', ', ') }}</td>
                                         <td title="{{ row.Key }}">{{ row.Key }}</td>
                                         <td title="{{ row.KeyLen }}">{{ row.KeyLen }}</td>
                                         <td title="{{ row.Ref }}">{{ row.Ref }}</td>
@@ -383,8 +383,10 @@
                                     <tr ng-repeat="(name, value) in tblStatus">
                                         <td>{{ name }}</td>
                                         <td ng-if="['AvgRowLength', 'DataLength', 'IndexLength', 'DataFree', 'MaxDataLength'].indexOf(name) > -1">{{ value | humanize : 'size' }}</td>
-                                        <td ng-if="['Rows', 'AutoIncrement'].indexOf(name) > -1">{{ value | humanize : 'number' }}</td>
-                                        <td ng-if="['Rows', 'AvgRowLength', 'DataLength', 'IndexLength', 'DataFree', 'AutoIncrement', 'MaxDataLength'].indexOf(name) === -1">{{ value }}</td>
+                                        <td ng-if="['Rows'].indexOf(name) > -1">{{ value | humanize : 'number' }}</td>
+                                        <td ng-if="['Rows', 'AvgRowLength', 'DataLength', 'IndexLength', 'DataFree', 'MaxDataLength'].indexOf(name) === -1">
+                                            {{ value === null ? '-' : value}}
+                                        </td>
                                     </tr>
                                     <tr ng-if="tblStatus.length === 0"><td class="text-center" colspan="2">No data.</td></tr>
                                     </tbody>
