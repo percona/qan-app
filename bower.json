@@ -1,6 +1,6 @@
 {
   "name": "percona-query-analytics-application",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "homepage": "https://github.com/percona/platform-app",
   "authors": [
     "Andrii Skomorokhov <andrii.skomorokhov@percona.com>"
@@ -11,7 +11,7 @@
     "amd",
     "es6"
   ],
-  "license": "null",
+  "license": "AGPLv3",
   "ignore": [
     "**/.*",
     "node_modules",

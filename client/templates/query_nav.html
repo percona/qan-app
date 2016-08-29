@@ -81,8 +81,11 @@
                                     <span ng-switch-when="null">------</span>
                                     <span ng-switch-default>{{ $root.instance.Name }}
                                         <img style="width:18px; height:18px"
-                                             ng-if="$root.instance.Subsystem === 'mysql'"
+                                             ng-if="$root.instance.Distro.indexOf('Percona') === -1"
                                              src="client/content/img/mysql_64_black.png">
+                                        <img ng-if="$root.instance.Distro.indexOf('Percona') !== -1"
+                                             style="width:16px; height:16px;"
+                                             src="client/content/img/percona-server-black-50.png">
                                     </span>
                                 </span>
                             </button>
@@ -93,9 +96,15 @@
                                    ng-repeat="db in instances"
                                    ng-class="{active: db.UUID === $root.instance.UUID }">
                                     <h4 class="list-group-item-heading">{{ db.Name }}
-                                        <img ng-if="db.Subsystem === 'mysql'"
-                                        style="width:18px; height:18px"
-                                        src="client/content/img/mysql_64_black.png"></h4>
+                                        <img ng-if="db.Distro.indexOf('Percona Server') === -1"
+                                        style="width:18px; height:18px;"
+                                        src="client/content/img/mysql_64_black.png">
+
+                                    <img ng-if="db.Distro.indexOf('Percona Server') !== -1"
+                                        style="width:16px; height:16px;"
+                                        src="client/content/img/percona-server-black-50.png">
+                                    </h4>
+
                                     <p class="list-group-item-text">DSN: {{ db.DSN }}</p>
                                     <p class="list-group-item-text">Version: {{ db.Version }} {{ db.Distro }}</p>
                                 </a>
