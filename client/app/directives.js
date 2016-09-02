@@ -69,7 +69,7 @@
                 var xScale = d3.time.scale().range([0, width]).domain(xDomain);
 
                 var yDomain = d3.extent(scope.data, function(d) {
-                    return d[ykey];
+                    return +(d[ykey]);
                 });
 
                 var yScale = d3.scale.linear().range([height, 0]).domain(yDomain);
@@ -79,7 +79,7 @@
                         return xScale(moment.utc(d[xkey]));
                     })
                 .y(function(d) {
-                    return yScale(d[ykey]);
+                    return yScale(+(d[ykey]));
                 });
 
                 var area = d3.svg.area()
@@ -87,7 +87,7 @@
                         return xScale(moment.utc(d[xkey]));
                     })
                 .y0(function(d) {
-                    return yScale(d[ykey]);
+                    return yScale(+(d[ykey]));
                 })
                 .y1(height-1);
 
@@ -147,7 +147,7 @@
                             var d = mouseDate - moment.utc(d0[xkey]) > moment.utc(d1[xkey]) - mouseDate ? d1 : d0;
 
                             var x = xScale(iso.parse(d[xkey]));
-                            var y = yScale(d[ykey]);
+                            var y = yScale(+(d[ykey]));
 
                             var MIN = 0,
                             MAX = 1;
@@ -158,7 +158,7 @@
                                 .attr('x1', x).attr('y1', yScale(yDomain[MIN]))
                                 .attr('x2', x).attr('y2', yScale(yDomain[MAX]));
 
-                            var load = d[ykey];
+                            var load = +(d[ykey]);
                             $rootScope.popover = $filter('humanize')(load, 'number') + ' at ' + moment(d[xkey]).utc().format('YYYY-MM-DD HH:mm:ss [UTC]');
                             $rootScope.$apply();
                             //focus.select("#focusText")
@@ -284,7 +284,7 @@
 
                 scope.cnt = $filter('humanize')(cnt, 'number');
                 scope.qps = $filter('humanize')(qps, 'number');
-                scope.percentage = $filter(percentage, 'percent');
+                scope.percentage = $filter('humanize')(percentage, 'percent');
                 scope.load = $filter('humanize')(load, 'number');
 
             } else {

@@ -523,13 +523,13 @@
             'AgentCmd',
             function($scope, $rootScope, $filter, constants, AgentCmd) {
                 $scope.init = function () {
-                    $rootScope.$watch('query', function (newValue, oldValue) {
-                        if ($rootScope.query !== null) {
+                    $rootScope.$watch('example', function (newValue, oldValue) {
+                        if ($rootScope.example !== null) {
                             $scope.db = '';
                             $scope.queryExplainData = [];
                             $scope.queryExplainError = '';
-                            if (newValue.Tables !== null && newValue.Tables.length > 0 && newValue.Tables[0].Db !== '') {
-                                $scope.db = angular.copy(newValue.Tables[0].Db);
+                            if (newValue.Db !== null && newValue.Db !== '') {
+                                $scope.db = angular.copy(newValue.Db);
                                 $scope.getQueryExplain();
                             }
                         }

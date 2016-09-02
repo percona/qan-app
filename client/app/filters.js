@@ -68,7 +68,7 @@
                         res += numeral(input).format('0.00 a');
                     break;
                 case name.indexOf('percent') > -1:
-                        res = (input !== 0 && input < 0.01) ? '<' : '';
+                        res = (input !== 0 && input < 0.0001) ? '<' : '';
                         res += numeral(input).format('0.00%');
                     break;
                     // ops

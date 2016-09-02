@@ -246,7 +246,7 @@
                                     <input type="text"
                                     class="form-control"
                                     size="64"
-                                    ng-pattern="/^[-_$A-Za-z0-9]{1,64}$/"
+                                    ng-pattern="/^.{1,64}$/"
                                     ng-required="true"
                                     placeholder="Specify a database."
                                     id="db"
@@ -344,7 +344,7 @@
                                 ng-class="{ 'has-error': dbTblForm.dbTable.$dirty && dbTblForm.dbTable.$modelValue !== '' && dbTblForm.dbTable.$invalid }">
                                 <input type="text"
                                 ng-required="true"
-                                ng-pattern="/^[-A-Za-z0-9_$]{1,64}\.[-A-Za-z0-9_$]{1,64}$/"
+                                ng-pattern="/^.{1,128}$/"
                                 class="form-control"
                                 placeholder="Add db.table"
                                 name="dbTable"
