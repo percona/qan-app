@@ -68,8 +68,6 @@
                     });
                     $scope.metrics = null;
                     $rootScope.metrics = null;
-                    $rootScope.summary = null;
-                    $scope.summary = null;
                     $scope.getConfig();
                     $scope.qanData = [];
                     $scope.offset = 0;
@@ -137,8 +135,6 @@
                 $rootScope.doSearch = function() {
                     $scope.metrics = null;
                     $rootScope.metrics = null;
-                    $rootScope.summary = null;
-                    $scope.summary = null;
                     $scope.qanData = [];
                     $scope.offset = 0;
                     $scope.loadedToTableQueries = 0;
@@ -155,8 +151,6 @@
                 $rootScope.onTimeSet = function(newDate, oldDate) {
                         $scope.metrics = null;
                         $rootScope.metrics = null;
-                        $rootScope.summary = null;
-                        $scope.summary = null;
                         $scope.query_id = '';
 
                     if ($scope.date1 === undefined) {
@@ -215,8 +209,6 @@
                 $scope.setTimeRange = function(time_range) {
                     $scope.metrics = null;
                     $rootScope.metrics = null;
-                    $rootScope.summary = null;
-                    $scope.summary = null;
                     $rootScope.query = null;
                     $scope.query_id = '';
 
@@ -302,7 +294,6 @@
                 };
 
                 $scope.getProfile = function() {
-
                     var params = {
                         instance_uuid: $rootScope.instance.UUID,
                         begin: $scope.begin,
@@ -321,6 +312,7 @@
 
                                 $rootScope.totalQueries = resp.TotalQueries;
                                 $scope.profileTotal = resp.Query.shift();
+                                $rootScope.profileTotal = $scope.profileTotal;
                                 $scope.returnedQueries = resp.Query.length;
 
                                 $scope.loadedToTableQueries += $scope.returnedQueries;
@@ -380,8 +372,6 @@
                                 if ($state.is('root.instance-dt.query')) {
                                     $scope.metrics = null;
                                     $rootScope.metrics = null;
-                                    $scope.summary = null;
-                                    $rootScope.summary = null;
 
                                     $rootScope.isMetrics = true;
                                     $rootScope.isServerSummary = false;
@@ -394,8 +384,6 @@
                                 if ($state.is('root.instance-dt.summary')) {
                                     $scope.metrics = null;
                                     $rootScope.metrics = null;
-                                    $scope.summary = null;
-                                    $rootScope.summary = null;
 
                                     $rootScope.isServerSummary = true;
                                     $rootScope.isMetrics = false;
@@ -415,18 +403,15 @@
                         begin: $state.params.begin,
                         end: $state.params.end
                     };
-                    if ($scope.isServerSummary) {
-                        params['include'] = 'sparklines';
-                    }
                     MetricSummary.query(params)
                         .$promise
                         .then(function(resp) {
                             $scope.duration = moment.duration(moment(resp.End).diff(moment(resp.Begin))).asSeconds();
-                            $scope.summary = resp.Metrics;
-                            $rootScope.summary = resp.Metrics;
-                            if ($scope.isServerSummary) {
-                                $scope.sparks = resp.Sparks;
-                            }
+
+                            $scope.metrics = resp.Metrics2;
+                            $rootScope.metrics = resp.Metrics2;
+                            $scope.sparks = resp.Sparks2;
+                            $rootScope.sparks = resp.Sparks2;
 
                         })
                     .catch(function(resp) {
@@ -448,8 +433,7 @@
                         instance_uuid: $state.params.uuid,
                         query_uuid: $state.params.query_id,
                         begin: $state.params.begin,
-                        end: $state.params.end,
-                        include: 'sparklines'
+                        end: $state.params.end
                     };
                     Metric.query(params)
                         .$promise
@@ -459,11 +443,10 @@
                             $scope.example = resp.Example;
                             $rootScope.example = resp.Example;
 
-
-                            $scope.metrics = resp.Metrics;
-                            $rootScope.metrics = resp.Metrics;
-                            $scope.sparks = resp.Sparks;
-                            $scope.getSummary();
+                            $scope.metrics = resp.Metrics2;
+                            $rootScope.metrics = resp.Metrics2;
+                            $scope.sparks = resp.Sparks2;
+                            $rootScope.sparks = resp.Sparks2;
                         })
                     .catch(function(resp) {
                         var msg = constants.DEFAULT_ERR;
@@ -499,13 +482,13 @@
                 };
 
                 $scope.changeQuery = function() {
-                    $scope.firstSeen = moment($rootScope.query.FirstSeen,
-                            'YYYY-MM-DDTHH:mm:ssZ').format('LLLL');
-                    $scope.lastSeen = moment($rootScope.query.LastSeen,
-                            'YYYY-MM-DDTHH:mm:ssZ').format('LLLL');
-                    $scope.firstSeenAgo = moment($rootScope.query.FirstSeen,
+                    $scope.firstSeen = moment.utc($rootScope.query.FirstSeen,
+                            'YYYY-MM-DDTHH:mm:ssZ').format('LLLL [UTC]');
+                    $scope.lastSeen = moment.utc($rootScope.query.LastSeen,
+                            'YYYY-MM-DDTHH:mm:ssZ').format('LLLL [UTC]');
+                    $scope.firstSeenAgo = moment.utc($rootScope.query.FirstSeen,
                             'YYYY-MM-DDTHH:mm:ssZ').fromNow();
-                    $scope.lastSeenAgo = moment($rootScope.query.LastSeen,
+                    $scope.lastSeenAgo = moment.utc($rootScope.query.LastSeen,
                             'YYYY-MM-DDTHH:mm:ssZ').fromNow();
 
                     $scope.example = $filter('sqlReformat')($rootScope.example.Query);
@@ -586,6 +569,7 @@
                             } else {
                                 $scope.queryExplainError = data.Error;
                             }
+
                         })
                     .catch(function(resp) {
                         var msg = constants.DEFAULT_ERR;
@@ -599,7 +583,6 @@
                         });
                     });
                 };
-
 
                 $scope.init();
 
@@ -853,6 +836,7 @@
 
                         if ($state.is('management')) {
                             $scope.resetConnectionStatus();
+                            $scope.subsystem = toParams.subsystem;
                             switch (toParams.subsystem) {
                                 case 'mysql':
                                     $scope.MySQLUUID = toParams.uuid;
@@ -881,6 +865,27 @@
                                         .finally(function() {});
                                     }, 200);
                                     break;
+                                    case 'server-info':
+                                        $scope.MySQLUUID = toParams.uuid;
+                                        $timeout(function () {
+                                        for (var i = 0; i < $scope.instances.length; i++) {
+                                            if ($scope.instances[i].UUID === $scope.MySQLUUID) {
+                                                $scope.instance = $scope.instances[i];
+                                                $rootScope.treeRootLabel = 'MySQL: ' + $scope.instance.Name;
+                                            }
+                                        }
+                                        for (var i = 0; i < $scope.agents.length; i++) {
+                                            if ($scope.agents[i].ParentUUID === $scope.instance.ParentUUID) {
+                                                $scope.selected_agent = $scope.agents[i];
+                                                $scope.agent = $scope.agents[i];
+                                            }
+                                        }
+
+                                        $scope.getServerSummary($scope.agent);
+                                        $scope.getMySQLSummary($scope.agent);
+                                        }, 200);
+
+                                    break
                                 default:
                                     $scope.MySQLUUID = false;
                                     break;
@@ -888,6 +893,67 @@
                         }
                     });
                 };
+
+
+                $scope.getServerSummary = function(agent) {
+
+                    var params = {
+                        AgentUUID: agent.UUID,
+                        Service: 'agent',
+                        Cmd: 'GetServerSummary',
+                    };
+                    $scope.serverSummaryError = '';
+                    var agentCmd = new AgentCmd(params);
+                    var p = AgentCmd.update({agent_uuid: agent.UUID}, agentCmd);
+                    p.$promise
+                        .then(function (data) {
+                            if (data.Error === "") {
+                                var str = window.atob(data.Data);
+                                str = str.replace(/\\n/g, "\n");
+                                str = str.slice(1, -1);
+                                $scope.serverSummary = str;
+                            } else {
+                                if (data.Error === 'Executable file not found in $PATH') {
+                                    data.Error += ' - Please install `pt-summary`.';
+                                }
+                                $scope.serverSummaryError = data.Error;
+                            }
+                        })
+                    .catch(function(resp) {
+                        $scope.serverSummaryError = resp.data.Error;
+                    });
+                };
+
+                $scope.getMySQLSummary = function(agent) {
+
+                    var params = {
+                        AgentUUID: agent.UUID,
+                        Service: 'agent',
+                        Cmd: 'GetMySQLSummary',
+                    };
+                    $scope.mysqlSummaryError = '';
+                    var agentCmd = new AgentCmd(params);
+                    var p = AgentCmd.update({agent_uuid: agent.UUID}, agentCmd);
+                    p.$promise
+                        .then(function (data) {
+                            if (data.Error === "") {
+                                var str = window.atob(data.Data);
+                                str = str.replace(/\\n/g, "\n");
+                                str = str.slice(1, -1);
+                                $scope.mysqlSummary = str;
+                            } else {
+                                if (data.Error === 'Executable file not found in $PATH') {
+                                    data.Error += ' - Please install `pt-mysql-summary`.';
+                                }
+                                $scope.mysqlSummaryError =  data.Error;
+                            }
+                        })
+                    .catch(function(resp) {
+                        $scope.mysqlSummaryError =  resp.data.Error;
+                    });
+                };
+
+
 
                 $scope.editMySQLFormData = function(uuid) {
                     var re = new RegExp(/^(.+):(.+)@(unix|tcp)\((.+)\)\/.*(?:allowOldPasswords=(true|false))?.*$/);
@@ -956,7 +1022,8 @@
                 $rootScope.treeHandler = function (branch) {
                     if (branch.hasOwnProperty('data')) {
                         $state.go('management', {
-                            'subsystem': branch.data.Subsystem,
+                            // 'subsystem': branch.data.Subsystem,
+                            'subsystem': $scope.subsystem,
                             'uuid': branch.data.UUID
                         });
                     } else {

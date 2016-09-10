@@ -49,6 +49,7 @@
                 var iso = d3.time.format.utc('%Y-%m-%dT%H:%M:%SZ');
                 var xkey = attrs.xkey;
                 var ykey = attrs.ykey;
+                var measurement = attrs.measurement || 'number';
 
                 var chart = d3.select(element[0]);
                 var svg = chart.append('svg')
@@ -69,7 +70,7 @@
                 var xScale = d3.time.scale().range([0, width]).domain(xDomain);
 
                 var yDomain = d3.extent(scope.data, function(d) {
-                    return +(d[ykey]);
+                    return d[ykey] === undefined ? 0 : d[ykey];
                 });
 
                 var yScale = d3.scale.linear().range([height, 0]).domain(yDomain);
@@ -79,7 +80,7 @@
                         return xScale(moment.utc(d[xkey]));
                     })
                 .y(function(d) {
-                    return yScale(+(d[ykey]));
+                    return yScale(d[ykey] === undefined ? 0 : d[ykey]);
                 });
 
                 var area = d3.svg.area()
@@ -87,7 +88,7 @@
                         return xScale(moment.utc(d[xkey]));
                     })
                 .y0(function(d) {
-                    return yScale(+(d[ykey]));
+                    return yScale(d[ykey] === undefined ? 0 : d[ykey]);
                 })
                 .y1(height-1);
 
@@ -147,7 +148,7 @@
                             var d = mouseDate - moment.utc(d0[xkey]) > moment.utc(d1[xkey]) - mouseDate ? d1 : d0;
 
                             var x = xScale(iso.parse(d[xkey]));
-                            var y = yScale(+(d[ykey]));
+                            var y = yScale(d[ykey] === undefined ? 0 : d[ykey]);
 
                             var MIN = 0,
                             MAX = 1;
@@ -158,8 +159,8 @@
                                 .attr('x1', x).attr('y1', yScale(yDomain[MIN]))
                                 .attr('x2', x).attr('y2', yScale(yDomain[MAX]));
 
-                            var load = +(d[ykey]);
-                            $rootScope.popover = $filter('humanize')(load, 'number') + ' at ' + moment(d[xkey]).utc().format('YYYY-MM-DD HH:mm:ss [UTC]');
+                            var load = d[ykey] === undefined ? 0 : d[ykey];
+                            $rootScope.popover = $filter('humanize')(load, measurement) + ' at ' + moment(d[xkey]).utc().format('YYYY-MM-DD HH:mm:ss [UTC]');
                             $rootScope.$apply();
                             //focus.select("#focusText")
                             //    .text($filter('humanize')(load, 'number') + ' at ' + moment(d[xkey]).utc().format('YYYY-MM-DD HH:mm:ss [UTC]'));
@@ -203,6 +204,87 @@
                 var max = scope.data.hasOwnProperty('Max') ? scope.data.Max : 0;
                 var avg = scope.data.hasOwnProperty('Avg') ? scope.data.Avg : 0;
                 var p95 = scope.data.hasOwnProperty('P95') ? scope.data.P95 : 0;
+
+                var g = svg.append('g');
+
+                var hrAxes = g.append('line')
+                    .attr('class', 'latency-chart-x')
+                    .attr('x1', '0')
+                    .attr('stroke-dasharray', '1, 1')
+                    .attr('y1', '13px')
+                    .attr('x2', width)
+                    .attr('y2', '13px');
+
+                var hrLine = g.append('line')
+                    .attr('class', 'latency-chart-line')
+                    .attr('x1', x(min) + '')
+                    .attr('y1', '13px')
+                    .attr('x2', x(max) + '')
+                    .attr('y2', '13px');
+
+                var minMark = g.append('line')
+                    .attr('class', 'latency-chart-min')
+                    .attr('x1', x(min) + '')
+                    .attr('y1', '13px')
+                    .attr('x2', x(min) + '')
+                    .attr('y2', '19px');
+
+                var maxMark = g.append('line')
+                    .attr('class', 'latency-chart-max')
+                    .attr('x1', x(max) + '')
+                    .attr('y1', '8px')
+                    .attr('x2', x(max) + '')
+                    .attr('y2', '13px');
+
+                var avgMark = g.append('circle')
+                    .attr('class', 'latency-chart-avg')
+                    .attr('r', 3)
+                    .attr('cx', x(avg) + '')
+                    .attr('cy', '13px');
+
+                var p95Mark = g.append('circle')
+                    .attr('class', 'latency-chart-p95')
+                    .attr('r', 2)
+                    .attr('cx', x(p95) + '')
+                    .attr('cy', '13px');
+            }
+        };
+    }]);
+
+/**
+     * @desc latency
+     * @example <per-query-statst></per-query-stats>
+     */
+    pplDirectives.directive('perQueryStats', ['$filter', function ($filter) {
+        return {
+            restrict: 'E',
+            replace: false,
+            scope: {data: '=chartData'},
+            link: function(scope, element, attrs) {
+                var chart = d3.select(element[0]);
+                var fieldName = attrs.field;
+                var svg = chart.append('svg')
+                    .attr('height', '20')
+                    .attr('width', '100')
+                    .attr('class', 'scaling-svg')
+                    .attr('viewBox', '0 0 100 20');
+
+                var width = Math.floor(svg.node().getBoundingClientRect().width);
+                svg.attr('width', width).attr('viewBox', '0 0 ' + width + ' 20');
+
+                var x = d3.scale.log()
+                    .clamp(true)
+                    .domain([0.00001, 10000])
+                    .range([2, width-2])
+                    .nice();
+                if (scope.data === undefined) {
+                    return;
+                }
+
+                var min = scope.data.hasOwnProperty(fieldName + '_min') ? scope.data[fieldName + '_min'] : 0;
+                var max = scope.data.hasOwnProperty(fieldName + '_max') ? scope.data[fieldName + '_max'] : 0;
+                var avg = scope.data.hasOwnProperty(fieldName + '_avg') ? scope.data[fieldName + '_avg'] : 0;
+                var p95 = scope.data.hasOwnProperty(fieldName + '_p95') ? scope.data[fieldName + '_p95'] : 0;
 
                 var g = svg.append('g');
 
@@ -648,7 +730,7 @@
                 }(),
                 'sum': function () {
                     try {
-                        return $filter('humanize')(metrics.Rows_affected.Sum, 'size');
+                        return $filter('humanize')(metrics.Rows_affected.Sum, 'number');
                     } catch (err) {
                         return '0.00B';
                     }
@@ -953,7 +1035,7 @@
                 }()
             };
 
-
+            // ???? dublicate of queriesRequiringTmpTableonDisk
             data['queriesRequiringTmpTableDisk'] = {
                 'show': function () {
                     try {
@@ -1300,6 +1382,21 @@
                 scope.$watch('metrics',function(newValue, oldValue) {
                     setMetrics(scope, element, attrs);
                 });
+            }
+        };
+    });
+
+    /**
+     * @desc metrics tables
+     * @example <metrics></metrics>
+     */
+    pplDirectives.directive('metrics2',  function($rootScope, $filter) {
+        return {
+            restrict: 'E',
+            scope: false,
+            templateUrl: 'client/templates/metrics2.html',
+            link: function(scope, element, attrs) {
+
             }
         };
     });
