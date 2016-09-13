@@ -956,7 +956,6 @@
 
 
                 $scope.editMySQLFormData = function(uuid) {
-                    var re = new RegExp(/^(.+):(.+)@(unix|tcp)\((.+)\)\/.*(?:allowOldPasswords=(true|false))?.*$/);
                     var mysql = $scope.instancesByUUID[uuid];
                     if (mysql.Name.startsWith('MySQL')) {
                         $rootScope.treeRootLabel = mysql.Name;
@@ -964,32 +963,12 @@
                         $rootScope.treeRootLabel = 'MySQL: ' + mysql.Name;
                     }
                     $scope.instance = new Instance(mysql);
-                    var arr = re.exec(mysql.DSN);
-                    $scope.instance.user = arr[1];
-                    $scope.instance.password = arr[2];
-                    $scope.instance.type = arr[3];
-                    if ($scope.instance.type === 'unix') {
-                        $scope.instance.socket = arr[4];
-                        $scope.instance.hostname = '';
-                        $scope.instance.port = 3306;
-                    } else {
-                        var hostPort = arr[4].split(':');
-                        $scope.instance.hostname = hostPort[0];
-                        $scope.instance.port = parseInt(hostPort[1]) || 3306;
-                        $scope.instance.socket = '';
-                    }
                     $scope.rawInstance= angular.copy($scope.instance);
-                    $scope.instance.allowOldPasswords = arr[5] === undefined ? false : arr[5];
                     // QAN mgmt
                     $scope.getRelatedAgent($scope.instance);
                     $scope.qanConf.UUID = $scope.instance.UUID;
                     $scope.trackQanConf();
                     $scope.trackQanConfLock();
-
-                    // watch form changing to update DSN
-                    $scope.$watchCollection('instance', function(){
-                        $scope.getDSN();
-                    });
                 };
 
                 $scope.newMySQLFormData = function() {
