@@ -4,7 +4,21 @@
     <div class="" id="bs-example-navbar-collapse-1">
         <div class="row">
             <div class="col-md-12">
-                <ul class="nav navbar-nav">
+                <ul class="nav navbar-nav" ng-if="!instances">
+                    <li class="hidden-xs">
+                        <a class="navbar-brand" ui-sref="root" ui-sref-opts="{reload: true}">
+                            <div class="logo-img">
+                                <span class="logo-text">Query Analytics</span>
+                            </div>
+                        </a>
+                    </li>
+                    <li class="hidden-xs">
+                        <div class="navbar-text bg-danger">
+                            There are no MySQL instances.
+                        </div>
+                    </li>
+                </ul>
+                <ul class="nav navbar-nav" ng-if="instances">
                     <li class="hidden-xs">
                         <a class="navbar-brand" ui-sref="root" ui-sref-opts="{reload: true}">
                             <div class="logo-img">

@@ -118,9 +118,7 @@
                               }
                               if (mysqls.length === 0) {
                                   $rootScope.alerts.push({
-                                      msg: 'There are no MySQL instances. ' +
-                                           'Install the agent on a server, ' +
-                                           'then refresh this page.',
+                                      msg: 'There are no MySQL instances.',
                                       type: 'danger'
                                   });
                                   $rootScope.connection_error = true;
