@@ -88,4 +88,33 @@
         };
     }]);
 
+
+    /**
+     * @desc truncate middle of text
+     * @example <div>{{ text | truncateRoot : 80 }}</div>
+     */
+    pplFilters.filter('truncateRoot',  function() {
+
+        return function(input, len) {
+            if (input.length > len && len > 4) {
+                var res = '';
+                if (len % 2 === 0) {
+                    var half = len / 2;
+                    res = input.substring(0, half-1);
+                    res += "...";
+                    res += input.substring(input.length - half + 2, input.length);
+                } else {
+                    var half = Math.floor(len / 2);
+                    res = input.substring(0, half-1);
+                    res += "...";
+                    res += input.substring(input.length - half + 1, input.length);
+                }
+                return res;
+            } else {
+                return input;
+          }
+        };
+
+    });
+
 })();

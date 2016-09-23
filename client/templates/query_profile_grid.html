@@ -1,6 +1,6 @@
 <div class="row">
     <div class="col-md-12">
-        <div class="panel panel-default" ng-if="qanData.length !== 0">
+        <div class="panel panel-default" ng-if="qanData !== null && qanData.length !== 0">
             <div class="panel-heading" id="text_count_queries">
                 Top {{ loadedToTableQueries }} of {{ totalQueries }} Queries by % Grand Total Time (%GTT)
             </div>
@@ -130,7 +130,7 @@
                 </table>
             </div>
         </div>
-        <div ng-if="!$root.connection_error && qanData.length > 0" class="text-center" id="show_more">
+        <div ng-if="!$root.connection_error && qanData !== null && qanData.length > 0" class="text-center" id="show_more">
             <button type="button" class="btn btn-default" ng-disabled="leftInDbQueries === 0" ng-click="loadMore();">
                 <i class="glyphicon glyphicon-menu-down"></i>
                 <span ng-if="leftInDbQueries > 0">Load next {{ leftInDbQueries > 10 ? 10 : leftInDbQueries }} queries</span>
@@ -138,8 +138,11 @@
                 <i class="glyphicon glyphicon-menu-down"></i>
             </button>
         </div>
-        <div ng-if="!$root.connection_error && qanData.length === 0" class="text-center" id="text_no_profile_data">
+        <div ng-if="!$root.connection_error && qanData === null" class="text-center" id="text_no_profile_data">
             There is no data for the selected MySQL instance, time range or search query.
+        </div>
+        <div ng-if="!$root.connection_error && qanData.length === 0" class="text-center" id="text_no_profile_data">
+            Loading...
         </div>
     </div>
 </div>
@@ -210,12 +213,13 @@
             <div class="panel-body">
                 <tabset justified="true">
                     <tab>
-                        <tab-heading>Example</tab-heading>
-                        <div ng-if="example" hljs hljs-source="example" hljs-language="sql"></div>
-                    </tab>
-                    <tab>
                         <tab-heading>Fingerprint</tab-heading>
                         <div ng-if="fingerprint" hljs hljs-source="fingerprint" hljs-language="sql"></div>
+                    </tab>
+                    <tab>
+                        <tab-heading>Example</tab-heading>
+                        <div ng-if="exampleFormatted" hljs hljs-source="exampleFormatted" hljs-language="sql"></div>
+                        <div ng-if="!exampleFormatted" class="text-warning text-center"><br />No query example</div>
                     </tab>
                 </tabset>
             </div>
@@ -224,7 +228,7 @@
 
 </div>
 
-<div class="row" ng-if="!$root.connection_error && $root.query">
+<div class="row" ng-if="!$root.connection_error && exampleFormatted">
     <div class="col-md-12">
         <div class="panel panel-default"
             ng-controller="QueryExplainController"
