@@ -48,8 +48,7 @@
     </head>
     <body>
         <div class="container-fluid">
-            <nav ng-if="$state.includes('root')" class="navbar navbar-default navbar-fixed-top" query-nav></nav>
-            <nav ng-if="$state.includes('management')" class="navbar navbar-default navbar-fixed-top" management-nav></nav>
+            <nav class="navbar navbar-default navbar-fixed-top" query-nav></nav>
             <main>
                 <div class="alert-float">
                     <alert ng-repeat="alert in $root.alerts"

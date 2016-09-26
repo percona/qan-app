@@ -41,8 +41,7 @@
         $tooltipProvider.setTriggers({
             'mouseenter': 'mouseleave',
             'click': 'click',
-            'focus': 'blur',
-            'bebebe': 'fefefe'
+            'focus': 'blur'
         });
 
         function setVersionedUrl(url) {
@@ -61,7 +60,7 @@
             return {
                 request: function (config) {
                     $rootScope.loading = true;
-                    config.timeout = 10000;
+                    config.timeout = 20000;
                     // Intercept Angular external request to static files
                     // to append version number to defeat the cache problem.
                     config.url = setVersionedUrl(config.url);
@@ -105,6 +104,7 @@
             controller: 'QueryProfileController',
             resolve: {
                 instance: function (Instance, $rootScope, constants) {
+                    $rootScope.showFullMenu = true;
                     return Instance.query()
                           .$promise
                           .then(function(resp) {
@@ -112,7 +112,6 @@
                               for (var i=0; i < resp.length; i++) {
                                   // if deleted - skip
                                   if (resp[i].Subsystem === 'mysql') {
-                                      resp[i].DSN = resp[i].DSN.replace(/:[0-9a-zA-Z]+@/, ':************@');
                                       mysqls.push(resp[i]);
                                   }
                               }
@@ -156,6 +155,7 @@
             controller: 'ManagementController',
             resolve: {
                 instances: function (Instance, $rootScope) {
+                    $rootScope.showFullMenu = false;
                     return Instance.query()
                           .$promise
                           .then(function(resp) {

@@ -1,36 +1,13 @@
-<div class="row">
-<div class="col-md-offset-2 col-md-4">
-    <h4 ng-hide="agentLabelEditable">
-        Agent: {{ agent.Name }} <a href="" ng-click="agentLabelEditable=true"><i class="glyphicon glyphicon-pencil"></i></a>
-    </h4>
-    <h4 ng-show="agentLabelEditable">
-        <div class="input-group" ng-class="{ 'has-error' : !agent.Name}">
-            <input type="text" maxlength="20" class="form-control" ng-model="agent.Name" placeholder="Agent label...">
-            <span class="input-group-btn">
-                <button class="btn btn-default" ng-click="agentLabelEditable = false;" title="Cancel" type="button"><i class="glyphicon glyphicon-remove"></i></button>
-                <button class="btn btn-default" ng-disabled="!agent.Name" title="Save" ng-click="updateAgentInstance(); agentLabelEditable = false;" type="button"><i class="glyphicon glyphicon-ok"></i></button>
-            </span>
-        </div>
-    </h4>
+<div class="row" ng-init="showMore = false;">
+    <div class="col-md-12">
+        <button class="btn btn-default center-block"  ng-click="showMore = !showMore;">
+            <i class="glyphicon" ng-class="{true: 'glyphicon-menu-down', false: 'glyphicon-menu-right'}[showMore]"></i> {{ showMore ? 'Hide extended info' : 'Show extended info' }}
+        </button>
+    </div>
 </div>
-<div class="col-md-6">
-    <h5>ID <b id="agentUUID">{{ agent.UUID }}</b>
-        &nbsp;<a href=""
-           tooltip-html="tooltipText"
-           tooltip-append-to-body="true"
-           tooltip-placement="bottom"
-           ngclipboard data-clipboard-target="#agentUUID"
-           ngclipboard-success="onSuccess(e);" ngclipboard-error="onError(e);">
-              <i class="glyphicon glyphicon-copy"></i>
-        </a>
-    </h5>
-</div>
-</div>
-
-<div class="row">
-
+<br />
+<div class="row" ng-if="showMore">
     <!-- Status -->
-
     <div class="col-md-12">
         <div class="panel panel-default">
             <div class="panel-heading">
@@ -62,7 +39,7 @@
     </div>
 </div>
 <!-- Log -->
-<div class="row">
+<div class="row" ng-if="showMore">
 
     <div class="col-md-12">
         <div class="panel panel-default">
