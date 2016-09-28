@@ -126,6 +126,9 @@
                             </div>
                         </div>
                     </li>
+                    <li ng-if="$root.showFullMenu">
+                        &nbsp;<button class="btn btn-default navbar-btn" ng-click="$root.doRefresh($root.time_range);" type="button"><i class="glyphicon glyphicon-refresh"></i></button>
+                    </li>
                     <li>
                         <p ng-if="$root.DEMO" class="navbar-text bg-danger" title="Limited functionality">&nbsp;DEMO MODE&nbsp;</p>
                     </li>

@@ -155,6 +155,26 @@
                     $scope.getProfile();
                 };
 
+                $rootScope.doRefresh = function(time_range) {
+                    if (time_range === 'cal') {
+                        $scope.metrics = null;
+                        $rootScope.metrics = null;
+                        $scope.qanData = [];
+                        $scope.offset = 0;
+                        $scope.loadedToTableQueries = 0;
+
+                        $scope.queryExplain = '';
+                        $scope.query = '';
+                        $rootScope.query = null;
+                        $rootScope.isServerSummary = false;
+                        $scope.offset = 0;
+
+                        $scope.getProfile();
+                    } else {
+                        $scope.setTimeRange(time_range);
+                    }
+                };
+
                 $rootScope.onTimeSet = function(newDate, oldDate) {
                         $scope.metrics = null;
                         $rootScope.metrics = null;
@@ -814,8 +834,8 @@
                     $rootScope.DEMO = constants.DEMO;
                     $scope.rawQanConfig = null;
                     $scope.qanConf = {
-                        'Interval': '',
-                        'ExampleQueries': 'yes'
+                        'Interval': 1,
+                        'ExampleQueries': true
                     };
                     $scope.qanConfDefault = angular.copy($scope.qanConf);
                     $scope.qanConfLock = {
@@ -830,7 +850,6 @@
                     ];
                     $scope.tooltipText = 'Copy the ID';
                     $scope.initManagement();
-                    console.log('mmm', $rootScope.instances, $rootScope.instance);
                 };
 
                 $scope.initManagement = function () {
@@ -1015,26 +1034,21 @@
 
                 $scope.confToApiRepresentation = function() {
                     $scope.qanConfNew = {};
-                    if ($scope.qanConf.config === 'auto') {
-                        $scope.qanConfNew = {UUID: $scope.qanConf.UUID};
+                    $scope.qanConfNew.UUID = $scope.qanConf.UUID;
+
+                    if($scope.qanConfLock.Interval) {
+                        $scope.qanConfNew.Interval = $scope.qanConf.Interval * 60;
                     } else {
-                        $scope.qanConfNew.UUID = $scope.qanConf.UUID;
-
-                        if($scope.qanConfLock.Interval) {
-                            $scope.qanConfNew.Interval = String(moment.duration($scope.qanConf.Interval, 'm').asSeconds());
-                        } else {
-                            $scope.qanConf.Interval = $scope.qanConfDefault.Interval;
-                        }
-                        if($scope.qanConfLock.ExampleQueries) {
-                            // $scope.qanConfNew.ExampleQueries = $scope.qanConf.ExampleQueries ? 'yes' : 'no';
-                            $scope.qanConfNew.ExampleQueries = $scope.qanConf.ExampleQueries;
-                        } else {
-                            $scope.qanConf.ExampleQueries = $scope.qanConfDefault.ExampleQueries;
-                        }
-
-                        $scope.qanConfNew.CollectFrom = $scope.qanConf.CollectFrom;
-
+                        $scope.qanConf.Interval = $scope.qanConfDefault.Interval;
                     }
+
+                    if($scope.qanConfLock.ExampleQueries) {
+                        $scope.qanConfNew.ExampleQueries = $scope.qanConf.ExampleQueries;
+                    } else {
+                        $scope.qanConf.ExampleQueries = $scope.qanConfDefault.ExampleQueries;
+                    }
+
+                    $scope.qanConfNew.CollectFrom = $scope.qanConf.CollectFrom;
                 };
 
                 $scope.trackQanConfLock = function () {
@@ -1050,21 +1064,9 @@
 
                     function parseQanConf(resp) {
                         var conf = JSON.parse(resp.SetConfig);
-                        if (Object.keys(conf).length > 1) {
-                            $scope.qanConf.config = 'manual';
-                        } else {
-                            $scope.qanConf.config = 'auto';
-                        }
                         for (var attr in conf) {
                             $scope.qanConf[attr] = conf[attr];
-                            if (['SlowLogVerbosity', 'RateLimit', 'LogSlowAdminStatements', 'LogSlowSlaveStatemtents'].indexOf(attr) > -1) {
-                                if ($scope.instance.Distro.toLowerCase().indexOf('percona server') > -1) {
-                                    $scope.qanConfLock[attr] = true;
-                                }
-                            } else {
-                                $scope.qanConfLock[attr] = true;
-                            }
-
+                            $scope.qanConfLock[attr] = true;
                             if (attr === 'MaxSlowLogSize') {
                                 $scope.qanConf.MaxSlowLogSize = numeral($scope.qanConf.MaxSlowLogSize).format('0b');
                             }
@@ -1077,21 +1079,23 @@
                     }
 
                     if ($scope.rawQanConfig === null) {
-                        // Config.query({instance_uuid: mysql.UUID})
-                        //     .$promise
-                        //     .then(function (resp) { parseQanConf(resp); })
-                        //     .catch(function (resp) {
-                        //         var msg = constants.DEFAULT_ERR;
-                        //         if (resp.hasOwnProperty('data') && resp.data !== null && resp.data.hasOwnProperty('Error')) {
-                        //             msg = constants.API_ERR;
-                        //             msg = msg.replace('<err_msg>', resp.data.Error);
-                        //         }
-                        //         $rootScope.alerts.push({
-                        //             'type': 'danger',
-                        //             'msg': msg
-                        //         });
-                        //     })
-                        // .finally(function (resp) {});
+                        Config.query({instance_uuid: mysql.UUID})
+                            .$promise
+                            .then(function (resp) {
+                                 parseQanConf(resp);
+                            })
+                            .catch(function (resp) {
+                                var msg = constants.DEFAULT_ERR;
+                                if (resp.hasOwnProperty('data') && resp.data !== null && resp.data.hasOwnProperty('Error')) {
+                                    msg = constants.API_ERR;
+                                    msg = msg.replace('<err_msg>', resp.data.Error);
+                                }
+                                $rootScope.alerts.push({
+                                    'type': 'danger',
+                                    'msg': msg
+                                });
+                            })
+                        .finally(function (resp) {});
                     } else {
                         parseQanConf($scope.rawQanConfig);
                     }

@@ -30,7 +30,7 @@
                     <div class="form-group form-group-sm">
                         <label for="inputInterval" class="col-sm-3 control-label">Collect interval</label>
                         <div class="col-sm-2">
-                            <input class="form-control" type="number" min="1" id="inputInterval" name="interval" ng-disabled="!qanConfLock.Interval"
+                            <input class="form-control" type="number" min="1" max="60" id="inputInterval" name="interval" ng-disabled="!qanConfLock.Interval"
                                 aria-describedby="intervalHelpBlock" ng-model="qanConf.Interval">
                         </div>
                         <div class="col-sm-2">
@@ -66,10 +66,8 @@
                                 <label>
                                 <input type="checkbox"
                                        ng-disabled="!qanConfLock.ExampleQueries"
-                                       ng-true-value="'yes'"
-                                       ng-false-value="'no'"
                                        ng-model="qanConf.ExampleQueries">
-                                <small><b>Send real query examples == {{ qanConf.ExampleQueries }} ==</b></small>
+                                <small><b>Send real query examples</b></small>
                             </label>
                             </div>
                         </div>
