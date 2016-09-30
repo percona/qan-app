@@ -156,6 +156,7 @@
                 };
 
                 $rootScope.doRefresh = function(time_range) {
+                    $rootScope.exampleFormatted = '';
                     if (time_range === 'cal') {
                         $scope.metrics = null;
                         $rootScope.metrics = null;
@@ -270,6 +271,7 @@
                             begin.subtract(1, 'hours');
                     }
                     $rootScope.dtDuration = moment.duration(end.diff(begin), 'ms').humanize();
+
                     $rootScope.begin = $scope.begin = begin.format('YYYY-MM-DDTHH:mm:ss');
                     $rootScope.end = $scope.end = end.format('YYYY-MM-DDTHH:mm:ss');
                     $rootScope.dtRange = begin.format('YYYY-MM-DD HH:mm:ss') +
@@ -507,6 +509,7 @@
                 $scope.init = function () {
                     $scope.toggleQuery = 'example';
                     $rootScope.$watch('query', function (newValue, oldValue) {
+                        $rootScope.exampleFormatted = '';
                         if ($rootScope.query !== null) {
                             $scope.changeQuery();
                         }
@@ -523,7 +526,7 @@
                     $scope.lastSeenAgo = moment.utc($rootScope.query.LastSeen,
                             'YYYY-MM-DDTHH:mm:ssZ').fromNow();
 
-                    $scope.exampleFormatted = $filter('sqlReformat')($rootScope.example.Query);
+                    $rootScope.exampleFormatted = $filter('sqlReformat')($rootScope.example.Query);
                     $scope.fingerprint = $filter('sqlReformat')($rootScope.query.Fingerprint);
                 };
 
@@ -543,8 +546,12 @@
                             $scope.db = '';
                             $scope.queryExplainData = [];
                             $scope.queryExplainError = '';
-                            if (newValue.Db !== null && newValue.Db !== '') {
-                                $scope.db = angular.copy(newValue.Db);
+                            if ((newValue.Db !== null && newValue.Db !== '') || $rootScope.query.Tables.length > 0) {
+                                if (newValue.Db !== null && newValue.Db !== '') {
+                                    $scope.db = angular.copy(newValue.Db);
+                                } else {
+                                    $scope.db = angular.copy($rootScope.query.Tables[0]['Db']);
+                                }
                                 $scope.getQueryExplain();
                             }
                         }
@@ -1088,7 +1095,7 @@
                                 var msg = constants.DEFAULT_ERR;
                                 if (resp.hasOwnProperty('data') && resp.data !== null && resp.data.hasOwnProperty('Error')) {
                                     msg = constants.API_ERR;
-                                    msg = msg.replace('<err_msg>', resp.data.Error);
+                                    msg = msg.replace('<err_msg>', resp.data.Error + '231');
                                 }
                                 $rootScope.alerts.push({
                                     'type': 'danger',
@@ -1128,6 +1135,7 @@
                                     'msg': msg
                                 });
                             } else {
+                                $rootScope.isAgentConnected = true;
                                 var res = JSON.parse(b64_to_utf8(data.Data));
                                 var conf = res.qan;
                                 for (var attr in conf) {
@@ -1147,9 +1155,10 @@
                             }
                         })
                     .catch(function(resp) {
-                        var msg = 'PMM client is not connected to Query Analytics.'
-                            + '<br />Most likely, mysql:queries service is stopped for this MySQL instance.'
-                            $rootScope.showAlert(resp, undefined, msg);
+                        $rootScope.isAgentConnected = false;
+                        // var msg = 'PMM client is not connected to Query Analytics.'
+                        //     + '<br />Most likely, mysql:queries service is stopped for this MySQL instance.'
+                        //     $rootScope.showAlert(resp, undefined, msg);
                     })
                     .finally(function() {});
                 };
