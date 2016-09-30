@@ -1095,7 +1095,7 @@
                                 var msg = constants.DEFAULT_ERR;
                                 if (resp.hasOwnProperty('data') && resp.data !== null && resp.data.hasOwnProperty('Error')) {
                                     msg = constants.API_ERR;
-                                    msg = msg.replace('<err_msg>', resp.data.Error + '231');
+                                    msg = msg.replace('<err_msg>', resp.data.Error);
                                 }
                                 $rootScope.alerts.push({
                                     'type': 'danger',
