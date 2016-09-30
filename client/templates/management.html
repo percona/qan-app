@@ -1,4 +1,16 @@
-<div class="row">
+<div class="row" ng-if="$root.isAgentConnected === undefined">
+    <div class="col-md-12">
+        <div class="text-center">Loading...</div>
+    </div>
+</div>
+<div class="row" ng-if="$root.isAgentConnected === false">
+    <div class="col-md-12">
+        <div class="text-center alert alert-danger">
+            PMM client is not connected to Query Analytics.
+                        <br />Most likely, mysql:queries service is stopped for this MySQL instance.</div>
+    </div>
+</div>
+<div class="row" ng-if="$root.isAgentConnected === true">
     <div class="col-md-12">
         <div ng-if="!MySQLUUID" class="alert alert-warning" role="alert">Select an instance from the dropdown above.</div>
         <span ng-if="subsystem === 'mysql'">

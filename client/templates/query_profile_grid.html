@@ -228,7 +228,7 @@
 
 </div>
 
-<div class="row" ng-if="!$root.connection_error && exampleFormatted">
+<div class="row" ng-if="!$root.connection_error && $root.exampleFormatted !== undefined && $root.exampleFormatted !== ''">
     <div class="col-md-12">
         <div class="panel panel-default"
             ng-controller="QueryExplainController"

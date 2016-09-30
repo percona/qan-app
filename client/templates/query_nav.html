@@ -5,7 +5,7 @@
             <div class="col-md-12">
                 <ul class="nav navbar-nav" ng-if="!instances">
                     <li class="hidden-xs">
-                        <a class="navbar-brand" ui-sref="root" ui-sref-opts="{reload: true}">
+                        <a class="navbar-brand" ng-click="$root.doRefresh('1h');">
                             <div class="logo-img">
                                 <span class="logo-text">Query Analytics</span>
                             </div>
@@ -22,7 +22,7 @@
                 </ul>
                 <ul class="nav navbar-nav" ng-if="instances">
                     <li class="hidden-xs">
-                        <a class="navbar-brand" ui-sref="root" ui-sref-opts="{reload: true}">
+                        <a class="navbar-brand" ng-click="$root.doRefresh('1h');">
                             <div class="logo-img">
                                 <span class="logo-text">Query Analytics</span>
                             </div>
@@ -72,11 +72,15 @@
                             </button>
                         </div>
                     </li>
+                    <li ng-if="!$root.showFullMenu">
+                        &nbsp;<button class="btn btn-default navbar-btn" ng-click="$root.doRefresh($root.time_range);" type="button"><i class="glyphicon glyphicon-chevron-left"></i>
+                        Go back to queries page</button>&nbsp;
+                    </li>
                     <li ng-if="$root.showFullMenu">
                         <form class="navbar-form navbar-left" role="search">
                             <div class="form-group">
                                 <div class="input-group">
-                                    <input class="form-control" name="search" size="30" ng-model="$root.search" id="search" type="text" placeholder="Search by Fingerprint or ID">
+                                    <input class="form-control" name="search" size="25" ng-model="$root.search" id="search" type="text" placeholder="Search by Fingerprint or ID">
                                     <span class="input-group-btn">
                                         <button class="btn btn-default" ng-click="$root.doSearch();" type="submit"><i class="glyphicon glyphicon-search"></i></button>
                                     </span>
@@ -102,7 +106,7 @@
                                 <table style="padding: 5px; border-spacing: 5px; border-collapse: separate;">
                                     <tr>
                                         <td>
-                                            <b>Hot intervals:</b>
+                                            <b>Quick ranges:</b>
                                             <div class="btn-group">
                                                 <label class="btn btn-default navbar-btn" ng-model="$root.time_range" id="btn_1h" btn-radio="'1h'">1h</label>
                                                 <label class="btn btn-default navbar-btn" ng-model="$root.time_range" id="btn_3h" btn-radio="'3h'">3h</label>
