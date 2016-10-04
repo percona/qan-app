@@ -5,7 +5,7 @@
             <div class="col-md-12">
                 <ul class="nav navbar-nav" ng-if="!instances">
                     <li class="hidden-xs">
-                        <a class="navbar-brand" ng-click="$root.doRefresh('1h');">
+                        <a class="navbar-brand" href="" ng-click="$root.goToQueries();">
                             <div class="logo-img">
                                 <span class="logo-text">Query Analytics</span>
                             </div>
@@ -22,7 +22,7 @@
                 </ul>
                 <ul class="nav navbar-nav" ng-if="instances">
                     <li class="hidden-xs">
-                        <a class="navbar-brand" ng-click="$root.doRefresh('1h');">
+                        <a class="navbar-brand" href="" ng-click="$root.goToQueries();">
                             <div class="logo-img">
                                 <span class="logo-text">Query Analytics</span>
                             </div>
@@ -73,14 +73,14 @@
                         </div>
                     </li>
                     <li ng-if="!$root.showFullMenu">
-                        &nbsp;<button class="btn btn-default navbar-btn" ng-click="$root.doRefresh($root.time_range);" type="button"><i class="glyphicon glyphicon-chevron-left"></i>
+                        &nbsp;<button class="btn btn-default navbar-btn" ng-click="$root.goToQueries();" type="button"><i class="glyphicon glyphicon-chevron-left"></i>
                         Go back to queries page</button>&nbsp;
                     </li>
                     <li ng-if="$root.showFullMenu">
                         <form class="navbar-form navbar-left" role="search">
                             <div class="form-group">
                                 <div class="input-group">
-                                    <input class="form-control" name="search" size="25" ng-model="$root.search" id="search" type="text" placeholder="Search by Fingerprint or ID">
+                                    <input class="form-control" name="search" size="23" ng-model="$root.search" id="search" type="text" placeholder="Search by Fingerprint or ID">
                                     <span class="input-group-btn">
                                         <button class="btn btn-default" ng-click="$root.doSearch();" type="submit"><i class="glyphicon glyphicon-search"></i></button>
                                     </span>
@@ -134,7 +134,7 @@
                         &nbsp;<button class="btn btn-default navbar-btn" ng-click="$root.doRefresh($root.time_range);" type="button"><i class="glyphicon glyphicon-refresh"></i></button>
                     </li>
                     <li>
-                        <p ng-if="$root.DEMO" class="navbar-text bg-danger" title="Limited functionality">&nbsp;DEMO MODE&nbsp;</p>
+                        <p ng-if="$root.DEMO" class="navbar-text bg-danger" title="Limited functionality">&nbsp;DEMO&nbsp;</p>
                     </li>
                     <li>
                         &nbsp;&nbsp;

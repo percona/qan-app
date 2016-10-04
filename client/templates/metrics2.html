@@ -1,6 +1,7 @@
 <div class="panel panel-default">
     <div class="panel-heading">
-        {{ $parent.profileTotal.Stats.Cnt | humanize : 'number'  }} Queries ({{ $root.profileTotal.QPS | humanize : 'number' }} QPS, 100.00%, {{ $root.profileTotal.Load | humanize : 'number'  }} Load)
+        <b><span ng-if="!$root.isServerSummary">Selected query class: {{ $root.row.Stats.Cnt | humanize : 'number'  }} Queries ({{ $root.row.QPS | humanize : 'number' }} QPS, {{ $root.row.Percentage | humanize : 'percent' }}, {{ $root.row.Load | humanize : 'number'  }} Load)
+        | </span><span>Total: {{ $parent.profileTotal.Stats.Cnt | humanize : 'number'  }} Queries ({{ $root.profileTotal.QPS | humanize : 'number' }} QPS, 100.00%, {{ $root.profileTotal.Load | humanize : 'number'  }} Load)</span></b>
     </div>
     <div class="panel-body padding-free">
         <table
