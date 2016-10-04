@@ -61,31 +61,31 @@
 
                 };
 
+                $rootScope.goToQueries = function(instance) {
+                    $rootScope.search = '';
+                    $state.go('root.instance-dt', {
+                        uuid: $rootScope.instance.UUID,
+                    }, { reload: true });
+                };
+
                 $rootScope.changeInstance = function(instance) {
                     $rootScope.instance = instance;
-                    if ($state.is('root.instance-dt')) {
-                        $state.go('root.instance-dt', {
-                            uuid: $rootScope.instance.UUID,
-                        });
-                        $scope.metrics = null;
-                        $rootScope.metrics = null;
-                        $scope.getConfig();
-                        $scope.qanData = [];
-                        $scope.offset = 0;
-                        $scope.loadedToTableQueries = 0;
+                    $state.go('root.instance-dt', {
+                        uuid: $rootScope.instance.UUID,
+                    });
+                    $scope.metrics = null;
+                    $rootScope.metrics = null;
+                    $scope.getConfig();
+                    $scope.qanData = [];
+                    $scope.offset = 0;
+                    $scope.loadedToTableQueries = 0;
 
-                        $scope.queryExplain = '';
-                        $scope.query = '';
-                        $rootScope.query = null;
-                        $rootScope.isServerSummary = false;
+                    $scope.queryExplain = '';
+                    $scope.query = '';
+                    $rootScope.query = null;
+                    $rootScope.isServerSummary = false;
 
-                        $scope.getProfile();
-                    } else if ($state.is('management')) {
-                        $state.go('management', {
-                            'subsystem': $state.params.subsystem,
-                            'uuid': $rootScope.instance.UUID
-                        });
-                    }
+                    $scope.getProfile();
                 };
 
                 $scope.getConfig = function () {
@@ -298,6 +298,7 @@
 
                 $scope.qanSelectRow = function(row) {
                     if ($scope.query_id !== row.Id) {
+                        $rootScope.row = row;
                         $rootScope.selectedQuery = row;
                         $scope.query_id = row.Id;
                         $scope.query_abstract = row.Abstract;
@@ -546,7 +547,8 @@
                             $scope.db = '';
                             $scope.queryExplainData = [];
                             $scope.queryExplainError = '';
-                            if ((newValue.Db !== null && newValue.Db !== '') || $rootScope.query.Tables.length > 0) {
+                            if ((newValue.Db !== null && newValue.Db !== '') ||
+                                ($rootScope.query !== null && $rootScope.query.Tables !== null && $rootScope.query.Tables.length > 0)) {
                                 if (newValue.Db !== null && newValue.Db !== '') {
                                     $scope.db = angular.copy(newValue.Db);
                                 } else {
@@ -1197,6 +1199,12 @@
                             'subsystem': $state.params.subsystem,
                             'uuid': $rootScope.instance.UUID
                         });
+                };
+
+                $rootScope.goToQueries = function(instance) {
+                    $state.go('root.instance-dt', {
+                        uuid: $rootScope.instance.UUID,
+                    }, { reload: true });
                 };
 
                 $scope.init();

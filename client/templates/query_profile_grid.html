@@ -92,7 +92,7 @@
                                 </div>
                             </td>
                             <td class="no-left-border text-right">
-                                    {{ row.Load | humanize : 'number' }} ({{(row.Percentage).toFixed(2)}}%)
+                                    {{ row.Load | humanize : 'number' }} ({{ row.Percentage | humanize : 'percent' }})
                             </td>
                             <td class="no-right-border text-right">
                                     {{row.QPS | humanize : 'number'}}&nbsp;QPS
