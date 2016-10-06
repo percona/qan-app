@@ -1064,6 +1064,7 @@
                 $scope.setQanConfig = function (selected_agent) {
 
                     var data = {
+                        "UUID": $scope.instance.UUID,
                         "Interval": $scope.qanConf.Interval * 60,
                         "ExampleQueries": $scope.qanConf.ExampleQueries,
                         "CollectFrom": $scope.qanConf.CollectFrom
