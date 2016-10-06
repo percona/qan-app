@@ -839,25 +839,12 @@
                     $scope.subsystem = $state.params.subsystem;
                     $scope.MySQLUUID = $state.params.uuid;
                     $scope.instance = $rootScope.instance = $scope.instancesByUUID[$state.params.uuid];
-
                     $rootScope.DEMO = constants.DEMO;
-                    $scope.rawQanConfig = null;
-                    $scope.qanConf = {
-                        'Interval': 1,
-                        'ExampleQueries': true
-                    };
-                    $scope.qanConfDefault = angular.copy($scope.qanConf);
-                    $scope.qanConfLock = {
-                        'Interval': false,
-                        'ExampleQueries': false
-                    };
-                    $scope.qanConfNew = {};
                     $scope.logTimeFrame = '1 h';
                     $scope.severityLeveles = [
                         'emerg', 'alert', 'crit', 'err',
                         'warning', 'notice', 'info', 'debug'
                     ];
-                    $scope.tooltipText = 'Copy the ID';
                     $scope.initManagement();
                 };
 
@@ -874,7 +861,6 @@
                                         Config.query({instance_uuid: toParams.uuid})
                                             .$promise
                                             .then(function (resp) {
-                                                $scope.rawQanConfig = resp;
                                                 for (var i=0; i<$scope.allInstances.length; i++) {
                                                     if (resp.AgentUUID === $scope.allInstances[i].UUID) {
                                                         $scope.selected_agent = $scope.allInstances[i];
@@ -1064,19 +1050,9 @@
                             } else {
                                 $rootScope.isAgentConnected = true;
                                 var res = JSON.parse(b64_to_utf8(data.Data));
-                                var conf = res.qan;
-                                for (var attr in conf) {
-                                    if (['ReportLimit', 'WorkerRunTime'].indexOf(attr) > -1) {
-                                        continue;
-                                    }
-                                    $scope.qanConf[attr] = conf[attr];
-                                    if (attr === 'MaxSlowLogSize') {
-                                        $scope.qanConf.MaxSlowLogSize = numeral($scope.qanConf.MaxSlowLogSize).format('0b');
-                                    }
-                                    if (attr === 'Interval') {
-                                        $scope.qanConf.Interval = moment.duration($scope.qanConf.Interval, 's').asMinutes();
-                                    }
-                                }
+                                $scope.qanConf = res.qan;
+                                $scope.qanConf.MaxSlowLogSize = numeral($scope.qanConf.MaxSlowLogSize).format('0b');
+                                $scope.qanConf.Interval = moment.duration($scope.qanConf.Interval, 's').asMinutes();
                             }
                         })
                     .catch(function(resp) {
@@ -1092,7 +1068,6 @@
                         "ExampleQueries": $scope.qanConf.ExampleQueries,
                         "CollectFrom": $scope.qanConf.CollectFrom
                     };
-                    $scope.qanConf;
                     var restartParams = {
                         AgentUUID: selected_agent.UUID,
                         Service: 'qan',
