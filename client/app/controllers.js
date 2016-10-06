@@ -909,6 +909,7 @@
                     var p = AgentCmd.update({agent_uuid: agent.UUID}, agentCmd);
                     p.$promise
                         .then(function (data) {
+                            $rootScope.isAgentConnected = true;
                             if (data.Error === "") {
                                 var str = window.atob(data.Data);
                                 str = str.replace(/\\n/g, "\n");
@@ -922,6 +923,7 @@
                             }
                         })
                     .catch(function(resp) {
+                        $rootScope.isAgentConnected = false;
                         $scope.serverSummaryError = resp.data.Error;
                     });
                 };
@@ -938,6 +940,7 @@
                     var p = AgentCmd.update({agent_uuid: agent.UUID}, agentCmd);
                     p.$promise
                         .then(function (data) {
+                            $rootScope.isAgentConnected = true;
                             if (data.Error === "") {
                                 var str = window.atob(data.Data);
                                 str = str.replace(/\\n/g, "\n");
@@ -951,6 +954,7 @@
                             }
                         })
                     .catch(function(resp) {
+                        $rootScope.isAgentConnected = false;
                         $scope.mysqlSummaryError =  resp.data.Error;
                     });
                 };
