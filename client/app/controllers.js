@@ -1035,81 +1035,6 @@
                     .finally(function (resp) {});
                 };
 
-                $scope.trackQanConf = function () {
-                    $scope.$watchCollection('qanConf', function(newVal, oldVal){
-                        $scope.confToApiRepresentation();
-                    });
-                };
-
-                $scope.confToApiRepresentation = function() {
-                    $scope.qanConfNew = {};
-                    $scope.qanConfNew.UUID = $scope.qanConf.UUID;
-
-                    if($scope.qanConfLock.Interval) {
-                        $scope.qanConfNew.Interval = $scope.qanConf.Interval * 60;
-                    } else {
-                        $scope.qanConf.Interval = $scope.qanConfDefault.Interval;
-                    }
-
-                    if($scope.qanConfLock.ExampleQueries) {
-                        $scope.qanConfNew.ExampleQueries = $scope.qanConf.ExampleQueries;
-                    } else {
-                        $scope.qanConf.ExampleQueries = $scope.qanConfDefault.ExampleQueries;
-                    }
-
-                    $scope.qanConfNew.CollectFrom = $scope.qanConf.CollectFrom;
-                };
-
-                $scope.trackQanConfLock = function () {
-                    $scope.$watchCollection('qanConfLock', function(newVal, oldVal){
-                        $scope.confToApiRepresentation();
-                    });
-                };
-
-                /**
-                 * Get QAN config (then marge it with defaults)
-                 */
-                $scope.getQanConfig = function (mysql) {
-
-                    function parseQanConf(resp) {
-                        var conf = JSON.parse(resp.SetConfig);
-                        for (var attr in conf) {
-                            $scope.qanConf[attr] = conf[attr];
-                            $scope.qanConfLock[attr] = true;
-                            if (attr === 'MaxSlowLogSize') {
-                                $scope.qanConf.MaxSlowLogSize = numeral($scope.qanConf.MaxSlowLogSize).format('0b');
-                            }
-                            if (attr === 'Interval') {
-                                $scope.qanConf.Interval = moment.duration(parseInt($scope.qanConf.Interval), 's').asMinutes();
-                            }
-                        }
-                        $scope.trackQanConf();
-                        $scope.trackQanConfLock();
-                    }
-
-                    if ($scope.rawQanConfig === null) {
-                        Config.query({instance_uuid: mysql.UUID})
-                            .$promise
-                            .then(function (resp) {
-                                 parseQanConf(resp);
-                            })
-                            .catch(function (resp) {
-                                var msg = constants.DEFAULT_ERR;
-                                if (resp.hasOwnProperty('data') && resp.data !== null && resp.data.hasOwnProperty('Error')) {
-                                    msg = constants.API_ERR;
-                                    msg = msg.replace('<err_msg>', resp.data.Error);
-                                }
-                                $rootScope.alerts.push({
-                                    'type': 'danger',
-                                    'msg': msg
-                                });
-                            })
-                        .finally(function (resp) {});
-                    } else {
-                        parseQanConf($scope.rawQanConfig);
-                    }
-                };
-
                 /**
                  * Get QAN defaults
                  */
@@ -1152,22 +1077,22 @@
                                         $scope.qanConf.Interval = moment.duration($scope.qanConf.Interval, 's').asMinutes();
                                     }
                                 }
-                                $scope.qanConfDefault = angular.copy($scope.qanConf);
-                                $scope.getQanConfig($scope.instance);
                             }
                         })
                     .catch(function(resp) {
                         $rootScope.isAgentConnected = false;
-                        // var msg = 'PMM client is not connected to Query Analytics.'
-                        //     + '<br />Most likely, mysql:queries service is stopped for this MySQL instance.'
-                        //     $rootScope.showAlert(resp, undefined, msg);
                     })
                     .finally(function() {});
                 };
 
                 $scope.setQanConfig = function (selected_agent) {
 
-                    var data = angular.copy($scope.qanConfNew);
+                    var data = {
+                        "Interval": $scope.qanConf.Interval * 60,
+                        "ExampleQueries": $scope.qanConf.ExampleQueries,
+                        "CollectFrom": $scope.qanConf.CollectFrom
+                    };
+                    $scope.qanConf;
                     var restartParams = {
                         AgentUUID: selected_agent.UUID,
                         Service: 'qan',

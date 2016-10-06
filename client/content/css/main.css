@@ -176,3 +176,8 @@ table.metrics td span.sum {
 .table-bordered>tbody>tr>td.no-left-border {
     border-left-style: none;
 }
+
+/* overwrite bootstap */
+.nav-tabs {
+    border-bottom: none;
+}
