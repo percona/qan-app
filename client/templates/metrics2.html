@@ -79,7 +79,7 @@
                 </tr>
                 <tr ng-if="$parent.metrics.Lock_time_sum">
                     <td>Lock Time</td>
-                    <td class="no-right-border" align="right">{{ $parent.metrics.Lock_time_avg_per_sec | humanize : 'number' }} (avg load)</td>
+                    <td class="no-right-border" align="right">{{ $parent.metrics.Lock_time_avg_load | humanize : 'number' }} (avg load)</td>
                     <td class="no-left-border">
                         <div class="scaling-svg-container">
                             <load-sparklines
@@ -88,7 +88,7 @@
                              popover-placement="top"
                              popover-template="'sparklinePopover.html'"
                              xkey="Ts"
-                             ykey="Lock_time_avg_per_sec"
+                             ykey="Lock_time_avg_load"
                              measurement="number"
                              chart-data="sparks"></load-sparklines>
                         </div>
@@ -117,7 +117,7 @@
                 </tr>
                 <tr ng-if="$parent.metrics.InnoDB_rec_lock_wait_sum">
                     <td>Innodb Row Lock Wait</td>
-                    <td class="no-right-border" align="right">{{ $parent.metrics.InnoDB_rec_lock_wait_avg_per_sec | humanize : 'number' }} (avg load)</td>
+                    <td class="no-right-border" align="right">{{ $parent.metrics.InnoDB_rec_lock_wait_avg_load | humanize : 'number' }} (avg load)</td>
                     <td class="no-left-border">
                         <div class="scaling-svg-container">
                             <load-sparklines
@@ -126,7 +126,7 @@
                              popover-placement="top"
                              popover-template="'sparklinePopover.html'"
                              xkey="Ts"
-                             ykey="InnoDB_rec_lock_wait_avg_per_sec"
+                             ykey="InnoDB_rec_lock_wait_avg_load"
                              measurement="number"
                              chart-data="sparks"></load-sparklines>
                         </div>
@@ -155,7 +155,7 @@
                 </tr>
                 <tr ng-if="$parent.metrics.InnoDB_IO_r_wait_sum">
                     <td>Innodb IO Read Wait</td>
-                    <td class="no-right-border" align="right">{{ $parent.metrics.InnoDB_IO_r_wait_avg_per_sec | humanize : 'number' }} (avg load)</td>
+                    <td class="no-right-border" align="right">{{ $parent.metrics.InnoDB_IO_r_wait_avg_load | humanize : 'number' }} (avg load)</td>
                     <td class="no-left-border">
                         <div class="scaling-svg-container">
                             <load-sparklines
@@ -164,7 +164,7 @@
                              popover-placement="top"
                              popover-template="'sparklinePopover.html'"
                              xkey="Ts"
-                             ykey="InnoDB_IO_r_wait_avg_per_sec"
+                             ykey="InnoDB_IO_r_wait_avg_load"
                              measurement="number"
                              chart-data="sparks"></load-sparklines>
                         </div>
@@ -193,7 +193,7 @@
                 </tr>
                 <tr ng-if="$parent.metrics.InnoDB_queue_wait_sum">
                     <td>Innodb Queue Wait</td>
-                    <td class="no-right-border" align="right">{{ $parent.metrics.InnoDB_queue_wait_avg_per_sec | humanize : 'number'}} (avg load)</td>
+                    <td class="no-right-border" align="right">{{ $parent.metrics.InnoDB_queue_wait_avg_load | humanize : 'number'}} (avg load)</td>
                     <td class="no-left-border">
                         <div class="scaling-svg-container">
                             <load-sparklines
@@ -202,7 +202,7 @@
                              popover-placement="top"
                              popover-template="'sparklinePopover.html'"
                              xkey="Ts"
-                             ykey="InnoDB_queue_wait_avg_per_sec"
+                             ykey="InnoDB_queue_wait_avg_load"
                              measurement="number"
                              chart-data="sparks"></load-sparklines>
                         </div>
