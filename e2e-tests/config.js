@@ -2,8 +2,8 @@ var HtmlScreenshotReporter = require('protractor-jasmine2-screenshot-reporter');
 
 var reporter = new HtmlScreenshotReporter({
   dest: 'screenshots',
-  filename: 'my-report.html',
-  captureOnlyFailedSpecs: false
+  filename: 'qan-test-report.html',
+  captureOnlyFailedSpecs: true
 });
  
 exports.config = {
@@ -28,9 +28,9 @@ exports.config = {
   //],
 
   suites: {
-    landingPage: 'landing_page/**/*spec.js',
+  //  landingPage: 'landing_page/**/*spec.js',
     mainQanPage: 'main_qan_page/*spec.js',
-    mysqlPage: 'mysql_connection_page/*spec.js',
+  //  mysqlPage: 'mysql_connection_page/*spec.js',
   },
 
  

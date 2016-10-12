@@ -1,20 +1,20 @@
 'use strict';  
   
 module.exports = {  
-  mainPage: {  
-    managementButton: element(by.xpath('//*[contains(@title,"Manage mysql instances & agents")]')),  
-    timeRange1h: element(by.xpath('//label[contains(text(), "1h")]')),
-    timeRange3h: element(by.xpath('//label[contains(text(), "3h")]')),
-    timeRange6h: element(by.xpath('//label[contains(text(), "6h")]')),
-    timeRange12h: element(by.xpath('//label[contains(text(), "12h")]')),
-    timeRange1d: element(by.xpath('//label[contains(text(), "1d")]')),
-    timeRange5d: element(by.xpath('//label[contains(text(), "5d")]')),
+  mainPage: { 
+    noQueriesTxt: element(by.id('text_no_profile_data')), 
+    topTitle: element(by.id('text_count_queries')),  
+    calendarBtn: element(by.id('btn_cal')),  
+    managementBtn: element(by.xpath('//*[contains(@title,"Configure query analitics")]')),  
+    instancesList: element(by.xpath('//*button[contains(@title,"Databases")]')),  
+    serverSumBtn: element(by.xpath('//button[contains(@title,"View database and server summary info")]')),
     totalLink: element(by.linkText('TOTAL')),
-    metricCounters: element(by.buttonText('METRIC COUNTERS')),
-    metricRates: element(by.buttonText('METRIC RATES')),
+    searchFld: element(by.name('search')),
+    searchBtn: element(by.xpath('//button[@type="submit"]')),
     serverSummary: element(by.xpath('//*[contains(text(), "Server Summary")]')),
-    timeRangeDspl: element(by.xpath('//li/p[@class="well navbar-text ng-binding"]')),  
-    allQueries: element.all(by.repeater('row in qanData'))  
+    timeRangeDspl: element(by.xpath('//p[@class="well navbar-text ng-binding"]')),  
+    queryList: element.all(by.repeater('row in qanData')),
+    querySelected:  element(by.css('[ng-click="qanSelectRow(row)"]'))
   },  
       
   get: function() {  
@@ -22,55 +22,58 @@ module.exports = {
     browser.waitForAngular();  
   },  
       
+  returnTopTitle: function() {
+    return this.mainPage.topTitle.getText();
+  },
+  
+    
+  returnNoQueriesTxt: function() {
+    return this.mainPage.noQueriesTxt.getText();
+  },
+  
+  clickCalendar: function() {  
+    this.mainPage.calendarBtn.click();  
+  },
+ 
+  searchFor: function(query) {  
+    this.mainPage.searchFld.sendKeys(query);
+  },
+
+  clearSearch: function() {
+    this.mainPage.searchFld.clear();
+  },
+ 
+  doSearch: function() {
+    this.mainPage.searchBtn.click();
+  },
+ 
+  clickSummary: function() {  
+    this.mainPage.serverSumBtn.click();
+  }, 
+
   clickManagement: function() {  
-    var mainPage = this.mainPage;  
-          
-    mainPage.managementButton.isDisplayed();  
-    mainPage.managementButton.click();  
+    this.mainPage.managementBtn.click();  
   }, 
 
   clickTotal: function() {
-    var mainPage = this.mainPage;
-
-    mainPage.totalLink.isDisplayed();
-    mainPage.totalLink.click();
+    this.mainPage.totalLink.click();
   },
 
-  clickMetricCounters: function() {
-    var mainPage = this.mainPage;
-
-    mainPage.metricCounters.isDisplayed();
-    mainPage.metricCounters.click();
-  },
-
-  clickMetricRates: function() {
-    var mainPage = this.mainPage;
-
-    mainPage.metricRates.isDisplayed();
-    mainPage.metricRates.click();
-    
-  },
-
-  clickSelectQuery: function() {
-    var mainPage = this.mainPage;
-
-    mainPage.selectQuery.isDisplayed();
-    mainPage.selectQuery.click();
-  },
-
-  returnTimeRangeDisplayed: function() {
-    var mainPage = this.mainPage;
-    element.all(by.xpath('//label[@class="btn btn-default navbar-btn ng-untouched ng-valid ng-dirty"]')).each(function (label) {
-      label.click();
-      mainPage.timeRangeDspl.getText().then(function(text) {
-        console.log('My log is '+ text);
-      });
+  returnQueryLink: function(num) {
+    this.mainPage.queryList.then(function(row) {
+    var query = row[0].element(by.css('[ng-click="qanSelectRow(row)"]'));
+      return query;
     });
   },
-  
-  clickEachQuery: function() {
-    var mainPage = this.mainPage;
-    element(by.partialLinkText('SELECT')).click();
-  }
 
+  clickQueryNr: function(num) {
+    this.mainPage.queryList.then(function(tables) {
+      var titleElement = tables[num].element(by.css('[ng-click="qanSelectRow(row)"]'));
+      titleElement.click(); 
+    });
+  },
+
+  returnTopQueriesTxt: function() {
+    this.mainPage.topTitle.getAttribute('title');
+  },
 };
