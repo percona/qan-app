@@ -1,0 +1,843 @@
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <b><span ng-if="!$root.isServerSummary">Selected query class: {{ $root.row.Stats.Cnt | humanize : 'number'  }} Queries ({{ $root.row.QPS | humanize : 'number' }} QPS, {{ $root.row.Percentage | humanize : 'percent' }}, {{ $root.row.Load | humanize : 'number'  }} Load)
+        | </span><span>Total: {{ $parent.profileTotal.Stats.Cnt | humanize : 'number'  }} Queries ({{ $root.profileTotal.QPS | humanize : 'number' }} QPS, 100.00%, {{ $root.profileTotal.Load | humanize : 'number'  }} Load)</span></b>
+    </div>
+    <div class="panel-body padding-free">
+        <table
+         style="margin-bottom: 0px !important;"
+         class="table table-bordered table-striped table-hover table-condensed metrics">
+            <thead>
+                <tr>
+                    <th nowrap width="20%">Metrics</th>
+                    <th colspan="2">Rate/Sec</th>
+                    <th>Sum</th>
+                    <th colspan="2">Per Query Stats</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Query Count</td>
+                    <td class="no-right-border" align="right">{{ $parent.metrics.Query_count_per_sec | humanize : 'number' }} (per sec)</td>
+                    <td style="width: 12%" class="no-left-border">
+                        <div class="scaling-svg-container">
+                            <load-sparklines
+                             popover-trigger="mouseenter"
+                             popover-append-to-body="true"
+                             popover-placement="top"
+                             popover-template="'sparklinePopover.html'"
+                             xkey="Ts"
+                             ykey="Query_count_per_sec"
+                             measurement="number"
+                             chart-data="sparks"></load-sparklines>
+                        </div>
+                    </td>
+                    <td>
+                        <span class="sum">{{ $parent.metrics.Query_count | humanize : 'number' }}</span>
+                        <small>
+                            <span ng-if="!$root.isServerSummary" class="text-primary">{{ $parent.metrics.Query_count_of_total | humanize : 'percent' }} of total</span>
+                        </small>
+                    </td>
+                    <td colspan="2"></td>
+                </tr>
+                <tr>
+                    <td>Query Time</td>
+                    <td class="no-right-border" align="right">{{ $parent.metrics.Query_time_sum_per_sec | humanize : 'number' }} load <span ng-if="!$root.isServerSummary">({{ $parent.metrics.Query_time_sum_of_total | humanize : 'percent' }})</span></td>
+                    <td class="no-left-border" widht="150px">
+                        <div class="scaling-svg-container">
+                            <load-sparklines
+                             popover-trigger="mouseenter"
+                             popover-append-to-body="true"
+                             popover-placement="top"
+                             popover-template="'sparklinePopover.html'"
+                             xkey="Ts"
+                             ykey="Query_time_sum_per_sec"
+                             measurement="number"
+                             chart-data="sparks"></load-sparklines>
+                        </div>
+                    </td>
+                    <td>
+                        <span class="sum">{{ $parent.metrics.Query_time_sum | humanize : 'time' }}</span>
+                        <small>
+                            <span ng-if="!$root.isServerSummary" class="text-primary">{{ $parent.metrics.Query_time_sum_of_total | humanize : 'percent' }} of total</span>
+                        </small>
+                    </td>
+                    <td class="text-right no-right-border">
+                        {{ $parent.metrics.Query_time_avg | humanize : 'time' }}&nbsp;avg
+                    </td>
+                    <td  style="width: 10%"
+                         class="no-left-border"
+                         ng-mouseover="popoverData = 'Query_time'; measurement = 'time'"
+                         popover-trigger="mouseenter"
+                         popover-append-to-body="true"
+                         popover-placement="top"
+                         popover-template="'perQueryStatsPopover.html'" >
+                         <div class="scaling-svg-container">
+                              <per-query-stats  chart-data="$parent.metrics" field="Query_time"></per-query-stats>
+                         </div>
+                    </td>
+                </tr>
+                <tr ng-if="$parent.metrics.Lock_time_sum">
+                    <td>Lock Time</td>
+                    <td class="no-right-border" align="right">{{ $parent.metrics.Lock_time_avg_load | humanize : 'number' }} (avg load)</td>
+                    <td class="no-left-border">
+                        <div class="scaling-svg-container">
+                            <load-sparklines
+                             popover-trigger="mouseenter"
+                             popover-append-to-body="true"
+                             popover-placement="top"
+                             popover-template="'sparklinePopover.html'"
+                             xkey="Ts"
+                             ykey="Lock_time_avg_load"
+                             measurement="number"
+                             chart-data="sparks"></load-sparklines>
+                        </div>
+                    </td>
+                    <td>
+                        <span class="sum">{{ $parent.metrics.Lock_time_sum | humanize : 'time' }}</span>
+                        <small>
+                            <span ng-if="$parent.metrics.Lock_time_sum_of_total" class="text-primary">{{ $parent.metrics.Lock_time_sum_of_total | humanize : 'percent'}} of total</span>
+                            <span class="text-success">{{ $parent.metrics.Lock_time_avg_per_query_time | humanize : 'percent' }} of query time</span>
+                        </small>
+                    </td>
+                    <td class="text-right no-right-border">
+                        {{ $parent.metrics.Lock_time_avg | humanize : 'time' }}&nbsp;avg
+                    </td>
+                    <td style="width: 10%"
+                        class="no-left-border"
+                        ng-mouseover="popoverData = 'Lock_time'; measurement = 'time'"
+                        popover-trigger="mouseenter"
+                        popover-append-to-body="true"
+                        popover-placement="top"
+                        popover-template="'perQueryStatsPopover.html'" >
+                        <div class="scaling-svg-container">
+                              <per-query-stats chart-data="$parent.metrics" field="Lock_time"></per-query-stats>
+                        </div>
+                    </td>
+                </tr>
+                <tr ng-if="$parent.metrics.InnoDB_rec_lock_wait_sum">
+                    <td>Innodb Row Lock Wait</td>
+                    <td class="no-right-border" align="right">{{ $parent.metrics.InnoDB_rec_lock_wait_avg_load | humanize : 'number' }} (avg load)</td>
+                    <td class="no-left-border">
+                        <div class="scaling-svg-container">
+                            <load-sparklines
+                             popover-trigger="mouseenter"
+                             popover-append-to-body="true"
+                             popover-placement="top"
+                             popover-template="'sparklinePopover.html'"
+                             xkey="Ts"
+                             ykey="InnoDB_rec_lock_wait_avg_load"
+                             measurement="number"
+                             chart-data="sparks"></load-sparklines>
+                        </div>
+                    </td>
+                    <td>
+                        <span class="sum">{{ $parent.metrics.InnoDB_rec_lock_wait_sum | humanize : 'time' }}</span>
+                        <small>
+                            <span ng-if="$parent.metrics.InnoDB_rec_lock_wait_sum_of_total" class="text-primary">{{ $parent.metrics.InnoDB_rec_lock_wait_sum_of_total | humanize : 'percent' }} of total</span>
+                            <span class="text-success">{{ $parent.metrics.InnoDB_rec_lock_wait_avg_per_query_time | humanize : 'percent' }} of query time</span>
+                        </small>
+                    </td>
+                    <td class="text-right no-right-border">
+                        {{ $parent.metrics.InnoDB_rec_lock_wait_avg | humanize : 'time' }}&nbsp;avg
+                    </td>
+                    <td style="width: 10%"
+                        class="no-left-border"
+                        ng-mouseover="popoverData = 'InnoDB_rec_lock_wait'; measurement = 'time'"
+                        popover-trigger="mouseenter"
+                        popover-append-to-body="true"
+                        popover-placement="top"
+                        popover-template="'perQueryStatsPopover.html'" >
+                        <div class="scaling-svg-container">
+                              <per-query-stats chart-data="$parent.metrics" field="InnoDB_rec_lock_wait"></per-query-stats>
+                        </div>
+                    </td>
+                </tr>
+                <tr ng-if="$parent.metrics.InnoDB_IO_r_wait_sum">
+                    <td>Innodb IO Read Wait</td>
+                    <td class="no-right-border" align="right">{{ $parent.metrics.InnoDB_IO_r_wait_avg_load | humanize : 'number' }} (avg load)</td>
+                    <td class="no-left-border">
+                        <div class="scaling-svg-container">
+                            <load-sparklines
+                             popover-trigger="mouseenter"
+                             popover-append-to-body="true"
+                             popover-placement="top"
+                             popover-template="'sparklinePopover.html'"
+                             xkey="Ts"
+                             ykey="InnoDB_IO_r_wait_avg_load"
+                             measurement="number"
+                             chart-data="sparks"></load-sparklines>
+                        </div>
+                    </td>
+                    <td>
+                        <span class="sum">{{ $parent.metrics.InnoDB_IO_r_wait_sum | humanize : 'time' }}</span>
+                        <small>
+                            <span ng-if="!$root.isServerSummary" class="text-primary">{{ $parent.metrics.InnoDB_IO_r_wait_sum_of_total | humanize : 'percent' }} of total</span>
+                            <span class="text-success">{{ $parent.metrics.InnoDB_IO_r_wait_avg_per_query_time | humanize : 'percent' }} of query time</span>
+                        </small>
+                    </td>
+                    <td class="text-right no-right-border">
+                        {{ $parent.metrics.InnoDB_IO_r_wait_avg | humanize : 'time' }}&nbsp;avg
+                    </td>
+                    <td style="width: 10%"
+                        class="no-left-border"
+                        ng-mouseover="popoverData = 'InnoDB_IO_r_wait'; measurement = 'time'"
+                        popover-trigger="mouseenter"
+                        popover-append-to-body="true"
+                        popover-placement="top"
+                        popover-template="'perQueryStatsPopover.html'" >
+                        <div class="scaling-svg-container">
+                              <per-query-stats chart-data="$parent.metrics" field="InnoDB_IO_r_wait"></per-query-stats>
+                        </div>
+                    </td>
+                </tr>
+                <tr ng-if="$parent.metrics.InnoDB_queue_wait_sum">
+                    <td>Innodb Queue Wait</td>
+                    <td class="no-right-border" align="right">{{ $parent.metrics.InnoDB_queue_wait_avg_load | humanize : 'number'}} (avg load)</td>
+                    <td class="no-left-border">
+                        <div class="scaling-svg-container">
+                            <load-sparklines
+                             popover-trigger="mouseenter"
+                             popover-append-to-body="true"
+                             popover-placement="top"
+                             popover-template="'sparklinePopover.html'"
+                             xkey="Ts"
+                             ykey="InnoDB_queue_wait_avg_load"
+                             measurement="number"
+                             chart-data="sparks"></load-sparklines>
+                        </div>
+                    </td>
+                    <td>
+                        <span class="sum">{{ $parent.metrics.InnoDB_queue_wait_sum | humanize : 'time'}}</span>
+                        <small>
+                            <span ng-if="!$root.isServerSummary" class="text-primary">{{ $parent.metrics.InnoDB_queue_wait_sum_of_total | humanize : 'percent' }} of total</span>
+                            <span class="text-success">{{ $parent.metrics.innodbQueueWait.InnoDB_queue_wait_avg_per_query_time | humanize : 'percent' }} of query time</span>
+                        </small>
+                    </td>
+                    <td class="text-right no-right-border">
+                        {{ $parent.metrics.InnoDB_queue_wait_avg | humanize : 'time' }}&nbsp;avg
+                    </td>
+                    <td style="width: 10%"
+                        class="no-left-border"
+                        ng-mouseover="popoverData = 'InnoDB_queue_wait'; measurement = 'time'"
+                        popover-trigger="mouseenter"
+                        popover-append-to-body="true"
+                        popover-placement="top"
+                        popover-template="'perQueryStatsPopover.html'" >
+                        <div class="scaling-svg-container">
+                              <per-query-stats chart-data="$parent.metrics" field="InnoDB_queue_wait"></per-query-stats>
+                        </div>
+                    </td>
+                </tr>
+                <tr ng-if="$parent.metrics.InnoDB_IO_r_ops_sum">
+                    <td>Innodb Read Ops</td>
+                    <td class="no-right-border" align="right">{{ $parent.metrics.InnoDB_IO_r_ops_sum_per_sec | humanize : 'number' }} (per sec)</td>
+                    <td class="no-left-border">
+                        <div class="scaling-svg-container">
+                            <load-sparklines
+                             popover-trigger="mouseenter"
+                             popover-append-to-body="true"
+                             popover-placement="top"
+                             popover-template="'sparklinePopover.html'"
+                             xkey="Ts"
+                             ykey="InnoDB_IO_r_ops_sum_per_sec"
+                             measurement="number"
+                             chart-data="sparks"></load-sparklines>
+                        </div>
+                    </td>
+                    <td>
+                        <span class="sum">{{ $parent.metrics.InnoDB_IO_r_ops_sum | humanize : 'number' }}</span>
+                        <small>
+                            <span ng-if="!$root.isServerSummary" class="text-primary">{{ $parent.metrics.InnoDB_IO_r_ops_sum_of_total | humanize : 'percent' }} of total</span>
+                        </small>
+                    </td>
+                    <td class="text-right no-right-border">
+                        {{ $parent.metrics.InnoDB_IO_r_ops_avg | humanize : 'number' }}&nbsp;avg
+                    </td>
+                    <td style="width: 10%"
+                        class="no-left-border"
+                        ng-mouseover="popoverData = 'InnoDB_IO_r_ops'; measurement = 'number'"
+                        popover-trigger="mouseenter"
+                        popover-append-to-body="true"
+                        popover-placement="top"
+                        popover-template="'perQueryStatsPopover.html'" >
+                        <div class="scaling-svg-container">
+                              <per-query-stats chart-data="$parent.metrics" field="InnoDB_IO_r_ops"></per-query-stats>
+                        </div>
+                    </td>
+                </tr>
+                <tr ng-if="$parent.metrics.InnoDB_IO_r_bytes_sum">
+                    <td>Innodb Read Bytes</td>
+                    <td class="no-right-border" align="right">{{ $parent.metrics.InnoDB_IO_r_bytes_sum_per_sec | humanize : 'size'}} (per sec)</td>
+                    <td class="no-left-border">
+                        <div class="scaling-svg-container">
+                            <load-sparklines
+                             popover-trigger="mouseenter"
+                             popover-append-to-body="true"
+                             popover-placement="top"
+                             popover-template="'sparklinePopover.html'"
+                             xkey="Ts"
+                             ykey="InnoDB_IO_r_bytes_sum_per_sec"
+                             measurement="size"
+                             chart-data="sparks"></load-sparklines>
+                        </div>
+                    </td>
+                    <td>
+                        <span class="sum">{{ $parent.metrics.InnoDB_IO_r_bytes_sum | humanize : 'size' }}</span>
+                        <small>
+                            <span ng-if="!$root.isServerSummary" class="text-primary">{{ $parent.metrics.InnoDB_IO_r_bytes_sum_of_total | humanize : 'percent' }} of total</span>
+                            <span class="text-success">{{ $parent.metrics.InnoDB_IO_r_bytes_sum_per_io | humanize : 'size' }} avg io size</span>
+                        </small>
+                    </td>
+                    <td class="text-right no-right-border">
+                        {{ $parent.metrics.InnoDB_IO_r_bytes_avg | humanize : 'size' }}&nbsp;avg
+                    </td>
+                    <td style="width: 10%"
+                        class="no-left-border"
+                        ng-mouseover="popoverData = 'InnoDB_IO_r_bytes'; measurement = 'size'"
+                        popover-trigger="mouseenter"
+                        popover-append-to-body="true"
+                        popover-placement="top"
+                        popover-template="'perQueryStatsPopover.html'" >
+                        <div class="scaling-svg-container">
+                              <per-query-stats chart-data="$parent.metrics" field="InnoDB_IO_r_bytes"></per-query-stats>
+                        </div>
+                    </td>
+                </tr>
+                <tr ng-if="$parent.metrics.InnoDB_pages_distinct_sum">
+                    <td>Innodb Distinct Pages</td>
+                    <td colspan="2" align="right">-</td>
+                    <td><span class="sum">-</span></td>
+                    <td class="text-right no-right-border">
+                        {{ $parent.metrics.InnoDB_pages_distinct_avg | humanize : 'number' }}&nbsp;avg
+                    </td>
+                    <td style="width: 10%"
+                        class="no-left-border"
+                        ng-mouseover="popoverData = 'InnoDB_pages_distinct'; measurement = 'number' "
+                        popover-trigger="mouseenter"
+                        popover-append-to-body="true"
+                        popover-placement="top"
+                        popover-template="'perQueryStatsPopover.html'" >
+                        <div class="scaling-svg-container">
+                              <per-query-stats chart-data="$parent.metrics" field="InnoDB_pages_distinct"></per-query-stats>
+                        </div>
+                    </td>
+                </tr>
+                <tr ng-if="$parent.metrics.QC_Hit_sum">
+                    <td>Query Cache Hits</td>
+                    <td class="no-right-border" align="right">{{ $parent.metrics.QC_Hit_sum_per_sec | humanize : 'number' }} (per sec)</td>
+                    <td class="no-left-border">
+                        <div class="scaling-svg-container">
+                            <load-sparklines
+                             popover-trigger="mouseenter"
+                             popover-append-to-body="true"
+                             popover-placement="top"
+                             popover-template="'sparklinePopover.html'"
+                             xkey="Ts"
+                             ykey="QC_Hit_sum_per_sec"
+                             measurement="number"
+                             chart-data="sparks"></load-sparklines>
+                        </div>
+                    </td>
+                    <td>
+                        <span class="sum">{{ $parent.metrics.QC_Hit_sum | humanize : 'number' }}</span>
+                        <small>
+                            <span ng-if="!$root.isServerSummary" class="text-primary">{{ $parent.metrics.QC_Hit_sum_of_total | humanize : 'percent' }} of total</span>
+                            <span class="text-success">{{ $parent.metrics.QC_Hit_sum_per_query | humanize : 'percent'}} QC hit ratio</span>
+                        </small>
+                    </td>
+                    <td class="text-right no-right-border">
+                        -
+                    </td>
+                    <td style="width: 10%" class="no-left-border">
+                    </td>
+                </tr>
+                <tr ng-if="$parent.metrics.Rows_sent_sum">
+                    <td>Rows Sent</td>
+                    <td class="no-right-border" align="right">{{ $parent.metrics.Rows_sent_sum_per_sec | humanize : 'number' }} (per sec)</td>
+                    <td class="no-left-border">
+                        <div class="scaling-svg-container">
+                            <load-sparklines
+                             popover-trigger="mouseenter"
+                             popover-append-to-body="true"
+                             popover-placement="top"
+                             popover-template="'sparklinePopover.html'"
+                             xkey="Ts"
+                             ykey="Rows_sent_sum_per_sec"
+                             measurement="number"
+                             chart-data="sparks"></load-sparklines>
+                        </div>
+                    </td>
+                    <td>
+                        <span class="sum">{{ $parent.metrics.Rows_sent_sum | humanize : 'number' }}</span>
+                        <small>
+                            <span ng-if="!$root.isServerSummary" class="text-primary">{{ $parent.metrics.Rows_sent_sum_of_total | humanize : 'percent' }} of total</span>
+                        </small>
+                    </td>
+                    <td class="text-right no-right-border">
+                        {{ $parent.metrics.Rows_sent_avg | humanize : 'number' }}&nbsp;avg
+                    </td>
+                    <td style="width: 10%"
+                        class="no-left-border"
+                        ng-mouseover="popoverData = 'Rows_sent'; measurement = 'number';"
+                        popover-trigger="mouseenter"
+                        popover-append-to-body="true"
+                        popover-placement="top"
+                        popover-template="'perQueryStatsPopover.html'" >
+                        <div class="scaling-svg-container">
+                              <per-query-stats chart-data="$parent.metrics" field="Rows_sent"></per-query-stats>
+                        </div>
+                    </td>
+                </tr>
+                <tr ng-if="$parent.metrics.Bytes_sent_sum">
+                    <td>Bytes Sent</td>
+                    <td class="no-right-border" align="right">{{ $parent.metrics.Bytes_sent_sum_per_sec | humanize : 'size' }} (per sec)</td>
+                    <td class="no-left-border">
+                        <div class="scaling-svg-container">
+                            <load-sparklines
+                             popover-trigger="mouseenter"
+                             popover-append-to-body="true"
+                             popover-placement="top"
+                             popover-template="'sparklinePopover.html'"
+                             xkey="Ts"
+                             ykey="Bytes_sent_sum_per_sec"
+                             measurement="size"
+                             chart-data="sparks"></load-sparklines>
+                        </div>
+                    </td>
+                    <td>
+                        <span class="sum">{{ $parent.metrics.Bytes_sent_sum | humanize : 'size' }}</span>
+                        <small>
+                            <span ng-if="!$root.isServerSummary" class="text-primary">{{ $parent.metrics.Bytes_sent_sum_of_total | humanize : 'percent' }} of total</span>
+                            <span class="text-success" ng-if="$parent.metrics.Bytes_sent_sum_per_rows">{{ $parent.metrics.Bytes_sent_sum_per_rows | humanize : 'size' }} bytes/row</span>
+                        </small>
+                    </td>
+                    <td class="text-right no-right-border">
+                        {{ $parent.metrics.Bytes_sent_avg | humanize : 'size' }}&nbsp;avg
+                    </td>
+                    <td style="width: 10%"
+                        class="no-left-border"
+                        ng-mouseover="popoverData = 'Bytes_sent'; measurement = 'size'"
+                        popover-trigger="mouseenter"
+                        popover-append-to-body="true"
+                        popover-placement="top"
+                        popover-template="'perQueryStatsPopover.html'" >
+                        <div class="scaling-svg-container">
+                             <per-query-stats chart-data="$parent.metrics" field="Bytes_sent"></per-query-stats>
+                        </div>
+                    </td>
+                </tr>
+                <tr ng-if="$parent.metrics.Rows_examined_sum">
+                    <td>Rows Examined</td>
+                    <td class="no-right-border" align="right">{{ $parent.metrics.Rows_examined_sum_per_sec | humanize : 'number' }} (per sec)</td>
+                    <td class="no-left-border">
+                        <div class="scaling-svg-container">
+                            <load-sparklines
+                             popover-trigger="mouseenter"
+                             popover-append-to-body="true"
+                             popover-placement="top"
+                             popover-template="'sparklinePopover.html'"
+                             xkey="Ts"
+                             ykey="Rows_examined_sum_per_sec"
+                             measurement="number"
+                             chart-data="sparks"></load-sparklines>
+                        </div>
+                    </td>
+                    <td>
+                        <span class="sum">{{ $parent.metrics.Rows_examined_sum | humanize : 'number' }}</span>
+                        <small>
+                            <span ng-if="!$root.isServerSummary" class="text-primary">{{ $parent.metrics.Rows_examined_sum_of_total | humanize : 'percent' }} of total</span>
+                            <span class="text-success">{{ $parent.metrics.Rows_examined_sum_per_rows | humanize : 'number' }} per row sent</span>
+                        </small>
+                    </td>
+                    <td class="text-right no-right-border">
+                        {{ $parent.metrics.Rows_examined_avg | humanize : 'number' }}&nbsp;avg
+                    </td>
+                    <td style="width: 10%"
+                        class="no-left-border"
+                        ng-mouseover="popoverData = 'Rows_examined'; measurement = 'number'"
+                        popover-trigger="mouseenter"
+                        popover-append-to-body="true"
+                        popover-placement="top"
+                        popover-template="'perQueryStatsPopover.html'" >
+                        <div class="scaling-svg-container">
+                             <per-query-stats chart-data="$parent.metrics" field="Rows_examined"></per-query-stats>
+                        </div>
+                    </td>
+                </tr>
+                <tr ng-if="$parent.metrics.Rows_affected_sum">
+                    <td>Rows Affected</td>
+                    <td class="no-right-border" align="right">{{ $parent.metrics.Rows_affected_sum_per_sec | humanize : 'number' }} (per sec)</td>
+                    <td class="no-left-border">
+                        <div class="scaling-svg-container">
+                            <load-sparklines
+                             popover-trigger="mouseenter"
+                             popover-append-to-body="true"
+                             popover-placement="top"
+                             popover-template="'sparklinePopover.html'"
+                             xkey="Ts"
+                             ykey="Rows_affected_sum_per_sec"
+                             measurement="number"
+                             chart-data="sparks"></load-sparklines>
+                        </div>
+                    </td>
+                    <td>
+                        <span class="sum">{{ $parent.metrics.Rows_affected_sum | humanize : 'number'}}</span>
+                        <small>
+                            <span ng-if="!$root.isServerSummary" class="text-primary">{{ $parent.metrics.Rows_affected_sum_of_total | humanize : 'percent' }} of total</span>
+                        </small>
+                    </td>
+                    <td class="text-right no-right-border">
+                        {{ $parent.metrics.Rows_affected_avg | humanize : 'number' }}&nbsp;avg
+                    </td>
+                    <td style="width: 10%"
+                        class="no-left-border"
+                        ng-mouseover="popoverData = 'Rows_affected'; measurement = 'number'"
+                        popover-trigger="mouseenter"
+                        popover-append-to-body="true"
+                        popover-placement="top"
+                        popover-template="'perQueryStatsPopover.html'" >
+                        <div class="scaling-svg-container">
+                             <per-query-stats chart-data="$parent.metrics" field="Rows_affected"></per-query-stats>
+                        </div>
+                    </td>
+                </tr>
+                <tr ng-if="$parent.metrics.Filesort_sum"> <!-- no avg -->
+                    <td>External Sorts <small>(Filesort)</small></td>
+                    <td class="no-right-border" align="right">{{ $parent.metrics.Filesort_sum_per_sec | humanize : 'number' }} (per sec)</td>
+                    <td class="no-left-border">
+                        <div class="scaling-svg-container">
+                            <load-sparklines
+                             popover-trigger="mouseenter"
+                             popover-append-to-body="true"
+                             popover-placement="top"
+                             popover-template="'sparklinePopover.html'"
+                             xkey="Ts"
+                             ykey="Filesort_sum_per_sec"
+                             measurement="number"
+                             chart-data="sparks"></load-sparklines>
+                        </div>
+                    </td>
+                    <td>
+                        <span class="sum">{{ $parent.metrics.Filesort_sum | humanize : 'number' }}</span>
+                        <small>
+                            <span ng-if="!$root.isServerSummary" class="text-primary">{{ $parent.metrics.Filesort_sum_of_total | humanize : 'percent' }} of total</span>
+                            <span class="text-success">{{ $parent.metrics.Filesort_sum_per_query | humanize : 'percent' }} of queries</span>
+                        </small>
+                    </td>
+                    <td class="text-right no-right-border">
+                        -
+                    </td>
+                    <td style="width: 10%"class="no-left-border">
+                    </td>
+                </tr>
+                <tr ng-if="$parent.metrics.Filesort_on_disk_sum">
+                    <td>External Sorts of Disk <small>(Filesort on disk)</small></td>
+                    <td class="no-right-border" align="right">{{ $parent.metrics.Filesort_on_disk_sum_per_sec | humanize : 'number' }} (per sec)</td>
+                    <td class="no-left-border">
+                        <div class="scaling-svg-container">
+                            <load-sparklines
+                             popover-trigger="mouseenter"
+                             popover-append-to-body="true"
+                             popover-placement="top"
+                             popover-template="'sparklinePopover.html'"
+                             xkey="Ts"
+                             ykey="Filesort_on_disk_sum_per_sec"
+                             measurement="number"
+                             chart-data="sparks"></load-sparklines>
+                        </div>
+                    </td>
+                    <td>
+                        <span class="sum">{{ $parent.metrics.Filesort_on_disk_sum | humanize : 'number' }}</span>
+                        <small>
+                            <span ng-if="!$root.isServerSummary" class="text-primary">{{ $parent.metrics.Filesort_on_disk_sum_of_total | humanize : 'percent' }} of total</span>
+                            <span class="text-success">{{ $parent.metrics.Filesort_on_disk_sum_per_query | humanize : 'percent' }} of queries</span>
+                        </small>
+                    </td>
+                    <td class="text-right no-right-border">
+                        -
+                    </td>
+                    <td style="width: 10%" class="no-left-border">
+                    </td>
+                </tr>
+                <tr ng-if="$parent.metrics.Merge_passes_sum">
+                    <td>External Sort Passes <small>(Merge Passes)</small></td>
+                    <td class="no-right-border" align="right">{{ $parent.metrics.Merge_passes_sum_per_sec | humanize : 'number' }} (per sec)</td>
+                    <td class="no-left-border">
+                        <div class="scaling-svg-container">
+                            <load-sparklines
+                             popover-trigger="mouseenter"
+                             popover-append-to-body="true"
+                             popover-placement="top"
+                             popover-template="'sparklinePopover.html'"
+                             xkey="Ts"
+                             ykey="Merge_passes_sum_per_sec"
+                             measurement="number"
+                             chart-data="sparks"></load-sparklines>
+                        </div>
+                    </td>
+                    <td>
+                        <span class="sum">{{ $parent.metrics.Merge_passes_sum | humanize : 'number' }}</span>
+                        <small>
+                            <span ng-if="!$root.isServerSummary" class="text-primary">{{ $parent.metrics.Merge_passes_sum_of_total | humanize : 'percent' }} of total</span>
+                            <span class="text-success">{{ $parent.metrics.Merge_passes_sum_per_external_sort | humanize : 'percent' }} per external sort</span>
+                        </small>
+                    </td>
+                    <td class="text-right no-right-border">
+                        {{ $parent.metrics.Merge_passes_avg | humanize : 'number' }}&nbsp;avg
+                    </td>
+                    <td style="width: 10%"
+                        class="no-left-border"
+                        ng-mouseover="popoverData = 'Merge_passes'; measurement = 'number'"
+                        popover-trigger="mouseenter"
+                        popover-append-to-body="true"
+                        popover-placement="top"
+                        popover-template="'perQueryStatsPopover.html'" >
+                        <div class="scaling-svg-container">
+                             <per-query-stats chart-data="$parent.metrics" field="Merge_passes"></per-query-stats>
+                        </div>
+                    </td>
+                </tr>
+                <tr ng-if="$parent.metrics.Full_join_sum">
+                    <td>Cartesian Products <small>(Full Joins)</small></td>
+                    <td class="no-right-border" align="right">{{ $parent.metrics.Full_join_sum_per_sec | humanize : 'number' }} (per sec)</td>
+                    <td class="no-left-border">
+                        <div class="scaling-svg-container">
+                            <load-sparklines
+                             popover-trigger="mouseenter"
+                             popover-append-to-body="true"
+                             popover-placement="top"
+                             popover-template="'sparklinePopover.html'"
+                             xkey="Ts"
+                             ykey="Full_join_sum_per_sec"
+                             measurement="number"
+                             chart-data="sparks"></load-sparklines>
+                        </div>
+                    </td>
+                    <td>
+                        <span class="sum">{{ $parent.metrics.Full_join_sum | humanize : 'number' }}</span>
+                        <small>
+                            <span ng-if="!$root.isServerSummary" class="text-primary">{{ $parent.metrics.Full_join_sum_of_total | humanize : 'percent' }} of total</span>
+                            <span class="text-success">{{ $parent.metrics.Full_join_sum_per_query | humanize : 'percent' }} of queries</span>
+                        </small>
+                    </td>
+                    <td class="text-right no-right-border">
+                        -
+                    </td>
+                    <td style="width: 10%" class="no-left-border">
+                    </td>
+                </tr>
+                <tr ng-if="$parent.metrics.Full_scan_sum">
+                    <td>Full Table Scans</td>
+                    <td class="no-right-border" align="right">{{ $parent.metrics.Full_scan_sum_per_sec | humanize : 'number' }} (per sec)</td>
+                    <td class="no-left-border">
+                        <div class="scaling-svg-container">
+                            <load-sparklines
+                             popover-trigger="mouseenter"
+                             popover-append-to-body="true"
+                             popover-placement="top"
+                             popover-template="'sparklinePopover.html'"
+                             xkey="Ts"
+                             ykey="Full_scan_sum_per_sec"
+                             measurement="number"
+                             chart-data="sparks"></load-sparklines>
+                        </div>
+                    </td>
+                    <td>
+                        <span class="sum">{{ $parent.metrics.Full_scan_sum | humanize : 'number' }}</span>
+                        <small>
+                            <span ng-if="!$root.isServerSummary" class="text-primary">{{ $parent.metrics.Full_scan_sum_of_total | humanize : 'percent' }} of total</span>
+                            <span class="text-success">{{ $parent.metrics.Full_scan_sum_per_query | humanize : 'percent' }} of queries</span>
+                        </small>
+                    </td>
+                    <td class="text-right no-right-border">
+                       -
+                    </td>
+                    <td style="width: 10%" class="no-left-border">
+                    </td>
+                </tr>
+                <tr ng-if="$parent.metrics.Tmp_table_sum">
+                    <td>Queries Requiring Tmp Table In Memory</td>
+                    <td class="no-right-border" align="right">{{ $parent.metrics.Tmp_table_sum_per_sec | humanize : 'number' }} (per sec)</td>
+                    <td class="no-left-border">
+                        <div class="scaling-svg-container">
+                            <load-sparklines
+                             popover-trigger="mouseenter"
+                             popover-append-to-body="true"
+                             popover-placement="top"
+                             popover-template="'sparklinePopover.html'"
+                             xkey="Ts"
+                             ykey="Tmp_table_sum_per_sec"
+                             measurement="number"
+                             chart-data="sparks"></load-sparklines>
+                        </div>
+                    </td>
+                    <td>
+                        <span class="sum">{{ $parent.metrics.Tmp_table_sum | humanize : 'number' }}</span>
+                        <small>
+                            <span ng-if="!$root.isServerSummary" class="text-primary">{{ $parent.metrics.Tmp_table_sum_of_total | humanize : 'percent' }} of total</span>
+                            <span class="text-success">{{ $parent.metrics.Tmp_table_sum_per_query | humanize : 'percent' }} of queries</span>
+                        </small>
+                    </td>
+                    <td class="text-right no-right-border">
+                        -
+                    </td>
+                    <td style="width: 10%" class="no-left-border">
+                    </td>
+                </tr>
+                <tr ng-if="$parent.metrics.Tmp_tables_sum">
+                    <td>Number of Tmp table in Memory</td>
+                    <td class="no-right-border" align="right">{{ $parent.metrics.Tmp_tables_sum_per_sec | humanize : 'number' }} (per sec)</td>
+                    <td class="no-left-border">
+                        <div class="scaling-svg-container">
+                            <load-sparklines
+                             popover-trigger="mouseenter"
+                             popover-append-to-body="true"
+                             popover-placement="top"
+                             popover-template="'sparklinePopover.html'"
+                             xkey="Ts"
+                             ykey="Tmp_tables_sum_per_sec"
+                             measurement="number"
+                             chart-data="sparks"></load-sparklines>
+                        </div>
+                    </td>
+                    <td>
+                        <span class="sum">{{ $parent.metrics.Tmp_tables_sum | humanize : 'number' }}</span>
+                        <small>
+                            <span ng-if="!$root.isServerSummary" class="text-primary">{{ $parent.metrics.Tmp_tables_sum_of_total | humanize : 'percent' }} of total</span>
+                            <span class="text-success">{{ $parent.metrics.Tmp_tables_sum_per_query_with_tmp_table | humanize : 'percent'}} per query with tmp table</span>
+                        </small>
+                    </td>
+                    <td class="text-right no-right-border">
+                        {{ $parent.metrics.Tmp_tables_avg | humanize : 'number' }}&nbsp;avg
+                    </td>
+                    <td style="width: 10%"
+                        class="no-left-border"
+                        ng-mouseover="popoverData = 'Tmp_tables'; measurement = 'number'"
+                        popover-trigger="mouseenter"
+                        popover-append-to-body="true"
+                        popover-placement="top"
+                        popover-template="'perQueryStatsPopover.html'" >
+                        <div class="scaling-svg-container">
+                             <per-query-stats chart-data="$parent.metrics" field="Tmp_tables"></per-query-stats>
+                        </div>
+                    </td>
+                </tr>
+                <tr ng-if="$parent.metrics.Tmp_table_on_disk_sum">
+                    <td>Queries Requiring Tmp Table on Disk</td>
+                    <td class="no-right-border" align="right">{{ $parent.metrics.Tmp_table_on_disk_sum_per_sec | humanize : 'number' }} (per sec)</td>
+                    <td class="no-left-border">
+                        <div class="scaling-svg-container">
+                            <load-sparklines
+                             popover-trigger="mouseenter"
+                             popover-append-to-body="true"
+                             popover-placement="top"
+                             popover-template="'sparklinePopover.html'"
+                             xkey="Ts"
+                             ykey="Tmp_table_on_disk_sum_per_sec"
+                             measurement="number"
+                             chart-data="sparks"></load-sparklines>
+                        </div>
+                    </td>
+                    <td>
+                        <span class="sum">{{ $parent.metrics.Tmp_table_on_disk_sum | humanize : 'number' }}</span>
+                        <small>
+                            <span ng-if="!$root.isServerSummary" class="text-primary">{{ $parent.metrics.Tmp_table_on_disk_sum_of_total | humanize : 'percent' }} of total</span>
+                            <span class="text-success">{{ $parent.metrics.Tmp_table_on_disk_sum_per_query | humanize : 'percent' }} of queries</span>
+                        </small>
+                    </td>
+                    <td class="text-right no-right-border">
+                        -
+                    </td>
+                    <td style="width: 10%" class="no-left-border">
+                    </td>
+                </tr>
+                <tr ng-if="$parent.metrics.Tmp_disk_tables_sum">
+                    <td>Number of Tmp Tables on Disk</td>
+                    <td class="no-right-border" align="right">{{ $parent.metrics.Tmp_disk_tables_sum_per_sec | humanize : 'number' }} (per sec)</td>
+                    <td class="no-left-border">
+                        <div class="scaling-svg-container">
+                            <load-sparklines
+                             popover-trigger="mouseenter"
+                             popover-append-to-body="true"
+                             popover-placement="top"
+                             popover-template="'sparklinePopover.html'"
+                             xkey="Ts"
+                             ykey="Tmp_disk_tables_sum_per_sec"
+                             measurement="number"
+                             chart-data="sparks"></load-sparklines>
+                        </div>
+                    </td>
+                    <td>
+                        <span class="sum">{{ $parent.metrics.Tmp_disk_tables_sum | humanize : 'number' }}</span>
+                        <small>
+                            <span ng-if="!$root.isServerSummary" class="text-primary">{{ $parent.metrics.Tmp_disk_tables_sum_of_total | humanize : 'percent' }} of total</span>
+                            <span class="text-success">{{ $parent.metrics.Tmp_disk_tables_sum_per_query_with_tmp_table | humanize : 'percent' }} per query with disk tmp table</span>
+                        </small>
+                    </td>
+                    <td class="text-right no-right-border">
+                        {{ $parent.metrics.Tmp_disk_tables_avg | humanize : 'number' }}&nbsp;avg
+                    </td>
+                    <td style="width: 10%"
+                        class="no-left-border"
+                        ng-mouseover="popoverData = 'Tmp_disk_tables'; measurement = 'number'"
+                        popover-trigger="mouseenter"
+                        popover-append-to-body="true"
+                        popover-placement="top"
+                        popover-template="'perQueryStatsPopover.html'" >
+                        <div class="scaling-svg-container">
+                             <per-query-stats chart-data="$parent.metrics" field="Tmp_disk_tables"></per-query-stats>
+                        </div>
+                    </td>
+                </tr>
+                <tr ng-if="$parent.metrics.Tmp_table_sizes_sum">
+                    <td>Total Size of Tmp Tables</td>
+                    <td class="no-right-border" align="right">{{ $parent.metrics.Tmp_table_sizes_sum_per_sec | humanize : 'size' }} (per sec)</td>
+                    <td class="no-left-border">
+                        <div class="scaling-svg-container">
+                            <load-sparklines
+                             popover-trigger="mouseenter"
+                             popover-append-to-body="true"
+                             popover-placement="top"
+                             popover-template="'sparklinePopover.html'"
+                             xkey="Ts"
+                             ykey="Tmp_table_sizes_sum_per_sec"
+                             measurement="size"
+                             chart-data="sparks"></load-sparklines>
+                        </div>
+                    </td>
+                    <td>
+                        <span class="sum">{{ $parent.metrics.Tmp_table_sizes_sum | humanize : 'size' }}</span>
+                        <small>
+                            <span ng-if="!$root.isServerSummary" class="text-primary">{{ $parent.metrics.Tmp_table_sizes_sum_of_total | humanize : 'percent' }} of total</span>
+                            <span class="text-success">{{ $parent.metrics.Tmp_table_sizes_sum_per_query | humanize : 'size' }} per query</span>
+                        </small>
+                    </td>
+                    <td class="text-right no-right-border">
+                        {{ $parent.metrics.Tmp_table_sizes_avg | humanize : 'size' }}&nbsp;avg
+                    </td>
+                    <td style="width: 10%"
+                        class="no-left-border"
+                        ng-mouseover="popoverData = 'Tmp_table_sizes'; measurement = 'size'"
+                        popover-trigger="mouseenter"
+                        popover-append-to-body="true"
+                        popover-placement="top"
+                        popover-template="'perQueryStatsPopover.html'" >
+                        <div class="scaling-svg-container">
+                             <per-query-stats chart-data="$parent.metrics" field="Tmp_table_sizes"></per-query-stats>
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+<script type="text/ng-template" id="perQueryStatsPopover.html">
+<ul class="latency-popup">
+    <li class="li-min">Min: {{ $parent.metrics[popoverData + '_min'] | humanize : measurement }}</li>
+    <li class="li-med">Med: {{ $parent.metrics[popoverData + '_med'] | humanize : measurement }}</li>
+    <li class="li-avg">Avg: {{ $parent.metrics[popoverData + '_avg'] | humanize : measurement }}</li>
+    <li class="li-p95">P95: {{ $parent.metrics[popoverData + '_p95'] | humanize : measurement }}</li>
+    <li class="li-max">Max: {{ $parent.metrics[popoverData + '_max'] | humanize : measurement }}</li>
+</ul>
+</script>

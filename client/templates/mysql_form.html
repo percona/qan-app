@@ -1,571 +1,219 @@
-<div class="row">
-<div class="col-md-6">
-    <form class="form-horizontal" name="instanceForm">
-        <div class="panel panel-default">
-            <div class="panel-heading">
-                <div class="row">
-                    <div class="col-md-6">
-                        <h4>MySQL Connection</h4>
-                    </div>
-                    <div class="col-md-6">
-                        <a href="" ng-if="!DEMO" ng-click="deleteMysqlInstance(instance.Name)" class="pull-right"><i class="glyphicon glyphicon-trash"></i> Remove</a>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-md-12">
-                    </div>
-                </div>
-            </div>
-            <div class="panel-body">
+<tabset justified="true">
+    <tab heading="SETTINGS">
+        <br />
+        <div class="row">
+            <div class="col-md-12">
+                <form class="form-horizontal" name="qanForm">
 
-                <div class="form-group form-group-sm" ng-if="instance.hasOwnProperty('UUID')">
-                    <label for="inputID" class="col-md-3 control-label">ID</label>
-                    <div class="col-md-5">
-                        <p class="form-control-static input-sm" id="instanceUUID">{{ instance.UUID }}</p>
-                    </div>
-                    <div class="col-sm-1">
-                        <span id="inputIdHelpBlock"
-                            class="help-block">
-                            <a href=""
-                               tooltip="{{ copied ? ( isSafari ? 'Press &#8984;-C to copy' : 'Copied!') : 'Copy the ID' }}"
-                               tooltip-append-to-body="true"
-                               ng-click="copied = true"
-                               ng-mouseover="copied = false"
-                               tooltip-placement="bottom"
-                               ngclipboard data-clipboard-target="#instanceUUID"
-                               ngclipboard-success="onSuccess(e);" ngclipboard-error="onError(e);"
-                               >
-                                <i class="glyphicon glyphicon-copy"></i>
-                            </a>
-                        </span>
-                    </div>
-                </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group form-group-sm">
+                                <label class="col-sm-3 control-label">DSN</label>
+                                <div class="col-sm-9">
+                                    <p class="form-control-static">{{ instance.DSN.split('/?')[0] }}</p>
+                                </div>
+                            </div>
 
-                <div class="form-group form-group-sm" ng-class="{ 'has-error' : instanceForm.name.$invalid && !instanceForm.name.$pristine }">
-                    <label for="inputName" class="col-md-3 control-label">Name</label>
-                    <div class="col-md-9">
-                        <input type="text" class="form-control input-sm" id="inputName" name="name"
-                               ng-model="instance.Name"
-                               ng-pattern="'[-a-zA-Z0-9_.]+'"
-                               ng-required="true">
-                    </div>
-                </div>
+                            <div class="form-group form-group-sm">
+                                <label class="col-sm-3 control-label">Version</label>
+                                <div class="col-sm-9">
+                                    <p class="form-control-static">{{ instance.Version }} {{ instance.Distro }}</p>
+                                </div>
+                            </div>
 
-                <div class="form-group form-group-sm" ng-class="{ 'has-error' : instanceForm.user.$invalid && !instanceForm.user.$pristine }">
-                    <label for="inputUser" class="col-md-3 control-label">User</label>
-                    <div class="col-md-9">
-                        <input type="text"
-                               class="form-control input-sm"
-                               id="inputUser"
-                               ng-required="true"
-                               name="user" ng-model="instance.user">
-                    </div>
-                </div>
-                <div class="form-group form-group-sm" ng-class="{ 'has-error' : instanceForm.password.$invalid && !instanceForm.password.$pristine }">
-                    <label for="inputPassword" class="col-md-3 control-label">Password</label>
-                    <div class="col-md-6">
-                        <input type="{{ !!show_password ? 'text' : 'password' }}"
-                               class="form-control input-sm"
-                               ng-readonly="DEMO"
-                               id="inputPassword"
-                               ng-required="true"
-                               name="password" ng-model="instance.password">
-                    </div>
-                    <div ng-if="!DEMO" class="col-md-3">
-                        <div class="checkbox">
-                            <label>
-                                <input type="checkbox" ng-model="$root.show_password">
-                                <small><b>Show</b></small>
-                            </label>
-                        </div>
-                    </div>
-                </div>
-                <div class="form-group form-group-sm">
-                    <div class="col-md-offset-3 col-sm-9">
-                        <div class="checkbox">
-                            <label>
-                                <input type="checkbox" name="allowOldPasswords"
-                                                       ng-model="instance.allowOldPasswords" ng-true-value="true" ng-false-value="false">
-                                <small><b>Allow old passwords</b></small>
-                            </label>
-                        </div>
-                    </div>
-                </div>
-                <div class="form-group form-group-sm"
-                     ng-class="{ 'has-error' : (instanceForm.hostname.$invalid && !instanceForm.hostname.$pristine) || (instanceForm.port.$invalid && !instanceForm.port.$pristine) }">
-                    <label for="inputHostname" class="col-md-3 control-label">
-                        Host
-                        <input type="radio" id="inputHostname" name="isHostname"
-                               ng-model="instance.type"
-                               ng-value="'tcp'">
-                    </label>
-                    <div class="col-md-6">
-                        <input type="text" class="form-control input-sm" name="hostname"
-                               ng-pattern="'[-a-zA-Z0-9_.]*'"
-                               ng-required="instance.type === 'tcp'"
-                               ng-model="instance.hostname">
-                    </div>
-                    <label for="inputPort" class="col-md-1 control-label">Port</label>
-                    <div class="col-md-2">
-                        <input type="number" min="1" max="65535"
-                               class="form-control input-sm" name="port" ng-model="instance.port">
-                    </div>
-                </div>
-                <div class="form-group form-group-sm"
-                     ng-class="{ 'has-error' : instanceForm.socket.$invalid && !instanceForm.socket.$pristine }">
-                    <label for="inputSocket" class="col-md-3 control-label">
-                        Socket
-                        <input type="radio" id="inputSocket" name="isHostname" ng-model="instance.type" ng-value="'unix'">
-                    </label>
-                    <div class="col-md-9">
-                        <input type="text" class="form-control input-sm" name="socket"
-                               ng-required="instance.type === 'unix'"
-                               ng-model="instance.socket">
-                    </div>
-                </div>
-                <div class="form-group form-group-sm" ng-if="instance.hasOwnProperty('UUID')">
-                    <label for="inputVersion" class="col-md-3 control-label">Version</label>
-                    <div class="col-md-9">
-                        <p class="form-control-static input-sm">{{ instance.Version }} {{ instance.Distro }}</p>
-                    </div>
-                </div>
+                            <div class="form-group form-group-sm">
+                                <label for="inputInterval" class="col-sm-3 control-label">Collect interval</label>
+                                <div class="col-sm-2">
+                                    <input class="form-control" type="number" min="1" max="60" id="inputInterval" name="interval"
+                                        aria-describedby="intervalHelpBlock" ng-model="qanConf.Interval">
+                                </div>
+                                <div class="col-sm-5">
+                                    <span id="intervalHelpBlock" class="help-block"><small>minutes (from 1 to 60)</small></span>
+                                </div>
+                            </div>
 
-                <div class="form-group form-group-sm">
-                    <label for="inputAgent" class="col-md-3 control-label">Agent</label>
-                    <div class="col-md-4">
-                        <select class="form-control input-sm"
-                                ng-change="resetConnectionStatus()"
-                                ng-options="agent.Name for agent in agents"
-                                ng-model="selected_agent">
-                        </select>
-                    </div>
-                    <div class="col-sm-1">
-                        <button type="button" ng-disabled="!selected_agent"
-                                ng-click="testAgentConnection(selected_agent)" class="btn btn-default btn-sm">Test Connection</button>
-                    </div>
-                </div>
-                <div class="form-group form-group-sm">
-                    <div class="col-md-offset-3 col-sm-9">
-                    <p ng-if="instanceError" class="text-danger"><i class="glyphicon glyphicon-remove-circle"></i> Connection failed: {{ instanceError }}</p>
-                    <p ng-if="instanceOK" class="text-success"><i class="glyphicon glyphicon-ok-circle"></i> Connection OK</p>
-                    </div>
-                </div>
-
-
-            </div>
-            <div class="panel-footer">
-                <div class="form-group form-group-sm">
-                    <div class="col-md-offset-3 col-md-3">
-                        <button type="submit" ng-disabled="DEMO || instanceForm.$invalid"
-                                ng-click="instance.hasOwnProperty('UUID') ? updateMySQLInstance() : createMySQLInstance()"
-                                class="btn btn-primary btn-sm">
-                            <i class="glyphicon glyphicon-ok"></i>
-                            {{ instance.hasOwnProperty('UUID') ? 'Save' : 'Create' }}
-                        </button>
-                    </div>
-                    <div class="col-md-offset-1 col-md-2" style="padding-top: 5px !important;">
-                        <a href=""
-                           popover="{{ popoverDSN }}"
-                           popover-popup-delay="100"
-                           popover-append-to-body="true"
-                           popover-placement="bottom"
-                           popover-trigger="click"
-                           ng-click="getDSN()"
-                               >
-                           <i class="glyphicon glyphicon-search"></i>
-                           DSN
-                        </a>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </form>
-</div>
-
-<!-- QAN mgmt -->
-
-<div class="col-md-6">
-    <form class="form-horizontal" name="qanForm">
-        <div class="panel panel-default">
-            <div class="panel-heading">
-                <div class="row">
-                    <div class="col-md-12">
-                        <h4>Query Analytics</h4>
-                    </div>
-                </div>
-            </div>
-            <div class="panel-body" ng-if="!instance.UUID">
-                <div class="alert alert-info" role="alert">
-                    Create MySQL Connection first.
-                </div>
-            </div>
-            <div class="panel-body" ng-if="!!instance.UUID">
-
-                <div class="form-group form-group-sm" ng-class="{ 'has-error' : qanForm.selected_agent.$invalid }">
-                    <label for="inputAgent" class="col-sm-3 control-label">Agent</label>
-                    <div class="col-sm-4">
-                        <select class="form-control"
-                                name="selected_agent"
-                                ng-required="true"
-                                ng-change="resetConnectionStatus()"
-                                ng-options="agent.Name for agent in agents"
-                                ng-model="selected_agent">
-                        </select>
-                    </div>
-                    <div class="col-sm-3">
-                        <button type="button" ng-disabled="!selected_agent" ng-click="testConnectionToMySQL(selected_agent)" class="btn btn-default btn-sm">Test Connection to MySQL</button>
-                    </div>
-                </div>
-
-                <div class="form-group form-group-sm">
-                    <div class="col-sm-offset-3 col-sm-9">
-                    <p ng-if="qanError" class="text-danger"><i class="glyphicon glyphicon-remove-circle"></i> Connection failed: {{ qanError }}</p>
-                    <p ng-if="qanOK" class="text-success"><i class="glyphicon glyphicon-ok-circle"></i> Connection OK</p>
-                    </div>
-                </div>
-
-
-                <div class="form-group form-group-sm">
-                    <label for="inputConf" class="col-sm-3 control-label"><span class="text-bigger">Configuration</span></label>
-                    <div class="col-sm-9">
-                        <label for="inputConfAuto" class="col-md-4 control-label">
-                            <input type="radio" id="inputConfAuto" name="config"
-                                   ng-model="qanConf.config" ng-value="'auto'">
-                            Automatic
-                        </label>
-                        <label for="inputConfManual" class="col-md-3 control-label">
-                            <input type="radio" id="inputConfManual" name="config"
-                                   ng-model="qanConf.config" ng-value="'manual'">
-                            Manual
-                        </label>
-                    </div>
-                </div>
-                <hr />
-
-
-                <div class="form-group form-group-sm" ng-if="qanConf.config === 'auto'">
-                    <div class="col-sm-12">
-                        <div class="alert alert-info" role="alert">
-                            The agent will automatically configure MySQL based on its distribution and version. This is safe for production.
-                        </div>
-
-                        <div ng-if="instance.Distro !== '' && instance.Distro.toLowerCase().indexOf('percona server') === -1" class="alert alert-warning" role="alert">
-                            This MySQL instance is not running
-                            <a href="https://www.percona.com/software/mysql-database/percona-server">Percona Server</a>.
-                            For best results, upgrade to Percona Server.
-                        </div>
-                    </div>
-                </div>
-
-                <span ng-if="qanConf.config === 'manual'">
-
-                <div class="form-group form-group-sm">
-                    <label for="inputInterval" class="col-sm-3 control-label">Collect interval</label>
-                    <div class="col-sm-2">
-                        <input class="form-control"
-                               type="number"
-                               min="1"
-                               id="inputInterval"
-                               name="interval"
-                               ng-disabled="!qanConfLock.Interval"
-                               aria-describedby="intervalHelpBlock"
-                               ng-model="qanConf.Interval">
-                    </div>
-                    <div class="col-sm-2">
-                        <span id="intervalHelpBlock" class="help-block"><small>minute(s)</small></span>
-                    </div>
-                    <div class="col-sm-3">
-                        <span id="intervalLockHelpBlock"
-                              class="help-block pull-right">
-                            <abbr class="text-danger"
-                                  title=""
-                                  popover-append-to-body="true"
-                                  popover-placement="left"
-                                  popover-trigger="mouseenter"
-                                  popover="Pins show which options are set or not set.
-                                           Options with grey pins are not set, so the agent will use its built-in default value,
-                                           which can change depending on the agent and MySQL version.
-                                           Options with red pins are set, so the agent will always use the value shown."
-                                  >What's this?</abbr>
-                            &nbsp;<i class="glyphicon glyphicon-arrow-right"></i>
-                        </span>
-                    </div>
-                    <div class="col-sm-2">
-                        <button type="button" class="btn btn-default"
-                                id="IntervalLock"
-                                aria-describedby="intervalLockHelpBlock"
-                                ng-model="qanConfLock.Interval"
-                                title="{{ qanConfLock.Interval ? 'Use default value' : 'Set specific value' }}"
-                                btn-checkbox >
-                            <i class="glyphicon glyphicon-pushpin text-muted"
-                                ng-class="{'text-danger pinned': qanConfLock.Interval}"
-                                ></i>
-                        </button>
-                    </div>
-                </div>
-
-                <div class="form-group form-group-sm">
-                    <div class="col-sm-offset-3 col-sm-7">
-                        <div class="checkbox">
-                            <label>
-                                <input type="checkbox"
-                                       ng-disabled="!qanConfLock.ExampleQueries"
-                                       ng-model="qanConf.ExampleQueries">
+                            <div class="form-group form-group-sm" ng-show="qanConf.CollectFrom == 'slowlog'">
+                                <div class="col-sm-offset-3 col-sm-7">
+                                    <div class="checkbox">
+                                        <label>
+                                <input type="checkbox" ng-model="qanConf.ExampleQueries">
                                 <small><b>Send real query examples</b></small>
                             </label>
-                        </div>
-                    </div>
-                    <div class="col-sm-2">
-                        <button type="button" class="btn btn-default"
-                                ng-model="qanConfLock.ExampleQueries"
-                                title="{{ qanConfLock.ExampleQueries ? 'Use default value' : 'Set specific value' }}"
-                                btn-checkbox>
-                            <i class="glyphicon glyphicon-pushpin text-muted"
-                                ng-class="{'text-danger pinned': qanConfLock.ExampleQueries}"
-                                ></i>
-                        </button>
-                    </div>
-                </div>
+                                    </div>
+                                </div>
+                            </div>
 
-                <hr />
-
-                <div class="form-group form-group-sm">
-                    <label for="inputSource" class="col-sm-3 control-label">Collect from</label>
-                    <div class="col-sm-4">
-                        <select class="form-control"
-                                id="inputSource"
-                                name="source"
-                                ng-options="k as v for (k, v) in {'slowlog': 'Slow log', 'perfschema': 'Performance Schema'}"
-                                ng-model="qanConf.CollectFrom">
+                            <div class="form-group form-group-sm">
+                                <label for="inputSource" class="col-sm-3 control-label">Collect from</label>
+                                <div class="col-sm-4">
+                                    <select class="form-control" id="inputSource" name="source" ng-options="k as v for (k, v) in {'slowlog': 'Slow log', 'perfschema': 'Performance Schema'}"
+                                        ng-model="qanConf.CollectFrom">
                         </select>
-                    </div>
-                </div>
-
-                <fieldset ng-if="qanConf.CollectFrom === 'slowlog'">
-                    <legend>Slow Log Configuration</legend>
-
-                <div class="form-group form-group-sm" ng-class="{ 'has-error' : qanForm.longQueryTime.$invalid && !qanForm.longQueryTime.$pristine }">
-                    <label for="inputLongQueryTime" class="col-sm-3 control-label">Long query time</label>
-                    <div class="col-sm-2">
-                        <input class="form-control"
-                               type="text"
-                               ng-pattern="'(0|0\.[0-9]{1,6})'"
-                               id="inputLongQueryTime"
-                               name="longQueryTime"
-                               ng-disabled="!qanConfLock.LongQueryTime"
-                               aria-describedby="longQueryTimeHelpBlock"
-                               ng-model="qanConf.LongQueryTime">
-                    </div>
-                    <div class="col-sm-5">
-                        <span id="longQueryTimeHelpBlock" class="help-block"><small>second</small></span>
-                    </div>
-                    <div class="col-sm-2">
-                        <button type="button" class="btn btn-default"
-                                ng-model="qanConfLock.LongQueryTime"
-                                title="{{ qanConfLock.LongQueryTime ? 'Use default value' : 'Set specific value' }}"
-                                btn-checkbox>
-                            <i class="glyphicon glyphicon-pushpin text-muted"
-                                ng-class="{'text-danger pinned': qanConfLock.LongQueryTime}"
-                                ></i>
-                        </button>
-                    </div>
-                </div>
-
-                <div class="form-group form-group-sm" ng-class="{ 'has-error' : qanForm.maxSlowLogSize.$invalid && !qanForm.maxSlowLogSize.$pristine }">
-                    <label for="inputMaxSlowLogSize" class="col-sm-3 control-label">Max slow log size</label>
-                    <div class="col-sm-2">
-                        <input class="form-control"
-                               type="text"
-                               id="inputMaxSlowLogSize"
-                               ng-disabled="!qanConfLock.MaxSlowLogSize"
-                               ng-pattern="'(|0|[1-9][0-9]*[KMGPY]?B)?'"
-                               name="maxSlowLogSize"
-                               aria-describedby="maxSlowLogSizeHelpBlock"
-                               ng-model="qanConf.MaxSlowLogSize">
-                    </div>
-                    <div class="col-sm-5">
-                        <span id="maxSlowLogSizeHelpBlock" class="help-block"><small>Ex.: 1GB, 200MB, 0 = no max</small></span>
-                    </div>
-                    <div class="col-sm-2">
-                        <button type="button" class="btn btn-default"
-                                ng-model="qanConfLock.MaxSlowLogSize"
-                                title="{{ qanConfLock.MaxSlowLogSize ? 'Use default value' : 'Set specific value' }}"
-                                btn-checkbox>
-                            <i class="glyphicon glyphicon-pushpin text-muted"
-                                ng-class="{'text-danger pinned': qanConfLock.MaxSlowLogSize}"
-                                ></i>
-                        </button>
-                    </div>
-                </div>
-
-                <div class="form-group form-group-sm">
-                    <div class="col-sm-offset-3 col-sm-7">
-                        <div class="checkbox">
-                            <label>
-                                <input type="checkbox"
-                                       ng-disabled="!qanConfLock.RemoveOldSlowLogs"
-                                       ng-model="qanConf.RemoveOldSlowLogs">
-                                <small><b>Remove old slow logs</b></small>
-                            </label>
-                        </div>
-                    </div>
-                    <div class="col-sm-2">
-                        <button type="button" class="btn btn-default"
-                                ng-model="qanConfLock.RemoveOldSlowLogs"
-                                title="{{ qanConfLock.RemoveOldSlowLogs ? 'Use default value' : 'Set specific value' }}"
-                                btn-checkbox>
-                            <i class="glyphicon glyphicon-pushpin text-muted"
-                                ng-class="{'text-danger pinned': qanConfLock.RemoveOldSlowLogs}"
-                                ></i>
-                        </button>
-                    </div>
-                </div>
-
-
-                </fieldset>
-
-                <fieldset ng-if="qanConf.CollectFrom === 'slowlog'">
-                    <legend>Percona Server</legend>
-
-                    <div ng-if="instance.Distro.toLowerCase().indexOf('percona server') === -1" class="alert alert-warning" role="alert">
-                        Upgrade to Percona Server to enable these options.
-                    </div>
-
-                    <span ng-if="instance.Distro.toLowerCase().indexOf('percona server') > -1">
-                        <div class="form-group form-group-sm">
-                            <label for="inputSlowLogVerbosity" class="col-sm-3 control-label">Slow log verbosity</label>
-                            <div class="col-sm-4">
-                                <select class="form-control"
-                                        id="inputSlowLogVerbosity"
-                                        name="slowLogVerbosity"
-                                        ng-disabled="!qanConfLock.SlowLogVerbosity"
-                                        ng-options="k as v for (k, v) in {'full': 'Full', 'standard': 'Standard', 'minimal': 'Minimal'}"
-                                        ng-model="qanConf.SlowLogVerbosity">
-                                </select>
+                                </div>
                             </div>
-                            <div class="col-sm-offset-3 col-sm-2">
-                                <button type="button" class="btn btn-default"
-                                                      ng-model="qanConfLock.SlowLogVerbosity"
-                                                      title="{{ qanConfLock.SlowLogVerbosity ? 'Use default value' : 'Set specific value' }}"
-                                                      btn-checkbox>
-                                    <i class="glyphicon glyphicon-pushpin text-muted"
-                                       ng-class="{'text-danger pinned': qanConfLock.SlowLogVerbosity}"
-                                       ></i>
-                                </button>
+
+                            <div class="form-group form-group-sm">
+                                <div class="col-sm-offset-3 col-sm-4">
+                                    <button type="submit" ng-click="setQanConfig(selected_agent)" ng-disabled="DEMO || qanForm.$invalid" class="btn btn-primary btn-sm">
+                                    <i class="glyphicon glyphicon-ok"></i>
+                                    Apply
+                        </button>
+                                </div>
+                            </div>
+
+
+                        </div>
+                        <div class="col-md-6">
+                            <fieldset ng-if="qanConf.CollectFrom === 'slowlog'">
+                                <legend>Slow Log Configuration</legend>
+
+                                <div class="form-group form-group-sm">
+                                    <label for="inputLongQueryTime" class="col-sm-4 control-label">Long query time</label>
+                                    <div class="col-sm-3">
+                                        <p class="form-control-static">{{ qanConf.LongQueryTime }}</p>
+                                    </div>
+                                    <div class="col-sm-2">
+                                        <span id="longQueryTimeHelpBlock" class="help-block"><small>second(s)</small></span>
+                                    </div>
+                                </div>
+
+                                <div class="form-group form-group-sm">
+                                    <label for="inputMaxSlowLogSize" class="col-sm-4 control-label">Max slow log size</label>
+                                    <div class="col-sm-3">
+                                        <p class="form-control-static">{{ qanConf.MaxSlowLogSize }}</p>
+                                    </div>
+                                    <div class="col-sm-2">
+                                        <span id="maxSlowLogSizeHelpBlock" class="help-block"><small>0 = no max</small></span>
+                                    </div>
+                                </div>
+
+                                <div class="form-group form-group-sm">
+                                    <label for="RemoveOldSlowLogs" class="col-sm-4 control-label">Remove old slow logs</label>
+                                    <div class="col-sm-3">
+                                        <p class="form-control-static" id="RemoveOldSlowLogs">{{ qanConf.RemoveOldSlowLogs ? 'ON' : 'OFF' }}</p>
+                                    </div>
+                                </div>
+                            </fieldset>
+
+                            <fieldset ng-if="qanConf.CollectFrom === 'slowlog'">
+                                <legend>Percona Server</legend>
+
+                                <div ng-if="instance.Distro.toLowerCase().indexOf('percona') === -1" class="alert alert-warning" role="alert">
+                                    Upgrade to <a href="https://www.percona.com/software/mysql-database/percona-server">Percona Server</a>                                    to enable these options.
+                                </div>
+
+                                <span ng-if="instance.Distro.toLowerCase().indexOf('percona') > -1">
+                        <div class="form-group form-group-sm">
+                            <label for="inputSlowLogVerbosity" class="col-sm-4 control-label">Slow log verbosity</label>
+                            <div class="col-sm-3">
+                                <p class="form-control-static">{{ qanConf.SlowLogVerbosity }}</p>
                             </div>
                         </div>
 
                         <div class="form-group form-group-sm">
-                            <label for="inputRateLimit" class="col-sm-3 control-label">Rate limit</label>
-                            <div class="col-sm-4">
-                                <input class="form-control"
-                                       type="number"
-                                       min="0"
-                                       id="inputRateLimit"
-                                       name="rateLimit"
-                                       ng-disabled="!qanConfLock.RateLimit"
-                                       aria-describedby="rateLimitHelpBlock"
-                                       ng-model="qanConf.RateLimit">
+                            <label for="inputRateLimit" class="col-sm-4 control-label">Rate limit</label>
+                            <div class="col-sm-3">
+                                <p class="form-control-static">{{ qanConf.RateLimit }}</p>
                             </div>
                             <div class="col-sm-3">
                                 <span id="rateLimitHelpBlock" class="help-block"><small>0 and 1 = disabled</small></span>
-                            </div>
-                            <div class="col-sm-2">
-                                <button type="button" class="btn btn-default"
-                                                      ng-model="qanConfLock.RateLimit"
-                                                      title="{{ qanConfLock.RateLimit ? 'Use default value' : 'Set specific value' }}"
-                                                      btn-checkbox>
-                                    <i class="glyphicon glyphicon-pushpin text-muted"
-                                       ng-class="{'text-danger pinned': qanConfLock.RateLimit}"
-                                       ></i>
-                                </button>
-                            </div>
                         </div>
+                    </div>
 
-                        <div class="form-group form-group-sm">
-                            <div class="col-sm-offset-3 col-sm-7">
-                                <div class="checkbox">
-                                    <label>
-                                        <input type="checkbox"
-                                               ng-disabled="!qanConfLock.LogSlowAdminStatements"
-                                               ng-model="qanConf.LogSlowAdminStatements">
-                                        <small><b>Log slow admin statements</b></small>
-                                    </label>
-                                </div>
-                            </div>
-                            <div class="col-sm-2">
-                                <button type="button" class="btn btn-default"
-                                                      ng-model="qanConfLock.LogSlowAdminStatements"
-                                                      title="{{ qanConfLock.LogSlowAdminStatements ? 'Use default value' : 'Set specific value' }}"
-                                                      btn-checkbox>
-                                    <i class="glyphicon glyphicon-pushpin text-muted"
-                                       ng-class="{'text-danger pinned': qanConfLock.LogSlowAdminStatements}"
-                                       ></i>
-                                </button>
-                            </div>
+                    <div class="form-group form-group-sm">
+                        <label for="LogSlowAdminStatements" class="col-sm-4 control-label">Log slow admin statements</label>
+                        <div class="col-sm-3">
+                            <p class="form-control-static">{{ qanConf.LogSlowAdminStatements ? 'ON' : 'OFF' }}</p>
                         </div>
+                    </div>
 
-                        <div class="form-group form-group-sm">
-                            <div class="col-sm-offset-3 col-sm-7">
-                                <div class="checkbox">
-                                    <label>
-                                        <input type="checkbox"
-                                               ng-disabled="!qanConfLock.LogSlowSlaveStatemtents"
-                                               ng-model="qanConf.LogSlowSlaveStatemtents">
-                                        <small><b>Log slow slave statements</b></small>
-                                    </label>
-                                </div>
-                            </div>
-
-                            <div class="col-sm-2">
-                                <button type="button" class="btn btn-default"
-                                                      ng-model="qanConfLock.LogSlowSlaveStatemtents"
-                                                      title="{{ qanConfLock.LogSlowSlaveStatemtents ? 'Use default value' : 'Set specific value' }}"
-                                                      btn-checkbox>
-                                    <i class="glyphicon glyphicon-pushpin text-muted"
-                                       ng-class="{'text-danger pinned': qanConfLock.LogSlowSlaveStatemtents}"
-                                       ></i>
-                                </button>
-                            </div>
-
+                    <div class="form-group form-group-sm">
+                        <label for="LogSlowSlaveStatemtents" class="col-sm-4 control-label">Log slow slave statements</label>
+                        <div class="col-sm-3">
+                            <p class="form-control-static">{{ qanConf.LogSlowSlaveStatemtents ? 'ON' : 'OFF' }}</p>
                         </div>
+                    </div>
                     </span>
-
-                </fieldset>
-
-            </span>
-
+                    </fieldset>
 
             </div>
-            <div class="panel-footer" ng-if="!!instance.UUID">
-                <div class="form-group form-group-sm" >
-                    <div class="col-sm-offset-3 col-md-2">
-                        <button type="submit"
-                                ng-click="setQanConfig(selected_agent)"
-                                ng-disabled="DEMO || qanForm.$invalid"
-                                class="btn btn-primary btn-sm" >
-                            <i class="glyphicon glyphicon-ok"></i>
-                            Apply
+        </div>
+        </form>
+
+        </div>
+        </div>
+    </tab>
+
+    <tab heading="STATUS">
+        <br />
+        <div class="row">
+            <!-- Status -->
+            <div class="row">
+                <div class="col-md-12">
+                    <button class="btn btn-default center-block" title="Refresh status" ng-click="getAgentStatus(agent)">
+                            <i class="glyphicon glyphicon-refresh"></i>
+                            <i>Updated {{ statusUpdatedFromNow }}</i>
                         </button>
-                    </div>
-                    <div class="col-md-offset-2 col-md-2" style="padding-top: 5px !important;">
-                        <a href=""
-                                popover-append-to-body="true"
-                                popover-placement="up"
-                                popover-template="'jsonPopoverTemplate.html'" popover-title="Qan Config:"
-                                >
-                                <i class="glyphicon glyphicon-search"></i>
-                                Config
-                        </a>
-                    </div>
+
+                </div>
+            </div>
+            <br />
+            <div class="col-md-12">
+                <div class="table-responsive">
+                    <table class="table table-bordered table-condensed">
+                        <tr ng-repeat="(key, val) in agentStatus">
+                            <td nowrap>{{ key }}</td>
+                            <td nowrap>{{ val }}</td>
+                        </tr>
+                    </table>
+                </div>
+
+            </div>
+        </div>
+    </tab>
+
+    <tab heading="LOG">
+        <!-- Log -->
+        <br />
+        <div class="row">
+            <div class="col-md-offset-4 col-md-8">
+                <div class="btn-group">
+                    <label class="btn btn-default" ng-click="getAgentLog(agent, '1 h')" ng-model="logTimeFrame" btn-radio="'1 h'" uncheckable>1h</label>
+                    <label class="btn btn-default" ng-click="getAgentLog(agent, '2 h')" ng-model="logTimeFrame" btn-radio="'2 h'" uncheckable>2h</label>
+                    <label class="btn btn-default" ng-click="getAgentLog(agent, '6 h')" ng-model="logTimeFrame" btn-radio="'6 h'" uncheckable>6h</label>
+                    <label class="btn btn-default" ng-click="getAgentLog(agent, '12 h')" ng-model="logTimeFrame" btn-radio="'12 h'" uncheckable>12h</label>
+                    <label class="btn btn-default" ng-click="getAgentLog(agent, '1 d')" ng-model="logTimeFrame" btn-radio="'1 d'" uncheckable>1d</label>
+                    <label class="btn btn-default" ng-click="getAgentLog(agent, '5 d')" ng-model="logTimeFrame" btn-radio="'5 d'" uncheckable>5d</label>
+                </div>
+                <button class="btn btn-default" title="Refresh log" ng-click="getAgentLog(agent, logTimeFrame)">
+                    <i class="glyphicon glyphicon-refresh"></i>
+                </button>
+            </div>
+
+
+            <div class="col-md-12">
+<br />
+                <div class="table-responsive">
+                    <table class="table table-bordered table-condensed">
+                        <thead>
+                            <tr>
+                                <th>Timestamp</th>
+                                <th>Service</th>
+                                <th>Level</th>
+                                <th>Msg</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr ng-repeat="log in agentLog">
+                                <td nowrap>{{ log.Ts }}</td>
+                                <td nowrap>{{ log.Service }}</td>
+                                <td nowrap>{{ severityLeveles[log.Level] }}</td>
+                                <td nowrap>{{ log.Msg }}</td>
+                            </tr>
+                        </tbody>
+                    </table>
                 </div>
             </div>
         </div>
-    </form>
-
-</div>
-</div>
-
-<script type="text/ng-template" id="jsonPopoverTemplate.html">
-    <pre>{{ qanConfNew | json }}</pre>
-</script>
+    </tab>
+    </tabset>

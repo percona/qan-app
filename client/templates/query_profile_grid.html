@@ -1,8 +1,8 @@
 <div class="row">
     <div class="col-md-12">
-        <div class="panel panel-default" ng-if="qanData.length !== 0">
-            <div class="panel-heading">
-                Top {{ returnedQueries }} of {{ totalQueries }} Queries by % Grand Total Time (%GTT)
+        <div class="panel panel-default" ng-if="qanData !== null && qanData.length !== 0">
+            <div class="panel-heading" id="text_count_queries">
+                Top {{ loadedToTableQueries }} of {{ totalQueries }} Queries by % Grand Total Time (%GTT)
             </div>
             <div class="panel-body padding-free">
                 <table
@@ -10,62 +10,168 @@
                     class="table table-bordered table-striped table-hover table-condensed">
                     <thead>
                         <tr>
-                            <th width="5%" title="Rank">Rank</th>
-                            <th title="Query Abstract">Query Abstract</th>
-                            <th title="ID">ID</th>
-                            <th title="% of Grand Total Time">%GTT</th>
-                            <th title="Load">Load</th>
-                            <th title="QPS">QPS</th>
-                            <th title="Min">Min</th>
-                            <th title="Avg">Avg</th>
-                            <th title="Med">Med</th>
-                            <th title="95th">95th</th>
-                            <th title="Max">Max</th>
+                            <th title="Rank">#</th>
+                            <th style="width: 14em;" title="Query Abstract">Query Abstract</th>
+                            <th style="width: 10em;" title="ID">ID</th>
+                            <th title="Load" colspan="2">Load</th>
+                            <th title="Count" colspan="3">Count</th>
+                            <th colspan="2" title="Latency">Latency</th>
                         </tr>
                     </thead>
                     <thead>
-                        <tr ng-click="qanSelectSummary()">
+                        <tr ng-click="qanSelectSummary()" ng-class="{'success': query_id === null}">
                             <th></th>
                             <th><a href="" ui-click="qanSelectSummary()">TOTAL</a></th>
                             <th></th>
-                            <th class="text-right">100%</th>
-                            <th class="text-right">{{ profileTotal.Load.toFixed(3) }}</th>
-                            <th class="text-right">{{ profileTotal.QPS.toFixed(2) }}</th>
-                            <th class="text-right">{{ profileTotal.Stats.Min | humanize }}</th>
-                            <th class="text-right">{{ profileTotal.Stats.Avg | humanize }}</th>
-                            <th class="text-right">{{ profileTotal.Stats.Med | humanize }}</th>
-                            <th class="text-right">{{ profileTotal.Stats.P95 | humanize }}</th>
-                            <th class="text-right">{{ profileTotal.Stats.Max | humanize }}</th>
+                            <th style="width: 12%" class="no-right-border">
+                                <div class="scaling-svg-container">
+                                <load-sparklines
+                                    popover-trigger="mouseenter"
+                                    popover-append-to-body="true"
+                                    popover-placement="top"
+                                    popover-template="'sparklinePopover.html'"
+                                    xkey="Start_ts"
+                                    ykey="Query_time_sum"
+                                    chart-data="profileTotal.Log"></load-sparklines>
+                                </div>
+                            </th>
+                            <th class="no-left-border text-right">
+                                {{ profileTotal.Load | humanize : 'number' }} (100%)
+                            </th>
+                            <th class="no-right-border text-right">
+                                {{profileTotal.QPS | humanize : 'number'}}&nbsp;QPS
+                            </th>
+                            <th style="width: 120px" class="no-left-border no-right-border">
+                                <div class="scaling-svg-container">
+                                <load-sparklines
+                                      popover-trigger="mouseenter"
+                                      popover-append-to-body="true"
+                                      popover-placement="top"
+                                      popover-template="'sparklinePopover.html'"
+                                      xkey="Start_ts"
+                                      ykey="Query_count"
+                                      chart-data="profileTotal.Log"></load-sparklines>
+                                </div>
+                            </th>
+                            <th class="no-left-border text-right">
+                                    {{ profileTotal.Stats.Cnt | humanize : 'number'}} (100%)
+                            </th>
+                            <th class="no-right-border text-right">
+                                {{ profileTotal.Stats.Avg | humanize }}&nbsp;avg
+                            </th>
+                            <th style="width: 120px" class="no-left-border"
+                                popover-trigger="mouseenter"
+                                popover-append-to-body="true"
+                                popover-placement="top"
+                                popover-template="'latencyPopoverTotal.html'" >
+                                <div class="scaling-svg-container">
+                                    <latency-chart chart-data="profileTotal.Stats"></latency-chart>
+                                </div>
+                            </th>
                         </tr>
                     </thead>
                     <tbody>
-                        <tr ng-repeat="row in qanData" ng-click="qanSelectRow(row)" ng-class="{'success': query_id === row.Id}">
-                            <td class="text-right" title="{{ row.Rank }}">{{ row.Rank }}</td>
-                            <td title="{{ row.Abstract }}"><a ui-sref="root.instance-dt.query({query_id: row.Id})">{{ row.Abstract }}</a></td>
+                        <tr ng-repeat="row in qanData" ng-click="qanSelectRow(row)" ng-class="{'success': query_id === row.Id}" >
+                            <td class="text-right">{{ $index + 1 }}</td>
+                            <td>
+                                <a href="" title="{{ row.Fingerprint }}" ng-click="qanSelectRow(row)">
+                                    {{ (row.Abstract | limitTo : 22) + (row.Abstract.length > 22 ? '...' : '') }}
+                                </a>
+                            </td>
                             <td title="{{ row.Id }}">{{ row.Id }}</td>
-                            <td class="text-right" title="{{ (row.Percentage*100).toFixed(2) }}%">{{ (row.Percentage*100).toFixed(2) }}%</td>
-                            <td class="text-right" title="{{ row.Load.toFixed(6) }}">{{ row.Load.toFixed(3) }}</td>
-                            <td class="text-right" title="{{ row.QPS.toFixed(2) }}">{{ row.QPS.toFixed(2) }}</td>
-                            <td class="text-right" title="{{ (row.Stats.Min*1000).toFixed(2) }}ms">{{ row.Stats.Min | humanize }}</td>
-                            <td class="text-right" title="{{ (row.Stats.Avg*1000).toFixed(2) }}ms">{{ row.Stats.Avg | humanize }}</td>
-                            <td class="text-right" title="{{ (row.Stats.Med*1000).toFixed(2) }}ms">{{ row.Stats.Med | humanize }}</td>
-                            <td class="text-right" title="{{ (row.Stats.P95*1000).toFixed(2) }}ms">{{ row.Stats.P95 | humanize }}</td>
-                            <td class="text-right" title="{{ (row.Stats.Max*1000).toFixed(2) }}ms">{{ row.Stats.Max | humanize }}</td>
+                            <td class="no-right-border">
+                                <div class="scaling-svg-container">
+                                <load-sparklines
+                                    popover-trigger="mouseenter"
+                                    popover-append-to-body="true"
+                                    popover-placement="top"
+                                    popover-template="'sparklinePopover.html'"
+                                    xkey="Start_ts"
+                                    ykey="Query_time_sum"
+                                    chart-data="row.Log"></load-sparklines>
+                                </div>
+                            </td>
+                            <td class="no-left-border text-right">
+                                    {{ row.Load | humanize : 'number' }} ({{ row.Percentage | humanize : 'percent' }})
+                            </td>
+                            <td class="no-right-border text-right">
+                                    {{row.QPS | humanize : 'number'}}&nbsp;QPS
+                            </td>
+                            <td class="no-left-border no-right-border">
+                                <div class="scaling-svg-container">
+                                <load-sparklines
+                                      popover-trigger="mouseenter"
+                                      popover-append-to-body="true"
+                                      popover-placement="top"
+                                      popover-template="'sparklinePopover.html'"
+                                      xkey="Start_ts"
+                                      ykey="Query_count"
+                                      chart-data="row.Log"></load-sparklines>
+                                </div>
+                            </td>
+                            <td class="no-left-border text-right">
+                                    {{row.Stats.Cnt | humanize : 'number'}} ({{ (row.Stats.Cnt / profileTotal.Stats.Cnt * 100).toFixed(2) }}%)
+                            </td>
+                            <td class="no-right-border text-right">
+                                {{ row.Stats.Avg | humanize }}&nbsp;avg
+                            </td>
+                            <td class="no-left-border"
+                                popover-trigger="mouseenter"
+                                popover-append-to-body="true"
+                                popover-placement="top"
+                                popover-template="'latencyPopoverRow.html'" >
+                                <div class="scaling-svg-container">
+                                    <latency-chart chart-data="row.Stats"></latency-chart>
+                                </div>
+                            </td>
                         </tr>
                         <tr ng-if="qanData.length===0"><td class="text-center" colspan="11">No data for selected time-range.</td></tr>
                     </tbody>
                 </table>
             </div>
         </div>
-        <div ng-if="!$root.connection_error && qanData.length === 0" class="text-center">
-            There is no data for the selected MySQL instance and time range.
+        <div ng-if="!$root.connection_error && qanData !== null && qanData.length > 0" class="text-center" id="show_more">
+            <button type="button" class="btn btn-default" ng-disabled="leftInDbQueries === 0" ng-click="loadMore();">
+                <i class="glyphicon glyphicon-menu-down"></i>
+                <span ng-if="leftInDbQueries > 0">Load next {{ leftInDbQueries > 10 ? 10 : leftInDbQueries }} queries</span>
+                <span ng-if="leftInDbQueries === 0">No more queries for selected time range</span>
+                <i class="glyphicon glyphicon-menu-down"></i>
+            </button>
+        </div>
+        <div ng-if="!$root.connection_error && qanData === null" class="text-center" id="text_no_profile_data">
+            There is no data for the selected MySQL instance, time range or search query.
+        </div>
+        <div ng-if="!$root.connection_error && qanData.length === 0" class="text-center" id="text_no_profile_data">
+            Loading...
         </div>
     </div>
 </div>
 
+<script type="text/ng-template" id="sparklinePopover.html">
+    <span>{{ $root.popover }}</span>
+</script>
+<script type="text/ng-template" id="latencyPopoverRow.html">
+    <ul class="latency-popup">
+        <li class="li-min">Min: {{row.Stats.Min | humanize}}</li>
+        <li class="li-med">Med: {{row.Stats.Med | humanize}}</li>
+        <li class="li-avg">Avg: {{row.Stats.Avg | humanize}}</li>
+        <li class="li-p95">P95: {{row.Stats.P95 | humanize}}</li>
+        <li class="li-max">Max: {{row.Stats.Max | humanize}}</li>
+    </ul>
+</script>
+<script type="text/ng-template" id="latencyPopoverTotal.html">
+    <ul class="latency-popup">
+        <li class="li-min">Min: {{profileTotal.Stats.Min | humanize}}</li>
+        <li class="li-med">Med: {{profileTotal.Stats.Med | humanize}}</li>
+        <li class="li-avg">Avg: {{profileTotal.Stats.Avg | humanize}}</li>
+        <li class="li-p95">P95: {{profileTotal.Stats.P95 | humanize}}</li>
+        <li class="li-max">Max: {{profileTotal.Stats.Max | humanize}}</li>
+    </ul>
+</script>
+
 <hr />
 
-<div class="row" ng-if="!$root.connection_error && $parent.query && query_abstract">
+<div class="row" ng-if="!$root.connection_error && $root.isMetrics && $root.query && query_abstract">
     <div class="col-md-6">
         <h3>{{ query_abstract }}</h3>
     </div>
@@ -81,59 +187,12 @@
 </div>
 
 <div class="row">
-    <div class="col-md-12">
-        <div ng-controller="MetricsController">
-            <div class="panel panel-default" ng-if="!$root.connection_error && $root.metricsData">
-                <div class="panel-heading">
-                    <div class="btn-group" role="group" aria-label="Toggle Metrics data" ng-init="duration=undefined">
-                        <button type="button" class="btn btn-default" ng-model="duration" btn-radio="undefined">METRIC COUNTERS</button>
-                        <button type="button" class="btn btn-default" ng-model="duration" btn-radio="$root.totalTime">METRIC RATES</button>
-                    </div>
-                </div>
-                <div class="panel-body padding-free">
-                    <table
-                        style="margin-bottom: 0px !important;"
-                        class="table table-bordered table-striped table-hover table-condensed">
-                        <thead>
-                            <tr>
-                                <th title="Metrics" width="16%">Metrics</th>
-                                <th title="Total" width="14%">Total</th>
-                                <th title="Min" width="14%">Min</th>
-                                <th title="Avg" width="14%">Avg</th>
-                                <th title="Med" width="14%">Med</th>
-                                <th title="95th" width="14%">95th</th>
-                                <th title="Max" width="14%">Max</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr ng-repeat="row in $root.metricsData | orderBy : 'Metrics'">
-                                <td>{{ row.Metrics.split('_').join(' ') }}</td>
-
-                                <td class="text-right"
-                                    >{{ row.Sum | humanize : row.Metrics : duration }}</td>
-
-                                <td class="text-right"
-                                    >{{ row.Min | humanize : row.Metrics : duration }}</td> 
-
-                                <td class="text-right"
-                                    >{{ row.Avg | humanize  : row.Metrics : duration }}</td>
-
-                                <td class="text-right"
-                                    >{{ row.Med | humanize : row.Metrics : duration }}</td>
-
-                                <td class="text-right"
-                                    >{{ row.P95 | humanize : row.Metrics : duration }}</td>
-
-                                <td class="text-right"
-                                    >{{ row.Max | humanize : row.Metrics : duration }}</td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-        </div>
+    <div class="col-md-12" ng-controller="MetricsController">
+        <metrics2 ng-if="!$root.connection_error && $root.metrics"></metrics2>
     </div>
 </div>
+
+<div class="clearfix"></div>
 <div class="row">
     <div class="col-md-12">
         <div class="panel panel-default"
@@ -141,7 +200,7 @@
             ng-controller="QueryController"
             >
             <div class="panel-heading">QUERY
-                <span class="pull-right">
+                <span class="pull-right clearfix text-nowrap">
                     <i class="glyphicon glyphicon-time"></i>
                     <b class="text-info">Last seen {{ lastSeenAgo }}</b>
                     <i class="text-muted">({{ lastSeen }})</i>
@@ -154,12 +213,13 @@
             <div class="panel-body">
                 <tabset justified="true">
                     <tab>
-                        <tab-heading>Example</tab-heading>
-                        <div ng-if="example" hljs hljs-source="example" hljs-language="sql"></div>
-                    </tab>
-                    <tab>
                         <tab-heading>Fingerprint</tab-heading>
                         <div ng-if="fingerprint" hljs hljs-source="fingerprint" hljs-language="sql"></div>
+                    </tab>
+                    <tab>
+                        <tab-heading>Example</tab-heading>
+                        <div ng-if="exampleFormatted" hljs hljs-source="exampleFormatted" hljs-language="sql"></div>
+                        <div ng-if="!exampleFormatted" class="text-warning text-center"><br />No query example</div>
                     </tab>
                 </tabset>
             </div>
@@ -168,7 +228,7 @@
 
 </div>
 
-<div class="row" ng-if="!$root.connection_error && $root.query">
+<div class="row" ng-if="!$root.connection_error && $root.exampleFormatted !== undefined && $root.exampleFormatted !== ''">
     <div class="col-md-12">
         <div class="panel panel-default"
             ng-controller="QueryExplainController"
@@ -188,7 +248,7 @@
                                     <input type="text"
                                     class="form-control"
                                     size="64"
-                                    ng-pattern="/^[-_$A-Za-z0-9]{1,64}$/"
+                                    ng-pattern="/^.{1,64}$/"
                                     ng-required="true"
                                     placeholder="Specify a database."
                                     id="db"
@@ -234,7 +294,7 @@
                                         <td title="{{ row.Partitions }}">{{ row.Partitions }}</td>
                                         <td title="{{ row.CreateTable }}">{{ row.CreateTable }}</td>
                                         <td title="{{ row.Type }}">{{ row.Type }}</td>
-                                        <td title="{{ row.PossibleKeys }}">{{ row.PossibleKeys }}</td>
+                                        <td title="{{ row.PossibleKeys }}">{{ row.PossibleKeys.replace(',', ', ') }}</td>
                                         <td title="{{ row.Key }}">{{ row.Key }}</td>
                                         <td title="{{ row.KeyLen }}">{{ row.KeyLen }}</td>
                                         <td title="{{ row.Ref }}">{{ row.Ref }}</td>
@@ -286,7 +346,7 @@
                                 ng-class="{ 'has-error': dbTblForm.dbTable.$dirty && dbTblForm.dbTable.$modelValue !== '' && dbTblForm.dbTable.$invalid }">
                                 <input type="text"
                                 ng-required="true"
-                                ng-pattern="/^[-A-Za-z0-9_$]{1,64}\.[-A-Za-z0-9_$]{1,64}$/"
+                                ng-pattern="/^.{1,128}$/"
                                 class="form-control"
                                 placeholder="Add db.table"
                                 name="dbTable"
@@ -324,7 +384,11 @@
                                     <tbody>
                                     <tr ng-repeat="(name, value) in tblStatus">
                                         <td>{{ name }}</td>
-                                        <td>{{ value }}</td>
+                                        <td ng-if="['AvgRowLength', 'DataLength', 'IndexLength', 'DataFree', 'MaxDataLength'].indexOf(name) > -1">{{ value | humanize : 'size' }}</td>
+                                        <td ng-if="['Rows'].indexOf(name) > -1">{{ value | humanize : 'number' }}</td>
+                                        <td ng-if="['Rows', 'AvgRowLength', 'DataLength', 'IndexLength', 'DataFree', 'MaxDataLength'].indexOf(name) === -1">
+                                            {{ value === null ? '-' : value}}
+                                        </td>
                                     </tr>
                                     <tr ng-if="tblStatus.length === 0"><td class="text-center" colspan="2">No data.</td></tr>
                                     </tbody>

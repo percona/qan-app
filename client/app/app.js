@@ -22,8 +22,8 @@
       .constant('constants', {
           // URI of datastore API
           API_PATH: window.location.protocol + '//'+ window.location.hostname + ':9001',
-          DEFAULT_ERR: 'QAN API error. Check the /var/log/qan-api.log file for more information.',
-          API_ERR: 'QAN API error: "<err_msg>".<br />Check the /var/log/qan-api.log file for more information.',
+          DEFAULT_ERR: 'QAN API error. <br />Check the /var/log/qan-api.log file in docker container for more information.',
+          API_ERR: 'QAN API error: "<err_msg>".<br />Check the /var/log/qan-api.log file in docker container for more information.',
           AGENT_ERR: 'Agent API error: "<err_msg>".<br />Check the agent log file for more information.',
           CONFIRM_STOP_AGENT: 'Are you sure you want to stop the agent?\nPlease note: you cannot start it again from UI.',
           DTM_FORMAT: 'YYYY-MM-DDTHH:mm:ss',
@@ -41,8 +41,7 @@
         $tooltipProvider.setTriggers({
             'mouseenter': 'mouseleave',
             'click': 'click',
-            'focus': 'blur',
-            'bebebe': 'fefefe'
+            'focus': 'blur'
         });
 
         function setVersionedUrl(url) {
@@ -61,7 +60,7 @@
             return {
                 request: function (config) {
                     $rootScope.loading = true;
-                    config.timeout = 10000;
+                    config.timeout = 20000;
                     // Intercept Angular external request to static files
                     // to append version number to defeat the cache problem.
                     config.url = setVersionedUrl(config.url);
@@ -88,11 +87,7 @@
                     $rootScope.connection_error = false;
                     if (rejection.status === -1) {
                         $rootScope.alerts.push({
-                            msg: 'Cannot connect to the QAN API. ' +
-                                 'Please check it is running at ' +
-                                 '<a href="' + constants.API_PATH + '">' +
-                                 constants.API_PATH +
-                                 '</a> and your firewall does not block it.',
+                            msg: 'Cannot connect to the QAN API.',
                             type: 'danger'
                         });
                         $rootScope.connection_error = true;
@@ -108,28 +103,27 @@
             templateUrl: 'client/templates/query_profile_grid.html',
             controller: 'QueryProfileController',
             resolve: {
-                instance: function (Instance, $rootScope) {
+                instance: function (Instance, $rootScope, constants) {
+                    $rootScope.showFullMenu = true;
                     return Instance.query()
                           .$promise
                           .then(function(resp) {
                               var mysqls = [];
                               for (var i=0; i < resp.length; i++) {
                                   // if deleted - skip
-                                  if (resp[i].Subsystem === 'mysql' && moment(resp[i].Deleted) < moment('0001-01-02')) {
-                                      resp[i].DSN = resp[i].DSN.replace(/:[0-9a-zA-Z]+@/, ':************@');
+                                  if (resp[i].Subsystem === 'mysql') {
                                       mysqls.push(resp[i]);
                                   }
                               }
                               if (mysqls.length === 0) {
                                   $rootScope.alerts.push({
-                                      msg: 'There are no MySQL instances. ' +
-                                           'Install the agent on a server, ' +
-                                           'then refresh this page.',
+                                      msg: 'There are no MySQL instances.',
                                       type: 'danger'
                                   });
                                   $rootScope.connection_error = true;
                               }
 
+                              $rootScope.instance = mysqls[0];
                               return {
                                   instances: mysqls,
                                   selected_instance: mysqls[0]
@@ -137,11 +131,7 @@
                           })
                           .catch(function(resp, err){
                               $rootScope.alerts.push({
-                                  msg: 'QAN API error: ' +
-                                       'GET ' + constants.API_PATH + '/instances ' +
-                                       'returned status code ' + resp.status +
-                                       ', expected 200. Check the /var/log/qan-api.log ' +
-                                       'file for more information.',
+                                  msg: constants.DEFAULT_ERR,
                                   type: 'danger'
                               });
                               $rootScope.connection_error = true;
@@ -165,16 +155,14 @@
             controller: 'ManagementController',
             resolve: {
                 instances: function (Instance, $rootScope) {
+                    $rootScope.showFullMenu = false;
                     return Instance.query()
                           .$promise
                           .then(function(resp) {
                               var instancesByUUID = {};
                               var len = resp.length;
                               for (var i=0; len > i; i++) {
-                                  // if deleted - skip
-                                  if(moment(resp[i].Deleted) < moment('0001-01-02')) {
-                                      instancesByUUID[resp[i].UUID] = resp[i];
-                                  }
+                                  instancesByUUID[resp[i].UUID] = resp[i];
                               }
                               return {
                                   'asDict': instancesByUUID,
@@ -183,11 +171,7 @@
                           })
                           .catch(function(resp, err){
                               $rootScope.alerts.push({
-                                  msg: 'QAN API error: ' +
-                                       'GET ' + constants.API_PATH + '/instances ' +
-                                       'returned status code ' + resp.status +
-                                       ', expected 200. Check the /var/log/qan-api.log ' +
-                                       'file for more information.',
+                                  msg: constants.DEFAULT_ERR,
                                   type: 'danger'
                               });
                               return {};

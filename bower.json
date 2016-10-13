@@ -1,6 +1,6 @@
 {
-  "name": "Percona Query Analitics",
-  "version": "1.0.0",
+  "name": "percona-query-analytics-application",
+  "version": "1.0.5",
   "homepage": "https://github.com/percona/platform-app",
   "authors": [
     "Andrii Skomorokhov <andrii.skomorokhov@percona.com>"
@@ -11,7 +11,7 @@
     "amd",
     "es6"
   ],
-  "license": "null",
+  "license": "AGPLv3",
   "ignore": [
     "**/.*",
     "node_modules",
@@ -37,7 +37,8 @@
     "angular-bootstrap-nav-tree": "*",
     "ngclipboard": "^1.1.0",
     "font-awesome": "fontawesome#^4.5.0",
-    "angular-numeraljs": "^1.3.0"
+    "angular-numeraljs": "^1.3.0",
+    "d3": "^3.5.17"
   },
   "resolutions": {
     "angular": "~1.4.8"

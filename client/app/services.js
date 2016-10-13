@@ -10,7 +10,8 @@
             return $resource(constants.API_PATH + '/qan/profile/:instance_uuid',
                 {
                     begin: $filter('date')(new Date(), 'yyyy-MM-ddT00:00:00'),
-                    end: $filter('date')(new Date(), 'yyyy-MM-ddT23:59:59')
+                    end: $filter('date')(new Date(), 'yyyy-MM-ddT23:59:59'),
+                    offset: 0
                 },
                 {
                     query: {method: 'GET', params: {}, isArray: false},
