@@ -15,7 +15,7 @@
                             <th style="width: 10em;" title="ID">ID</th>
                             <th title="Load" colspan="2">Load</th>
                             <th title="Count" colspan="3">Count</th>
-                            <th colspan="2" title="Latency">Latency</th>
+                            <th colspan="3" title="Latency">Latency</th>
                         </tr>
                     </thead>
                     <thead>
@@ -23,7 +23,7 @@
                             <th></th>
                             <th><a href="" ui-click="qanSelectSummary()">TOTAL</a></th>
                             <th></th>
-                            <th style="width: 12%" class="no-right-border">
+                            <th style="width: 120px" class="no-right-border">
                                 <div class="scaling-svg-container">
                                 <load-sparklines
                                     popover-trigger="mouseenter"
@@ -32,6 +32,7 @@
                                     popover-template="'sparklinePopover.html'"
                                     xkey="Start_ts"
                                     ykey="Query_time_sum"
+                                    measurement="number"
                                     chart-data="profileTotal.Log"></load-sparklines>
                                 </div>
                             </th>
@@ -50,13 +51,27 @@
                                       popover-template="'sparklinePopover.html'"
                                       xkey="Start_ts"
                                       ykey="Query_count"
+                                      measurement="number"
                                       chart-data="profileTotal.Log"></load-sparklines>
                                 </div>
                             </th>
                             <th class="no-left-border text-right">
                                     {{ profileTotal.Stats.Cnt | humanize : 'number'}} (100%)
                             </th>
-                            <th class="no-right-border text-right">
+                            <th style="width: 120px" class="no-right-border">
+                                <div class="scaling-svg-container">
+                                    <load-sparklines
+                                        popover-trigger="mouseenter"
+                                        popover-append-to-body="true"
+                                        popover-placement="top"
+                                        popover-template="'sparklinePopover.html'"
+                                        xkey="Start_ts"
+                                        measurement="time"
+                                        ykey="Query_time_avg"
+                                        chart-data="profileTotal.Log"></load-sparklines>
+                                </div>
+                            </th>
+                            <th  class="no-right-border no-left-border text-right">
                                 {{ profileTotal.Stats.Avg | humanize }}&nbsp;avg
                             </th>
                             <th style="width: 120px" class="no-left-border"
@@ -88,6 +103,7 @@
                                     popover-template="'sparklinePopover.html'"
                                     xkey="Start_ts"
                                     ykey="Query_time_sum"
+                                    measurement="number"
                                     chart-data="row.Log"></load-sparklines>
                                 </div>
                             </td>
@@ -106,16 +122,30 @@
                                       popover-template="'sparklinePopover.html'"
                                       xkey="Start_ts"
                                       ykey="Query_count"
+                                      measurement="number"
                                       chart-data="row.Log"></load-sparklines>
                                 </div>
                             </td>
                             <td class="no-left-border text-right">
                                     {{row.Stats.Cnt | humanize : 'number'}} ({{ (row.Stats.Cnt / profileTotal.Stats.Cnt * 100).toFixed(2) }}%)
                             </td>
-                            <td class="no-right-border text-right">
+                            <td style="width: 120px;" class="no-right-border">
+                                <div class="scaling-svg-container">
+                                    <load-sparklines
+                                      popover-trigger="mouseenter"
+                                      popover-append-to-body="true"
+                                      popover-placement="top"
+                                      popover-template="'sparklinePopover.html'"
+                                      xkey="Start_ts"
+                                      ykey="Query_time_avg"
+                                      measurement="time"
+                                      chart-data="row.Log"></load-sparklines>
+                                </div>
+                            </td>
+                            <td class="no-right-border no-left-border text-right">
                                 {{ row.Stats.Avg | humanize }}&nbsp;avg
                             </td>
-                            <td class="no-left-border"
+                            <td style="width: 120px;" class="no-left-border"
                                 popover-trigger="mouseenter"
                                 popover-append-to-body="true"
                                 popover-placement="top"
@@ -153,19 +183,19 @@
 <script type="text/ng-template" id="latencyPopoverRow.html">
     <ul class="latency-popup">
         <li class="li-min">Min: {{row.Stats.Min | humanize}}</li>
-        <li class="li-med">Med: {{row.Stats.Med | humanize}}</li>
-        <li class="li-avg">Avg: {{row.Stats.Avg | humanize}}</li>
-        <li class="li-p95">P95: {{row.Stats.P95 | humanize}}</li>
-        <li class="li-max">Max: {{row.Stats.Max | humanize}}</li>
+        <li class="li-med">Med: {{row.Stats.Med | humanize }}</li>
+        <li class="li-avg">Avg: {{row.Stats.Avg | humanize }}</li>
+        <li class="li-p95">P95: {{row.Stats.P95 | humanize }}</li>
+        <li class="li-max">Max: {{row.Stats.Max | humanize }}</li>
     </ul>
 </script>
 <script type="text/ng-template" id="latencyPopoverTotal.html">
     <ul class="latency-popup">
-        <li class="li-min">Min: {{profileTotal.Stats.Min | humanize}}</li>
-        <li class="li-med">Med: {{profileTotal.Stats.Med | humanize}}</li>
-        <li class="li-avg">Avg: {{profileTotal.Stats.Avg | humanize}}</li>
-        <li class="li-p95">P95: {{profileTotal.Stats.P95 | humanize}}</li>
-        <li class="li-max">Max: {{profileTotal.Stats.Max | humanize}}</li>
+        <li class="li-min">Min: {{profileTotal.Stats.Min | humanize }}</li>
+        <li class="li-med">Med: {{profileTotal.Stats.Med | humanize }}</li>
+        <li class="li-avg">Avg: {{profileTotal.Stats.Avg | humanize }}</li>
+        <li class="li-p95">P95: {{profileTotal.Stats.P95 | humanize }}</li>
+        <li class="li-max">Max: {{profileTotal.Stats.Max | humanize }}</li>
     </ul>
 </script>
 
