@@ -181,3 +181,17 @@ table.metrics td span.sum {
 .nav-tabs {
     border-bottom: none;
 }
+
+@media only screen
+and (max-device-width : 1280px) {
+	.chart-td {
+		width: 100px;
+	}
+}
+
+@media only screen
+and (min-device-width : 1281px) {
+	.chart-td {
+		width: 120px;
+	}
+}

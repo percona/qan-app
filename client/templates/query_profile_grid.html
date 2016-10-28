@@ -23,7 +23,7 @@
                             <th></th>
                             <th><a href="" ui-click="qanSelectSummary()">TOTAL</a></th>
                             <th></th>
-                            <th style="width: 120px" class="no-right-border">
+                            <th class="no-right-border chart-td">
                                 <div class="scaling-svg-container">
                                 <load-sparklines
                                     popover-trigger="mouseenter"
@@ -42,7 +42,7 @@
                             <th class="no-right-border text-right">
                                 {{profileTotal.QPS | humanize : 'number'}}&nbsp;QPS
                             </th>
-                            <th style="width: 120px" class="no-left-border no-right-border">
+                            <th class="no-left-border no-right-border chart-td">
                                 <div class="scaling-svg-container">
                                 <load-sparklines
                                       popover-trigger="mouseenter"
@@ -58,7 +58,7 @@
                             <th class="no-left-border text-right">
                                     {{ profileTotal.Stats.Cnt | humanize : 'number'}} (100%)
                             </th>
-                            <th style="width: 120px" class="no-right-border">
+                            <th class="no-right-border chart-td">
                                 <div class="scaling-svg-container">
                                     <load-sparklines
                                         popover-trigger="mouseenter"
@@ -74,7 +74,7 @@
                             <th  class="no-right-border no-left-border text-right">
                                 {{ profileTotal.Stats.Avg | humanize }}&nbsp;avg
                             </th>
-                            <th style="width: 120px" class="no-left-border"
+                            <th class="no-left-border chart-td"
                                 popover-trigger="mouseenter"
                                 popover-append-to-body="true"
                                 popover-placement="top"
@@ -129,7 +129,7 @@
                             <td class="no-left-border text-right">
                                     {{row.Stats.Cnt | humanize : 'number'}} ({{ (row.Stats.Cnt / profileTotal.Stats.Cnt * 100).toFixed(2) }}%)
                             </td>
-                            <td style="width: 120px;" class="no-right-border">
+                            <td class="no-right-border chart-td">
                                 <div class="scaling-svg-container">
                                     <load-sparklines
                                       popover-trigger="mouseenter"
@@ -145,7 +145,7 @@
                             <td class="no-right-border no-left-border text-right">
                                 {{ row.Stats.Avg | humanize }}&nbsp;avg
                             </td>
-                            <td style="width: 120px;" class="no-left-border"
+                            <td class="no-left-border chart-td"
                                 popover-trigger="mouseenter"
                                 popover-append-to-body="true"
                                 popover-placement="top"
