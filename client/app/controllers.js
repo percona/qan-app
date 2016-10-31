@@ -543,7 +543,7 @@
             function($scope, $rootScope, $filter, constants, AgentCmd) {
                 $scope.init = function () {
                     $rootScope.$watch('example', function (newValue, oldValue) {
-                        if ($rootScope.example !== null) {
+                        if ($rootScope.example !== null && $rootScope.example.Query !== '') {
                             $scope.db = '';
                             $scope.queryExplainData = [];
                             $scope.queryExplainError = '';
