@@ -1,0 +1,135 @@
+<a class="navbar-brand" routerLink="/" routerLinkActive="active">
+	<div class="logo-img">
+		<span class="logo-text">Query Analytics</span>
+	</div>
+</a>
+<ul class="nav navbar-nav">
+
+	<li class="nav-item dropdown" id="db_server_dropdown" ngbDropdown>
+		<a ngbDropdownToggle href="javascript:void(0);" title="DB Server{{ navigation?.dbServer?.Name ? ': ' + navigation?.dbServer?.Name : '' }}"
+			class="nav-link dropdown-toggle active" id="dbServerDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+			<span [ngSwitch]="navigation.dbServer">
+				<span *ngSwitchCase="_undefined_">------</span>
+			<span *ngSwitchDefault>
+				<img style="width:16px; height:16px;" src="{{ getDBLogo(navigation.dbServer.Distro) }}">
+					{{ navigation.dbServer.Name | truncateRoot : 16 }}
+				</span>
+			</span>
+		</a>
+		<div class="dropdown-menu dropdown-menu-left list-group" style="margin: 0; padding: 0; min-width: 600px; max-width: 900px; max-height:70vh; overflow:scroll;"
+			aria-labelledby="dbServerDropdown">
+			<a class="list-group-item list-group-item-action" title="DB Server" *ngFor="let server of dbServers" [ngClass]="{active: server.UUID === navigation?.dbServer?.UUID }"
+				[routerLink]="['mysql', navigation.subPath, server.Name]">
+				<h4 class="list-group-item-heading">
+					<img style="width:16px; height:16px;" src="{{ getDBLogo(server.Distro) }}"> {{ server.Name | truncateRoot : 40}}
+				</h4>
+				<p class="list-group-item-text">DSN: {{ server.DSN.split('/?')[0] }}</p>
+				<p class="list-group-item-text">Version: {{ server.Version }} {{ server.Distro }}</p>
+			</a>
+		</div>
+
+	</li>
+	<li class="nav-item">
+		<a class="nav-link" id="settings_link" title="Query Profile." [routerLink]="['mysql/profile', navigation?.dbServer?.Name || '']"
+			routerLinkActive="active">
+			<i class="fa fa-area-chart" aria-hidden="true"></i>
+			<span class="hidden-md-down">Query Profile</span>
+		</a>
+	</li>
+	<li class="nav-item">
+		<a class="nav-link" id="summary_link" title="View database and server summary info." [routerLink]="['/mysql/sys-summary', navigation?.dbServer?.Name || '']"
+			routerLinkActive="active"><i class="fa fa-server"></i>
+			<span class="hidden-md-down">System Summary</span></a>
+	</li>
+	<li class="nav-item">
+		<a class="nav-link" id="settings_link" title="Configure query analitics. View status and log of agent." [routerLink]="['/mysql/settings', navigation?.dbServer?.Name || '']"
+			routerLinkActive="active"><i class="fa fa-cog"></i>
+			<span class="hidden-md-down">Settings</span></a>
+	</li>
+
+	<li class="nav-item" [hidden]="navigation.isExtHidden">
+		<form class="form-inline">
+			<div class="input-group">
+				<input class="form-control" id="search_field" type="text" placeholder="Search by Fingerprint or ID">
+				<span class="input-group-btn">
+			<button class="btn btn-outline-primary" id="search_button" type="submit"><i class="fa fa-search"></i></button>
+            </span>
+			</div>
+		</form>
+	</li>
+	<!--li class="nav-item" [hidden]="!navigation.isExtHidden">
+		<a class="nav-link" id="go_to_queries_profile" title="Go back to queries profile." [routerLink]="['mysql/profile', navigation?.dbServer?.Name || '']">
+			<i class="fa fa-chevron-left"></i><span class="hidden-md-down"> Go to queries profile</span>
+		</a>
+	</li-->
+</ul>
+
+
+<ul class="nav navbar-nav float-xs-right" [hidden]="navigation.isExtHidden">
+	<li class="nav-item">
+		<span class="navbar-text">
+		{{ model | json }}
+        </span>
+	</li>
+	<li class="nav-item dropdown" ngbDropdown [autoClose]="false">
+		<a ngbDropdownToggle href="javascript:void(0);" class="nav-link dropdown-toggle" id="supportedContentDropdown" data-toggle="dropdown"
+			aria-haspopup="true" aria-expanded="false"><i class="fa fa-calendar"></i></a>
+		<div class="dropdown-menu dropdown-menu-right" aria-labelledby="supportedContentDropdown">
+			<div class="container">
+				<div class="row">
+					<div class="col-md-6">
+						<h4>Time range</h4>
+					</div>
+					<div class="col-md-6">
+						<h4>Quick ranges</h4>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-md-3">
+						<ngb-datepicker #dp [(ngModel)]="model"></ngb-datepicker>
+						<ngb-datepicker #dp [(ngModel)]="model"></ngb-datepicker>
+					</div>
+					<div class="col-md-2 list-group">
+						<a class="list-group-item list-group-item-action" href="javascript:void(0);">Last 7 days</a>
+						<a class="list-group-item list-group-item-action" href="javascript:void(0);">Last 30 days</a>
+						<a class="list-group-item list-group-item-action" href="javascript:void(0);">Last 60 days</a>
+						<a class="list-group-item list-group-item-action" href="javascript:void(0);">Last 90 days</a>
+						<a class="list-group-item list-group-item-action" href="javascript:void(0);">Last 6 months</a>
+						<a class="list-group-item list-group-item-action" href="javascript:void(0);">Last 1 year</a>
+						<a class="list-group-item list-group-item-action" href="javascript:void(0);">Last 2 years</a>
+						<a class="list-group-item list-group-item-action" href="javascript:void(0);">Last 5 years</a>
+					</div>
+					<div class="col-md-3 list-group">
+						<a class="list-group-item list-group-item-action" href="javascript:void(0);">Yesterday</a>
+						<a class="list-group-item list-group-item-action" href="javascript:void(0);">Day before yesterday</a>
+						<a class="list-group-item list-group-item-action" href="javascript:void(0);">This day last week</a>
+						<a class="list-group-item list-group-item-action" href="javascript:void(0);">Previous week</a>
+						<a class="list-group-item list-group-item-action" href="javascript:void(0);">Previous month</a>
+						<a class="list-group-item list-group-item-action" href="javascript:void(0);">Previous year</a>
+					</div>
+					<div class="col-md-2 list-group">
+						<a class="list-group-item list-group-item-action" href="javascript:void(0);">Today</a>
+						<a class="list-group-item list-group-item-action" href="javascript:void(0);">Today so far</a>
+						<a class="list-group-item list-group-item-action" href="javascript:void(0);">This week</a>
+						<a class="list-group-item list-group-item-action" href="javascript:void(0);">This week so far</a>
+						<a class="list-group-item list-group-item-action" href="javascript:void(0);">This month</a>
+						<a class="list-group-item list-group-item-action" href="javascript:void(0);">This year</a>
+					</div>
+					<div class="col-md-2 list-group">
+						<a class="list-group-item list-group-item-action" href="javascript:void(0);">Last 5 minutes</a>
+						<a class="list-group-item list-group-item-action" href="javascript:void(0);">Last 15 minutes</a>
+						<a class="list-group-item list-group-item-action" href="javascript:void(0);">Last 30 minutes</a>
+						<a class="list-group-item list-group-item-action" href="javascript:void(0);">Last 1 hour</a>
+						<a class="list-group-item list-group-item-action" href="javascript:void(0);">Last 3 hours</a>
+						<a class="list-group-item list-group-item-action" href="javascript:void(0);">Last 6 hours</a>
+						<a class="list-group-item list-group-item-action" href="javascript:void(0);">Last 12 hours</a>
+						<a class="list-group-item list-group-item-action" href="javascript:void(0);">Last 24 hours</a>
+					</div>
+				</div>
+			</div>
+		</div>
+	</li>
+	<li class="nav-item">
+		<a class="nav-link" href="javascript:void(0);"><i class="fa fa-refresh"></i></a>
+	</li>
+</ul>

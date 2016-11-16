@@ -1,0 +1,59 @@
+<ngb-tabset>
+    <ngb-tab title="SETTINGS" id="settingsTab">
+        <template ngbTabContent>
+            <p> SETTINGS TBD </p>
+        </template>
+    </ngb-tab>
+    <ngb-tab id="statusTab">
+        <template ngbTabTitle id="statusTitle">
+            STATUS (<i>Updated {{ (statusUpdatedFromNow$ | async) || 'a few seconds ago' }}</i>)
+            | <a href="javascript:void(0);" id="refreshStatusLink" title="Refresh status" (click)="getAgentStatus('3f87c6cae45c456e6f97200729b2c3b5')">
+                <i class="fa fa-refresh"></i>
+            </a>
+        </template>
+        <template ngbTabContent>
+            <table class="table table-bordered table-sm" id="statusTable">
+                <tr *ngFor="let item of agentStatus | async | mapToIterable">
+                    <td>{{ item.key }}</td>
+                    <td>{{ item.val }}</td>
+                </tr>
+            </table>
+        </template>
+    </ngb-tab>
+    <ngb-tab>
+        <template ngbTabTitle id="logTitle">
+            LOG (<i>Updated {{ (logUpdatedFromNow$ | async) || 'a few seconds ago' }}</i>)
+            <div class="btn-group btn-group-sm" role="group" aria-label="Log period">
+                <button type="button" id="logPeriod1h" (click)="setLogPeriod(1);" [ngClass]="{'active': logPeriod === 1 }" value="1" class="btn btn-secondary">1 h</button>
+                <button type="button" id="logPeriod2h" (click)="setLogPeriod(2);" [ngClass]="{'active': logPeriod === 2 }" value="2" class="btn btn-secondary">2 h</button>
+                <button type="button" id="logPeriod6h" (click)="setLogPeriod(6);" [ngClass]="{'active': logPeriod === 6 }" value="6" class="btn btn-secondary">6 h</button>
+                <button type="button" id="logPeriod12h" (click)="setLogPeriod(12);" [ngClass]="{'active': logPeriod === 12 }" value="12" class="btn btn-secondary">12 h</button>
+                <button type="button" id="logPeriod1d" (click)="setLogPeriod(24);"  [ngClass]="{'active': logPeriod === 24 }" value="24" class="btn btn-secondary">1 d</button>
+                <button type="button" id="logPeriod5d" (click)="setLogPeriod(120);" [ngClass]="{'active': logPeriod === 120 }" value="120" class="btn btn-secondary">5 d</button>
+            </div>
+            | <a href="javascript:void(0);" id="refreshLogLink" title="Refresh log" (click)="refreshAgentLog();">
+                <i class="fa fa-refresh"></i>
+            </a>
+        </template>
+        <template ngbTabContent>
+            <table class="table table-bordered table-sm" id="logTable">
+                <thead>
+                    <tr>
+                        <th>Timestamp</th>
+                        <th>Service</th>
+                        <th>Level</th>
+                        <th>Msg</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let log of agentLog | async">
+                        <td nowrap>{{ log.Ts }}</td>
+                        <td nowrap>{{ log.Service }}</td>
+                        <td nowrap>{{ severityLeveles[log.Level] }}</td>
+                        <td>{{ log.Msg }}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </template>
+    </ngb-tab>
+</ngb-tabset>

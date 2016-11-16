@@ -1,0 +1,183 @@
+body {
+    padding-top: 70px;
+}
+
+footer {
+    height: 30px;
+}
+
+.logo-img-mobile {
+    display: block;
+    position: absolute;
+    width: 105px;
+    height: 32px;
+    background: url(../img/footer-logo.png);
+    background-size: 100px;
+    background-repeat: no-repeat;
+}
+.logo-text-mobile {
+    font-size: 7pt;
+    position: absolute;
+    bottom: 0;
+    left: 35px;
+}
+
+.logo-img {
+    display: block;
+    width: 105px;
+    height: 32px;
+    background: url(../img/footer-logo.png);
+    background-size: 100px;
+    background-repeat: no-repeat;
+}
+.logo-text {
+    font-size: 7pt;
+    position: absolute;
+    bottom: 14px;
+    left: 50px;
+}
+
+.query_link {
+}
+.query_link:hover {
+    position: fixed;
+    background: aliceblue;
+}
+
+.truncate {
+    width: initial;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.padding-free {
+    padding: 0px;
+}
+
+div.magrin-def-tl {
+    margin: 15px;
+}
+
+div.pull-right-ui-grid-cell > div {
+    float: right !important;
+
+}
+
+div[hljs] > pre {
+    background: white;
+    border: none;
+}
+
+.alert-float {
+    position: fixed;
+    top: 10%;
+    left: 25%;
+    width: 50%;
+    z-index: 1050;
+}
+
+.load-float {
+    position: fixed;
+    top: 40%;
+    left: 48%;
+    width: 50%;
+    z-index: 1050;
+}
+
+/*
+div.tab-pane.ng-scope.active {
+    border-bottom: 1px #ddd solid;
+    border-left: 1px #ddd solid;
+    border-right: 1px #ddd solid;
+}
+*/
+
+.glyphicon-spin {
+    font-size: 4em;
+    -webkit-animation: spin 1000ms infinite linear;
+    animation: spin 1000ms infinite linear;
+}
+
+@-webkit-keyframes spin {
+    0% {
+        -webkit-transform: rotate(0deg);
+        transform: rotate(0deg);
+    }
+    100% {
+        -webkit-transform: rotate(359deg);
+        transform: rotate(359deg);
+    }
+}
+@keyframes spin {
+    0% {
+        -webkit-transform: rotate(0deg);
+        transform: rotate(0deg);
+    }
+    100% {
+        -webkit-transform: rotate(359deg);
+        transform: rotate(359deg);
+    }
+}
+
+div.popover {
+    max-width:600px;
+}
+
+.gold-mark {
+    border-right: 1px solid gold;
+    width: 5px;
+    height: 50px;
+    position: absolute;
+}
+
+.text-bigger {
+    font-size: 15px;
+}
+
+fieldset {
+    border: 1px solid #eee;
+    padding: 4px;
+    margin: 5px;
+    -webkit-border-radius: 4px;
+    -moz-border-radius: 4px;
+    border-radius: 4px;
+}
+
+legend {
+    width: initial; /* Or auto */
+    padding:0 10px; /* To give a bit of padding on the left and right */
+    border-bottom:none;
+    color: grey;
+    font-size: 14px;
+}
+
+.pinned {
+    filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=1);
+    -webkit-transform: rotate(-45deg);
+    -moz-transform: rotate(-45deg);
+    -ms-transform: rotate(-45deg);
+    -o-transform: rotate(-45deg);
+    transform: rotate(-45deg);
+}
+
+table.metrics td span.sum {
+    min-width: 20%;
+    display: inline-block;
+    text-align: right;
+}
+
+.table-bordered>thead>tr>th.no-right-border,
+.table-bordered>tbody>tr>td.no-right-border {
+    border-right-style: none;
+}
+
+.table-bordered>thead>tr>th.no-left-border,
+.table-bordered>tbody>tr>td.no-left-border {
+    border-left-style: none;
+}
+
+/* overwrite bootstap */
+.nav-tabs {
+    border-bottom: none;
+}
