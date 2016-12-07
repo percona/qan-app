@@ -9,13 +9,16 @@ import { MapToIterablePipe } from './map-to-iterable.pipe';
 import { MomentFormatPipe } from './moment-format.pipe';
 import { TruncateRootPipe } from './truncate-root.pipe';
 import { HumanizePipe } from './humanize.pipe';
-import { LatencyCartDirective } from './latency-chart.directive'
+import { LatencyChartDirective } from './latency-chart.directive';
+import { LoadSparklinesDirective } from './load-sparklines.directive';
 
 
 @NgModule({
     imports: [CommonModule],
-    declarations: [MapToIterablePipe, MomentFormatPipe, TruncateRootPipe, HumanizePipe, LatencyCartDirective],
-    exports: [MapToIterablePipe, MomentFormatPipe, TruncateRootPipe, HumanizePipe, LatencyCartDirective,
+    declarations: [MapToIterablePipe, MomentFormatPipe, TruncateRootPipe,
+        HumanizePipe, LatencyChartDirective, LoadSparklinesDirective],
+    exports: [MapToIterablePipe, MomentFormatPipe, TruncateRootPipe, HumanizePipe,
+        LatencyChartDirective, LoadSparklinesDirective,
         CommonModule, FormsModule, HttpModule, NgbModule, RouterModule]
 })
 export class SharedModule { }

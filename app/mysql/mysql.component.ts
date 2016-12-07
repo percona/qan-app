@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { NavService, Instance } from '../core/nav.service';
-import { Router, ActivatedRoute, Params } from '@angular/router';
+import { NavService } from '../core/nav.service';
+import { Router, ActivatedRoute } from '@angular/router';
 import * as moment from 'moment';
 
 @Component({
@@ -18,6 +18,6 @@ export class MySQLComponent implements OnInit {
     ngOnInit() {
         this.navService.setNavigation({'subPath': 'profile'});
         let path = ['profile', this.navService.dbServers[0].Name, 'from', this.from, 'to', this.to];
-        this.router.navigate(path, { relativeTo: this.route })
+        this.router.navigate(path, { relativeTo: this.route });
     }
 }

@@ -8,6 +8,15 @@
 		"experimentalDecorators": true,
 		"removeComments": false,
 		"noImplicitAny": false,
-		"baseUrl": "."
-	}
+		"baseUrl": ".",
+		"typeRoots": [
+			"node_modules/@types/"
+		]
+	},
+	"files": [
+		"app/main.ts"
+	],
+	"include": [
+		"app/**/*"
+	]
 }

@@ -1,9 +1,16 @@
 body {
     padding-top: 70px;
+    background-image: url(../img/e3155c5e.png);
 }
 
 footer {
     height: 30px;
+    background-image: url(../img/pmm-logo.svg);
+    background-repeat: no-repeat;
+    background-position-x: 97%;
+    background-size: 2%;
+    filter: invert(100%);
+    -webkit-filter: invert(100%);
 }
 
 .logo-img-mobile {
@@ -180,4 +187,44 @@ table.metrics td span.sum {
 /* overwrite bootstap */
 .nav-tabs {
     border-bottom: none;
+}
+
+
+@media print {
+/* FIXME: rid pagebrakes for media print*/
+  body * {
+    page-break-before: avoid;
+  }
+}
+
+.card-header h5 {
+    display: inline;
+}
+.card-header h5::before {
+    font-family: FontAwesome;
+    content: "\f054";
+}
+
+.card-header.active h5::before {
+    font-family: FontAwesome;
+    content: "\f078";
+}
+
+.card-block {
+    padding: 0rem;
+}
+
+label {
+    text-align: right;
+}
+
+label:not(.form-check-label):after {
+    content: ":";
+}
+
+.accordion-head-second {
+    /*display: inline-block;*/
+    float: right;
+    color: black;
+    text-decoration: none;
 }

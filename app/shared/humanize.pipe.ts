@@ -2,7 +2,6 @@ import { Pipe, PipeTransform } from '@angular/core';
 import * as moment from 'moment';
 import * as numeral from 'numeral';
 
-
 /**
    * @desc humanize time duration
    * @example <div>{{ duration | humanize }}</div>
@@ -10,9 +9,9 @@ import * as numeral from 'numeral';
 @Pipe({ name: 'humanize' })
 export class HumanizePipe implements PipeTransform {
 
-    parceTime(input) {
-        var dur: string = '';
-        var dur_sec = moment.duration(input, 's');
+    parceTime(input: number) {
+        let dur: string = '';
+        let dur_sec = moment.duration(input, 's');
         switch (true) {
             case input === 0:
                 dur = '0';
@@ -32,8 +31,11 @@ export class HumanizePipe implements PipeTransform {
 
     transform(input: number, name: string, duration: string): string {
 
-        var res: string = '0';
-        var n = 0;
+        if (input === null) {
+            return '0';
+        }
+
+        let res: string = '0';
         switch (true) {
             // top 10 queries no name parameters
             case name === undefined:
@@ -66,5 +68,6 @@ export class HumanizePipe implements PipeTransform {
                 break;
         }
         return String(res).replace('<0.00', '<0.01');
+
     }
 }

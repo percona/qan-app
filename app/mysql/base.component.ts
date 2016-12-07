@@ -1,22 +1,29 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { Router, ActivatedRoute, Params } from '@angular/router';
-import { Instance, NavService, Navigation } from '../core/nav.service';
+import { Router, ActivatedRoute } from '@angular/router';
+import { NavService, Navigation } from '../core/nav.service';
 import { Subscription } from 'rxjs/Subscription';
-import * as moment from 'moment';
 
 export class BaseComponent implements OnInit, OnDestroy {
 
     protected navSubscription: Subscription;
     protected paramsSubscription: Subscription;
-    protected navigation: Navigation;
+    protected queryParamsSubscription: Subscription;
+    // protected navigation: Navigation;
 
     constructor(protected route: ActivatedRoute, protected router: Router, protected navService: NavService) { }
 
     ngOnInit() {
-        this.navSubscription = this.navService.navigation$.subscribe(nav => this.navigation = nav);
+        // this.navSubscription = this.navService.navigation$.subscribe(nav => this.navigation = nav);
         this.paramsSubscription = this.route.params.subscribe(
             params => {
-                this.navService.setNavigation({ 'dbServerName': params.mysqlServer })
+                // discard alert.
+                this.navService.setAlert('');
+                if ('search' in params) {
+                    this.navService.setNavigation({ 'search': params['search'] });
+                }
+                if ('to' in params && 'from' in params) {
+                    this.navService.setNavigation({ 'to': params['to'], 'from': params['from'] });
+                }
                 this.onChangeParams(params);
             }
         );
@@ -27,7 +34,7 @@ export class BaseComponent implements OnInit, OnDestroy {
     }
 
     ngOnDestroy() {
-        this.navSubscription.unsubscribe();
+        // this.navSubscription.unsubscribe();
         this.paramsSubscription.unsubscribe();
     }
 }

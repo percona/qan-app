@@ -1,24 +1,29 @@
 import { Component } from '@angular/core';
-import { Router, ActivatedRoute, Params } from '@angular/router';
-import { NavService } from '../core/nav.service';
-import { BaseComponent } from './base.component'
+import { Router, ActivatedRoute } from '@angular/router';
+import { NavService, Instance } from '../core/nav.service';
+import { BaseComponent } from './base.component';
 
 import * as moment from 'moment';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/observable/interval';
 import 'rxjs/add/operator/map';
-
-
 import { SettingsService } from './settings.service';
 
 @Component({
-    templateUrl: '/app/mysql/settings.component.html',
+    moduleId: module.id,
+    templateUrl: 'settings.component.html',
     providers: [SettingsService],
 })
 export class SettingsComponent extends BaseComponent {
 
-    public agentUUID: string = '3f87c6cae45c456e6f97200729b2c3b5';
+    public agent: Instance;
+    public dbServer: Instance;
     public agentStatus: {};
+    public qanConf: {};
+    public agentConf: {};
+    public interval: number = 1;
+    public collectFrom: 'perfschema' | 'slowlog' = 'slowlog';
+    public exampleQueries: boolean;
     public statusUpdatedFromNow$: Observable<string>;
     public logUpdatedFromNow$: Observable<string>;
     public agentLog: {};
@@ -35,15 +40,40 @@ export class SettingsComponent extends BaseComponent {
 
     setLogPeriod(period): void {
         this.logPeriod = period;
-        this.getAgentLog(this.agentUUID, this.logPeriod)
+        this.getAgentLog(this.agent.UUID, this.logPeriod);
     }
 
     refreshAgentLog(): void {
-        this.getAgentLog(this.agentUUID, this.logPeriod)
+        this.getAgentLog(this.agent.UUID, this.logPeriod);
     }
 
-    getAgentStatus(agentUUID: string) {
-        this.agentStatus = this.settingsService.getAgentStatus(agentUUID);
+    getSetting() {
+        this.settingsService.getQanConfig(this.navService.nav.dbServer.UUID)
+            .then(res => this.qanConf = res)
+            .catch(err => console.error(err));
+    }
+
+    getAgentDefaults() {
+        this.settingsService.getAgentDefaults(this.agent.UUID, this.dbServer.UUID)
+            .then(res => {
+                this.agentConf = res;
+                this.interval = this.agentConf.qan.Interval / 60;
+                console.log(this.agentConf);
+                this.collectFrom = this.agentConf.qan.CollectFrom;
+                this.exampleQueries = this.agentConf.qan.ExampleQueries;
+            })
+            .catch(err => console.error(err));
+    }
+
+    setAgentDefaults() {
+        console.log('exampleQueries', this.exampleQueries);
+        this.settingsService.setAgentDefaults(this.agent.UUID, this.dbServer.UUID, this.interval, this.exampleQueries, this.collectFrom)
+            .then(res => {this.agentConf = res; console.log('ddd', res); })
+            .catch(err => console.error(err));
+    }
+
+    getAgentStatus() {
+        this.agentStatus = this.settingsService.getAgentStatus(this.agent.UUID);
         let updated: moment.Moment = moment();
         this.statusUpdatedFromNow$ = Observable.interval(60000).map(n => updated.fromNow());
     }
@@ -57,13 +87,16 @@ export class SettingsComponent extends BaseComponent {
     }
 
     onChangeParams(params) {
-        let agentUUID = this.navigation.dbServer.Agent.UUID;
-        this.getAgentStatus(agentUUID);
-        this.getAgentLog(agentUUID, this.logPeriod);
+        this.dbServer = this.navService.nav.dbServer;
+        this.agent = this.navService.nav.dbServer.Agent;
+        this.getSetting();
+        this.getAgentDefaults();
+        this.getAgentStatus();
+        this.getAgentLog(this.agent.UUID, this.logPeriod);
     }
 
     ngOnInit() {
-        super.ngOnInit()
+        super.ngOnInit();
         this.navService.setNavigation({ 'subPath': 'settings' });
     }
 }

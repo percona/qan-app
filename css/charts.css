@@ -10,12 +10,12 @@
 
 .scaling-svg-container {
     position: relative;
-    height: 0;
+    height: 15px; /* 0 */
     width: 100%;
     padding: 0;
     padding-bottom: 14%;
-    /* override this inline for aspect ratio other than square */
 }
+
 .scaling-svg {
     cursor: crosshair;
     position: absolute;

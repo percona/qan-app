@@ -7,24 +7,30 @@ import { SummaryService } from './summary.service';
 import { NavService } from '../core/nav.service';
 
 @Component({
+    moduleId: module.id,
     template: `
 <div class="row">
     <div class="col-md-12">
-        <div class="card">
-            <div class="card-header text-xs-center">System Summary</div>
-            <div class="card-block">
-                <pre>{{ serverSummary ? serverSummary : 'Loading...' }}</pre>
-            </div>
-        </div>
-        <div class="card">
-            <div class="card-header text-xs-center">MySQL Summary</div>
-            <div class="card-block">
-                <pre>{{ mysqlSummary ? mysqlSummary : 'Loading...' }}</pre>
-            </div>
-        </div>
+        <ngb-accordion activeIds="system-summary-panel,mysql-summary-panel">
+            <ngb-panel id="system-summary-panel">
+                <template ngbPanelTitle>
+                    <h5>System Summary</h5>
+                </template>
+                <template ngbPanelContent>
+                    <pre style="margin: 1rem">{{ serverSummary ? serverSummary : 'Loading...' }}</pre>
+                </template>
+            </ngb-panel>
+            <ngb-panel id="mysql-summary-panel">
+                <template ngbPanelTitle>
+                    <h5>MySQL Summary</h5>
+                </template>
+                <template ngbPanelContent>
+                    <pre style="margin: 1rem">{{ mysqlSummary ? mysqlSummary : 'Loading...' }}</pre>
+                </template>
+            </ngb-panel>
+        </ngb-accordion>
     </div>
-</div>
-    `
+</div>`
 })
 export class SummaryComponent extends BaseComponent {
 

@@ -12,7 +12,7 @@ export class Instance {
   Deleted: string;
   Distro: string;
   Id: number;
-  Name: string
+  Name: string;
   ParentUUID: string;
   Subsystem: string;
   UUID: string;
@@ -23,6 +23,7 @@ export class Instance {
 export class Navigation {
   dbServer: Instance;
   subPath: string = 'profile';
+  search: string = '';
   from: moment.Moment = moment.utc().subtract(1, 'h');
   to: moment.Moment = moment.utc();
   isExtHidden: boolean = true;
@@ -39,12 +40,14 @@ export class NavService {
   private dbServerSource = new Subject<Instance>();
   private subPathSource = new Subject<string>();
   private navigationSource = new Subject<Navigation>();
+  private alertSource = new Subject<string>();
 
   // Observable string streams
   dbServer$ = this.dbServerSource.asObservable();
   subPath$ = this.subPathSource.asObservable();
   navigation$ = this.navigationSource.asObservable();
   nav: Navigation = new Navigation();
+  alert$ = this.alertSource.asObservable();
 
   constructor(private http: Http) { }
 
@@ -54,16 +57,21 @@ export class NavService {
     }
     if ('subPath' in elems) {
       this.nav.subPath = elems['subPath'];
-      this.nav.isExtHidden = (elems['subPath'] != 'profile');
+      this.nav.isExtHidden = (elems['subPath'] !== 'profile');
     }
 
     if ('from' in elems) {
-      this.nav.from = elems['from'];
+      this.nav.from = moment(elems['from']).utc();
     }
 
     if ('to' in elems) {
-      this.nav.to = elems['to'];
+      this.nav.to = moment(elems['to']).utc();
     }
+
+    if ('search' in elems) {
+      this.nav.search = elems['search'];
+    }
+    // this.alertSource.next('');
     this.navigationSource.next(this.nav);
   }
 
@@ -76,12 +84,16 @@ export class NavService {
     this.subPathSource.next(subPath);
   }
 
+  setAlert(alert: string) {
+    this.alertSource.next(alert);
+  }
+
   getDBServers(): Promise<Instance[]> {
     return this.http.get(this.instancesUrl)
       .toPromise()
       .then(response => {
-        let agents = response.json().filter(i => i.Subsystem === 'agent') as Instance[];
-        this.dbServers = response.json().filter(i => i.Subsystem === 'mysql') as Instance[];
+        let agents = response.json().filter((i: Instance) => i.Subsystem === 'agent') as Instance[];
+        this.dbServers = response.json().filter((i: Instance) => i.Subsystem === 'mysql') as Instance[];
         let firstDB = this.dbServers[0];
 
         for (let srv of this.dbServers) {
@@ -90,8 +102,6 @@ export class NavService {
         for (let agent of agents) {
           this.dbServerMap[agent.Name].Agent = agent;
         }
-
-        console.log('this.dbServerMap', this.dbServerMap);
 
         this.nav.dbServer = this.dbServerMap[firstDB.Name];
         this.navigationSource.next(this.nav);

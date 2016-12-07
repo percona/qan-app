@@ -13,7 +13,7 @@ export class SummaryService {
 
     getServer(agentUUID: string) {
         const url = `http://192.168.56.11:9001/agents/${agentUUID}/cmd`;
-        var params = {
+        let params = {
             AgentUUID: agentUUID,
             Service: 'agent',
             Cmd: 'GetServerSummary',
@@ -23,24 +23,22 @@ export class SummaryService {
             .put(url, params, { headers: this.headers })
             .toPromise()
             .then(response => {
-                let resp = response.json()
+                let resp = response.json();
                 if (!!resp.Error) {
-                    return resp.Error == 'Executable file not found in $PATH' ? ' - Please install `pt-summary`.' : resp.Error;
+                    return resp.Error === 'Executable file not found in $PATH' ? ' - Please install `pt-summary`.' : resp.Error;
                 } else {
-                    let str = window.atob(resp.Data)
-                    str = str.replace(/\\n/g, "\n");
-                    str = str.replace(/\\t/g, "\t");
+                    let str = window.atob(resp.Data);
+                    str = str.replace(/\\n/g, '\n');
+                    str = str.replace(/\\t/g, '\t');
                     return str.slice(1, -1);
                 }
             })
-            .catch(err => {
-                console.log(err.Error);
-            });
+            .catch(err => console.error(err.Error));
     }
 
     getMySQL(agentUUID: string) {
         const url = `http://192.168.56.11:9001/agents/${agentUUID}/cmd`;
-        var params = {
+        let params = {
             AgentUUID: agentUUID,
             Service: 'agent',
             Cmd: 'GetServerSummary',
@@ -50,13 +48,13 @@ export class SummaryService {
             .put(url, params, { headers: this.headers })
             .toPromise()
             .then(response => {
-                let resp = response.json()
+                let resp = response.json();
                 if (!!resp.Error) {
-                    return resp.Error == 'Executable file not found in $PATH' ? ' - Please install `pt-mysql-summary`.' : resp.Error;
+                    return resp.Error === 'Executable file not found in $PATH' ? ' - Please install `pt-mysql-summary`.' : resp.Error;
                 } else {
-                    let str = window.atob(resp.Data)
-                    str = str.replace(/\\n/g, "\n");
-                    str = str.replace(/\\t/g, "\t");
+                    let str = window.atob(resp.Data);
+                    str = str.replace(/\\n/g, '\n');
+                    str = str.replace(/\\t/g, '\t');
                     return str.slice(1, -1);
                 }
 
