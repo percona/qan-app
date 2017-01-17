@@ -504,31 +504,51 @@ popover-append-to-body="true" popover-placement="top" popover-template="'perQuer
 </div>
 
 <hr />
+<h3>QUERY</h3>
 <ngb-accordion activeIds="query-fingerprint">
     <ngb-panel id="query-fingerprint">
         <template ngbPanelTitle>
-            <h5>Query Fingerprint</h5>
+            <h5>Fingerprint</h5>
         </template>
         <template ngbPanelContent>
             <pre style="margin: 1rem">{{ queryDetails?.Query.Fingerprint }}</pre>
-        </template>
-    </ngb-panel>
-    <ngb-panel id="query-example">
-        <template ngbPanelTitle>
-            <h5>Query Example</h5>
-        </template>
-        <template ngbPanelContent>
-            <pre style="margin: 1rem">{{ queryDetails?.Example.Query }}</pre>
-        </template>
-    </ngb-panel>
+</template>
+</ngb-panel>
+<ngb-panel id="query-example">
+    <template ngbPanelTitle>
+        <h5>Example</h5>
+    </template>
+    <template ngbPanelContent>
+        <pre style="margin: 1rem">{{ queryDetails?.Example.Query }}</pre>
+</template>
+</ngb-panel>
 </ngb-accordion>
 
 <hr />
-
+<div class="row">
+    <div class="col-md-2">
+        <h3>EXPLAIN</h3>
+    </div>
+    <div class="col-md-10">
+        <form class="form-inline pull-right">
+            <div class="input-group">
+                <span class="input-group-addon" id="sizing-addon1" title="Database">
+                    <i class="fa fa-database" aria-hidden="true"></i>
+                </span>
+                <input type="text" size="50" class="form-control"
+                      [(ngModel)]="dbName" [ngModelOptions]="{standalone: true}" id="databaseInput" placeholder="`database-name`">
+                <span class="input-group-btn">
+                    <button class="btn btn-secondary" style="width: 8em" (click)="getExplain();" type="submit">EXPLAIN</button>
+                </span>
+            </div>
+        </form>
+    </div>
+</div>
+<br />
 <ngb-accordion activeIds="classic-explain">
     <ngb-panel id="classic-explain">
         <template ngbPanelTitle>
-            <h5>CLASSIC EXPLAIN</h5>
+            <h5>CLASSIC</h5>
         </template>
         <template ngbPanelContent>
             <table class="table table-bordered table-hover table-sm ma-0">
@@ -570,17 +590,55 @@ popover-append-to-body="true" popover-placement="top" popover-template="'perQuer
 
     <ngb-panel id="json-explain">
         <template ngbPanelTitle>
-            <h5>JSON EXPLAIN</h5>
+            <h5>JSON</h5>
         </template>
         <template ngbPanelContent>
             <pre style="margin: 1rem">{{ jsonExplain | json : 4 }}</pre>
-        </template>
-    </ngb-panel>
+</template>
+</ngb-panel>
 </ngb-accordion>
 
 <hr />
 
-<h3>TABLES</h3>
+
+
+<div class="row">
+    <div class="col-md-2">
+        <h3>TABLES</h3>
+    </div>
+    <div class="col-md-10">
+        <form class="form-inline pull-right" (submit)="addDBTable();">
+            <label for="dbTblNamesInput">DB and table</label>
+            <div class="input-group">
+                <input type="text" size="50" class="form-control" id="dbTblNamesInput"
+                    [(ngModel)]="newDBTblNames" [ngModelOptions]="{standalone: true}" placeholder="`database-name`.`table-name`">
+                <span class="input-group-btn">
+                    <button class="btn btn-secondary" (click)="addDBTable();" style="width: 8em" type="submit">ADD</button>
+                </span>
+            </div>
+        </form>
+    </div>
+</div>
+<br />
+<div class="row">
+    <div class="col-md-12">
+        <div class="card w-100">
+            <div class="card-block">
+                <div class="card-text pt-1 pr-1">
+                    <div *ngFor="let item of queryDetails?.Query?.Tables" class="btn-group ml-1 mb-1" role="group" aria-label="Basic example">
+                        <button type="button" class="btn"
+                         (click)="selectTableInfo(item.Db, item.Table);"
+                         [ngClass]="isSelectedDbTbl(item) ? 'btn-success' : 'btn-outline-secondary'">
+                            `{{ item.Db }}`.`{{ item.Table }}`
+                        </button>
+                        <button type="button" class="btn btn-warning" (click)="removeDBTable(item);"><i class="fa fa-times" aria-hidden="true"></i></button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<br />
 <ngb-accordion activeIds="table-create">
     <ngb-panel id="table-create">
         <template ngbPanelTitle>
@@ -588,76 +646,76 @@ popover-append-to-body="true" popover-placement="top" popover-template="'perQuer
         </template>
         <template ngbPanelContent>
             <pre style="margin: 1rem">{{ tableInfo?.Create }}</pre>
-        </template>
-    </ngb-panel>
+</template>
+</ngb-panel>
 
-    <ngb-panel id="table-status">
-        <template ngbPanelTitle>
-            <h5>STATUS</h5>
-        </template>
-        <template ngbPanelContent>
-            <table class="table table-bordered table-hover table-sm ma-0">
-                <thead>
-                    <tr>
-                        <th>Name</th>
-                        <th>Value</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr *ngFor="let item of tableInfo?.Status | mapToIterable">
-                        <td>{{ item.key }}</td>
-                        <td *ngIf="['AvgRowLength', 'DataLength', 'IndexLength', 'DataFree', 'MaxDataLength'].indexOf(item.key) > -1">{{ item.val | humanize : 'size' }}</td>
-                        <td *ngIf="['Rows'].indexOf(item.key) > -1">{{ item.val | humanize : 'number' }}</td>
-                        <td *ngIf="['Rows', 'AvgRowLength', 'DataLength', 'IndexLength', 'DataFree', 'MaxDataLength'].indexOf(item.key) === -1">
-                            {{ item.val === null ? '-' : item.val }}
-                        </td>
-                    </tr>
-                    <tr *ngIf="tableInfo?.Status.length === 0">
-                        <td class="text-center" colspan="2">No data.</td>
-                    </tr>
-                </tbody>
-            </table>
-        </template>
-    </ngb-panel>
+<ngb-panel id="table-status">
+    <template ngbPanelTitle>
+        <h5>STATUS</h5>
+    </template>
+    <template ngbPanelContent>
+        <table class="table table-bordered table-hover table-sm ma-0">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Value</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let item of tableInfo?.Status | mapToIterable">
+                    <td>{{ item.key }}</td>
+                    <td *ngIf="['AvgRowLength', 'DataLength', 'IndexLength', 'DataFree', 'MaxDataLength'].indexOf(item.key) > -1">{{ item.val | humanize : 'size' }}</td>
+                    <td *ngIf="['Rows'].indexOf(item.key) > -1">{{ item.val | humanize : 'number' }}</td>
+                    <td *ngIf="['Rows', 'AvgRowLength', 'DataLength', 'IndexLength', 'DataFree', 'MaxDataLength'].indexOf(item.key) === -1">
+                        {{ item.val === null ? '-' : item.val }}
+                    </td>
+                </tr>
+                <tr *ngIf="tableInfo?.Status?.length === 0">
+                    <td class="text-center" colspan="2">No data.</td>
+                </tr>
+            </tbody>
+        </table>
+    </template>
+</ngb-panel>
 
-    <ngb-panel id="table-indexes">
-        <template ngbPanelTitle>
-            <h5>INDEXES</h5>
-        </template>
-        <template ngbPanelContent>
-            <table class="table table-bordered table-hover table-sm ma-0">
-                <thead>
-                    <tr>
-                        <th>KeyName </th>
-                        <th>Type</th>
-                        <th>Unique</th>
-                        <th>Packed</th>
-                        <th>Column</th>
-                        <th>Cardinality</th>
-                        <th>Collation</th>
-                        <th>Null</th>
-                        <th>Comment</th>
-                    </tr>
-                </thead>
-                <tbody *ngFor="let ind of tableInfo?.Index | mapToIterable">
-                    <tr *ngFor="let row of ind.val; let isFirst = first">
-                        <td *ngIf="isFirst" [attr.rowspan]="ind.val.length">{{ row.KeyName }}</td>
-                        <td *ngIf="isFirst" [attr.rowspan]="ind.val.length">{{ row.IndexType }}</td>
-                        <td *ngIf="isFirst" [attr.rowspan]="ind.val.length">{{ row.NonUnique === false ? 'Yes' : 'No' }}</td>
-                        <td *ngIf="isFirst" [attr.rowspan]="ind.val.length">{{ row.Packed ? 'Yes' : 'No' }}</td>
-                        <td>{{ row.ColumnName }}</td>
-                        <td>{{ row.Cardinality }}</td>
-                        <td>{{ row.Collation }}</td>
-                        <td>{{ row.Null ? 'Yes' : 'No' }}</td>
-                        <td *ngIf="isFirst" [attr.rowspan]="ind.val.length">{{ row.Comment }}</td>
-                    </tr>
-                </tbody>
-                <tbody *ngIf="tableInfo?.Index?.length === 0">
-                    <tr>
-                        <td class="text-center" [attr.colspan]="9">No data.</td>
-                    </tr>
-                </tbody>
-            </table>
-        </template>
-    </ngb-panel>
+<ngb-panel id="table-indexes">
+    <template ngbPanelTitle>
+        <h5>INDEXES</h5>
+    </template>
+    <template ngbPanelContent>
+        <table class="table table-bordered table-hover table-sm ma-0">
+            <thead>
+                <tr>
+                    <th>KeyName </th>
+                    <th>Type</th>
+                    <th>Unique</th>
+                    <th>Packed</th>
+                    <th>Column</th>
+                    <th>Cardinality</th>
+                    <th>Collation</th>
+                    <th>Null</th>
+                    <th>Comment</th>
+                </tr>
+            </thead>
+            <tbody *ngFor="let ind of tableInfo?.Index | mapToIterable">
+                <tr *ngFor="let row of ind.val; let isFirst = first">
+                    <td *ngIf="isFirst" [attr.rowspan]="ind.val.length">{{ row.KeyName }}</td>
+                    <td *ngIf="isFirst" [attr.rowspan]="ind.val.length">{{ row.IndexType }}</td>
+                    <td *ngIf="isFirst" [attr.rowspan]="ind.val.length">{{ row.NonUnique === false ? 'Yes' : 'No' }}</td>
+                    <td *ngIf="isFirst" [attr.rowspan]="ind.val.length">{{ row.Packed ? 'Yes' : 'No' }}</td>
+                    <td>{{ row.ColumnName }}</td>
+                    <td>{{ row.Cardinality }}</td>
+                    <td>{{ row.Collation }}</td>
+                    <td>{{ row.Null ? 'Yes' : 'No' }}</td>
+                    <td *ngIf="isFirst" [attr.rowspan]="ind.val.length">{{ row.Comment }}</td>
+                </tr>
+            </tbody>
+            <tbody *ngIf="tableInfo?.Index?.length === 0">
+                <tr>
+                    <td class="text-center" [attr.colspan]="9">No data.</td>
+                </tr>
+            </tbody>
+        </table>
+    </template>
+</ngb-panel>
 </ngb-accordion>

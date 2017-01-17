@@ -44,8 +44,6 @@ footer {
     left: 50px;
 }
 
-.query_link {
-}
 .query_link:hover {
     position: fixed;
     background: aliceblue;
@@ -197,6 +195,10 @@ table.metrics td span.sum {
   }
 }
 
+h3 {
+    display: inline;
+}
+
 .card-header h5 {
     display: inline;
 }
@@ -227,4 +229,8 @@ label:not(.form-check-label):after {
     float: right;
     color: black;
     text-decoration: none;
+}
+
+.pull-right {
+    float: right;
 }

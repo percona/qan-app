@@ -109,4 +109,13 @@ export class QueryDetailsService {
             .then(response => JSON.parse(atob(response.json().Data)))
             .catch(err => console.error(err));
     }
+
+    updateTables(queryID: string, dbTables: Array<{}>) {
+        const url = `http://192.168.56.11:9001/queries/${queryID}/tables`;
+        return this.http
+            .put(url, dbTables)
+            .toPromise()
+            .then(resp => console.log(resp))
+            .catch(err => console.error(err));
+    }
 }
