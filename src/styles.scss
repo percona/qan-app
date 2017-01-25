@@ -1,0 +1,403 @@
+/* You can add global styles to this file, and also import other style files */
+
+body {
+    padding-top: 70px;
+    background-image: url(assets/background.png);
+}
+
+footer {
+    height: 30px;
+    background-image: url(assets/pmm-logo.svg);
+    background-repeat: no-repeat;
+    background-position-x: 97%;
+    background-size: 2%;
+    filter: invert(100%);
+    -webkit-filter: invert(100%);
+}
+
+.logo-img-mobile {
+    display: block;
+    position: absolute;
+    width: 105px;
+    height: 32px;
+    background: url(assets/footer-logo.png);
+    background-size: 100px;
+    background-repeat: no-repeat;
+}
+.logo-text-mobile {
+    font-size: 7pt;
+    position: absolute;
+    bottom: 0;
+    left: 35px;
+}
+
+.logo-img {
+    display: block;
+    width: 105px;
+    height: 32px;
+    background: url(assets/footer-logo.png);
+    background-size: 100px;
+    background-repeat: no-repeat;
+}
+.logo-text {
+    font-size: 7pt;
+    position: absolute;
+    bottom: 14px;
+    left: 50px;
+}
+
+.query_link:hover {
+    position: fixed;
+    background: aliceblue;
+}
+
+.truncate {
+    width: initial;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.padding-free {
+    padding: 0px;
+}
+
+div.magrin-def-tl {
+    margin: 15px;
+}
+
+div.pull-right-ui-grid-cell > div {
+    float: right !important;
+
+}
+
+div[hljs] > pre {
+    background: white;
+    border: none;
+}
+
+.alert-float {
+    position: fixed;
+    top: 10%;
+    left: 25%;
+    width: 50%;
+    z-index: 1050;
+}
+
+.load-float {
+    position: fixed;
+    top: 40%;
+    left: 48%;
+    width: 50%;
+    z-index: 1050;
+}
+
+/*
+div.tab-pane.ng-scope.active {
+    border-bottom: 1px #ddd solid;
+    border-left: 1px #ddd solid;
+    border-right: 1px #ddd solid;
+}
+*/
+
+.glyphicon-spin {
+    font-size: 4em;
+    -webkit-animation: spin 1000ms infinite linear;
+    animation: spin 1000ms infinite linear;
+}
+
+@-webkit-keyframes spin {
+    0% {
+        -webkit-transform: rotate(0deg);
+        transform: rotate(0deg);
+    }
+    100% {
+        -webkit-transform: rotate(359deg);
+        transform: rotate(359deg);
+    }
+}
+@keyframes spin {
+    0% {
+        -webkit-transform: rotate(0deg);
+        transform: rotate(0deg);
+    }
+    100% {
+        -webkit-transform: rotate(359deg);
+        transform: rotate(359deg);
+    }
+}
+
+div.popover {
+    max-width:600px;
+}
+
+.gold-mark {
+    border-right: 1px solid gold;
+    width: 5px;
+    height: 50px;
+    position: absolute;
+}
+
+.text-bigger {
+    font-size: 15px;
+}
+
+fieldset {
+    border: 1px solid #eee;
+    padding: 4px;
+    margin: 5px;
+    -webkit-border-radius: 4px;
+    -moz-border-radius: 4px;
+    border-radius: 4px;
+}
+
+legend {
+    width: initial; /* Or auto */
+    padding:0 10px; /* To give a bit of padding on the left and right */
+    border-bottom:none;
+    color: grey;
+    font-size: 14px;
+}
+
+.pinned {
+    filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=1);
+    -webkit-transform: rotate(-45deg);
+    -moz-transform: rotate(-45deg);
+    -ms-transform: rotate(-45deg);
+    -o-transform: rotate(-45deg);
+    transform: rotate(-45deg);
+}
+
+table.metrics td span.sum {
+    min-width: 20%;
+    display: inline-block;
+    text-align: right;
+}
+
+.table-bordered>thead>tr>th.no-right-border,
+.table-bordered>tbody>tr>td.no-right-border {
+    border-right-style: none;
+}
+
+.table-bordered>thead>tr>th.no-left-border,
+.table-bordered>tbody>tr>td.no-left-border {
+    border-left-style: none;
+}
+
+/* overwrite bootstap */
+.nav-tabs {
+    border-bottom: none;
+}
+
+
+@media print {
+/* FIXME: rid pagebrakes for media print*/
+  body * {
+    page-break-before: avoid;
+  }
+}
+
+.card-header > h5 {
+    display: inline;
+}
+.card-header h5::before {
+    font-family: FontAwesome;
+    content: "\f054";
+}
+
+.card-header.active h5::before {
+    font-family: FontAwesome;
+    content: "\f078";
+}
+
+.card-block {
+    padding: 0rem;
+}
+
+label {
+    text-align: right;
+}
+
+label:not(.form-check-label):after {
+    content: ":";
+}
+
+.accordion-head-second {
+    /*display: inline-block;*/
+    float: right;
+    color: black;
+    text-decoration: none;
+}
+
+.pull-right {
+    float: right;
+}
+
+
+
+/* --- charts.css --- */
+
+.load-sparklines {
+    height: 15px;
+    /* width: inherit; */
+    width: auto;
+    font: 5px sans-serif;
+    cursor: crosshair;
+}
+
+.scaling-svg-container {
+    position: relative;
+    height: 15px; /* 0 */
+    width: 100%;
+    padding: 0;
+    padding-bottom: 14%;
+}
+
+.scaling-svg {
+    cursor: crosshair;
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    left: 0;
+    top: 0;
+}
+
+.line {
+    fill: none;
+    stroke: steelblue;
+    stroke-width: 0.5px;
+}
+
+.circle {
+    fill: white;
+    stroke: steelblue;
+    stroke-width: 0.5px;
+}
+
+.area {
+    fill: steelblue;
+    stroke: none;
+    opacity: 0.1;
+}
+
+.zeroline {
+    fill: none;
+    stroke: red;
+    stroke-width: 0.5px;
+    stroke-dasharray: 5 5;
+}
+
+.zerolinetext {
+    fill: red;
+}
+
+.overlay {
+    fill: none;
+    stroke: none;
+    pointer-events: all;
+}
+
+.focusLine {
+    fill: none;
+    stroke: steelblue;
+    stroke-width: 0.5px;
+}
+
+.focusCircle {
+    fill: steelblue;
+}
+
+/* --------------------- */
+
+.latency-chart {
+    width: 150px;
+    height: 19px;
+    font: 5px sans-serif;
+}
+
+.latency-chart-x {
+    stroke: #aaa;
+    stroke-width: 1px;
+}
+
+.latency-chart-line {
+    stroke: steelblue;
+    fill: steelblue;
+    stroke-width: 2px;
+}
+
+.latency-chart-min {
+    stroke: steelblue;
+    fill: steelblue;
+    stroke-width: 2px;
+}
+
+.latency-chart-max {
+    stroke: steelblue;
+    fill: steelblue;
+    stroke-width: 2px;
+}
+
+.latency-chart-avg {
+    fill: white;
+    stroke: steelblue;
+    stroke-width: 1px;
+}
+
+.latency-chart-p95 {
+    fill: red;
+    stroke: red;
+    stroke-width: 1px;
+}
+
+.latency-text-min {
+    font-size: 14px;
+    font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+}
+
+.latency-text-max {
+    font-size: 14px;
+    font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+}
+
+
+.latency-popup {
+    list-style: none; /* Remove list bullets */
+    padding: 0;
+    margin: 0;
+}
+
+.latency-popup > li {
+    padding-left: 6px;
+}
+
+li.li-min:before {
+    content: "⌜";
+    padding-right: 8px;
+    color: steelblue;
+}
+
+li.li-med:before {
+    content: "-";
+    padding-right: 8px;
+    color: steelblue;
+}
+
+li.li-avg:before {
+    content: "◦";
+    padding-right: 8px;
+    color: steelblue;
+}
+
+li.li-p95:before {
+    content: "•";
+    padding-right: 8px;
+    color: red;
+}
+
+li.li-max:before {
+    content: "⌟";
+    padding-right: 8px;
+    color: steelblue;
+}
+

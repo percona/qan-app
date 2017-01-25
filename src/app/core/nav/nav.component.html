@@ -1,0 +1,104 @@
+<nav class="navbar navbar-fixed-top navbar-light bg-faded">
+	<a class="navbar-brand" routerLink="/" routerLinkActive="active">
+		<div class="logo-img">
+			<span class="logo-text">Query Analytics</span>
+		</div>
+	</a>
+	<ul class="nav navbar-nav">
+		<li class="nav-item dropdown" id="db_server_dropdown" ngbDropdown>
+		<a ngbDropdownToggle href="javascript:void(0);" title="DB Server{{ navigation?.dbServer?.Name ? ': ' + navigation?.dbServer?.Name : '' }}"
+			class="nav-link dropdown-toggle active" id="dbServerDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+			<span [ngSwitch]="navigation.dbServer">
+				<span *ngSwitchCase="undefined">------</span>
+			<span *ngSwitchDefault>
+				<img style="width:16px; height:16px;" src="{{ getDBLogo(navigation.dbServer.Distro) }}">
+					{{ navigation.dbServer.Name | truncateRoot : 16 }}
+				</span>
+			</span>
+		</a>
+		<div class="dropdown-menu dropdown-menu-left list-group" style="margin: 0; padding: 0; min-width: 600px; max-width: 900px; max-height:70vh; overflow:scroll;"
+			aria-labelledby="dbServerDropdown">
+			<a class="list-group-item list-group-item-action" title="DB Server" *ngFor="let server of dbServers" [ngClass]="{active: server.UUID === navigation?.dbServer?.UUID }"
+				[routerLink]="['mysql', navigation.subPath, server.Name]">
+				<h4 class="list-group-item-heading">
+					<img style="width:16px; height:16px;" src="{{ getDBLogo(server.Distro) }}"> {{ server.Name | truncateRoot : 40}}
+				</h4>
+				<p class="list-group-item-text">DSN: {{ server.DSN.split('/?')[0] }}</p>
+				<p class="list-group-item-text">Version: {{ server.Version }} {{ server.Distro }}</p>
+			</a>
+		</div>
+
+	</li>
+
+		<li class="nav-item">
+			<a class="nav-link" id="settings_link" title="Query Profile." [routerLink]="['mysql/profile', navigation?.dbServer?.Name || '']"
+				routerLinkActive="active">
+				<i class="fa fa-area-chart" aria-hidden="true"></i>
+				<span class="hidden-md-down">Query Profile</span>
+			</a>
+		</li>
+		<li class="nav-item">
+			<a class="nav-link" id="summary_link" title="View database and server summary info." [routerLink]="['/mysql/sys-summary', navigation?.dbServer?.Name || '']"
+				routerLinkActive="active"><i class="fa fa-server"></i>
+				<span class="hidden-md-down">System Summary</span></a>
+		</li>
+		<li class="nav-item">
+			<a class="nav-link" id="settings_link" title="Configure query analitics. View status and log of agent." [routerLink]="['/mysql/settings', navigation?.dbServer?.Name || '']"
+				routerLinkActive="active"><i class="fa fa-cog"></i>
+							<span class="hidden-md-down">Settings</span></a>
+		</li>
+
+		<li class="nav-item" [hidden]="navigation.isExtHidden">
+			<form class="form-inline">
+				<div class="input-group">
+					<input class="form-control" [(ngModel)]="navigation.search" size="30" name="navigation.search" id="search_field" type="text"
+						placeholder="Search by Fingerprint or ID">
+					<span class="input-group-btn">
+							<button class="btn btn-outline-primary"
+								[routerLink]="navigation.search ? ['./', { 'search': navigation.search }] : ['./']"
+								id="search_button"
+								type="submit"><i class="fa fa-search"></i></button>
+					</span>
+				</div>
+			</form>
+		</li>
+</ul>
+
+
+<ul class="nav navbar-nav float-xs-right" [hidden]="navigation.isExtHidden">
+	<li class="nav-item dropdown" ngbDropdown [autoClose]="false" #timeRangeDrop="ngbDropdown">
+		<a ngbDropdownToggle href="javascript:void(0);" class="nav-link dropdown-toggle" id="supportedContentDropdown" data-toggle="dropdown"
+			aria-haspopup="true" title="Time range" aria-expanded="false"><i class="fa fa-calendar"></i></a>
+		<div class="dropdown-menu dropdown-menu-right" aria-labelledby="supportedContentDropdown">
+			<div class="container">
+				<div class="row">
+					<div class="col-md-3" title="Time range">
+						From: <br />
+						<ngb-datepicker navigation="arrow" [(ngModel)]="from"></ngb-datepicker>
+					</div>
+					<div class="col-md-3" title="Time range">
+						To: <br />
+						<ngb-datepicker navigation="arrow" [(ngModel)]="to"></ngb-datepicker>
+						<button type="button" class="btn btn-secondary" (click)="setTimeRange(from, to); $event.stopPropagation(); timeRangeDrop.close();">Apply</button>
+					</div>
+					<div class="col-md-3 list-group" title="Quick ranges">
+						<a class="list-group-item list-group-item-action" href="javascript:void(0);" (click)="setQuickRange(1, 'h'); $event.stopPropagation(); timeRangeDrop.close();">Last 1 hour</a>
+						<a class="list-group-item list-group-item-action" href="javascript:void(0);" (click)="setQuickRange(3, 'h'); $event.stopPropagation(); timeRangeDrop.close();">Last 3 hours</a>
+						<a class="list-group-item list-group-item-action" href="javascript:void(0);" (click)="setQuickRange(6, 'h'); $event.stopPropagation(); timeRangeDrop.close();">Last 6 hours</a>
+						<a class="list-group-item list-group-item-action" href="javascript:void(0);" (click)="setQuickRange(12, 'h'); $event.stopPropagation(); timeRangeDrop.close();">Last 12 hours</a>
+						<a class="list-group-item list-group-item-action" href="javascript:void(0);" (click)="setQuickRange(1, 'd'); $event.stopPropagation(); timeRangeDrop.close();">Last 1 day</a>
+						<a class="list-group-item list-group-item-action" href="javascript:void(0);" (click)="setQuickRange(5, 'd'); $event.stopPropagation(); timeRangeDrop.close();">Last 5 days</a>
+					</div>
+					<div class="col-md-3 btn-group" role="group" aria-label="Time zone">
+						<button type="button" class="btn btn-secondary" (click)="setTimeZone('local')">Local timezone</button>
+						<button type="button" class="btn btn-secondary" (click)="setTimeZone('utc')">UTC</button>
+					</div>
+				</div>
+			</div>
+		</div>
+	</li>
+</ul>
+
+</nav>
+
+<ngb-alert *ngIf="alert" class="alert-float" (close)="closeAlert()">{{ alert }}</ngb-alert>

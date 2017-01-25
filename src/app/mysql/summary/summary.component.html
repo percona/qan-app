@@ -1,0 +1,22 @@
+<div class="row">
+    <div class="col-md-12">
+        <ngb-accordion activeIds="system-summary-panel,mysql-summary-panel">
+            <ngb-panel id="system-summary-panel">
+                <template ngbPanelTitle>
+                    <h5>System Summary</h5>
+                </template>
+                <template ngbPanelContent>
+                    <pre style="margin: 1rem">{{ serverSummary ? serverSummary : 'Loading...' }}</pre>
+                </template>
+            </ngb-panel>
+            <ngb-panel id="mysql-summary-panel">
+                <template ngbPanelTitle>
+                    <h5>MySQL Summary</h5>
+                </template>
+                <template ngbPanelContent>
+                    <pre style="margin: 1rem">{{ mysqlSummary ? mysqlSummary : 'Loading...' }}</pre>
+                </template>
+            </ngb-panel>
+        </ngb-accordion>
+    </div>
+</div>
