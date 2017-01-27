@@ -32,7 +32,7 @@ export class Navigation {
 @Injectable()
 export class NavService {
 
-  private instancesUrl = 'http://192.168.56.11:9001/instances?deleted=no';
+  private instancesUrl = '/qan-api/instances?deleted=no';
   public dbServers: Array<Instance> = [];
   public dbServerMap: { [key: string]: Instance } = {};
 

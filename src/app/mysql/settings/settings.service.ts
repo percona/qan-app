@@ -14,7 +14,7 @@ export class SettingsService {
     constructor(private http: Http) { }
 
     getAgentStatus(agentUUID: string): Promise<{}> {
-        const url = `http://192.168.56.11:9001/agents/${agentUUID}/status`;
+        const url = `/qan-api/agents/${agentUUID}/status`;
 
         return this.http
             .get(url, { headers: this.headers })
@@ -24,7 +24,7 @@ export class SettingsService {
     }
 
     getAgentLog(agentUUID, begin, end: string): Promise<{}> {
-        const url = `http://192.168.56.11:9001/agents/${agentUUID}/log`;
+        const url = `/qan-api/agents/${agentUUID}/log`;
 
         let params = new URLSearchParams();
         params.set('begin', begin);
@@ -37,7 +37,7 @@ export class SettingsService {
     }
 
     getAgentDefaults(agentUUID: string, dbServerUUID: string): Promise<{}> {
-        const url = `http://192.168.56.11:9001/agents/${agentUUID}/cmd`;
+        const url = `/qan-api/agents/${agentUUID}/cmd`;
         let params = {
             AgentUUID: agentUUID,
             Service: 'agent',
@@ -64,7 +64,7 @@ export class SettingsService {
 
     setAgentDefaults(agentUUID: string, dbServerUUID: string, interval: number,
                      exampleQueries: boolean, collectFrom: CollectFrom): Promise<{}> {
-        const url = `http://192.168.56.11:9001/agents/${agentUUID}/cmd`;
+        const url = `/qan-api/agents/${agentUUID}/cmd`;
 
         let data = {
             UUID: dbServerUUID,
@@ -98,7 +98,7 @@ export class SettingsService {
     }
 
     getQanConfig(dbServerUUID: string): Promise<{}> {
-        const url = `http://192.168.56.11:9001/qan/config/${dbServerUUID}`;
+        const url = `/qan-api/qan/config/${dbServerUUID}`;
         return this.http
             .get(url, { headers: this.headers })
             .toPromise()

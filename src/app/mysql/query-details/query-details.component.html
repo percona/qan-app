@@ -1,8 +1,11 @@
 <hr />
 
-<h3 class="d-inline">
+<h3 *ngIf="!isSummary" class="d-inline">
     {{ queryDetails?.Query.Abstract }}
     <span class="float-md-right">{{ queryDetails?.Query.Id }}</span>
+</h3>
+<h3 *ngIf="isSummary" class="d-inline">
+    Server Summary
 </h3>
 <div class="card">
     <div class="card-header">
@@ -27,7 +30,7 @@
 <td>
     <span class="sum">{{ queryDetails?.Metrics2.Query_count | humanize : 'number' }}</span>
     <small>
-                            <span *ngIf="true" class="text-primary">{{ queryDetails?.Metrics2.Query_count_of_total | humanize : 'percent' }} of total</span>
+                            <span *ngIf="!isSummary" class="text-primary">{{ queryDetails?.Metrics2.Query_count_of_total | humanize : 'percent' }} of total</span>
                         </small>
 </td>
 <td colspan="2"></td>
@@ -41,7 +44,7 @@
     <td>
         <span class="sum">{{ queryDetails?.Metrics2.Query_time_sum | humanize : 'time' }}</span>
         <small>
-                        <span *ngIf="true" class="text-primary">{{ queryDetails?.Metrics2.Query_time_sum_of_total | humanize : 'percent' }} of total</span>
+                        <span *ngIf="!isSummary" class="text-primary">{{ queryDetails?.Metrics2.Query_time_sum_of_total | humanize : 'percent' }} of total</span>
                     </small>
     </td>
     <td class="text-xs-right no-right-border">
@@ -61,7 +64,7 @@ popover-placement="top" popover-template="'perQueryStatsPopover.html'">
     <td>
         <span class="sum">{{ queryDetails?.Metrics2.Lock_time_sum | humanize : 'time' }}</span>
         <small>
-                            <span ng-if="queryDetails?.Metrics2.Lock_time_sum_of_total" class="text-primary">{{ queryDetails?.Metrics2.Lock_time_sum_of_total | humanize : 'percent'}} of total</span>
+                            <span *ngIf="!isSummary" class="text-primary">{{ queryDetails?.Metrics2.Lock_time_sum_of_total | humanize : 'percent'}} of total</span>
                             <span class="text-success">{{ queryDetails?.Metrics2.Lock_time_avg_per_query_time | humanize : 'percent' }} of query time</span>
                         </small>
     </td>
@@ -105,7 +108,7 @@ popover-append-to-body="true" popover-placement="top" popover-template="'perQuer
     <td>
         <span class="sum">{{ queryDetails?.Metrics2.InnoDB_IO_r_wait_sum | humanize : 'time' }}</span>
         <small>
-                            <span *ngIf="true" class="text-primary">{{ queryDetails?.Metrics2.InnoDB_IO_r_wait_sum_of_total | humanize : 'percent' }} of total</span>
+                            <span *ngIf="!isSummary" class="text-primary">{{ queryDetails?.Metrics2.InnoDB_IO_r_wait_sum_of_total | humanize : 'percent' }} of total</span>
                             <span class="text-success">{{ queryDetails?.Metrics2.InnoDB_IO_r_wait_avg_per_query_time | humanize : 'percent' }} of query time</span>
                         </small>
     </td>
@@ -127,7 +130,7 @@ popover-append-to-body="true" popover-placement="top" popover-template="'perQuer
     <td>
         <span class="sum">{{ queryDetails?.Metrics2.InnoDB_queue_wait_sum | humanize : 'time'}}</span>
         <small>
-                            <span *ngIf="true" class="text-primary">{{ queryDetails?.Metrics2.InnoDB_queue_wait_sum_of_total | humanize : 'percent' }} of total</span>
+                            <span *ngIf="!isSummary" class="text-primary">{{ queryDetails?.Metrics2.InnoDB_queue_wait_sum_of_total | humanize : 'percent' }} of total</span>
                             <span class="text-success">{{ queryDetails?.Metrics2.innodbQueueWait.InnoDB_queue_wait_avg_per_query_time | humanize : 'percent' }} of query time</span>
                         </small>
     </td>
@@ -149,7 +152,7 @@ popover-append-to-body="true" popover-placement="top" popover-template="'perQuer
     <td>
         <span class="sum">{{ queryDetails?.Metrics2.InnoDB_IO_r_ops_sum | humanize : 'number' }}</span>
         <small>
-                            <span *ngIf="true" class="text-primary">{{ queryDetails?.Metrics2.InnoDB_IO_r_ops_sum_of_total | humanize : 'percent' }} of total</span>
+                            <span *ngIf="!isSummary" class="text-primary">{{ queryDetails?.Metrics2.InnoDB_IO_r_ops_sum_of_total | humanize : 'percent' }} of total</span>
                         </small>
     </td>
     <td class="text-xs-right no-right-border">
@@ -170,7 +173,7 @@ popover-append-to-body="true" popover-placement="top" popover-template="'perQuer
     <td>
         <span class="sum">{{ queryDetails?.Metrics2.InnoDB_IO_r_bytes_sum | humanize : 'size' }}</span>
         <small>
-                            <span *ngIf="true" class="text-primary">{{ queryDetails?.Metrics2.InnoDB_IO_r_bytes_sum_of_total | humanize : 'percent' }} of total</span>
+                            <span *ngIf="!isSummary" class="text-primary">{{ queryDetails?.Metrics2.InnoDB_IO_r_bytes_sum_of_total | humanize : 'percent' }} of total</span>
                             <span class="text-success">{{ queryDetails?.Metrics2.InnoDB_IO_r_bytes_sum_per_io | humanize : 'size' }} avg io size</span>
                         </small>
     </td>
@@ -203,7 +206,7 @@ popover-append-to-body="true" popover-placement="top" popover-template="'perQuer
     <td>
         <span class="sum">{{ queryDetails?.Metrics2.QC_Hit_sum | humanize : 'number' }}</span>
         <small>
-                            <span *ngIf="true" class="text-primary">{{ queryDetails?.Metrics2.QC_Hit_sum_of_total | humanize : 'percent' }} of total</span>
+                            <span *ngIf="!isSummary" class="text-primary">{{ queryDetails?.Metrics2.QC_Hit_sum_of_total | humanize : 'percent' }} of total</span>
                             <span class="text-success">{{ queryDetails?.Metrics2.QC_Hit_sum_per_query | humanize : 'percent'}} QC hit ratio</span>
                         </small>
     </td>
@@ -222,7 +225,7 @@ popover-append-to-body="true" popover-placement="top" popover-template="'perQuer
     <td>
         <span class="sum">{{ queryDetails?.Metrics2.Rows_sent_sum | humanize : 'number' }}</span>
         <small>
-                            <span *ngIf="true" class="text-primary">{{ queryDetails?.Metrics2.Rows_sent_sum_of_total | humanize : 'percent' }} of total</span>
+                            <span *ngIf="!isSummary" class="text-primary">{{ queryDetails?.Metrics2.Rows_sent_sum_of_total | humanize : 'percent' }} of total</span>
                         </small>
     </td>
     <td class="text-xs-right no-right-border">
@@ -242,7 +245,7 @@ popover-placement="top" popover-template="'perQueryStatsPopover.html'">
     <td>
         <span class="sum">{{ queryDetails?.Metrics2.Bytes_sent_sum | humanize : 'size' }}</span>
         <small>
-                            <span *ngIf="true" class="text-primary">{{ queryDetails?.Metrics2.Bytes_sent_sum_of_total | humanize : 'percent' }} of total</span>
+                            <span *ngIf="!isSummary" class="text-primary">{{ queryDetails?.Metrics2.Bytes_sent_sum_of_total | humanize : 'percent' }} of total</span>
                             <span class="text-success" ng-if="queryDetails?.Metrics2.Bytes_sent_sum_per_rows">{{ queryDetails?.Metrics2.Bytes_sent_sum_per_rows | humanize : 'size' }} bytes/row</span>
                         </small>
     </td>
@@ -263,7 +266,7 @@ popover-placement="top" popover-template="'perQueryStatsPopover.html'">
     <td>
         <span class="sum">{{ queryDetails?.Metrics2.Rows_examined_sum | humanize : 'number' }}</span>
         <small>
-                        <span *ngIf="true" class="text-primary">{{ queryDetails?.Metrics2.Rows_examined_sum_of_total | humanize : 'percent' }} of total</span>
+                        <span *ngIf="!isSummary" class="text-primary">{{ queryDetails?.Metrics2.Rows_examined_sum_of_total | humanize : 'percent' }} of total</span>
                         <span class="text-success">{{ queryDetails?.Metrics2.Rows_examined_sum_per_rows | humanize : 'number' }} per row sent</span>
                     </small>
     </td>
@@ -284,7 +287,7 @@ popover-append-to-body="true" popover-placement="top" popover-template="'perQuer
     <td>
         <span class="sum">{{ queryDetails?.Metrics2.Rows_affected_sum | humanize : 'number'}}</span>
         <small>
-                        <span *ngIf="true" class="text-primary">{{ queryDetails?.Metrics2.Rows_affected_sum_of_total | humanize : 'percent' }} of total</span>
+                        <span *ngIf="!isSummary" class="text-primary">{{ queryDetails?.Metrics2.Rows_affected_sum_of_total | humanize : 'percent' }} of total</span>
                     </small>
     </td>
     <td class="text-xs-right no-right-border">
@@ -305,7 +308,7 @@ popover-append-to-body="true" popover-placement="top" popover-template="'perQuer
     <td>
         <span class="sum">{{ queryDetails?.Metrics2.Filesort_sum | humanize : 'number' }}</span>
         <small>
-                        <span *ngIf="true" class="text-primary">{{ queryDetails?.Metrics2.Filesort_sum_of_total | humanize : 'percent' }} of total</span>
+                        <span *ngIf="!isSummary" class="text-primary">{{ queryDetails?.Metrics2.Filesort_sum_of_total | humanize : 'percent' }} of total</span>
                         <span class="text-success">{{ queryDetails?.Metrics2.Filesort_sum_per_query | humanize : 'percent' }} of queries</span>
                     </small>
     </td>
@@ -325,7 +328,7 @@ popover-append-to-body="true" popover-placement="top" popover-template="'perQuer
     <td>
         <span class="sum">{{ queryDetails?.Metrics2.Filesort_on_disk_sum | humanize : 'number' }}</span>
         <small>
-                        <span *ngIf="true" class="text-primary">{{ queryDetails?.Metrics2.Filesort_on_disk_sum_of_total | humanize : 'percent' }} of total</span>
+                        <span *ngIf="!isSummary" class="text-primary">{{ queryDetails?.Metrics2.Filesort_on_disk_sum_of_total | humanize : 'percent' }} of total</span>
                         <span class="text-success">{{ queryDetails?.Metrics2.Filesort_on_disk_sum_per_query | humanize : 'percent' }} of queries</span>
                     </small>
     </td>
@@ -344,7 +347,7 @@ popover-append-to-body="true" popover-placement="top" popover-template="'perQuer
     <td>
         <span class="sum">{{ queryDetails?.Metrics2.Merge_passes_sum | humanize : 'number' }}</span>
         <small>
-                        <span *ngIf="true" class="text-primary">{{ queryDetails?.Metrics2.Merge_passes_sum_of_total | humanize : 'percent' }} of total</span>
+                        <span *ngIf="!isSummary" class="text-primary">{{ queryDetails?.Metrics2.Merge_passes_sum_of_total | humanize : 'percent' }} of total</span>
                         <span class="text-success">{{ queryDetails?.Metrics2.Merge_passes_sum_per_external_sort | humanize : 'percent' }} per external sort</span>
                     </small>
     </td>
@@ -365,7 +368,7 @@ popover-append-to-body="true" popover-placement="top" popover-template="'perQuer
     <td>
         <span class="sum">{{ queryDetails?.Metrics2.Full_join_sum | humanize : 'number' }}</span>
         <small>
-                        <span *ngIf="true" class="text-primary">{{ queryDetails?.Metrics2.Full_join_sum_of_total | humanize : 'percent' }} of total</span>
+                        <span *ngIf="!isSummary" class="text-primary">{{ queryDetails?.Metrics2.Full_join_sum_of_total | humanize : 'percent' }} of total</span>
                         <span class="text-success">{{ queryDetails?.Metrics2.Full_join_sum_per_query | humanize : 'percent' }} of queries</span>
                     </small>
     </td>
@@ -384,7 +387,7 @@ popover-append-to-body="true" popover-placement="top" popover-template="'perQuer
     <td>
         <span class="sum">{{ queryDetails?.Metrics2.Full_scan_sum | humanize : 'number' }}</span>
         <small>
-                        <span *ngIf="true" class="text-primary">{{ queryDetails?.Metrics2.Full_scan_sum_of_total | humanize : 'percent' }} of total</span>
+                        <span *ngIf="!isSummary" class="text-primary">{{ queryDetails?.Metrics2.Full_scan_sum_of_total | humanize : 'percent' }} of total</span>
                         <span class="text-success">{{ queryDetails?.Metrics2.Full_scan_sum_per_query | humanize : 'percent' }} of queries</span>
                     </small>
     </td>
@@ -403,7 +406,7 @@ popover-append-to-body="true" popover-placement="top" popover-template="'perQuer
     <td>
         <span class="sum">{{ queryDetails?.Metrics2.Tmp_table_sum | humanize : 'number' }}</span>
         <small>
-                        <span *ngIf="true" class="text-primary">{{ queryDetails?.Metrics2.Tmp_table_sum_of_total | humanize : 'percent' }} of total</span>
+                        <span *ngIf="!isSummary" class="text-primary">{{ queryDetails?.Metrics2.Tmp_table_sum_of_total | humanize : 'percent' }} of total</span>
                         <span class="text-success">{{ queryDetails?.Metrics2.Tmp_table_sum_per_query | humanize : 'percent' }} of queries</span>
                     </small>
     </td>
@@ -422,7 +425,7 @@ popover-append-to-body="true" popover-placement="top" popover-template="'perQuer
     <td>
         <span class="sum">{{ queryDetails?.Metrics2.Tmp_tables_sum | humanize : 'number' }}</span>
         <small>
-                        <span *ngIf="true" class="text-primary">{{ queryDetails?.Metrics2.Tmp_tables_sum_of_total | humanize : 'percent' }} of total</span>
+                        <span *ngIf="!isSummary" class="text-primary">{{ queryDetails?.Metrics2.Tmp_tables_sum_of_total | humanize : 'percent' }} of total</span>
                         <span class="text-success">{{ queryDetails?.Metrics2.Tmp_tables_sum_per_query_with_tmp_table | humanize : 'percent'}} per query with tmp table</span>
                     </small>
     </td>
@@ -444,7 +447,7 @@ popover-placement="top" popover-template="'perQueryStatsPopover.html'">
     <td>
         <span class="sum">{{ queryDetails?.Metrics2.Tmp_table_on_disk_sum | humanize : 'number' }}</span>
         <small>
-                        <span *ngIf="true" class="text-primary">{{ queryDetails?.Metrics2.Tmp_table_on_disk_sum_of_total | humanize : 'percent' }} of total</span>
+                        <span *ngIf="!isSummary" class="text-primary">{{ queryDetails?.Metrics2.Tmp_table_on_disk_sum_of_total | humanize : 'percent' }} of total</span>
                         <span class="text-success">{{ queryDetails?.Metrics2.Tmp_table_on_disk_sum_per_query | humanize : 'percent' }} of queries</span>
                     </small>
     </td>
@@ -464,7 +467,7 @@ popover-placement="top" popover-template="'perQueryStatsPopover.html'">
     <td>
         <span class="sum">{{ queryDetails?.Metrics2.Tmp_disk_tables_sum | humanize : 'number' }}</span>
         <small>
-                        <span *ngIf="true" class="text-primary">{{ queryDetails?.Metrics2.Tmp_disk_tables_sum_of_total | humanize : 'percent' }} of total</span>
+                        <span *ngIf="!isSummary" class="text-primary">{{ queryDetails?.Metrics2.Tmp_disk_tables_sum_of_total | humanize : 'percent' }} of total</span>
                         <span class="text-success">{{ queryDetails?.Metrics2.Tmp_disk_tables_sum_per_query_with_tmp_table | humanize : 'percent' }} per query with disk tmp table</span>
                     </small>
     </td>
@@ -486,7 +489,7 @@ popover-append-to-body="true" popover-placement="top" popover-template="'perQuer
     <td>
         <span class="sum">{{ queryDetails?.Metrics2.Tmp_table_sizes_sum | humanize : 'size' }}</span>
         <small>
-                        <span *ngIf="true" class="text-primary">{{ queryDetails?.Metrics2.Tmp_table_sizes_sum_of_total | humanize : 'percent' }} of total</span>
+                        <span *ngIf="!isSummary" class="text-primary">{{ queryDetails?.Metrics2.Tmp_table_sizes_sum_of_total | humanize : 'percent' }} of total</span>
                         <span class="text-success">{{ queryDetails?.Metrics2.Tmp_table_sizes_sum_per_query | humanize : 'size' }} per query</span>
                     </small>
     </td>
@@ -503,15 +506,17 @@ popover-append-to-body="true" popover-placement="top" popover-template="'perQuer
 
 </div>
 
-<hr />
-<h3 class="d-inline">QUERY</h3>
-<ngb-accordion activeIds="query-fingerprint">
-    <ngb-panel id="query-fingerprint">
-        <template ngbPanelTitle>
-            <h5>Fingerprint</h5>
-        </template>
-        <template ngbPanelContent>
-            <pre style="margin: 1rem">{{ queryDetails?.Query.Fingerprint }}</pre>
+<!--- additional info for query only-->
+<div *ngIf="!isSummary">
+    <hr />
+    <h3 class="d-inline">QUERY</h3>
+    <ngb-accordion activeIds="query-fingerprint">
+        <ngb-panel id="query-fingerprint">
+            <template ngbPanelTitle>
+                <h5>Fingerprint</h5>
+            </template>
+            <template ngbPanelContent>
+                <pre style="margin: 1rem"><code [innerHTML]="fingerprint"></code></pre>
 </template>
 </ngb-panel>
 <ngb-panel id="query-example">
@@ -519,7 +524,7 @@ popover-append-to-body="true" popover-placement="top" popover-template="'perQuer
         <h5>Example</h5>
     </template>
     <template ngbPanelContent>
-        <pre style="margin: 1rem">{{ queryDetails?.Example.Query }}</pre>
+        <pre style="margin: 1rem"><code [innerHTML]="queryExample"></code></pre>
 </template>
 </ngb-panel>
 </ngb-accordion>
@@ -535,14 +540,14 @@ popover-append-to-body="true" popover-placement="top" popover-template="'perQuer
                 <span class="input-group-addon" id="sizing-addon1" title="Database">
                     <i class="fa fa-database" aria-hidden="true"></i>
                 </span>
-                <input type="text" size="50" class="form-control"
-                      [(ngModel)]="dbName" [ngModelOptions]="{standalone: true}" id="databaseInput" placeholder="`database-name`">
+                <input type="text" size="50" class="form-control" [(ngModel)]="dbName" [ngModelOptions]="{standalone: true}" id="databaseInput"
+                    placeholder="`database-name`">
                 <span class="input-group-btn">
                     <button class="btn btn-secondary" style="width: 8em" (click)="getExplain();" type="submit">EXPLAIN</button>
-                </span>
-            </div>
-        </form>
-    </div>
+</span>
+</div>
+</form>
+</div>
 </div>
 <br />
 <ngb-accordion activeIds="classic-explain">
@@ -593,31 +598,28 @@ popover-append-to-body="true" popover-placement="top" popover-template="'perQuer
             <h5>JSON</h5>
         </template>
         <template ngbPanelContent>
-            <pre style="margin: 1rem">{{ jsonExplain | json : 4 }}</pre>
+            <pre style="margin: 1rem"><code [innerHTML]="jsonExplain"></code></pre>
 </template>
 </ngb-panel>
 </ngb-accordion>
 
 <hr />
-
-
-
 <div class="row">
     <div class="col-md-2">
-        <h3 class="d-inline" >TABLES</h3>
+        <h3 class="d-inline">TABLES</h3>
     </div>
     <div class="col-md-10">
         <form class="form-inline pull-right" (submit)="addDBTable();">
             <label for="dbTblNamesInput">DB and table</label>
             <div class="input-group">
-                <input type="text" size="50" class="form-control" id="dbTblNamesInput"
-                    [(ngModel)]="newDBTblNames" [ngModelOptions]="{standalone: true}" placeholder="`database-name`.`table-name`">
+                <input type="text" size="50" class="form-control" id="dbTblNamesInput" [(ngModel)]="newDBTblNames" [ngModelOptions]="{standalone: true}"
+                    placeholder="`database-name`.`table-name`">
                 <span class="input-group-btn">
                     <button class="btn btn-secondary" (click)="addDBTable();" style="width: 8em" type="submit">ADD</button>
-                </span>
-            </div>
-        </form>
-    </div>
+</span>
+</div>
+</form>
+</div>
 </div>
 <br />
 <div class="row">
@@ -626,9 +628,7 @@ popover-append-to-body="true" popover-placement="top" popover-template="'perQuer
             <div class="card-block">
                 <div class="card-text pt-1 pr-1">
                     <div *ngFor="let item of queryDetails?.Query?.Tables" class="btn-group ml-1 mb-1" role="group" aria-label="Basic example">
-                        <button type="button" class="btn"
-                         (click)="selectTableInfo(item.Db, item.Table);"
-                         [ngClass]="isSelectedDbTbl(item) ? 'btn-success' : 'btn-outline-secondary'">
+                        <button type="button" class="btn" (click)="selectTableInfo(item.Db, item.Table);" [ngClass]="isSelectedDbTbl(item) ? 'btn-success' : 'btn-outline-secondary'">
                             `{{ item.Db }}`.`{{ item.Table }}`
                         </button>
                         <button type="button" class="btn btn-warning" (click)="removeDBTable(item);"><i class="fa fa-times" aria-hidden="true"></i></button>
@@ -645,7 +645,7 @@ popover-append-to-body="true" popover-placement="top" popover-template="'perQuer
             <h5>CREATE</h5>
         </template>
         <template ngbPanelContent>
-            <pre style="margin: 1rem">{{ tableInfo?.Create }}</pre>
+            <pre style="margin: 1rem"><code [innerHTML]="createTable"></code></pre>
 </template>
 </ngb-panel>
 
@@ -719,3 +719,4 @@ popover-append-to-body="true" popover-placement="top" popover-template="'perQuer
     </template>
 </ngb-panel>
 </ngb-accordion>
+</div>

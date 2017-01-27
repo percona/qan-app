@@ -1,6 +1,13 @@
 <div class="card">
     <div class="card-header">
-        Top {{ totalAmountOfQueries ? (queryProfile?.length - 1) : 0 }} of {{ totalAmountOfQueries }} Queries by % Grand Total Time (%GTT)
+        <span>Top {{ totalAmountOfQueries ? (queryProfile?.length - 1) : 0 }} of {{ totalAmountOfQueries }} Queries by % Grand Total Time (%GTT)</span>
+        <span class="pull-right">
+            <i class="fa fa-clock-o" aria-hidden="true"></i>
+            <b class="text-info">{{ fromTs }}</b>
+            <i class="fa fa-ellipsis-h" aria-hidden="true"></i>
+            <i class="fa fa-clock-o" aria-hidden="true"></i>
+            <b class="text-info">{{ toTs }}</b>
+        </span>
     </div>
     <table class="table table-bordered table-striped table-hover table-sm mb-0">
         <thead class="thead-default">
@@ -15,11 +22,11 @@
         </thead>
         <tbody>
             <tr *ngFor="let row of queryProfile; let i = index; let first = first;"
-                [routerLink]="['./', 'id', row.Id]"
+                [routerLink]="['./', 'id', row.Id || 'TOTAL']"
                 routerLinkActive="table-success">
                 <td class="text-xs-right">{{ i || '' }}</td>
                 <td>
-                    <a [routerLink]="['./', 'id', row.Id]" href="javascript:void(0);" title="{{ row.Fingerprint }}" ng-click="qanSelectRow(row)">
+                    <a [routerLink]="['./', 'id', row.Id || 'TOTAL']" href="javascript:void(0);" title="{{ row.Fingerprint }}">
                         {{ ((row.Abstract ? row.Abstract : 'TOTAL') | slice:0:22) + (row.Abstract.length > 22 ? '...' : '') }}
                     </a>
                 </td>

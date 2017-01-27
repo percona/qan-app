@@ -11,7 +11,7 @@ export class SummaryService {
     constructor(private http: Http) { }
 
     getServer(agentUUID: string) {
-        const url = `http://192.168.56.11:9001/agents/${agentUUID}/cmd`;
+        const url = `/qan-api/agents/${agentUUID}/cmd`;
         let params = {
             AgentUUID: agentUUID,
             Service: 'agent',
@@ -36,7 +36,7 @@ export class SummaryService {
     }
 
     getMySQL(agentUUID: string) {
-        const url = `http://192.168.56.11:9001/agents/${agentUUID}/cmd`;
+        const url = `/qan-api/agents/${agentUUID}/cmd`;
         let params = {
             AgentUUID: agentUUID,
             Service: 'agent',

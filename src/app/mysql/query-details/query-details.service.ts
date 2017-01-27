@@ -3,34 +3,42 @@ import { Http, Headers, URLSearchParams } from '@angular/http';
 import 'rxjs/add/operator/toPromise';
 // import { Observable } from 'rxjs/Observable';
 
-export type QueryClass = {
-    Id: string,
-    Abstract: string,
-    Fingerprint: string,
-    Tables: Array<{ Db: string, Table: string }> | null,
-    FirstSeen: string,
-    LastSeen: string,
-    Status: string
+export interface QueryClass {
+    Id: string;
+    Abstract: string;
+    Fingerprint: string;
+    Tables: Array<{ Db: string, Table: string }> | null;
+    FirstSeen: string;
+    LastSeen: string;
+    Status: string;
 };
 
-export type QueryExample = {
-    QueryId: string,
-    InstanceUUID: string,
-    Period: string,
-    Ts: string,
-    Db: string,
-    QueryTime: number,
-    Query: string
+export interface QueryExample {
+    QueryId: string;
+    InstanceUUID: string;
+    Period: string;
+    Ts: string;
+    Db: string;
+    QueryTime: number;
+    Query: string;
 };
 
-export type QueryDetails = {
-    InstanceId: string,
-    Begin: string,
-    End: string,
-    Query: QueryClass,
-    Example: QueryExample,
-    Metrics2: {},
-    Sparks2: Array<{}>
+export interface QueryDetails {
+    InstanceId: string;
+    Begin: string;
+    End: string;
+    Query: QueryClass;
+    Example: QueryExample;
+    Metrics2: {};
+    Sparks2: Array<{}>;
+};
+
+export interface ServerSummary {
+    InstanceId: string;
+    Begin: string;
+    End: string;
+    Metrics2: {};
+    Sparks2: Array<{}>;
 };
 
 @Injectable()
@@ -41,7 +49,7 @@ export class QueryDetailsService {
     constructor(private http: Http) { }
 
     getQueryDetails(dbServerUUID, queryUUID, begin, end: string): Promise<QueryDetails> {
-        const url = `http://192.168.56.11:9001/qan/report/${dbServerUUID}/query/${queryUUID}`;
+        const url = `/qan-api/qan/report/${dbServerUUID}/query/${queryUUID}`;
 
         let params = new URLSearchParams();
         params.set('begin', begin);
@@ -54,8 +62,23 @@ export class QueryDetailsService {
             .catch(err => console.log(err));
     }
 
+
+    getSummary(dbServerUUID: string, begin: string, end: string): Promise<QueryDetails> {
+        const url = `/qan-api/qan/report/${dbServerUUID}/server-summary`;
+
+        let params = new URLSearchParams();
+        params.set('begin', begin);
+        params.set('end', end);
+
+        return this.http
+            .get(url, { headers: this.headers, search: params })
+            .toPromise()
+            .then(response => response.json() as ServerSummary)
+            .catch(err => console.log(err));
+    }
+
     getTableInfo(agentUUID: string, dbServerUUID: string, dbName: string, tblName: string) {
-        const url = `http://192.168.56.11:9001/agents/${agentUUID}/cmd`;
+        const url = `/qan-api/agents/${agentUUID}/cmd`;
 
         let data = {
             UUID: dbServerUUID,
@@ -88,7 +111,7 @@ export class QueryDetailsService {
     }
 
     getExplain(agentUUID: string, dbServerUUID: string, dbName: string, query: string) {
-        const url = `http://192.168.56.11:9001/agents/${agentUUID}/cmd`;
+        const url = `/qan-api/agents/${agentUUID}/cmd`;
         let data = {
             UUID: dbServerUUID,
             Db: dbName,
@@ -111,7 +134,7 @@ export class QueryDetailsService {
     }
 
     updateTables(queryID: string, dbTables: Array<{}>) {
-        const url = `http://192.168.56.11:9001/queries/${queryID}/tables`;
+        const url = `/qan-api/queries/${queryID}/tables`;
         return this.http
             .put(url, dbTables)
             .toPromise()

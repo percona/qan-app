@@ -10,7 +10,7 @@ export class QueryProfileService {
     constructor(private http: Http) { }
 
     getQueryProfile(dbServerUUID, begin, end: string, offset: number = 0, search: string = ''): Promise<{}> {
-        const url = `http://192.168.56.11:9001/qan/profile/${dbServerUUID}`;
+        const url = `/qan-api/qan/profile/${dbServerUUID}`;
         const params = new URLSearchParams();
         params.set('begin', begin);
         params.set('end', end);

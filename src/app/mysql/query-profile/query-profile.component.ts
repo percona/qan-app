@@ -15,6 +15,8 @@ export class QueryProfileComponent extends BaseComponent {
     public offset: number;
     public totalAmountOfQueries: number;
     public leftInDbQueries: number;
+    public fromTs: string;
+    public toTs: string;
 
 
     constructor(protected route: ActivatedRoute, protected router: Router,
@@ -23,18 +25,28 @@ export class QueryProfileComponent extends BaseComponent {
     }
 
     onChangeParams(params) {
-        let from = this.navService.nav.from.format('YYYY-MM-DDTHH:mm:ss');
-        let to = this.navService.nav.to.format('YYYY-MM-DDTHH:mm:ss');
+        this.fromTs = this.navService.nav.from.format('YYYY-MM-DDTHH:mm:ss');
+        this.toTs = this.navService.nav.to.format('YYYY-MM-DDTHH:mm:ss');
         if ('to' in params) {
+
         } else {
-            let path = ['mysql/profile', this.navService.dbServers[0].Name, 'from', from, 'to', to];
+            const path = ['mysql/profile', this.navService.nav.dbServer.Name, 'from', this.fromTs, 'to', this.toTs];
             this.router.navigate(path);
         }
-        let dbServerUUID = this.navService.nav.dbServer.UUID;
-        let search = this.navService.nav.search;
+        // FIXME: use reactive here.
+        if (this.navService.nav.dbServer === undefined) {
+            setTimeout(() => this.loadQueries(), 500);
+        } else {
+            this.loadQueries();
+        }
+    }
+
+    loadQueries() {
+        const dbServerUUID = this.navService.nav.dbServer.UUID;
+        const search = this.navService.nav.search;
         this.offset = 0;
         this.queryProfileService
-            .getQueryProfile(dbServerUUID, from, to, this.offset, search)
+            .getQueryProfile(dbServerUUID, this.fromTs, this.toTs, this.offset, search)
             .then(data => {
                 this.totalAmountOfQueries = data['TotalQueries'];
                 if (this.totalAmountOfQueries > 0) {
@@ -49,12 +61,10 @@ export class QueryProfileComponent extends BaseComponent {
     }
 
     loadMoreQueries() {
-        let dbServerUUID = this.navService.nav.dbServer.UUID;
-        let from = this.navService.nav.from.format('YYYY-MM-DDTHH:mm:ss');
-        let to = this.navService.nav.to.format('YYYY-MM-DDTHH:mm:ss');
+        const dbServerUUID = this.navService.nav.dbServer.UUID;
         this.offset = this.offset + 10;
         this.queryProfileService
-            .getQueryProfile(dbServerUUID, from, to, this.offset)
+            .getQueryProfile(dbServerUUID, this.fromTs, this.toTs, this.offset)
             .then(data => {
                 let _ = data['Query'].shift();
                 for (let q of data['Query']) {

@@ -11,7 +11,7 @@
 			<span [ngSwitch]="navigation.dbServer">
 				<span *ngSwitchCase="undefined">------</span>
 			<span *ngSwitchDefault>
-				<img style="width:16px; height:16px;" src="{{ getDBLogo(navigation.dbServer.Distro) }}">
+				<img class="img-db" src="{{ getDBLogo(navigation.dbServer.Distro) }}">
 					{{ navigation.dbServer.Name | truncateRoot : 16 }}
 				</span>
 			</span>
@@ -21,7 +21,7 @@
 			<a class="list-group-item list-group-item-action" title="DB Server" *ngFor="let server of dbServers" [ngClass]="{active: server.UUID === navigation?.dbServer?.UUID }"
 				[routerLink]="['mysql', navigation.subPath, server.Name]">
 				<h4 class="list-group-item-heading">
-					<img style="width:16px; height:16px;" src="{{ getDBLogo(server.Distro) }}"> {{ server.Name | truncateRoot : 40}}
+					<img class="img-db" src="{{ getDBLogo(server.Distro) }}"> {{ server.Name | truncateRoot : 40}}
 				</h4>
 				<p class="list-group-item-text">DSN: {{ server.DSN.split('/?')[0] }}</p>
 				<p class="list-group-item-text">Version: {{ server.Version }} {{ server.Distro }}</p>

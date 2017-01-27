@@ -14,13 +14,13 @@ import { SharedModule } from './shared/shared.module';
     AppComponent
   ],
   imports: [
+    AppRoutingModule,
     BrowserModule,
-    NgbModule.forRoot(),
+    CoreModule,
     FormsModule,
     HttpModule,
-    CoreModule,
+    NgbModule.forRoot(),
     SharedModule,
-    AppRoutingModule
   ],
   providers: [],
   bootstrap: [AppComponent]

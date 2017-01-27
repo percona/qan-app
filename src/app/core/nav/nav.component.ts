@@ -37,7 +37,6 @@ export class NavComponent implements OnInit, OnDestroy {
 
 
   public constructor(private route: ActivatedRoute, private router: Router, private navService: NavService) {
-    console.log('nav1');
     // select db server
     this.navigationSubscription = this.navService.navigation$.subscribe(nav => {
       this.navigation = nav;
@@ -46,7 +45,6 @@ export class NavComponent implements OnInit, OnDestroy {
     this.alertSubscription = this.navService.alert$.subscribe(alert => {
       this.alert = alert;
     });
-    console.log('nav2');
   }
 
   protected closeAlert() {
@@ -66,14 +64,13 @@ export class NavComponent implements OnInit, OnDestroy {
 
   protected setQuickRange(num: number = 0, unit: string = 's') {
     const to = moment().format();
-    const dur = moment.duration(num, 's');
-    const from = moment().subtract(dur, unit).format();
+    const from = moment().subtract(num, unit).format();
     this.router.navigate(['mysql/profile', this.navigation.dbServer.Name, 'from', from, 'to', to]);
   }
 
   protected setTimeRange(from, to) {
-    let paramFrom = moment([from.year, from.month-1, from.day]).format();
-    let paramTo = moment([to.year, to.month-1, to.day]).format();
+    let paramFrom = moment([from.year, from.month - 1, from.day]).format();
+    let paramTo = moment([to.year, to.month - 1, to.day]).format();
     console.log('setTimeRange: ', from, to, paramFrom, paramTo);
     this.router.navigate(['mysql/profile', this.navigation.dbServer.Name, 'from', paramFrom, 'to', paramTo]);
   }
@@ -97,10 +94,17 @@ export class NavComponent implements OnInit, OnDestroy {
   protected getDBServers() {
     this.navService
       .getDBServers()
-      .then(dbServers => {
-        this.dbServers = dbServers;
-      })
+      .then(dbServers => this.dbServers = dbServers)
+      .then(() => this.navigateToFirstServer())
       .catch(err => console.log(err));
+  }
+
+  protected navigateToFirstServer() {
+    const to = moment.utc().format();
+    const from = moment.utc().subtract(1, 'h').format();
+    this.navService.setNavigation({ 'subPath': 'profile' });
+    const path = ['mysql/profile', this.navService.nav.dbServer.Name, 'from', from, 'to', to];
+    this.router.navigate(path, { relativeTo: this.route });
   }
 
   public ngOnInit() {
