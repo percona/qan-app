@@ -108,25 +108,25 @@
                     return Instance.query()
                           .$promise
                           .then(function(resp) {
-                              var mysqls = [];
+                              var instances = [];
                               for (var i=0; i < resp.length; i++) {
-                                  // if deleted - skip
-                                  if (resp[i].Subsystem === 'mysql') {
-                                      mysqls.push(resp[i]);
+                                  if (resp[i].Subsystem === 'os' || resp[i].Subsystem === 'agent') {
+                                      continue;
                                   }
+                                  instances.push(resp[i]);
                               }
-                              if (mysqls.length === 0) {
+                              if (instances.length === 0) {
                                   $rootScope.alerts.push({
-                                      msg: 'There are no MySQL instances.',
+                                      msg: 'There are no instances.',
                                       type: 'danger'
                                   });
                                   $rootScope.connection_error = true;
                               }
 
-                              $rootScope.instance = mysqls[0];
+                              $rootScope.instance = instances[0];
                               return {
-                                  instances: mysqls,
-                                  selected_instance: mysqls[0]
+                                  instances: instances,
+                                  selected_instance: instances[0]
                               };
                           })
                           .catch(function(resp, err){
