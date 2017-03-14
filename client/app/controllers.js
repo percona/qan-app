@@ -830,7 +830,9 @@
                 $state, Instance, AgentCmd, AgentStatus, AgentLog, Config, instances) {
                 $scope.init = function () {
                     $scope.DEMO = constants.DEMO;
-                    $scope.instances = instances.asArray.filter(function(i) { return i.Subsystem === 'mysql';});
+                    $scope.instances = instances.asArray.filter(function(i) {
+                        return i.Subsystem !== 'os' && i.Subsystem !== 'agent';
+                    });
                     $scope.agents = instances.asArray.filter(function(i) { return i.Subsystem === 'agent';});
                     $rootScope.instances = $scope.instances;
                     $scope.allInstances = instances.asArray;
@@ -875,20 +877,19 @@
                                         .finally(function() {});
                                     }, 200);
                                     break;
-                                    case 'server-info':
-                                        $timeout(function () {
-                                        for (var i = 0; i < $scope.agents.length; i++) {
-                                            if ($scope.agents[i].ParentUUID === $scope.instance.ParentUUID) {
-                                                $scope.selected_agent = $scope.agents[i];
-                                                $scope.agent = $scope.agents[i];
-                                            }
+                                case 'server-info':
+                                    $timeout(function () {
+                                    for (var i = 0; i < $scope.agents.length; i++) {
+                                        if ($scope.agents[i].ParentUUID === $scope.instance.ParentUUID) {
+                                            $scope.selected_agent = $scope.agents[i];
+                                            $scope.agent = $scope.agents[i];
                                         }
+                                    }
 
-                                        $scope.getServerSummary($scope.agent);
-                                        $scope.getMySQLSummary($scope.agent);
-                                        }, 200);
-
-                                    break
+                                    $scope.getServerSummary($scope.agent);
+                                    $scope.getMySQLSummary($scope.agent);
+                                    }, 200);
+                                    break;
                                 default:
                                     $scope.MySQLUUID = false;
                                     break;
