@@ -1,7 +1,7 @@
 <div class="card">
-    <div class="card-header">
-        <span>Top {{ totalAmountOfQueries ? (queryProfile?.length - 1) : 0 }} of {{ totalAmountOfQueries }} Queries by % Grand Total Time (%GTT)</span>
-        <span class="pull-right">
+    <div class="card-header" id="query_profile_heared">
+        <span id="query_profile_top">Top {{ totalAmountOfQueries ? (queryProfile?.length - 1) : 0 }} of {{ totalAmountOfQueries }} Queries by % Grand Total Time (%GTT)</span>
+        <span class="pull-right" id="selected_time">
             <i class="fa fa-clock-o" aria-hidden="true"></i>
             <b class="text-info">{{ fromTs }}</b>
             <i class="fa fa-ellipsis-h" aria-hidden="true"></i>
@@ -9,7 +9,7 @@
             <b class="text-info">{{ toTs }}</b>
         </span>
     </div>
-    <table class="table table-bordered table-striped table-hover table-sm mb-0">
+    <table class="table table-bordered table-striped table-hover table-sm mb-0" id="query_profile_table">
         <thead class="thead-default">
             <tr>
                 <th title="Rank">#</th>
@@ -32,9 +32,7 @@
                 </td>
                 <td title="{{ row.Id }}">{{ row.Id }}</td>
                 <td class="no-right-border" style="width: 6em;">
-                    <!--<load-sparklines popover-trigger="mouseenter " popover-append-to-body="true " popover-placement="top " popover-template=" 'sparklinePopover.html' "
-                        xkey="Start_ts " ykey="Query_time_sum " measurement="number " chart-data="row.Log "></load-sparklines>-->
-                    <div class="scaling-svg-container" [loadSparklines]="row.Log" xkey="Start_ts" ykey="Query_time_sum" measurement="number"></div>
+                    <div class="scaling-svg-container" [appLoadSparklines]="row.Log" xkey="Start_ts" ykey="Query_time_sum" measurement="number"></div>
                 </td>
                 <td class="no-left-border text-xs-right">
                     {{ row.Load | humanize : 'number' }} ({{ row.Percentage | humanize : 'percent' }})
@@ -43,17 +41,13 @@
                     {{row.QPS | humanize : 'number'}}&nbsp;QPS
                 </td>
                 <td class="no-left-border no-right-border" style="width: 6em;">
-                    <!--<load-sparklines popover-trigger="mouseenter " popover-append-to-body="true " popover-placement="top " popover-template=" 'sparklinePopover.html' "
-                        xkey="Start_ts " ykey="Query_count " measurement="number " chart-data="row.Log "></load-sparklines>-->
-                    <div class="scaling-svg-container" [loadSparklines]="row.Log" xkey="Start_ts" ykey="Query_count" measurement="number"></div>
+                    <div class="scaling-svg-container" [appLoadSparklines]="row.Log" xkey="Start_ts" ykey="Query_count" measurement="number"></div>
                 </td>
                 <td class="no-left-border text-xs-right">
                     {{row.Stats.Cnt | humanize : 'number'}} ({{ (row.Stats.Cnt / profileTotal?.Stats.Cnt * 100).toFixed(2) }}%)
                 </td>
                 <td class="no-right-border chart-td" style="width: 6em;">
-                    <!--<load-sparklines popover-trigger="mouseenter " popover-append-to-body="true " popover-placement="top " popover-template=" 'sparklinePopover.html' "
-                        xkey="Start_ts" ykey="Query_time_avg" measurement="time" chart-data="row.Log "></load-sparklines>-->
-                    <div class="scaling-svg-container" [loadSparklines]="row.Log" xkey="Start_ts" ykey="Query_time_avg" measurement="time"></div>
+                    <div class="scaling-svg-container" [appLoadSparklines]="row.Log" xkey="Start_ts" ykey="Query_time_avg" measurement="time"></div>
                 </td>
                 <td class="no-right-border no-left-border text-xs-right">
                     {{ row.Stats.Avg | humanize }}&nbsp;avg
@@ -64,7 +58,7 @@
                 </td>
             </tr>
             <tr *ngIf="totalAmountOfQueries === 0">
-                <td class="text-center" colspan="11">No data for selected time-range.</td>
+                <td id="query_profile_no_data" class="text-center" colspan="11">No data for selected time-range.</td>
             </tr>
         </tbody>
     </table>

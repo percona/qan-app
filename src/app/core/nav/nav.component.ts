@@ -69,10 +69,42 @@ export class NavComponent implements OnInit, OnDestroy {
   }
 
   protected setTimeRange(from, to) {
-    let paramFrom = moment([from.year, from.month - 1, from.day]).format();
-    let paramTo = moment([to.year, to.month - 1, to.day]).format();
+    const paramFrom = moment([from.year, from.month - 1, from.day]).format();
+    const paramTo = moment([to.year, to.month - 1, to.day]).format();
     console.log('setTimeRange: ', from, to, paramFrom, paramTo);
     this.router.navigate(['mysql/profile', this.navigation.dbServer.Name, 'from', paramFrom, 'to', paramTo]);
+  }
+
+  search() {
+    let path = [
+      'mysql/profile',
+      this.navigation.dbServer.Name,
+      'from',
+      this.navigation.from.format(),
+      'to',
+      this.navigation.to.format()
+    ];
+    if (this.navigation.search !== ''
+        && this.navigation.search !== null
+        && this.navigation.search !== undefined) {
+      path.push({ 'search': this.navigation.search });
+    } else {
+      this.navigation.search = '';
+    }
+    this.router.navigate(path);
+  }
+
+  reset() {
+    this.navigation.search = '';
+    let path = [
+      'mysql/profile',
+      this.navigation.dbServer.Name,
+      'from',
+      this.navigation.from.format(),
+      'to',
+      this.navigation.to.format()
+    ];
+    this.router.navigate(path);
   }
 
   public getDBLogo(distro: string): string {

@@ -49,15 +49,19 @@
 		</li>
 
 		<li class="nav-item" [hidden]="navigation.isExtHidden">
-			<form class="form-inline">
+			<form class="form-inline" (submit)="search()">
 				<div class="input-group">
-					<input class="form-control" [(ngModel)]="navigation.search" size="30" name="navigation.search" id="search_field" type="text"
-						placeholder="Search by Fingerprint or ID">
+					<input class="form-control" [(ngModel)]="navigation.search" size="32" name="navigation.search" id="search_field" type="text"
+						placeholder="Search by Query Abstract, Fingerprint or ID">
 					<span class="input-group-btn">
 							<button class="btn btn-outline-primary"
-								[routerLink]="navigation.search ? ['./', { 'search': navigation.search }] : ['./']"
+								(submit)="search()"
 								id="search_button"
 								type="submit"><i class="fa fa-search"></i></button>
+							<button class="btn btn-outline-primary"
+								(click)="reset();"
+								id="reset_search_button"
+								type="reset"><i class="fa fa-times"></i></button>
 					</span>
 				</div>
 			</form>

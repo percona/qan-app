@@ -25,7 +25,7 @@
                 <td>Query Count</td>
                 <td class="no-right-border" align="right">{{ queryDetails?.Metrics2.Query_count_per_sec | humanize : 'number' }} (per sec)</td>
                 <td style="width: 6em;" class="no-left-border">
-<div class="scaling-svg-container" [loadSparklines]="queryDetails?.Sparks2" xkey="Ts" ykey="Query_count_per_sec" measurement="number"></div>
+<div class="scaling-svg-container" [appLoadSparklines]="queryDetails?.Sparks2" xkey="Ts" ykey="Query_count_per_sec" measurement="number"></div>
 </td>
 <td>
     <span class="sum">{{ queryDetails?.Metrics2.Query_count | humanize : 'number' }}</span>
@@ -39,7 +39,7 @@
     <td>Query Time</td>
     <td class="no-right-border" align="right">{{ queryDetails?.Metrics2.Query_time_sum_per_sec | humanize : 'number' }} load <span *ngIf="true">({{ queryDetails?.Metrics2.Query_time_sum_of_total | humanize : 'percent' }})</span></td>
     <td class="no-left-border" widht="150px">
-        <div class="scaling-svg-container" [loadSparklines]="queryDetails?.Sparks2" xkey="Ts" ykey="Query_time_sum_per_sec" measurement="number"></div>
+        <div class="scaling-svg-container" [appLoadSparklines]="queryDetails?.Sparks2" xkey="Ts" ykey="Query_time_sum_per_sec" measurement="number"></div>
     </td>
     <td>
         <span class="sum">{{ queryDetails?.Metrics2.Query_time_sum | humanize : 'time' }}</span>
@@ -59,7 +59,7 @@ popover-placement="top" popover-template="'perQueryStatsPopover.html'">
     <td>Lock Time</td>
     <td class="no-right-border" align="right">{{ queryDetails?.Metrics2.Lock_time_sum_per_sec | humanize : 'number' }} (avg load)</td>
     <td class="no-left-border">
-        <div class="scaling-svg-container" [loadSparklines]="queryDetails?.Sparks2" xkey="Ts" ykey="Lock_time_sum_per_sec" measurement="number"></div>
+        <div class="scaling-svg-container" [appLoadSparklines]="queryDetails?.Sparks2" xkey="Ts" ykey="Lock_time_sum_per_sec" measurement="number"></div>
     </td>
     <td>
         <span class="sum">{{ queryDetails?.Metrics2.Lock_time_sum | humanize : 'time' }}</span>
@@ -80,7 +80,7 @@ popover-placement="top" popover-template="'perQueryStatsPopover.html'">
     <td>Innodb Row Lock Wait</td>
     <td class="no-right-border" align="right">{{ queryDetails?.Metrics2.InnoDB_rec_lock_wait_sum_per_sec | humanize : 'number' }} (avg load)</td>
     <td class="no-left-border">
-        <div class="scaling-svg-container" [loadSparklines]="queryDetails?.Sparks2" xkey="Ts" ykey="InnoDB_rec_lock_wait_sum_per_sec"
+        <div class="scaling-svg-container" [appLoadSparklines]="queryDetails?.Sparks2" xkey="Ts" ykey="InnoDB_rec_lock_wait_sum_per_sec"
             measurement="number"></div>
     </td>
     <td>
@@ -102,7 +102,7 @@ popover-append-to-body="true" popover-placement="top" popover-template="'perQuer
     <td>Innodb IO Read Wait</td>
     <td class="no-right-border" align="right">{{ queryDetails?.Metrics2.InnoDB_IO_r_wait_sum_per_sec | humanize : 'number' }} (avg load)</td>
     <td class="no-left-border">
-        <div class="scaling-svg-container" [loadSparklines]="queryDetails?.Sparks2" xkey="Ts" ykey="InnoDB_IO_r_wait_sum_per_sec"
+        <div class="scaling-svg-container" [appLoadSparklines]="queryDetails?.Sparks2" xkey="Ts" ykey="InnoDB_IO_r_wait_sum_per_sec"
             measurement="number"></div>
     </td>
     <td>
@@ -124,7 +124,7 @@ popover-append-to-body="true" popover-placement="top" popover-template="'perQuer
     <td>Innodb Queue Wait</td>
     <td class="no-right-border" align="right">{{ queryDetails?.Metrics2.InnoDB_queue_wait_sum_per_sec | humanize : 'number'}} (avg load)</td>
     <td class="no-left-border">
-        <div class="scaling-svg-container" [loadSparklines]="queryDetails?.Sparks2" xkey="Ts" ykey="InnoDB_queue_wait_sum_per_sec"
+        <div class="scaling-svg-container" [appLoadSparklines]="queryDetails?.Sparks2" xkey="Ts" ykey="InnoDB_queue_wait_sum_per_sec"
             measurement="number"></div>
     </td>
     <td>
@@ -146,7 +146,7 @@ popover-append-to-body="true" popover-placement="top" popover-template="'perQuer
     <td>Innodb Read Ops</td>
     <td class="no-right-border" align="right">{{ queryDetails?.Metrics2.InnoDB_IO_r_ops_sum_per_sec | humanize : 'number' }} (per sec)</td>
     <td class="no-left-border">
-        <div class="scaling-svg-container" [loadSparklines]="queryDetails?.Sparks2" xkey="Ts" ykey="InnoDB_IO_r_ops_sum_per_sec"
+        <div class="scaling-svg-container" [appLoadSparklines]="queryDetails?.Sparks2" xkey="Ts" ykey="InnoDB_IO_r_ops_sum_per_sec"
             measurement="number"></div>
     </td>
     <td>
@@ -167,7 +167,7 @@ popover-append-to-body="true" popover-placement="top" popover-template="'perQuer
     <td>Innodb Read Bytes</td>
     <td class="no-right-border" align="right">{{ queryDetails?.Metrics2.InnoDB_IO_r_bytes_sum_per_sec | humanize : 'size'}} (per sec)</td>
     <td class="no-left-border">
-        <div class="scaling-svg-container" [loadSparklines]="queryDetails?.Sparks2" xkey="Ts" ykey="InnoDB_IO_r_bytes_sum_per_sec"
+        <div class="scaling-svg-container" [appLoadSparklines]="queryDetails?.Sparks2" xkey="Ts" ykey="InnoDB_IO_r_bytes_sum_per_sec"
             measurement="size"></div>
     </td>
     <td>
@@ -201,7 +201,7 @@ popover-append-to-body="true" popover-placement="top" popover-template="'perQuer
     <td>Query Cache Hits</td>
     <td class="no-right-border" align="right">{{ queryDetails?.Metrics2.QC_Hit_sum_per_sec | humanize : 'number' }} (per sec)</td>
     <td class="no-left-border">
-        <div class="scaling-svg-container" [loadSparklines]="queryDetails?.Sparks2" xkey="Ts" ykey="QC_Hit_sum_per_sec" measurement="number"></div>
+        <div class="scaling-svg-container" [appLoadSparklines]="queryDetails?.Sparks2" xkey="Ts" ykey="QC_Hit_sum_per_sec" measurement="number"></div>
     </td>
     <td>
         <span class="sum">{{ queryDetails?.Metrics2.QC_Hit_sum | humanize : 'number' }}</span>
@@ -220,7 +220,7 @@ popover-append-to-body="true" popover-placement="top" popover-template="'perQuer
     <td>Rows Sent</td>
     <td class="no-right-border" align="right">{{ queryDetails?.Metrics2.Rows_sent_sum_per_sec | humanize : 'number' }} (per sec)</td>
     <td class="no-left-border">
-        <div class="scaling-svg-container" [loadSparklines]="queryDetails?.Sparks2" xkey="Ts" ykey="Rows_sent_sum_per_sec" measurement="number"></div>
+        <div class="scaling-svg-container" [appLoadSparklines]="queryDetails?.Sparks2" xkey="Ts" ykey="Rows_sent_sum_per_sec" measurement="number"></div>
     </td>
     <td>
         <span class="sum">{{ queryDetails?.Metrics2.Rows_sent_sum | humanize : 'number' }}</span>
@@ -240,7 +240,7 @@ popover-placement="top" popover-template="'perQueryStatsPopover.html'">
     <td>Bytes Sent</td>
     <td class="no-right-border" align="right">{{ queryDetails?.Metrics2.Bytes_sent_sum_per_sec | humanize : 'size' }} (per sec)</td>
     <td class="no-left-border">
-        <div class="scaling-svg-container" [loadSparklines]="queryDetails?.Sparks2" xkey="Ts" ykey="Bytes_sent_sum_per_sec" measurement="size"></div>
+        <div class="scaling-svg-container" [appLoadSparklines]="queryDetails?.Sparks2" xkey="Ts" ykey="Bytes_sent_sum_per_sec" measurement="size"></div>
     </td>
     <td>
         <span class="sum">{{ queryDetails?.Metrics2.Bytes_sent_sum | humanize : 'size' }}</span>
@@ -261,7 +261,7 @@ popover-placement="top" popover-template="'perQueryStatsPopover.html'">
     <td>Rows Examined</td>
     <td class="no-right-border" align="right">{{ queryDetails?.Metrics2.Rows_examined_sum_per_sec | humanize : 'number' }} (per sec)</td>
     <td class="no-left-border">
-        <div class="scaling-svg-container" [loadSparklines]="queryDetails?.Sparks2" xkey="Ts" ykey="Rows_examined_sum_per_sec" measurement="number"></div>
+        <div class="scaling-svg-container" [appLoadSparklines]="queryDetails?.Sparks2" xkey="Ts" ykey="Rows_examined_sum_per_sec" measurement="number"></div>
     </td>
     <td>
         <span class="sum">{{ queryDetails?.Metrics2.Rows_examined_sum | humanize : 'number' }}</span>
@@ -282,7 +282,7 @@ popover-append-to-body="true" popover-placement="top" popover-template="'perQuer
     <td>Rows Affected</td>
     <td class="no-right-border" align="right">{{ queryDetails?.Metrics2.Rows_affected_sum_per_sec | humanize : 'number' }} (per sec)</td>
     <td class="no-left-border">
-        <div class="scaling-svg-container" [loadSparklines]="queryDetails?.Sparks2" xkey="Ts" ykey="Rows_affected_sum_per_sec" measurement="number"></div>
+        <div class="scaling-svg-container" [appLoadSparklines]="queryDetails?.Sparks2" xkey="Ts" ykey="Rows_affected_sum_per_sec" measurement="number"></div>
     </td>
     <td>
         <span class="sum">{{ queryDetails?.Metrics2.Rows_affected_sum | humanize : 'number'}}</span>
@@ -303,7 +303,7 @@ popover-append-to-body="true" popover-placement="top" popover-template="'perQuer
     <td>External Sorts <small>(Filesort)</small></td>
     <td class="no-right-border" align="right">{{ queryDetails?.Metrics2.Filesort_sum_per_sec | humanize : 'number' }} (per sec)</td>
     <td class="no-left-border">
-        <div class="scaling-svg-container" [loadSparklines]="queryDetails?.Sparks2" xkey="Ts" ykey="Filesort_sum_per_sec" measurement="number"></div>
+        <div class="scaling-svg-container" [appLoadSparklines]="queryDetails?.Sparks2" xkey="Ts" ykey="Filesort_sum_per_sec" measurement="number"></div>
     </td>
     <td>
         <span class="sum">{{ queryDetails?.Metrics2.Filesort_sum | humanize : 'number' }}</span>
@@ -322,7 +322,7 @@ popover-append-to-body="true" popover-placement="top" popover-template="'perQuer
     <td>External Sorts of Disk <small>(Filesort on disk)</small></td>
     <td class="no-right-border" align="right">{{ queryDetails?.Metrics2.Filesort_on_disk_sum_per_sec | humanize : 'number' }} (per sec)</td>
     <td class="no-left-border">
-        <div class="scaling-svg-container" [loadSparklines]="queryDetails?.Sparks2" xkey="Ts" ykey="Filesort_on_disk_sum_per_sec"
+        <div class="scaling-svg-container" [appLoadSparklines]="queryDetails?.Sparks2" xkey="Ts" ykey="Filesort_on_disk_sum_per_sec"
             measurement="number"></div>
     </td>
     <td>
@@ -342,7 +342,7 @@ popover-append-to-body="true" popover-placement="top" popover-template="'perQuer
     <td>External Sort Passes <small>(Merge Passes)</small></td>
     <td class="no-right-border" align="right">{{ queryDetails?.Metrics2.Merge_passes_sum_per_sec | humanize : 'number' }} (per sec)</td>
     <td class="no-left-border">
-        <div class="scaling-svg-container" [loadSparklines]="queryDetails?.Sparks2" xkey="Ts" ykey="Merge_passes_sum_per_sec" measurement="number"></div>
+        <div class="scaling-svg-container" [appLoadSparklines]="queryDetails?.Sparks2" xkey="Ts" ykey="Merge_passes_sum_per_sec" measurement="number"></div>
     </td>
     <td>
         <span class="sum">{{ queryDetails?.Metrics2.Merge_passes_sum | humanize : 'number' }}</span>
@@ -363,7 +363,7 @@ popover-append-to-body="true" popover-placement="top" popover-template="'perQuer
     <td>Cartesian Products <small>(Full Joins)</small></td>
     <td class="no-right-border" align="right">{{ queryDetails?.Metrics2.Full_join_sum_per_sec | humanize : 'number' }} (per sec)</td>
     <td class="no-left-border">
-        <div class="scaling-svg-container" [loadSparklines]="queryDetails?.Sparks2" xkey="Ts" ykey="Full_join_sum_per_sec" measurement="number"></div>
+        <div class="scaling-svg-container" [appLoadSparklines]="queryDetails?.Sparks2" xkey="Ts" ykey="Full_join_sum_per_sec" measurement="number"></div>
     </td>
     <td>
         <span class="sum">{{ queryDetails?.Metrics2.Full_join_sum | humanize : 'number' }}</span>
@@ -382,7 +382,7 @@ popover-append-to-body="true" popover-placement="top" popover-template="'perQuer
     <td>Full Table Scans</td>
     <td class="no-right-border" align="right">{{ queryDetails?.Metrics2.Full_scan_sum_per_sec | humanize : 'number' }} (per sec)</td>
     <td class="no-left-border">
-        <div class="scaling-svg-container" [loadSparklines]="queryDetails?.Sparks2" xkey="Ts" ykey="Full_scan_sum_per_sec" measurement="number"></div>
+        <div class="scaling-svg-container" [appLoadSparklines]="queryDetails?.Sparks2" xkey="Ts" ykey="Full_scan_sum_per_sec" measurement="number"></div>
     </td>
     <td>
         <span class="sum">{{ queryDetails?.Metrics2.Full_scan_sum | humanize : 'number' }}</span>
@@ -401,7 +401,7 @@ popover-append-to-body="true" popover-placement="top" popover-template="'perQuer
     <td>Queries Requiring Tmp Table In Memory</td>
     <td class="no-right-border" align="right">{{ queryDetails?.Metrics2.Tmp_table_sum_per_sec | humanize : 'number' }} (per sec)</td>
     <td class="no-left-border">
-        <div class="scaling-svg-container" [loadSparklines]="queryDetails?.Sparks2" xkey="Ts" ykey="Tmp_table_sum_per_sec" measurement="number"></div>
+        <div class="scaling-svg-container" [appLoadSparklines]="queryDetails?.Sparks2" xkey="Ts" ykey="Tmp_table_sum_per_sec" measurement="number"></div>
     </td>
     <td>
         <span class="sum">{{ queryDetails?.Metrics2.Tmp_table_sum | humanize : 'number' }}</span>
@@ -420,7 +420,7 @@ popover-append-to-body="true" popover-placement="top" popover-template="'perQuer
     <td>Number of Tmp table in Memory</td>
     <td class="no-right-border" align="right">{{ queryDetails?.Metrics2.Tmp_tables_sum_per_sec | humanize : 'number' }} (per sec)</td>
     <td class="no-left-border">
-        <div class="scaling-svg-container" [loadSparklines]="queryDetails?.Sparks2" xkey="Ts" ykey="Tmp_tables_sum_per_sec" measurement="number"></div>
+        <div class="scaling-svg-container" [appLoadSparklines]="queryDetails?.Sparks2" xkey="Ts" ykey="Tmp_tables_sum_per_sec" measurement="number"></div>
     </td>
     <td>
         <span class="sum">{{ queryDetails?.Metrics2.Tmp_tables_sum | humanize : 'number' }}</span>
@@ -441,7 +441,7 @@ popover-placement="top" popover-template="'perQueryStatsPopover.html'">
     <td>Queries Requiring Tmp Table on Disk</td>
     <td class="no-right-border" align="right">{{ queryDetails?.Metrics2.Tmp_table_on_disk_sum_per_sec | humanize : 'number' }} (per sec)</td>
     <td class="no-left-border">
-        <div class="scaling-svg-container" [loadSparklines]="queryDetails?.Sparks2" xkey="Ts" ykey="Tmp_table_on_disk_sum_per_sec"
+        <div class="scaling-svg-container" [appLoadSparklines]="queryDetails?.Sparks2" xkey="Ts" ykey="Tmp_table_on_disk_sum_per_sec"
             measurement="number"></div>
     </td>
     <td>
@@ -461,7 +461,7 @@ popover-placement="top" popover-template="'perQueryStatsPopover.html'">
     <td>Number of Tmp Tables on Disk</td>
     <td class="no-right-border" align="right">{{ queryDetails?.Metrics2.Tmp_disk_tables_sum_per_sec | humanize : 'number' }} (per sec)</td>
     <td class="no-left-border">
-        <div class="scaling-svg-container" [loadSparklines]="queryDetails?.Sparks2" xkey="Ts" ykey="Tmp_disk_tables_sum_per_sec"
+        <div class="scaling-svg-container" [appLoadSparklines]="queryDetails?.Sparks2" xkey="Ts" ykey="Tmp_disk_tables_sum_per_sec"
             measurement="number"></div>
     </td>
     <td>
@@ -483,7 +483,7 @@ popover-append-to-body="true" popover-placement="top" popover-template="'perQuer
     <td>Total Size of Tmp Tables</td>
     <td class="no-right-border" align="right">{{ queryDetails?.Metrics2.Tmp_table_sizes_sum_per_sec | humanize : 'size' }} (per sec)</td>
     <td class="no-left-border">
-        <div class="scaling-svg-container" [loadSparklines]="queryDetails?.Sparks2" xkey="Ts" ykey="Tmp_table_sizes_sum_per_sec"
+        <div class="scaling-svg-container" [appLoadSparklines]="queryDetails?.Sparks2" xkey="Ts" ykey="Tmp_table_sizes_sum_per_sec"
             measurement="size"></div>
     </td>
     <td>
@@ -516,7 +516,7 @@ popover-append-to-body="true" popover-placement="top" popover-template="'perQuer
                 <h5>Fingerprint</h5>
             </template>
             <template ngbPanelContent>
-                <pre style="margin: 1rem"><code [innerHTML]="fingerprint"></code></pre>
+                <pre style="margin: 1rem"><code [innerHTML]="fingerprint" id="query_fingerprint_code"></code></pre>
 </template>
 </ngb-panel>
 <ngb-panel id="query-example">
@@ -524,7 +524,7 @@ popover-append-to-body="true" popover-placement="top" popover-template="'perQuer
         <h5>Example</h5>
     </template>
     <template ngbPanelContent>
-        <pre style="margin: 1rem"><code [innerHTML]="queryExample"></code></pre>
+        <pre style="margin: 1rem"><code [innerHTML]="queryExample" id="query_example_code"></code></pre>
 </template>
 </ngb-panel>
 </ngb-accordion>
@@ -625,7 +625,7 @@ popover-append-to-body="true" popover-placement="top" popover-template="'perQuer
 <div class="row">
     <div class="col-md-12">
         <div class="card w-100">
-            <div class="card-block">
+            <div class="card-block" id="db_tables_buttons">
                 <div class="card-text pt-1 pr-1">
                     <div *ngFor="let item of queryDetails?.Query?.Tables" class="btn-group ml-1 mb-1" role="group" aria-label="Basic example">
                         <button type="button" class="btn" (click)="selectTableInfo(item.Db, item.Table);" [ngClass]="isSelectedDbTbl(item) ? 'btn-success' : 'btn-outline-secondary'">
@@ -645,7 +645,7 @@ popover-append-to-body="true" popover-placement="top" popover-template="'perQuer
             <h5>CREATE</h5>
         </template>
         <template ngbPanelContent>
-            <pre style="margin: 1rem"><code [innerHTML]="createTable"></code></pre>
+            <pre style="margin: 1rem"><code [innerHTML]="createTable" id="table_create"></code></pre>
 </template>
 </ngb-panel>
 

@@ -4,10 +4,12 @@ import { ElementRef } from '@angular/core';
 import * as moment from 'moment';
 import { select } from 'd3-selection';
 import { scaleLinear, scaleTime } from 'd3-scale';
-import { isoParse, utcParse, utcFormat, extent, line, area, bisector, mouse } from 'd3';
+import { isoParse, utcParse, utcFormat, extent, line, area, bisector, mouse, event as eventD3 } from 'd3';
 
-
-@Directive({ selector: '[loadSparklines]' })
+/**
+ * Display sparklines in top queries and metrics.
+ */
+@Directive({ selector: '[appLoadSparklines]' })
 export class LoadSparklinesDirective {
 
     protected _xkey: string;
@@ -30,17 +32,17 @@ export class LoadSparklinesDirective {
         this._measurement = measurement;
     }
 
-    @Input() set loadSparklines(data: Array<{}>) {
+    @Input() set appLoadSparklines(data: Array<{}>) {
         if (data !== null) {
             this.drawChart(data);
         }
     }
 
     drawChart(data: Array<{}>) {
-        let iso = utcFormat('%Y-%m-%dT%H:%M:%SZ');
-        let xkey = this._xkey;
-        let ykey = this._ykey;
-        let measurement = this._measurement || 'number';
+        const iso = utcFormat('%Y-%m-%dT%H:%M:%SZ');
+        const xkey = this._xkey;
+        const ykey = this._ykey;
+        const measurement = this._measurement || 'number';
 
         const chart = select(this.elementRef.nativeElement);
         chart.selectAll('*').remove();
@@ -51,28 +53,28 @@ export class LoadSparklinesDirective {
             .attr('preserveAspectRatio', 'none')
             .attr('viewBox', '0 0 100 20');
 
-        let height = 15;
-        let width = Math.floor(svg.node().getBoundingClientRect().width);
+        const height = 15;
+        const width = Math.floor(svg.node().getBoundingClientRect().width);
         svg.attr('width', width).attr('viewBox', '0 0 ' + width + ' 20');
 
-        let xDomain = extent(data.map(d => moment.utc(d[xkey])));
+        const xDomain = extent(data.map(d => moment.utc(d[xkey])));
 
-        let xScale = scaleTime().range([0, width]).domain(xDomain);
+        const xScale = scaleTime().range([0, width]).domain(xDomain);
 
-        let yDomain = extent(data.map(d => ykey in d ? d[ykey] : 0));
+        const yDomain = extent(data.map(d => ykey in d ? d[ykey] : 0));
 
-        let yScale = scaleLinear().range([height, 0]).domain(yDomain);
+        const yScale = scaleLinear().range([height, 0]).domain(yDomain);
 
-        let svgLine = line()
+        const svgLine = line()
             .x(d => xScale(moment.utc(d[xkey])))
             .y(d => yScale(d[ykey] === undefined ? 0 : d[ykey]));
 
-        let svgArea = area()
+        const svgArea = area()
             .x(d => xScale(moment.utc(d[xkey])))
             .y0(d => yScale(d[ykey] === undefined ? 0 : d[ykey]))
             .y1(height - 1);
 
-        let g = svg.append('g').attr('transform', 'translate(0, 0)');
+        const g = svg.append('g').attr('transform', 'translate(0, 0)');
 
         g.append('path')
             .datum(data)
@@ -85,7 +87,7 @@ export class LoadSparklinesDirective {
             .attr('class', 'line')
             .attr('d', svgLine);
 
-        let focus = g.append('g').style('display', 'none');
+        const focus = g.append('g').style('display', 'none');
 
         focus.append('line')
             .attr('id', 'focusLineX')
@@ -104,33 +106,35 @@ export class LoadSparklinesDirective {
 
 
 
-        let bisectDate = bisector((d, x) => moment.utc(d[xkey]).isBefore(x)).right;
+        const bisectDate = bisector((d, x) => moment.utc(d[xkey]).isBefore(x)).right;
 
-        let rect = g.append('rect')
+        const rect = g.append('rect')
             .attr('class', 'overlay')
             .attr('width', width)
             .attr('height', height)
             .on('mouseover', () => focus.style('display', null))
-            .on('mouseout', () => focus.style('display', 'none'))
+            .on('mouseout', () => focus.style('display', 'none'));
 
-        rect.on('mousemove', (e, el) => {
-            let r = rect._groups[0][0];
-            let mouse_ = mouse(r);
+        rect.on('mousemove', (d, i) => {
+            // const r = rect._groups[0][0];
+            // const coords = mouse(event.currentTarget);
+            // console.log(eventD3.currentTarget);
+            /*
 
-            let mouseDate: any = moment.utc(xScale.invert(mouse_[0]));
+            const mouseDate: any = moment.utc(xScale.invert(mouse_[0]));
             let i = bisectDate(data, mouseDate); // returns the index to the current data item
             i = i > 59 ? 59 : i;
             i = i < 1 ? 1 : i;
-            let d0 = data[i - 1]
-            let d1 = data[i];
+            const d0 = data[i - 1];
+            const d1 = data[i];
             // work out which date value is closest to the mouse
             const d = (mouseDate - moment.utc(d0[xkey])) > (moment.utc(d1[xkey]) - mouseDate) ? d1 : d0;
 
-            let x = xScale(isoParse(d[xkey]));
-            let y = yScale(d[ykey] === undefined ? 0 : d[ykey]);
+            const x = xScale(isoParse(d[xkey]));
+            const y = yScale(d[ykey] === undefined ? 0 : d[ykey]);
 
-            let MIN = 0,
-                MAX = 1;
+            const MIN = 0,
+                  MAX = 1;
             focus.select('#focusCircle')
                 .attr('cx', x)
                 .attr('cy', y);
@@ -138,13 +142,15 @@ export class LoadSparklinesDirective {
                 .attr('x1', x).attr('y1', yScale(yDomain[MIN]))
                 .attr('x2', x).attr('y2', yScale(yDomain[MAX]));
 
-
-            let load = d[ykey] === undefined ? 0 : d[ykey];
-            // $rootScope.popover = $filter('humanize')(load, measurement) + ' at ' + moment(d[xkey]).utc().format('YYYY-MM-DD HH:mm:ss [UTC]');
+            const load = d[ykey] === undefined ? 0 : d[ykey];
+            */
+            // $rootScope.popover = $filter('humanize')(load, measurement)
+            //  + ' at ' + moment(d[xkey]).utc().format('YYYY-MM-DD HH:mm:ss [UTC]');
             // $rootScope.$apply();
 
-            //focus.select("#focusText")
-            //    .text($filter('humanize')(load, 'number') + ' at ' + moment(d[xkey]).utc().format('YYYY-MM-DD HH:mm:ss [UTC]'));
+            // focus.select("#focusText")
+            //    .text($filter('humanize')(load, 'number') + ' at '
+            //     + moment(d[xkey]).utc().format('YYYY-MM-DD HH:mm:ss [UTC]'));
         });
     }
 }
