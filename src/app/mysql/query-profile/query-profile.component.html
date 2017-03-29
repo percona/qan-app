@@ -32,7 +32,8 @@
                 </td>
                 <td title="{{ row.Id }}">{{ row.Id }}</td>
                 <td class="no-right-border" style="width: 6em;">
-                    <div class="scaling-svg-container" [appLoadSparklines]="row.Log" xkey="Start_ts" ykey="Query_time_sum" measurement="number"></div>
+                    <div class="scaling-svg-container app-tooltip" [appLoadSparklines]="row.Log" data-tooltip="Loading..."
+                         xkey="Start_ts" ykey="Query_time_sum" measurement="number"></div>
                 </td>
                 <td class="no-left-border text-xs-right">
                     {{ row.Load | humanize : 'number' }} ({{ row.Percentage | humanize : 'percent' }})
@@ -41,20 +42,24 @@
                     {{row.QPS | humanize : 'number'}}&nbsp;QPS
                 </td>
                 <td class="no-left-border no-right-border" style="width: 6em;">
-                    <div class="scaling-svg-container" [appLoadSparklines]="row.Log" xkey="Start_ts" ykey="Query_count" measurement="number"></div>
+                    <div class="scaling-svg-container app-tooltip" [appLoadSparklines]="row.Log" data-tooltip="Loading..."
+                         xkey="Start_ts" ykey="Query_count" measurement="number" >
+
+                    </div>
                 </td>
                 <td class="no-left-border text-xs-right">
                     {{row.Stats.Cnt | humanize : 'number'}} ({{ (row.Stats.Cnt / profileTotal?.Stats.Cnt * 100).toFixed(2) }}%)
                 </td>
                 <td class="no-right-border chart-td" style="width: 6em;">
-                    <div class="scaling-svg-container" [appLoadSparklines]="row.Log" xkey="Start_ts" ykey="Query_time_avg" measurement="time"></div>
+                    <div class="scaling-svg-container app-tooltip" [appLoadSparklines]="row.Log" data-tooltip="Loading..."
+                         xkey="Start_ts" ykey="Query_time_avg" measurement="time"></div>
                 </td>
                 <td class="no-right-border no-left-border text-xs-right">
                     {{ row.Stats.Avg | humanize }}&nbsp;avg
                 </td>
                 <td style="width: 6em;" class="no-left-border chart-td" popover-trigger="mouseenter" popover-append-to-body="true" popover-placement="top"
                     popover-template=" 'latencyPopoverRow.html' ">
-                    <div class="scaling-svg-container" [latencyChart]="row.Stats"></div>
+                    <div class="scaling-svg-container" [appLatencyChart]="row.Stats"></div>
                 </td>
             </tr>
             <tr *ngIf="totalAmountOfQueries === 0">

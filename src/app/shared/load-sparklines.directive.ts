@@ -1,10 +1,13 @@
-import { Directive, Input } from '@angular/core';
+import { Directive, Input, Output, EventEmitter, HostBinding } from '@angular/core';
 import { ElementRef } from '@angular/core';
 
 import * as moment from 'moment';
 import { select } from 'd3-selection';
 import { scaleLinear, scaleTime } from 'd3-scale';
-import { isoParse, utcParse, utcFormat, extent, line, area, bisector, mouse, event as eventD3 } from 'd3';
+import { isoParse, utcParse, utcFormat, extent, line, area, bisector } from 'd3';
+import { event as currentEvent, mouse } from 'd3-selection';
+
+import { HumanizePipe } from 'app/shared/humanize.pipe';
 
 /**
  * Display sparklines in top queries and metrics.
@@ -15,6 +18,9 @@ export class LoadSparklinesDirective {
     protected _xkey: string;
     protected _ykey: string;
     protected _measurement: string;
+
+    @HostBinding('attr.data-tooltip')
+    @Input() dataTooltip: string;
 
     constructor(
         public elementRef: ElementRef,
@@ -37,6 +43,7 @@ export class LoadSparklinesDirective {
             this.drawChart(data);
         }
     }
+
 
     drawChart(data: Array<{}>) {
         const iso = utcFormat('%Y-%m-%dT%H:%M:%SZ');
@@ -104,8 +111,6 @@ export class LoadSparklinesDirective {
             .attr('x', 1)
             .attr('y', 8);
 
-
-
         const bisectDate = bisector((d, x) => moment.utc(d[xkey]).isBefore(x)).right;
 
         const rect = g.append('rect')
@@ -115,13 +120,10 @@ export class LoadSparklinesDirective {
             .on('mouseover', () => focus.style('display', null))
             .on('mouseout', () => focus.style('display', 'none'));
 
-        rect.on('mousemove', (d, i) => {
-            // const r = rect._groups[0][0];
-            // const coords = mouse(event.currentTarget);
-            // console.log(eventD3.currentTarget);
-            /*
+        rect.on('mousemove', (p, e) => {
+            const coords = mouse(currentEvent.currentTarget);
 
-            const mouseDate: any = moment.utc(xScale.invert(mouse_[0]));
+            const mouseDate: any = moment.utc(xScale.invert(coords[0]));
             let i = bisectDate(data, mouseDate); // returns the index to the current data item
             i = i > 59 ? 59 : i;
             i = i < 1 ? 1 : i;
@@ -134,7 +136,7 @@ export class LoadSparklinesDirective {
             const y = yScale(d[ykey] === undefined ? 0 : d[ykey]);
 
             const MIN = 0,
-                  MAX = 1;
+                MAX = 1;
             focus.select('#focusCircle')
                 .attr('cx', x)
                 .attr('cy', y);
@@ -142,15 +144,10 @@ export class LoadSparklinesDirective {
                 .attr('x1', x).attr('y1', yScale(yDomain[MIN]))
                 .attr('x2', x).attr('y2', yScale(yDomain[MAX]));
 
-            const load = d[ykey] === undefined ? 0 : d[ykey];
-            */
-            // $rootScope.popover = $filter('humanize')(load, measurement)
-            //  + ' at ' + moment(d[xkey]).utc().format('YYYY-MM-DD HH:mm:ss [UTC]');
-            // $rootScope.$apply();
-
-            // focus.select("#focusText")
-            //    .text($filter('humanize')(load, 'number') + ' at '
-            //     + moment(d[xkey]).utc().format('YYYY-MM-DD HH:mm:ss [UTC]'));
+            const humanize = new HumanizePipe();
+            const value = d[ykey] === undefined ? 0 : d[ykey];
+            const load = humanize.transform(value, measurement);
+            this.dataTooltip = `${load} at ${moment(d[xkey]).utc().format('YYYY-MM-DD HH:mm:ss [UTC]')}`;
         });
     }
 }

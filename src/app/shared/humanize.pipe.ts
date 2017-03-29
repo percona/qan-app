@@ -29,7 +29,7 @@ export class HumanizePipe implements PipeTransform {
         return dur;
     }
 
-    transform(input: number, name: string, duration: string): string {
+    transform(input: number, name: string): string {
 
         if (input === null) {
             return '0';

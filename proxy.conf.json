@@ -1,6 +1,6 @@
 {
   "/qan-api": {
-    "target": "http://192.168.56.11:9001",
+    "target": "http://pmmstage.int.percona.com/qan-api",
     "pathRewrite": {"^/qan-api" : ""},
     "secure": false
   }

@@ -401,3 +401,23 @@ li.li-max:before {
     color: steelblue;
 }
 
+div.app-tooltip::before {
+  content: attr(data-tooltip);
+  position: absolute;
+  top: 1.8em;
+  font-size: 0.7em;
+  padding: 1px 5px;
+  white-space: nowrap;
+  display: none;
+  color: black;
+  background: #f0f0f0;
+  box-shadow: 1px 1px 1px 1px #afafaf;
+  border-radius: 1px;
+  transition: opacity 0.1s ease-out;
+  z-index: 99;
+  text-align: left;
+}
+
+div.app-tooltip:hover::before {
+  display: inline-block;
+}

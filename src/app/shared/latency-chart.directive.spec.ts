@@ -1,11 +1,13 @@
 /* tslint:disable:no-unused-variable */
 
 import { TestBed, async } from '@angular/core/testing';
+import { ElementRef } from '@angular/core';
 import { LatencyChartDirective } from './latency-chart.directive';
 
 describe('LatencyChartDirective', () => {
   it('should create an instance', () => {
-    const directive = new LatencyChartDirective();
+    const elementRef = new ElementRef('<div></div>');
+    const directive = new LatencyChartDirective(elementRef);
     expect(directive).toBeTruthy();
   });
 });

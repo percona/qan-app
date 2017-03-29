@@ -6,7 +6,7 @@ import { scaleLog } from 'd3-scale';
 
 
 @Directive({
-  selector: '[latencyChart]'
+  selector: '[appLatencyChart]'
 })
 export class LatencyChartDirective {
 
@@ -16,7 +16,7 @@ export class LatencyChartDirective {
     public elementRef: ElementRef,
   ) { }
 
-  @Input() set latencyChart(data: {}) {
+  @Input() set appLatencyChart(data: {}) {
     if (data !== null) {
       this.drawChart(data);
     }
@@ -36,10 +36,10 @@ export class LatencyChartDirective {
       .attr('class', 'scaling-svg')
       .attr('viewBox', '0 0 100 20');
 
-    let width = Math.floor(svg.node().getBoundingClientRect().width);
+    const width = Math.floor(svg.node().getBoundingClientRect().width);
     svg.attr('width', width).attr('viewBox', '0 0 ' + width + ' 20');
 
-    let x = scaleLog()
+    const x = scaleLog()
       .domain([0.00001, 10000])
       .range([2, width - 2])
       .clamp(true)
@@ -62,7 +62,7 @@ export class LatencyChartDirective {
       p95 = 'P95' in data ? data['P95'] : 0;
     }
 
-    let g = svg.append('g');
+    const g = svg.append('g');
 
     // hrAxes
     g.append('line')
@@ -105,10 +105,12 @@ export class LatencyChartDirective {
       .attr('cy', '13px');
 
     // p95Mark
-    g.append('circle')
-      .attr('class', 'latency-chart-p95')
-      .attr('r', 2)
-      .attr('cx', x(p95) + '')
-      .attr('cy', '13px');
+    if (p95 > 0) {
+      g.append('circle')
+        .attr('class', 'latency-chart-p95')
+        .attr('r', 2)
+        .attr('cx', x(p95) + '')
+        .attr('cy', '13px');
+    }
   }
 }
