@@ -10,8 +10,8 @@ import * as numeral from 'numeral';
 export class HumanizePipe implements PipeTransform {
 
     parceTime(input: number) {
-        let dur: string = '';
-        let dur_sec = moment.duration(input, 's');
+        let dur: string;
+        const dur_sec = moment.duration(input, 's');
         switch (true) {
             case input === 0:
                 dur = '0';
@@ -35,9 +35,9 @@ export class HumanizePipe implements PipeTransform {
             return '0';
         }
 
-        let res: string = '0';
+        let res = '0';
         switch (true) {
-            // top 10 queries no name parameters
+            // "top 10"/profile queries no name parameters
             case name === undefined:
                 res = this.parceTime(input);
                 break;
@@ -48,23 +48,35 @@ export class HumanizePipe implements PipeTransform {
                 break;
             // size
             case name.indexOf('size') > -1:
-                res = (input !== 0 && input < 0.01) ? '<' : '';
-                res += numeral(input).format('0.00 b');
+                if (input !== 0 && input < 0.01) {
+                    res = '<0.01 B';
+                } else {
+                    res = numeral(input).format('0.00 b');
+                }
                 res = res.replace(/([\d]) B/, '$1 Bytes');
                 break;
             // ops
             case name.indexOf('number') > -1:
-                res = (input !== 0 && input < 0.01) ? '<' : '';
-                res += numeral(input).format('0.00 a');
+                if (input !== 0 && input < 0.01) {
+                    res = '<0.01';
+                } else {
+                    res = numeral(input).format('0.00 a');
+                }
                 break;
             case name.indexOf('percent') > -1:
-                res = (input !== 0 && input < 0.0001) ? '<' : '';
-                res += numeral(input).format('0.00%');
+                if (input !== 0 && input < 0.0001) {
+                    res = '<0.01%';
+                } else {
+                    res = numeral(input).format('0.00%');
+                }
                 break;
             // ops
             default:
-                res = (input !== 0 && input < 0.01) ? '<' : '';
-                res += numeral(input).format('0.00 a');
+                if (input !== 0 && input < 0.01) {
+                    res = '<0.01';
+                } else {
+                    res = numeral(input).format('0.00 a');
+                }
                 break;
         }
         return String(res).replace('<0.00', '<0.01');

@@ -59,7 +59,7 @@
                 </td>
                 <td style="width: 6em;" class="no-left-border chart-td" popover-trigger="mouseenter" popover-append-to-body="true" popover-placement="top"
                     popover-template=" 'latencyPopoverRow.html' ">
-                    <div class="scaling-svg-container" [appLatencyChart]="row.Stats"></div>
+                    <div class="scaling-svg-container app-tooltip" data-tooltip="Loading..." measurement="time" [appLatencyChart]="row.Stats"></div>
                 </td>
             </tr>
             <tr *ngIf="totalAmountOfQueries === 0">

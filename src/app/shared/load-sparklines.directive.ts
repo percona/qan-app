@@ -1,4 +1,4 @@
-import { Directive, Input, Output, EventEmitter, HostBinding } from '@angular/core';
+import { Directive, Input, HostBinding } from '@angular/core';
 import { ElementRef } from '@angular/core';
 
 import * as moment from 'moment';

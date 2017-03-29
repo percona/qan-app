@@ -1,9 +1,10 @@
-import { Directive, Input } from '@angular/core';
+import { Directive, Input, HostBinding } from '@angular/core';
 import { ElementRef } from '@angular/core';
 
 import { select } from 'd3-selection';
 import { scaleLog } from 'd3-scale';
 
+import { HumanizePipe } from 'app/shared/humanize.pipe';
 
 @Directive({
   selector: '[appLatencyChart]'
@@ -11,6 +12,10 @@ import { scaleLog } from 'd3-scale';
 export class LatencyChartDirective {
 
   prefix: string;
+
+  @HostBinding('attr.data-tooltip')
+  @Input() dataTooltip: string;
+  @Input() measurement = 'time';
 
   constructor(
     public elementRef: ElementRef,
@@ -61,6 +66,17 @@ export class LatencyChartDirective {
       avg = 'Avg' in data ? data['Avg'] : 0;
       p95 = 'P95' in data ? data['P95'] : 0;
     }
+
+    const humanize = new HumanizePipe();
+    let tooltip = ` ⌜ Min: ${humanize.transform(min, this.measurement)}
+ ⌟ Max: ${humanize.transform(max, this.measurement)}
+ ◦ Avg: ${humanize.transform(avg, this.measurement)}`;
+
+    if (p95 !== 0 && p95 !== null ) {
+      tooltip += `
+ • 95%: ${humanize.transform(p95, this.measurement)}`;
+    }
+    this.dataTooltip = tooltip;
 
     const g = svg.append('g');
 

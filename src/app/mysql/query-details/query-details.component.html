@@ -50,9 +50,8 @@
     <td class="text-xs-right no-right-border">
         {{ queryDetails?.Metrics2.Query_time_avg | humanize : 'time' }}&nbsp;avg
     </td>
-    <td style="width: 10%" class="no-left-border" ng-mouseover="popoverData = 'Query_time'; measurement = 'time'" popover-trigger="mouseenter" popover-append-to-body="true"
-popover-placement="top" popover-template="'perQueryStatsPopover.html'">
-<div class="scaling-svg-container" [appLatencyChart]="queryDetails?.Metrics2" metricPrefix="Query_time"></div>
+    <td style="width: 10%" class="no-left-border">
+<div class="scaling-svg-container app-tooltip" data-tooltip="Loading..." measurement="time" [appLatencyChart]="queryDetails?.Metrics2" metricPrefix="Query_time"></div>
 </td>
 </tr>
 <tr *ngIf="queryDetails?.Metrics2.Lock_time_sum">
@@ -71,9 +70,8 @@ popover-placement="top" popover-template="'perQueryStatsPopover.html'">
     <td class="text-xs-right no-right-border">
         {{ queryDetails?.Metrics2.Lock_time_avg | humanize : 'time' }}&nbsp;avg
     </td>
-    <td style="width: 10%" class="no-left-border" ng-mouseover="popoverData = 'Lock_time'; measurement = 'time'" popover-trigger="mouseenter" popover-append-to-body="true"
-popover-placement="top" popover-template="'perQueryStatsPopover.html'">
-<div class="scaling-svg-container" [appLatencyChart]="queryDetails?.Metrics2" metricPrefix="Lock_time"></div>
+    <td style="width: 10%" class="no-left-border">
+<div class="scaling-svg-container app-tooltip" data-tooltip="Loading..." measurement="time" [appLatencyChart]="queryDetails?.Metrics2" metricPrefix="Lock_time"></div>
 </td>
 </tr>
 <tr *ngIf="queryDetails?.Metrics2.InnoDB_rec_lock_wait_sum">
@@ -93,9 +91,8 @@ popover-placement="top" popover-template="'perQueryStatsPopover.html'">
     <td class="text-xs-right no-right-border">
         {{ queryDetails?.Metrics2.InnoDB_rec_lock_wait_avg | humanize : 'time' }}&nbsp;avg
     </td>
-    <td style="width: 10%" class="no-left-border" ng-mouseover="popoverData = 'InnoDB_rec_lock_wait'; measurement = 'time'" popover-trigger="mouseenter"
-popover-append-to-body="true" popover-placement="top" popover-template="'perQueryStatsPopover.html'">
-<div class="scaling-svg-container" [appLatencyChart]="queryDetails?.Metrics2" metricPrefix="InnoDB_rec_lock_wait"></div>
+    <td style="width: 10%" class="no-left-border">
+<div class="scaling-svg-container app-tooltip" data-tooltip="Loading..." measurement="time" [appLatencyChart]="queryDetails?.Metrics2" metricPrefix="InnoDB_rec_lock_wait"></div>
 </td>
 </tr>
 <tr *ngIf="queryDetails?.Metrics2.InnoDB_IO_r_wait_sum">
@@ -115,9 +112,8 @@ popover-append-to-body="true" popover-placement="top" popover-template="'perQuer
     <td class="text-xs-right no-right-border">
         {{ queryDetails?.Metrics2.InnoDB_IO_r_wait_avg | humanize : 'time' }}&nbsp;avg
     </td>
-    <td style="width: 10%" class="no-left-border" ng-mouseover="popoverData = 'InnoDB_IO_r_wait'; measurement = 'time'" popover-trigger="mouseenter"
-popover-append-to-body="true" popover-placement="top" popover-template="'perQueryStatsPopover.html'">
-<div class="scaling-svg-container" [appLatencyChart]="queryDetails?.Metrics2" metricPrefix="InnoDB_IO_r_wait"></div>
+    <td style="width: 10%" class="no-left-border">
+<div class="scaling-svg-container app-tooltip" data-tooltip="Loading..." measurement="time" [appLatencyChart]="queryDetails?.Metrics2" metricPrefix="InnoDB_IO_r_wait"></div>
 </td>
 </tr>
 <tr *ngIf="queryDetails?.Metrics2.InnoDB_queue_wait_sum">
@@ -137,9 +133,8 @@ popover-append-to-body="true" popover-placement="top" popover-template="'perQuer
     <td class="text-xs-right no-right-border">
         {{ queryDetails?.Metrics2.InnoDB_queue_wait_avg | humanize : 'time' }}&nbsp;avg
     </td>
-    <td style="width: 10%" class="no-left-border" ng-mouseover="popoverData = 'InnoDB_queue_wait'; measurement = 'time'" popover-trigger="mouseenter"
-popover-append-to-body="true" popover-placement="top" popover-template="'perQueryStatsPopover.html'">
-<div class="scaling-svg-container" [appLatencyChart]="queryDetails?.Metrics2" metricPrefix="InnoDB_queue_wait"></div>
+    <td style="width: 10%" class="no-left-border">
+<div class="scaling-svg-container app-tooltip" data-tooltip="Loading..." measurement="time" [appLatencyChart]="queryDetails?.Metrics2" metricPrefix="InnoDB_queue_wait"></div>
 </td>
 </tr>
 <tr *ngIf="queryDetails?.Metrics2.InnoDB_IO_r_ops_sum">
@@ -158,9 +153,8 @@ popover-append-to-body="true" popover-placement="top" popover-template="'perQuer
     <td class="text-xs-right no-right-border">
         {{ queryDetails?.Metrics2.InnoDB_IO_r_ops_avg | humanize : 'number' }}&nbsp;avg
     </td>
-    <td style="width: 10%" class="no-left-border" ng-mouseover="popoverData = 'InnoDB_IO_r_ops'; measurement = 'number'" popover-trigger="mouseenter"
-popover-append-to-body="true" popover-placement="top" popover-template="'perQueryStatsPopover.html'">
-<div class="scaling-svg-container" [appLatencyChart]="queryDetails?.Metrics2" metricPrefix="InnoDB_IO_r_ops"></div>
+    <td style="width: 10%" class="no-left-border">
+<div class="scaling-svg-container app-tooltip" data-tooltip="Loading..." measurement="number" [appLatencyChart]="queryDetails?.Metrics2" metricPrefix="InnoDB_IO_r_ops"></div>
 </td>
 </tr>
 <tr *ngIf="queryDetails?.Metrics2.InnoDB_IO_r_bytes_sum">
@@ -180,9 +174,8 @@ popover-append-to-body="true" popover-placement="top" popover-template="'perQuer
     <td class="text-xs-right no-right-border">
         {{ queryDetails?.Metrics2.InnoDB_IO_r_bytes_avg | humanize : 'size' }}&nbsp;avg
     </td>
-    <td style="width: 10%" class="no-left-border" ng-mouseover="popoverData = 'InnoDB_IO_r_bytes'; measurement = 'size'" popover-trigger="mouseenter"
-popover-append-to-body="true" popover-placement="top" popover-template="'perQueryStatsPopover.html'">
-<div class="scaling-svg-container" [appLatencyChart]="queryDetails?.Metrics2" metricPrefix="InnoDB_IO_r_bytes"></div>
+    <td style="width: 10%" class="no-left-border">
+<div class="scaling-svg-container app-tooltip" data-tooltip="Loading..." measurement="size" [appLatencyChart]="queryDetails?.Metrics2" metricPrefix="InnoDB_IO_r_bytes"></div>
 </td>
 </tr>
 <tr *ngIf="queryDetails?.Metrics2.InnoDB_pages_distinct_sum">
@@ -192,9 +185,8 @@ popover-append-to-body="true" popover-placement="top" popover-template="'perQuer
     <td class="text-xs-right no-right-border">
         {{ queryDetails?.Metrics2.InnoDB_pages_distinct_avg | humanize : 'number' }}&nbsp;avg
     </td>
-    <td style="width: 10%" class="no-left-border" ng-mouseover="popoverData = 'InnoDB_pages_distinct'; measurement = 'number' " popover-trigger="mouseenter"
-popover-append-to-body="true" popover-placement="top" popover-template="'perQueryStatsPopover.html'">
-<div class="scaling-svg-container" [appLatencyChart]="queryDetails?.Metrics2" metricPrefix="InnoDB_pages_distinct"></div>
+    <td style="width: 10%" class="no-left-border">
+<div class="scaling-svg-container app-tooltip" data-tooltip="Loading..." measurement="number" [appLatencyChart]="queryDetails?.Metrics2" metricPrefix="InnoDB_pages_distinct"></div>
 </td>
 </tr>
 <tr *ngIf="queryDetails?.Metrics2.QC_Hit_sum">
@@ -231,9 +223,8 @@ popover-append-to-body="true" popover-placement="top" popover-template="'perQuer
     <td class="text-xs-right no-right-border">
         {{ queryDetails?.Metrics2.Rows_sent_avg | humanize : 'number' }}&nbsp;avg
     </td>
-    <td style="width: 10%" class="no-left-border" ng-mouseover="popoverData = 'Rows_sent'; measurement = 'number';" popover-trigger="mouseenter" popover-append-to-body="true"
-popover-placement="top" popover-template="'perQueryStatsPopover.html'">
-<div class="scaling-svg-container" [appLatencyChart]="queryDetails?.Metrics2" metricPrefix="Rows_sent"></div>
+    <td style="width: 10%" class="no-left-border">
+<div class="scaling-svg-container app-tooltip" data-tooltip="Loading..." measurement="number" [appLatencyChart]="queryDetails?.Metrics2" metricPrefix="Rows_sent"></div>
 </td>
 </tr>
 <tr *ngIf="queryDetails?.Metrics2.Bytes_sent_sum">
@@ -252,9 +243,8 @@ popover-placement="top" popover-template="'perQueryStatsPopover.html'">
     <td class="text-xs-right no-right-border">
         {{ queryDetails?.Metrics2.Bytes_sent_avg | humanize : 'size' }}&nbsp;avg
     </td>
-    <td style="width: 10%" class="no-left-border" ng-mouseover="popoverData = 'Bytes_sent'; measurement = 'size'" popover-trigger="mouseenter" popover-append-to-body="true"
-popover-placement="top" popover-template="'perQueryStatsPopover.html'">
-<div class="scaling-svg-container" [appLatencyChart]="queryDetails?.Metrics2" metricPrefix="Bytes_sent"></div>
+    <td style="width: 10%" class="no-left-border">
+<div class="scaling-svg-container app-tooltip" data-tooltip="Loading..." measurement="size" [appLatencyChart]="queryDetails?.Metrics2" metricPrefix="Bytes_sent"></div>
 </td>
 </tr>
 <tr *ngIf="queryDetails?.Metrics2.Rows_examined_sum">
@@ -273,9 +263,8 @@ popover-placement="top" popover-template="'perQueryStatsPopover.html'">
     <td class="text-xs-right no-right-border">
         {{ queryDetails?.Metrics2.Rows_examined_avg | humanize : 'number' }}&nbsp;avg
     </td>
-    <td style="width: 10%" class="no-left-border" ng-mouseover="popoverData = 'Rows_examined'; measurement = 'number'" popover-trigger="mouseenter"
-popover-append-to-body="true" popover-placement="top" popover-template="'perQueryStatsPopover.html'">
-<div class="scaling-svg-container" [appLatencyChart]="queryDetails?.Metrics2" metricPrefix="Rows_examined"></div>
+    <td style="width: 10%" class="no-left-border">
+<div class="scaling-svg-container app-tooltip" data-tooltip="Loading..." measurement="number" [appLatencyChart]="queryDetails?.Metrics2" metricPrefix="Rows_examined"></div>
 </td>
 </tr>
 <tr *ngIf="queryDetails?.Metrics2.Rows_affected_sum">
@@ -293,9 +282,8 @@ popover-append-to-body="true" popover-placement="top" popover-template="'perQuer
     <td class="text-xs-right no-right-border">
         {{ queryDetails?.Metrics2.Rows_affected_avg | humanize : 'number' }}&nbsp;avg
     </td>
-    <td style="width: 10%" class="no-left-border" ng-mouseover="popoverData = 'Rows_affected'; measurement = 'number'" popover-trigger="mouseenter"
-popover-append-to-body="true" popover-placement="top" popover-template="'perQueryStatsPopover.html'">
-<div class="scaling-svg-container" [appLatencyChart]="queryDetails?.Metrics2" metricPrefix="Rows_affected"></div>
+    <td style="width: 10%" class="no-left-border">
+<div class="scaling-svg-container app-tooltip" data-tooltip="Loading..." measurement="number" [appLatencyChart]="queryDetails?.Metrics2" metricPrefix="Rows_affected"></div>
 </td>
 </tr>
 <tr *ngIf="queryDetails?.Metrics2.Filesort_sum">
@@ -354,9 +342,8 @@ popover-append-to-body="true" popover-placement="top" popover-template="'perQuer
     <td class="text-xs-right no-right-border">
         {{ queryDetails?.Metrics2.Merge_passes_avg | humanize : 'number' }}&nbsp;avg
     </td>
-    <td style="width: 10%" class="no-left-border" ng-mouseover="popoverData = 'Merge_passes'; measurement = 'number'" popover-trigger="mouseenter"
-popover-append-to-body="true" popover-placement="top" popover-template="'perQueryStatsPopover.html'">
-<div class="scaling-svg-container" [appLatencyChart]="queryDetails?.Metrics2" metricPrefix="Merge_passes"></div>
+    <td style="width: 10%" class="no-left-border">
+<div class="scaling-svg-container app-tooltip" data-tooltip="Loading..." measurement="number" [appLatencyChart]="queryDetails?.Metrics2" metricPrefix="Merge_passes"></div>
 </td>
 </tr>
 <tr *ngIf="queryDetails?.Metrics2.Full_join_sum">
@@ -432,9 +419,8 @@ popover-append-to-body="true" popover-placement="top" popover-template="'perQuer
     <td class="text-xs-right no-right-border">
         {{ queryDetails?.Metrics2.Tmp_tables_avg | humanize : 'number' }}&nbsp;avg
     </td>
-    <td style="width: 10%" class="no-left-border" ng-mouseover="popoverData = 'Tmp_tables'; measurement = 'number'" popover-trigger="mouseenter" popover-append-to-body="true"
-popover-placement="top" popover-template="'perQueryStatsPopover.html'">
-<div class="scaling-svg-container" [appLatencyChart]="queryDetails?.Metrics2" metricPrefix="Tmp_tables"></div>
+    <td style="width: 10%" class="no-left-border">
+<div class="scaling-svg-container app-tooltip" data-tooltip="Loading..." measurement="number" [appLatencyChart]="queryDetails?.Metrics2" metricPrefix="Tmp_tables"></div>
 </td>
 </tr>
 <tr *ngIf="queryDetails?.Metrics2.Tmp_table_on_disk_sum">
@@ -474,9 +460,8 @@ popover-placement="top" popover-template="'perQueryStatsPopover.html'">
     <td class="text-xs-right no-right-border">
         {{ queryDetails?.Metrics2.Tmp_disk_tables_avg | humanize : 'number' }}&nbsp;avg
     </td>
-    <td style="width: 10%" class="no-left-border" ng-mouseover="popoverData = 'Tmp_disk_tables'; measurement = 'number'" popover-trigger="mouseenter"
-popover-append-to-body="true" popover-placement="top" popover-template="'perQueryStatsPopover.html'">
-<div class="scaling-svg-container" [appLatencyChart]="queryDetails?.Metrics2" metricPrefix="Tmp_disk_tables"></div>
+    <td style="width: 10%" class="no-left-border">
+<div class="scaling-svg-container app-tooltip" data-tooltip="Loading..." measurement="number" [appLatencyChart]="queryDetails?.Metrics2" metricPrefix="Tmp_disk_tables"></div>
 </td>
 </tr>
 <tr *ngIf="queryDetails?.Metrics2.Tmp_table_sizes_sum">
@@ -496,9 +481,8 @@ popover-append-to-body="true" popover-placement="top" popover-template="'perQuer
     <td class="text-xs-right no-right-border">
         {{ queryDetails?.Metrics2.Tmp_table_sizes_avg | humanize : 'size' }}&nbsp;avg
     </td>
-    <td style="width: 10%" class="no-left-border" ng-mouseover="popoverData = 'Tmp_table_sizes'; measurement = 'size'" popover-trigger="mouseenter"
-popover-append-to-body="true" popover-placement="top" popover-template="'perQueryStatsPopover.html'">
-<div class="scaling-svg-container" [appLatencyChart]="queryDetails?.Metrics2" metricPrefix="Tmp_table_sizes"></div>
+    <td style="width: 10%" class="no-left-border">
+<div class="scaling-svg-container app-tooltip" data-tooltip="Loading..." measurement="size" [appLatencyChart]="queryDetails?.Metrics2" metricPrefix="Tmp_table_sizes"></div>
 </td>
 </tr>
 </tbody>
