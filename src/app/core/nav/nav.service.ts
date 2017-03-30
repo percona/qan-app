@@ -92,14 +92,14 @@ export class NavService {
     return this.http.get(this.instancesUrl)
       .toPromise()
       .then(response => {
-        let agents = response.json().filter((i: Instance) => i.Subsystem === 'agent') as Instance[];
+        const agents = response.json().filter((i: Instance) => i.Subsystem === 'agent') as Instance[];
         this.dbServers = response.json().filter((i: Instance) => i.Subsystem === 'mysql') as Instance[];
-        let firstDB = this.dbServers[0];
+        const firstDB = this.dbServers[0];
 
-        for (let srv of this.dbServers) {
+        for (const srv of this.dbServers) {
           this.dbServerMap[srv.Name] = srv;
         }
-        for (let agent of agents) {
+        for (const agent of agents) {
           this.dbServerMap[agent.Name].Agent = agent;
         }
 

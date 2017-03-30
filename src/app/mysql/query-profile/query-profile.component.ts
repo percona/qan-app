@@ -27,11 +27,17 @@ export class QueryProfileComponent extends BaseComponent {
     onChangeParams(params) {
         this.fromTs = this.navService.nav.from.format('YYYY-MM-DDTHH:mm:ss');
         this.toTs = this.navService.nav.to.format('YYYY-MM-DDTHH:mm:ss');
-        if ('to' in params) {
-
-        } else {
-            const path = ['mysql/profile', this.navService.nav.dbServer.Name, 'from', this.fromTs, 'to', this.toTs];
-            this.router.navigate(path);
+        if (!('var-host' in params)) {
+            setTimeout(() => {
+                const navigationExtras = {
+                    queryParams: {
+                        'var-host': this.navService.nav.dbServer.Name,
+                        'from': this.fromTs,
+                        'to': this.toTs
+                    }
+                };
+                this.router.navigate(['profile'], navigationExtras);
+            }, 500);
         }
         // FIXME: use reactive here.
         if (this.navService.nav.dbServer === undefined) {
@@ -66,8 +72,8 @@ export class QueryProfileComponent extends BaseComponent {
         this.queryProfileService
             .getQueryProfile(dbServerUUID, this.fromTs, this.toTs, this.offset)
             .then(data => {
-                let _ = data['Query'].shift();
-                for (let q of data['Query']) {
+                const _ = data['Query'].shift();
+                for (const q of data['Query']) {
                     this.queryProfile.push(q);
                 }
                 this.leftInDbQueries = this.totalAmountOfQueries - (this.queryProfile.length - 1);

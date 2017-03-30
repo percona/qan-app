@@ -22,9 +22,9 @@ export class QueryDetailsComponent extends BaseComponent {
   public queryExample: string;
   protected classicExplain;
   protected jsonExplain;
-  protected dbName: string = '';
-  public dbTblNames: string = '';
-  protected newDBTblNames: string = '';
+  protected dbName: string;
+  public dbTblNames: string;
+  protected newDBTblNames: string;
   isSummary: boolean;
   // protected metrics: {};
   // protected sparklines: Array<{}>;
@@ -38,9 +38,11 @@ export class QueryDetailsComponent extends BaseComponent {
 
   onChangeParams(params) {
     this.queryID = params['queryID'];
-    this.navService.setNavigation({ 'dbServerName': this.route.snapshot.parent.params['mysqlServer'] });
-    let from = this.navService.nav.from.format('YYYY-MM-DDTHH:mm:ss');
-    let to = this.navService.nav.to.format('YYYY-MM-DDTHH:mm:ss');
+    const host = this.route.snapshot.queryParams['var-host'];
+    console.log('host', host);
+    this.navService.setNavigation({ 'dbServerName': host });
+    const from = this.navService.nav.from.format('YYYY-MM-DDTHH:mm:ss');
+    const to = this.navService.nav.to.format('YYYY-MM-DDTHH:mm:ss');
     if (this.queryID === 'TOTAL') {
       this.isSummary = true;
       this.getServerSummary(this.navService.nav.dbServer.UUID, from, to);
@@ -83,13 +85,13 @@ export class QueryDetailsComponent extends BaseComponent {
   }
 
   getExplain() {
-    let agentUUID = this.navService.nav.dbServer.Agent.UUID;
-    let dbServerUUID = this.navService.nav.dbServer.UUID;
+    const agentUUID = this.navService.nav.dbServer.Agent.UUID;
+    const dbServerUUID = this.navService.nav.dbServer.UUID;
     if (this.dbName === '') {
       this.dbName = this.getDBName();
     }
 
-    let query = this.queryDetails.Example.Query;
+    const query = this.queryDetails.Example.Query;
     this.queryDetailsService.getExplain(agentUUID, dbServerUUID, this.dbName, query)
       .then(data => {
         this.classicExplain = data.Classic;
@@ -99,7 +101,7 @@ export class QueryDetailsComponent extends BaseComponent {
   }
 
   getTableInfo() {
-    let agentUUID = this.navService.nav.dbServer.Agent.UUID;
+    const agentUUID = this.navService.nav.dbServer.Agent.UUID;
     const dbServerUUID = this.navService.nav.dbServer.UUID;
     let dbName, tblName: string;
     if (this.dbTblNames === '') {

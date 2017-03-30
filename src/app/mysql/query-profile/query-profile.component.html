@@ -26,8 +26,10 @@
                 routerLinkActive="table-success">
                 <td class="text-xs-right">{{ i || '' }}</td>
                 <td>
-                    <a [routerLink]="['./', 'id', row.Id || 'TOTAL']" href="javascript:void(0);" title="{{ row.Fingerprint }}">
-                        {{ ((row.Abstract ? row.Abstract : 'TOTAL') | slice:0:22) + (row.Abstract.length > 22 ? '...' : '') }}
+                    <a [routerLink]="['./', 'id', row.Id || 'TOTAL']"
+                       [queryParams]="{'var-host': navService.nav.dbServer.Name, 'from': fromTs, 'to': toTs}"
+                       href="javascript:void(0);" title="{{ row.Fingerprint }}">
+                       {{ ((row.Abstract ? row.Abstract : 'TOTAL') | slice:0:22) + (row.Abstract.length > 22 ? '...' : '') }}
                     </a>
                 </td>
                 <td title="{{ row.Id }}">{{ row.Id }}</td>

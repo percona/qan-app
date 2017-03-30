@@ -14,14 +14,12 @@ const routes: Routes = [
     {
         path: '',
         children: [
-            { path: '', component: MySQLComponent},
-            { path: 'profile/:mysqlServer', component: QueryProfileComponent },
-            { path: 'profile/:mysqlServer/from/:from/to/:to', component: QueryProfileComponent, children: [
-                { path: 'id/:queryID',
-                  component: QueryDetailsComponent },
+            { path: '', redirectTo: 'profile'},
+            { path: 'profile', component: QueryProfileComponent, children: [
+                { path: 'id/:queryID', component: QueryDetailsComponent }
             ]},
-            { path: 'sys-summary/:mysqlServer', component: SummaryComponent, pathMatch: 'full' },
-            { path: 'settings/:mysqlServer', component: SettingsComponent, pathMatch: 'full' },
+            { path: 'sys-summary', component: SummaryComponent, pathMatch: 'full' },
+            { path: 'settings', component: SettingsComponent, pathMatch: 'full' },
         ]
     }
 ];

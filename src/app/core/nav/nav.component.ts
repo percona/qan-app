@@ -29,7 +29,7 @@ export class NavComponent implements OnInit, OnDestroy {
   public dtToCal: Date = moment().toDate();
   public dtFromCal: Date = (moment().subtract(1, 'd').toDate());
   public dbServers: Array<Instance>;
-  public isDropdownOpen: boolean = false;
+  public isDropdownOpen = false;
   public navigation: Navigation = new Navigation();
   private navigationSubscription: Subscription;
   private alertSubscription: Subscription;
@@ -65,46 +65,55 @@ export class NavComponent implements OnInit, OnDestroy {
   protected setQuickRange(num: number = 0, unit: string = 's') {
     const to = moment().format();
     const from = moment().subtract(num, unit).format();
-    this.router.navigate(['mysql/profile', this.navigation.dbServer.Name, 'from', from, 'to', to]);
+    const navigationExtras = {
+      queryParams: {
+        'var-host': this.navigation.dbServer.Name,
+        'from': from,
+        'to': to
+      }
+    };
+    this.router.navigate(['profile'], navigationExtras);
   }
 
   protected setTimeRange(from, to) {
     const paramFrom = moment([from.year, from.month - 1, from.day]).format();
     const paramTo = moment([to.year, to.month - 1, to.day]).format();
     console.log('setTimeRange: ', from, to, paramFrom, paramTo);
-    this.router.navigate(['mysql/profile', this.navigation.dbServer.Name, 'from', paramFrom, 'to', paramTo]);
+    const navigationExtras = {
+      queryParams: {
+        'var-host': this.navigation.dbServer.Name,
+        'from': from,
+        'to': to
+      }
+    };
+    this.router.navigate(['profile'], navigationExtras);
   }
 
   search() {
-    let path = [
-      'mysql/profile',
-      this.navigation.dbServer.Name,
-      'from',
-      this.navigation.from.format(),
-      'to',
-      this.navigation.to.format()
-    ];
+    let navigationExtras = {
+      queryParams: {
+        'var-host': this.navigation.dbServer.Name,
+        'from': this.navigation.from.format(),
+        'to': this.navigation.to.format()
+      }
+    };
     if (this.navigation.search !== ''
-        && this.navigation.search !== null
-        && this.navigation.search !== undefined) {
-      path.push({ 'search': this.navigation.search });
-    } else {
-      this.navigation.search = '';
+      && this.navigation.search !== null
+      && this.navigation.search !== undefined) {
+      navigationExtras.queryParams['search'] = this.navigation.search;
     }
-    this.router.navigate(path);
+    this.router.navigate(['profile'], navigationExtras);
   }
 
   reset() {
-    this.navigation.search = '';
-    let path = [
-      'mysql/profile',
-      this.navigation.dbServer.Name,
-      'from',
-      this.navigation.from.format(),
-      'to',
-      this.navigation.to.format()
-    ];
-    this.router.navigate(path);
+    const navigationExtras = {
+      queryParams: {
+        'var-host': this.navigation.dbServer.Name,
+        'from': this.navigation.from.format(),
+        'to': this.navigation.to.format()
+      }
+    };
+    this.router.navigate(['profile'], navigationExtras);
   }
 
   public getDBLogo(distro: string): string {
@@ -135,8 +144,14 @@ export class NavComponent implements OnInit, OnDestroy {
     const to = moment.utc().format();
     const from = moment.utc().subtract(1, 'h').format();
     this.navService.setNavigation({ 'subPath': 'profile' });
-    const path = ['mysql/profile', this.navService.nav.dbServer.Name, 'from', from, 'to', to];
-    this.router.navigate(path, { relativeTo: this.route });
+    const navigationExtras = {
+      queryParams: {
+        'var-host': this.navService.nav.dbServer.Name,
+        'from': from,
+        'to': to
+      }
+    };
+    this.router.navigate(['profile'], navigationExtras);
   }
 
   public ngOnInit() {

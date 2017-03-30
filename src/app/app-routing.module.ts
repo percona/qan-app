@@ -3,9 +3,8 @@ import { Routes, RouterModule } from '@angular/router';
 import { PageNotFoundComponent } from './core/page-not-found/page-not-found.component';
 
 export const routes: Routes = [
-  { path: '', redirectTo: 'mysql', pathMatch: 'full' },
-  { path: 'mysql', loadChildren: './mysql/mysql.module#MySQLModule' },
-  { path: '**', component: PageNotFoundComponent }
+  { path: '', loadChildren: './mysql/mysql.module#MySQLModule' },
+  // { path: '**', component: PageNotFoundComponent }
 ];
 
 @NgModule({

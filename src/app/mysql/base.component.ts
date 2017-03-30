@@ -6,7 +6,7 @@ import { Subscription } from 'rxjs/Subscription';
 export class BaseComponent implements OnInit, OnDestroy {
 
     protected navSubscription: Subscription;
-    protected paramsSubscription: Subscription;
+    // protected paramsSubscription: Subscription;
     protected queryParamsSubscription: Subscription;
     // protected navigation: Navigation;
 
@@ -14,7 +14,7 @@ export class BaseComponent implements OnInit, OnDestroy {
 
     ngOnInit() {
         // this.navSubscription = this.navService.navigation$.subscribe(nav => this.navigation = nav);
-        this.paramsSubscription = this.route.params.subscribe(
+        this.queryParamsSubscription = this.route.queryParams.subscribe(
             params => {
                 // discard alert.
                 this.navService.setAlert('');
@@ -35,6 +35,6 @@ export class BaseComponent implements OnInit, OnDestroy {
 
     ngOnDestroy() {
         // this.navSubscription.unsubscribe();
-        this.paramsSubscription.unsubscribe();
+        this.queryParamsSubscription.unsubscribe();
     }
 }

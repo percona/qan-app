@@ -19,7 +19,9 @@
 		<div class="dropdown-menu dropdown-menu-left list-group" style="margin: 0; padding: 0; min-width: 600px; max-width: 900px; max-height:70vh; overflow:scroll;"
 			aria-labelledby="dbServerDropdown">
 			<a class="list-group-item list-group-item-action" title="DB Server" *ngFor="let server of dbServers" [ngClass]="{active: server.UUID === navigation?.dbServer?.UUID }"
-				[routerLink]="['mysql', navigation.subPath, server.Name]">
+				[routerLink]="[navigation.subPath]"
+				[queryParams]="{'var-host': server.Name}"
+				>
 				<h4 class="list-group-item-heading">
 					<img class="img-db" src="{{ getDBLogo(server.Distro) }}"> {{ server.Name | truncateRoot : 40}}
 				</h4>
@@ -31,19 +33,25 @@
 	</li>
 
 		<li class="nav-item">
-			<a class="nav-link" id="settings_link" title="Query Profile." [routerLink]="['mysql/profile', navigation?.dbServer?.Name || '']"
+			<a class="nav-link" id="settings_link" title="Query Profile."
+				[routerLink]="['/profile']"
+				[queryParams]="navigation?.dbServer?.Name ? {'var-host': navigation?.dbServer?.Name} : ''"
 				routerLinkActive="active">
 				<i class="fa fa-area-chart" aria-hidden="true"></i>
 				<span class="hidden-md-down">Query Profile</span>
 			</a>
 		</li>
 		<li class="nav-item">
-			<a class="nav-link" id="summary_link" title="View database and server summary info." [routerLink]="['/mysql/sys-summary', navigation?.dbServer?.Name || '']"
+			<a class="nav-link" id="summary_link" title="View database and server summary info."
+				[routerLink]="['/sys-summary']"
+				[queryParams]="navigation?.dbServer?.Name ? {'var-host': navigation?.dbServer?.Name} : ''"
 				routerLinkActive="active"><i class="fa fa-server"></i>
 				<span class="hidden-md-down">System Summary</span></a>
 		</li>
 		<li class="nav-item">
-			<a class="nav-link" id="settings_link" title="Configure query analitics. View status and log of agent." [routerLink]="['/mysql/settings', navigation?.dbServer?.Name || '']"
+			<a class="nav-link" id="settings_link" title="Configure query analitics. View status and log of agent."
+				[routerLink]="['/settings']"
+				[queryParams]="navigation?.dbServer?.Name ? {'var-host': navigation?.dbServer?.Name} : ''"
 				routerLinkActive="active"><i class="fa fa-cog"></i>
 							<span class="hidden-md-down">Settings</span></a>
 		</li>
@@ -51,7 +59,8 @@
 		<li class="nav-item" [hidden]="navigation.isExtHidden">
 			<form class="form-inline" (submit)="search()">
 				<div class="input-group">
-					<input class="form-control" [(ngModel)]="navigation.search" size="32" name="navigation.search" id="search_field" type="text"
+					<input class="form-control" [(ngModel)]="navigation.search" size="32"
+						name="navigation.search" id="search_field" type="text"
 						placeholder="Search by Query Abstract, Fingerprint or ID">
 					<span class="input-group-btn">
 							<button class="btn btn-outline-primary"

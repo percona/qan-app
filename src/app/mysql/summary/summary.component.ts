@@ -34,7 +34,7 @@ export class SummaryComponent extends BaseComponent {
     }
 
     onChangeParams(params) {
-        let agentUUID = this.navService.dbServerMap[params.mysqlServer].Agent.UUID;
+        const agentUUID = this.navService.dbServerMap[params['var-host']].Agent.UUID;
         this.getServerSummary(agentUUID);
         this.getMySQLSummary(agentUUID);
     }
