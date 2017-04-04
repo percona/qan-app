@@ -22,12 +22,13 @@
         </thead>
         <tbody>
             <tr *ngFor="let row of queryProfile; let i = index; let first = first;"
-                [routerLink]="['./', 'id', row.Id || 'TOTAL']"
+                [routerLink]="['./', 'report']"
+                [queryParams]="{'var-host': navService.nav.dbServer.Name, 'from': fromTs, 'to': toTs, 'queryID': row.Id || 'TOTAL'}"
                 routerLinkActive="table-success">
                 <td class="text-xs-right">{{ i || '' }}</td>
                 <td>
-                    <a [routerLink]="['./', 'id', row.Id || 'TOTAL']"
-                       [queryParams]="{'var-host': navService.nav.dbServer.Name, 'from': fromTs, 'to': toTs}"
+                    <a [routerLink]="['./', 'report']"
+                       [queryParams]="{'var-host': navService.nav.dbServer.Name, 'from': fromTs, 'to': toTs, 'queryID': row.Id || 'TOTAL'}"
                        href="javascript:void(0);" title="{{ row.Fingerprint }}">
                        {{ ((row.Abstract ? row.Abstract : 'TOTAL') | slice:0:22) + (row.Abstract.length > 22 ? '...' : '') }}
                     </a>

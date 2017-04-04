@@ -52,7 +52,7 @@ export class NavComponent implements OnInit, OnDestroy {
   }
 
 
-  protected setTimeZone(tz: string = 'utc') {
+  protected setTimeZone(tz = 'utc') {
     if (tz === 'utc') {
       moment.tz.setDefault('UTC');
       console.log('UTC', moment().format('YYYY-MM-DD HH:mm:ss Z'));
@@ -62,7 +62,7 @@ export class NavComponent implements OnInit, OnDestroy {
     }
   }
 
-  protected setQuickRange(num: number = 0, unit: string = 's') {
+  protected setQuickRange(num = 0, unit = 's') {
     const to = moment().format();
     const from = moment().subtract(num, unit).format();
     const navigationExtras = {
@@ -78,7 +78,6 @@ export class NavComponent implements OnInit, OnDestroy {
   protected setTimeRange(from, to) {
     const paramFrom = moment([from.year, from.month - 1, from.day]).format();
     const paramTo = moment([to.year, to.month - 1, to.day]).format();
-    console.log('setTimeRange: ', from, to, paramFrom, paramTo);
     const navigationExtras = {
       queryParams: {
         'var-host': this.navigation.dbServer.Name,
@@ -90,7 +89,7 @@ export class NavComponent implements OnInit, OnDestroy {
   }
 
   search() {
-    let navigationExtras = {
+    const navigationExtras = {
       queryParams: {
         'var-host': this.navigation.dbServer.Name,
         'from': this.navigation.from.format(),
@@ -141,8 +140,8 @@ export class NavComponent implements OnInit, OnDestroy {
   }
 
   protected navigateToFirstServer() {
-    const to = moment.utc().format();
-    const from = moment.utc().subtract(1, 'h').format();
+    const to = this.navService.nav.to;
+    const from = this.navService.nav.from;
     this.navService.setNavigation({ 'subPath': 'profile' });
     const navigationExtras = {
       queryParams: {

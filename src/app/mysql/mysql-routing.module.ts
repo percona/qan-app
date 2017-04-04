@@ -16,7 +16,7 @@ const routes: Routes = [
         children: [
             { path: '', redirectTo: 'profile'},
             { path: 'profile', component: QueryProfileComponent, children: [
-                { path: 'id/:queryID', component: QueryDetailsComponent }
+                { path: 'report', component: QueryDetailsComponent }
             ]},
             { path: 'sys-summary', component: SummaryComponent, pathMatch: 'full' },
             { path: 'settings', component: SettingsComponent, pathMatch: 'full' },

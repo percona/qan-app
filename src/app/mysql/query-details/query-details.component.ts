@@ -37,10 +37,12 @@ export class QueryDetailsComponent extends BaseComponent {
   }
 
   onChangeParams(params) {
-    this.queryID = params['queryID'];
     const host = this.route.snapshot.queryParams['var-host'];
+    this.queryID = this.route.snapshot.queryParams.queryID;
     console.log('host', host);
-    this.navService.setNavigation({ 'dbServerName': host });
+    if (host !== undefined) {
+      this.navService.setNavigation({ 'dbServerName': host });
+    }
     const from = this.navService.nav.from.format('YYYY-MM-DDTHH:mm:ss');
     const to = this.navService.nav.to.format('YYYY-MM-DDTHH:mm:ss');
     if (this.queryID === 'TOTAL') {
