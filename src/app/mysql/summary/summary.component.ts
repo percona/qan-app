@@ -1,10 +1,13 @@
 import { Component } from '@angular/core';
 import { Router, ActivatedRoute, Params } from '@angular/router';
 
-import { BaseComponent } from '../base.component'
+import { BaseComponent } from '../base.component';
 import { SummaryService } from './summary.service';
-import { NavService } from '../../core/nav/nav.service';
+import { Instance, InstanceService } from '../../core/instance.service';
 
+/**
+ * Shows MySQL and Server Summary
+ */
 @Component({
   moduleId: module.id,
   selector: 'app-summary',
@@ -17,30 +20,37 @@ export class SummaryComponent extends BaseComponent {
     public mysqlSummary: string;
 
     constructor(protected route: ActivatedRoute, protected router: Router,
-        protected summaryService: SummaryService, protected navService: NavService) {
-        super(route, router, navService);
+        protected summaryService: SummaryService, protected instanceService: InstanceService) {
+        super(route, router, instanceService);
     }
 
+    /**
+     * Gets MySQL summary via API, Agent from `pt-summary`.
+     * @param agentUUID agent UUID that is installed on same host as MySQL.
+     */
     getServerSummary(agentUUID: string): void {
         this.summaryService
             .getServer(agentUUID)
             .then(data => this.serverSummary = data);
     }
 
+    /**
+     * Gets MySQL summary via API, Agent from `pt-mysql-summary`.
+     * @param agentUUID agent UUID that is monitoring MySQL Server.
+     */
     getMySQLSummary(agentUUID: string): void {
         this.summaryService
             .getMySQL(agentUUID)
             .then(data => this.mysqlSummary = data);
     }
 
+    /**
+     * Ovverrides parent method.
+     * Executes on route was changed to refresh data.
+     * @param params - URL query parameters
+     */
     onChangeParams(params) {
-        const agentUUID = this.navService.dbServerMap[params['var-host']].Agent.UUID;
-        this.getServerSummary(agentUUID);
-        this.getMySQLSummary(agentUUID);
-    }
-
-    ngOnInit() {
-        super.ngOnInit()
-        this.navService.setNavigation({ 'subPath': 'sys-summary' });
+        this.getServerSummary(this.agent.UUID);
+        this.getMySQLSummary(this.agent.UUID);
     }
 }

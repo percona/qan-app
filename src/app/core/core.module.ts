@@ -9,15 +9,14 @@ import { ErrorHandler } from '@angular/core';
 import { SharedModule } from '../shared/shared.module';
 import { NavComponent } from './nav/nav.component';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
-import { NavService } from './nav/nav.service';
 // import { QanErrorHandler } from './qan-error.handler';
+import { InstanceService } from './instance.service';
 
 @NgModule({
     imports: [CommonModule, SharedModule],
     declarations: [NavComponent, PageNotFoundComponent],
     exports: [NavComponent, PageNotFoundComponent],
-    // providers: [NavService, { provide: ErrorHandler, useClass: QanErrorHandler }]
-    providers: [NavService]
+    providers: [InstanceService]
 })
 export class CoreModule {
 

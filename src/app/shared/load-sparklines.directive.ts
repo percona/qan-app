@@ -8,6 +8,7 @@ import { isoParse, utcParse, utcFormat, extent, line, area, bisector } from 'd3'
 import { event as currentEvent, mouse } from 'd3-selection';
 
 import { HumanizePipe } from 'app/shared/humanize.pipe';
+import { MomentFormatPipe } from 'app/shared/moment-format.pipe';
 
 /**
  * Display sparklines in top queries and metrics.
@@ -18,6 +19,8 @@ export class LoadSparklinesDirective {
     protected _xkey: string;
     protected _ykey: string;
     protected _measurement: string;
+
+    humanize = new HumanizePipe();
 
     @HostBinding('attr.data-tooltip')
     @Input() dataTooltip: string;
@@ -43,7 +46,6 @@ export class LoadSparklinesDirective {
             this.drawChart(data);
         }
     }
-
 
     drawChart(data: Array<{}>) {
         const iso = utcFormat('%Y-%m-%dT%H:%M:%SZ');
@@ -144,10 +146,14 @@ export class LoadSparklinesDirective {
                 .attr('x1', x).attr('y1', yScale(yDomain[MIN]))
                 .attr('x2', x).attr('y2', yScale(yDomain[MAX]));
 
-            const humanize = new HumanizePipe();
+
             const value = d[ykey] === undefined ? 0 : d[ykey];
-            const load = humanize.transform(value, measurement);
-            this.dataTooltip = `${load} at ${moment(d[xkey]).utc().format('YYYY-MM-DD HH:mm:ss [UTC]')}`;
+            const load = this.humanize.transform(value, measurement);
+
+            const dateFormat = new MomentFormatPipe();
+            const dateToShow = dateFormat.transform(moment(d[xkey]).utc());
+            // this.dataTooltip = `${load} at ${moment(d[xkey]).utc().format('YYYY-MM-DD HH:mm:ss [UTC]')}`;
+            this.dataTooltip = `${load} at ${dateToShow}`;
         });
     }
 }

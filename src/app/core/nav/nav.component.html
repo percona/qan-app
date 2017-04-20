@@ -6,20 +6,20 @@
 	</a>
 	<ul class="nav navbar-nav">
 		<li class="nav-item dropdown" ngbDropdown id="db_server_dropdown">
-		<a ngbDropdownToggle href="javascript:void(0);" title="DB Server{{ navigation?.dbServer?.Name ? ': ' + navigation?.dbServer?.Name : '' }}"
+		<a ngbDropdownToggle href="javascript:void(0);" title="DB Server{{ dbServer?.Name ? ': ' + dbServer?.Name : '' }}"
 			class="nav-link dropdown-toggle active" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-			<span [ngSwitch]="navigation.dbServer">
+			<span [ngSwitch]="dbServer">
 				<span *ngSwitchCase="undefined">------</span>
 			<span *ngSwitchDefault>
-				<img class="img-db" src="{{ getDBLogo(navigation.dbServer.Distro) }}">
-					{{ navigation.dbServer.Name | truncateRoot : 16 }}
+				<img class="img-db" src="{{ getDBLogo(dbServer.Distro) }}">
+					{{ dbServer.Name | truncateRoot : 16 }}
 				</span>
 			</span>
 		</a>
 		<div class="dropdown-menu" style="margin: 0; padding: 0; min-width: 600px; max-width: 900px; max-height:70vh; overflow:scroll;"
 			aria-labelledby="navbarDropdownMenuLink">
-			<a class="dropdown-item" title="DB Server" *ngFor="let server of dbServers" [ngClass]="{active: server.UUID === navigation?.dbServer?.UUID }"
-				[routerLink]="[navigation.subPath]"
+			<a class="dropdown-item" title="DB Server" *ngFor="let server of dbServers" [ngClass]="{active: server.UUID === dbServer?.UUID }"
+				[routerLink]="[subPath]"
 				[queryParams]="{'var-host': server.Name}"
 				>
 				<h4 class="list-group-item-heading">
@@ -35,7 +35,7 @@
 		<li class="nav-item">
 			<a class="nav-link" id="settings_link" title="Query Profile."
 				[routerLink]="['/profile']"
-				[queryParams]="navigation?.dbServer?.Name ? {'var-host': navigation?.dbServer?.Name} : ''"
+				[queryParams]="dbServer?.Name ? {'var-host': dbServer?.Name} : ''"
 				routerLinkActive="active">
 				<i class="fa fa-area-chart" aria-hidden="true"></i>
 				<span class="hidden-md-down">Query Profile</span>
@@ -44,23 +44,23 @@
 		<li class="nav-item">
 			<a class="nav-link" id="summary_link" title="View database and server summary info."
 				[routerLink]="['/sys-summary']"
-				[queryParams]="navigation?.dbServer?.Name ? {'var-host': navigation?.dbServer?.Name} : ''"
+				[queryParams]="dbServer?.Name ? {'var-host': dbServer?.Name} : ''"
 				routerLinkActive="active"><i class="fa fa-server"></i>
 				<span class="hidden-md-down">System Summary</span></a>
 		</li>
 		<li class="nav-item">
 			<a class="nav-link" id="settings_link" title="Configure query analitics. View status and log of agent."
 				[routerLink]="['/settings']"
-				[queryParams]="navigation?.dbServer?.Name ? {'var-host': navigation?.dbServer?.Name} : ''"
+				[queryParams]="dbServer?.Name ? {'var-host': dbServer?.Name} : ''"
 				routerLinkActive="active"><i class="fa fa-cog"></i>
 				<span class="hidden-md-down">Settings</span></a>
 		</li>
 
-		<li class="nav-item" [hidden]="navigation.isExtHidden">
+		<li class="nav-item" [hidden]="isExtHidden">
 			<form class="form-inline" (submit)="search()">
 				<div class="input-group">
-					<input class="form-control" [(ngModel)]="navigation.search" size="32"
-						name="navigation.search" id="search_field" type="text"
+					<input class="form-control" [(ngModel)]="searchValue" size="32"
+						name="searchValue" id="search_field" type="text"
 						placeholder="Search by Query Abstract, Fingerprint or ID">
 					<span class="input-group-btn">
 							<button class="btn btn-outline-primary"
@@ -78,7 +78,7 @@
 </ul>
 
 
-<ul class="nav navbar-nav float-right" [hidden]="navigation.isExtHidden" style="padding-left: 100px;">
+<ul class="nav navbar-nav float-right" [hidden]="isExtHidden" style="padding-left: 100px;">
 	<li class="nav-item dropdown" ngbDropdown [autoClose]="false" #timeRangeDrop="ngbDropdown">
 		<a ngbDropdownToggle href="javascript:void(0);" class="nav-link dropdown-toggle" id="supportedContentDropdown" data-toggle="dropdown"
 			aria-haspopup="true" title="Time range" aria-expanded="false"><i class="fa fa-calendar"></i></a>
@@ -103,8 +103,8 @@
 						<a class="list-group-item list-group-item-action" href="javascript:void(0);" (click)="setQuickRange(5, 'd'); $event.stopPropagation(); timeRangeDrop.close();">Last 5 days</a>
 					</div>
 					<div class="col-md-3 btn-group" role="group" aria-label="Time zone">
-						<button type="button" class="btn btn-secondary" (click)="setTimeZone('local')">Local timezone</button>
-						<button type="button" class="btn btn-secondary" (click)="setTimeZone('utc')">UTC</button>
+						<button type="button" class="btn btn-secondary" [ngClass]="{'active': timezone === 'local'}" (click)="setTimeZone('local')">Local timezone</button>
+						<button type="button" class="btn btn-secondary" [ngClass]="{'active': timezone === 'utc'}" (click)="setTimeZone('utc')">UTC</button>
 					</div>
 				</div>
 			</div>

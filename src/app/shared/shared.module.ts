@@ -10,13 +10,14 @@ import { LoadSparklinesDirective } from './load-sparklines.directive';
 import { MapToIterablePipe } from './map-to-iterable.pipe';
 import { MomentFormatPipe } from './moment-format.pipe';
 import { TruncateRootPipe } from './truncate-root.pipe';
+import { ParseQueryParamDatePipe } from './parse-query-param-date.pipe';
 
 @NgModule({
   imports: [
     CommonModule
   ],
   declarations: [HumanizePipe, LatencyChartDirective, LoadSparklinesDirective,
-     MapToIterablePipe, MomentFormatPipe, TruncateRootPipe],
+     MapToIterablePipe, MomentFormatPipe, TruncateRootPipe, ParseQueryParamDatePipe],
   exports: [MapToIterablePipe, MomentFormatPipe, TruncateRootPipe, HumanizePipe,
     LatencyChartDirective, LoadSparklinesDirective,
     CommonModule, FormsModule, HttpModule, NgbModule, RouterModule]

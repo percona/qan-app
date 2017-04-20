@@ -1,8 +1,10 @@
+import { BaseComponent, QueryParams } from '../base.component';
 import { Component } from '@angular/core';
-import { Router, ActivatedRoute } from '@angular/router';
-import { NavService } from '../../core/nav/nav.service';
-import { BaseComponent } from '../base.component';
+import { Instance, InstanceService } from '../../core/instance.service';
 import { QueryProfileService } from './query-profile.service';
+import { Router, ActivatedRoute } from '@angular/router';
+import * as moment from 'moment';
+import { MomentFormatPipe } from 'app/shared/moment-format.pipe';
 
 @Component({
     moduleId: module.id,
@@ -15,44 +17,30 @@ export class QueryProfileComponent extends BaseComponent {
     public offset: number;
     public totalAmountOfQueries: number;
     public leftInDbQueries: number;
-    public fromTs: string;
-    public toTs: string;
 
+    public fromDate: string;
+
+    public toDate: string;
+    public momentFormatPipe = new MomentFormatPipe();
 
     constructor(protected route: ActivatedRoute, protected router: Router,
-        protected navService: NavService, protected queryProfileService: QueryProfileService) {
-        super(route, router, navService);
+        protected instanceService: InstanceService, protected queryProfileService: QueryProfileService) {
+        super(route, router, instanceService);
     }
 
     onChangeParams(params) {
-        this.fromTs = this.navService.nav.from.format('YYYY-MM-DDTHH:mm:ss');
-        this.toTs = this.navService.nav.to.format('YYYY-MM-DDTHH:mm:ss');
-        if (!('var-host' in params)) {
-            setTimeout(() => {
-                const navigationExtras = {
-                    queryParams: {
-                        'var-host': this.navService.nav.dbServer.Name,
-                        'from': this.fromTs,
-                        'to': this.toTs
-                    }
-                };
-                this.router.navigate(['profile'], navigationExtras);
-            }, 500);
-        }
-        // FIXME: use reactive here.
-        if (this.navService.nav.dbServer === undefined) {
-            setTimeout(() => this.loadQueries(), 500);
-        } else {
-            this.loadQueries();
-        }
+        this.fromDate = this.momentFormatPipe.transform(this.from, 'llll');
+        this.toDate = this.momentFormatPipe.transform(this.to, 'llll');
+        this.loadQueries();
     }
 
     loadQueries() {
-        const dbServerUUID = this.navService.nav.dbServer.UUID;
-        const search = this.navService.nav.search;
+        const search = this.queryParams.search;
+        const from = this.from.format('YYYY-MM-DDTHH:mm:ss');
+        const to = this.to.format('YYYY-MM-DDTHH:mm:ss');
         this.offset = 0;
         this.queryProfileService
-            .getQueryProfile(dbServerUUID, this.fromTs, this.toTs, this.offset, search)
+            .getQueryProfile(this.dbServer.UUID, from, to, this.offset, search)
             .then(data => {
                 this.totalAmountOfQueries = data['TotalQueries'];
                 if (this.totalAmountOfQueries > 0) {
@@ -67,10 +55,12 @@ export class QueryProfileComponent extends BaseComponent {
     }
 
     loadMoreQueries() {
-        const dbServerUUID = this.navService.nav.dbServer.UUID;
+        const dbServerUUID = this.dbServer.UUID;
+        const from = this.from.format('YYYY-MM-DDTHH:mm:ss');
+        const to = this.to.format('YYYY-MM-DDTHH:mm:ss');
         this.offset = this.offset + 10;
         this.queryProfileService
-            .getQueryProfile(dbServerUUID, this.fromTs, this.toTs, this.offset)
+            .getQueryProfile(dbServerUUID, from, to, this.offset)
             .then(data => {
                 const _ = data['Query'].shift();
                 for (const q of data['Query']) {
@@ -80,8 +70,9 @@ export class QueryProfileComponent extends BaseComponent {
             });
     }
 
-    ngOnInit() {
-        super.ngOnInit();
-        this.navService.setNavigation({ 'subPath': 'profile' });
+    composeQueryParamsForGrid(queryID: string | null): QueryParams {
+        const queryParams: QueryParams = Object.assign({}, this.queryParams);
+        queryParams.queryID = queryID || 'TOTAL';
+        return queryParams;
     }
 }

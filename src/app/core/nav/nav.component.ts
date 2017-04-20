@@ -1,18 +1,12 @@
+import 'rxjs/add/operator/filter';
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { Router, ActivatedRoute } from '@angular/router';
+import { Instance, InstanceService } from '../../core/instance.service';
+import { ParseQueryParamDatePipe } from '../../shared/parse-query-param-date.pipe';
+import { MomentFormatPipe } from 'app/shared/moment-format.pipe';
+import { QueryParams } from '../../mysql/base.component';
+import { Router, ActivatedRoute, NavigationEnd } from '@angular/router';
 import { Subscription } from 'rxjs/Subscription';
-
 import * as moment from 'moment';
-import 'moment-timezone';
-
-import { Instance, Navigation, NavService } from './nav.service';
-
-// moment.defaultFormat = 'YYYY-MM-DD HH:mm:ss';
-
-// moment.fn.toString = function () {Í
-//   return this.clone().locale('en').format(moment.defaultFormat);
-// }
-
 
 @Component({
   moduleId: module.id,
@@ -21,101 +15,94 @@ import { Instance, Navigation, NavService } from './nav.service';
   styleUrls: ['nav.component.scss']
 })
 export class NavComponent implements OnInit, OnDestroy {
-
-  private maxDateFrom: Date = moment().toDate();
-  private minDate: Date;
-  public dtTo: moment.Moment = moment();
-  public dtFrom: moment.Moment = moment().subtract(1, 'h');
-  public dtToCal: Date = moment().toDate();
-  public dtFromCal: Date = (moment().subtract(1, 'd').toDate());
-  public dbServers: Array<Instance>;
-  public isDropdownOpen = false;
-  public navigation: Navigation = new Navigation();
-  private navigationSubscription: Subscription;
+  protected routerSubscription: Subscription;
   private alertSubscription: Subscription;
+  public queryParams: QueryParams;
   public alert: string;
 
+  public from: any | moment.Moment;
+  public to: any | moment.Moment;
 
-  public constructor(private route: ActivatedRoute, private router: Router, private navService: NavService) {
-    // select db server
-    this.navigationSubscription = this.navService.navigation$.subscribe(nav => {
-      this.navigation = nav;
-    });
+  public agent: Instance;
+  public dbServer: Instance;
+  public dbServers: Array<Instance> = [];
+  public dbServerMap: { [key: string]: Instance } = {};
 
-    this.alertSubscription = this.navService.alert$.subscribe(alert => {
-      this.alert = alert;
-    });
+  public searchValue: string;
+
+  public isExtHidden: boolean;
+
+  public timezone: string;
+
+  public constructor(private route: ActivatedRoute, private router: Router,
+    private instanceService: InstanceService) {
+    this.dbServer = instanceService.dbServers[0];
+    this.agent = instanceService.dbServers[0].Agent;
+    this.dbServers = instanceService.dbServers;
+    this.dbServerMap = instanceService.dbServerMap;
+  }
+
+  ngOnInit() {
+    const parseQueryParamDatePipe = new ParseQueryParamDatePipe();
+    const momentFormatPipe = new MomentFormatPipe();
+    this.timezone = momentFormatPipe.getCookie('timezone') || 'local';
+
+    this.routerSubscription = this.router.events.filter((e: any) => e instanceof NavigationEnd)
+      .subscribe((val) => {
+        this.queryParams = this.route.snapshot.queryParams as QueryParams;
+        this.isExtHidden = !this.router.url.startsWith('/profile');
+        this.from = parseQueryParamDatePipe.transform(this.queryParams.from, 'from');
+        this.to = parseQueryParamDatePipe.transform(this.queryParams.to, 'to');
+        this.onChangeParams(this.queryParams);
+      });
+  }
+
+  onChangeParams(params) {
+    console.log('onChangeParams', params);
   }
 
   protected closeAlert() {
     this.alert = '';
   }
 
-
   protected setTimeZone(tz = 'utc') {
-    if (tz === 'utc') {
-      moment.tz.setDefault('UTC');
-      console.log('UTC', moment().format('YYYY-MM-DD HH:mm:ss Z'));
-    } else {
-      moment.tz.setDefault(undefined);
-      console.log('Local', moment().format('YYYY-MM-DD HH:mm:ss Z'));
-    }
+    // if (tz === 'utc') {
+    //   moment.tz.setDefault('UTC');
+    // } else {
+    //   moment.tz.setDefault(undefined);
+    // }
+    this.timezone = tz;
+    const expireDays = moment().utc().add(7, 'y').toString();
+    document.cookie = `timezone=${tz}; expires=${expireDays}; path=/`;
   }
 
   protected setQuickRange(num = 0, unit = 's') {
-    const to = moment().format();
-    const from = moment().subtract(num, unit).format();
-    const navigationExtras = {
-      queryParams: {
-        'var-host': this.navigation.dbServer.Name,
-        'from': from,
-        'to': to
-      }
-    };
-    this.router.navigate(['profile'], navigationExtras);
+    const params: QueryParams = Object.assign({}, this.queryParams);
+    params.to = moment().valueOf();
+    params.from = moment().subtract(num, unit).valueOf();
+    this.router.navigate(['profile'], { queryParams: params });
   }
 
   protected setTimeRange(from, to) {
-    const paramFrom = moment([from.year, from.month - 1, from.day]).format();
-    const paramTo = moment([to.year, to.month - 1, to.day]).format();
-    const navigationExtras = {
-      queryParams: {
-        'var-host': this.navigation.dbServer.Name,
-        'from': from,
-        'to': to
-      }
-    };
-    this.router.navigate(['profile'], navigationExtras);
+    const params: QueryParams = Object.assign({}, this.queryParams);
+    params.to = moment([to.year, to.month - 1, to.day]).valueOf();
+    params.from = moment([from.year, from.month - 1, from.day]).valueOf();
+    this.router.navigate(['profile'], { queryParams: params });
   }
 
   search() {
-    const navigationExtras = {
-      queryParams: {
-        'var-host': this.navigation.dbServer.Name,
-        'from': this.navigation.from.format(),
-        'to': this.navigation.to.format()
-      }
-    };
-    if (this.navigation.search !== ''
-      && this.navigation.search !== null
-      && this.navigation.search !== undefined) {
-      navigationExtras.queryParams['search'] = this.navigation.search;
-    }
-    this.router.navigate(['profile'], navigationExtras);
+    const params: QueryParams = Object.assign({}, this.queryParams);
+    if (!!this.searchValue) { params.search = this.searchValue; }
+    this.router.navigate(['profile'], { queryParams: params });
   }
 
   reset() {
-    const navigationExtras = {
-      queryParams: {
-        'var-host': this.navigation.dbServer.Name,
-        'from': this.navigation.from.format(),
-        'to': this.navigation.to.format()
-      }
-    };
-    this.router.navigate(['profile'], navigationExtras);
+    const params: QueryParams = Object.assign({}, this.queryParams);
+    delete params.search;
+    this.router.navigate(['profile'], { queryParams: params });
   }
 
-  public getDBLogo(distro: string): string {
+  getDBLogo(distro: string): string {
     let src: string;
     switch (true) {
       case distro.indexOf('Percona Server') !== -1:
@@ -131,34 +118,8 @@ export class NavComponent implements OnInit, OnDestroy {
     return src;
   }
 
-  protected getDBServers() {
-    this.navService
-      .getDBServers()
-      .then(dbServers => this.dbServers = dbServers)
-      .then(() => this.navigateToFirstServer())
-      .catch(err => console.log(err));
-  }
-
-  protected navigateToFirstServer() {
-    const to = this.navService.nav.to;
-    const from = this.navService.nav.from;
-    this.navService.setNavigation({ 'subPath': 'profile' });
-    const navigationExtras = {
-      queryParams: {
-        'var-host': this.navService.nav.dbServer.Name,
-        'from': from,
-        'to': to
-      }
-    };
-    this.router.navigate(['profile'], navigationExtras);
-  }
-
-  public ngOnInit() {
-    this.getDBServers();
-  }
-
-  public ngOnDestroy() {
-    this.navigationSubscription.unsubscribe();
+  ngOnDestroy() {
+    this.routerSubscription.unsubscribe();
     this.alertSubscription.unsubscribe();
   }
 }

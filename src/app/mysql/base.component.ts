@@ -1,8 +1,10 @@
-import { OnInit, OnDestroy } from '@angular/core';
-import { Router, ActivatedRoute, NavigationEnd } from '@angular/router';
-import { NavService, Navigation } from '../core/nav/nav.service';
-import { Subscription } from 'rxjs/Subscription';
 import 'rxjs/add/operator/filter';
+import { Instance, InstanceService } from '../core/instance.service';
+import { OnInit, OnDestroy, Output, EventEmitter } from '@angular/core';
+import { ParseQueryParamDatePipe } from '../shared/parse-query-param-date.pipe';
+import { Router, ActivatedRoute, NavigationEnd } from '@angular/router';
+import { Subscription } from 'rxjs/Subscription';
+import * as moment from 'moment';
 
 export interface QueryParams {
     from?: string;
@@ -14,43 +16,35 @@ export interface QueryParams {
 
 export class BaseComponent implements OnInit, OnDestroy {
 
-    protected navSubscription: Subscription;
-    protected queryParamsSubscription: Subscription;
     protected routerSubscription: Subscription;
-    protected queryParams: QueryParams;
+    public queryParams: QueryParams;
+    public agent: Instance;
+    public dbServer: Instance;
+    public dbServers: Array<Instance> = [];
+    public dbServerMap: { [key: string]: Instance } = {};
+    public from: any | moment.Moment;
+    public to: any | moment.Moment;
 
-    constructor(protected route: ActivatedRoute, protected router: Router, protected navService: NavService) {
-        this.routerSubscription = router.events.filter((e: any) => e instanceof NavigationEnd)
-            .subscribe((val) => {
-                this.queryParams = route.snapshot.queryParams as QueryParams;
-                this.navService.setAlert('');
-                // if (this.queryParams.search !== null) {
-                //     this.navService.setNavigation({ 'search': this.queryParams.search });
-                // }
-                // if (this.queryParams.from !== null && this.queryParams.to !== null) {
-                //     this.navService.setNavigation({ 'to': this.queryParams.to, 'from': this.queryParams.from });
-                // }
-                this.onChangeParams(this.queryParams);
-            });
+    // @Output() showLoader = new EventEmitter();
+
+    constructor(protected route: ActivatedRoute, protected router: Router,
+        protected instanceService: InstanceService) {
+        this.dbServer = instanceService.dbServers[0];
+        this.agent = instanceService.dbServers[0].Agent;
+        this.dbServers = instanceService.dbServers;
+        this.dbServerMap = instanceService.dbServerMap;
     }
 
     ngOnInit() {
-        /*
-        this.queryParamsSubscription = this.route.queryParams.subscribe(
-            params => {
-                // discard alert.
-                console.warn('deprecated?');
-                this.navService.setAlert('');
-                if ('search' in params) {
-                    this.navService.setNavigation({ 'search': params['search'] });
-                }
-                if ('to' in params && 'from' in params) {
-                    this.navService.setNavigation({ 'to': params['to'], 'from': params['from'] });
-                }
-                this.onChangeParams(params);
-            }
-        );
-        */
+        // this.showLoader.emit(true);
+        const parseQueryParamDatePipe = new ParseQueryParamDatePipe();
+        this.routerSubscription = this.router.events.filter((e: any) => e instanceof NavigationEnd)
+            .subscribe((val) => {
+                this.queryParams = this.route.snapshot.queryParams as QueryParams;
+                this.from = parseQueryParamDatePipe.transform(this.queryParams.from, 'from');
+                this.to = parseQueryParamDatePipe.transform(this.queryParams.to, 'to');
+                this.onChangeParams(this.queryParams);
+            });
     }
 
     onChangeParams(params) {

@@ -1,10 +1,11 @@
 import { Component } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
-import { NavService } from '../../core/nav/nav.service';
+import { Instance, InstanceService } from '../../core/instance.service';
 import { BaseComponent } from '../base.component';
 import { QueryDetailsService, QueryDetails } from './query-details.service';
 import * as hljs from 'highlight.js';
 import * as vkbeautify from 'vkbeautify';
+import * as moment from 'moment';
 
 @Component({
   moduleId: module.id,
@@ -26,31 +27,21 @@ export class QueryDetailsComponent extends BaseComponent {
   public dbTblNames: string;
   protected newDBTblNames: string;
   isSummary: boolean;
-  // protected metrics: {};
-  // protected sparklines: Array<{}>;
-  // protected queryClass: QueryClass;
-  // protected queryExample: QueryExample;
 
   constructor(protected route: ActivatedRoute, protected router: Router,
-    protected navService: NavService, protected queryDetailsService: QueryDetailsService) {
-    super(route, router, navService);
+    protected instanceService: InstanceService, protected queryDetailsService: QueryDetailsService) {
+    super(route, router, instanceService);
   }
 
   onChangeParams(params) {
-    const host = this.route.snapshot.queryParams['var-host'];
-    this.queryID = this.route.snapshot.queryParams.queryID;
-    console.log('host', host);
-    if (host !== undefined) {
-      this.navService.setNavigation({ 'dbServerName': host });
-    }
-    const from = this.navService.nav.from.format('YYYY-MM-DDTHH:mm:ss');
-    const to = this.navService.nav.to.format('YYYY-MM-DDTHH:mm:ss');
-    if (this.queryID === 'TOTAL') {
+    const from = this.from.format('YYYY-MM-DDTHH:mm:ss');
+    const to = this.to.format('YYYY-MM-DDTHH:mm:ss');
+    if (['TOTAL', undefined].indexOf(this.queryParams.queryID) !== -1) {
       this.isSummary = true;
-      this.getServerSummary(this.navService.nav.dbServer.UUID, from, to);
+      this.getServerSummary(this.dbServer.UUID, from, to);
     } else {
       this.isSummary = false;
-      this.getQueryDetails(this.navService.nav.dbServer.UUID, this.queryID, from, to);
+      this.getQueryDetails(this.dbServer.UUID, this.queryParams.queryID, from, to);
     }
   }
 
@@ -87,8 +78,8 @@ export class QueryDetailsComponent extends BaseComponent {
   }
 
   getExplain() {
-    const agentUUID = this.navService.nav.dbServer.Agent.UUID;
-    const dbServerUUID = this.navService.nav.dbServer.UUID;
+    const agentUUID = this.dbServer.Agent.UUID;
+    const dbServerUUID = this.dbServer.UUID;
     if (this.dbName === '') {
       this.dbName = this.getDBName();
     }
@@ -103,8 +94,8 @@ export class QueryDetailsComponent extends BaseComponent {
   }
 
   getTableInfo() {
-    const agentUUID = this.navService.nav.dbServer.Agent.UUID;
-    const dbServerUUID = this.navService.nav.dbServer.UUID;
+    const agentUUID = this.dbServer.Agent.UUID;
+    const dbServerUUID = this.dbServer.UUID;
     let dbName, tblName: string;
     if (this.dbTblNames === '') {
       dbName = this.getDBName();
@@ -118,21 +109,26 @@ export class QueryDetailsComponent extends BaseComponent {
 
     this.queryDetailsService.getTableInfo(agentUUID, dbServerUUID, dbName, tblName)
       .then(data => {
-        this.tableInfo = data[`${dbName}.${tblName}`];
-        this.createTable = hljs.highlight('sql', this.tableInfo.Create).value;
+        try {
+          this.tableInfo = data[`${dbName}.${tblName}`];
+          this.createTable = hljs.highlight('sql', this.tableInfo.Create).value;
+        } catch (err) {
+          this.createTable = 'Unavailable';
+          console.error('Unable to parce table info');
+        }
       }).catch(err => console.error(err));
   }
 
   selectTableInfo(dbName: string, tblName: string) {
-    const agentUUID = this.navService.nav.dbServer.Agent.UUID;
-    const dbServerUUID = this.navService.nav.dbServer.UUID;
+    const agentUUID = this.dbServer.Agent.UUID;
+    const dbServerUUID = this.dbServer.UUID;
     this.dbTblNames = `\`${dbName}\`.\`${tblName}\``;
 
     this.queryDetailsService.getTableInfo(agentUUID, dbServerUUID, dbName, tblName)
       .then(data => {
-      this.tableInfo = data[`${dbName}.${tblName}`];
-      this.createTable = hljs.highlight('sql', this.tableInfo.Create).value;
-    }).catch(err => console.error(err));
+        this.tableInfo = data[`${dbName}.${tblName}`];
+        this.createTable = hljs.highlight('sql', this.tableInfo.Create).value;
+      }).catch(err => console.error(err));
   }
 
   addDBTable() {
@@ -188,10 +184,5 @@ export class QueryDetailsComponent extends BaseComponent {
       return this.queryDetails.Query.Tables[0].Db;
     }
     return '';
-  }
-
-  ngOnInit() {
-    super.ngOnInit();
-    this.navService.setNavigation({ 'subPath': 'profile' });
   }
 }

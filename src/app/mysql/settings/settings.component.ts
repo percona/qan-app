@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
-import { NavService, Instance } from '../../core/nav/nav.service';
+import { Instance, InstanceService } from '../../core/instance.service';
 import { BaseComponent } from '../base.component';
 
 import * as moment from 'moment';
@@ -10,11 +10,11 @@ import 'rxjs/add/operator/map';
 import { SettingsService } from './settings.service';
 
 @Component({
-  moduleId: module.id,
-  selector: 'app-settings',
-  templateUrl: './settings.component.html',
-  styleUrls: ['./settings.component.scss'],
-  providers: [SettingsService],
+    moduleId: module.id,
+    selector: 'app-settings',
+    templateUrl: './settings.component.html',
+    styleUrls: ['./settings.component.scss'],
+    providers: [SettingsService],
 })
 export class SettingsComponent extends BaseComponent {
 
@@ -23,7 +23,7 @@ export class SettingsComponent extends BaseComponent {
     public agentStatus: {};
     public qanConf: {};
     public agentConf: any;
-    public interval: number = 1;
+    public interval = 1;
     public collectFrom: 'perfschema' | 'slowlog' = 'slowlog';
     public exampleQueries: boolean;
     public statusUpdatedFromNow$: Observable<string>;
@@ -34,10 +34,12 @@ export class SettingsComponent extends BaseComponent {
         'warning', 'notice', 'info', 'debug'
     ];
 
-    public logPeriod: number = 6;
+    public logPeriod = 6;
 
-    constructor(protected route: ActivatedRoute, protected router: Router, protected settingsService: SettingsService, protected navService: NavService) {
-        super(route, router, navService);
+    constructor(protected route: ActivatedRoute, protected router: Router,
+        protected settingsService: SettingsService,
+        protected instanceService: InstanceService) {
+        super(route, router, instanceService);
     }
 
     setLogPeriod(period): void {
@@ -50,7 +52,7 @@ export class SettingsComponent extends BaseComponent {
     }
 
     getSetting() {
-        this.settingsService.getQanConfig(this.navService.nav.dbServer.UUID)
+        this.settingsService.getQanConfig(this.dbServer.UUID)
             .then(res => this.qanConf = res)
             .catch(err => console.error(err));
     }
@@ -60,7 +62,6 @@ export class SettingsComponent extends BaseComponent {
             .then(res => {
                 this.agentConf = res;
                 this.interval = this.agentConf.qan.Interval / 60;
-                console.log(this.agentConf);
                 this.collectFrom = this.agentConf.qan.CollectFrom;
                 this.exampleQueries = this.agentConf.qan.ExampleQueries;
             })
@@ -68,36 +69,37 @@ export class SettingsComponent extends BaseComponent {
     }
 
     setAgentDefaults() {
-        this.settingsService.setAgentDefaults(this.agent.UUID, this.dbServer.UUID, this.interval, this.exampleQueries, this.collectFrom)
-            .then(res => {this.agentConf = res; console.log('ddd', res); })
+        this.settingsService.setAgentDefaults(this.agent.UUID, this.dbServer.UUID,
+            this.interval, this.exampleQueries, this.collectFrom)
+            .then(res => { this.agentConf = res; })
             .catch(err => console.error(err));
     }
 
     getAgentStatus() {
         this.agentStatus = this.settingsService.getAgentStatus(this.agent.UUID);
-        let updated: any = moment();
+        const updated: any = moment();
         this.statusUpdatedFromNow$ = Observable.interval(60000).map(n => updated.fromNow());
     }
 
     getAgentLog(agentUUID: string, period: number) {
-        let begin = moment.utc().subtract(period, 'h').format('YYYY-MM-DDTHH:mm:ss');
-        let end = moment.utc().format('YYYY-MM-DDTHH:mm:ss');
+        const begin = moment.utc().subtract(period, 'h').format('YYYY-MM-DDTHH:mm:ss');
+        const end = moment.utc().format('YYYY-MM-DDTHH:mm:ss');
         this.agentLog = this.settingsService.getAgentLog(agentUUID, begin, end);
-        let updated: any = moment();
+        const updated: any = moment();
         this.logUpdatedFromNow$ = Observable.interval(60000).map(n => updated.fromNow());
     }
 
+    /**
+     * Ovverrides parent method.
+     * Executes on route was changed to refresh data.
+     * @param params - URL query parameters
+     */
     onChangeParams(params) {
-        this.dbServer = this.navService.nav.dbServer;
-        this.agent = this.navService.nav.dbServer.Agent;
+        this.dbServer = this.dbServer;
+        this.agent = this.dbServer.Agent;
         this.getSetting();
         this.getAgentDefaults();
         this.getAgentStatus();
         this.getAgentLog(this.agent.UUID, this.logPeriod);
-    }
-
-    ngOnInit() {
-        super.ngOnInit();
-        this.navService.setNavigation({ 'subPath': 'settings' });
     }
 }

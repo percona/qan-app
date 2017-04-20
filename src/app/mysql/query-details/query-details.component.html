@@ -1,8 +1,8 @@
 <hr />
 
 <h3 *ngIf="!isSummary" class="d-inline">
-    {{ queryDetails?.Query.Abstract }}
-    <span class="float-md-right">{{ queryDetails?.Query.Id }}</span>
+    {{ queryDetails?.Query?.Abstract }}
+    <span class="float-md-right">{{ queryDetails?.Query?.Id }}</span>
 </h3>
 <h3 *ngIf="isSummary" class="d-inline">
     Server Summary
