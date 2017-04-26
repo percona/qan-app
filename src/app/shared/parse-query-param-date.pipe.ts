@@ -59,14 +59,14 @@ export class ParseQueryParamDatePipe implements PipeTransform {
     // from=now
 
     if (date === undefined && edge === 'from') {
-      return moment().utc().subtract(1, 'h');
+      return moment.utc().subtract(1, 'h');
     }
     if (date === undefined && edge === 'to') {
-      return moment().utc();
+      return moment.utc();
     }
 
     if (date === 'now') {
-      return moment().utc();
+      return moment.utc();
     }
     // from=now-5d&to=now-6M ... from=now/w&to=now/w
     if (date.length > 4 && date.startsWith('now-')) {
@@ -75,7 +75,7 @@ export class ParseQueryParamDatePipe implements PipeTransform {
       const parts = date.match('(now)(-|/)?([0-9]*)([YMdhms])(/)?([YMdhms])?');
 
       if (parts[1] === 'now') {
-        parsedDate = moment().utc();
+        parsedDate = moment.utc();
       }
       if (parts[2] === '-') {
         parsedDate.subtract(parts[3], parts[4]);
@@ -98,9 +98,9 @@ export class ParseQueryParamDatePipe implements PipeTransform {
       // expect unix timestamp in milliseconds
       const isnum = /^\d+$/.test(date);
       if (isnum) {
-        return moment(parseInt(date, 10)).utc();
+        return moment.utc(parseInt(date, 10));
       } else {
-        return moment(date).utc();
+        return moment.utc(date);
       }
     }
     return parsedDate;

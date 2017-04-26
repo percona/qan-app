@@ -2,20 +2,26 @@
     <div class="col-md-12">
         <ngb-accordion activeIds="system-summary-panel,mysql-summary-panel">
             <ngb-panel id="system-summary-panel">
-                <template ngbPanelTitle>
+                <ng-template ngbPanelTitle>
                     <h5>System Summary</h5>
-                </template>
-                <template ngbPanelContent>
-                    <pre style="margin: 1rem">{{ serverSummary ? serverSummary : 'Loading...' }}</pre>
-                </template>
+                </ng-template>
+                <ng-template ngbPanelContent>
+                    <pre *ngIf="serverSummary; else loading" style="margin: 1rem">{{ serverSummary }}</pre>
+                    <ng-template #loading>
+                        <i class="fa fa-spinner fa-pulse fa-3x fa-fw loading"></i>
+                    </ng-template>
+                </ng-template>
             </ngb-panel>
             <ngb-panel id="mysql-summary-panel">
-                <template ngbPanelTitle>
+                <ng-template ngbPanelTitle>
                     <h5>MySQL Summary</h5>
-                </template>
-                <template ngbPanelContent>
-                    <pre style="margin: 1rem">{{ mysqlSummary ? mysqlSummary : 'Loading...' }}</pre>
-                </template>
+                </ng-template>
+                <ng-template ngbPanelContent>
+                    <pre *ngIf="mysqlSummary; else loading" style="margin: 1rem">{{ mysqlSummary }}</pre>
+                    <ng-template #loading>
+                        <i class="fa fa-spinner fa-pulse fa-3x fa-fw loading"></i>
+                    </ng-template>
+                </ng-template>
             </ngb-panel>
         </ngb-accordion>
     </div>

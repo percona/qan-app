@@ -8,18 +8,14 @@
 		<li class="nav-item dropdown" ngbDropdown id="db_server_dropdown">
 		<a ngbDropdownToggle href="javascript:void(0);" title="DB Server{{ dbServer?.Name ? ': ' + dbServer?.Name : '' }}"
 			class="nav-link dropdown-toggle active" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-			<span [ngSwitch]="dbServer">
-				<span *ngSwitchCase="undefined">------</span>
-			<span *ngSwitchDefault>
-				<img class="img-db" src="{{ getDBLogo(dbServer.Distro) }}">
-					{{ dbServer.Name | truncateRoot : 16 }}
-				</span>
-			</span>
+				<img class="img-db" src="{{ getDBLogo(dbServer?.Distro) }}">
+					{{ dbServer?.Name | truncateRoot : 16 }}
 		</a>
 		<div class="dropdown-menu" style="margin: 0; padding: 0; min-width: 600px; max-width: 900px; max-height:70vh; overflow:scroll;"
 			aria-labelledby="navbarDropdownMenuLink">
-			<a class="dropdown-item" title="DB Server" *ngFor="let server of dbServers" [ngClass]="{active: server.UUID === dbServer?.UUID }"
-				[routerLink]="[subPath]"
+			<a class="dropdown-item" title="DB Server" *ngFor="let server of dbServers"
+				[ngClass]="{active: server.UUID === dbServer?.UUID }"
+				[routerLink]="[]"
 				[queryParams]="{'var-host': server.Name}"
 				>
 				<h4 class="list-group-item-heading">

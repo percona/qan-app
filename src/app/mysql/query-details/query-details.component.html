@@ -20,7 +20,12 @@
                 <th colspan="2">Per Query Stats</th>
             </tr>
         </thead>
-        <tbody>
+        <tbody *ngIf="isLoading">
+            <tr>
+                <td colspan="6"><i class="fa fa-spinner fa-pulse fa-3x fa-fw loading"></i></td>
+            </tr>
+        </tbody>
+        <tbody *ngIf="!isLoading">
             <tr>
                 <td>Query Count</td>
                 <td class="no-right-border" align="right">{{ queryDetails?.Metrics2.Query_count_per_sec | humanize : 'number' }} (per sec)</td>
@@ -30,8 +35,8 @@
 <td>
     <span class="sum">{{ queryDetails?.Metrics2.Query_count | humanize : 'number' }}</span>
     <small>
-                            <span *ngIf="!isSummary" class="text-primary">{{ queryDetails?.Metrics2.Query_count_of_total | humanize : 'percent' }} of total</span>
-                        </small>
+        <span *ngIf="!isSummary" class="text-primary">{{ queryDetails?.Metrics2.Query_count_of_total | humanize : 'percent' }} of total</span>
+    </small>
 </td>
 <td colspan="2"></td>
 </tr>
@@ -496,20 +501,22 @@
     <h3 class="d-inline">QUERY</h3>
     <ngb-accordion activeIds="query-fingerprint">
         <ngb-panel id="query-fingerprint">
-            <template ngbPanelTitle>
+            <ng-template ngbPanelTitle>
                 <h5>Fingerprint</h5>
-            </template>
-            <template ngbPanelContent>
-                <pre style="margin: 1rem"><code [innerHTML]="fingerprint" id="query_fingerprint_code"></code></pre>
-</template>
+            </ng-template>
+            <ng-template ngbPanelContent>
+                <i *ngIf="isLoading" class="fa fa-spinner fa-pulse fa-3x fa-fw loading"></i>
+                <pre *ngIf="!isLoading" style="margin: 1rem"><code [innerHTML]="fingerprint" id="query_fingerprint_code"></code></pre>
+</ng-template>
 </ngb-panel>
 <ngb-panel id="query-example">
-    <template ngbPanelTitle>
+    <ng-template ngbPanelTitle>
         <h5>Example</h5>
-    </template>
-    <template ngbPanelContent>
-        <pre style="margin: 1rem"><code [innerHTML]="queryExample" id="query_example_code"></code></pre>
-</template>
+    </ng-template>
+    <ng-template ngbPanelContent>
+        <i *ngIf="isLoading" class="fa fa-spinner fa-pulse fa-3x fa-fw loading"></i>
+        <pre *ngIf="!isLoading" style="margin: 1rem"><code [innerHTML]="queryExample" id="query_example_code"></code></pre>
+</ng-template>
 </ngb-panel>
 </ngb-accordion>
 
@@ -536,11 +543,12 @@
 <br />
 <ngb-accordion activeIds="classic-explain">
     <ngb-panel id="classic-explain">
-        <template ngbPanelTitle>
+        <ng-template ngbPanelTitle>
             <h5>CLASSIC</h5>
-        </template>
-        <template ngbPanelContent>
-            <table class="table table-bordered table-hover table-sm ma-0">
+        </ng-template>
+        <ng-template ngbPanelContent>
+            <i *ngIf="isExplainLoading" class="fa fa-spinner fa-pulse fa-3x fa-fw loading"></i>
+            <table *ngIf="!isExplainLoading" class="table table-bordered table-hover table-sm ma-0">
                 <thead>
                     <tr>
                         <th width="3%" title="Id">Id</th>
@@ -574,16 +582,17 @@
                     </tr>
                 </tbody>
             </table>
-        </template>
+        </ng-template>
     </ngb-panel>
 
     <ngb-panel id="json-explain">
-        <template ngbPanelTitle>
+        <ng-template ngbPanelTitle>
             <h5>JSON</h5>
-        </template>
-        <template ngbPanelContent>
-            <pre style="margin: 1rem"><code [innerHTML]="jsonExplain"></code></pre>
-</template>
+        </ng-template>
+        <ng-template ngbPanelContent>
+            <i *ngIf="isExplainLoading" class="fa fa-spinner fa-pulse fa-3x fa-fw loading"></i>
+            <pre *ngIf="!isExplainLoading" style="margin: 1rem"><code [innerHTML]="jsonExplain"></code></pre>
+</ng-template>
 </ngb-panel>
 </ngb-accordion>
 
@@ -625,20 +634,22 @@
 <br />
 <ngb-accordion activeIds="table-create">
     <ngb-panel id="table-create">
-        <template ngbPanelTitle>
+        <ng-template ngbPanelTitle>
             <h5>CREATE</h5>
-        </template>
-        <template ngbPanelContent>
-            <pre style="margin: 1rem"><code [innerHTML]="createTable" id="table_create"></code></pre>
-</template>
+        </ng-template>
+        <ng-template ngbPanelContent>
+            <i *ngIf="isTableInfoLoading" class="fa fa-spinner fa-pulse fa-3x fa-fw loading"></i>
+            <pre *ngIf="!isTableInfoLoading" style="margin: 1rem"><code [innerHTML]="createTable" id="table_create"></code></pre>
+</ng-template>
 </ngb-panel>
 
 <ngb-panel id="table-status">
-    <template ngbPanelTitle>
+    <ng-template ngbPanelTitle>
         <h5>STATUS</h5>
-    </template>
-    <template ngbPanelContent>
-        <table class="table table-bordered table-hover table-sm ma-0">
+    </ng-template>
+    <ng-template ngbPanelContent>
+        <i *ngIf="isTableInfoLoading" class="fa fa-spinner fa-pulse fa-3x fa-fw loading"></i>
+        <table *ngIf="!isTableInfoLoading" class="table table-bordered table-hover table-sm ma-0">
             <thead>
                 <tr>
                     <th>Name</th>
@@ -659,15 +670,16 @@
                 </tr>
             </tbody>
         </table>
-    </template>
+    </ng-template>
 </ngb-panel>
 
 <ngb-panel id="table-indexes">
-    <template ngbPanelTitle>
+    <ng-template ngbPanelTitle>
         <h5>INDEXES</h5>
-    </template>
-    <template ngbPanelContent>
-        <table class="table table-bordered table-hover table-sm ma-0">
+    </ng-template>
+    <ng-template ngbPanelContent>
+        <i *ngIf="isTableInfoLoading" class="fa fa-spinner fa-pulse fa-3x fa-fw loading"></i>
+        <table *ngIf="!isTableInfoLoading" class="table table-bordered table-hover table-sm ma-0">
             <thead>
                 <tr>
                     <th>KeyName </th>
@@ -700,7 +712,7 @@
                 </tr>
             </tbody>
         </table>
-    </template>
+    </ng-template>
 </ngb-panel>
 </ngb-accordion>
 </div>

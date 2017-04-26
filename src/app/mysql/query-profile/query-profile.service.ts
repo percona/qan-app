@@ -9,14 +9,18 @@ export class QueryProfileService {
 
     constructor(private http: Http) { }
 
-    getQueryProfile(dbServerUUID, begin, end: string, offset: number = 0, search: string = ''): Promise<{}> {
+    getQueryProfile(dbServerUUID, begin, end: string,
+        offset = 0, search = ''): Promise<{}> {
         const url = `/qan-api/qan/profile/${dbServerUUID}`;
         const params = new URLSearchParams();
         params.set('begin', begin);
         params.set('end', end);
         params.set('offset', String(offset));
         if (search) {
-            search = btoa(search.replace(/%([0-9A-F]{2})/g, (match, p1) => String.fromCharCode(Number('0x' + p1))));
+            search = btoa(
+                search.replace(/%([0-9A-F]{2})/g,
+                (match, p1) => String.fromCharCode(Number('0x' + p1)))
+            );
             params.set('search', search);
         }
         return this.http

@@ -21,6 +21,8 @@ export class QueryProfileComponent extends BaseComponent {
     public fromDate: string;
 
     public toDate: string;
+
+    public isLoading: boolean;
     public momentFormatPipe = new MomentFormatPipe();
 
     constructor(protected route: ActivatedRoute, protected router: Router,
@@ -31,16 +33,22 @@ export class QueryProfileComponent extends BaseComponent {
     onChangeParams(params) {
         this.fromDate = this.momentFormatPipe.transform(this.from, 'llll');
         this.toDate = this.momentFormatPipe.transform(this.to, 'llll');
-        this.loadQueries();
+        // only if host, from and to are diffrent from prev router - load queries.
+        if (!this.previousQueryParams ||
+            (!!this.previousQueryParams &&
+             this.previousQueryParams['var-host'] !== this.queryParams['var-host'] &&
+             this.previousQueryParams.from !== this.queryParams.from &&
+             this.previousQueryParams.to !== this.queryParams.to)) {
+            this.loadQueries();
+        }
     }
 
     loadQueries() {
+        this.isLoading = true;
         const search = this.queryParams.search;
-        const from = this.from.format('YYYY-MM-DDTHH:mm:ss');
-        const to = this.to.format('YYYY-MM-DDTHH:mm:ss');
         this.offset = 0;
         this.queryProfileService
-            .getQueryProfile(this.dbServer.UUID, from, to, this.offset, search)
+            .getQueryProfile(this.dbServer.UUID, this.fromUTCDate, this.toUTCDate, this.offset, search)
             .then(data => {
                 this.totalAmountOfQueries = data['TotalQueries'];
                 if (this.totalAmountOfQueries > 0) {
@@ -51,22 +59,23 @@ export class QueryProfileComponent extends BaseComponent {
                     this.queryProfile = [];
                     this.leftInDbQueries = 0;
                 }
+                this.isLoading = false;
             });
     }
 
     loadMoreQueries() {
+        this.isLoading = true;
         const dbServerUUID = this.dbServer.UUID;
-        const from = this.from.format('YYYY-MM-DDTHH:mm:ss');
-        const to = this.to.format('YYYY-MM-DDTHH:mm:ss');
         this.offset = this.offset + 10;
         this.queryProfileService
-            .getQueryProfile(dbServerUUID, from, to, this.offset)
+            .getQueryProfile(dbServerUUID, this.fromUTCDate, this.toUTCDate, this.offset)
             .then(data => {
                 const _ = data['Query'].shift();
                 for (const q of data['Query']) {
                     this.queryProfile.push(q);
                 }
                 this.leftInDbQueries = this.totalAmountOfQueries - (this.queryProfile.length - 1);
+                this.isLoading = false;
             });
     }
 

@@ -9,7 +9,7 @@ import * as moment from 'moment';
 export interface QueryParams {
     from?: string;
     to?: string;
-    'var-host'?: string | string[];
+    'var-host'?: string; // | string[];
     search?: string;
     queryID?: string;
 }
@@ -18,12 +18,16 @@ export class BaseComponent implements OnInit, OnDestroy {
 
     protected routerSubscription: Subscription;
     public queryParams: QueryParams;
+    public previousQueryParams: QueryParams;
     public agent: Instance;
     public dbServer: Instance;
     public dbServers: Array<Instance> = [];
     public dbServerMap: { [key: string]: Instance } = {};
     public from: any | moment.Moment;
     public to: any | moment.Moment;
+
+    public fromUTCDate: string;
+    public toUTCDate: string;
 
     // @Output() showLoader = new EventEmitter();
 
@@ -38,12 +42,27 @@ export class BaseComponent implements OnInit, OnDestroy {
     ngOnInit() {
         // this.showLoader.emit(true);
         const parseQueryParamDatePipe = new ParseQueryParamDatePipe();
-        this.routerSubscription = this.router.events.filter((e: any) => e instanceof NavigationEnd)
+        this.routerSubscription = this.router.events
+            .filter((e: any) => e instanceof NavigationEnd)
             .subscribe((val) => {
                 this.queryParams = this.route.snapshot.queryParams as QueryParams;
+
+                try {
+                    this.dbServer = this.dbServerMap[this.queryParams['var-host']];
+                    this.agent = this.dbServerMap[this.queryParams['var-host']].Agent;
+                } catch (err) {
+                    // this required
+                    this.dbServer = this.instanceService.dbServers[0];
+                    this.agent = this.instanceService.dbServers[0].Agent;
+                    console.warn('cannot change db instance');
+                }
+
                 this.from = parseQueryParamDatePipe.transform(this.queryParams.from, 'from');
                 this.to = parseQueryParamDatePipe.transform(this.queryParams.to, 'to');
+                this.fromUTCDate = this.from.utc().format('YYYY-MM-DDTHH:mm:ss');
+                this.toUTCDate = this.to.utc().format('YYYY-MM-DDTHH:mm:ss');
                 this.onChangeParams(this.queryParams);
+                this.previousQueryParams = Object.assign({}, this.queryParams);
             });
     }
 

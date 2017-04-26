@@ -1,7 +1,6 @@
 import { NgModule } from '@angular/core';
 
 import { SharedModule } from '../shared/shared.module';
-
 import { MySQLRoutingModule } from './mysql-routing.module';
 import { MySQLComponent } from './mysql.component';
 import { QueryProfileComponent } from './query-profile/query-profile.component';

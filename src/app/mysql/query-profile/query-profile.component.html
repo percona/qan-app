@@ -9,6 +9,7 @@
             <b class="text-info">{{ toDate }}</b>
         </span>
     </div>
+    <i *ngIf="isLoading" class="fa fa-spinner fa-pulse fa-3x fa-fw loading-in-front"></i>
     <table class="table table-bordered table-striped table-hover table-sm mb-0" id="query_profile_table">
         <thead class="thead-default">
             <tr>

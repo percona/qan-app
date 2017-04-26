@@ -27,6 +27,9 @@ export class QueryDetailsComponent extends BaseComponent {
   public dbTblNames: string;
   protected newDBTblNames: string;
   isSummary: boolean;
+  isLoading: boolean;
+  isExplainLoading: boolean;
+  isTableInfoLoading: boolean;
 
   constructor(protected route: ActivatedRoute, protected router: Router,
     protected instanceService: InstanceService, protected queryDetailsService: QueryDetailsService) {
@@ -34,24 +37,24 @@ export class QueryDetailsComponent extends BaseComponent {
   }
 
   onChangeParams(params) {
-    const from = this.from.format('YYYY-MM-DDTHH:mm:ss');
-    const to = this.to.format('YYYY-MM-DDTHH:mm:ss');
     if (['TOTAL', undefined].indexOf(this.queryParams.queryID) !== -1) {
       this.isSummary = true;
-      this.getServerSummary(this.dbServer.UUID, from, to);
+      this.getServerSummary(this.dbServer.UUID, this.fromUTCDate, this.toUTCDate);
     } else {
       this.isSummary = false;
-      this.getQueryDetails(this.dbServer.UUID, this.queryParams.queryID, from, to);
+      this.getQueryDetails(this.dbServer.UUID, this.queryParams.queryID, this.fromUTCDate, this.toUTCDate);
     }
   }
 
   getQueryDetails(dbServerUUID, queryID, from, to: string) {
+    this.isLoading = true;
     this.dbName = this.dbTblNames = '';
     this.queryDetailsService.getQueryDetails(dbServerUUID, queryID, from, to)
       .then(data => {
         this.queryDetails = data;
         this.fingerprint = hljs.highlight('sql', vkbeautify.sql(this.queryDetails.Query.Fingerprint)).value;
         this.queryExample = hljs.highlight('sql', vkbeautify.sql(this.queryDetails.Example.Query)).value;
+        this.isLoading = false;
         // TODO: solve issue with async
         // this.metrics = data.Metrics2; this.sparklines = data.Sparks2; this.queryClass = data.Query; this.queryExample = data.Example;
       })
@@ -78,6 +81,7 @@ export class QueryDetailsComponent extends BaseComponent {
   }
 
   getExplain() {
+    this.isExplainLoading = true;
     const agentUUID = this.dbServer.Agent.UUID;
     const dbServerUUID = this.dbServer.UUID;
     if (this.dbName === '') {
@@ -89,11 +93,16 @@ export class QueryDetailsComponent extends BaseComponent {
       .then(data => {
         this.classicExplain = data.Classic;
         this.jsonExplain = hljs.highlight('json', data.JSON).value;
+        this.isExplainLoading = false;
       })
-      .catch(err => console.error(err));
+      .catch(err => {
+        console.error(err);
+        this.isExplainLoading = false;
+      });
   }
 
   getTableInfo() {
+    this.isTableInfoLoading = true;
     const agentUUID = this.dbServer.Agent.UUID;
     const dbServerUUID = this.dbServer.UUID;
     let dbName, tblName: string;
@@ -116,10 +125,15 @@ export class QueryDetailsComponent extends BaseComponent {
           this.createTable = 'Unavailable';
           console.error('Unable to parce table info');
         }
-      }).catch(err => console.error(err));
+        this.isTableInfoLoading = false;
+      }).catch(err => {
+        console.error(err);
+        this.isTableInfoLoading = false;
+      });
   }
 
   selectTableInfo(dbName: string, tblName: string) {
+    this.isTableInfoLoading = true;
     const agentUUID = this.dbServer.Agent.UUID;
     const dbServerUUID = this.dbServer.UUID;
     this.dbTblNames = `\`${dbName}\`.\`${tblName}\``;
@@ -128,7 +142,11 @@ export class QueryDetailsComponent extends BaseComponent {
       .then(data => {
         this.tableInfo = data[`${dbName}.${tblName}`];
         this.createTable = hljs.highlight('sql', this.tableInfo.Create).value;
-      }).catch(err => console.error(err));
+        this.isTableInfoLoading = false;
+      }).catch(err => {
+        console.error(err);
+        this.isTableInfoLoading = false;
+      });
   }
 
   addDBTable() {

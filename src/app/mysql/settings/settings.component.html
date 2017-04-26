@@ -1,9 +1,9 @@
 <ngb-accordion activeIds="settingsTab" #acSettings="ngbAccordion">
     <ngb-panel id="settingsTab">
-        <template ngbPanelTitle>
+        <ng-template ngbPanelTitle>
             <h5>SETTINGS</h5>
-        </template>
-        <template ngbPanelContent>
+        </ng-template>
+        <ng-template ngbPanelContent>
             <br />
 
             <div class="row">
@@ -144,10 +144,10 @@
                     </fieldset>
                 </div>
             </div>
-        </template>
+        </ng-template>
     </ngb-panel>
     <ngb-panel id="statusTab">
-        <template ngbPanelTitle>
+        <ng-template ngbPanelTitle>
             <h5>STATUS</h5>
             <span *ngIf="acSettings.isOpen('statusTab');" class="accordion-head-second">
                 (<i>Updated {{ (statusUpdatedFromNow$ | async) || 'a few seconds ago' }}</i>) |
@@ -155,18 +155,21 @@
                     <i class="fa fa-refresh"></i>
                 </a>
             </span>
-        </template>
-        <template ngbPanelContent>
-            <table class="table table-bordered table-sm" id="statusTable">
-                <tr *ngFor="let item of agentStatus | async | mapToIterable">
+        </ng-template>
+        <ng-template ngbPanelContent>
+            <table *ngIf="agentStatus | async as status; else loading" class="table table-bordered table-sm" id="statusTable">
+                <tr *ngFor="let item of status | mapToIterable">
                     <td>{{ item.key }}</td>
                     <td>{{ item.val }}</td>
                 </tr>
             </table>
-        </template>
+            <ng-template #loading>
+                <i class="fa fa-spinner fa-pulse fa-3x fa-fw loading"></i>
+            </ng-template>
+        </ng-template>
     </ngb-panel>
     <ngb-panel id="logTitle">
-        <template ngbPanelTitle>
+        <ng-template ngbPanelTitle>
             <h5>LOG</h5>
             <span *ngIf="acSettings.isOpen('logTitle');" class="accordion-head-second">
              (<i>Updated {{ (logUpdatedFromNow$ | async) || 'a few seconds ago' }}</i>)
@@ -185,9 +188,9 @@
                 <i class="fa fa-refresh"></i>
             </a>
             </span>
-        </template>
-        <template ngbPanelContent>
-            <table class="table table-bordered table-sm" id="logTable">
+        </ng-template>
+        <ng-template ngbPanelContent>
+            <table *ngIf="agentLog | async as aLog; else loading"  class="table table-bordered table-sm" id="logTable">
                 <thead>
                     <tr>
                         <th>Timestamp</th>
@@ -197,7 +200,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr *ngFor="let log of agentLog | async">
+                    <tr *ngFor="let log of aLog">
                         <td nowrap>{{ log.Ts }}</td>
                         <td nowrap>{{ log.Service }}</td>
                         <td nowrap>{{ severityLeveles[log.Level] }}</td>
@@ -205,6 +208,9 @@
                     </tr>
                 </tbody>
             </table>
-        </template>
+            <ng-template #loading>
+                <i class="fa fa-spinner fa-pulse fa-3x fa-fw loading"></i>
+            </ng-template>
+        </ng-template>
     </ngb-panel>
 </ngb-accordion>

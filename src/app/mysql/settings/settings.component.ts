@@ -17,9 +17,6 @@ import { SettingsService } from './settings.service';
     providers: [SettingsService],
 })
 export class SettingsComponent extends BaseComponent {
-
-    public agent: Instance;
-    public dbServer: Instance;
     public agentStatus: {};
     public qanConf: {};
     public agentConf: any;
@@ -44,11 +41,11 @@ export class SettingsComponent extends BaseComponent {
 
     setLogPeriod(period): void {
         this.logPeriod = period;
-        this.getAgentLog(this.agent.UUID, this.logPeriod);
+        this.getAgentLog();
     }
 
     refreshAgentLog(): void {
-        this.getAgentLog(this.agent.UUID, this.logPeriod);
+        this.getAgentLog();
     }
 
     getSetting() {
@@ -81,10 +78,10 @@ export class SettingsComponent extends BaseComponent {
         this.statusUpdatedFromNow$ = Observable.interval(60000).map(n => updated.fromNow());
     }
 
-    getAgentLog(agentUUID: string, period: number) {
-        const begin = moment.utc().subtract(period, 'h').format('YYYY-MM-DDTHH:mm:ss');
+    getAgentLog() {
+        const begin = moment.utc().subtract(this.logPeriod, 'h').format('YYYY-MM-DDTHH:mm:ss');
         const end = moment.utc().format('YYYY-MM-DDTHH:mm:ss');
-        this.agentLog = this.settingsService.getAgentLog(agentUUID, begin, end);
+        this.agentLog = this.settingsService.getAgentLog(this.agent.UUID, begin, end);
         const updated: any = moment();
         this.logUpdatedFromNow$ = Observable.interval(60000).map(n => updated.fromNow());
     }
@@ -95,11 +92,9 @@ export class SettingsComponent extends BaseComponent {
      * @param params - URL query parameters
      */
     onChangeParams(params) {
-        this.dbServer = this.dbServer;
-        this.agent = this.dbServer.Agent;
         this.getSetting();
         this.getAgentDefaults();
         this.getAgentStatus();
-        this.getAgentLog(this.agent.UUID, this.logPeriod);
+        this.getAgentLog();
     }
 }
