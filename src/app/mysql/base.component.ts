@@ -23,8 +23,8 @@ export class BaseComponent implements OnInit, OnDestroy {
     public dbServer: Instance;
     public dbServers: Array<Instance> = [];
     public dbServerMap: { [key: string]: Instance } = {};
-    public from: any | moment.Moment;
-    public to: any | moment.Moment;
+    public from: any;
+    public to: any;
 
     public fromUTCDate: string;
     public toUTCDate: string;

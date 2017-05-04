@@ -54,7 +54,7 @@ type TimeEdge = 'from' | 'to';
 })
 export class ParseQueryParamDatePipe implements PipeTransform {
 
-  transform(date: string, edge: TimeEdge): moment.Moment {
+  transform(date: string, edge: TimeEdge) {
     let parsedDate;
     // from=now
 

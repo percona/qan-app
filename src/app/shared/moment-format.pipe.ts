@@ -10,7 +10,7 @@ export class MomentFormatPipe implements PipeTransform {
       return parts[0] === name ? decodeURIComponent(parts[1]) : r;
     }, '');
   }
-  transform(value: any | moment.Moment, format = 'YYYY-MM-DD HH:mm:ss'): string {
+  transform(value: any, format = 'YYYY-MM-DD HH:mm:ss'): string {
     if (value === null) {
       return null;
     }
