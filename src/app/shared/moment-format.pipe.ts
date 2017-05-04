@@ -11,7 +11,9 @@ export class MomentFormatPipe implements PipeTransform {
     }, '');
   }
   transform(value: any | moment.Moment, format = 'YYYY-MM-DD HH:mm:ss'): string {
-
+    if (value === null) {
+      return null;
+    }
     const timezone = this.getCookie('timezone') || 'local';
     if (timezone === 'local') {
       return value.local().format(format);

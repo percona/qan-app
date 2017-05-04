@@ -24,7 +24,7 @@
         "styles.scss"
       ],
       "scripts": [],
-      "environmentSource": "environments/environment.ts",
+      "environmentSource": "app/environment.ts",
       "environments": {
             "dev": "environments/environment.ts",
             "prod": "environments/environment.prod.ts"
