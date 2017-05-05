@@ -50,7 +50,13 @@ export class SummaryComponent extends BaseComponent {
      * @param params - URL query parameters
      */
     onChangeParams(params) {
+        // to initalise loader when host was changed
+        this.mysqlSummary = '';
+        this.serverSummary = '';
+
         this.getServerSummary(this.agent.UUID);
-        this.getMySQLSummary(this.agent.UUID);
+        if (this.dbServer.Subsystem === 'mysql') {
+            this.getMySQLSummary(this.agent.UUID);
+        }
     }
 }

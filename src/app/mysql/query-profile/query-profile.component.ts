@@ -35,10 +35,9 @@ export class QueryProfileComponent extends BaseComponent {
         this.toDate = this.momentFormatPipe.transform(this.to, 'llll');
         // only if host, from and to are diffrent from prev router - load queries.
         if (!this.previousQueryParams ||
-            (!!this.previousQueryParams &&
-             this.previousQueryParams['var-host'] !== this.queryParams['var-host'] &&
-             this.previousQueryParams.from !== this.queryParams.from &&
-             this.previousQueryParams.to !== this.queryParams.to)) {
+            this.previousQueryParams['var-host'] !== this.queryParams['var-host'] ||
+            this.previousQueryParams.from !== this.queryParams.from ||
+            this.previousQueryParams.to !== this.queryParams.to) {
             this.loadQueries();
         }
     }

@@ -12,7 +12,7 @@
                     </ng-template>
                 </ng-template>
             </ngb-panel>
-            <ngb-panel id="mysql-summary-panel">
+            <ngb-panel *ngIf="dbServer.Subsystem === 'mysql'" id="mysql-summary-panel">
                 <ng-template ngbPanelTitle>
                     <h5>MySQL Summary</h5>
                 </ng-template>

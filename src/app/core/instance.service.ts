@@ -24,23 +24,30 @@ export class InstanceService {
   private instancesUrl = '/qan-api/instances?deleted=no';
   public dbServers: Array<Instance> = [];
   public dbServerMap: { [key: string]: Instance } = {};
-  constructor(private http: Http) {}
+  constructor(private http: Http) { }
 
- public getDBServers(): Promise<Instance[]> {
+  public getDBServers(): Promise<Instance[]> {
     return this.http.get(this.instancesUrl)
       .toPromise()
       .then(response => {
-        const agents = response.json().filter((i: Instance) => i.Subsystem === 'agent') as Instance[];
+        const agents = response.json().filter(
+          (i: Instance) => i.Subsystem === 'agent'
+        ) as Instance[];
+
         this.dbServers = (response.json().filter(
           (i: Instance) => i.Subsystem === 'mysql' || i.Subsystem === 'mongo'
         ) as Instance[]);
 
+        const agentsByParentUUID: { [key: string]: Instance } = {};
+        for (const agent of agents) {
+          agentsByParentUUID[agent.ParentUUID] = agent;
+        }
+
         for (const srv of this.dbServers) {
           this.dbServerMap[srv.Name] = srv;
+          this.dbServerMap[srv.Name].Agent = agentsByParentUUID[srv.ParentUUID];
         }
-        for (const agent of agents) {
-          this.dbServerMap[agent.Name].Agent = agent;
-        }
+
         return this.dbServers;
       })
       .catch(err => console.log(err));
