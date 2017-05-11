@@ -12,7 +12,7 @@ export class SummaryService {
 
     getServer(agentUUID: string) {
         const url = `/qan-api/agents/${agentUUID}/cmd`;
-        let params = {
+        const params = {
             AgentUUID: agentUUID,
             Service: 'agent',
             Cmd: 'GetServerSummary',
@@ -22,7 +22,7 @@ export class SummaryService {
             .put(url, params, { headers: this.headers })
             .toPromise()
             .then(response => {
-                let resp = response.json();
+                const resp = response.json();
                 if (!!resp.Error) {
                     return resp.Error === 'Executable file not found in $PATH' ? ' - Please install `pt-summary`.' : resp.Error;
                 } else {
@@ -37,7 +37,7 @@ export class SummaryService {
 
     getMySQL(agentUUID: string) {
         const url = `/qan-api/agents/${agentUUID}/cmd`;
-        let params = {
+        const params = {
             AgentUUID: agentUUID,
             Service: 'agent',
             Cmd: 'GetServerSummary',
@@ -47,7 +47,7 @@ export class SummaryService {
             .put(url, params, { headers: this.headers })
             .toPromise()
             .then(response => {
-                let resp = response.json();
+                const resp = response.json();
                 if (!!resp.Error) {
                     return resp.Error === 'Executable file not found in $PATH' ? ' - Please install `pt-mysql-summary`.' : resp.Error;
                 } else {

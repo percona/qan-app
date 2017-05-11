@@ -21,7 +21,12 @@
                 <th colspan="3" title="Latency">Latency</th>
             </tr>
         </thead>
-        <tbody>
+        <tbody *ngIf="!!noQueryError">
+            <tr>
+                <td id="query_profile_error" class="text-center" colspan="11">{{ noQueryError }}</td>
+            </tr>
+        </tbody>
+        <tbody *ngIf="!noQueryError">
             <tr *ngFor="let row of queryProfile; let i = index; let first = first;"
                 [routerLink]="['./', 'report']"
                 [queryParams]="composeQueryParamsForGrid(row.Id)"

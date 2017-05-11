@@ -182,7 +182,7 @@ export class QueryDetailsComponent extends BaseComponent {
     return `\`${item.Db}\`.\`${item.Table}\`` === this.dbTblNames;
   }
 
-  public getTableName(): string {
+  getTableName(): string {
     if (this.queryDetails.hasOwnProperty('Query')
       && this.queryDetails.Query.hasOwnProperty('Tables')
       && this.queryDetails.Query.Tables !== null

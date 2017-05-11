@@ -615,12 +615,12 @@
 </div>
 </div>
 <br />
-<div class="row">
+<div class="row" *ngIf="queryDetails?.Query?.Tables?.length">
     <div class="col-md-12">
         <div class="card w-100">
             <div class="card-block" id="db_tables_buttons">
                 <div class="card-text pt-1 pr-1">
-                    <div *ngFor="let item of queryDetails?.Query?.Tables" class="btn-group ml-1 mb-1" role="group" aria-label="Basic example">
+                    <div *ngFor="let item of queryDetails?.Query?.Tables" class="btn-group ml-1 mb-1" role="group" aria-label="Tables">
                         <button type="button" class="btn" (click)="selectTableInfo(item.Db, item.Table);" [ngClass]="isSelectedDbTbl(item) ? 'btn-success' : 'btn-outline-secondary'">
                             `{{ item.Db }}`.`{{ item.Table }}`
                         </button>

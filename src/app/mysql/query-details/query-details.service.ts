@@ -48,10 +48,17 @@ export class QueryDetailsService {
 
     constructor(private http: Http) { }
 
+    private fromAgentResponse (response) {
+        let data = null, error = null;
+        const resp = response.json();
+        if (resp.Error !== '') {}
+
+        return {data, error};
+    }
     getQueryDetails(dbServerUUID, queryUUID, begin, end: string): Promise<QueryDetails> {
         const url = `/qan-api/qan/report/${dbServerUUID}/query/${queryUUID}`;
 
-        let params = new URLSearchParams();
+        const params = new URLSearchParams();
         params.set('begin', begin);
         params.set('end', end);
 
@@ -62,11 +69,10 @@ export class QueryDetailsService {
             .catch(err => console.log(err));
     }
 
-
     getSummary(dbServerUUID: string, begin: string, end: string): Promise<QueryDetails> {
         const url = `/qan-api/qan/report/${dbServerUUID}/server-summary`;
 
-        let params = new URLSearchParams();
+        const params = new URLSearchParams();
         params.set('begin', begin);
         params.set('end', end);
 
@@ -80,7 +86,7 @@ export class QueryDetailsService {
     getTableInfo(agentUUID: string, dbServerUUID: string, dbName: string, tblName: string) {
         const url = `/qan-api/agents/${agentUUID}/cmd`;
 
-        let data = {
+        const data = {
             UUID: dbServerUUID,
             Create: [{
                 Db: dbName,
@@ -96,7 +102,7 @@ export class QueryDetailsService {
             }]
         };
 
-        let params = {
+        const params = {
             AgentUUID: agentUUID,
             Service: 'query',
             Cmd: 'TableInfo',
@@ -112,14 +118,14 @@ export class QueryDetailsService {
 
     getExplain(agentUUID: string, dbServerUUID: string, dbName: string, query: string) {
         const url = `/qan-api/agents/${agentUUID}/cmd`;
-        let data = {
+        const data = {
             UUID: dbServerUUID,
             Db: dbName,
             Query: query,
             Convert: true  // agent will convert if not SELECT and MySQL <= 5.5 or >= 5.6 but no privs
         };
 
-        let params = {
+        const params = {
             AgentUUID: agentUUID,
             Service: 'query',
             Cmd: 'Explain',

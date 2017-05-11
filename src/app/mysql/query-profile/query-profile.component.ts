@@ -23,6 +23,8 @@ export class QueryProfileComponent extends BaseComponent {
     public toDate: string;
 
     public isLoading: boolean;
+
+    public noQueryError: string;
     public momentFormatPipe = new MomentFormatPipe();
 
     constructor(protected route: ActivatedRoute, protected router: Router,
@@ -49,6 +51,10 @@ export class QueryProfileComponent extends BaseComponent {
         this.queryProfileService
             .getQueryProfile(this.dbServer.UUID, this.fromUTCDate, this.toUTCDate, this.offset, search)
             .then(data => {
+                if (data.hasOwnProperty('Error') && data['Error'] !== '') {
+                    this.isLoading = false;
+                    throw new Error('Queries are not availible.');
+                }
                 this.totalAmountOfQueries = data['TotalQueries'];
                 if (this.totalAmountOfQueries > 0) {
                     this.queryProfile = data['Query'];
@@ -59,7 +65,7 @@ export class QueryProfileComponent extends BaseComponent {
                     this.leftInDbQueries = 0;
                 }
                 this.isLoading = false;
-            });
+            }).catch(err => this.noQueryError = err.message);
     }
 
     loadMoreQueries() {
