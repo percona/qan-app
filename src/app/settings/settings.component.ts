@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
-import { Instance, InstanceService } from '../../core/instance.service';
-import { BaseComponent } from '../base.component';
+import { Instance, InstanceService } from '../core/instance.service';
+import { CoreComponent } from '../core/core.component';
 
 import * as moment from 'moment';
 import { Observable } from 'rxjs/Observable';
@@ -16,7 +16,7 @@ import { SettingsService } from './settings.service';
     styleUrls: ['./settings.component.scss'],
     providers: [SettingsService],
 })
-export class SettingsComponent extends BaseComponent {
+export class SettingsComponent extends CoreComponent {
     public agentStatus: {};
     public qanConf: {};
     public agentConf: any;

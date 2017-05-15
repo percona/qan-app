@@ -3,21 +3,21 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { DebugElement } from '@angular/core';
 
-import { MySQLComponent } from './mysql.component';
+import { MySQLQueryDetailsComponent } from './mysql-query-details.component';
 
-describe('MySQLComponent', () => {
-  let component: MySQLComponent;
-  let fixture: ComponentFixture<MySQLComponent>;
+describe('QueryDetailsComponent', () => {
+  let component: MySQLQueryDetailsComponent;
+  let fixture: ComponentFixture<MySQLQueryDetailsComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ MySQLComponent ]
+      declarations: [ MySQLQueryDetailsComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(MySQLComponent);
+    fixture = TestBed.createComponent(MySQLQueryDetailsComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

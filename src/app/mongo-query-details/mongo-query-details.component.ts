@@ -1,8 +1,8 @@
 import { Component } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
-import { Instance, InstanceService } from '../../core/instance.service';
-import { BaseComponent } from '../base.component';
-import { QueryDetailsService, QueryDetails } from './query-details.service';
+import { Instance, InstanceService } from '../core/instance.service';
+import { CoreComponent } from '../core/core.component';
+import { MongoQueryDetailsService, QueryDetails } from './mongo-query-details.service';
 import * as hljs from 'highlight.js';
 import * as vkbeautify from 'vkbeautify';
 import * as moment from 'moment';
@@ -13,7 +13,7 @@ import * as moment from 'moment';
   templateUrl: './query-details.component.html',
   styleUrls: ['./query-details.component.scss']
 })
-export class QueryDetailsComponent extends BaseComponent {
+export class MongoQueryDetailsComponent extends CoreComponent {
 
   protected queryID: string;
   protected queryDetails: QueryDetails;
@@ -32,7 +32,7 @@ export class QueryDetailsComponent extends BaseComponent {
   isTableInfoLoading: boolean;
 
   constructor(protected route: ActivatedRoute, protected router: Router,
-    protected instanceService: InstanceService, protected queryDetailsService: QueryDetailsService) {
+    protected instanceService: InstanceService, protected queryDetailsService: MongoQueryDetailsService) {
     super(route, router, instanceService);
   }
 

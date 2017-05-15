@@ -1,16 +1,16 @@
 /* tslint:disable:no-unused-variable */
 
 import { TestBed, async, inject } from '@angular/core/testing';
-import { QueryDetailsService } from './query-details.service';
+import { MySQLQueryDetailsService } from './mysql-query-details.service';
 
 describe('QueryDetailsService', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
-      providers: [QueryDetailsService]
+      providers: [MySQLQueryDetailsService]
     });
   });
 
-  it('should ...', inject([QueryDetailsService], (service: QueryDetailsService) => {
+  it('should ...', inject([MySQLQueryDetailsService], (service: MySQLQueryDetailsService) => {
     expect(service).toBeTruthy();
   }));
 });

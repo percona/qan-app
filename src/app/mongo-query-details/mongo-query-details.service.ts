@@ -42,7 +42,7 @@ export interface ServerSummary {
 };
 
 @Injectable()
-export class QueryDetailsService {
+export class MongoQueryDetailsService {
 
     private headers = new Headers({ 'Content-Type': 'application/json' });
 

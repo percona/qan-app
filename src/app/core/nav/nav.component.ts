@@ -1,9 +1,9 @@
 import 'rxjs/add/operator/filter';
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnDestroy } from '@angular/core';
 import { Instance, InstanceService } from '../../core/instance.service';
 import { ParseQueryParamDatePipe } from '../../shared/parse-query-param-date.pipe';
 import { MomentFormatPipe } from 'app/shared/moment-format.pipe';
-import { QueryParams, BaseComponent } from '../../mysql/base.component';
+import { QueryParams, CoreComponent } from '../core.component';
 import { Router, ActivatedRoute, NavigationEnd } from '@angular/router';
 import { Subscription } from 'rxjs/Subscription';
 import * as moment from 'moment';
@@ -14,7 +14,7 @@ import * as moment from 'moment';
   templateUrl: 'nav.component.html',
   styleUrls: ['nav.component.scss']
 })
-export class NavComponent extends BaseComponent implements OnInit, OnDestroy {
+export class NavComponent extends CoreComponent implements OnDestroy {
   protected routerSubscription: Subscription;
   private alertSubscription: Subscription;
   public alert: string;

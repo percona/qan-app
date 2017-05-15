@@ -11,12 +11,25 @@ import { NavComponent } from './nav/nav.component';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 // import { QanErrorHandler } from './qan-error.handler';
 import { InstanceService } from './instance.service';
+import { CoreComponent } from './core.component';
+
+import { QueryProfileComponent } from '../query-profile/query-profile.component';
+import { QueryProfileService } from '../query-profile/query-profile.service';
+import { MySQLQueryDetailsComponent } from '../mysql-query-details/mysql-query-details.component';
+import { MySQLQueryDetailsService } from '../mysql-query-details/mysql-query-details.service';
+import { SummaryComponent } from '../summary/summary.component';
+import { SummaryService } from '../summary/summary.service';
+import { SettingsComponent } from '../settings/settings.component';
+import { SettingsService } from '../settings/settings.service';
 
 @NgModule({
     imports: [CommonModule, SharedModule],
-    declarations: [NavComponent, PageNotFoundComponent],
-    exports: [NavComponent, PageNotFoundComponent],
-    providers: [InstanceService]
+    declarations: [NavComponent, PageNotFoundComponent, QueryProfileComponent,
+        MySQLQueryDetailsComponent, SummaryComponent, SettingsComponent],
+    exports: [NavComponent, PageNotFoundComponent, QueryProfileComponent,
+        MySQLQueryDetailsComponent, SummaryComponent, SettingsComponent],
+    providers: [InstanceService, QueryProfileService, MySQLQueryDetailsService,
+        SummaryService, SettingsService]
 })
 export class CoreModule {
 

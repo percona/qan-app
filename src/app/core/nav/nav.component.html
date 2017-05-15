@@ -98,9 +98,11 @@
 						<a class="list-group-item list-group-item-action" href="javascript:void(0);" (click)="setQuickRange(1, 'd'); $event.stopPropagation(); timeRangeDrop.close();">Last 1 day</a>
 						<a class="list-group-item list-group-item-action" href="javascript:void(0);" (click)="setQuickRange(5, 'd'); $event.stopPropagation(); timeRangeDrop.close();">Last 5 days</a>
 					</div>
-					<div class="col-md-3 btn-group" role="group" aria-label="Time zone">
-						<button type="button" class="btn btn-secondary" [ngClass]="{'active': timezone === 'local'}" (click)="setTimeZone('local')">Local timezone</button>
-						<button type="button" class="btn btn-secondary" [ngClass]="{'active': timezone === 'utc'}" (click)="setTimeZone('utc')">UTC</button>
+					<div class="col-md-3">
+						<div class="btn-group" role="group" aria-label="Time zone">
+							<button type="button" class="btn btn-secondary" [ngClass]="{'active': timezone === 'local'}" (click)="setTimeZone('local')">Local timezone</button>
+							<button type="button" class="btn btn-secondary" [ngClass]="{'active': timezone === 'utc'}" (click)="setTimeZone('utc')">UTC</button>
+						</div>
 					</div>
 				</div>
 			</div>

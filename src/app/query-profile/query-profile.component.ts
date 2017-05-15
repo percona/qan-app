@@ -1,6 +1,6 @@
-import { BaseComponent, QueryParams } from '../base.component';
+import { CoreComponent, QueryParams } from '../core/core.component';
 import { Component } from '@angular/core';
-import { Instance, InstanceService } from '../../core/instance.service';
+import { Instance, InstanceService } from '../core/instance.service';
 import { QueryProfileService } from './query-profile.service';
 import { Router, ActivatedRoute } from '@angular/router';
 import * as moment from 'moment';
@@ -10,7 +10,7 @@ import { MomentFormatPipe } from 'app/shared/moment-format.pipe';
     moduleId: module.id,
     templateUrl: 'query-profile.component.html',
 })
-export class QueryProfileComponent extends BaseComponent {
+export class QueryProfileComponent extends CoreComponent {
 
     public queryProfile: Array<{}>;
     public profileTotal;

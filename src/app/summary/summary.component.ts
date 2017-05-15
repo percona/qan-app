@@ -1,9 +1,9 @@
 import { Component } from '@angular/core';
 import { Router, ActivatedRoute, Params } from '@angular/router';
 
-import { BaseComponent } from '../base.component';
+import { CoreComponent } from '../core/core.component';
 import { SummaryService } from './summary.service';
-import { Instance, InstanceService } from '../../core/instance.service';
+import { Instance, InstanceService } from '../core/instance.service';
 
 /**
  * Shows MySQL and Server Summary
@@ -14,7 +14,7 @@ import { Instance, InstanceService } from '../../core/instance.service';
   templateUrl: './summary.component.html',
   styleUrls: ['./summary.component.scss']
 })
-export class SummaryComponent extends BaseComponent {
+export class SummaryComponent extends CoreComponent {
 
     public serverSummary: string;
     public mysqlSummary: string;

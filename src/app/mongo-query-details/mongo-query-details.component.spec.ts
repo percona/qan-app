@@ -3,21 +3,21 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { DebugElement } from '@angular/core';
 
-import { QueryDetailsComponent } from './query-details.component';
+import { MongoQueryDetailsComponent } from './mongo-query-details.component';
 
 describe('QueryDetailsComponent', () => {
-  let component: QueryDetailsComponent;
-  let fixture: ComponentFixture<QueryDetailsComponent>;
+  let component: MongoQueryDetailsComponent;
+  let fixture: ComponentFixture<MongoQueryDetailsComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ QueryDetailsComponent ]
+      declarations: [ MongoQueryDetailsComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(QueryDetailsComponent);
+    fixture = TestBed.createComponent(MongoQueryDetailsComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

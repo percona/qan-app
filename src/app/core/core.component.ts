@@ -14,7 +14,7 @@ export interface QueryParams {
     queryID?: string;
 }
 
-export class BaseComponent implements OnInit, OnDestroy {
+export class CoreComponent implements OnInit, OnDestroy {
 
     protected routerSubscription: Subscription;
     public queryParams: QueryParams;
