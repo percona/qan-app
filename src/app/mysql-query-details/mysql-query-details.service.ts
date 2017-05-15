@@ -48,13 +48,6 @@ export class MySQLQueryDetailsService {
 
     constructor(private http: Http) { }
 
-    private fromAgentResponse (response) {
-        let data = null, error = null;
-        const resp = response.json();
-        if (resp.Error !== '') {}
-
-        return {data, error};
-    }
     getQueryDetails(dbServerUUID, queryUUID, begin, end: string): Promise<QueryDetails> {
         const url = `/qan-api/qan/report/${dbServerUUID}/query/${queryUUID}`;
 

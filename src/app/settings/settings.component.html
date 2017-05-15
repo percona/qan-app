@@ -25,7 +25,7 @@
                                 </div>
                             </div>
 
-                            <div *ngIf="dbServer.Subsystem === 'mysql'" class="form-group row">
+                            <div class="form-group row">
                                 <label for="inputInterval" class="col-sm-3 col-form-label">Collect interval</label>
                                 <div class="col-sm-2">
                                     <input class="form-control" type="number" min="1" max="60" id="inputInterval" name="interval" aria-describedby="intervalHelpBlock"
@@ -36,7 +36,7 @@
                                 </div>
                             </div>
 
-                            <div *ngIf="dbServer.Subsystem === 'mysql'" class="form-group row">
+                            <div class="form-group row">
                                 <div class="offset-sm-3 col-sm-7">
                                     <label class="form-check-label">
                                         <input type="checkbox" [(ngModel)]="exampleQueries" [ngModelOptions]="{standalone: true}" class="form-check-input">
@@ -57,7 +57,7 @@
                                 </div>
                             </div>
 
-                            <div *ngIf="dbServer.Subsystem === 'mysql'"  class="form-group row">
+                            <div class="form-group row">
                                 <div class="offset-sm-3 col-sm-4">
                                     <button id="settings_apply_button" type="submit" (click)="setAgentDefaults()" class="btn btn-outline-primary">
                                         <i class="fa fa-check"></i>Apply

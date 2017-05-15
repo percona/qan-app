@@ -28,12 +28,12 @@
         </tbody>
         <tbody *ngIf="!noQueryError">
             <tr *ngFor="let row of queryProfile; let i = index; let first = first;"
-                [routerLink]="['./', 'report']"
+                [routerLink]="['./', 'report', dbServer.Subsystem]"
                 [queryParams]="composeQueryParamsForGrid(row.Id)"
                 routerLinkActive="table-success">
                 <td class="text-xs-right">{{ i || '' }}</td>
                 <td>
-                    <a [routerLink]="['./', 'report']"
+                    <a [routerLink]="['./', 'report', dbServer.Subsystem]"
                        [queryParams]="composeQueryParamsForGrid(row.Id)"
                        href="javascript:void(0);" title="{{ row.Fingerprint }}">
                        {{ ((row.Abstract ? row.Abstract : 'TOTAL') | slice:0:22) + (row.Abstract.length > 22 ? '...' : '') }}
