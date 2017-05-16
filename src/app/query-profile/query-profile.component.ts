@@ -9,6 +9,7 @@ import { MomentFormatPipe } from 'app/shared/moment-format.pipe';
 @Component({
     moduleId: module.id,
     templateUrl: 'query-profile.component.html',
+    styleUrls: ['./query-profile.component.scss'],
 })
 export class QueryProfileComponent extends CoreComponent {
 

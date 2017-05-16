@@ -1,0 +1,17 @@
+.query-profile-table {
+    table-layout: fixed;
+}
+
+.smart-id {
+    width: 3em;
+    overflow:hidden;
+    text-overflow:ellipsis;
+}
+
+.smart-id>span:focus, .smart-id>span:hover {
+    overflow: visible;
+    display: inline-block;
+    position: absolute;
+    z-index: 999;
+    background: whitesmoke;
+}

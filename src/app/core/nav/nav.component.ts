@@ -25,14 +25,26 @@ export class NavComponent extends CoreComponent implements OnDestroy {
 
   public timezone: string;
 
+  public fromDateCompact: string;
+
+  public toDateCompact: string;
+  public momentFormatPipe = new MomentFormatPipe();
+
+  private compactDateFormat = 'lll';
+
   public constructor(route: ActivatedRoute, router: Router, instanceService: InstanceService) {
     super(route, router, instanceService);
-    const momentFormatPipe = new MomentFormatPipe();
-    this.timezone = momentFormatPipe.getCookie('timezone') || 'local';
+    this.timezone = this.momentFormatPipe.getCookie('timezone') || 'local';
   }
 
   onChangeParams(params) {
-    console.log('onChangeParams', params);
+    this.fromDateCompact = this.momentFormatPipe.transform(this.from, this.compactDateFormat);
+    this.toDateCompact = this.momentFormatPipe.transform(this.to, this.compactDateFormat);
+    this.isExtHidden = false;
+    if (this.router.url.startsWith('/sys-summary') ||
+        this.router.url.startsWith('/settings')) {
+          this.isExtHidden = true;
+    }
   }
 
   closeAlert() {
