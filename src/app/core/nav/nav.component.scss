@@ -1,13 +1,29 @@
-.scrollable-list {
-    margin: 0;
-    padding: 0;
-    min-width: 600px;
-    max-width: 900px;
-    max-height:70vh;
-    overflow:scroll;
-}
-
 .img-db {
     width: 16px;
     height: 16px;
+}
+
+@media screen {
+    .scrollable-list {
+        margin: 0;
+        padding: 0;
+        min-width: 600px;
+        max-width: 900px;
+        max-height:70vh;
+        overflow:scroll;
+    }
+
+    .printable-header {
+    display: none;
+        }
+}
+
+@media print {
+    nav {
+        display: none;
+    }
+
+    .printable-header {
+        display: block;
+    }
 }

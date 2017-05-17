@@ -102,3 +102,9 @@
 		</span>
 	</div>
 </nav>
+
+<span class="printable-header">
+	<h2>Instance: {{ dbServer?.Name }}</h2>
+	<h3>DSN: {{ dbServer?.DSN?.split('/?')[0] }}</h3>
+	<h3>Version: {{ dbServer?.Version }} {{ dbServer?.Distro }}</h3>
+</span>

@@ -5,16 +5,6 @@ body {
     /* background-image: url(assets/background.png); */
 }
 
-footer {
-    height: 30px;
-    background-image: url(assets/pmm-logo.svg);
-    background-repeat: no-repeat;
-    background-position-x: 97%;
-    background-size: 2%;
-    filter: invert(100%);
-    -webkit-filter: invert(100%);
-}
-
 .logo-img-mobile {
     display: block;
     position: absolute;
@@ -24,6 +14,7 @@ footer {
     background-size: 100px;
     background-repeat: no-repeat;
 }
+
 .logo-text-mobile {
     font-size: 7pt;
     position: absolute;
@@ -39,6 +30,7 @@ footer {
     background-size: 100px;
     background-repeat: no-repeat;
 }
+
 .logo-text {
     font-size: 7pt;
     position: absolute;
@@ -92,14 +84,6 @@ div[hljs] > pre {
     z-index: 1050;
 }
 
-/*
-div.tab-pane.ng-scope.active {
-    border-bottom: 1px #ddd solid;
-    border-left: 1px #ddd solid;
-    border-right: 1px #ddd solid;
-}
-*/
-
 .glyphicon-spin {
     font-size: 4em;
     -webkit-animation: spin 1000ms infinite linear;
@@ -131,13 +115,6 @@ div.popover {
     max-width:600px;
 }
 
-.gold-mark {
-    border-right: 1px solid gold;
-    width: 5px;
-    height: 50px;
-    position: absolute;
-}
-
 .text-bigger {
     font-size: 15px;
 }
@@ -159,15 +136,6 @@ legend {
     font-size: 14px;
 }
 
-.pinned {
-    filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=1);
-    -webkit-transform: rotate(-45deg);
-    -moz-transform: rotate(-45deg);
-    -ms-transform: rotate(-45deg);
-    -o-transform: rotate(-45deg);
-    transform: rotate(-45deg);
-}
-
 table.metrics td span.sum {
     min-width: 20%;
     display: inline-block;
@@ -182,19 +150,6 @@ table.metrics td span.sum {
 .table-bordered>thead>tr>th.no-left-border,
 .table-bordered>tbody>tr>td.no-left-border {
     border-left-style: none;
-}
-
-/* overwrite bootstap */
-.nav-tabs {
-    border-bottom: none;
-}
-
-
-@media print {
-/* FIXME: rid pagebrakes for media print*/
-  body * {
-    page-break-before: avoid;
-  }
 }
 
 .card-header > h5 {
@@ -434,4 +389,17 @@ div.app-tooltip:hover::before {
 .loading-in-front {
     @extend .loading;
     position: absolute;
+}
+
+
+@media print {
+
+    /* FIXME: rid pagebrakes for media print*/
+    body * {
+        page-break-before: avoid;
+    }
+
+    h1::first-letter {
+        margin-top: -10px;
+    }
 }

@@ -522,9 +522,9 @@
 
 <hr />
 <div class="row">
-    <div class="col-md-2">
+    <span class="col-md-2">
         <h3 class="d-inline">EXPLAIN</h3>
-    </div>
+    </span>
     <div class="col-md-10">
         <form class="form-inline pull-right">
             <div class="input-group">
@@ -535,10 +535,10 @@
                     placeholder="`database-name`">
                 <span class="input-group-btn">
                     <button class="btn btn-secondary" style="width: 8em" (click)="getExplain();" type="submit">EXPLAIN</button>
-</span>
-</div>
-</form>
-</div>
+                </span>
+            </div>
+        </form>
+    </div>
 </div>
 <br />
 <ngb-accordion activeIds="classic-explain">
@@ -598,9 +598,9 @@
 
 <hr />
 <div class="row">
-    <div class="col-md-2">
+    <span class="col-md-2">
         <h3 class="d-inline">TABLES</h3>
-    </div>
+    </span>
     <div class="col-md-10">
         <form class="form-inline pull-right" (submit)="addDBTable();">
             <label for="dbTblNamesInput">DB and table</label>
