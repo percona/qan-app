@@ -6,10 +6,12 @@
                     <h5>System Summary</h5>
                 </ng-template>
                 <ng-template ngbPanelContent>
-                    <pre *ngIf="serverSummary; else loading" style="margin: 1rem">{{ serverSummary }}</pre>
-                    <ng-template #loading>
-                        <i class="fa fa-spinner fa-pulse fa-3x fa-fw loading"></i>
-                    </ng-template>
+                    <pre *ngIf="!serverSummaryLoader && serverSummary" style="margin: 1rem">{{ serverSummary }}</pre>
+                    <i *ngIf="serverSummaryLoader" class="fa fa-spinner fa-pulse fa-3x fa-fw loading"></i>
+                    <div *ngIf="!serverSummaryLoader && serverSummaryError" class="alert alert-warning w-75 mx-auto m-2" role="alert">
+                        <i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
+                        {{ serverSummaryError }}
+                    </div>
                 </ng-template>
             </ngb-panel>
             <ngb-panel *ngIf="dbServer.Subsystem === 'mysql'" id="mysql-summary-panel">
@@ -17,10 +19,25 @@
                     <h5>MySQL Summary</h5>
                 </ng-template>
                 <ng-template ngbPanelContent>
-                    <pre *ngIf="mysqlSummary; else loading" style="margin: 1rem">{{ mysqlSummary }}</pre>
-                    <ng-template #loading>
-                        <i class="fa fa-spinner fa-pulse fa-3x fa-fw loading"></i>
-                    </ng-template>
+                    <pre *ngIf="!mysqlSummaryLoader && mysqlSummary" style="margin: 1rem">{{ mysqlSummary }}</pre>
+                    <i *ngIf="mysqlSummaryLoader" class="fa fa-spinner fa-pulse fa-3x fa-fw loading"></i>
+                    <div *ngIf="!mysqlSummaryLoader && mysqlSummaryError" class="alert alert-warning w-75 mx-auto m-2" role="alert">
+                        <i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
+                        {{ mysqlSummaryError }}
+                    </div>
+                </ng-template>
+            </ngb-panel>
+            <ngb-panel *ngIf="dbServer.Subsystem === 'mongo'" id="mysql-summary-panel">
+                <ng-template ngbPanelTitle>
+                    <h5>MongoDB Summary</h5>
+                </ng-template>
+                <ng-template ngbPanelContent>
+                    <pre *ngIf="!mongoSummaryLoader && mongoSummary" style="margin: 1rem">{{ mongoSummary }}</pre>
+                    <i *ngIf="mongoSummaryLoader" class="fa fa-spinner fa-pulse fa-3x fa-fw loading"></i>
+                    <div *ngIf="!mongoSummaryLoader && mongoSummaryError" class="alert alert-warning w-75 mx-auto m-2" role="alert">
+                        <i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
+                        {{ mongoSummaryError }}
+                    </div>
                 </ng-template>
             </ngb-panel>
         </ngb-accordion>

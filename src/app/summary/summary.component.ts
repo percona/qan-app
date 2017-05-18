@@ -18,6 +18,15 @@ export class SummaryComponent extends CoreComponent {
 
     public serverSummary: string;
     public mysqlSummary: string;
+    public mongoSummary: string;
+
+    public serverSummaryError: string;
+    public mysqlSummaryError: string;
+    public mongoSummaryError: string;
+
+    public serverSummaryLoader: boolean;
+    public mysqlSummaryLoader: boolean;
+    public mongoSummaryLoader: boolean;
 
     constructor(protected route: ActivatedRoute, protected router: Router,
         protected summaryService: SummaryService, protected instanceService: InstanceService) {
@@ -31,7 +40,9 @@ export class SummaryComponent extends CoreComponent {
     getServerSummary(agentUUID: string): void {
         this.summaryService
             .getServer(agentUUID)
-            .then(data => this.serverSummary = data);
+            .then(data => this.serverSummary = data)
+            .catch(err => this.serverSummaryError = err.message)
+            .then(() => this.serverSummaryLoader = false);
     }
 
     /**
@@ -41,7 +52,21 @@ export class SummaryComponent extends CoreComponent {
     getMySQLSummary(agentUUID: string): void {
         this.summaryService
             .getMySQL(agentUUID)
-            .then(data => this.mysqlSummary = data);
+            .then(data => this.mysqlSummary = data)
+            .catch(err => this.mysqlSummaryError = err.message)
+            .then(() => this.mysqlSummaryLoader = false);
+    }
+
+     /**
+     * Gets MongoDB summary via API, Agent from `pt-mongodb-summary`.
+     * @param agentUUID agent UUID that is monitoring MongoDB Server.
+     */
+    getMongoSummary(agentUUID: string): void {
+        this.summaryService
+            .getMongo(agentUUID)
+            .then(data => this.mongoSummary = data)
+            .catch(err => this.mongoSummaryError = err.message)
+            .then(() => this.mongoSummaryLoader = false);
     }
 
     /**
@@ -51,12 +76,22 @@ export class SummaryComponent extends CoreComponent {
      */
     onChangeParams(params) {
         // to initalise loader when host was changed
-        this.mysqlSummary = '';
-        this.serverSummary = '';
+        this.mysqlSummary = '',
+        this.mongoSummary = '',
+        this.serverSummary = '',
+        this.mysqlSummaryError = '',
+        this.mongoSummaryError = '',
+        this.serverSummaryError = '';
+        this.mysqlSummaryLoader = true,
+        this.mongoSummaryLoader = true,
+        this.serverSummaryLoader = true;
 
         this.getServerSummary(this.agent.UUID);
         if (this.dbServer.Subsystem === 'mysql') {
             this.getMySQLSummary(this.agent.UUID);
+        }
+        if (this.dbServer.Subsystem === 'mongo') {
+            this.getMongoSummary(this.agent.UUID)
         }
     }
 }

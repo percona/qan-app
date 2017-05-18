@@ -58,8 +58,7 @@ export class MySQLQueryDetailsService {
         return this.http
             .get(url, { headers: this.headers, search: params })
             .toPromise()
-            .then(response => response.json() as QueryDetails)
-            .catch(err => console.log(err));
+            .then(response => response.json() as QueryDetails);
     }
 
     getSummary(dbServerUUID: string, begin: string, end: string): Promise<QueryDetails> {
@@ -72,8 +71,7 @@ export class MySQLQueryDetailsService {
         return this.http
             .get(url, { headers: this.headers, search: params })
             .toPromise()
-            .then(response => response.json() as ServerSummary)
-            .catch(err => console.log(err));
+            .then(response => response.json() as ServerSummary);
     }
 
     getTableInfo(agentUUID: string, dbServerUUID: string, dbName: string, tblName: string) {
@@ -105,8 +103,7 @@ export class MySQLQueryDetailsService {
         return this.http
             .put(url, params)
             .toPromise()
-            .then(response => JSON.parse(atob(response.json().Data)))
-            .catch(err => console.error(err));
+            .then(response => JSON.parse(atob(response.json().Data)));
     }
 
     getExplain(agentUUID: string, dbServerUUID: string, dbName: string, query: string) {
@@ -128,8 +125,7 @@ export class MySQLQueryDetailsService {
         return this.http
             .put(url, params)
             .toPromise()
-            .then(response => JSON.parse(atob(response.json().Data)))
-            .catch(err => console.error(err));
+            .then(response => JSON.parse(atob(response.json().Data)));
     }
 
     updateTables(queryID: string, dbTables: Array<{}>) {
@@ -137,7 +133,6 @@ export class MySQLQueryDetailsService {
         return this.http
             .put(url, dbTables)
             .toPromise()
-            .then(resp => console.log(resp))
-            .catch(err => console.error(err));
+            .then(resp => console.log(resp));
     }
 }

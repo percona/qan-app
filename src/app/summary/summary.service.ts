@@ -21,18 +21,24 @@ export class SummaryService {
         return this.http
             .put(url, params, { headers: this.headers })
             .toPromise()
-            .then(response => {
-                const resp = response.json();
-                if (!!resp.Error) {
-                    return resp.Error === 'Executable file not found in $PATH' ? ' - Please install `pt-summary`.' : resp.Error;
-                } else {
-                    let str = window.atob(resp.Data);
-                    str = str.replace(/\\n/g, '\n');
-                    str = str.replace(/\\t/g, '\t');
-                    return str.slice(1, -1);
+            .then(response => response.json())
+            .then(resp => {
+                // if not error - continue
+                if (!resp.Error) {
+                    return resp;
                 }
+                let err = resp.Error;
+                if (resp.Error === 'Executable file not found in $PATH') {
+                    err = ' - Please install `pt-summary`.';
+                }
+                throw new Error(err);
             })
-            .catch(err => console.error(err.Error));
+            .then(resp => {
+                let str = window.atob(resp.Data);
+                str = str.replace(/\\n/g, '\n');
+                str = str.replace(/\\t/g, '\t');
+                return str.slice(1, -1);
+            });
     }
 
     getMySQL(agentUUID: string) {
@@ -40,26 +46,63 @@ export class SummaryService {
         const params = {
             AgentUUID: agentUUID,
             Service: 'agent',
-            Cmd: 'GetServerSummary',
+            Cmd: 'GetMySQLSummary',
         };
 
         return this.http
             .put(url, params, { headers: this.headers })
             .toPromise()
-            .then(response => {
-                const resp = response.json();
-                if (!!resp.Error) {
-                    return resp.Error === 'Executable file not found in $PATH' ? ' - Please install `pt-mysql-summary`.' : resp.Error;
-                } else {
-                    let str = window.atob(resp.Data);
-                    str = str.replace(/\\n/g, '\n');
-                    str = str.replace(/\\t/g, '\t');
-                    return str.slice(1, -1);
+            .then(response => response.json())
+            .then(resp => {
+                // if not error - continue
+                if (!resp.Error) {
+                    return resp;
                 }
-
+                let err = resp.Error;
+                if (resp.Error === 'Executable file not found in $PATH') {
+                    err = ' - Please install `pt-mysql-summary`.';
+                }
+                throw new Error(err);
             })
-            .catch(err => {
-                console.log(err);
+            .then(resp => {
+                let str = window.atob(resp.Data);
+                str = str.replace(/\\n/g, '\n');
+                str = str.replace(/\\t/g, '\t');
+                return str.slice(1, -1);
+            });
+    }
+
+    getMongo(agentUUID: string) {
+        const url = `/qan-api/agents/${agentUUID}/cmd`;
+        const params = {
+            AgentUUID: agentUUID,
+            Service: 'agent',
+            Cmd: 'GetMongoSummary',
+        };
+
+        return this.http
+            .put(url, params, { headers: this.headers })
+            .toPromise()
+            .then(response => response.json())
+            .then(resp => {
+                // if not error - continue
+                if (!resp.Error) {
+                    return resp;
+                }
+                let err = resp.Error;
+                if (resp.Error === 'Executable file not found in $PATH') {
+                    err = ' - Please install `pt-mongodb-summary`.';
+                }
+                if (resp.Error === 'Unknown command: GetMongoSummary') {
+                    err += ' - Please update your `pmm-client`.';
+                }
+                throw new Error(err);
+            })
+            .then(resp => {
+                let str = window.atob(resp.Data);
+                str = str.replace(/\\n/g, '\n');
+                str = str.replace(/\\t/g, '\t');
+                return str.slice(1, -1);
             });
     }
 }

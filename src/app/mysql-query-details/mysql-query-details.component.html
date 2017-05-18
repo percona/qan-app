@@ -639,7 +639,11 @@
         </ng-template>
         <ng-template ngbPanelContent>
             <i *ngIf="isTableInfoLoading" class="fa fa-spinner fa-pulse fa-3x fa-fw loading"></i>
-            <pre *ngIf="!isTableInfoLoading" style="margin: 1rem"><code [innerHTML]="createTable" id="table_create"></code></pre>
+            <div *ngIf="!isTableInfoLoading && createTableError" class="alert alert-warning w-75 mx-auto m-2" role="alert">
+                        <i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
+                        {{ createTableError }}
+            </div>
+            <pre *ngIf="!isTableInfoLoading && createTable" style="margin: 1rem"><code [innerHTML]="createTable" id="table_create"></code></pre>
 </ng-template>
 </ngb-panel>
 
@@ -649,7 +653,11 @@
     </ng-template>
     <ng-template ngbPanelContent>
         <i *ngIf="isTableInfoLoading" class="fa fa-spinner fa-pulse fa-3x fa-fw loading"></i>
-        <table *ngIf="!isTableInfoLoading" class="table table-bordered table-hover table-sm ma-0">
+        <div *ngIf="!isTableInfoLoading && !!statusTableError" class="alert alert-warning w-75 mx-auto m-2" role="alert">
+                        <i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
+                        {{ statusTableError }}
+        </div>
+        <table *ngIf="!isTableInfoLoading && !statusTableError" class="table table-bordered table-hover table-sm ma-0">
             <thead>
                 <tr>
                     <th>Name</th>
@@ -679,7 +687,11 @@
     </ng-template>
     <ng-template ngbPanelContent>
         <i *ngIf="isTableInfoLoading" class="fa fa-spinner fa-pulse fa-3x fa-fw loading"></i>
-        <table *ngIf="!isTableInfoLoading" class="table table-bordered table-hover table-sm ma-0">
+        <div *ngIf="!isTableInfoLoading && !!indexTableError" class="alert alert-warning w-75 mx-auto m-2" role="alert">
+                        <i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
+                        {{ indexTableError }}
+        </div>
+        <table *ngIf="!isTableInfoLoading && !indexTableError" class="table table-bordered table-hover table-sm ma-0">
             <thead>
                 <tr>
                     <th>KeyName </th>

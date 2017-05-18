@@ -7,6 +7,7 @@ import * as hljs from 'highlight.js';
 import * as vkbeautify from 'vkbeautify';
 import * as moment from 'moment';
 
+
 @Component({
   moduleId: module.id,
   selector: 'app-query-details',
@@ -30,6 +31,10 @@ export class MySQLQueryDetailsComponent extends CoreComponent {
   isLoading: boolean;
   isExplainLoading: boolean;
   isTableInfoLoading: boolean;
+
+  createTableError: string;
+  statusTableError: string;
+  indexTableError: string;
 
   constructor(protected route: ActivatedRoute, protected router: Router,
     protected instanceService: InstanceService, protected queryDetailsService: MySQLQueryDetailsService) {
@@ -118,18 +123,32 @@ export class MySQLQueryDetailsComponent extends CoreComponent {
 
     this.queryDetailsService.getTableInfo(agentUUID, dbServerUUID, dbName, tblName)
       .then(data => {
-        try {
-          this.tableInfo = data[`${dbName}.${tblName}`];
-          this.createTable = hljs.highlight('sql', this.tableInfo.Create).value;
-        } catch (err) {
-          this.createTable = 'Unavailable';
-          console.error('Unable to parce table info');
+        const info = data[`${dbName}.${tblName}`];
+        if (info.hasOwnProperty('Errors') && info['Errors'].length > 0) {
+          throw info['Errors'];
         }
-        this.isTableInfoLoading = false;
-      }).catch(err => {
-        console.error(err);
-        this.isTableInfoLoading = false;
-      });
+        this.tableInfo = info;
+        this.createTable = hljs.highlight('sql', this.tableInfo.Create).value;
+      })
+      .catch(errors => {
+          for (const err of errors) {
+            if (err.startsWith('SHOW TABLE STATUS')) {
+              this.statusTableError = err;
+            }
+            if (err.startsWith('SHOW INDEX FROM')) {
+              this.indexTableError = err;
+            }
+            if (err.startsWith('SHOW CREATE TABLE')) {
+              this.createTableError = err;
+            }
+          }
+
+      })
+      // .then(data => this.tableInfo = data)
+      // .catch(err => this.indexTableError = this.statusTableError = 'Unavailable.')
+      // .then(() => this.createTable = hljs.highlight('sql', this.tableInfo.Create).value)
+      // .catch(err => this.createTableError = 'Unavailable.')
+      .then(() => this.isTableInfoLoading = false);
   }
 
   selectTableInfo(dbName: string, tblName: string) {

@@ -4,13 +4,23 @@
         table-layout: fixed;
     }
 
-    .smart-id {
-        width: 3em;
-        overflow:hidden;
-        text-overflow:ellipsis;
+    .smart-query-abstract {
+        width: 14em;
+        white-space: nowrap;
     }
 
-    .smart-id>span:focus, .smart-id>span:hover {
+    .smart-id {
+        width: 3em;
+    }
+
+    .cell-overlay {
+        overflow:hidden;
+        text-overflow:ellipsis;
+        white-space: nowrap;
+    }
+
+    .cell-overlay>span:focus, .cell-overlay>span:hover {
+        padding: 0 15px 0 0;
         overflow: visible;
         display: inline-block;
         position: absolute;

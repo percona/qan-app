@@ -32,14 +32,16 @@
                 [queryParams]="composeQueryParamsForGrid(row.Id)"
                 routerLinkActive="table-success">
                 <td class="text-xs-right">{{ i || '' }}</td>
-                <td>
-                    <a [routerLink]="['./', 'report', dbServer.Subsystem]"
-                       [queryParams]="composeQueryParamsForGrid(row.Id)"
-                       href="javascript:void(0);" title="{{ row.Fingerprint }}">
-                       {{ ((row.Abstract ? row.Abstract : 'TOTAL') | slice:0:22) + (row.Abstract.length > 22 ? '...' : '') }}
-                    </a>
+                <td class="smart-query-abstact cell-overlay">
+                    <span tabindex="0">
+                        <a [routerLink]="['./', 'report', dbServer.Subsystem]"
+                        [queryParams]="composeQueryParamsForGrid(row.Id)"
+                        href="javascript:void(0);" title="{{ row.Fingerprint }}">
+                        {{ row.Abstract ? row.Abstract : 'TOTAL' }}
+                        </a>
+                    </span>
                 </td>
-                <td title="{{ row.Id }}" class="smart-id"><span tabindex="0">{{ row.Id }}</span></td>
+                <td title="{{ row.Id }}" class="smart-id cell-overlay"><span tabindex="0">{{ row.Id }}</span></td>
                 <td class="no-right-border" style="width: 6em;">
                     <div class="scaling-svg-container app-tooltip" [appLoadSparklines]="row.Log" data-tooltip="Loading..."
                          xkey="Start_ts" ykey="Query_time_sum" measurement="number"></div>
