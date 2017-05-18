@@ -40,7 +40,8 @@ export class QueryProfileComponent extends CoreComponent {
         if (!this.previousQueryParams ||
             this.previousQueryParams['var-host'] !== this.queryParams['var-host'] ||
             this.previousQueryParams.from !== this.queryParams.from ||
-            this.previousQueryParams.to !== this.queryParams.to) {
+            this.previousQueryParams.to !== this.queryParams.to ||
+            this.previousQueryParams.search !== this.queryParams.search) {
             this.loadQueries();
         }
     }

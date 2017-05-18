@@ -36,6 +36,9 @@ export class MySQLQueryDetailsComponent extends CoreComponent {
   statusTableError: string;
   indexTableError: string;
 
+  jsonExplainError: string;
+  classicExplainError: string;
+
   constructor(protected route: ActivatedRoute, protected router: Router,
     protected instanceService: InstanceService, protected queryDetailsService: MySQLQueryDetailsService) {
     super(route, router, instanceService);
@@ -89,6 +92,8 @@ export class MySQLQueryDetailsComponent extends CoreComponent {
     this.isExplainLoading = true;
     const agentUUID = this.dbServer.Agent.UUID;
     const dbServerUUID = this.dbServer.UUID;
+    this.classicExplainError = '';
+    this.jsonExplainError = '';
     if (this.dbName === '') {
       this.dbName = this.getDBName();
     }
@@ -96,20 +101,38 @@ export class MySQLQueryDetailsComponent extends CoreComponent {
     const query = this.queryDetails.Example.Query;
     this.queryDetailsService.getExplain(agentUUID, dbServerUUID, this.dbName, query)
       .then(data => {
+        if (data.hasOwnProperty('Error') && data['Error'] !== '') {
+          throw new Error(data['Error']);
+        }
+        data = JSON.parse(atob(data.Data));
         this.classicExplain = data.Classic;
-        this.jsonExplain = hljs.highlight('json', data.JSON).value;
+        try {
+          this.jsonExplain = hljs.highlight('json', data.JSON).value;
+        } catch (e) {
+          const err = new Error(e.message);
+          err.name = 'json';
+          throw err;
+        }
         this.isExplainLoading = false;
       })
       .catch(err => {
-        console.error(err);
-        this.isExplainLoading = false;
-      });
+        if (err.name === 'json') {
+          this.jsonExplainError = err.message;
+        } else {
+          this.classicExplainError = err.message;
+          this.jsonExplainError = err.message;
+        }
+      })
+      .then(() => this.isExplainLoading = false);
   }
 
   getTableInfo() {
     this.isTableInfoLoading = true;
     const agentUUID = this.dbServer.Agent.UUID;
     const dbServerUUID = this.dbServer.UUID;
+    this.statusTableError = '';
+    this.indexTableError = '';
+    this.createTableError = '';
     let dbName, tblName: string;
     if (this.dbTblNames === '') {
       dbName = this.getDBName();
@@ -131,41 +154,56 @@ export class MySQLQueryDetailsComponent extends CoreComponent {
         this.createTable = hljs.highlight('sql', this.tableInfo.Create).value;
       })
       .catch(errors => {
-          for (const err of errors) {
-            if (err.startsWith('SHOW TABLE STATUS')) {
-              this.statusTableError = err;
-            }
-            if (err.startsWith('SHOW INDEX FROM')) {
-              this.indexTableError = err;
-            }
-            if (err.startsWith('SHOW CREATE TABLE')) {
-              this.createTableError = err;
-            }
+        for (const err of errors) {
+          if (err.startsWith('SHOW TABLE STATUS')) {
+            this.statusTableError = err;
           }
+          if (err.startsWith('SHOW INDEX FROM')) {
+            this.indexTableError = err;
+          }
+          if (err.startsWith('SHOW CREATE TABLE')) {
+            this.createTableError = err;
+          }
+        }
 
       })
-      // .then(data => this.tableInfo = data)
-      // .catch(err => this.indexTableError = this.statusTableError = 'Unavailable.')
-      // .then(() => this.createTable = hljs.highlight('sql', this.tableInfo.Create).value)
-      // .catch(err => this.createTableError = 'Unavailable.')
       .then(() => this.isTableInfoLoading = false);
   }
 
   selectTableInfo(dbName: string, tblName: string) {
     this.isTableInfoLoading = true;
+    this.statusTableError = '';
+    this.indexTableError = '';
+    this.createTableError = '';
     const agentUUID = this.dbServer.Agent.UUID;
     const dbServerUUID = this.dbServer.UUID;
     this.dbTblNames = `\`${dbName}\`.\`${tblName}\``;
 
+
     this.queryDetailsService.getTableInfo(agentUUID, dbServerUUID, dbName, tblName)
       .then(data => {
-        this.tableInfo = data[`${dbName}.${tblName}`];
+        const info = data[`${dbName}.${tblName}`];
+        if (info.hasOwnProperty('Errors') && info['Errors'].length > 0) {
+          throw info['Errors'];
+        }
+        this.tableInfo = info;
         this.createTable = hljs.highlight('sql', this.tableInfo.Create).value;
-        this.isTableInfoLoading = false;
-      }).catch(err => {
-        console.error(err);
-        this.isTableInfoLoading = false;
-      });
+      })
+      .catch(errors => {
+        for (const err of errors) {
+          if (err.startsWith('SHOW TABLE STATUS')) {
+            this.statusTableError = err;
+          }
+          if (err.startsWith('SHOW INDEX FROM')) {
+            this.indexTableError = err;
+          }
+          if (err.startsWith('SHOW CREATE TABLE')) {
+            this.createTableError = err;
+          }
+        }
+
+      })
+      .then(() => this.isTableInfoLoading = false);
   }
 
   addDBTable() {

@@ -72,12 +72,17 @@ export class SummaryService {
             });
     }
 
-    getMongo(agentUUID: string) {
+    getMongo(agentUUID: string, dbServerUUID: string) {
         const url = `/qan-api/agents/${agentUUID}/cmd`;
+        const data = {
+            UUID: dbServerUUID
+        };
+
         const params = {
             AgentUUID: agentUUID,
             Service: 'agent',
             Cmd: 'GetMongoSummary',
+            Data: btoa(JSON.stringify(data))
         };
 
         return this.http

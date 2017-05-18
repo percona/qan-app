@@ -73,7 +73,12 @@ export class NavComponent extends CoreComponent implements OnDestroy {
 
   search() {
     const params: QueryParams = Object.assign({}, this.queryParams);
-    if (!!this.searchValue) { params.search = this.searchValue; }
+    if (!!this.searchValue) {
+      params.search = this.searchValue;
+    } else {
+      delete params.search;
+    }
+    delete params.queryID;
     this.router.navigate(['profile'], { queryParams: params });
   }
 

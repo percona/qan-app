@@ -12,7 +12,7 @@
     "e2e": "protractor",
     "build": "ng b -bh '/qan2/' -pr -aot -op dist/qan-app2 -prod",
     "build:prod": "node --max-old-space-size=4096 ./node_modules/.bin/ng b -bh '/qan2/' -pr -aot -op dist/qan-app2 -prod",
-    "pack": "tar -czf dist/qan-app2-`date +%Y%m%d%H%m%S`.tar.zg dist/qan-app2"
+    "pack": "cd dist/; tar -czf qan-app2-`date +%Y%m%d%H%m%S`.tar.zg qan-app2"
   },
   "private": true,
   "dependencies": {

@@ -63,7 +63,7 @@ export class SummaryComponent extends CoreComponent {
      */
     getMongoSummary(agentUUID: string): void {
         this.summaryService
-            .getMongo(agentUUID)
+            .getMongo(agentUUID, this.dbServer.UUID)
             .then(data => this.mongoSummary = data)
             .catch(err => this.mongoSummaryError = err.message)
             .then(() => this.mongoSummaryLoader = false);

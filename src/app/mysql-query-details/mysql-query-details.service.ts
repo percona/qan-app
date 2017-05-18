@@ -125,7 +125,7 @@ export class MySQLQueryDetailsService {
         return this.http
             .put(url, params)
             .toPromise()
-            .then(response => JSON.parse(atob(response.json().Data)));
+            .then(response => response.json());
     }
 
     updateTables(queryID: string, dbTables: Array<{}>) {

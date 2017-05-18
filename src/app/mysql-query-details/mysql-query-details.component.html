@@ -548,7 +548,11 @@
         </ng-template>
         <ng-template ngbPanelContent>
             <i *ngIf="isExplainLoading" class="fa fa-spinner fa-pulse fa-3x fa-fw loading"></i>
-            <table *ngIf="!isExplainLoading" class="table table-bordered table-hover table-sm ma-0">
+            <div *ngIf="!isExplainLoading && classicExplainError" class="alert alert-warning w-75 mx-auto m-2" role="alert">
+                <i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
+                {{ jsonExplainError }}
+            </div>
+            <table *ngIf="!isExplainLoading && !classicExplainError" class="table table-bordered table-hover table-sm ma-0">
                 <thead>
                     <tr>
                         <th width="3%" title="Id">Id</th>
@@ -591,7 +595,11 @@
         </ng-template>
         <ng-template ngbPanelContent>
             <i *ngIf="isExplainLoading" class="fa fa-spinner fa-pulse fa-3x fa-fw loading"></i>
-            <pre *ngIf="!isExplainLoading" style="margin: 1rem"><code [innerHTML]="jsonExplain"></code></pre>
+            <pre *ngIf="!isExplainLoading && !jsonExplainError" style="margin: 1rem"><code [innerHTML]="jsonExplain"></code></pre>
+             <div *ngIf="!isExplainLoading && jsonExplainError" class="alert alert-warning w-75 mx-auto m-2" role="alert">
+                <i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
+                {{ jsonExplainError }}
+            </div>
 </ng-template>
 </ngb-panel>
 </ngb-accordion>
@@ -615,7 +623,7 @@
 </div>
 </div>
 <br />
-<div class="row" *ngIf="queryDetails?.Query?.Tables?.length">
+<div class="row">
     <div class="col-md-12">
         <div class="card w-100">
             <div class="card-block" id="db_tables_buttons">
@@ -626,13 +634,18 @@
                         </button>
                         <button type="button" class="btn btn-warning" (click)="removeDBTable(item);"><i class="fa fa-times" aria-hidden="true"></i></button>
                     </div>
+                    <div *ngIf="queryDetails?.Query?.Tables === null || queryDetails?.Query?.Tables?.length === 0"
+                         class="alert alert-info w-25 mx-auto m-2" role="alert">
+                        <i class="fa fa-info-circle" aria-hidden="true"></i>
+                        List of tables is empty.
+                    </div>
                 </div>
             </div>
         </div>
     </div>
 </div>
 <br />
-<ngb-accordion activeIds="table-create">
+<ngb-accordion activeIds="table-create" *ngIf="queryDetails?.Query?.Tables?.length">
     <ngb-panel id="table-create">
         <ng-template ngbPanelTitle>
             <h5>CREATE</h5>
@@ -643,7 +656,7 @@
                         <i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
                         {{ createTableError }}
             </div>
-            <pre *ngIf="!isTableInfoLoading && createTable" style="margin: 1rem"><code [innerHTML]="createTable" id="table_create"></code></pre>
+            <pre *ngIf="!isTableInfoLoading && !createTableError" style="margin: 1rem"><code [innerHTML]="createTable" id="table_create"></code></pre>
 </ng-template>
 </ngb-panel>
 
