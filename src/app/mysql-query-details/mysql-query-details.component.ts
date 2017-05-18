@@ -207,17 +207,20 @@ export class MySQLQueryDetailsComponent extends CoreComponent {
   }
 
   addDBTable() {
-    if (this.newDBTblNames.length < 7) {
-      return false;
+    if (this.newDBTblNames.length > 6) {
+      const part = this.newDBTblNames.split('.');
+      const db = part[0].replace(/`/g, '');
+      const tbl = part[1].replace(/`/g, '');
+      if (this.queryDetails.Query.Tables === null) {
+        this.queryDetails.Query.Tables = [];
+      }
+      this.queryDetails.Query.Tables.push({ Db: db, Table: tbl });
+      this.queryDetailsService.updateTables(this.queryDetails.Query.Id, this.queryDetails.Query.Tables);
+      this.dbTblNames = this.newDBTblNames;
+      this.getTableInfo();
+      this.newDBTblNames = '';
     }
-    const part = this.newDBTblNames.split('.');
-    const db = part[0].replace(/`/g, '');
-    const tbl = part[1].replace(/`/g, '');
-    this.queryDetails.Query.Tables.push({ Db: db, Table: tbl });
-    this.queryDetailsService.updateTables(this.queryDetails.Query.Id, this.queryDetails.Query.Tables);
-    this.dbTblNames = this.newDBTblNames;
-    this.getTableInfo();
-    this.newDBTblNames = '';
+    return false;
   }
 
   removeDBTable(dbTableItem) {
