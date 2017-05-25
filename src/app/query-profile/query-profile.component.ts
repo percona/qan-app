@@ -4,7 +4,7 @@ import { Instance, InstanceService } from '../core/instance.service';
 import { QueryProfileService } from './query-profile.service';
 import { Router, ActivatedRoute } from '@angular/router';
 import * as moment from 'moment';
-import { MomentFormatPipe } from 'app/shared/moment-format.pipe';
+import { MomentFormatPipe } from '../shared/moment-format.pipe';
 
 @Component({
     moduleId: module.id,
@@ -26,7 +26,6 @@ export class QueryProfileComponent extends CoreComponent {
     public isLoading: boolean;
 
     public noQueryError: string;
-    public momentFormatPipe = new MomentFormatPipe();
 
     constructor(protected route: ActivatedRoute, protected router: Router,
         protected instanceService: InstanceService, protected queryProfileService: QueryProfileService) {
@@ -34,14 +33,17 @@ export class QueryProfileComponent extends CoreComponent {
     }
 
     onChangeParams(params) {
-        this.fromDate = this.momentFormatPipe.transform(this.from, 'llll');
-        this.toDate = this.momentFormatPipe.transform(this.to, 'llll');
+        // checks changing tz
+        const momentFormatPipe = new MomentFormatPipe();
+        this.fromDate = momentFormatPipe.transform(this.from, 'llll');
+        this.toDate = momentFormatPipe.transform(this.to, 'llll');
         // only if host, from and to are diffrent from prev router - load queries.
         if (!this.previousQueryParams ||
             this.previousQueryParams['var-host'] !== this.queryParams['var-host'] ||
             this.previousQueryParams.from !== this.queryParams.from ||
             this.previousQueryParams.to !== this.queryParams.to ||
-            this.previousQueryParams.search !== this.queryParams.search) {
+            this.previousQueryParams.search !== this.queryParams.search ||
+            this.previousQueryParams.tz !== this.queryParams.tz) {
             this.loadQueries();
         }
     }

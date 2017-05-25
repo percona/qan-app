@@ -4,7 +4,7 @@ import { ElementRef } from '@angular/core';
 import { select } from 'd3-selection';
 import { scaleLog } from 'd3-scale';
 
-import { HumanizePipe } from 'app/shared/humanize.pipe';
+import { HumanizePipe } from './humanize.pipe';
 
 @Directive({
   selector: '[appLatencyChart]'

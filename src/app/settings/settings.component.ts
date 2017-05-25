@@ -31,7 +31,7 @@ export class SettingsComponent extends CoreComponent {
         'warning', 'notice', 'info', 'debug'
     ];
 
-    public logPeriod = 6;
+    public logPeriod = 1;
 
     constructor(protected route: ActivatedRoute, protected router: Router,
         protected settingsService: SettingsService,

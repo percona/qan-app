@@ -1,8 +1,9 @@
 import 'rxjs/add/operator/filter';
 import { Component, OnDestroy } from '@angular/core';
+import { Location } from '@angular/common';
 import { Instance, InstanceService } from '../../core/instance.service';
 import { ParseQueryParamDatePipe } from '../../shared/parse-query-param-date.pipe';
-import { MomentFormatPipe } from 'app/shared/moment-format.pipe';
+import { MomentFormatPipe } from '../../shared/moment-format.pipe';
 import { QueryParams, CoreComponent } from '../core.component';
 import { Router, ActivatedRoute, NavigationEnd } from '@angular/router';
 import { Subscription } from 'rxjs/Subscription';
@@ -16,8 +17,6 @@ import * as moment from 'moment';
 })
 export class NavComponent extends CoreComponent implements OnDestroy {
   protected routerSubscription: Subscription;
-  private alertSubscription: Subscription;
-  public alert: string;
 
   public searchValue: string;
 
@@ -28,33 +27,94 @@ export class NavComponent extends CoreComponent implements OnDestroy {
   public fromDateCompact: string;
 
   public toDateCompact: string;
-  public momentFormatPipe = new MomentFormatPipe();
 
   private compactDateFormat = 'lll';
 
-  public constructor(route: ActivatedRoute, router: Router, instanceService: InstanceService) {
+  private fromTimeRaw: string;
+  private toTimeRaw: string;
+
+  public isValidToInput = true;
+  public isValidFromInput = true;
+
+  public constructor(route: ActivatedRoute, router: Router, location: Location, instanceService: InstanceService) {
     super(route, router, instanceService);
-    this.timezone = this.momentFormatPipe.getCookie('timezone') || 'local';
+    console.log('location', location.path());
+    const momentFormatPipe = new MomentFormatPipe();
+    this.timezone = momentFormatPipe.getCookie('timezone') || 'local';
   }
 
   onChangeParams(params) {
-    this.fromDateCompact = this.momentFormatPipe.transform(this.from, this.compactDateFormat);
-    this.toDateCompact = this.momentFormatPipe.transform(this.to, this.compactDateFormat);
+    // checks changing tz
+    const momentFormatPipe = new MomentFormatPipe();
+    this.fromDateCompact = momentFormatPipe.transform(this.from, this.compactDateFormat);
+    this.toDateCompact = momentFormatPipe.transform(this.to, this.compactDateFormat);
     this.isExtHidden = false;
     if (this.router.url.startsWith('/sys-summary') ||
-        this.router.url.startsWith('/settings')) {
-          this.isExtHidden = true;
+      this.router.url.startsWith('/settings')) {
+      this.isExtHidden = true;
     }
   }
 
-  closeAlert() {
-    this.alert = '';
+  changeDateInput(event, dir) {
+    const val = event.trim();
+    let time = '';
+    const reg = /^(now)([-/+])(\d+)([yMwdhms])$/;
+    if (reg.test(val)) {
+      const [, , sign, num, unit] = reg.exec(val);
+      switch (sign) {
+        case '-':
+          time = moment().subtract(num, unit).valueOf();
+          break;
+        case '+':
+          time = moment().add(num, unit).valueOf();
+          break;
+        case '/':
+          time = moment().startOf(num, unit).valueOf();
+          break;
+      }
+    } else {
+      if (val.length > 3) {
+        console.log('val', val);
+        try {
+          if (moment(val, 'YYYY-MM-DD HH:mm').isValid()) {
+            time = moment(val, 'YYYY-MM-DD HH:mm').valueOf();
+          }
+        } catch (err) {
+          if (dir === 'from') {
+            this.isValidFromInput = false;
+          } else {
+            this.isValidToInput = false;
+          }
+        }
+      }
+    }
+
+    if (time !== '') {
+      if (dir === 'from') {
+        this.isValidFromInput = true;
+        this.fromTimeRaw = time;
+      } else {
+        this.isValidToInput = true;
+        this.toTimeRaw = time;
+      }
+    }
+  }
+
+  changeDateCal(event, dir) {
+    if (dir === 'from') {
+      this.fromTimeRaw = moment([event.year, event.month - 1, event.day]).valueOf();
+    } else {
+      this.toTimeRaw = moment([event.year, event.month - 1, event.day]).valueOf();
+    }
   }
 
   setTimeZone(tz = 'utc') {
     this.timezone = tz;
     const expireDays = moment().utc().add(7, 'y').toString();
     document.cookie = `timezone=${tz}; expires=${expireDays}; path=/`;
+    const params: QueryParams = Object.assign({}, this.queryParams);
+    params.tz = tz;
+    this.router.navigate(['profile'], { queryParams: params });
   }
 
   setQuickRange(num = 0, unit = 's') {
@@ -66,8 +126,8 @@ export class NavComponent extends CoreComponent implements OnDestroy {
 
   setTimeRange(from, to) {
     const params: QueryParams = Object.assign({}, this.queryParams);
-    params.to = moment([to.year, to.month - 1, to.day]).valueOf();
-    params.from = moment([from.year, from.month - 1, from.day]).valueOf();
+    params.to = this.toTimeRaw;
+    params.from = this.fromTimeRaw;
     this.router.navigate(['profile'], { queryParams: params });
   }
 
@@ -106,6 +166,5 @@ export class NavComponent extends CoreComponent implements OnDestroy {
 
   ngOnDestroy() {
     super.ngOnDestroy();
-    this.alertSubscription.unsubscribe();
   }
 }

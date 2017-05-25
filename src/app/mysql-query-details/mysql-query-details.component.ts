@@ -57,16 +57,19 @@ export class MySQLQueryDetailsComponent extends CoreComponent {
   getQueryDetails(dbServerUUID, queryID, from, to: string) {
     this.isLoading = true;
     this.dbName = this.dbTblNames = '';
+    this.queryExample = '';
     this.queryDetailsService.getQueryDetails(dbServerUUID, queryID, from, to)
       .then(data => {
         this.queryDetails = data;
         this.fingerprint = hljs.highlight('sql', vkbeautify.sql(this.queryDetails.Query.Fingerprint)).value;
-        this.queryExample = hljs.highlight('sql', vkbeautify.sql(this.queryDetails.Example.Query)).value;
+        if (this.queryDetails.Example.Query !== '') {
+          this.queryExample = hljs.highlight('sql', vkbeautify.sql(this.queryDetails.Example.Query)).value;
+        }
         this.isLoading = false;
         // TODO: solve issue with async
         // this.metrics = data.Metrics2; this.sparklines = data.Sparks2; this.queryClass = data.Query; this.queryExample = data.Example;
       })
-      .then(() => this.getExplain())
+      .then(() => !!this.queryExample && this.getExplain())
       .then(() => this.getTableInfo())
       .catch(err => console.error(err));
 

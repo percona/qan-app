@@ -12,6 +12,7 @@ export interface QueryParams {
     'var-host'?: string; // | string[];
     search?: string;
     queryID?: string;
+    tz?: string;
 }
 
 export class CoreComponent implements OnInit, OnDestroy {

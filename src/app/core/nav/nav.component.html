@@ -74,13 +74,43 @@
 			<div class="container">
 				<div class="row">
 					<div class="col-md-3" title="Time range">
-						From: <br />
-						<ngb-datepicker navigation="arrow" [(ngModel)]="from"></ngb-datepicker>
+					From: <br />
+				<!-- TBD: form #timeRange="ngForm">
+						<div class="form-group" [ngClass]="{'has-warning': timeRange.form.touched && timeRange.form.invalid}">
+							<label class="form-control-label" for="fromInput">From</label>
+							<input class="form-control"
+								type="text"
+								name="fromInput"
+								id="fromInput"
+								[(ngModel)]="fromInput"
+								#fromInputV
+								required
+								>
+						</div>
+				</form-->
+						<ngb-datepicker navigation="arrow"
+										[(ngModel)]="fromCal"
+										name="fromCal"
+										(ngModelChange)="changeDateCal($event, 'from')"
+										[maxDate]="toCal"></ngb-datepicker>
 					</div>
 					<div class="col-md-3" title="Time range">
 						To: <br />
-						<ngb-datepicker navigation="arrow" [(ngModel)]="to"></ngb-datepicker>
-						<button type="button" class="btn btn-secondary" (click)="setTimeRange(from, to); $event.stopPropagation(); timeRangeDrop.close();">Apply</button>
+						<!-- TBD: input [(ngModel)]="toInput"
+							   name="toInput"
+							   id="toInput"
+							   (ngModelChange)="changeDateInput($event, 'to')"
+							   [ngClass]="{'form-control-warning': !isValidToInput}"
+							   class="form-control form-control-warning" type="text"
+							name="datetimeTo" id="datetime-to-input"-->
+						<ngb-datepicker navigation="arrow"
+										[(ngModel)]="toCal"
+										name="toCal"
+										(ngModelChange)="changeDateCal($event, 'to')"
+										[minDate]="fromCal"></ngb-datepicker>
+						<button type="button" class="btn btn-secondary"
+								[disabled]=""
+							    (click)="setTimeRange(); $event.stopPropagation(); timeRangeDrop.close();">Apply</button>
 					</div>
 					<div class="col-md-3 list-group" title="Quick ranges">
 						<a class="list-group-item list-group-item-action" href="javascript:void(0);" (click)="setQuickRange(1, 'h'); $event.stopPropagation(); timeRangeDrop.close();">Last 1 hour</a>

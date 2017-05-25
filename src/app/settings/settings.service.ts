@@ -19,26 +19,24 @@ export class SettingsService {
         return this.http
             .get(url, { headers: this.headers })
             .toPromise()
-            .then(response => response.json() as {})
-            .catch(err => console.log(err));
+            .then(response => response.json() as {});
     }
 
     getAgentLog(agentUUID, begin, end: string): Promise<{}> {
         const url = `/qan-api/agents/${agentUUID}/log`;
 
-        let params = new URLSearchParams();
+        const params = new URLSearchParams();
         params.set('begin', begin);
         params.set('end', end);
         return this.http
             .get(url, { headers: this.headers, search: params })
             .toPromise()
-            .then(response => response.json() as {})
-            .catch(err => console.log(err));
+            .then(response => response.json() as {});
     }
 
     getAgentDefaults(agentUUID: string, dbServerUUID: string): Promise<{}> {
         const url = `/qan-api/agents/${agentUUID}/cmd`;
-        let params = {
+        const params = {
             AgentUUID: agentUUID,
             Service: 'agent',
             Cmd: 'GetDefaults',
@@ -49,16 +47,12 @@ export class SettingsService {
             .put(url, params, { headers: this.headers })
             .toPromise()
             .then(response => {
-                let resp = response.json();
+                const resp = response.json();
                 if (!!resp.Error) {
-                    console.error(resp.Error);
-                    return null;
+                    throw new Error(resp.Error);
                 } else {
                     return JSON.parse(atob(resp.Data));
                 }
-            })
-            .catch(err => {
-                console.error(err);
             });
     }
 
@@ -66,14 +60,14 @@ export class SettingsService {
                      exampleQueries: boolean, collectFrom: CollectFrom): Promise<{}> {
         const url = `/qan-api/agents/${agentUUID}/cmd`;
 
-        let data = {
+        const data = {
             UUID: dbServerUUID,
             Interval: interval * 60,
             ExampleQueries: exampleQueries,
             CollectFrom: collectFrom
         };
 
-        let params = {
+        const params = {
             AgentUUID: agentUUID,
             Service: 'qan',
             Cmd: 'RestartTool',
@@ -84,16 +78,12 @@ export class SettingsService {
             .put(url, params, { headers: this.headers })
             .toPromise()
             .then(response => {
-                let resp = response.json();
+                const resp = response.json();
                 if (!!resp.Error) {
-                    console.error(resp.Error);
-                    return null;
+                    throw new Error(resp.Error);
                 } else {
                     return JSON.parse(atob(resp.Data));
                 }
-            })
-            .catch(err => {
-                console.error(err);
             });
     }
 
@@ -102,7 +92,6 @@ export class SettingsService {
         return this.http
             .get(url, { headers: this.headers })
             .toPromise()
-            .then(response => response.json() as {})
-            .catch(err => console.log(err));
+            .then(response => response.json() as {});
     }
 }

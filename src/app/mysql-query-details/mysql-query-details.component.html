@@ -509,7 +509,7 @@
                 <pre *ngIf="!isLoading" style="margin: 1rem"><code [innerHTML]="fingerprint" id="query_fingerprint_code"></code></pre>
 </ng-template>
 </ngb-panel>
-<ngb-panel id="query-example">
+<ngb-panel *ngIf="!!queryExample" id="query-example">
     <ng-template ngbPanelTitle>
         <h5>Example</h5>
     </ng-template>
@@ -520,8 +520,8 @@
 </ngb-panel>
 </ngb-accordion>
 
-<hr />
-<div class="row">
+<hr *ngIf="!!queryExample" />
+<div class="row" *ngIf="!!queryExample">
     <span class="col-md-2">
         <h3 class="d-inline">EXPLAIN</h3>
     </span>
@@ -541,7 +541,7 @@
     </div>
 </div>
 <br />
-<ngb-accordion activeIds="classic-explain">
+<ngb-accordion activeIds="classic-explain"  *ngIf="!!queryExample">
     <ngb-panel id="classic-explain">
         <ng-template ngbPanelTitle>
             <h5>CLASSIC</h5>
