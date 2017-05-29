@@ -72,9 +72,6 @@ export class MySQLQueryDetailsComponent extends CoreComponent {
       .then(() => !!this.queryExample && this.getExplain())
       .then(() => this.getTableInfo())
       .catch(err => console.error(err));
-
-    // this.navService.setAlert(queryID);
-    // throw new Error('hello error 22');
   }
 
   getServerSummary(dbServerUUID: string, from: string, to: string) {

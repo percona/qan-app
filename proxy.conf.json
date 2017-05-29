@@ -1,6 +1,6 @@
 {
   "/qan-api": {
-    "target": "http://pmmstage.int.percona.com/qan-api",
+    "target": "https://pmmstage.int.percona.com/qan-api",
     "pathRewrite": {"^/qan-api" : ""},
     "secure": false
   }

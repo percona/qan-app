@@ -1,8 +1,10 @@
 <hr />
 
-<h3 *ngIf="!isSummary" class="d-inline">
-    {{ queryDetails?.Query?.Abstract }}
-    <span class="float-md-right">{{ queryDetails?.Query?.Id }}</span>
+<h3 *ngIf="!isSummary">
+    <div class="d-flex justify-content-between">
+        <span>{{ queryDetails?.Query?.Abstract }}</span>
+        <span>{{ queryDetails?.Query?.Id }}</span>
+    </div>
 </h3>
 <h3 *ngIf="isSummary" class="d-inline">
     Server Summary
@@ -56,8 +58,13 @@
         {{ queryDetails?.Metrics2.Query_time_avg | humanize : 'time' }}&nbsp;avg
     </td>
     <td style="width: 10%" class="no-left-border">
-<div class="scaling-svg-container app-tooltip" data-tooltip="Loading..." measurement="time" [appLatencyChart]="queryDetails?.Metrics2" metricPrefix="Query_time"></div>
-</td>
+        <div class="scaling-svg-container app-tooltip"
+             data-tooltip="Loading..."
+             [appLatencyChart]="queryDetails?.Metrics2"
+             measurement="time"
+             metricPrefix="Query_time"
+             ></div>
+    </td>
 </tr>
 <tr *ngIf="queryDetails?.Metrics2.Lock_time_sum">
     <td>Lock Time</td>
