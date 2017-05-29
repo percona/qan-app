@@ -11,15 +11,10 @@ import { HumanizePipe } from './humanize.pipe';
 })
 export class LatencyChartDirective {
 
-  prefix: string;
-
   @HostBinding('attr.data-tooltip')
   @Input() dataTooltip: string;
   @Input() measurement = 'time';
-
-  constructor(
-    public elementRef: ElementRef,
-  ) { }
+  @Input() metricPrefix = '';
 
   @Input() set appLatencyChart(data: {}) {
     if (data !== null) {
@@ -27,12 +22,11 @@ export class LatencyChartDirective {
     }
   }
 
-  @Input() set metricPrefix(prefix: string) {
-    this.prefix = prefix;
-  }
+  constructor(
+    public elementRef: ElementRef,
+  ) { }
 
   drawChart(data: {}) {
-
     const chart = select(this.elementRef.nativeElement);
     chart.selectAll('*').remove();
     const svg: any = chart.append('svg')
@@ -55,11 +49,11 @@ export class LatencyChartDirective {
     let avg = 0;
     let p95 = 0;
 
-    if (this.prefix) {
-      min = `${this.prefix}_min` in data ? data[`${this.prefix}_min`] : 0;
-      max = `${this.prefix}_max` in data ? data[`${this.prefix}_max`] : 0;
-      avg = `${this.prefix}_avg` in data ? data[`${this.prefix}_avg`] : 0;
-      p95 = `${this.prefix}_p95` in data ? data[`${this.prefix}_p95`] : 0;
+    if (!!this.metricPrefix) {
+      min = `${this.metricPrefix}_min` in data ? data[`${this.metricPrefix}_min`] : 0;
+      max = `${this.metricPrefix}_max` in data ? data[`${this.metricPrefix}_max`] : 0;
+      avg = `${this.metricPrefix}_avg` in data ? data[`${this.metricPrefix}_avg`] : 0;
+      p95 = `${this.metricPrefix}_p95` in data ? data[`${this.metricPrefix}_p95`] : 0;
     } else {
       min = 'Min' in data ? data['Min'] : 0;
       max = 'Max' in data ? data['Max'] : 0;
