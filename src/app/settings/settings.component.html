@@ -59,7 +59,7 @@
 
                             <div class="form-group row">
                                 <div class="offset-sm-3 col-sm-4">
-                                    <button id="settings_apply_button" type="submit" (click)="setAgentDefaults()" class="btn btn-outline-primary">
+                                    <button id="settings_apply_button" [disabled]="isDemo" type="submit" (click)="setAgentDefaults()" class="btn btn-outline-primary">
                                         <i class="fa fa-check"></i>Apply
                                     </button>
                                 </div>

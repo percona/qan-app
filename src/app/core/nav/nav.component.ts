@@ -9,6 +9,8 @@ import { Router, ActivatedRoute, NavigationEnd } from '@angular/router';
 import { Subscription } from 'rxjs/Subscription';
 import * as moment from 'moment';
 
+import { environment } from '../../environment';
+
 @Component({
   moduleId: module.id,
   selector: 'app-nav',
@@ -18,6 +20,7 @@ import * as moment from 'moment';
 export class NavComponent extends CoreComponent implements OnDestroy {
   protected routerSubscription: Subscription;
 
+  public isDemo = environment.demo;
   public searchValue: string;
 
   public isExtHidden: boolean;
@@ -35,10 +38,10 @@ export class NavComponent extends CoreComponent implements OnDestroy {
 
   public isValidToInput = true;
   public isValidFromInput = true;
+  public path: string;
 
-  public constructor(route: ActivatedRoute, router: Router, location: Location, instanceService: InstanceService) {
+  public constructor(route: ActivatedRoute, router: Router, instanceService: InstanceService) {
     super(route, router, instanceService);
-    console.log('location', location.path());
     const momentFormatPipe = new MomentFormatPipe();
     this.timezone = momentFormatPipe.getCookie('timezone') || 'local';
   }
@@ -48,6 +51,8 @@ export class NavComponent extends CoreComponent implements OnDestroy {
     const momentFormatPipe = new MomentFormatPipe();
     this.fromDateCompact = momentFormatPipe.transform(this.from, this.compactDateFormat);
     this.toDateCompact = momentFormatPipe.transform(this.to, this.compactDateFormat);
+    let pathWithParams = this.router.url;
+    this.path = pathWithParams.substr(0, pathWithParams.indexOf('?'));
     this.isExtHidden = false;
     if (this.router.url.startsWith('/sys-summary') ||
       this.router.url.startsWith('/settings')) {
@@ -114,7 +119,7 @@ export class NavComponent extends CoreComponent implements OnDestroy {
     document.cookie = `timezone=${tz}; expires=${expireDays}; path=/`;
     const params: QueryParams = Object.assign({}, this.queryParams);
     params.tz = tz;
-    this.router.navigate(['profile'], { queryParams: params });
+    this.router.navigate([this.path], { queryParams: params, relativeTo: this.route });
   }
 
   setQuickRange(num = 0, unit = 's') {

@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Instance, InstanceService } from '../core/instance.service';
 import { CoreComponent } from '../core/core.component';
-
+import { environment } from '../environment';
 import * as moment from 'moment';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/observable/interval';
@@ -32,6 +32,7 @@ export class SettingsComponent extends CoreComponent {
     ];
 
     public logPeriod = 1;
+    public isDemo = environment.demo;
 
     constructor(protected route: ActivatedRoute, protected router: Router,
         protected settingsService: SettingsService,

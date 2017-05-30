@@ -1,4 +1,5 @@
 <nav class="navbar navbar-toggleable-sm fixed-top navbar-light bg-faded" style="width: 100%">
+	<div class="ribbon" *ngIf="isDemo"><span>DEMO</span></div>
 	<a class="navbar-brand" routerLink="/" routerLinkActive="active">
 		<div class="logo-img">
 			<span class="logo-text">Query Analytics</span>
@@ -74,20 +75,21 @@
 			<div class="container">
 				<div class="row">
 					<div class="col-md-3" title="Time range">
-					From: <br />
-				<!-- TBD: form #timeRange="ngForm">
-						<div class="form-group" [ngClass]="{'has-warning': timeRange.form.touched && timeRange.form.invalid}">
-							<label class="form-control-label" for="fromInput">From</label>
-							<input class="form-control"
-								type="text"
-								name="fromInput"
-								id="fromInput"
-								[(ngModel)]="fromInput"
-								#fromInputV
-								required
-								>
-						</div>
-				</form-->
+						From: <br/ >
+						<!--form #timeRange="ngForm">
+								<div class="form-group" [ngClass]="{'has-warning': timeRange.form.touched && timeRange.form.invalid}">
+									<label class="form-control-label" for="fromInput">From</label>
+									<input class="form-control"
+										type="text"
+										style="width: 14.5em;"
+										name="fromInput"
+										id="fromInput"
+										[(ngModel)]="fromInput"
+										#fromInputV
+										required
+										>
+								</div>
+						</form-->
 						<ngb-datepicker navigation="arrow"
 										[(ngModel)]="fromCal"
 										name="fromCal"
@@ -95,14 +97,21 @@
 										[maxDate]="toCal"></ngb-datepicker>
 					</div>
 					<div class="col-md-3" title="Time range">
-						To: <br />
-						<!-- TBD: input [(ngModel)]="toInput"
-							   name="toInput"
-							   id="toInput"
-							   (ngModelChange)="changeDateInput($event, 'to')"
-							   [ngClass]="{'form-control-warning': !isValidToInput}"
-							   class="form-control form-control-warning" type="text"
-							name="datetimeTo" id="datetime-to-input"-->
+						To: <br/ >
+						<!--form>
+								<div class="form-group">
+									<label class="form-control-label" for="toInput">To</label>
+									<input class="form-control"
+										style="width: 14.5em;"
+										type="text"
+										name="toInput"
+										id="toInput"
+										[(ngModel)]="toInput"
+										#toInputV
+										required
+										>
+								</div>
+						</form-->
 						<ngb-datepicker navigation="arrow"
 										[(ngModel)]="toCal"
 										name="toCal"
@@ -112,6 +121,7 @@
 								[disabled]=""
 							    (click)="setTimeRange(); $event.stopPropagation(); timeRangeDrop.close();">Apply</button>
 					</div>
+
 					<div class="col-md-3 list-group" title="Quick ranges">
 						<a class="list-group-item list-group-item-action" href="javascript:void(0);" (click)="setQuickRange(1, 'h'); $event.stopPropagation(); timeRangeDrop.close();">Last 1 hour</a>
 						<a class="list-group-item list-group-item-action" href="javascript:void(0);" (click)="setQuickRange(3, 'h'); $event.stopPropagation(); timeRangeDrop.close();">Last 3 hours</a>
