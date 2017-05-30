@@ -625,7 +625,7 @@
                        [ngModelOptions]="{standalone: true}"
                        placeholder="`database-name`.`table-name`">
                 <span class="input-group-btn">
-                    <button class="btn btn-secondary" (click)="addDBTable();"
+                    <button [disabled]="isDemo" class="btn btn-secondary" (click)="addDBTable();"
                             style="width: 8em" type="submit">ADD</button>
                 </span>
             </div>

@@ -6,6 +6,8 @@ import { Router, ActivatedRoute, NavigationEnd } from '@angular/router';
 import { Subscription } from 'rxjs/Subscription';
 import * as moment from 'moment';
 
+import { environment } from '../environment';
+
 export interface QueryParams {
     from?: string;
     to?: string;
@@ -17,6 +19,7 @@ export interface QueryParams {
 
 export class CoreComponent implements OnInit, OnDestroy {
 
+    public isDemo = environment.demo;
     protected routerSubscription: Subscription;
     public queryParams: QueryParams;
     public previousQueryParams: QueryParams;
