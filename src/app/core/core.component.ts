@@ -58,7 +58,13 @@ export class CoreComponent implements OnInit, OnDestroy {
                     // this required
                     this.dbServer = this.instanceService.dbServers[0];
                     this.agent = this.instanceService.dbServers[0].Agent;
-                    console.warn('cannot change db instance');
+                    console.log('cannot change db instance', this.queryParams['var-host'], this.instanceService);
+                }
+
+                if (this.queryParams.tz) {
+                    this.setTimeZoneFromParams(this.queryParams.tz);
+                } else {
+                    this.setTimeZoneFromParams();
                 }
 
                 this.from = parseQueryParamDatePipe.transform(this.queryParams.from, 'from');
@@ -72,6 +78,11 @@ export class CoreComponent implements OnInit, OnDestroy {
 
     onChangeParams(params) {
         console.log('onChangeParams', params);
+    }
+
+    setTimeZoneFromParams(tz = 'local') {
+        const expireDays = moment().utc().add(7, 'y').toString();
+        document.cookie = `timezone=${tz}; expires=${expireDays}; path=/`;
     }
 
     ngOnDestroy() {

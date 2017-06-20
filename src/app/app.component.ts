@@ -10,4 +10,5 @@ export class AppComponent {
   title = 'Query Analytics';
   version = environment.version;
   isDemo = environment.demo;
+  hideNav = environment.hideNav;
 }

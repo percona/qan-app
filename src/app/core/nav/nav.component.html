@@ -75,21 +75,7 @@
 			<div class="container">
 				<div class="row">
 					<div class="col-md-3" title="Time range">
-						From: <br/ >
-						<!--form #timeRange="ngForm">
-								<div class="form-group" [ngClass]="{'has-warning': timeRange.form.touched && timeRange.form.invalid}">
-									<label class="form-control-label" for="fromInput">From</label>
-									<input class="form-control"
-										type="text"
-										style="width: 14.5em;"
-										name="fromInput"
-										id="fromInput"
-										[(ngModel)]="fromInput"
-										#fromInputV
-										required
-										>
-								</div>
-						</form-->
+						From:
 						<ngb-datepicker navigation="arrow"
 										[(ngModel)]="fromCal"
 										name="fromCal"
@@ -97,21 +83,7 @@
 										[maxDate]="toCal"></ngb-datepicker>
 					</div>
 					<div class="col-md-3" title="Time range">
-						To: <br/ >
-						<!--form>
-								<div class="form-group">
-									<label class="form-control-label" for="toInput">To</label>
-									<input class="form-control"
-										style="width: 14.5em;"
-										type="text"
-										name="toInput"
-										id="toInput"
-										[(ngModel)]="toInput"
-										#toInputV
-										required
-										>
-								</div>
-						</form-->
+						To:
 						<ngb-datepicker navigation="arrow"
 										[(ngModel)]="toCal"
 										name="toCal"

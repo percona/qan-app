@@ -1,5 +1,5 @@
 <div class="container-fluid">
-  <app-nav></app-nav>
+  <app-nav *ngIf="!hideNav"></app-nav>
   <main>
     <!-- Router Outlet -->
     <router-outlet></router-outlet>
