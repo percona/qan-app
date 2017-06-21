@@ -23,7 +23,7 @@ Setup development environment.
    npm install -g bower
    bower i
    python -m SimpleHTTPServer 8000
-  ```
+  
 1. SPA should be accessible on http://localhost:8000/
 
 ## Submitting Bug Reports
