@@ -2,7 +2,7 @@ import 'rxjs/add/operator/filter';
 import { Instance, InstanceService } from '../core/instance.service';
 import { OnInit, OnDestroy, Output, EventEmitter } from '@angular/core';
 import { ParseQueryParamDatePipe } from '../shared/parse-query-param-date.pipe';
-import { Router, ActivatedRoute, NavigationEnd } from '@angular/router';
+import { Event, Router, ActivatedRoute, NavigationEnd } from '@angular/router';
 import { Subscription } from 'rxjs/Subscription';
 import * as moment from 'moment';
 
@@ -16,8 +16,10 @@ export interface QueryParams {
     queryID?: string;
     tz?: string;
 }
-
-export class CoreComponent implements OnInit, OnDestroy {
+/**
+ * Base class for all components.
+ */
+export abstract class CoreComponent implements OnDestroy {
 
     public isDemo = environment.demo;
     protected routerSubscription: Subscription;
@@ -33,22 +35,24 @@ export class CoreComponent implements OnInit, OnDestroy {
     public fromUTCDate: string;
     public toUTCDate: string;
 
-    // @Output() showLoader = new EventEmitter();
-
     constructor(protected route: ActivatedRoute, protected router: Router,
         protected instanceService: InstanceService) {
         this.dbServer = instanceService.dbServers[0];
         this.agent = instanceService.dbServers[0].Agent;
         this.dbServers = instanceService.dbServers;
         this.dbServerMap = instanceService.dbServerMap;
+        this.subscribeToRouter();
     }
 
-    ngOnInit() {
-        // this.showLoader.emit(true);
+    /**
+     * Extract and convert query parameters.
+     * Trigger onChangeParams method (must be overridden) on route change.
+     */
+    subscribeToRouter() {
         const parseQueryParamDatePipe = new ParseQueryParamDatePipe();
         this.routerSubscription = this.router.events
             .filter((e: any) => e instanceof NavigationEnd)
-            .subscribe((val) => {
+            .subscribe((event: Event) => {
                 this.queryParams = this.route.snapshot.queryParams as QueryParams;
 
                 try {
@@ -58,15 +62,9 @@ export class CoreComponent implements OnInit, OnDestroy {
                     // this required
                     this.dbServer = this.instanceService.dbServers[0];
                     this.agent = this.instanceService.dbServers[0].Agent;
-                    console.log('cannot change db instance', this.queryParams['var-host'], this.instanceService);
+                    console.info('cannot change db instance - use defaults');
                 }
-
-                if (this.queryParams.tz) {
-                    this.setTimeZoneFromParams(this.queryParams.tz);
-                } else {
-                    this.setTimeZoneFromParams();
-                }
-
+                this.setTimeZoneFromParams();
                 this.from = parseQueryParamDatePipe.transform(this.queryParams.from, 'from');
                 this.to = parseQueryParamDatePipe.transform(this.queryParams.to, 'to');
                 this.fromUTCDate = this.from.utc().format('YYYY-MM-DDTHH:mm:ss');
@@ -76,15 +74,24 @@ export class CoreComponent implements OnInit, OnDestroy {
             });
     }
 
-    onChangeParams(params) {
-        console.log('onChangeParams', params);
-    }
+    /**
+     * onChangeParams is invoked every time when route changes
+     * @param params optional
+     */
+    abstract onChangeParams(params): void;
 
-    setTimeZoneFromParams(tz = 'local') {
+    /**
+     * set timezone based on given query parameter.
+     */
+    setTimeZoneFromParams() {
+        let tz = this.queryParams.tz || 'local';
         const expireDays = moment().utc().add(7, 'y').toString();
         document.cookie = `timezone=${tz}; expires=${expireDays}; path=/`;
     }
 
+    /**
+     * Destroys route subscription on component unload.
+     */
     ngOnDestroy() {
         this.routerSubscription.unsubscribe();
     }
