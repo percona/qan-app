@@ -2,11 +2,19 @@
     <div class="card-header" id="query_profile_heared">
         <span id="query_profile_top">Top {{ totalAmountOfQueries ? (queryProfile?.length - 1) : 0 }} of {{ totalAmountOfQueries }} Queries by % Grand Total Time (%GTT)</span>
         <span class="pull-right" id="selected_time">
-            <i class="fa fa-clock-o" aria-hidden="true"></i>
-            <b class="text-info">{{ fromDate }}</b>
-            <i class="fa fa-ellipsis-h" aria-hidden="true"></i>
-            <i class="fa fa-clock-o" aria-hidden="true"></i>
-            <b class="text-info">{{ toDate }}</b>
+           <form class="form-inline" (submit)="search()">
+				<div class="input-group">
+					<input class="form-control" [(ngModel)]="searchValue" size="50"
+                           name="searchValue" id="search_field" type="text"
+                           placeholder="Search by Query Abstract, Fingerprint or ID">
+					<span class="input-group-btn">
+							<button class="btn btn-outline-primary"
+								(submit)="search()"
+								id="search_button"
+								type="submit"><i class="fa fa-search"></i></button>
+					</span>
+				</div>
+			</form>
         </span>
     </div>
     <i *ngIf="isLoading" class="fa fa-spinner fa-pulse fa-3x fa-fw loading-in-front"></i>
@@ -50,9 +58,9 @@
                     {{ row.Load | humanize : 'number' }} ({{ row.Percentage | humanize : 'percent' }})
                 </td>
                 <td class="no-right-border text-xs-right">
-                    {{row.QPS | humanize : 'number'}}&nbsp;QPS
+                    {{row.QPS | humanize : 'number'}} QPS
                 </td>
-                <td class="no-left-border no-right-border" style="width: 6em;">
+                <td class="no-left-border no-right-border">
                     <div class="scaling-svg-container app-tooltip" [appLoadSparklines]="row.Log" data-tooltip="Loading..."
                          xkey="Start_ts" ykey="Query_count" measurement="number" >
 
@@ -66,7 +74,7 @@
                          xkey="Start_ts" ykey="Query_time_avg" measurement="time"></div>
                 </td>
                 <td class="no-right-border no-left-border text-xs-right">
-                    {{ row.Stats.Avg | humanize }}&nbsp;avg
+                    {{ row.Stats.Avg | humanize }} avg
                 </td>
                 <td style="width: 6em;" class="no-left-border chart-td">
                     <div class="scaling-svg-container app-tooltip"

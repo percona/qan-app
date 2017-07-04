@@ -10,5 +10,17 @@ export class AppComponent {
   title = 'Query Analytics';
   version = environment.version;
   isDemo = environment.demo;
-  hideNav = environment.hideNav;
+  showNav = !this.inIframe();
+
+  /**
+   * inIframe is used to show/hide navbar.
+   */
+  inIframe(): boolean {
+    try {
+      return window.self !== window.top;
+    } catch (e) {
+      return true;
+    }
+  }
+
 }

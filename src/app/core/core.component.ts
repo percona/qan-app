@@ -69,7 +69,10 @@ export abstract class CoreComponent implements OnDestroy {
                 this.to = parseQueryParamDatePipe.transform(this.queryParams.to, 'to');
                 this.fromUTCDate = this.from.utc().format('YYYY-MM-DDTHH:mm:ss');
                 this.toUTCDate = this.to.utc().format('YYYY-MM-DDTHH:mm:ss');
+
+                // trigger overriden method in child component
                 this.onChangeParams(this.queryParams);
+
                 this.previousQueryParams = Object.assign({}, this.queryParams);
             });
     }

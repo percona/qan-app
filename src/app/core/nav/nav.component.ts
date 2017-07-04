@@ -21,7 +21,6 @@ export class NavComponent extends CoreComponent implements OnDestroy {
   protected routerSubscription: Subscription;
 
   public isDemo = environment.demo;
-  public searchValue: string;
 
   public isExtHidden: boolean;
 
@@ -133,23 +132,6 @@ export class NavComponent extends CoreComponent implements OnDestroy {
     const params: QueryParams = Object.assign({}, this.queryParams);
     params.to = this.toTimeRaw;
     params.from = this.fromTimeRaw;
-    this.router.navigate(['profile'], { queryParams: params });
-  }
-
-  search() {
-    const params: QueryParams = Object.assign({}, this.queryParams);
-    if (!!this.searchValue) {
-      params.search = this.searchValue;
-    } else {
-      delete params.search;
-    }
-    delete params.queryID;
-    this.router.navigate(['profile'], { queryParams: params });
-  }
-
-  reset() {
-    const params: QueryParams = Object.assign({}, this.queryParams);
-    delete params.search;
     this.router.navigate(['profile'], { queryParams: params });
   }
 

@@ -1,5 +1,5 @@
-<div class="container-fluid">
-  <app-nav *ngIf="!hideNav"></app-nav>
+<div class="container-fluid" [ngClass]="{'navbar-padding': showNav }">
+  <app-nav *ngIf="showNav"></app-nav>
   <main>
     <!-- Router Outlet -->
     <router-outlet></router-outlet>
