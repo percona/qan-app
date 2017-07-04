@@ -18,13 +18,10 @@ export class QueryProfileComponent extends CoreComponent {
     public offset: number;
     public totalAmountOfQueries: number;
     public leftInDbQueries: number;
-
+    public searchValue: string;
     public fromDate: string;
-
     public toDate: string;
-
     public isLoading: boolean;
-
     public noQueryError: string;
 
     constructor(protected route: ActivatedRoute, protected router: Router,
@@ -92,5 +89,16 @@ export class QueryProfileComponent extends CoreComponent {
         const queryParams: QueryParams = Object.assign({}, this.queryParams);
         queryParams.queryID = queryID || 'TOTAL';
         return queryParams;
+    }
+
+    search() {
+        const params: QueryParams = Object.assign({}, this.queryParams);
+        if (!!this.searchValue) {
+            params.search = this.searchValue;
+        } else {
+            delete params.search;
+        }
+        delete params.queryID;
+        this.router.navigate(['profile'], { queryParams: params });
     }
 }

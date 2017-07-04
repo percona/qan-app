@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Instance, InstanceService } from '../core/instance.service';
 import { CoreComponent } from '../core/core.component';
-import { MySQLQueryDetailsService, QueryDetails } from './mysql-query-details.service';
+import { MySQLQueryDetailsService, QueryDetails, ServerSummary } from './mysql-query-details.service';
 import * as hljs from 'highlight.js';
 import * as vkbeautify from 'vkbeautify';
 import * as moment from 'moment';
@@ -54,38 +54,32 @@ export class MySQLQueryDetailsComponent extends CoreComponent {
     }
   }
 
-  getQueryDetails(dbServerUUID, queryID, from, to: string) {
+  async getQueryDetails(dbServerUUID, queryID, from, to: string) {
     this.isLoading = true;
     this.dbName = this.dbTblNames = '';
     this.queryExample = '';
-    this.queryDetailsService.getQueryDetails(dbServerUUID, queryID, from, to)
-      .then(data => {
-        this.queryDetails = data;
-        this.fingerprint = hljs.highlight('sql', vkbeautify.sql(this.queryDetails.Query.Fingerprint)).value;
-        if (this.queryDetails.Example.Query !== '') {
-          this.queryExample = hljs.highlight('sql', vkbeautify.sql(this.queryDetails.Example.Query)).value;
-        }
-        this.isLoading = false;
-        // TODO: solve issue with async
-        // this.metrics = data.Metrics2; this.sparklines = data.Sparks2; this.queryClass = data.Query; this.queryExample = data.Example;
-      })
-      .then(() => !!this.queryExample && this.getExplain())
-      .then(() => this.getTableInfo())
-      .catch(err => console.error(err));
+    try {
+      this.queryDetails = await this.queryDetailsService.getQueryDetails(dbServerUUID, queryID, from, to)
+
+      this.fingerprint = hljs.highlight('sql', vkbeautify.sql(this.queryDetails.Query.Fingerprint)).value;
+      if (this.queryDetails.Example.Query !== '') {
+        this.queryExample = hljs.highlight('sql', vkbeautify.sql(this.queryDetails.Example.Query)).value;
+      }
+      this.isLoading = false;
+      !!this.queryExample && this.getExplain();
+      this.getTableInfo()
+    } catch (err) {
+      console.error(err);
+    }
   }
 
-  getServerSummary(dbServerUUID: string, from: string, to: string) {
+  async getServerSummary(dbServerUUID: string, from: string, to: string) {
     this.dbName = this.dbTblNames = '';
-    this.queryDetailsService.getSummary(dbServerUUID, from, to)
-      .then(data => {
-        this.queryDetails = data;
-        // TODO: solve issue with async
-        // this.metrics = data.Metrics2; this.sparklines = data.Sparks2; this.queryClass = data.Query; this.queryExample = data.Example;
-      })
-      .catch(err => console.error(err));
-
-    // this.navService.setAlert(queryID);
-    // throw new Error('hello error 22');
+    try {
+      this.queryDetails = await this.queryDetailsService.getSummary(dbServerUUID, from, to) as QueryDetails;
+    } catch (err) {
+      console.error(err);
+    }
   }
 
   getExplain() {

@@ -43,24 +43,6 @@
 			 [queryParams]="dbServer?.Name ? {'var-host': dbServer?.Name} : ''" routerLinkActive="active"><i class="fa fa-cog"></i>
 				<span class="hidden-md-down">Settings</span></a>
 		</li>
-
-		<li class="nav-item" [hidden]="isExtHidden">
-			<form class="form-inline" (submit)="search()">
-				<div class="input-group">
-					<input class="form-control" [(ngModel)]="searchValue" size="32" name="searchValue" id="search_field" type="text" placeholder="Search by Query Abstract, Fingerprint or ID">
-					<span class="input-group-btn">
-							<button class="btn btn-outline-primary"
-								(submit)="search()"
-								id="search_button"
-								type="submit"><i class="fa fa-search"></i></button>
-							<!--<button class="btn btn-outline-primary"
-								(click)="reset();"
-								id="reset_search_button"
-								type="reset"><i class="fa fa-times"></i></button>-->
-					</span>
-				</div>
-			</form>
-		</li>
 	</ul>
 	<div *ngIf="!isExtHidden" class="navbar-toggler-right d-flex flex-row">
 		<div class="d-flex flex-column">

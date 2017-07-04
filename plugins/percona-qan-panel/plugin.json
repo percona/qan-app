@@ -1,0 +1,31 @@
+{
+  "type": "panel",
+  "name": "Percona Query Analytics",
+  "id": "percona-qan-panel",
+
+  "info": {
+    "description": "Percona Query Analytics panel for grafana",
+    "author": {
+      "name": "askomorokhov"
+    },
+    "keywords": ["percona", "query analytics", "panel"],
+    "links": [
+      {"name": "Project site", "url": "https://github.com/percona/qan-app"},
+      {"name": "AGPL-3 License",  "url": "https://github.com/percona/qan-app/blob/master/LICENSE"}
+    ],
+    "logos": {
+      "small": "img/pmm-logo.svg",
+      "large": "img/pmm-logo.svg"
+    },
+    "screenshots": [
+      {"name": "Options", "path": "img/PMM-Screen-Shot.png"}
+    ],
+    "version": "0.0.2",
+    "updated": "2017-06-15"
+  },
+
+  "dependencies": {
+    "grafanaVersion": "3.x.x",
+    "plugins": [ ]
+  }
+}
