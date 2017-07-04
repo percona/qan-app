@@ -44,14 +44,18 @@
 </tr>
 <tr>
     <td>Query Time</td>
-    <td class="no-right-border" align="right">{{ queryDetails?.Metrics2.Query_time_sum_per_sec | humanize : 'number' }} load <span *ngIf="true">({{ queryDetails?.Metrics2.Query_time_sum_of_total | humanize : 'percent' }})</span></td>
+    <td class="no-right-border" align="right">
+        {{ queryDetails?.Metrics2.Query_time_sum_per_sec | humanize : 'number' }} load
+    </td>
     <td class="no-left-border" widht="150px">
         <div class="scaling-svg-container app-tooltip" [appLoadSparklines]="queryDetails?.Sparks2" data-tooltip="Loading..." xkey="Ts" ykey="Query_time_sum_per_sec" measurement="number"></div>
     </td>
     <td>
         <span class="sum">{{ queryDetails?.Metrics2.Query_time_sum | humanize : 'time' }}</span>
         <small>
-                        <span *ngIf="!isSummary" class="text-primary">{{ queryDetails?.Metrics2.Query_time_sum_of_total | humanize : 'percent' }} of total</span>
+                        <span *ngIf="!isSummary" class="text-primary">
+                            {{ queryDetails?.Metrics2.Query_time_sum_of_total | humanize : 'percent' }} of total
+                            </span>
                     </small>
     </td>
     <td class="text-xs-right no-right-border">
