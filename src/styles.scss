@@ -151,8 +151,8 @@ table.metrics td span.sum {
     border-left-style: none;
 }
 
-.card-header > h5 {
-    display: inline;
+.card-header h5 {
+    margin-bottom: -2px;
 }
 .card-header h5::before {
     font-family: FontAwesome;
