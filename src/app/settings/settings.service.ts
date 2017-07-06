@@ -13,28 +13,28 @@ export class SettingsService {
 
     constructor(private http: Http) { }
 
-    getAgentStatus(agentUUID: string): Promise<{}> {
+    public async getAgentStatus(agentUUID: string): Promise<{}> {
         const url = `/qan-api/agents/${agentUUID}/status`;
 
-        return this.http
+        let response = await this.http
             .get(url, { headers: this.headers })
-            .toPromise()
-            .then(response => response.json() as {});
+            .toPromise();
+        return response.json() as {};
     }
 
-    getAgentLog(agentUUID, begin, end: string): Promise<{}> {
+    public async getAgentLog(agentUUID, begin, end: string): Promise<{}> {
         const url = `/qan-api/agents/${agentUUID}/log`;
 
         const params = new URLSearchParams();
         params.set('begin', begin);
         params.set('end', end);
-        return this.http
+        let response = await this.http
             .get(url, { headers: this.headers, search: params })
-            .toPromise()
-            .then(response => response.json() as {});
+            .toPromise();
+        return response.json() as {};
     }
 
-    getAgentDefaults(agentUUID: string, dbServerUUID: string): Promise<{}> {
+    public async getAgentDefaults(agentUUID: string, dbServerUUID: string): Promise<{}> {
         const url = `/qan-api/agents/${agentUUID}/cmd`;
         const params = {
             AgentUUID: agentUUID,
@@ -43,21 +43,20 @@ export class SettingsService {
             Data: btoa(JSON.stringify({ UUID: dbServerUUID }))
         };
 
-        return this.http
+        let response = await this.http
             .put(url, params, { headers: this.headers })
-            .toPromise()
-            .then(response => {
-                const resp = response.json();
-                if (!!resp.Error) {
-                    throw new Error(resp.Error);
-                } else {
-                    return JSON.parse(atob(resp.Data));
-                }
-            });
+            .toPromise();
+
+        const resp = response.json();
+        if (!!resp.Error) {
+            throw new Error(resp.Error);
+        } else {
+            return JSON.parse(atob(resp.Data));
+        }
     }
 
-    setAgentDefaults(agentUUID: string, dbServerUUID: string, interval: number,
-                     exampleQueries: boolean, collectFrom: CollectFrom): Promise<{}> {
+    public async setAgentDefaults(agentUUID: string, dbServerUUID: string, interval: number,
+        exampleQueries: boolean, collectFrom: CollectFrom): Promise<{}> {
         const url = `/qan-api/agents/${agentUUID}/cmd`;
 
         const data = {
@@ -74,24 +73,15 @@ export class SettingsService {
             Data: btoa(JSON.stringify(data))
         };
 
-        return this.http
+        let response = await this.http
             .put(url, params, { headers: this.headers })
-            .toPromise()
-            .then(response => {
-                const resp = response.json();
-                if (!!resp.Error) {
-                    throw new Error(resp.Error);
-                } else {
-                    return JSON.parse(atob(resp.Data));
-                }
-            });
-    }
+            .toPromise();
 
-    getQanConfig(dbServerUUID: string): Promise<{}> {
-        const url = `/qan-api/qan/config/${dbServerUUID}`;
-        return this.http
-            .get(url, { headers: this.headers })
-            .toPromise()
-            .then(response => response.json() as {});
+        const resp = response.json();
+        if (!!resp.Error) {
+            throw new Error(resp.Error);
+        } else {
+            return JSON.parse(atob(resp.Data));
+        }
     }
 }
