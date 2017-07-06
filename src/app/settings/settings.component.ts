@@ -40,45 +40,74 @@ export class SettingsComponent extends CoreComponent {
         super(route, router, instanceService);
     }
 
+    /**
+     * Get agent log for N last hours.
+     * @param period time period integer in hours
+     */
     setLogPeriod(period): void {
         this.logPeriod = period;
         this.getAgentLog();
     }
 
+    /**
+     * get fresh agent log
+     */
     refreshAgentLog(): void {
         this.getAgentLog();
     }
 
-    getSetting() {
-        this.settingsService.getQanConfig(this.dbServer.UUID)
-            .then(res => this.qanConf = res)
-            .catch(err => console.error(err));
+    /**
+     * Get from agent:
+     *  - Collect interval: positive intager;
+     *  - Send real query examples: boolean;
+     *  - Collect from: 'slowlog' or 'perfschema'.
+     */
+    public async getAgentDefaults() {
+        let res = await this.settingsService.getAgentDefaults(this.agent.UUID, this.dbServer.UUID);
+        try {
+            this.agentConf = res;
+            this.interval = this.agentConf.qan.Interval / 60;
+            this.collectFrom = this.agentConf.qan.CollectFrom;
+            this.exampleQueries = this.agentConf.qan.ExampleQueries;
+        } catch (err) {
+            console.error(err)
+        }
     }
 
-    getAgentDefaults() {
-        this.settingsService.getAgentDefaults(this.agent.UUID, this.dbServer.UUID)
-            .then(res => {
-                this.agentConf = res;
-                this.interval = this.agentConf.qan.Interval / 60;
-                this.collectFrom = this.agentConf.qan.CollectFrom;
-                this.exampleQueries = this.agentConf.qan.ExampleQueries;
-            })
-            .catch(err => console.error(err));
+    /**
+     * Set on agent:
+     *  - Collect interval: positive intager;
+     *  - Send real query examples: boolean;
+     *  - Collect from: 'slowlog' or 'perfschema'.
+     */
+    public async setAgentDefaults() {
+        let res = await this.settingsService.setAgentDefaults(
+            this.agent.UUID,
+            this.dbServer.UUID,
+            this.interval,
+            this.exampleQueries,
+            this.collectFrom
+        );
+        try {
+            // this.agentConf = res; // diffrent responce than GetDefaults.
+            this.getAgentDefaults();
+        } catch (err) {
+            console.error(err);
+        }
     }
 
-    setAgentDefaults() {
-        this.settingsService.setAgentDefaults(this.agent.UUID, this.dbServer.UUID,
-            this.interval, this.exampleQueries, this.collectFrom)
-            .then(res => { this.agentConf = res; })
-            .catch(err => console.error(err));
-    }
-
+    /**
+     * Get slice of exported variables of agent.
+     */
     getAgentStatus() {
         this.agentStatus = this.settingsService.getAgentStatus(this.agent.UUID);
         const updated: any = moment();
         this.statusUpdatedFromNow$ = Observable.interval(60000).map(n => updated.fromNow());
     }
 
+    /**
+     * get agent log for some period.
+     */
     getAgentLog() {
         const begin = moment.utc().subtract(this.logPeriod, 'h').format('YYYY-MM-DDTHH:mm:ss');
         const end = moment.utc().format('YYYY-MM-DDTHH:mm:ss');
@@ -93,7 +122,6 @@ export class SettingsComponent extends CoreComponent {
      * @param params - URL query parameters
      */
     onChangeParams(params) {
-        this.getSetting();
         this.getAgentDefaults();
         this.getAgentStatus();
         this.getAgentLog();

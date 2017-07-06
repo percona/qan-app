@@ -552,7 +552,7 @@
     </div>
 </div>
 <br />
-<ngb-accordion activeIds="classic-explain"  *ngIf="!!queryExample">
+<ngb-accordion activeIds="classic-explain" *ngIf="!!queryExample">
     <ngb-panel id="classic-explain">
         <ng-template ngbPanelTitle>
             <h5>CLASSIC</h5>
@@ -607,12 +607,12 @@
         <ng-template ngbPanelContent>
             <i *ngIf="isExplainLoading" class="fa fa-spinner fa-pulse fa-3x fa-fw loading"></i>
             <pre *ngIf="!isExplainLoading && !jsonExplainError" style="margin: 1rem"><code [innerHTML]="jsonExplain"></code></pre>
-             <div *ngIf="!isExplainLoading && jsonExplainError" class="alert alert-warning w-75 mx-auto m-2" role="alert">
+            <div *ngIf="!isExplainLoading && jsonExplainError" class="alert alert-warning w-75 mx-auto m-2" role="alert">
                 <i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
                 {{ jsonExplainError }}
             </div>
-</ng-template>
-</ngb-panel>
+        </ng-template>
+    </ngb-panel>
 </ngb-accordion>
 
 <hr />

@@ -69,78 +69,71 @@
                     </div>
                 </div>
                 <div *ngIf="dbServer.Subsystem === 'mysql'" class="col-md-6">
-                    <fieldset ng-if="agentConf?.qan?.CollectFrom === 'slowlog'">
+                    <fieldset *ngIf="agentConf?.qan?.CollectFrom === 'slowlog'">
                         <legend>Slow Log Configuration</legend>
-                        <form>
-                            <div class="form-group row">
-                                <label for="inputLongQueryTime" class="col-sm-5 col-form-label">Long query time</label>
-                                <div class="col-sm-3">
-                                    <p class="form-control-static">{{ agentConf?.qan?.LongQueryTime }}</p>
-                                </div>
-                                <div class="col-sm-2">
-                                    <span id="longQueryTimeHelpBlock" class="help-block"><small>second(s)</small></span>
-                                </div>
+                        <!-- Need to deside what to do with this banner.
+                            <div *ngIf="dbServer.Distro.toLowerCase().indexOf('percona') === -1" class="alert alert-warning" role="alert">
+                            Upgrade to <a href="https://www.percona.com/software/mysql-database/percona-server">Percona Server</a>
+                            to have the best configuration.
+                        </div>-->
+
+                        <div class="form-group row">
+                            <label for="inputLongQueryTime" class="col-sm-5 col-form-label">Long query time</label>
+                            <div class="col-sm-3">
+                                <p class="form-control-static">{{ agentConf?.qan?.LongQueryTime }}</p>
                             </div>
-
-                            <div class="form-group row">
-                                <label for="inputMaxSlowLogSize" class="col-sm-5 col-form-label">Max slow log size</label>
-                                <div class="col-sm-3">
-                                    <p class="form-control-static">{{ agentConf?.qan?.MaxSlowLogSize | humanize : 'size' }}</p>
-                                </div>
-                                <div class="col-sm-2">
-                                    <span id="maxSlowLogSizeHelpBlock" class="help-block"><small>0 = no max</small></span>
-                                </div>
+                            <div class="col-sm-2">
+                                <span id="longQueryTimeHelpBlock" class="help-block"><small>second(s)</small></span>
                             </div>
+                        </div>
 
-                            <div class="form-group row">
-                                <label for="RemoveOldSlowLogs" class="col-sm-5 col-form-label">Remove old slow logs</label>
-                                <div class="col-sm-3">
-                                    <p class="form-control-static" id="RemoveOldSlowLogs">{{ agentConf?.qan?.RemoveOldSlowLogs ? 'ON' : 'OFF' }}</p>
-                                </div>
+                        <div class="form-group row">
+                            <label for="inputMaxSlowLogSize" class="col-sm-5 col-form-label">Max slow log size</label>
+                            <div class="col-sm-3">
+                                <p class="form-control-static">{{ agentConf?.qan?.MaxSlowLogSize | humanize : 'size' }}</p>
                             </div>
-                        </form>
-                    </fieldset>
-
-                    <fieldset ng-if="agentConf?.qan?.CollectFrom === 'slowlog'">
-                        <legend>Percona Server</legend>
-                        <form>
-                            <div ng-if="dbServer.Distro.toLowerCase().indexOf('percona') === -1" class="alert alert-warning" role="alert">
-                                Upgrade to <a href="https://www.percona.com/software/mysql-database/percona-server">Percona Server</a>                                to enable these options.
+                            <div class="col-sm-2">
+                                <span id="maxSlowLogSizeHelpBlock" class="help-block"><small>0 = no max</small></span>
                             </div>
+                        </div>
 
-                            <div ng-if="dbServer.Distro.toLowerCase().indexOf('percona') > -1">
-                                <div class="form-group row">
-                                    <label for="inputSlowLogVerbosity" class="col-sm-5 col-form-label">Slow log verbosity</label>
-                                    <div class="col-sm-3">
-                                        <p class="form-control-static">{{ agentConf?.qan?.SlowLogVerbosity }}</p>
-                                    </div>
-                                </div>
-
-                                <div class="form-group row">
-                                    <label for="inputRateLimit" class="col-sm-5 col-form-label">Rate limit</label>
-                                    <div class="col-sm-3">
-                                        <p class="form-control-static">{{ agentConf?.qan?.RateLimit }}</p>
-                                    </div>
-                                    <div class="col-sm-3">
-                                        <span id="rateLimitHelpBlock" class="help-block"><small>0 and 1 = disabled</small></span>
-                                    </div>
-                                </div>
-
-                                <div class="form-group row">
-                                    <label for="LogSlowAdminStatements" class="col-sm-5 col-form-label">Log slow admin statements</label>
-                                    <div class="col-sm-3">
-                                        <p class="form-control-static">{{ agentConf?.qan?.LogSlowAdminStatements ? 'ON' : 'OFF' }}</p>
-                                    </div>
-                                </div>
-
-                                <div class="form-group row">
-                                    <label for="LogSlowSlaveStatemtents" class="col-sm-5 col-form-label">Log slow slave statements</label>
-                                    <div class="col-sm-3">
-                                        <p class="form-control-static">{{ agentConf?.qan?.LogSlowSlaveStatemtents ? 'ON' : 'OFF' }}</p>
-                                    </div>
-                                </div>
+                        <div class="form-group row">
+                            <label for="RemoveOldSlowLogs" class="col-sm-5 col-form-label">Remove old slow logs</label>
+                            <div class="col-sm-3">
+                                <p class="form-control-static" id="RemoveOldSlowLogs">{{ agentConf?.qan?.RemoveOldSlowLogs ? 'ON' : 'OFF' }}</p>
                             </div>
-                        </form>
+                        </div>
+
+                        <div class="form-group row">
+                            <label for="inputSlowLogVerbosity" class="col-sm-5 col-form-label">Slow log verbosity</label>
+                            <div class="col-sm-3">
+                                <p class="form-control-static">{{ agentConf?.qan?.SlowLogVerbosity }}</p>
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <label for="inputRateLimit" class="col-sm-5 col-form-label">Rate limit</label>
+                            <div class="col-sm-3">
+                                <p class="form-control-static">{{ agentConf?.qan?.RateLimit }}</p>
+                            </div>
+                            <div class="col-sm-3">
+                                <span id="rateLimitHelpBlock" class="help-block"><small>0 and 1 = disabled</small></span>
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <label for="LogSlowAdminStatements" class="col-sm-5 col-form-label">Log slow admin statements</label>
+                            <div class="col-sm-3">
+                                <p class="form-control-static">{{ agentConf?.qan?.LogSlowAdminStatements ? 'ON' : 'OFF' }}</p>
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <label for="LogSlowSlaveStatemtents" class="col-sm-5 col-form-label">Log slow slave statements</label>
+                            <div class="col-sm-3">
+                                <p class="form-control-static">{{ agentConf?.qan?.LogSlowSlaveStatemtents ? 'ON' : 'OFF' }}</p>
+                            </div>
+                        </div>
                     </fieldset>
                 </div>
             </div>

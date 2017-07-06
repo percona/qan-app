@@ -66,7 +66,9 @@ export class MySQLQueryDetailsComponent extends CoreComponent {
         this.queryExample = hljs.highlight('sql', vkbeautify.sql(this.queryDetails.Example.Query)).value;
       }
       this.isLoading = false;
-      !!this.queryExample && this.getExplain();
+      if (this.queryExample) {
+        this.getExplain();
+      }
       this.getTableInfo()
     } catch (err) {
       console.error(err);
