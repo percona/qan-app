@@ -1,10 +1,12 @@
-import { CoreComponent, QueryParams } from '../core/core.component';
+import { CoreComponent, QueryParams, QanError } from '../core/core.component';
 import { Component } from '@angular/core';
 import { Instance, InstanceService } from '../core/instance.service';
 import { QueryProfileService } from './query-profile.service';
 import { Router, ActivatedRoute } from '@angular/router';
 import * as moment from 'moment';
 import { MomentFormatPipe } from '../shared/moment-format.pipe';
+
+const queryProfileError = 'No data. Please check pmm-client and database configurations on selected instance.';
 
 @Component({
     moduleId: module.id,
@@ -45,44 +47,48 @@ export class QueryProfileComponent extends CoreComponent {
         }
     }
 
-    loadQueries() {
+    public async loadQueries() {
         this.isLoading = true;
+
+        // clear after error
+        this.noQueryError = '';
+        this.totalAmountOfQueries = this.leftInDbQueries = 0;
+        this.queryProfile = [];
+
         const search = this.queryParams.search;
         this.offset = 0;
-        this.queryProfileService
-            .getQueryProfile(this.dbServer.UUID, this.fromUTCDate, this.toUTCDate, this.offset, search)
-            .then(data => {
-                if (data.hasOwnProperty('Error') && data['Error'] !== '') {
-                    this.isLoading = false;
-                    throw new Error('Queries are not availible.');
-                }
-                this.totalAmountOfQueries = data['TotalQueries'];
-                if (this.totalAmountOfQueries > 0) {
-                    this.queryProfile = data['Query'];
-                    this.leftInDbQueries = this.totalAmountOfQueries - (this.queryProfile.length - 1);
-                    this.profileTotal = this.queryProfile[0];
-                } else {
-                    this.queryProfile = [];
-                    this.leftInDbQueries = 0;
-                }
-                this.isLoading = false;
-            }).catch(err => this.noQueryError = err.message);
+        try {
+            let data = await this.queryProfileService
+                .getQueryProfile(this.dbServer.UUID, this.fromUTCDate, this.toUTCDate, this.offset, search);
+            if (data.hasOwnProperty('Error') && data['Error'] !== '') {
+                throw new QanError('Queries are not availible.');
+            }
+            this.totalAmountOfQueries = data['TotalQueries'];
+            if (this.totalAmountOfQueries > 0) {
+                this.queryProfile = data['Query'];
+                this.leftInDbQueries = this.totalAmountOfQueries - (this.queryProfile.length - 1);
+                this.profileTotal = this.queryProfile[0];
+            }
+        } catch (err) {
+            this.noQueryError = err.name === QanError.errType ? err.message : queryProfileError;
+        } finally {
+            this.isLoading = false;
+        }
     }
 
-    loadMoreQueries() {
+    public async loadMoreQueries() {
         this.isLoading = true;
         const dbServerUUID = this.dbServer.UUID;
         this.offset = this.offset + 10;
-        this.queryProfileService
-            .getQueryProfile(dbServerUUID, this.fromUTCDate, this.toUTCDate, this.offset)
-            .then(data => {
-                const _ = data['Query'].shift();
-                for (const q of data['Query']) {
-                    this.queryProfile.push(q);
-                }
-                this.leftInDbQueries = this.totalAmountOfQueries - (this.queryProfile.length - 1);
-                this.isLoading = false;
-            });
+        let data = await this.queryProfileService
+            .getQueryProfile(dbServerUUID, this.fromUTCDate, this.toUTCDate, this.offset);
+
+        const _ = data['Query'].shift();
+        for (const q of data['Query']) {
+            this.queryProfile.push(q);
+        }
+        this.leftInDbQueries = this.totalAmountOfQueries - (this.queryProfile.length - 1);
+        this.isLoading = false;
     }
 
     composeQueryParamsForGrid(queryID: string | null): QueryParams {

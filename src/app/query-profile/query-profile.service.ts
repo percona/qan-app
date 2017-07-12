@@ -9,7 +9,7 @@ export class QueryProfileService {
 
     constructor(private http: Http) { }
 
-    getQueryProfile(dbServerUUID, begin, end: string,
+    public async getQueryProfile(dbServerUUID, begin, end: string,
         offset = 0, search = ''): Promise<{}> {
         const url = `/qan-api/qan/profile/${dbServerUUID}`;
         const params = new URLSearchParams();
@@ -19,14 +19,13 @@ export class QueryProfileService {
         if (search) {
             search = btoa(
                 search.replace(/%([0-9A-F]{2})/g,
-                (match, p1) => String.fromCharCode(Number('0x' + p1)))
+                    (match, p1) => String.fromCharCode(Number('0x' + p1)))
             );
             params.set('search', search);
         }
-        return this.http
+        let response = await this.http
             .get(url, { headers: this.headers, search: params })
-            .toPromise()
-            .then(response => response.json())
-            .catch(err => console.log(err));
+            .toPromise();
+        return response.json();
     }
 }

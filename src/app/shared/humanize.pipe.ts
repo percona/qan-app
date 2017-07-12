@@ -10,14 +10,25 @@ import * as numeral from 'numeral';
 export class HumanizePipe implements PipeTransform {
 
     parceTime(input: number) {
-        let dur: string;
+
+        let dur = '';
         const dur_sec = moment.duration(input, 's');
         switch (true) {
             case input === 0:
                 dur = '0';
                 break;
-            case dur_sec.as('s') > 1:
+            case dur_sec.as('s') > 1 && dur_sec.as('s') < 60:
                 dur = dur_sec.as('s').toFixed(2) + ' sec';
+                break;
+            case dur_sec.as('s') >= 60:
+                let secs = dur_sec.as('s');
+                const secondsInDay = 24 * 60 * 60;
+                if (secs >= secondsInDay) {
+                    let days = Math.floor(secs / secondsInDay);
+                    dur = `${days} days, `;
+                    secs = secs % secondsInDay;
+                }
+                dur += numeral(secs).format('00:00:00');
                 break;
             case dur_sec.as('ms') < 1:
                 dur = (dur_sec.as('ms') * 1000).toFixed(2) + ' \µs';

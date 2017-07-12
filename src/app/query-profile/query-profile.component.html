@@ -31,7 +31,11 @@
         </thead>
         <tbody *ngIf="!!noQueryError">
             <tr>
-                <td id="query_profile_error" class="text-center" colspan="11">{{ noQueryError }}</td>
+                <td id="query_profile_error" class="text-center" colspan="11">
+                    <div class="alert alert-danger w-75 mx-auto" role="alert">
+                        {{ noQueryError }}
+                    </div>
+                </td>
             </tr>
         </tbody>
         <tbody *ngIf="!noQueryError">
@@ -73,8 +77,8 @@
                     <div class="scaling-svg-container app-tooltip" [appLoadSparklines]="row.Log" data-tooltip="Loading..."
                          xkey="Start_ts" ykey="Query_time_avg" measurement="time"></div>
                 </td>
-                <td class="no-right-border no-left-border text-xs-right">
-                    {{ row.Stats.Avg | humanize }} avg
+                <td class="no-right-border no-left-border text-xs-right smart-latency-time cell-overlay">
+                    <span tabindex="0">{{ row.Stats.Avg | humanize }} avg</span>
                 </td>
                 <td style="width: 6em;" class="no-left-border chart-td">
                     <div class="scaling-svg-container app-tooltip"
