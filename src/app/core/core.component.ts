@@ -16,6 +16,7 @@ export interface QueryParams {
     queryID?: string;
     tz?: string;
 }
+
 /**
  * Base class for all components.
  */
@@ -98,4 +99,10 @@ export abstract class CoreComponent implements OnDestroy {
     ngOnDestroy() {
         this.routerSubscription.unsubscribe();
     }
+}
+
+
+export class QanError extends Error {
+    static errType = 'QanError';
+    name = 'QanError';
 }
