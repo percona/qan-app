@@ -71,11 +71,6 @@
                 <div *ngIf="dbServer.Subsystem === 'mysql'" class="col-md-6">
                     <fieldset *ngIf="agentConf?.qan?.CollectFrom === 'slowlog'">
                         <legend>Slow Log Configuration</legend>
-                        <!-- Need to deside what to do with this banner.
-                            <div *ngIf="dbServer.Distro.toLowerCase().indexOf('percona') === -1" class="alert alert-warning" role="alert">
-                            Upgrade to <a href="https://www.percona.com/software/mysql-database/percona-server">Percona Server</a>
-                            to have the best configuration.
-                        </div>-->
 
                         <div class="form-group row">
                             <label for="inputLongQueryTime" class="col-sm-5 col-form-label">Long query time</label>
@@ -104,34 +99,41 @@
                             </div>
                         </div>
 
-                        <div class="form-group row">
-                            <label for="inputSlowLogVerbosity" class="col-sm-5 col-form-label">Slow log verbosity</label>
-                            <div class="col-sm-3">
-                                <p class="form-control-static">{{ agentConf?.qan?.SlowLogVerbosity }}</p>
-                            </div>
+                        <!-- Additional settings -->
+                        <div *ngIf="dbServer.Distro.toLowerCase().indexOf('percona') === -1 && dbServer.Version.startsWith('5.5')" class="alert alert-warning" role="alert">
+                            Upgrade to <a href="https://www.percona.com/software/mysql-database/percona-server">Percona Server</a>
+                            to enable more options.
                         </div>
-
-                        <div class="form-group row">
-                            <label for="inputRateLimit" class="col-sm-5 col-form-label">Rate limit</label>
-                            <div class="col-sm-3">
-                                <p class="form-control-static">{{ agentConf?.qan?.RateLimit }}</p>
+                        <div *ngIf="dbServer.Distro.toLowerCase().indexOf('percona') !== -1 || !dbServer.Version.startsWith('5.5')">
+                            <div class="form-group row">
+                                <label for="inputSlowLogVerbosity" class="col-sm-5 col-form-label">Slow log verbosity</label>
+                                <div class="col-sm-3">
+                                    <p class="form-control-static">{{ agentConf?.qan?.SlowLogVerbosity }}</p>
+                                </div>
                             </div>
-                            <div class="col-sm-3">
-                                <span id="rateLimitHelpBlock" class="help-block"><small>0 and 1 = disabled</small></span>
-                            </div>
-                        </div>
 
-                        <div class="form-group row">
-                            <label for="LogSlowAdminStatements" class="col-sm-5 col-form-label">Log slow admin statements</label>
-                            <div class="col-sm-3">
-                                <p class="form-control-static">{{ agentConf?.qan?.LogSlowAdminStatements ? 'ON' : 'OFF' }}</p>
+                            <div class="form-group row">
+                                <label for="inputRateLimit" class="col-sm-5 col-form-label">Rate limit</label>
+                                <div class="col-sm-3">
+                                    <p class="form-control-static">{{ agentConf?.qan?.RateLimit }}</p>
+                                </div>
+                                <div class="col-sm-3">
+                                    <span id="rateLimitHelpBlock" class="help-block"><small>0 and 1 = disabled</small></span>
+                                </div>
                             </div>
-                        </div>
 
-                        <div class="form-group row">
-                            <label for="LogSlowSlaveStatemtents" class="col-sm-5 col-form-label">Log slow slave statements</label>
-                            <div class="col-sm-3">
-                                <p class="form-control-static">{{ agentConf?.qan?.LogSlowSlaveStatemtents ? 'ON' : 'OFF' }}</p>
+                            <div class="form-group row">
+                                <label for="LogSlowAdminStatements" class="col-sm-5 col-form-label">Log slow admin statements</label>
+                                <div class="col-sm-3">
+                                    <p class="form-control-static">{{ agentConf?.qan?.LogSlowAdminStatements ? 'ON' : 'OFF' }}</p>
+                                </div>
+                            </div>
+
+                            <div class="form-group row">
+                                <label for="LogSlowSlaveStatements" class="col-sm-5 col-form-label">Log slow slave statements</label>
+                                <div class="col-sm-3">
+                                    <p class="form-control-static">{{ agentConf?.qan?.LogSlowSlaveStatements ? 'ON' : 'OFF' }}</p>
+                                </div>
                             </div>
                         </div>
                     </fieldset>
