@@ -49,7 +49,7 @@
                         <a [routerLink]="['./', 'report', dbServer.Subsystem]"
                         [queryParams]="composeQueryParamsForGrid(row.Id)"
                         href="javascript:void(0);" title="{{ row.Fingerprint }}">
-                        {{ row.Abstract ? row.Abstract : 'TOTAL' }}
+                        {{ row.Rank ? row.Abstract : 'TOTAL' }}
                         </a>
                     </span>
                 </td>
