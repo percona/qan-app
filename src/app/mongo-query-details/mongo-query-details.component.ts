@@ -45,20 +45,16 @@ export class MongoQueryDetailsComponent extends CoreComponent {
   getQueryDetails(dbServerUUID, queryID, from, to: string) {
     this.isLoading = true;
     this.dbName = this.dbTblNames = '';
+    this.queryExample = '';
     this.queryDetailsService.getQueryDetails(dbServerUUID, queryID, from, to)
       .then(data => {
         this.queryDetails = data;
         this.fingerprint = this.queryDetails.Query.Fingerprint;
         this.queryExample = hljs.highlight('json', vkbeautify.json(this.queryDetails.Example.Query)).value;
         this.isLoading = false;
-        // TODO: solve issue with async
-        // this.metrics = data.Metrics2; this.sparklines = data.Sparks2; this.queryClass = data.Query; this.queryExample = data.Example;
       })
       .then(() => this.getExplain())
-      .catch(err => console.error(err));
-
-    // this.navService.setAlert(queryID);
-    // throw new Error('hello error 22');
+      .catch(err => console.log(err));
   }
 
   getServerSummary(dbServerUUID: string, from: string, to: string) {
@@ -66,13 +62,8 @@ export class MongoQueryDetailsComponent extends CoreComponent {
     this.queryDetailsService.getSummary(dbServerUUID, from, to)
       .then(data => {
         this.queryDetails = data;
-        // TODO: solve issue with async
-        // this.metrics = data.Metrics2; this.sparklines = data.Sparks2; this.queryClass = data.Query; this.queryExample = data.Example;
       })
-      .catch(err => console.error(err));
-
-    // this.navService.setAlert(queryID);
-    // throw new Error('hello error 22');
+      .catch(err => console.log(err));
   }
 
   getExplain() {
@@ -90,7 +81,7 @@ export class MongoQueryDetailsComponent extends CoreComponent {
         this.isExplainLoading = false;
       })
       .catch(err => {
-        console.error(err);
+        console.log(err);
         this.isExplainLoading = false;
       });
   }
