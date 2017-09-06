@@ -45,9 +45,9 @@
 		</li>
 	</ul>
 	<div *ngIf="!isExtHidden" class="navbar-toggler-right d-flex flex-row">
-		<div class="d-flex flex-column">
-			<span class="badge badge-info"><small>{{ fromDateCompact }}</small></span>
-			<span class="badge badge-info"><small>{{ toDateCompact }}</small></span>
+		<div class="d-flex flex-column navbar-text fa fa-clock-o" style="padding-top:10px"></div>&nbsp;
+		<div class="d-flex flex-column navbar-text">
+			{{ fromDateCompact }} to {{ toDateCompact }} {{ timezone === 'local' ? '' : 'UTC' }}
 		</div>
 		<span class="dropdown" ngbDropdown [autoClose]="false" #timeRangeDrop="ngbDropdown">
 

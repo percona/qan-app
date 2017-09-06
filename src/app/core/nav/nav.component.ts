@@ -30,7 +30,7 @@ export class NavComponent extends CoreComponent implements OnDestroy {
 
   public toDateCompact: string;
 
-  private compactDateFormat = 'lll';
+  private compactDateFormat = 'MMM D, YYYY HH:mm:ss';
 
   private fromTimeRaw: string;
   private toTimeRaw: string;
