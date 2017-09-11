@@ -580,7 +580,10 @@
             </ng-template>
             <ng-template ngbPanelContent>
                 <i *ngIf="isExplainLoading" class="fa fa-spinner fa-pulse fa-3x fa-fw loading"></i>
-                <pre *ngIf="!isExplainLoading" style="margin: 1rem"><code [innerHTML]="jsonExplain"></code></pre>
+                <pre *ngIf="!isExplainLoading && jsonExplain" style="margin: 1rem"><code [innerHTML]="jsonExplain"></code></pre>
+                <div *ngIf="!isExplainLoading && errExplain" style="margin: 1rem" class="alert alert-warning" role="alert">
+                    {{ errExplain }}
+                  </div>
             </ng-template>
         </ngb-panel>
     </ngb-accordion>

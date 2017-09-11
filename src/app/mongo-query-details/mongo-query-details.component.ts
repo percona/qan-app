@@ -21,6 +21,7 @@ export class MongoQueryDetailsComponent extends CoreComponent {
   public queryExample: string;
   protected classicExplain;
   protected jsonExplain;
+  protected errExplain;
   protected dbName: string;
   public dbTblNames: string;
   isSummary: boolean;
@@ -66,8 +67,10 @@ export class MongoQueryDetailsComponent extends CoreComponent {
       .catch(err => console.log(err));
   }
 
-  getExplain() {
+  async getExplain() {
     this.isExplainLoading = true;
+    this.jsonExplain = '';
+    this.errExplain = '';
     const agentUUID = this.dbServer.Agent.UUID;
     const dbServerUUID = this.dbServer.UUID;
     if (this.dbName === '') {
@@ -75,15 +78,18 @@ export class MongoQueryDetailsComponent extends CoreComponent {
     }
 
     const query = this.queryDetails.Example.Query;
-    this.queryDetailsService.getExplain(agentUUID, dbServerUUID, this.dbName, query)
-      .then(data => {
-        this.jsonExplain = hljs.highlight('json', vkbeautify.json(data.JSON)).value;
-        this.isExplainLoading = false;
-      })
-      .catch(err => {
-        console.log(err);
-        this.isExplainLoading = false;
-      });
+    let data = await this.queryDetailsService.getExplain(agentUUID, dbServerUUID, this.dbName, query);
+    try {
+      if (data.Error === '') {
+        this.jsonExplain = hljs.highlight('json', vkbeautify.json(JSON.parse(atob(data.Data)).JSON)).value;
+      } else {
+        this.errExplain = data.Error
+      }
+      this.isExplainLoading = false;
+    } catch (err) {
+      console.log(err);
+      this.isExplainLoading = false;
+    }
   }
 
   getTableName(): string {
