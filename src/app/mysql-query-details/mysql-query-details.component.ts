@@ -62,7 +62,7 @@ export class MySQLQueryDetailsComponent extends CoreComponent {
       this.queryDetails = await this.queryDetailsService.getQueryDetails(dbServerUUID, queryID, from, to)
 
       this.fingerprint = hljs.highlight('sql', vkbeautify.sql(this.queryDetails.Query.Fingerprint)).value;
-      if (this.queryDetails.Example.Query !== '') {
+      if (this.queryDetails !== null && this.queryDetails.Example !== null && this.queryDetails.Example.Query !== '') {
         this.queryExample = hljs.highlight('sql', vkbeautify.sql(this.queryDetails.Example.Query)).value;
       }
       this.isLoading = false;

@@ -109,7 +109,7 @@ export class MongoQueryDetailsService {
             .catch(err => console.error(err));
     }
 
-    getExplain(agentUUID: string, dbServerUUID: string, dbName: string, query: string) {
+    async getExplain(agentUUID: string, dbServerUUID: string, dbName: string, query: string) {
         const url = `/qan-api/agents/${agentUUID}/cmd`;
         const data = {
             UUID: dbServerUUID,
@@ -125,11 +125,11 @@ export class MongoQueryDetailsService {
             Data: btoa(JSON.stringify(data))
         };
 
-        return this.http
+        let response = await this.http
             .put(url, params)
-            .toPromise()
-            .then(response => JSON.parse(atob(response.json().Data)))
-            .catch(err => console.error(err));
+            .toPromise();
+
+        return response.json()
     }
 
     updateTables(queryID: string, dbTables: Array<{}>) {
