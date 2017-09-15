@@ -5,7 +5,7 @@ import { MetricsPanelCtrl } from 'app/plugins/sdk';
 export class WrapperCtrl extends MetricsPanelCtrl {
 
 	public static templateUrl = 'module.html';
-	base_url = '/qan2/profile';
+	base_url = '/qan/profile';
 
 	constructor($scope, $injector, templateSrv, $sce) {
 

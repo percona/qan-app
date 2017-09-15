@@ -16,7 +16,7 @@
       "title": "Settings",
       "tooltip": "Query Analytics Settings",
       "type": "link",
-      "url": "/qan2/settings"
+      "url": "/qan/settings"
     }
   ],
   "refresh": false,
