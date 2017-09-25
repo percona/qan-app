@@ -14,8 +14,9 @@
 		</a>
 			<div class="dropdown-menu" style="margin: 0; padding: 0; min-width: 600px; max-width: 900px; max-height:70vh; overflow:scroll;"
 			 aria-labelledby="navbarDropdownMenuLink">
-				<a class="dropdown-item" style="padding: 1em;" title="DB Server" *ngFor="let server of dbServers" [ngClass]="{active: server.UUID === dbServer?.UUID }"
-				 [routerLink]="[]" [queryParams]="{'var-host': server.Name}">
+				<a class="dropdown-item" style="padding: 1em;" title="DB Server" *ngFor="let server of dbServers"
+				 [ngClass]="{active: server.UUID === dbServer?.UUID }"
+				 [routerLink]="hostSelectorPath" [queryParams]="{'var-host': server.Name}">
 					<h5>
 						<img class="img-db" src="{{ getDBLogo(server.Distro) }}"> {{ server.Name | truncateRoot : 40}}
 					</h5>
