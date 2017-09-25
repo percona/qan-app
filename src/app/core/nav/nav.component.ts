@@ -38,6 +38,7 @@ export class NavComponent extends CoreComponent implements OnDestroy {
   public isValidToInput = true;
   public isValidFromInput = true;
   public path: string;
+  public hostSelectorPath = [];
 
   public constructor(route: ActivatedRoute, router: Router, instanceService: InstanceService) {
     super(route, router, instanceService);
@@ -52,10 +53,12 @@ export class NavComponent extends CoreComponent implements OnDestroy {
     this.toDateCompact = momentFormatPipe.transform(this.to, this.compactDateFormat);
     let pathWithParams = this.router.url;
     this.path = pathWithParams.substr(0, pathWithParams.indexOf('?'));
-    this.isExtHidden = false;
-    if (this.router.url.startsWith('/sys-summary') ||
-      this.router.url.startsWith('/settings')) {
-      this.isExtHidden = true;
+    this.isExtHidden = true;
+    this.hostSelectorPath = [];
+
+    if (this.router.url.startsWith('/profile')) {
+      this.isExtHidden = false;
+      this.hostSelectorPath = ['/profile'];
     }
   }
 
