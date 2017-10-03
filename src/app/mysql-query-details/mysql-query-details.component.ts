@@ -84,7 +84,7 @@ export class MySQLQueryDetailsComponent extends CoreComponent {
     }
   }
 
-  getExplain() {
+  async getExplain() {
     this.isExplainLoading = true;
     const agentUUID = this.dbServer.Agent.UUID;
     const dbServerUUID = this.dbServer.UUID;
@@ -93,10 +93,16 @@ export class MySQLQueryDetailsComponent extends CoreComponent {
     if (this.dbName === '') {
       this.dbName = this.getDBName();
     }
-
     const query = this.queryDetails.Example.Query;
-    this.queryDetailsService.getExplain(agentUUID, dbServerUUID, this.dbName, query)
-      .then(data => {
+    const v = this.dbServer.Version;
+    const pattern = new RegExp('^(SELECT|UPDATE|INSERT|REPLACE)');
+    const case1 = !pattern.test(query) && (v.startsWith('5.6') || v.startsWith('5.7'));
+    const case2 = !query.startsWith('SELECT') && v.startsWith('5.5');
+    if (case1 || case2) {
+      this.classicExplainError = this.jsonExplainError = 'This type of query is not supported for EXPLAIN';
+    } else {
+      try {
+        let data = await this.queryDetailsService.getExplain(agentUUID, dbServerUUID, this.dbName, query);
         if (data.hasOwnProperty('Error') && data['Error'] !== '') {
           throw new Error(data['Error']);
         }
@@ -104,22 +110,15 @@ export class MySQLQueryDetailsComponent extends CoreComponent {
         this.classicExplain = data.Classic;
         try {
           this.jsonExplain = hljs.highlight('json', data.JSON).value;
-        } catch (e) {
-          const err = new Error(e.message);
-          err.name = 'json';
-          throw err;
-        }
-        this.isExplainLoading = false;
-      })
-      .catch(err => {
-        if (err.name === 'json') {
-          this.jsonExplainError = err.message;
-        } else {
-          this.classicExplainError = err.message;
+        } catch (err) {
           this.jsonExplainError = err.message;
         }
-      })
-      .then(() => this.isExplainLoading = false);
+      } catch (err) {
+        this.classicExplainError = err.message;
+        this.jsonExplainError = err.message;
+      }
+    }
+    this.isExplainLoading = false;
   }
 
   getTableInfo() {
