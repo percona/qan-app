@@ -600,7 +600,7 @@
         </ng-template>
     </ngb-panel>
 
-    <ngb-panel id="json-explain">
+    <ngb-panel id="json-explain" *ngIf="!!jsonExplain || !!jsonExplainError">
         <ng-template ngbPanelTitle>
             <h5>JSON</h5>
         </ng-template>
