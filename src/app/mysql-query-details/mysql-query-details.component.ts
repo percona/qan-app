@@ -96,11 +96,9 @@ export class MySQLQueryDetailsComponent extends CoreComponent {
     const query = this.queryDetails.Example.Query;
     const v = this.dbServer.Version;
     const pattern = new RegExp('^(SELECT|UPDATE|INSERT|REPLACE)');
-    const case1 = !pattern.test(query) && (v.startsWith('5.6') || v.startsWith('5.7'));
-    const case2 = !query.startsWith('SELECT') && v.startsWith('5.5');
+    const case1 = pattern.test(query) && (v.startsWith('5.6') || v.startsWith('5.7'));
+    const case2 = query.startsWith('SELECT') && v.startsWith('5.5');
     if (case1 || case2) {
-      this.classicExplainError = this.jsonExplainError = 'This type of query is not supported for EXPLAIN';
-    } else {
       try {
         let data = await this.queryDetailsService.getExplain(agentUUID, dbServerUUID, this.dbName, query);
         if (data.hasOwnProperty('Error') && data['Error'] !== '') {
@@ -117,6 +115,8 @@ export class MySQLQueryDetailsComponent extends CoreComponent {
         this.classicExplainError = err.message;
         this.jsonExplainError = err.message;
       }
+    } else {
+      this.classicExplainError = this.jsonExplainError = 'This type of query is not supported for EXPLAIN';
     }
     this.isExplainLoading = false;
   }
