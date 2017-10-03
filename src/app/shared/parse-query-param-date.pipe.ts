@@ -1,4 +1,5 @@
 import { Pipe, PipeTransform } from '@angular/core';
+import { MomentFormatPipe } from './moment-format.pipe';
 import * as moment from 'moment';
 
 type TimeEdge = 'from' | 'to';
@@ -55,36 +56,38 @@ type TimeEdge = 'from' | 'to';
 export class ParseQueryParamDatePipe implements PipeTransform {
 
   transform(date: string, edge: TimeEdge) {
+    let momentFormatPipe = new MomentFormatPipe();
+    let nowFunc =  momentFormatPipe.timezone === 'utc' ? moment.utc : moment;
     let parsedDate;
     // from=now
 
     if (date === undefined && edge === 'from') {
-      return moment.utc().subtract(1, 'h');
+      return nowFunc().subtract(1, 'h');
     }
     if (date === undefined && edge === 'to') {
-      return moment.utc();
+      return nowFunc();
     }
 
     if (date === 'now') {
-      return moment.utc();
+      return nowFunc();
     }
     // from=now-5d&to=now-6M ... from=now/w&to=now/w
-    if (date.length > 4 && date.startsWith('now-')) {
+    if (date.length > 4 && date.startsWith('now')) {
       // let subtrahend = date.substr(4);
       // ex: ["now-7d/d", "now", "-", "7", "d", "/", "d"]
       const parts = date.match('(now)(-|/)?([0-9]*)([YMdhms])(/)?([YMdhms])?');
 
       if (parts[1] === 'now') {
-        parsedDate = moment.utc();
+        parsedDate = nowFunc();
       }
       if (parts[2] === '-') {
         parsedDate.subtract(parts[3], parts[4]);
       }
       if (parts[2] === '/') {
         if (edge === 'from') {
-          return parsedDate.startOf(parts[3]);
+          return parsedDate.startOf(parts[4]);
         } else {
-          return parsedDate.endOf(parts[3]);
+          return parsedDate.endOf(parts[4]);
         }
       }
       if (parts.length > 4 && parts[5] === '/') {
@@ -98,9 +101,9 @@ export class ParseQueryParamDatePipe implements PipeTransform {
       // expect unix timestamp in milliseconds
       const isnum = /^\d+$/.test(date);
       if (isnum) {
-        return moment.utc(parseInt(date, 10));
+        return nowFunc(parseInt(date, 10));
       } else {
-        return moment.utc(date);
+        return nowFunc(date);
       }
     }
     return parsedDate;
