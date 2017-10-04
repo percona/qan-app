@@ -75,7 +75,7 @@ export class ParseQueryParamDatePipe implements PipeTransform {
     if (date.length > 4 && date.startsWith('now')) {
       // let subtrahend = date.substr(4);
       // ex: ["now-7d/d", "now", "-", "7", "d", "/", "d"]
-      const parts = date.match('(now)(-|/)?([0-9]*)([YMdhms])(/)?([YMdhms])?');
+      const parts = date.match('(now)(-|/)?([0-9]*)([yMwdhms])(/)?([yMwdhms])?');
 
       if (parts[1] === 'now') {
         parsedDate = nowFunc();
