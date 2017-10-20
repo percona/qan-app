@@ -95,10 +95,23 @@ export class MySQLQueryDetailsComponent extends CoreComponent {
     }
     const query = this.queryDetails.Example.Query;
     const v = this.dbServer.Version;
-    const pattern = new RegExp('^(SELECT|UPDATE|INSERT|REPLACE)');
-    const case1 = pattern.test(query) && (v.startsWith('5.6') || v.startsWith('5.7'));
-    const case2 = query.startsWith('SELECT') && v.startsWith('5.5');
-    if (case1 || case2) {
+    const pattern = new RegExp('^(SELECT|UPDATE|INSERT|REPLACE|DELETE)');
+    const case1 = (
+      pattern.test(query) &&
+      (v.startsWith('5.6') || v.startsWith('5.7') || v.startsWith('8')) &&
+      (this.dbServer.Distro.toLowerCase().startsWith('mysql'))
+    );
+    const case2 = (
+      query.startsWith('SELECT') && v.startsWith('5.5') &&
+      (this.dbServer.Distro.toLowerCase().startsWith('mysql') || this.dbServer.Distro.toLowerCase().startsWith('maria'))
+    );
+    const case3 = pattern.test(query) && v.startsWith('10') && this.dbServer.Distro.toLowerCase().startsWith('maria');
+    const case4 = (
+      pattern.test(query) &&
+      (v.startsWith('5.5') || v.startsWith('5.6') || v.startsWith('5.7') || v.startsWith('8')) &&
+      this.dbServer.Distro.toLowerCase().startsWith('percona')
+    );
+    if (case1 || case2 || case3 || case4 ) {
       try {
         let data = await this.queryDetailsService.getExplain(agentUUID, dbServerUUID, this.dbName, query);
         if (data.hasOwnProperty('Error') && data['Error'] !== '') {
