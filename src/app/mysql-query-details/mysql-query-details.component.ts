@@ -95,19 +95,20 @@ export class MySQLQueryDetailsComponent extends CoreComponent {
     }
     const query = this.queryDetails.Example.Query;
     const v = this.dbServer.Version;
-    const pattern = new RegExp('^(SELECT|UPDATE|INSERT|REPLACE|DELETE)');
+    const patternExtend = new RegExp('(select|update|insert|replace|delete)', 'i');
+    const patternSelect = new RegExp('select', 'i');
     const case1 = (
-      pattern.test(query) &&
+      patternExtend.test(query) &&
       (v.startsWith('5.6') || v.startsWith('5.7') || v.startsWith('8')) &&
       (this.dbServer.Distro.toLowerCase().startsWith('mysql'))
     );
     const case2 = (
-      query.startsWith('SELECT') && v.startsWith('5.5') &&
+      patternSelect.test(query) && v.startsWith('5.5') &&
       (this.dbServer.Distro.toLowerCase().startsWith('mysql') || this.dbServer.Distro.toLowerCase().startsWith('maria'))
     );
-    const case3 = pattern.test(query) && v.startsWith('10') && this.dbServer.Distro.toLowerCase().startsWith('maria');
+    const case3 = patternExtend.test(query) && v.startsWith('10') && this.dbServer.Distro.toLowerCase().startsWith('maria');
     const case4 = (
-      pattern.test(query) &&
+      patternExtend.test(query) &&
       (v.startsWith('5.5') || v.startsWith('5.6') || v.startsWith('5.7') || v.startsWith('8')) &&
       this.dbServer.Distro.toLowerCase().startsWith('percona')
     );
