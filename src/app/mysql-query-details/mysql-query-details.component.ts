@@ -93,45 +93,26 @@ export class MySQLQueryDetailsComponent extends CoreComponent {
     if (this.dbName === '') {
       this.dbName = this.getDBName();
     }
+
     const query = this.queryDetails.Example.Query;
-    const v = this.dbServer.Version;
-    const patternExtend = new RegExp('(select|update|insert|replace|delete)', 'i');
-    const patternSelect = new RegExp('select', 'i');
-    const case1 = (
-      patternExtend.test(query) &&
-      (v.startsWith('5.6') || v.startsWith('5.7') || v.startsWith('8')) &&
-      (this.dbServer.Distro.toLowerCase().startsWith('mysql'))
-    );
-    const case2 = (
-      patternSelect.test(query) && v.startsWith('5.5') &&
-      (this.dbServer.Distro.toLowerCase().startsWith('mysql') || this.dbServer.Distro.toLowerCase().startsWith('maria'))
-    );
-    const case3 = patternExtend.test(query) && v.startsWith('10') && this.dbServer.Distro.toLowerCase().startsWith('maria');
-    const case4 = (
-      patternExtend.test(query) &&
-      (v.startsWith('5.5') || v.startsWith('5.6') || v.startsWith('5.7') || v.startsWith('8')) &&
-      this.dbServer.Distro.toLowerCase().startsWith('percona')
-    );
-    if (case1 || case2 || case3 || case4 ) {
+
+    try {
+      let data = await this.queryDetailsService.getExplain(agentUUID, dbServerUUID, this.dbName, query);
+      if (data.hasOwnProperty('Error') && data['Error'] !== '') {
+        throw new Error(data['Error']);
+      }
+      data = JSON.parse(atob(data.Data));
+      this.classicExplain = data.Classic;
       try {
-        let data = await this.queryDetailsService.getExplain(agentUUID, dbServerUUID, this.dbName, query);
-        if (data.hasOwnProperty('Error') && data['Error'] !== '') {
-          throw new Error(data['Error']);
-        }
-        data = JSON.parse(atob(data.Data));
-        this.classicExplain = data.Classic;
-        try {
-          this.jsonExplain = hljs.highlight('json', data.JSON).value;
-        } catch (err) {
-          this.jsonExplainError = err.message;
-        }
+        this.jsonExplain = hljs.highlight('json', data.JSON).value;
       } catch (err) {
-        this.classicExplainError = err.message;
         this.jsonExplainError = err.message;
       }
-    } else {
+    } catch (err) {
       this.classicExplainError = this.jsonExplainError = 'This type of query is not supported for EXPLAIN';
     }
+
+
     this.isExplainLoading = false;
   }
 
