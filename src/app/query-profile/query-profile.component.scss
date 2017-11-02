@@ -33,6 +33,15 @@
         display: inline-block;
         position: absolute;
         z-index: 999;
-        background: whitesmoke;
+        background: #333333;
+    }
+
+    .table-active>.cell-overlay>span:focus, .table-active>.cell-overlay>span:hover {
+        padding: 0 15px 0 0;
+        overflow: visible;
+        display: inline-block;
+        position: absolute;
+        z-index: 999;
+        background: #595959;
     }
 }

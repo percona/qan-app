@@ -48,7 +48,7 @@ export class MongoQueryDetailsService {
 
     constructor(private http: Http) { }
 
-    getQueryDetails(dbServerUUID, queryUUID, begin, end: string): Promise<QueryDetails> {
+    getQueryDetails(dbServerUUID, queryUUID, begin, end: string): Promise<void | QueryDetails> {
         const url = `/qan-api/qan/report/${dbServerUUID}/query/${queryUUID}`;
 
         const params = new URLSearchParams();
@@ -62,7 +62,7 @@ export class MongoQueryDetailsService {
             .catch(err => console.log(err));
     }
 
-    getSummary(dbServerUUID: string, begin: string, end: string): Promise<QueryDetails> {
+    getSummary(dbServerUUID: string, begin: string, end: string): Promise<void | ServerSummary> {
         const url = `/qan-api/qan/report/${dbServerUUID}/server-summary`;
 
         const params = new URLSearchParams();

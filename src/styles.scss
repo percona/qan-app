@@ -219,18 +219,18 @@ label:not(.form-check-label):after {
 
 .line {
     fill: none;
-    stroke: steelblue;
-    stroke-width: 0.5px;
+    stroke: #D9721F;
+    stroke-width: 1px;
 }
 
 .circle {
     fill: white;
-    stroke: steelblue;
-    stroke-width: 0.5px;
+    stroke: #D9721F;
+    stroke-width: 1px;
 }
 
 .area {
-    fill: steelblue;
+    fill: #D9721F;
     stroke: none;
     opacity: 0.1;
 }
@@ -254,12 +254,12 @@ label:not(.form-check-label):after {
 
 .focusLine {
     fill: none;
-    stroke: steelblue;
+    stroke: #D9721F;
     stroke-width: 0.5px;
 }
 
 .focusCircle {
-    fill: steelblue;
+    fill: #D9721F;
 }
 
 /* --------------------- */
@@ -276,26 +276,26 @@ label:not(.form-check-label):after {
 }
 
 .latency-chart-line {
-    stroke: steelblue;
-    fill: steelblue;
+    stroke: #D9721F;
+    fill: #D9721F;
     stroke-width: 2px;
 }
 
 .latency-chart-min {
-    stroke: steelblue;
-    fill: steelblue;
+    stroke: #D9721F;
+    fill: #D9721F;
     stroke-width: 2px;
 }
 
 .latency-chart-max {
-    stroke: steelblue;
-    fill: steelblue;
+    stroke: #D9721F;
+    fill: #D9721F;
     stroke-width: 2px;
 }
 
 .latency-chart-avg {
     fill: white;
-    stroke: steelblue;
+    stroke: #D9721F;
     stroke-width: 1px;
 }
 
@@ -329,19 +329,19 @@ label:not(.form-check-label):after {
 li.li-min:before {
     content: "⌜";
     padding-right: 8px;
-    color: steelblue;
+    color: #D9721F;
 }
 
 li.li-med:before {
     content: "-";
     padding-right: 8px;
-    color: steelblue;
+    color: #D9721F;
 }
 
 li.li-avg:before {
     content: "◦";
     padding-right: 8px;
-    color: steelblue;
+    color: #D9721F;
 }
 
 li.li-p95:before {
@@ -353,7 +353,7 @@ li.li-p95:before {
 li.li-max:before {
     content: "⌟";
     padding-right: 8px;
-    color: steelblue;
+    color: #D9721F;
 }
 
 div.app-tooltip::before {
@@ -403,3 +403,96 @@ div.app-tooltip:hover::before {
         margin-top: -10px;
     }
 }
+
+
+// Global values
+// Grays
+// -------------------------
+$black:            #000;
+$dark-1:           #141414;
+$dark-2:           #1f1d1d;
+$dark-3:           #292929;
+$dark-4:           #333333;
+$dark-5:           #444444;
+$gray-1:           #555555;
+$gray-2:           #666666;
+$gray-3:           #b3b3b3;
+$gray-4:           #D8D9DA;
+$gray-5:           #ECECEC;
+$gray-6:           #f4f5f8;
+$gray-7:           #fbfbfb;
+$white:            #fff;
+
+
+// Accent colors
+// -------------------------
+$blue:                  #27B2E5;
+$blue-dark:             #005f81;
+$green:                 #299c46;
+$red:                   #d44a3a;
+$yellow:                #ECBB13;
+$pink:                  #FF4444;
+$purple:                #9933CC;
+$variable:              #32D1DF;
+$orange:                #eb7b18;
+
+$brand-primary:         $blue;
+$brand-success:         $green;
+$brand-warning:         $orange;
+$brand-danger:          $red;
+
+// Status colors
+// -------------------------
+$online:                #10a345;
+$warn:                  #F79520;
+$critical:              #ed2e18;
+
+// Scaffolding
+// -------------------------
+$body-bg:  			   	    rgb(20,20,20);
+$page-bg:  			   	    $dark-2;
+$body-color:   		 	    $gray-4;
+$text-color:   	   		    $white;
+
+$enable-rounded: false;
+$border-radius:          0;
+$border-radius-lg:       0;
+$border-radius-sm:       0;
+
+$btn-border-radius: 0;
+$card-border-radius: 0;
+$card-border-radius-inner: 0;
+
+$card-bg: $dark-2;
+$card-cap-bg: $dark-2;
+
+
+// $border-width: 0;
+
+// Tables
+// -------------------------
+$table-bg:                    transparent; // overall background-color
+$table-bg-accent:             $dark-3; // for striping
+$table-bg-hover:              $dark-4; // for hover
+$table-bg-active:             $gray-2;
+$table-border:                $dark-2; // table and cell border
+$table-border-width:          0;
+
+$input-bg:      $dark-4;
+$input-color:   $white;
+$input-border-color: $dark-4;
+
+$btn-primary-color:              $brand-primary;
+$btn-primary-bg:                 $dark-4;
+$btn-primary-border:             transparent;
+
+$input-group-addon-bg: $dark-4;
+
+$pre-bg:                      $dark-2;
+$pre-color:                   $white;
+
+
+
+// Bootstrap and its default variables
+@import "node_modules/bootstrap/scss/bootstrap";
+

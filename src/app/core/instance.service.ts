@@ -26,7 +26,7 @@ export class InstanceService {
   public dbServerMap: { [key: string]: Instance } = {};
   constructor(private http: Http) { }
 
-  public getDBServers(): Promise<Instance[]> {
+  public getDBServers(): Promise<void | Instance[]> {
     return this.http.get(this.instancesUrl)
       .toPromise()
       .then(response => {

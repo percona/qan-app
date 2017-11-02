@@ -8,7 +8,7 @@
                            name="searchValue" id="search_field" type="text"
                            placeholder="Search by Query Abstract, Fingerprint or ID">
 					<span class="input-group-btn">
-							<button class="btn btn-outline-primary"
+							<button class="btn btn-primary"
 								(submit)="search()"
 								id="search_button"
 								type="submit"><i class="fa fa-search"></i></button>
@@ -18,8 +18,8 @@
         </span>
     </div>
     <i *ngIf="isLoading" class="fa fa-spinner fa-pulse fa-3x fa-fw loading-in-front"></i>
-    <table class="table table-bordered table-striped table-hover table-sm mb-0 query-profile-table" id="query_profile_table">
-        <thead class="thead-default">
+    <table class="table table-dark table-striped table-hover table-sm mb-0 query-profile-table" id="query_profile_table">
+        <thead>
             <tr>
                 <th style="width: 2em;" title="Rank">#</th>
                 <th style="width: 14em;" title="Query Abstract">Query Abstract</th>
@@ -42,7 +42,7 @@
             <tr *ngFor="let row of queryProfile; let i = index; let first = first;"
                 [routerLink]="['./', 'report', dbServer.Subsystem]"
                 [queryParams]="composeQueryParamsForGrid(row.Id)"
-                routerLinkActive="table-success">
+                routerLinkActive="table-active">
                 <td class="text-xs-right">{{ i || '' }}</td>
                 <td class="smart-query-abstact cell-overlay">
                     <span tabindex="0">
@@ -92,7 +92,7 @@
     </table>
 </div>
 <div *ngIf="totalAmountOfQueries">
-    <button id="show_more" type="button" class="btn btn-outline-primary btn-block" (click)="loadMoreQueries()" [disabled]="leftInDbQueries === 0">
+    <button id="show_more" type="button" class="btn btn-primary btn-block" (click)="loadMoreQueries()" [disabled]="leftInDbQueries === 0">
         <i class="fa fa-angle-double-down" aria-hidden="true"></i>
         <span *ngIf="leftInDbQueries > 0">Load next {{ leftInDbQueries > 10 ? 10 : leftInDbQueries }} queries</span>
         <span *ngIf="leftInDbQueries === 0">No more queries for selected time range</span>
