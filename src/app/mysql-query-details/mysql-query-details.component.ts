@@ -31,6 +31,8 @@ export class MySQLQueryDetailsComponent extends CoreComponent {
   isLoading: boolean;
   isExplainLoading: boolean;
   isTableInfoLoading: boolean;
+  firstSeen: string;
+  lastSeen: string;
 
   createTableError: string;
   statusTableError: string;
@@ -60,6 +62,8 @@ export class MySQLQueryDetailsComponent extends CoreComponent {
     this.queryExample = '';
     try {
       this.queryDetails = await this.queryDetailsService.getQueryDetails(dbServerUUID, queryID, from, to)
+      this.firstSeen = moment(this.queryDetails.Query.FirstSeen).calendar(null, {sameElse: 'lll'});
+      this.lastSeen = moment(this.queryDetails.Query.LastSeen).calendar(null, {sameElse: 'lll'});
 
       this.fingerprint = hljs.highlight('sql', vkbeautify.sql(this.queryDetails.Query.Fingerprint)).value;
       if (this.queryDetails !== null && this.queryDetails.Example !== null && this.queryDetails.Example.Query !== '') {

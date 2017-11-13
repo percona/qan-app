@@ -12,8 +12,9 @@
 <div class="card">
     <div class="card-header">
         Metrics
+        <span *ngIf="!isSummary" class="pull-right">Query first seen: <i class="fa fa-clock-o"></i> {{ firstSeen }} <i class="fa fa-ellipsis-h" aria-hidden="true"></i> Last seen: <i class="fa fa-clock-o"></i> {{ lastSeen }}</span>
     </div>
-    <table class="table table-bordered table-striped table-hover table-sm mb-0 metrics">
+    <table class="table table-dark table-striped table-hover table-sm mb-0 metrics">
         <thead>
             <tr>
                 <th nowrap width="20%">Metrics</th>
@@ -566,7 +567,7 @@
                     <input type="text" size="50" class="form-control" [(ngModel)]="dbName" [ngModelOptions]="{standalone: true}" id="databaseInput"
                         placeholder="`database-name`">
                     <span class="input-group-btn">
-                    <button class="btn btn-secondary" style="width: 8em" (click)="getExplain();" type="submit">EXPLAIN</button>
+                    <button class="btn btn-primary" style="width: 8em" (click)="getExplain();" type="submit">EXPLAIN</button>
 </span>
                 </div>
             </form>

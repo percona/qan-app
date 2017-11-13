@@ -16,7 +16,7 @@ import * as moment from 'moment';
 export class MongoQueryDetailsComponent extends CoreComponent {
 
   protected queryID: string;
-  protected queryDetails: QueryDetails;
+  protected queryDetails: any | QueryDetails;
   public fingerprint: string;
   public queryExample: string;
   protected classicExplain;
@@ -27,6 +27,8 @@ export class MongoQueryDetailsComponent extends CoreComponent {
   isSummary: boolean;
   isLoading: boolean;
   isExplainLoading: boolean;
+  firstSeen: string;
+  lastSeen: string;
 
   constructor(protected route: ActivatedRoute, protected router: Router,
     protected instanceService: InstanceService, protected queryDetailsService: MongoQueryDetailsService) {
@@ -50,6 +52,8 @@ export class MongoQueryDetailsComponent extends CoreComponent {
     this.queryDetailsService.getQueryDetails(dbServerUUID, queryID, from, to)
       .then(data => {
         this.queryDetails = data;
+        this.firstSeen = moment(this.queryDetails.Query.FirstSeen).calendar(null, {sameElse: 'lll'});
+        this.lastSeen = moment(this.queryDetails.Query.LastSeen).calendar(null, {sameElse: 'lll'});
         this.fingerprint = this.queryDetails.Query.Fingerprint;
         this.queryExample = hljs.highlight('json', vkbeautify.json(this.queryDetails.Example.Query)).value;
         this.isLoading = false;
