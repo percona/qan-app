@@ -23,6 +23,7 @@ import { SummaryComponent } from '../summary/summary.component';
 import { SummaryService } from '../summary/summary.service';
 import { SettingsComponent } from '../settings/settings.component';
 import { SettingsService } from '../settings/settings.service';
+import { AddAwsService } from '../add-aws/add-aws.service';
 
 @NgModule({
     imports: [CommonModule, SharedModule],
@@ -33,7 +34,7 @@ import { SettingsService } from '../settings/settings.service';
         MySQLQueryDetailsComponent, MongoQueryDetailsComponent,
         SummaryComponent, SettingsComponent],
     providers: [InstanceService, QueryProfileService, MySQLQueryDetailsService,
-        MongoQueryDetailsService, SummaryService, SettingsService]
+        MongoQueryDetailsService, SummaryService, SettingsService, AddAwsService]
 })
 export class CoreModule {
 
