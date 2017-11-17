@@ -10,6 +10,8 @@ import { CoreModule } from './core/core.module';
 import { SharedModule } from './shared/shared.module';
 
 import { InstanceService } from './core/instance.service';
+import { AddAwsComponent } from './add-aws/add-aws.component';
+import { AddInstanceComponent } from './add-instance/add-instance.component';
 
 export function getInstances(instanceService: InstanceService) {
   return function () { return instanceService.getDBServers(); };
@@ -17,7 +19,9 @@ export function getInstances(instanceService: InstanceService) {
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    AddAwsComponent,
+    AddInstanceComponent
   ],
   imports: [
     AppRoutingModule,

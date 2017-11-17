@@ -4,6 +4,11 @@ import { Router, ActivatedRoute, Params } from '@angular/router';
 import { CoreComponent } from '../core/core.component';
 import { SummaryService } from './summary.service';
 import { Instance, InstanceService } from '../core/instance.service';
+import JSZip from 'jszip';
+import saveAs from 'jszip/vendor/FileSaver';
+import * as moment from 'moment';
+import { MomentFormatPipe } from '../shared/moment-format.pipe';
+
 
 /**
  * Shows MySQL and Server Summary
@@ -68,6 +73,21 @@ export class SummaryComponent extends CoreComponent {
             .catch(err => this.mongoSummaryError = err.message)
             .then(() => this.mongoSummaryLoader = false);
     }
+
+    downloadSummary() {
+        const momentFormatPipe = new MomentFormatPipe();
+        const date = momentFormatPipe.transform(moment.utc(), 'YYYY-MM-DDTHH:mm:ss');
+        const filename = `pmm-${this.dbServer.Name}-${date}-summary.zip`;
+        const zip = new JSZip();
+        zip.file('system_summary.txt', this.serverSummary);
+        zip.file('server_summary.txt', this.mysqlSummary);
+        zip.generateAsync({type: 'blob'})
+        .then(function(content) {
+            // see FileSaver.js
+            saveAs(content, filename);
+        });
+    }
+
 
     /**
      * Ovverrides parent method.

@@ -1,3 +1,9 @@
+<div class="row justify-content-md-center">
+    <button *ngIf="!mysqlSummaryLoader && !serverSummaryLoader" (click)="downloadSummary()" class="btn btn-primary">
+        <i class="fa fa-file-archive-o" aria-hidden="true"></i>
+        Download Summary
+    </button>
+</div>
 <div class="row">
     <div class="col-md-12">
         <ngb-accordion activeIds="system-summary-panel,mysql-summary-panel">

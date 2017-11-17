@@ -7,6 +7,8 @@ import { MySQLQueryDetailsComponent } from './mysql-query-details/mysql-query-de
 import { MongoQueryDetailsComponent } from './mongo-query-details/mongo-query-details.component';
 import { SummaryComponent } from './summary/summary.component';
 import { SettingsComponent } from './settings/settings.component';
+import { AddInstanceComponent } from './add-instance/add-instance.component';
+import { AddAwsComponent } from './add-aws/add-aws.component';
 
 const routes: Routes = [
     { path: '', redirectTo: 'profile', pathMatch: 'full' },
@@ -18,6 +20,8 @@ const routes: Routes = [
     },
     { path: 'sys-summary', component: SummaryComponent, pathMatch: 'full' },
     { path: 'settings', component: SettingsComponent, pathMatch: 'full' },
+    { path: 'add-instance', component: AddInstanceComponent, pathMatch: 'full' },
+    { path: 'add-aws', component: AddAwsComponent, pathMatch: 'full' },
     { path: '**', component: PageNotFoundComponent }
 ];
 
