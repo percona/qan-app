@@ -464,6 +464,15 @@ footer {
     -webkit-filter: invert(100%);
 }
 
+body {
+    background: rgba(0, 0, 0, 0);
+}
+
+.app-theme-dark {
+    body {
+        background: #fff;
+    }
+}
 
 .app-theme-dark {
     // Global values
