@@ -14,7 +14,7 @@
         Metrics
         <span *ngIf="!isSummary" class="pull-right">Query first seen: <i class="fa fa-clock-o"></i> {{ firstSeen }} <i class="fa fa-ellipsis-h" aria-hidden="true"></i> Last seen: <i class="fa fa-clock-o"></i> {{ lastSeen }}</span>
     </div>
-    <table class="table table-dark table-striped table-hover table-sm mb-0 metrics">
+    <table class="table table-striped table-hover table-sm mb-0 metrics">
         <thead>
             <tr>
                 <th nowrap width="20%">Metrics</th>
@@ -687,7 +687,7 @@
                         <i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
                         {{ statusTableError }}
         </div>
-        <table *ngIf="!isTableInfoLoading && !statusTableError" class="table table-dark table-striped table-hover table-sm ma-0">
+        <table *ngIf="!isTableInfoLoading && !statusTableError" class="table table-striped table-hover table-sm ma-0">
             <thead>
                 <tr>
                     <th>Name</th>
@@ -721,7 +721,7 @@
                         <i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
                         {{ indexTableError }}
         </div>
-        <table *ngIf="!isTableInfoLoading && !indexTableError" class="table table-dark table-striped table-hover table-sm ma-0">
+        <table *ngIf="!isTableInfoLoading && !indexTableError" class="table table-striped table-hover table-sm ma-0">
             <thead>
                 <tr>
                     <th>KeyName </th>

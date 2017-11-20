@@ -1,4 +1,4 @@
-<nav class="navbar navbar-toggleable-sm fixed-top navbar-light bg-faded" style="width: 100%">
+<nav class="navbar navbar-toggleable-sm fixed-top bg-faded" style="width: 100%">
 	<div class="ribbon" *ngIf="isDemo"><span>DEMO</span></div>
 	<a class="navbar-brand" routerLink="/" routerLinkActive="active">
 		<div class="logo-img">
@@ -12,7 +12,7 @@
 				<img class="img-db" src="{{ getDBLogo(dbServer?.Distro) }}">
 					{{ dbServer?.Name | truncateRoot : 16 }}
 		</a>
-			<div class="dropdown-menu" style="margin: 0; padding: 0; min-width: 600px; max-width: 900px; max-height:70vh; overflow:scroll;"
+			<div class="dropdown-menu hosts-list-menu"
 			 aria-labelledby="navbarDropdownMenuLink">
 				<a class="dropdown-item" style="padding: 1em;" title="DB Server" *ngFor="let server of dbServers"
 				 [ngClass]="{active: server.UUID === dbServer?.UUID }"

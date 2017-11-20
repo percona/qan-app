@@ -1,7 +1,7 @@
 /* You can add global styles to this file, and also import other style files */
 
-body {
-    padding-top: 10px;
+main {
+    padding-top: 70px;
 }
 
 .logo-img-mobile {
@@ -392,6 +392,52 @@ div.app-tooltip:hover::before {
 }
 
 
+.smart-query-abstract {
+    width: 14em;
+    white-space: nowrap;
+}
+
+.smart-id {
+    width: 3em;
+}
+
+.smart-latency-time {
+    width: 3em;
+}
+
+.cell-overlay {
+    overflow:hidden;
+    text-overflow:ellipsis;
+    white-space: nowrap;
+}
+
+.cell-overlay>span:focus, .cell-overlay>span:hover {
+    padding: 0 15px 0 0;
+    overflow: visible;
+    display: inline-block;
+    position: absolute;
+    z-index: 999;
+    background: rgb(238, 236, 236);
+}
+
+.table-active>.cell-overlay>span:focus, .table-active>.cell-overlay>span:hover {
+    padding: 0 15px 0 0;
+    overflow: visible;
+    display: inline-block;
+    position: absolute;
+    z-index: 999;
+    background: rgb(238, 236, 236);
+}
+
+.hosts-list-menu {
+    margin: 0;
+    padding: 0;
+    min-width: 600px;
+    max-width: 900px;
+    max-height:70vh;
+    overflow:scroll;
+}
+
 @media print {
 
     /* FIXME: rid pagebrakes for media print*/
@@ -404,95 +450,155 @@ div.app-tooltip:hover::before {
     }
 }
 
+.no-nav {
+    padding-top: 10px;
+}
 
-// Global values
-// Grays
-// -------------------------
-$black:            #000;
-$dark-1:           #141414;
-$dark-2:           #1f1d1d;
-$dark-3:           #292929;
-$dark-4:           #333333;
-$dark-5:           #444444;
-$gray-1:           #555555;
-$gray-2:           #666666;
-$gray-3:           #b3b3b3;
-$gray-4:           #D8D9DA;
-$gray-5:           #ECECEC;
-$gray-6:           #f4f5f8;
-$gray-7:           #fbfbfb;
-$white:            #fff;
+footer {
+    height: 30px;
+    background-image: url(assets/pmm-logo.svg);
+    background-repeat: no-repeat;
+    background-position-x: 97%;
+    background-size: 2%;
+    filter: invert(100%);
+    -webkit-filter: invert(100%);
+}
 
 
-// Accent colors
-// -------------------------
-$blue:                  #27B2E5;
-$blue-dark:             #005f81;
-$green:                 #299c46;
-$red:                   #d44a3a;
-$yellow:                #ECBB13;
-$pink:                  #FF4444;
-$purple:                #9933CC;
-$variable:              #32D1DF;
-$orange:                #eb7b18;
-
-$brand-primary:         $blue;
-$brand-success:         $green;
-$brand-warning:         $orange;
-$brand-danger:          $red;
-
-// Status colors
-// -------------------------
-$online:                #10a345;
-$warn:                  #F79520;
-$critical:              #ed2e18;
-
-// Scaffolding
-// -------------------------
-$body-bg:  			   	    rgb(20,20,20);
-$page-bg:  			   	    $dark-2;
-$body-color:   		 	    $gray-4;
-$text-color:   	   		    $white;
-
-$enable-rounded: false;
-$border-radius:          0;
-$border-radius-lg:       0;
-$border-radius-sm:       0;
-
-$btn-border-radius: 0;
-$card-border-radius: 0;
-$card-border-radius-inner: 0;
-
-$card-bg: $dark-2;
-$card-cap-bg: $dark-2;
+.app-theme-dark {
+    // Global values
+    // Grays
+    // -------------------------
+    $black:            #000;
+    $dark-1:           #141414;
+    $dark-2:           #1f1d1d;
+    $dark-3:           #292929;
+    $dark-4:           #333333;
+    $dark-5:           #444444;
+    $gray-1:           #555555;
+    $gray-2:           #666666;
+    $gray-3:           #b3b3b3;
+    $gray-4:           #D8D9DA;
+    $gray-5:           #ECECEC;
+    $gray-6:           #f4f5f8;
+    $gray-7:           #fbfbfb;
+    $white:            #fff;
 
 
-// $border-width: 0;
+    // Accent colors
+    // -------------------------
+    $blue:                  #27B2E5;
+    $blue-dark:             #005f81;
+    $green:                 #299c46;
+    $red:                   #d44a3a;
+    $yellow:                #ECBB13;
+    $pink:                  #FF4444;
+    $purple:                #9933CC;
+    $variable:              #32D1DF;
+    $orange:                #eb7b18;
 
-// Tables
-// -------------------------
-$table-bg:                    transparent; // overall background-color
-$table-bg-accent:             $dark-3; // for striping
-$table-bg-hover:              $dark-4; // for hover
-$table-bg-active:             $gray-2;
-$table-border:                $dark-2; // table and cell border
-$table-border-width:          0;
+    $brand-primary:         $blue;
+    $brand-success:         $green;
+    $brand-warning:         $orange;
+    $brand-danger:          $red;
 
-$input-bg:      $dark-4;
-$input-color:   $white;
-$input-border-color: $dark-4;
+    // Status colors
+    // -------------------------
+    $online:                #10a345;
+    $warn:                  #F79520;
+    $critical:              #ed2e18;
 
-$btn-primary-color:              $brand-primary;
-$btn-primary-bg:                 $dark-4;
-$btn-primary-border:             transparent;
+    // Scaffolding
+    // -------------------------
+    $body-bg:  			   	    rgb(20,20,20);
+    $page-bg:  			   	    $dark-2;
+    $body-color:   		 	    $gray-4;
+    $text-color:   	   		    $white;
+    background: $body-bg;
+    color: $gray-4;
+    .logo-text {
+        color: $gray-4;
+    }
 
-$input-group-addon-bg: $dark-4;
+    div.dropdown-menu {
+        background-color: $dark-3;
+    }
+    div.dropdown-menu > a {
+        background: $dark-4;
+        color: $gray-4;
+    }
 
-$pre-bg:                      $dark-2;
-$pre-color:                   $white;
+    div.dropdown-menu > a:hover {
+        background: $gray-1;
+        color: $gray-4;
+    }
+
+    a.list-group-item  {
+        background-color: $dark-4;
+        color: $gray-4;
+    }
+
+    a.list-group-item:hover  {
+        background-color: $gray-1;
+        color: $gray-4;
+    }
+
+    $enable-rounded: false;
+    $border-radius:          0;
+    $border-radius-lg:       0;
+    $border-radius-sm:       0;
+
+    $btn-border-radius: 0;
+    $card-border-radius: 0;
+    $card-border-radius-inner: 0;
+
+    $card-bg: $dark-2;
+    $card-cap-bg: $dark-2;
 
 
+    // $border-width: 0;
 
-// Bootstrap and its default variables
-@import "node_modules/bootstrap/scss/bootstrap";
+    // Tables
+    // -------------------------
+    $table-bg:                    transparent; // overall background-color
+    $table-bg-accent:             $dark-3; // for striping
+    $table-bg-hover:              $dark-4; // for hover
+    $table-bg-active:             $gray-2;
+    $table-border:                $dark-2; // table and cell border
+    $table-border-width:          0;
 
+    $input-bg:      $dark-4;
+    $input-color:   $white;
+    $input-border-color: $dark-4;
+
+    $btn-primary-color:              $brand-primary;
+    $btn-primary-bg:                 $dark-4;
+    $btn-primary-border:             transparent;
+
+    $btn-secondary-color:              $brand-success;
+    $btn-secondary-bg:                 $dark-4;
+    $btn-secondary-border:             transparent;
+
+    $input-group-addon-bg: $dark-4;
+
+    $pre-bg:                      $dark-2;
+    $pre-color:                   $white;
+
+
+    .cell-overlay>span:focus, .cell-overlay>span:hover {
+        background: #333333;
+    }
+
+    .table-active>.cell-overlay>span:focus, .table-active>.cell-overlay>span:hover {
+        background: #595959;
+    }
+
+    footer {
+        filter: invert(0%);
+        -webkit-filter: invert(0%);
+    }
+
+    // Bootstrap and its default variables
+    @import "node_modules/bootstrap/scss/bootstrap";
+
+}

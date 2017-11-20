@@ -63,7 +63,7 @@ export class SettingsComponent extends CoreComponent {
      *  - Collect from: 'slowlog' or 'perfschema'.
      */
     public async getAgentDefaults() {
-        let res = await this.settingsService.getAgentDefaults(this.agent.UUID, this.dbServer.UUID);
+        const res = await this.settingsService.getAgentDefaults(this.agent.UUID, this.dbServer.UUID);
         try {
             this.agentConf = res;
             this.interval = this.agentConf.qan.Interval / 60;

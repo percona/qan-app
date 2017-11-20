@@ -15,6 +15,7 @@ export interface QueryParams {
     search?: string;
     queryID?: string;
     tz?: string;
+    theme?: string;
 }
 
 /**
@@ -66,6 +67,7 @@ export abstract class CoreComponent implements OnDestroy {
                     console.info('cannot change db instance - use defaults');
                 }
                 this.setTimeZoneFromParams();
+                this.setThemeFromParams();
                 this.from = parseQueryParamDatePipe.transform(this.queryParams.from, 'from');
                 this.to = parseQueryParamDatePipe.transform(this.queryParams.to, 'to');
                 this.fromUTCDate = this.from.utc().format('YYYY-MM-DDTHH:mm:ss');
@@ -88,9 +90,17 @@ export abstract class CoreComponent implements OnDestroy {
      * set timezone based on given query parameter.
      */
     setTimeZoneFromParams() {
-        let tz = this.queryParams.tz || 'local';
+        const tz = this.queryParams.tz || 'local';
         const expireDays = moment().utc().add(7, 'y').toString();
         document.cookie = `timezone=${tz}; expires=${expireDays}; path=/`;
+    }
+
+    setThemeFromParams() {
+        const theme = this.queryParams.theme || '';
+        if (theme) {
+            const expireDays = moment().utc().add(7, 'y').toString();
+            document.cookie = `theme=app-theme-${theme}; expires=${expireDays}; path=/`;
+        }
     }
 
     /**
