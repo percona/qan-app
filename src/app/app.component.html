@@ -19,14 +19,17 @@
       </li>
     </ul>
   </div>
-  <!-- <app-nav *ngIf="!isInstancesListEmpty && showNav"></app-nav> -->
-  <main *ngIf="!isInstancesListEmpty">
+  <app-nav *ngIf="!isInstancesListEmpty && showNav"></app-nav>
+  <main *ngIf="!isInstancesListEmpty" [ngClass]="{'no-nav': !showNav }">
     <!-- Router Outlet -->
     <router-outlet></router-outlet>
   </main>
   <footer>
     <div class="row">
-      <div class="col-md-12">
+      <div class="col-md-2">
+      <a href="javascript:void(0);" (click)="toggleTheme();"><i class="fa fa-lightbulb-o" aria-hidden="true"></i></a>
+      </div>
+      <div class="col-md-10">
         <div class="pull-right text-muted">
           <small>{{ version }}</small>
         </div>

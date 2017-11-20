@@ -144,7 +144,7 @@
     <ngb-panel id="statusTab">
         <ng-template ngbPanelTitle>
             <h5>STATUS</h5>
-            <span *ngIf="acSettings.isOpen('statusTab');" class="accordion-head-second">
+            <span class="accordion-head-second">
                 (<i>Updated {{ (statusUpdatedFromNow$ | async) || 'a few seconds ago' }}</i>) |
                 <a href="javascript:void(0);" id="refreshStatusLink" title="Refresh status" (click)="getAgentStatus(); $event.stopPropagation();">
                     <i class="fa fa-refresh"></i>
@@ -166,7 +166,7 @@
     <ngb-panel id="logTitle">
         <ng-template ngbPanelTitle>
             <h5>LOG</h5>
-            <span *ngIf="acSettings.isOpen('logTitle');" class="accordion-head-second">
+            <span class="accordion-head-second">
              (<i>Updated {{ (logUpdatedFromNow$ | async) || 'a few seconds ago' }}</i>)
             <div class="btn-group btn-group-sm" role="group" aria-label="Log period">
                 <button type="button" id="logPeriod1h" (click)="setLogPeriod(1); $event.stopPropagation(); $event.preventDefault();" [ngClass]="{'active': logPeriod === 1 }" value="1" class="btn btn-secondary">1 h</button>
