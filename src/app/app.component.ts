@@ -14,13 +14,14 @@ export class AppComponent implements OnInit {
   title = 'Query Analytics';
   version = environment.version;
   isDemo = environment.demo;
-  showNav = !this.inIframe();
+  hideNav = false;
   isInstancesListEmpty: boolean;
   theme = 'app-theme-light';
 
   constructor(instanceService: InstanceService, @Inject(DOCUMENT) private document) {
     // show message how to configure pmm-client.
-    this.isInstancesListEmpty = !instanceService.dbServers.length;
+    console.log(this.inIframe() || instanceService.dbServers.length === 0);
+    this.hideNav = this.inIframe() || instanceService.dbServers.length === 0;
   }
 
   toggleTheme() {

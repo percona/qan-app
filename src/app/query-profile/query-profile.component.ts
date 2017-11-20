@@ -58,7 +58,7 @@ export class QueryProfileComponent extends CoreComponent {
         const search = this.queryParams.search;
         this.offset = 0;
         try {
-            let data = await this.queryProfileService
+            const data = await this.queryProfileService
                 .getQueryProfile(this.dbServer.UUID, this.fromUTCDate, this.toUTCDate, this.offset, search);
             if (data.hasOwnProperty('Error') && data['Error'] !== '') {
                 throw new QanError('Queries are not availible.');

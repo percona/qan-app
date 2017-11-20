@@ -1,26 +1,6 @@
-<div class="container-fluid" [ngClass]="{'navbar-padding': showNav }">
-  <div *ngIf="isInstancesListEmpty" class="alert alert-warning w-50 mx-auto" role="alert">
-    <strong>Warning!</strong> There are no configured instances for Query Analytics.
-    <ul>
-      <li>
-        <a href="https://www.percona.com/doc/percona-monitoring-and-management/deploy/client/index.html#install-client" target="blank">
-          Deploying pmm-client;
-        </a>
-      </li>
-      <li>
-        <a href="https://www.percona.com/doc/percona-monitoring-and-management/pmm-admin.html#adding-mysql-query-analytics-service" target="blank">
-          Adding MySQL query analytics service;
-        </a>
-      </li>
-      <li>
-        <a href="https://www.percona.com/doc/percona-monitoring-and-management/pmm-admin.html#adding-mongodb-query-analytics-service" target="blank">
-          Adding Mongo query analytics service.
-        </a>
-      </li>
-    </ul>
-  </div>
-  <app-nav *ngIf="!isInstancesListEmpty && showNav"></app-nav>
-  <main *ngIf="!isInstancesListEmpty" [ngClass]="{'no-nav': !showNav }">
+<div class="container-fluid">
+  <app-nav *ngIf="!hideNav"></app-nav>
+  <main [ngClass]="{'no-nav': hideNav }">
     <!-- Router Outlet -->
     <router-outlet></router-outlet>
   </main>
