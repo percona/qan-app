@@ -35,11 +35,12 @@ export class AddAwsService {
 
   async discover(rdsCredentials: RDSCredentials): Promise<RDSInstance[]> {
     const url = `/managed/v0/rds/discover`;
-    const params = new URLSearchParams();
-    params.set('aws_access_key_id', rdsCredentials.aws_access_key_id);
-    params.set('aws_secret_access_key', rdsCredentials.aws_secret_access_key);
+    const data = {
+      aws_access_key_id: rdsCredentials.aws_access_key_id,
+      aws_secret_access_key: rdsCredentials.aws_secret_access_key
+    };
     const response = await this.http
-        .get(url, { headers: this.headers, search: params })
+        .post(url, data, { headers: this.headers })
         .toPromise();
     return response.json().instances as RDSInstance[];
   }
