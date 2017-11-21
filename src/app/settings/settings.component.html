@@ -106,16 +106,16 @@
                         </div>
                         <div *ngIf="dbServer.Distro.toLowerCase().indexOf('percona') !== -1 || !dbServer.Version.startsWith('5.5')">
                             <div class="form-group row">
-                                <label for="inputSlowLogVerbosity" class="col-sm-5 col-form-label">Slow log verbosity</label>
+                                <label for="inputLogSlowVerbosity" class="col-sm-5 col-form-label">Slow log verbosity</label>
                                 <div class="col-sm-3">
-                                    <p class="form-control-static">{{ agentConf?.qan?.SlowLogVerbosity }}</p>
+                                    <p class="form-control-static">{{ agentConf?.qan?.LogSlowVerbosity }}</p>
                                 </div>
                             </div>
 
                             <div class="form-group row">
-                                <label for="inputRateLimit" class="col-sm-5 col-form-label">Rate limit</label>
+                                <label for="inputLogSlowRateLimit" class="col-sm-5 col-form-label">Rate limit</label>
                                 <div class="col-sm-3">
-                                    <p class="form-control-static">{{ agentConf?.qan?.RateLimit }}</p>
+                                    <p class="form-control-static">{{ agentConf?.qan?.LogSlowRateLimit }}</p>
                                 </div>
                                 <div class="col-sm-3">
                                     <span id="rateLimitHelpBlock" class="help-block"><small>0 and 1 = disabled</small></span>
