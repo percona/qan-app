@@ -80,7 +80,11 @@ export class SummaryComponent extends CoreComponent {
         const filename = `pmm-${this.dbServer.Name}-${date}-summary.zip`;
         const zip = new JSZip();
         zip.file('system_summary.txt', this.serverSummary);
-        zip.file('server_summary.txt', this.mysqlSummary);
+        if (this.dbServer.Subsystem === 'mongo') {
+            zip.file('server_summary.txt', this.mongoSummary);
+        } else if (this.dbServer.Subsystem === 'mysql') {
+            zip.file('server_summary.txt', this.mysqlSummary);
+        }
         zip.generateAsync({type: 'blob'})
         .then(function(content) {
             // see FileSaver.js
