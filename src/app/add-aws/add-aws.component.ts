@@ -25,8 +25,14 @@ export class AddAwsComponent implements OnInit {
     this.isLoading = true;
     try {
       this.allRDSInstances = await this.addAwsService.discover(this.rdsCredentials);
+      this.errorMessage = '';
     } catch (err) {
-      this.errorMessage = err.json().error;
+      this.allRDSInstances = [];
+      let msg = err.json().error;
+      if (msg.startsWith('NoCredentialProviders')) {
+        msg = 'Cannot automatically discover instances - please provide AWS access credentials';
+      }
+      this.errorMessage = msg;
     } finally {
       this.isLoading = false;
     }
@@ -92,9 +98,11 @@ export class AddAwsComponent implements OnInit {
   }
 
   async ngOnInit() {
+    this.errorMessage = '';
     try {
       await this.getRegistered();
       this.allRDSInstances = await this.addAwsService.discover(this.rdsCredentials);
+      this.errorMessage = '';
     } catch (err) {
       let msg = err.json().error;
       if (msg.startsWith('NoCredentialProviders')) {
