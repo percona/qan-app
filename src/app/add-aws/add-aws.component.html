@@ -56,7 +56,8 @@
             <td>{{ instance.service.address }}:{{ instance.service.port }}</td>
             <td>{{ instance.service.engine }} v{{ instance.service.engine_version }}</td>
             <td align="center">
-              <a *ngIf="isEnabled(instance)" href="javascript:void(0)" title="Enabled" (click)="disableInstanceMonitoring(instance.node);">
+		    <a *ngIf="isEnabled(instance)" href="javascript:void(0)" title="Enabled"
+	               (click)="disableInstanceMonitoring(instance.node);">
                 <i class="fa fa-toggle-on fa-lg" aria-hidden="true"></i>
               </a>
               <a *ngIf="!isEnabled(instance)" href="javascript:void(0)" title="Disabled" (click)="enableInstanceMonitoring(instance.node);">
@@ -76,7 +77,7 @@
               </div>
             </td>
             <td colspan="2">
-              <button type="submit" class="btn btn-primary">Connect</button>
+              <button type="submit" [disabled]="isDemo"  class="btn btn-primary">Connect</button>
               <button type="cancel" (click)="cancel()" class="btn btn-primary">Cancel</button>
             </td>
           </tr>
