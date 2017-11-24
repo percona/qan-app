@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { RDSCredentials, MySQLCredentials, RDSInstance, RDSNode, AddAwsService } from './add-aws.service'
+import { environment } from '../environment';
 
 @Component({
   selector: 'app-add-aws',
@@ -16,6 +17,7 @@ export class AddAwsComponent implements OnInit {
   registeredNames: string[];
   isLoading: boolean;
   errorMessage: string;
+  isDemo = environment.demo;
 
 
   constructor(public addAwsService: AddAwsService) { }
@@ -66,6 +68,9 @@ export class AddAwsComponent implements OnInit {
   }
 
   async disableInstanceMonitoring(node: RDSNode) {
+    if (this.isDemo) {
+        return false;
+    }
     this.errorMessage = '';
     const text = `Are you sure want to disable monitoring of '${node.name}:${node.region}' node?`;
     if (confirm(text)) {

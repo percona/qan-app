@@ -30,6 +30,7 @@ export class SummaryService {
                 let err = resp.Error;
                 if (resp.Error === 'Executable file not found in $PATH') {
                     err = ' - Please install `pt-summary`.';
+                    err += ' (Output: ' +  resp.Error + ')';
                 }
                 throw new Error(err);
             })
@@ -61,6 +62,7 @@ export class SummaryService {
                 let err = resp.Error;
                 if (resp.Error === 'Executable file not found in $PATH') {
                     err = ' - Please install `pt-mysql-summary`.';
+                    err += ' (Output: ' +  resp.Error + ')';
                 }
                 throw new Error(err);
             })
@@ -97,9 +99,11 @@ export class SummaryService {
                 let err = resp.Error;
                 if (resp.Error === 'Executable file not found in $PATH') {
                     err = ' - Please install `pt-mongodb-summary`.';
+                    err += ' (Output: ' +  resp.Error + ')';
                 }
                 if (resp.Error === 'Unknown command: GetMongoSummary') {
-                    err += ' - Please update your `pmm-client`.';
+                    err = ' - Please update your `pmm-client`.';
+                    err += ' (Output: ' +  resp.Error + ')';
                 }
                 throw new Error(err);
             })
