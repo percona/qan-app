@@ -51,7 +51,7 @@ export class NavComponent extends CoreComponent implements OnDestroy {
     const momentFormatPipe = new MomentFormatPipe();
     this.fromDateCompact = momentFormatPipe.transform(this.from, this.compactDateFormat);
     this.toDateCompact = momentFormatPipe.transform(this.to, this.compactDateFormat);
-    let pathWithParams = this.router.url;
+    const pathWithParams = this.router.url;
     this.path = pathWithParams.substr(0, pathWithParams.indexOf('?'));
     this.isExtHidden = true;
     this.hostSelectorPath = [];

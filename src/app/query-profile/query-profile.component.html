@@ -1,102 +1,125 @@
-<div class="card">
-    <div class="card-header" id="query_profile_heared">
-        <span id="query_profile_top">Top {{ totalAmountOfQueries ? (queryProfile?.length - 1) : 0 }} of {{ totalAmountOfQueries }} Queries by % Grand Total Time (%GTT)</span>
-        <span class="pull-right" id="selected_time">
-           <form class="form-inline" (submit)="search()">
-				<div class="input-group">
-					<input class="form-control" [(ngModel)]="searchValue" size="50"
-                           name="searchValue" id="search_field" type="text"
-                           placeholder="Search by Query Abstract, Fingerprint or ID">
-					<span class="input-group-btn">
-							<button class="btn btn-primary"
-								(submit)="search()"
-								id="search_button"
-								type="submit"><i class="fa fa-search"></i></button>
-					</span>
-				</div>
-			</form>
-        </span>
-    </div>
-    <i *ngIf="isLoading" class="fa fa-spinner fa-pulse fa-3x fa-fw loading-in-front"></i>
-    <table class="table table-striped table-hover table-sm mb-0 query-profile-table" id="query_profile_table">
-        <thead>
-            <tr>
-                <th style="width: 2em;" title="Rank">#</th>
-                <th style="width: 14em;" title="Query Abstract">Query Abstract</th>
-                <th style="width: 3em;" title="ID">ID</th>
-                <th title="Load" colspan="2">Load</th>
-                <th title="Count" colspan="3">Count</th>
-                <th colspan="3" title="Latency">Latency</th>
-            </tr>
-        </thead>
-        <tbody *ngIf="!!noQueryError">
-            <tr>
-                <td id="query_profile_error" class="text-center" colspan="11">
-                    <div class="alert alert-danger w-75 mx-auto" role="alert">
-                        {{ noQueryError }}
+<div *ngIf="dbServer === null" class="alert alert-warning w-75 mx-auto text-center">
+    There is no query data for the selected host.
+    <br /> Use the
+    <code>pmm-admin add</code> command to add a monitoring service and try again.
+    <br /> For the information, see
+    <a href="https://www.percona.com/doc/percona-monitoring-and-management/pmm-admin.html#adding-monitoring-services" target="blank">
+        PMM documentation.
+    </a>
+</div>
+<div *ngIf="dbServer !== null">
+    <div class="card">
+        <div class="card-header" id="query_profile_heared">
+            <span id="query_profile_top">Top {{ totalAmountOfQueries ? (queryProfile?.length - 1) : 0 }} of {{ totalAmountOfQueries }} Queries by % Grand
+                Total Time (%GTT)</span>
+            <span class="pull-right" id="selected_time">
+                <form class="form-inline" (submit)="search()">
+                    <div class="input-group">
+                        <input class="form-control" [(ngModel)]="searchValue" size="50" name="searchValue" id="search_field" type="text" placeholder="Search by Query Abstract, Fingerprint or ID">
+                        <span class="input-group-btn">
+                            <button class="btn btn-primary" (submit)="search()" id="search_button" type="submit">
+                                <i class="fa fa-search"></i>
+                            </button>
+                        </span>
                     </div>
-                </td>
-            </tr>
-        </tbody>
-        <tbody *ngIf="!noQueryError">
-            <tr *ngFor="let row of queryProfile; let i = index; let first = first;"
-                [routerLink]="['./', 'report', dbServer.Subsystem]"
-                [queryParams]="composeQueryParamsForGrid(row.Id)"
-                routerLinkActive="table-active">
-                <td class="text-xs-right">{{ i || '' }}</td>
-                <td class="smart-query-abstact cell-overlay">
-                    <span tabindex="0">
-                        <a [routerLink]="['./', 'report', dbServer.Subsystem]"
-                        [queryParams]="composeQueryParamsForGrid(row.Id)"
-                        href="javascript:void(0);" title="{{ row.Fingerprint }}">
-                        {{ row.Rank ? (row.Abstract || 'Low Ranking Queries') : 'TOTAL' }}
-                        </a>
-                    </span>
-                </td>
-                <td title="{{ row.Id }}" class="smart-id cell-overlay"><span tabindex="0">{{ row.Id }}</span></td>
-                <td class="no-right-border" style="width: 6em;">
-                    <div class="scaling-svg-container app-tooltip" [appLoadSparklines]="row.Log" data-tooltip="Loading..."
-                         xkey="Start_ts" ykey="Query_time_sum" measurement="number"></div>
-                </td>
-                <td class="no-left-border text-xs-right">
-                    {{ row.Load | humanize : 'number' }} ({{ row.Percentage | humanize : 'percent' }})
-                </td>
-                <td class="no-right-border text-xs-right">
-                    {{row.QPS | humanize : 'number'}} QPS
-                </td>
-                <td class="no-left-border no-right-border">
-                    <div class="scaling-svg-container app-tooltip" [appLoadSparklines]="row.Log" data-tooltip="Loading..."
-                         xkey="Start_ts" ykey="Query_count" measurement="number" >
+                </form>
+            </span>
+        </div>
+        <i *ngIf="isLoading" class="fa fa-spinner fa-pulse fa-3x fa-fw loading-in-front"></i>
+        <table class="table table-striped table-hover table-sm mb-0 query-profile-table" id="query_profile_table">
+            <thead>
+                <tr>
+                    <th style="width: 2em;" title="Rank">#</th>
+                    <th style="width: 14em;" title="Query Abstract">Query Abstract</th>
+                    <th style="width: 3em;" title="ID">ID</th>
+                    <th title="Load" colspan="2">Load</th>
+                    <th title="Count" colspan="3">Count</th>
+                    <th colspan="3" title="Latency">Latency</th>
+                </tr>
+            </thead>
+            <tbody *ngIf="!!noQueryError">
+                <tr>
+                    <td id="query_profile_error" class="text-center" colspan="11">
+                        <div class="alert alert-danger w-75 mx-auto" role="alert">
+                            {{ noQueryError }}
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+            <tbody *ngIf="!noQueryError">
+                <tr *ngFor="let row of queryProfile; let i = index; let first = first;" [routerLink]="['./', 'report', dbServer.Subsystem]"
+                    [queryParams]="composeQueryParamsForGrid(row.Id)" routerLinkActive="table-active">
+                    <td class="text-xs-right">{{ i || '' }}</td>
+                    <td class="smart-query-abstact cell-overlay">
+                        <span tabindex="0">
+                            <a [routerLink]="['./', 'report', dbServer.Subsystem]" [queryParams]="composeQueryParamsForGrid(row.Id)" href="javascript:void(0);"
+                                title="{{ row.Fingerprint }}">
+                                {{ row.Rank ? (row.Abstract || 'Low Ranking Queries') : 'TOTAL' }}
+                            </a>
+                        </span>
+                    </td>
+                    <td title="{{ row.Id }}" class="smart-id cell-overlay">
+                        <span tabindex="0">{{ row.Id }}</span>
+                    </td>
+                    <td class="no-right-border" style="width: 6em;">
+                        <div class="scaling-svg-container app-tooltip" [appLoadSparklines]="row.Log" data-tooltip="Loading..." xkey="Start_ts" ykey="Query_time_sum"
+                            measurement="number"></div>
+                    </td>
+                    <td class="no-left-border text-xs-right">
+                        {{ row.Load | humanize : 'number' }} ({{ row.Percentage | humanize : 'percent' }})
+                    </td>
+                    <td class="no-right-border text-xs-right">
+                        {{row.QPS | humanize : 'number'}} QPS
+                    </td>
+                    <td class="no-left-border no-right-border">
+                        <div class="scaling-svg-container app-tooltip" [appLoadSparklines]="row.Log" data-tooltip="Loading..." xkey="Start_ts" ykey="Query_count"
+                            measurement="number">
 
-                    </div>
-                </td>
-                <td class="no-left-border text-xs-right">
-                    {{row.Stats.Cnt | humanize : 'number'}} ({{ (row.Stats.Cnt / profileTotal?.Stats.Cnt * 100).toFixed(2) }}%)
-                </td>
-                <td class="no-right-border chart-td" style="width: 6em;">
-                    <div class="scaling-svg-container app-tooltip" [appLoadSparklines]="row.Log" data-tooltip="Loading..."
-                         xkey="Start_ts" ykey="Query_time_avg" measurement="time"></div>
-                </td>
-                <td class="no-right-border no-left-border text-xs-right smart-latency-time cell-overlay">
-                    <span tabindex="0">{{ row.Stats.Avg | humanize }} avg</span>
-                </td>
-                <td style="width: 6em;" class="no-left-border chart-td">
-                    <div class="scaling-svg-container app-tooltip"
-                         data-tooltip="Loading..." measurement="time" [appLatencyChart]="row.Stats"></div>
-                </td>
-            </tr>
-            <tr *ngIf="totalAmountOfQueries === 0">
-                <td id="query_profile_no_data" class="text-center" colspan="11">No data for selected time-range.</td>
-            </tr>
-        </tbody>
-    </table>
+                        </div>
+                    </td>
+                    <td class="no-left-border text-xs-right">
+                        {{row.Stats.Cnt | humanize : 'number'}} ({{ (row.Stats.Cnt / profileTotal?.Stats.Cnt * 100).toFixed(2) }}%)
+                    </td>
+                    <td class="no-right-border chart-td" style="width: 6em;">
+                        <div class="scaling-svg-container app-tooltip" [appLoadSparklines]="row.Log" data-tooltip="Loading..." xkey="Start_ts" ykey="Query_time_avg"
+                            measurement="time"></div>
+                    </td>
+                    <td class="no-right-border no-left-border text-xs-right smart-latency-time cell-overlay">
+                        <span tabindex="0">{{ row.Stats.Avg | humanize }} avg</span>
+                    </td>
+                    <td style="width: 6em;" class="no-left-border chart-td">
+                        <div class="scaling-svg-container app-tooltip" data-tooltip="Loading..." measurement="time" [appLatencyChart]="row.Stats"></div>
+                    </td>
+                </tr>
+                <tr *ngIf="totalAmountOfQueries === 0">
+                    <td id="query_profile_no_data" class="text-center" colspan="11">
+                        <div *ngIf="dbServer.Subsystem === 'mongo'" class="alert alert-warning w-75 mx-auto">
+                            There is no query data because profiling is not enabled for the selected host.
+                            <br/> For information about how to enable profiling, see
+                            <a href="https://www.percona.com/doc/percona-monitoring-and-management/conf-mongodb.html" target="blank">
+                                Configuring profiling in MongoDB
+                            </a>in PMM documentation.
+                        </div>
+                        <div *ngIf="dbServer.Subsystem === 'mysql'" class="alert alert-warning w-75 mx-auto">
+                            There is no query data because the MySQL Server is not been configured for monitoring.
+                            <br /> For details about the required configuration, see
+                            <a href="https://www.percona.com/doc/percona-monitoring-and-management/conf-mysql.html" target="blank">
+                                Configuring MySQL for Percona Monitoring and Management
+                            </a>
+                            in PMM documentation.
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <div *ngIf="totalAmountOfQueries">
+        <button id="show_more" type="button" class="btn btn-primary btn-block" (click)="loadMoreQueries()" [disabled]="leftInDbQueries === 0">
+            <i class="fa fa-angle-double-down" aria-hidden="true"></i>
+            <span *ngIf="leftInDbQueries > 0">Load next {{ leftInDbQueries > 10 ? 10 : leftInDbQueries }} queries</span>
+            <span *ngIf="leftInDbQueries === 0">No more queries for selected time range</span>
+            <i class="fa fa-angle-double-down" aria-hidden="true"></i>
+        </button>
+    </div>
+    <router-outlet></router-outlet>
 </div>
-<div *ngIf="totalAmountOfQueries">
-    <button id="show_more" type="button" class="btn btn-primary btn-block" (click)="loadMoreQueries()" [disabled]="leftInDbQueries === 0">
-        <i class="fa fa-angle-double-down" aria-hidden="true"></i>
-        <span *ngIf="leftInDbQueries > 0">Load next {{ leftInDbQueries > 10 ? 10 : leftInDbQueries }} queries</span>
-        <span *ngIf="leftInDbQueries === 0">No more queries for selected time range</span>
-        <i class="fa fa-angle-double-down" aria-hidden="true"></i>
-    </button>
-</div>
-<router-outlet></router-outlet>

@@ -27,8 +27,8 @@ export abstract class CoreComponent implements OnDestroy {
     protected routerSubscription: Subscription;
     public queryParams: QueryParams;
     public previousQueryParams: QueryParams;
-    public agent: Instance;
-    public dbServer: Instance;
+    public agent: Instance | null;
+    public dbServer: Instance | null;
     public dbServers: Array<Instance> = [];
     public dbServerMap: { [key: string]: Instance } = {};
     public from: any;
@@ -61,10 +61,13 @@ export abstract class CoreComponent implements OnDestroy {
                     this.dbServer = this.dbServerMap[this.queryParams['var-host']];
                     this.agent = this.dbServerMap[this.queryParams['var-host']].Agent;
                 } catch (err) {
-                    // this required
-                    this.dbServer = this.instanceService.dbServers[0];
-                    this.agent = this.instanceService.dbServers[0].Agent;
-                    console.info('cannot change db instance - use defaults');
+                    if (this.queryParams.hasOwnProperty('var-host')) {
+                        this.dbServer = null;
+                        this.agent = null;
+                    } else {
+                        this.dbServer = this.instanceService.dbServers[0];
+                        this.agent = this.instanceService.dbServers[0].Agent;
+                    }
                 }
                 this.setTimeZoneFromParams();
                 this.setThemeFromParams();
