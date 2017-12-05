@@ -1,8 +1,6 @@
-<div *ngIf="dbServer === null" class="alert alert-warning w-75 mx-auto text-center">
-    There is no query data for the selected host.
-    <br /> Use the
-    <code>pmm-admin add</code> command to add a monitoring service and try again.
-    <br /> For the information, see
+<div *ngIf="dbServer === null" class="alert alert-warning w-75 mx-auto text-center wrap" role="alert">
+    There is no query data for the selected host. Use the
+    <code>pmm-admin add</code> command to add a monitoring service and try again. For the information, see
     <a href="https://www.percona.com/doc/percona-monitoring-and-management/pmm-admin.html#adding-monitoring-services" target="blank">
         PMM documentation.
     </a>
@@ -91,18 +89,18 @@
                         <div class="scaling-svg-container app-tooltip" data-tooltip="Loading..." measurement="time" [appLatencyChart]="row.Stats"></div>
                     </td>
                 </tr>
-                <tr *ngIf="totalAmountOfQueries === 0">
-                    <td id="query_profile_no_data" class="text-center" colspan="11">
-                        <div *ngIf="dbServer.Subsystem === 'mongo'" class="alert alert-warning w-75 mx-auto">
-                            There is no query data because profiling is not enabled for the selected host.
-                            <br/> For information about how to enable profiling, see
+                <tr *ngIf="!isLoading && totalAmountOfQueries === 0">
+                    <td id="query_profile_no_data" class="text-center clearfix" colspan="11">
+                        <div *ngIf="dbServer.Subsystem === 'mongo'" class="alert alert-warning w-75 mx-auto wrap">
+                            There is no query data because profiling is not enabled for the selected host. For information about how to enable profiling,
+                            see
                             <a href="https://www.percona.com/doc/percona-monitoring-and-management/conf-mongodb.html" target="blank">
                                 Configuring profiling in MongoDB
                             </a>in PMM documentation.
                         </div>
-                        <div *ngIf="dbServer.Subsystem === 'mysql'" class="alert alert-warning w-75 mx-auto">
-                            There is no query data because the MySQL Server is not been configured for monitoring.
-                            <br /> For details about the required configuration, see
+                        <div *ngIf="dbServer.Subsystem === 'mysql'" class="alert alert-warning w-75 mx-auto wrap">
+                            There is no query data because the MySQL Server is not been configured for monitoring. For details about the required configuration,
+                            see
                             <a href="https://www.percona.com/doc/percona-monitoring-and-management/conf-mysql.html" target="blank">
                                 Configuring MySQL for Percona Monitoring and Management
                             </a>
