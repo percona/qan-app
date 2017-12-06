@@ -1,6 +1,6 @@
 {
   "/qan-api": {
-    "target": "https://pmmdemo.percona.com",
+    "target": "http://localhost",
     "secure": false,
     "logLevel": "debug"
   },
