@@ -12,19 +12,20 @@ export class AddAwsComponent implements OnInit {
   rdsCredentials = new RDSCredentials();
   mysqlCredentials = new MySQLCredentials();
   rdsNode = {} as RDSNode;
-  allRDSInstances: RDSInstance[];
-  registeredRDSInstances: RDSInstance[];
+  allRDSInstances: RDSInstance[] = [];
+  registeredRDSInstances: RDSInstance[] = [];
   registeredNames: string[];
   isLoading: boolean;
   errorMessage: string;
   isDemo = environment.demo;
-
+  submitted = false;
 
   constructor(public addAwsService: AddAwsService) { }
 
   async onSubmit() {
     this.errorMessage = '';
     this.isLoading = true;
+    this.submitted = true;
     try {
       this.allRDSInstances = await this.addAwsService.discover(this.rdsCredentials);
       this.errorMessage = '';
@@ -32,7 +33,7 @@ export class AddAwsComponent implements OnInit {
       this.allRDSInstances = [];
       let msg = err.json().error;
       if (msg.startsWith('NoCredentialProviders')) {
-        msg = 'Cannot automatically discover instances - please provide AWS access credentials';
+        msg = 'Cannot discover instances - please provide AWS access credentials';
       }
       this.errorMessage = msg;
     } finally {
@@ -69,7 +70,7 @@ export class AddAwsComponent implements OnInit {
 
   async disableInstanceMonitoring(node: RDSNode) {
     if (this.isDemo) {
-        return false;
+      return false;
     }
     this.errorMessage = '';
     const text = `Are you sure want to disable monitoring of '${node.name}:${node.region}' node?`;
@@ -105,10 +106,18 @@ export class AddAwsComponent implements OnInit {
   async ngOnInit() {
     this.errorMessage = '';
     try {
+      const allRDSInstances = await this.addAwsService.discover(this.rdsCredentials);
+      if (this.submitted) { // ignore results if user submitted form with creds.
+        return;
+      }
       await this.getRegistered();
-      this.allRDSInstances = await this.addAwsService.discover(this.rdsCredentials);
+      this.allRDSInstances = allRDSInstances;
       this.errorMessage = '';
+
     } catch (err) {
+      if (this.submitted) { // ignore results if user submitted form with creds.
+        return;
+      }
       let msg = err.json().error;
       if (msg.startsWith('NoCredentialProviders')) {
         msg = 'Cannot automatically discover instances - please provide AWS access credentials';
