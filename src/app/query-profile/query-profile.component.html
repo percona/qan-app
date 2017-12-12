@@ -50,7 +50,7 @@
                     <td class="text-xs-right">{{ i || '' }}</td>
                     <td class="smart-query-abstact cell-overlay">
                         <span tabindex="0">
-                            <a [routerLink]="['./', 'report', dbServer.Subsystem]" [queryParams]="composeQueryParamsForGrid(row.Id)" href="javascript:void(0);"
+                            <a href="javascript:void(0);"
                                 title="{{ row.Fingerprint }}">
                                 {{ row.Rank ? (row.Abstract || 'Low Ranking Queries') : 'TOTAL' }}
                             </a>

@@ -1,7 +1,12 @@
 {
   "/qan-api": {
-    "target": "http://pmmstage.int.percona.com/qan-api",
-    "pathRewrite": {"^/qan-api" : ""},
-    "secure": false
+    "target": "http://localhost",
+    "secure": false,
+    "logLevel": "debug"
+  },
+  "/managed": {
+    "target": "http://localhost",
+    "secure": false,
+    "logLevel": "debug"
   }
 }
