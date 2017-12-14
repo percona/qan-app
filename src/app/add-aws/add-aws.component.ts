@@ -14,7 +14,7 @@ export class AddAwsComponent implements OnInit {
   rdsNode = {} as RDSNode;
   allRDSInstances: RDSInstance[] = [];
   registeredRDSInstances: RDSInstance[] = [];
-  registeredNames: string[];
+  registeredNames: string[] = [];
   isLoading: boolean;
   errorMessage: string;
   isDemo = environment.demo;
@@ -28,6 +28,7 @@ export class AddAwsComponent implements OnInit {
     this.submitted = true;
     try {
       this.allRDSInstances = await this.addAwsService.discover(this.rdsCredentials);
+      await this.getRegistered();
       this.errorMessage = '';
     } catch (err) {
       this.allRDSInstances = [];
@@ -42,6 +43,7 @@ export class AddAwsComponent implements OnInit {
   }
 
   enableInstanceMonitoring(node: RDSNode) {
+    this.mysqlCredentials = new MySQLCredentials();
     this.rdsNode = { name: node.name, region: node.region } as RDSNode;
   }
 
@@ -62,7 +64,6 @@ export class AddAwsComponent implements OnInit {
       this.errorMessage = err.json().error;
       return;
     }
-    this.mysqlCredentials = new MySQLCredentials();
     this.rdsNode = {} as RDSNode;
     this.cancel();
     await this.getRegistered();
