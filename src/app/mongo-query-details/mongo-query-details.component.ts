@@ -1,7 +1,7 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Instance, InstanceService } from '../core/instance.service';
-import { CoreComponent } from '../core/core.component';
+import { CoreComponent, QueryParams } from '../core/core.component';
 import { MongoQueryDetailsService, QueryDetails } from './mongo-query-details.service';
 import * as hljs from 'highlight.js';
 import * as vkbeautify from 'vkbeautify';
@@ -13,7 +13,7 @@ import * as moment from 'moment';
   templateUrl: './mongo-query-details.component.html',
   styleUrls: ['./mongo-query-details.component.scss']
 })
-export class MongoQueryDetailsComponent extends CoreComponent {
+export class MongoQueryDetailsComponent extends CoreComponent implements OnInit {
 
   protected queryID: string;
   protected queryDetails: any | QueryDetails;
@@ -33,6 +33,12 @@ export class MongoQueryDetailsComponent extends CoreComponent {
   constructor(protected route: ActivatedRoute, protected router: Router,
     protected instanceService: InstanceService, protected queryDetailsService: MongoQueryDetailsService) {
     super(route, router, instanceService);
+  }
+
+  ngOnInit() {
+    this.queryParams = this.route.snapshot.queryParams as QueryParams;
+    this.parseParams();
+    this.onChangeParams(this.queryParams);
   }
 
   onChangeParams(params) {
