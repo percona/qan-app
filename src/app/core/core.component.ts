@@ -36,6 +36,7 @@ export abstract class CoreComponent implements OnDestroy {
 
     public fromUTCDate: string;
     public toUTCDate: string;
+    parseQueryParamDatePipe = new ParseQueryParamDatePipe();
 
     constructor(protected route: ActivatedRoute, protected router: Router,
         protected instanceService: InstanceService) {
@@ -51,36 +52,39 @@ export abstract class CoreComponent implements OnDestroy {
      * Trigger onChangeParams method (must be overridden) on route change.
      */
     subscribeToRouter() {
-        const parseQueryParamDatePipe = new ParseQueryParamDatePipe();
+
         this.routerSubscription = this.router.events
             .filter((e: any) => e instanceof NavigationEnd)
             .subscribe((event: Event) => {
                 this.queryParams = this.route.snapshot.queryParams as QueryParams;
-
-                try {
-                    this.dbServer = this.dbServerMap[this.queryParams['var-host']];
-                    this.agent = this.dbServerMap[this.queryParams['var-host']].Agent;
-                } catch (err) {
-                    if (this.queryParams.hasOwnProperty('var-host')) {
-                        this.dbServer = null;
-                        this.agent = null;
-                    } else {
-                        this.dbServer = this.instanceService.dbServers[0];
-                        this.agent = this.instanceService.dbServers[0].Agent;
-                    }
-                }
-                this.setTimeZoneFromParams();
-                this.setThemeFromParams();
-                this.from = parseQueryParamDatePipe.transform(this.queryParams.from, 'from');
-                this.to = parseQueryParamDatePipe.transform(this.queryParams.to, 'to');
-                this.fromUTCDate = this.from.utc().format('YYYY-MM-DDTHH:mm:ss');
-                this.toUTCDate = this.to.utc().format('YYYY-MM-DDTHH:mm:ss');
+                this.parseParams();
 
                 // trigger overriden method in child component
                 this.onChangeParams(this.queryParams);
 
                 this.previousQueryParams = Object.assign({}, this.queryParams);
             });
+    }
+
+    parseParams() {
+        try {
+            this.dbServer = this.dbServerMap[this.queryParams['var-host']];
+            this.agent = this.dbServerMap[this.queryParams['var-host']].Agent;
+        } catch (err) {
+            if (this.queryParams.hasOwnProperty('var-host')) {
+                this.dbServer = null;
+                this.agent = null;
+            } else {
+                this.dbServer = this.instanceService.dbServers[0];
+                this.agent = this.instanceService.dbServers[0].Agent;
+            }
+        }
+        this.setTimeZoneFromParams();
+        this.setThemeFromParams();
+        this.from = this.parseQueryParamDatePipe.transform(this.queryParams.from, 'from');
+        this.to = this.parseQueryParamDatePipe.transform(this.queryParams.to, 'to');
+        this.fromUTCDate = this.from.utc().format('YYYY-MM-DDTHH:mm:ss');
+        this.toUTCDate = this.to.utc().format('YYYY-MM-DDTHH:mm:ss');
     }
 
     /**
