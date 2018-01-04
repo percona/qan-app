@@ -30,7 +30,11 @@
                     <th style="width: 2em;" title="Rank">#</th>
                     <th style="width: 14em;" title="Query Abstract">Query Abstract</th>
                     <th style="width: 3em;" title="ID">ID</th>
-                    <th title="Load" colspan="2">Load</th>
+                    <th colspan="2">
+		          <dfn data-tooltip=" - sparklines: the total time of query execution divided by the amount of seconds between points
+ - value: the sum of the query processing time divided by the selected time range in seconds
+ - percentage: the query execution time divided by the execution time of all queries for the given time range">Load</dfn>
+		    </th>
                     <th title="Count" colspan="3">Count</th>
                     <th colspan="3" title="Latency">Latency</th>
                 </tr>
@@ -60,7 +64,7 @@
                         <span tabindex="0">{{ row.Id }}</span>
                     </td>
                     <td class="no-right-border" style="width: 6em;">
-                        <div class="scaling-svg-container app-tooltip" [appLoadSparklines]="row.Log" data-tooltip="Loading..." xkey="Start_ts" ykey="Query_time_sum"
+                        <div class="scaling-svg-container app-tooltip" [appLoadSparklines]="row.Log" data-tooltip="Loading..." xkey="Start_ts" ykey="Query_load"
                             measurement="number"></div>
                     </td>
                     <td class="no-left-border text-xs-right">

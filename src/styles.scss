@@ -356,6 +356,31 @@ li.li-max:before {
     color: #D9721F;
 }
 
+dfn {
+   border-bottom: 1px dashed #c0c0c0;
+   cursor: help;
+}
+dfn::before {
+  content: attr(data-tooltip);
+  position: absolute;
+  top: 8.2em;
+  font-size: 0.7em;
+  padding: 1px 5px;
+  white-space: pre;
+  display: none;
+  color: black;
+  background: #f0f0f0;
+  box-shadow: 1px 1px 1px 1px #afafaf;
+  border-radius: 1px;
+  transition: opacity 0.1s ease-out;
+  z-index: 99;
+  text-align: left;
+}
+
+dfn:hover::before {
+  display: inline-block;
+}
+
 div.app-tooltip::before {
   content: attr(data-tooltip);
   position: absolute;
