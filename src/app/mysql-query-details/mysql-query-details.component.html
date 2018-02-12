@@ -646,7 +646,7 @@
             <div class="card-block" id="db_tables_buttons">
                 <div class="card-text pt-1 pr-1">
                     <div *ngFor="let item of queryDetails?.Query?.Tables" class="btn-group ml-1 mb-1" role="group" aria-label="Tables">
-                        <button type="button" class="btn" (click)="selectTableInfo(item.Db, item.Table);" [ngClass]="isSelectedDbTbl(item) ? 'btn-success' : 'btn-outline-secondary'">
+                        <button type="button" class="btn" (click)="selectTableInfo(item.Db, item.Table);" [ngClass]="isSelectedDbTbl(item) ? 'btn-success' : 'btn-secondary'">
                             `{{ item.Db }}`.`{{ item.Table }}`
                         </button>
                         <button type="button" class="btn btn-warning" (click)="removeDBTable(item);"><i class="fa fa-times" aria-hidden="true"></i></button>
