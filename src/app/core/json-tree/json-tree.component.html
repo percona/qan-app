@@ -1,0 +1,6 @@
+<tree-root [nodes]="nodes" [options]="options">
+  <ng-template #treeNodeTemplate let-node="node" let-index="index">
+    <span class="hljs-attr">"{{node.id}}"</span> : <span class="{{node.data.nodeClass}}">{{node.data.value || '{'}}<span
+    *ngIf="!node.data.value"> ... }</span></span>
+  </ng-template>
+</tree-root>
