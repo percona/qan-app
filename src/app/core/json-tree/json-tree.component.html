@@ -1,3 +1,9 @@
+<button class="btn btn-secondary btn-sm copy-btn"
+        ngxClipboard
+        [cbContent]="currentJSON"
+        (cbOnSuccess)="isCopied = true"
+        [class.btn-success]= "isCopied">Copy to clipboard</button>
+
 <tree-root [nodes]="nodes" [options]="options">
   <ng-template #treeNodeTemplate let-node="node" let-index="index">
     <span class="hljs-attr">"{{node.id}}"</span> : <span class="{{node.data.nodeClass}}">{{node.data.value || '{'}}

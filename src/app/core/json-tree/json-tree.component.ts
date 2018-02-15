@@ -8,10 +8,12 @@ import {Component, Input} from '@angular/core';
 
 export class JSONTreeComponent {
   public nodes: any[];
+  public currentJSON: any = {};
   public options: any = {};
 
   @Input() set json(json: string) {
     if (json) {
+      this.currentJSON = JSON.stringify(json);
       this.nodes = this.jsonToArray(json);
     }
   }
