@@ -17,8 +17,8 @@ export class SummaryService {
         };
         const params = {
             AgentUUID: agentUUID,
-            Service: 'agent',
-            Cmd: 'GetServerSummary',
+            Service: 'query',
+            Cmd: 'Summary',
             Data: btoa(JSON.stringify(data))
         };
 
