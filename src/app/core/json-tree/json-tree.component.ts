@@ -12,11 +12,15 @@ export class JSONTreeComponent {
 
   @Input() set json(json: string) {
     if (json) {
-      this.nodes = this.JSONToArray(json);
+      this.nodes = this.jsonToArray(json);
     }
   }
 
-  JSONToArray(item) {
+  isCollapsed(node) {
+    return !node.data.value && node.isCollapsed;
+  }
+
+  jsonToArray(item) {
     const arr = [];
 
     for (const key in item) {
@@ -24,7 +28,7 @@ export class JSONTreeComponent {
         if (typeof item[key] === 'object' && !item[key].length) {
           arr.push({
             id: key,
-            children: this.JSONToArray(item[key])
+            children: this.jsonToArray(item[key])
           });
         } else {
           arr.push({
