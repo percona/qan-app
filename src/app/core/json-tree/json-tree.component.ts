@@ -10,6 +10,7 @@ export class JSONTreeComponent {
   public nodes: any[];
   public currentJSON: any = {};
   public options: any = {};
+  public isCopied = false;
 
   @Input() set json(json: string) {
     if (json) {
