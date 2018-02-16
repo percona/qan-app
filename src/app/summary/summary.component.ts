@@ -44,7 +44,7 @@ export class SummaryComponent extends CoreComponent {
      */
     getServerSummary(agentUUID: string): void {
         this.summaryService
-            .getServer(agentUUID)
+            .getServer(agentUUID, this.dbServer.UUID)
             .then(data => this.serverSummary = data)
             .catch(err => this.serverSummaryError = err.message)
             .then(() => this.serverSummaryLoader = false);
@@ -56,7 +56,7 @@ export class SummaryComponent extends CoreComponent {
      */
     getMySQLSummary(agentUUID: string): void {
         this.summaryService
-            .getMySQL(agentUUID)
+            .getMySQL(agentUUID, this.dbServer.UUID)
             .then(data => this.mysqlSummary = data)
             .catch(err => this.mysqlSummaryError = err.message)
             .then(() => this.mysqlSummaryLoader = false);

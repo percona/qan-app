@@ -10,12 +10,16 @@ export class SummaryService {
 
     constructor(private http: Http) { }
 
-    getServer(agentUUID: string) {
+    getServer(agentUUID: string, dbServerUUID: string) {
         const url = `/qan-api/agents/${agentUUID}/cmd`;
+        const data = {
+            UUID: dbServerUUID
+        };
         const params = {
             AgentUUID: agentUUID,
-            Service: 'agent',
-            Cmd: 'GetServerSummary',
+            Service: 'query',
+            Cmd: 'Summary',
+            Data: btoa(JSON.stringify(data))
         };
 
         return this.http
@@ -42,12 +46,16 @@ export class SummaryService {
             });
     }
 
-    getMySQL(agentUUID: string) {
+    getMySQL(agentUUID: string, dbServerUUID: string) {
         const url = `/qan-api/agents/${agentUUID}/cmd`;
+        const data = {
+            UUID: dbServerUUID
+        };
         const params = {
             AgentUUID: agentUUID,
-            Service: 'agent',
-            Cmd: 'GetMySQLSummary',
+            Service: 'query',
+            Cmd: 'Summary',
+            Data: btoa(JSON.stringify(data))
         };
 
         return this.http
