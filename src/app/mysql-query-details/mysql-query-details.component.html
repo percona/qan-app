@@ -1621,21 +1621,17 @@
             <div class="card w-100">
               <div class="card-block" id="db_tables_buttons">
                 <div class="card-text pt-1 pr-1">
-                  <div *ngFor="let item of queryDetails?.Query?.Tables" class="btn-group ml-1 mb-1" role="group"
-                       aria-label="Tables">
-                    <button type="button" class="btn" (click)="selectTableInfo(item.Db, item.Table);"
-                            [ngClass]="isSelectedDbTbl(item) ? 'btn-success' : 'btn-outline-secondary'">
-                      `{{ item.Db }}`.`{{ item.Table }}`
-                    </button>
-                    <button type="button" class="btn btn-warning" (click)="removeDBTable(item);"><i class="fa fa-times"
-                                                                                                    aria-hidden="true"></i>
-                    </button>
-                  </div>
-                  <div *ngIf="queryDetails?.Query?.Tables === null || queryDetails?.Query?.Tables?.length === 0"
-                       class="alert alert-info w-25 mx-auto m-2" role="alert">
-                    <i class="fa fa-info-circle" aria-hidden="true"></i>
-                    List of tables is empty.
-                  </div>
+                    <div *ngFor="let item of queryDetails?.Query?.Tables" class="btn-group ml-1 mb-1" role="group" aria-label="Tables">
+                        <button type="button" class="btn" (click)="selectTableInfo(item.Db, item.Table);" [ngClass]="isSelectedDbTbl(item) ? 'btn-success' : 'btn-secondary'">
+                            `{{ item.Db }}`.`{{ item.Table }}`
+                        </button>
+                        <button type="button" class="btn btn-warning" (click)="removeDBTable(item);"><i class="fa fa-times" aria-hidden="true"></i></button>
+                    </div>
+                    <div *ngIf="queryDetails?.Query?.Tables === null || queryDetails?.Query?.Tables?.length === 0"
+                         class="alert alert-info w-25 mx-auto m-2" role="alert">
+                        <i class="fa fa-info-circle" aria-hidden="true"></i>
+                        List of tables is empty.
+                    </div>
                 </div>
               </div>
             </div>
