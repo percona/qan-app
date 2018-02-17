@@ -1,4 +1,5 @@
-import {Component, Input} from '@angular/core';
+import {Component, Input, OnChanges, ElementRef} from '@angular/core';
+import * as renderjson from 'renderjson';
 
 @Component({
   selector: 'app-json-tree',
@@ -6,44 +7,29 @@ import {Component, Input} from '@angular/core';
   styleUrls: ['./json-tree.component.scss']
 })
 
-export class JSONTreeComponent {
-  public nodes: any[];
-  public currentJSON: any = {};
-  public options: any = {};
+export class JSONTreeComponent implements OnChanges {
+  public element: ElementRef;
   public isCopied = false;
+  public isCollapsed = false;
 
-  @Input() set json(json: string) {
-    if (json) {
-      this.currentJSON = JSON.stringify(json);
-      this.nodes = this.jsonToArray(json);
-    }
+  @Input() public json: any;
+
+  constructor(element: ElementRef) {
+    this.element = element;
+    renderjson.set_icons('+', '-');
   }
 
-  isCollapsed(node) {
-    return !node.data.value && node.isCollapsed;
+  ngOnChanges() {
+    this.element.nativeElement.getElementById('json-viewer').appendChild(renderjson(this.json));
   }
 
-  jsonToArray(item) {
-    const arr = [];
-
-    for (const key in item) {
-      if (item.hasOwnProperty(key)) {
-        if (typeof item[key] === 'object' && !item[key].length) {
-          arr.push({
-            id: key,
-            children: this.jsonToArray(item[key])
-          });
-        } else {
-          arr.push({
-            id: key,
-            nodeClass: `hljs-${typeof item[key]}`,
-            value: item[key],
-          })
-        }
-      }
+  public toggleAll() {
+    this.isCollapsed = !this.isCollapsed;
+    if (this.isCollapsed) {
+      renderjson.set_show_to_level('all');
+    } else {
+      renderjson.set_show_to_level();
     }
-
-    return arr;
   }
 }
 

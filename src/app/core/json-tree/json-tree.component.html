@@ -2,12 +2,12 @@
         ngxClipboard
         [cbContent]="currentJSON"
         (cbOnSuccess)="isCopied = true"
-        [class.btn-success]= "isCopied">Copy to clipboard</button>
+        [class.btn-success]="isCopied">Copy to clipboard
+</button>
+<button class="btn btn-secondary btn-sm expand-all-btn"
+        [class.btn-success]="isCollapsed"
+        (click)="toggleAll()">
+  {{isCollapsed ? 'Expand All' : 'Collapse All' }}
+</button>
 
-<tree-root [nodes]="nodes" [options]="options">
-  <ng-template #treeNodeTemplate let-node="node" let-index="index">
-    <span class="hljs-attr">"{{node.id}}"</span> : <span class="{{node.data.nodeClass}}">{{node.data.value || '{'}}
-    <span *ngIf="isCollapsed(node)"> ... }</span>
-  </span>
-  </ng-template>
-</tree-root>
+<div id="json-viewer"></div>
