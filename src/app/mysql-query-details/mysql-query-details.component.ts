@@ -1,12 +1,11 @@
-import { Component, OnInit } from '@angular/core';
-import { Router, ActivatedRoute } from '@angular/router';
-import { Instance, InstanceService } from '../core/instance.service';
-import { CoreComponent, QueryParams } from '../core/core.component';
-import { MySQLQueryDetailsService, QueryDetails, ServerSummary } from './mysql-query-details.service';
+import {Component, OnInit} from '@angular/core';
+import {Router, ActivatedRoute} from '@angular/router';
+import {Instance, InstanceService} from '../core/instance.service';
+import {CoreComponent, QueryParams} from '../core/core.component';
+import {MySQLQueryDetailsService, QueryDetails, ServerSummary} from './mysql-query-details.service';
 import * as hljs from 'highlight.js';
 import * as vkbeautify from 'vkbeautify';
 import * as moment from 'moment';
-
 
 @Component({
   moduleId: module.id,
@@ -42,7 +41,7 @@ export class MySQLQueryDetailsComponent extends CoreComponent implements OnInit 
   classicExplainError: string;
 
   constructor(protected route: ActivatedRoute, protected router: Router,
-    protected instanceService: InstanceService, protected queryDetailsService: MySQLQueryDetailsService) {
+              protected instanceService: InstanceService, protected queryDetailsService: MySQLQueryDetailsService) {
     super(route, router, instanceService);
   }
 
@@ -68,8 +67,8 @@ export class MySQLQueryDetailsComponent extends CoreComponent implements OnInit 
     this.queryExample = '';
     try {
       this.queryDetails = await this.queryDetailsService.getQueryDetails(dbServerUUID, queryID, from, to)
-      this.firstSeen = moment(this.queryDetails.Query.FirstSeen).calendar(null, { sameElse: 'lll' });
-      this.lastSeen = moment(this.queryDetails.Query.LastSeen).calendar(null, { sameElse: 'lll' });
+      this.firstSeen = moment(this.queryDetails.Query.FirstSeen).calendar(null, {sameElse: 'lll'});
+      this.lastSeen = moment(this.queryDetails.Query.LastSeen).calendar(null, {sameElse: 'lll'});
 
       this.fingerprint = hljs.highlight('sql', vkbeautify.sql(this.queryDetails.Query.Fingerprint)).value;
       if (this.queryDetails !== null && this.queryDetails.Example !== null && this.queryDetails.Example.Query !== '') {
@@ -113,15 +112,15 @@ export class MySQLQueryDetailsComponent extends CoreComponent implements OnInit 
       }
       data = JSON.parse(atob(data.Data));
       this.classicExplain = data.Classic;
+
       try {
-        this.jsonExplain = hljs.highlight('json', data.JSON).value;
+        this.jsonExplain = JSON.parse(data.JSON);
       } catch (err) {
         this.jsonExplainError = err.message;
       }
     } catch (err) {
       this.classicExplainError = this.jsonExplainError = 'This type of query is not supported for EXPLAIN';
     }
-
 
     this.isExplainLoading = false;
   }
@@ -214,7 +213,7 @@ export class MySQLQueryDetailsComponent extends CoreComponent implements OnInit 
       if (this.queryDetails.Query.Tables === null) {
         this.queryDetails.Query.Tables = [];
       }
-      this.queryDetails.Query.Tables.push({ Db: db, Table: tbl });
+      this.queryDetails.Query.Tables.push({Db: db, Table: tbl});
       this.queryDetailsService.updateTables(this.queryDetails.Query.Id, this.queryDetails.Query.Tables);
       this.dbTblNames = this.newDBTblNames;
       this.getTableInfo();

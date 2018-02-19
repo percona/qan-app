@@ -8,6 +8,7 @@ import { ErrorHandler } from '@angular/core';
 
 import { SharedModule } from '../shared/shared.module';
 import { NavComponent } from './nav/nav.component';
+import { JSONTreeComponent } from './json-tree/json-tree.component';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 // import { QanErrorHandler } from './qan-error.handler';
 import { InstanceService } from './instance.service';
@@ -24,15 +25,16 @@ import { SummaryService } from '../summary/summary.service';
 import { SettingsComponent } from '../settings/settings.component';
 import { SettingsService } from '../settings/settings.service';
 import { AddAwsService } from '../add-aws/add-aws.service';
+import { ClipboardModule } from 'ngx-clipboard';
 
 @NgModule({
-    imports: [CommonModule, SharedModule],
+    imports: [CommonModule, SharedModule, ClipboardModule],
     declarations: [NavComponent, PageNotFoundComponent, QueryProfileComponent,
         MySQLQueryDetailsComponent, MongoQueryDetailsComponent,
-        SummaryComponent, SettingsComponent],
+        SummaryComponent, SettingsComponent, JSONTreeComponent],
     exports: [NavComponent, PageNotFoundComponent, QueryProfileComponent,
         MySQLQueryDetailsComponent, MongoQueryDetailsComponent,
-        SummaryComponent, SettingsComponent],
+        SummaryComponent, SettingsComponent, JSONTreeComponent],
     providers: [InstanceService, QueryProfileService, MySQLQueryDetailsService,
         MongoQueryDetailsService, SummaryService, SettingsService, AddAwsService]
 })
