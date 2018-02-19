@@ -20,16 +20,20 @@ export class JSONTreeComponent implements OnChanges {
   }
 
   ngOnChanges() {
-    this.element.nativeElement.getElementById('json-viewer').appendChild(renderjson(this.json));
+    console.log(this.element.nativeElement.querySelector('#json-viewer'));
+    this.element.nativeElement.querySelector('#json-viewer').appendChild(renderjson(this.json));
+  }
+
+  getJSONString() {
+    return JSON.stringify(this.json);
   }
 
   public toggleAll() {
     this.isCollapsed = !this.isCollapsed;
-    if (this.isCollapsed) {
-      renderjson.set_show_to_level('all');
-    } else {
-      renderjson.set_show_to_level();
-    }
+    renderjson.set_show_to_level(this.isCollapsed ? 'all' : '');
+
+    this.element.nativeElement.querySelector('#json-viewer').innerHTML = '';
+    this.element.nativeElement.querySelector('#json-viewer').appendChild(renderjson(this.json));
   }
 }
 
