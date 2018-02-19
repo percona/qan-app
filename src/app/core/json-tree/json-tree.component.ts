@@ -10,7 +10,7 @@ import * as renderjson from 'renderjson';
 export class JSONTreeComponent implements OnChanges {
   public element: ElementRef;
   public isCopied = false;
-  public isCollapsed = false;
+  public isCollapsed = true;
 
   @Input() public json: any;
 
@@ -30,7 +30,7 @@ export class JSONTreeComponent implements OnChanges {
 
   public toggleAll() {
     this.isCollapsed = !this.isCollapsed;
-    renderjson.set_show_to_level(this.isCollapsed ? 'all' : '');
+    renderjson.set_show_to_level(this.isCollapsed ? '' : 'all');
 
     this.element.nativeElement.querySelector('#json-viewer').innerHTML = '';
     this.element.nativeElement.querySelector('#json-viewer').appendChild(renderjson(this.json));
