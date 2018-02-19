@@ -25,11 +25,10 @@ import { SummaryService } from '../summary/summary.service';
 import { SettingsComponent } from '../settings/settings.component';
 import { SettingsService } from '../settings/settings.service';
 import { AddAwsService } from '../add-aws/add-aws.service';
-import { TreeModule } from 'angular-tree-component';
 import { ClipboardModule } from 'ngx-clipboard';
 
 @NgModule({
-    imports: [CommonModule, SharedModule, TreeModule, ClipboardModule],
+    imports: [CommonModule, SharedModule, ClipboardModule],
     declarations: [NavComponent, PageNotFoundComponent, QueryProfileComponent,
         MySQLQueryDetailsComponent, MongoQueryDetailsComponent,
         SummaryComponent, SettingsComponent, JSONTreeComponent],
