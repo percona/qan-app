@@ -104,6 +104,12 @@ export class MySQLQueryDetailsComponent extends CoreComponent implements OnInit 
     }
 
     const query = this.queryDetails.Example.Query;
+    const size = this.queryDetails.Example.Size;
+    if (size > 0 && size > query.length) {
+        this.classicExplainError = this.jsonExplainError = 'Cannot explain truncated query. This query was '+size+' bytes long and was truncated to maximum size of '+query.length+' bytes.';
+        this.isExplainLoading = false;
+        return
+    }
 
     try {
       let data = await this.queryDetailsService.getExplain(agentUUID, dbServerUUID, this.dbName, query);

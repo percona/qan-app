@@ -21,6 +21,7 @@ export interface QueryExample {
     Db: string;
     QueryTime: number;
     Query: string;
+    Size: number;
 };
 
 export interface QueryDetails {
