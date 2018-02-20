@@ -88,6 +88,13 @@ export class MongoQueryDetailsComponent extends CoreComponent implements OnInit 
     }
 
     const query = this.queryDetails.Example.Query;
+    const size = this.queryDetails.Example.Size;
+    if (size > 0 && size > query.length) {
+      this.errExplain = 'Cannot explain truncated query. This query was '+size+' bytes long and was truncated to maximum size of '+query.length+' bytes.';
+      this.isExplainLoading = false;
+      return
+    }
+
     let data = await this.queryDetailsService.getExplain(agentUUID, dbServerUUID, this.dbName, query);
     try {
       if (data.Error === '') {
