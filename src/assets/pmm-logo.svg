@@ -14,10 +14,7 @@
 			<defs>
 				<circle id="SVGID_1_" cx="50.31" cy="45.06" r="40.17"/>
 			</defs>
-			<clipPath id="SVGID_2_">
-				<use xlink:href="#SVGID_1_"  overflow="visible"/>
-			</clipPath>
-			<g clip-path="url(#SVGID_2_)">
+			<g>
 				<g>
 					<path fill="#FDFDFD" d="M32.64,18.05c0.64-0.74,1.83-1.25,2.41-0.69s0.73,1.63,0.18,2.35c-0.45,0.59-1.99,1.26-2.73,0.51
 						C31.82,19.52,32.24,18.52,32.64,18.05z"/>
