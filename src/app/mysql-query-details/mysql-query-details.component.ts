@@ -104,6 +104,13 @@ export class MySQLQueryDetailsComponent extends CoreComponent implements OnInit 
     }
 
     const query = this.queryDetails.Example.Query;
+    // https://github.com/percona/go-mysql/blob/master/event/class.go#L25
+    var maxExampleBytes = 10240
+    if (query.length >= maxExampleBytes) {
+      this.classicExplainError = this.jsonExplainError = 'Cannot explain truncated query. This query was truncated to maximum size of '+maxExampleBytes+' bytes.';
+      this.isExplainLoading = false;
+      return
+    }
 
     try {
       let data = await this.queryDetailsService.getExplain(agentUUID, dbServerUUID, this.dbName, query);
