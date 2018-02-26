@@ -1,0 +1,11 @@
+<button class="btn btn-secondary btn-sm expand-all-btn"
+        [class.btn-success]="isCollapsed"
+        (click)="toggleAll()">{{isCollapsed ? 'Expand All' : 'Collapse All' }}
+</button>
+<button class="btn btn-secondary btn-sm copy-btn"
+        ngxClipboard
+        [cbContent]="getJSONString()"
+        (cbOnSuccess)="isCopied = true"
+        [class.btn-success]="isCopied">Copy to clipboard
+</button>
+<div id="json-viewer"></div>
