@@ -25,7 +25,7 @@ export class JSONTreeComponent implements OnChanges {
   }
 
   getJSONString() {
-    return JSON.stringify(this.json);
+    return this.json.JSON ? JSON.stringify(this.json.JSON) : JSON.stringify(this.json);
   }
 
   public toggleAll() {
