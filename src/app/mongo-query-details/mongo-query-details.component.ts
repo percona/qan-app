@@ -91,7 +91,7 @@ export class MongoQueryDetailsComponent extends CoreComponent implements OnInit 
     let data = await this.queryDetailsService.getExplain(agentUUID, dbServerUUID, this.dbName, query);
     try {
       if (data.Error === '') {
-        this.jsonExplain = JSON.parse(atob(data.Data));
+        this.jsonExplain = JSON.parse(atob(data.Data)).JSON;
       } else {
         this.errExplain = data.Error
       }
