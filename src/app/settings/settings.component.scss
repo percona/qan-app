@@ -1,0 +1,32 @@
+#settings_apply_button {
+  cursor: pointer;
+}
+
+.accordion-head-second button {
+  cursor: pointer;
+}
+
+.button-block {
+  display: flex;
+  align-items: center;
+}
+
+.button-block .success-message,
+.button-block .error-message {
+  margin-bottom: 0;
+  margin-left: 15px;
+  opacity: 0;
+  transition: .5s ease-in-out all;
+}
+
+.button-block .success-message {
+  color: green;
+}
+
+.button-block .error-message {
+  color: red;
+}
+
+.show{
+  opacity: 1 !important;
+}
