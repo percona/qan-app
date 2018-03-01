@@ -38,7 +38,9 @@ export class MongoQueryDetailsComponent extends CoreComponent implements OnInit 
   ngOnInit() {
     this.queryParams = this.route.snapshot.queryParams as QueryParams;
     this.parseParams();
-    this.onChangeParams(this.queryParams);
+    if (!this.isLoading) {
+      this.onChangeParams(this.queryParams);
+    }
   }
 
   onChangeParams(params) {
