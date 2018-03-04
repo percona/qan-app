@@ -52,7 +52,7 @@
 	<div *ngIf="!isExtHidden" class="navbar-toggler-right d-flex flex-row">
 		<div class="d-flex flex-column navbar-text fa fa-clock-o" style="padding-top:10px"></div>&nbsp;
 		<div class="d-flex flex-column navbar-text">
-			{{ fromDateCompact }} to {{ toDateCompact }} {{ timezone === 'local' ? '' : 'UTC' }}
+			{{ fromDateCompact }} to {{ toDateCompact }} {{ timezone === 'browser' ? '' : 'UTC' }}
 		</div>
 		<span class="dropdown" ngbDropdown [autoClose]="false" #timeRangeDrop="ngbDropdown">
 
@@ -91,7 +91,7 @@
 					</div>
 					<div class="col-md-3">
 						<div class="btn-group" role="group" aria-label="Time zone">
-							<button type="button" class="btn btn-secondary" [ngClass]="{'active': timezone === 'local'}" (click)="setTimeZone('local')">Local timezone</button>
+							<button type="button" class="btn btn-secondary" [ngClass]="{'active': timezone === 'browser'}" (click)="setTimeZone('browser')">Local timezone</button>
 							<button type="button" class="btn btn-secondary" [ngClass]="{'active': timezone === 'utc'}" (click)="setTimeZone('utc')">UTC</button>
 						</div>
 					</div>
