@@ -97,7 +97,7 @@ export abstract class CoreComponent implements OnDestroy {
      * set timezone based on given query parameter.
      */
     setTimeZoneFromParams() {
-        const tz = this.queryParams.tz || 'local';
+        const tz = this.queryParams.tz || 'browser';
         const expireDays = moment().utc().add(7, 'y').toString();
         document.cookie = `timezone=${tz}; expires=${expireDays}; path=/`;
     }

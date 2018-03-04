@@ -43,7 +43,7 @@ export class NavComponent extends CoreComponent implements OnDestroy {
   public constructor(route: ActivatedRoute, router: Router, instanceService: InstanceService) {
     super(route, router, instanceService);
     const momentFormatPipe = new MomentFormatPipe();
-    this.timezone = momentFormatPipe.getCookie('timezone') || 'local';
+    this.timezone = momentFormatPipe.getCookie('timezone') || 'browser';
   }
 
   onChangeParams(params) {

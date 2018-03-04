@@ -4,9 +4,9 @@ import * as moment from 'moment';
 @Pipe({ name: 'dateFormat' })
 export class MomentFormatPipe implements PipeTransform {
 
-  timezone = 'local';
+  timezone = 'browser';
   constructor () {
-    this.timezone = this.getCookie('timezone') || 'local';
+    this.timezone = this.getCookie('timezone') || 'browser';
   }
 
   getCookie(name) {
@@ -21,7 +21,7 @@ export class MomentFormatPipe implements PipeTransform {
       return null;
     }
 
-    if (this.timezone === 'local') {
+    if (this.timezone === 'browser') {
       return value.local().format(format);
     } else {
       return value.format(format);
