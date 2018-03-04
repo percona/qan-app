@@ -48,9 +48,7 @@ export class MySQLQueryDetailsComponent extends CoreComponent implements OnInit 
   ngOnInit() {
     this.queryParams = this.route.snapshot.queryParams as QueryParams;
     this.parseParams();
-    if (!this.isLoading) {
-      this.onChangeParams(this.queryParams);
-    }
+    this.onChangeParams(this.queryParams);
   }
 
   onChangeParams(params) {
@@ -141,8 +139,8 @@ export class MySQLQueryDetailsComponent extends CoreComponent implements OnInit 
       this.dbTblNames = `\`${dbName}\`.\`${tblName}\``;
     } else {
       const parts = this.dbTblNames.split('.');
-      dbName = parts[0];
-      tblName = parts[1];
+      dbName = parts[0].replace(/`/g, '');
+      tblName = parts[1].replace(/`/g, '');
     }
 
     this.queryDetailsService.getTableInfo(agentUUID, dbServerUUID, dbName, tblName)
