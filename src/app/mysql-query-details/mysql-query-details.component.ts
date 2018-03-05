@@ -1,8 +1,8 @@
-import {Component, OnInit} from '@angular/core';
-import {Router, ActivatedRoute} from '@angular/router';
-import {Instance, InstanceService} from '../core/instance.service';
-import {CoreComponent, QueryParams} from '../core/core.component';
-import {MySQLQueryDetailsService, QueryDetails, ServerSummary} from './mysql-query-details.service';
+import { Component, OnInit } from '@angular/core';
+import { Router, ActivatedRoute } from '@angular/router';
+import { Instance, InstanceService } from '../core/instance.service';
+import { CoreComponent, QueryParams } from '../core/core.component';
+import { MySQLQueryDetailsService, QueryDetails, ServerSummary } from './mysql-query-details.service';
 import * as hljs from 'highlight.js';
 import * as vkbeautify from 'vkbeautify';
 import * as moment from 'moment';
