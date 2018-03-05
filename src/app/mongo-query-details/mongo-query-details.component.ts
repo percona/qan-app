@@ -31,7 +31,7 @@ export class MongoQueryDetailsComponent extends CoreComponent implements OnInit 
   lastSeen: string;
 
   constructor(protected route: ActivatedRoute, protected router: Router,
-    protected instanceService: InstanceService, protected queryDetailsService: MongoQueryDetailsService) {
+              protected instanceService: InstanceService, protected queryDetailsService: MongoQueryDetailsService) {
     super(route, router, instanceService);
   }
 

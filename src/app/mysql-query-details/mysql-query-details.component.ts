@@ -1,8 +1,8 @@
-import {Component, OnInit} from '@angular/core';
-import {Router, ActivatedRoute} from '@angular/router';
-import {Instance, InstanceService} from '../core/instance.service';
-import {CoreComponent, QueryParams} from '../core/core.component';
-import {MySQLQueryDetailsService, QueryDetails, ServerSummary} from './mysql-query-details.service';
+import { Component, OnInit } from '@angular/core';
+import { Router, ActivatedRoute } from '@angular/router';
+import { Instance, InstanceService } from '../core/instance.service';
+import { CoreComponent, QueryParams } from '../core/core.component';
+import { MySQLQueryDetailsService, QueryDetails, ServerSummary } from './mysql-query-details.service';
 import * as hljs from 'highlight.js';
 import * as vkbeautify from 'vkbeautify';
 import * as moment from 'moment';
@@ -66,7 +66,7 @@ export class MySQLQueryDetailsComponent extends CoreComponent implements OnInit 
     this.dbName = this.dbTblNames = '';
     this.queryExample = '';
     try {
-      this.queryDetails = await this.queryDetailsService.getQueryDetails(dbServerUUID, queryID, from, to)
+      this.queryDetails = await this.queryDetailsService.getQueryDetails(dbServerUUID, queryID, from, to);
       this.firstSeen = moment(this.queryDetails.Query.FirstSeen).calendar(null, {sameElse: 'lll'});
       this.lastSeen = moment(this.queryDetails.Query.LastSeen).calendar(null, {sameElse: 'lll'});
 
@@ -146,8 +146,8 @@ export class MySQLQueryDetailsComponent extends CoreComponent implements OnInit 
       this.dbTblNames = `\`${dbName}\`.\`${tblName}\``;
     } else {
       const parts = this.dbTblNames.split('.');
-      dbName = parts[0];
-      tblName = parts[1];
+      dbName = parts[0].replace(/`/g, '');
+      tblName = parts[1].replace(/`/g, '');
     }
 
     this.queryDetailsService.getTableInfo(agentUUID, dbServerUUID, dbName, tblName)
