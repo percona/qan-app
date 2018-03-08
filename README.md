@@ -1,5 +1,7 @@
 # QanApp
 
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/e7ecedc39d9943338cf8c6d55d600903)](https://app.codacy.com/app/andrii.skomorokhov/qan-app?utm_source=github.com&utm_medium=referral&utm_content=percona/qan-app&utm_campaign=badger)
+
 This project was generated with [angular-cli](https://github.com/angular/angular-cli) version 1.0.0-beta.25.5.
 
 ## Development server
