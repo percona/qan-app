@@ -508,7 +508,7 @@
         <span class="sum">{{ queryDetails?.Metrics2.Tmp_tables_sum | humanize : 'number' }}</span>
         <small>
           <span *ngIf="!isSummary" class="text-primary">{{ queryDetails?.Metrics2.Tmp_tables_sum_of_total | humanize : 'percent' }} of total</span>
-          <span class="text-success">{{ queryDetails?.Metrics2.Tmp_tables_sum_per_query_with_tmp_table | humanize : 'percent'}} per query with tmp table</span>
+          <span class="text-success">{{ queryDetails?.Metrics2.Tmp_tables_sum_per_query_with_tmp_table | humanize : 'number'}} per query with tmp table</span>
         </small>
       </td>
       <td class="text-xs-right no-right-border">
@@ -556,7 +556,7 @@
         <span class="sum">{{ queryDetails?.Metrics2.Tmp_disk_tables_sum | humanize : 'number' }}</span>
         <small>
           <span *ngIf="!isSummary" class="text-primary">{{ queryDetails?.Metrics2.Tmp_disk_tables_sum_of_total | humanize : 'percent' }} of total</span>
-          <span class="text-success">{{ queryDetails?.Metrics2.Tmp_disk_tables_sum_per_query_with_tmp_table | humanize : 'percent' }} per query with disk tmp table</span>
+          <span class="text-success">{{ queryDetails?.Metrics2.Tmp_disk_tables_sum_per_query_with_tmp_table | humanize : 'number' }} per query with disk tmp table</span>
         </small>
       </td>
       <td class="text-xs-right no-right-border">
@@ -569,9 +569,7 @@
     </tr>
     <tr *ngIf="queryDetails?.Metrics2.Tmp_table_sizes_sum">
       <td>Total Size of Tmp Tables</td>
-      <td class="no-right-border" align="right">{{ queryDetails?.Metrics2.Tmp_table_sizes_sum_per_sec | humanize :
-        'size' }} (per sec)
-      </td>
+      <td class="no-right-border" align="right">{{ queryDetails?.Metrics2.Tmp_table_sizes_sum_per_sec | humanize : 'size' }} (per sec)</td>
       <td class="no-left-border">
         <div class="scaling-svg-container app-tooltip" [appLoadSparklines]="queryDetails?.Sparks2"
              data-tooltip="Loading..." xkey="Ts" ykey="Tmp_table_sizes_sum_per_sec"
@@ -581,7 +579,7 @@
         <span class="sum">{{ queryDetails?.Metrics2.Tmp_table_sizes_sum | humanize : 'size' }}</span>
         <small>
           <span *ngIf="!isSummary" class="text-primary">{{ queryDetails?.Metrics2.Tmp_table_sizes_sum_of_total | humanize : 'percent' }} of total</span>
-          <span class="text-success">{{ queryDetails?.Metrics2.Tmp_table_sizes_sum_per_query | humanize : 'size' }} per query</span>
+          <span class="text-success">{{ queryDetails?.Metrics2.Tmp_table_sizes_sum_per_query_with_any_tmp_table | humanize : 'size' }} per query</span>
         </small>
       </td>
       <td class="text-xs-right no-right-border">
@@ -1385,7 +1383,7 @@
               <span class="sum">{{ queryDetails?.Metrics2.Tmp_tables_sum | humanize : 'number' }}</span>
               <small>
                 <span *ngIf="!isSummary" class="text-primary">{{ queryDetails?.Metrics2.Tmp_tables_sum_of_total | humanize : 'percent' }} of total</span>
-                <span class="text-success">{{ queryDetails?.Metrics2.Tmp_tables_sum_per_query_with_tmp_table | humanize : 'percent'}} per query with tmp table</span>
+                <span class="text-success">{{ queryDetails?.Metrics2.Tmp_tables_sum_per_query_with_tmp_table | humanize : 'number'}} per query with tmp table</span>
               </small>
             </td>
             <td class="text-xs-right no-right-border">
@@ -1398,10 +1396,7 @@
           </tr>
           <tr *ngIf="queryDetails?.Metrics2.Tmp_table_on_disk_sum">
             <td>Queries Requiring Tmp Table on Disk</td>
-            <td class="no-right-border" align="right">{{ queryDetails?.Metrics2.Tmp_table_on_disk_sum_per_sec | humanize
-              :
-              'number' }} (per sec)
-            </td>
+            <td class="no-right-border" align="right">{{ queryDetails?.Metrics2.Tmp_table_on_disk_sum_per_sec | humanize : 'number' }} (per sec) </td>
             <td class="no-left-border">
               <div class="scaling-svg-container app-tooltip" [appLoadSparklines]="queryDetails?.Sparks2"
                    data-tooltip="Loading..." xkey="Ts" ykey="Tmp_table_on_disk_sum_per_sec"
@@ -1434,7 +1429,7 @@
               <span class="sum">{{ queryDetails?.Metrics2.Tmp_disk_tables_sum | humanize : 'number' }}</span>
               <small>
                 <span *ngIf="!isSummary" class="text-primary">{{ queryDetails?.Metrics2.Tmp_disk_tables_sum_of_total | humanize : 'percent' }} of total</span>
-                <span class="text-success">{{ queryDetails?.Metrics2.Tmp_disk_tables_sum_per_query_with_tmp_table | humanize : 'percent' }} per query with disk tmp table</span>
+                <span class="text-success">{{ queryDetails?.Metrics2.Tmp_disk_tables_sum_per_query_with_tmp_table | humanize : 'number' }} per query with disk tmp table</span>
               </small>
             </td>
             <td class="text-xs-right no-right-border">
@@ -1459,7 +1454,7 @@
               <span class="sum">{{ queryDetails?.Metrics2.Tmp_table_sizes_sum | humanize : 'size' }}</span>
               <small>
                 <span *ngIf="!isSummary" class="text-primary">{{ queryDetails?.Metrics2.Tmp_table_sizes_sum_of_total | humanize : 'percent' }} of total</span>
-                <span class="text-success">{{ queryDetails?.Metrics2.Tmp_table_sizes_sum_per_query | humanize : 'size' }} per query</span>
+                <span class="text-success">{{ queryDetails?.Metrics2.Tmp_table_sizes_sum_per_query_with_any_tmp_table | humanize : 'size' }} per query</span>
               </small>
             </td>
             <td class="text-xs-right no-right-border">
