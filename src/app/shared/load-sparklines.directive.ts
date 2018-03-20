@@ -133,7 +133,7 @@ export class LoadSparklinesDirective {
             const d0 = data[i - 1];
             const d1 = data[i];
             // work out which date value is closest to the mouse
-            const d = (mouseDate - moment.utc(d0[xkey])) > (moment.utc(d1[xkey]) - mouseDate) ? d1 : d0;
+            const d = (mouseDate - moment.utc(d0[xkey])) < (moment.utc(d1[xkey]||0) - mouseDate) ? d1 : d0;
 
             const x = xScale(isoParse(d[xkey]));
             const y = yScale(d[ykey] === undefined ? 0 : d[ykey]);
