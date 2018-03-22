@@ -5,6 +5,9 @@
         PMM documentation.
     </a>
 </div>
+<div *ngIf="isAll" class="alert alert-warning w-75 mx-auto text-center wrap" role="alert">
+  Please select  the  Database Host from the  Host selector on the top of the page
+</div>
 <div *ngIf="dbServer !== null">
     <div class="card">
         <div class="card-header" id="query_profile_heared">

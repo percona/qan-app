@@ -33,6 +33,7 @@ export abstract class CoreComponent implements OnDestroy {
     public dbServerMap: { [key: string]: Instance } = {};
     public from: any;
     public to: any;
+    public isAll: boolean;
 
     public fromUTCDate: string;
     public toUTCDate: string;
@@ -61,7 +62,6 @@ export abstract class CoreComponent implements OnDestroy {
 
                 // trigger overriden method in child component
                 this.onChangeParams(this.queryParams);
-
                 this.previousQueryParams = Object.assign({}, this.queryParams);
             });
     }
@@ -74,6 +74,7 @@ export abstract class CoreComponent implements OnDestroy {
             if (this.queryParams.hasOwnProperty('var-host')) {
                 this.dbServer = null;
                 this.agent = null;
+                this.isAll = this.queryParams['var-host'] === 'All';
             } else {
                 this.dbServer = this.instanceService.dbServers[0];
                 this.agent = this.instanceService.dbServers[0].Agent;
