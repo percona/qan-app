@@ -33,6 +33,8 @@ export abstract class CoreComponent implements OnDestroy {
     public dbServerMap: { [key: string]: Instance } = {};
     public from: any;
     public to: any;
+    public isAllSelected: boolean;
+    public isNotExistSelected: boolean;
 
     public fromUTCDate: string;
     public toUTCDate: string;
@@ -67,6 +69,7 @@ export abstract class CoreComponent implements OnDestroy {
     }
 
     parseParams() {
+        this.isAllSelected = this.queryParams['var-host'] ==='All';
         try {
             this.dbServer = this.dbServerMap[this.queryParams['var-host']];
             this.agent = this.dbServerMap[this.queryParams['var-host']].Agent;
@@ -74,6 +77,7 @@ export abstract class CoreComponent implements OnDestroy {
             if (this.queryParams.hasOwnProperty('var-host')) {
                 this.dbServer = null;
                 this.agent = null;
+                this.isNotExistSelected = !this.isAllSelected;
             } else {
                 this.dbServer = this.instanceService.dbServers[0];
                 this.agent = this.instanceService.dbServers[0].Agent;

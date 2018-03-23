@@ -1,3 +1,5 @@
+<div *ngIf="isAllSelected" class="alert alert-warning w-75 mx-auto text-center wrap" role="alert">Please select  the  Database Host from the  Host selector on the top of the page</div>
+<div *ngIf="isNotExistSelected" class="alert alert-warning w-75 mx-auto text-center wrap" role="alert">Host name is not exist in the system</div>
 <ngb-accordion activeIds="settingsTab" #acSettings="ngbAccordion">
   <ngb-panel id="settingsTab">
     <ng-template ngbPanelTitle>
