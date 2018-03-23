@@ -1,3 +1,6 @@
+<div *ngIf="isAll" class="alert alert-warning w-75 mx-auto text-center wrap" role="alert">
+  Please select  the  Database Host from the  Host selector on the top of the page
+</div>
 <div class="row justify-content-md-center">
     <button *ngIf="!(mysqlSummaryLoader && mongoSummaryLoader)  && !serverSummaryLoader" (click)="downloadSummary()" class="btn btn-primary">
         <i class="fa fa-file-archive-o" aria-hidden="true"></i>
