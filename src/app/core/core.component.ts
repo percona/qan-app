@@ -35,6 +35,7 @@ export abstract class CoreComponent implements OnDestroy {
     public to: any;
     public isAllSelected: boolean;
     public isNotExistSelected: boolean;
+    public isQueryDataAbsent: boolean;
 
     public fromUTCDate: string;
     public toUTCDate: string;
@@ -70,6 +71,7 @@ export abstract class CoreComponent implements OnDestroy {
 
     parseParams() {
         this.isAllSelected = this.queryParams['var-host'] ==='All';
+        this.isQueryDataAbsent = (this.dbServer === null) && (!this.isAllSelected) && (!this.isNotExistSelected);
         try {
             this.dbServer = this.dbServerMap[this.queryParams['var-host']];
             this.agent = this.dbServerMap[this.queryParams['var-host']].Agent;
