@@ -1,0 +1,16 @@
+table.metrics {
+  table-layout: auto;
+}
+
+.rate-sec {
+  width: 12%;
+}
+
+.rate-load {
+  width: 10%;
+  padding-right: 20px !important;
+}
+
+.query-stats {
+  width: 20%;
+}
