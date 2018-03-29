@@ -10,10 +10,10 @@ export class SummaryService {
 
     constructor(private http: Http) { }
 
-    getServer(agentUUID: string, dbServerUUID: string) {
+    getServer(agentUUID: string, serverUUID: string) {
         const url = `/qan-api/agents/${agentUUID}/cmd`;
         const data = {
-            UUID: dbServerUUID
+            UUID: serverUUID
         };
         const params = {
             AgentUUID: agentUUID,
