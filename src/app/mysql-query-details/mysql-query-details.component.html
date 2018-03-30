@@ -18,7 +18,7 @@
     <thead>
     <tr>
       <th nowrap width="20%">Metrics</th>
-      <th>Rate/Sec</th>
+      <th colspan="2">Rate/Sec</th>
       <th>Sum</th>
       <th colspan="2">Per Query Stats</th>
     </tr>
@@ -31,7 +31,7 @@
     <tbody *ngIf="!isLoading">
     <tr>
       <td class="cell-overlay"><span>Query Count</span></td>
-      <td class="no-right-border rate-sec cell-overlay" align="right">
+      <td class="no-right-border rate-sec cell-overlay">
         <span>{{ queryDetails?.Metrics2.Query_count_per_sec | humanize : 'number' }} (per sec)</span>
       </td>
       <td class="no-left-border rate-load">
@@ -39,7 +39,7 @@
              data-tooltip="Loading..." xkey="Ts" ykey="Query_count_per_sec" measurement="number"></div>
       </td>
       <td class="cell-overlay">
-        <span class="sum">{{ queryDetails?.Metrics2.Query_count | humanize : 'number' }}
+        <span class="sum text-left">{{ queryDetails?.Metrics2.Query_count | humanize : 'number' }}
           <small>
             <span *ngIf="!isSummary" class="text-primary">
               {{ queryDetails?.Metrics2.Query_count_of_total | humanize : 'percent' }} of total
@@ -51,7 +51,7 @@
     </tr>
     <tr>
       <td class="cell-overlay"><span>Query Time</span></td>
-      <td class="no-right-border rate-sec cell-overlay" align="right">
+      <td class="no-right-border rate-sec cell-overlay">
         <span>{{ queryDetails?.Metrics2.Query_time_sum_per_sec | humanize : 'number' }} load</span>
       </td>
       <td class="no-left-border rate-load" widht="150px">
@@ -59,7 +59,7 @@
              data-tooltip="Loading..." xkey="Ts" ykey="Query_time_sum_per_sec" measurement="number"></div>
       </td>
       <td class="cell-overlay">
-        <span class="sum">{{ queryDetails?.Metrics2.Query_time_sum | humanize : 'time' }}
+        <span class="sum text-left">{{ queryDetails?.Metrics2.Query_time_sum | humanize : 'time' }}
           <small>
             <span *ngIf="!isSummary" class="text-primary">
               {{ queryDetails?.Metrics2.Query_time_sum_of_total | humanize : 'percent' }} of total
@@ -81,7 +81,7 @@
     </tr>
     <tr *ngIf="queryDetails?.Metrics2.Lock_time_sum">
       <td class="cell-overlay"><span>Lock Time</span></td>
-      <td class="no-right-border rate-sec cell-overlay" align="right">
+      <td class="no-right-border rate-sec cell-overlay">
         <span>{{ queryDetails?.Metrics2.Lock_time_sum_per_sec | humanize : 'number' }} (avg load)</span>
       </td>
       <td class="no-left-border rate-load">
@@ -89,7 +89,7 @@
              data-tooltip="Loading..." xkey="Ts" ykey="Lock_time_sum_per_sec" measurement="number"></div>
       </td>
       <td class="cell-overlay">
-        <span class="sum">{{ queryDetails?.Metrics2.Lock_time_sum | humanize : 'time' }}
+        <span class="sum text-left">{{ queryDetails?.Metrics2.Lock_time_sum | humanize : 'time' }}
           <small>
             <span *ngIf="!isSummary" class="text-primary">
               {{ queryDetails?.Metrics2.Lock_time_sum_of_total | humanize : 'percent'}} of total
@@ -110,7 +110,7 @@
     </tr>
     <tr *ngIf="queryDetails?.Metrics2.InnoDB_rec_lock_wait_sum">
       <td class="cell-overlay"><span>Innodb Row Lock Wait</span></td>
-      <td class="no-right-border rate-sec cell-overlay" align="right">
+      <td class="no-right-border rate-sec cell-overlay">
         <span>{{ queryDetails?.Metrics2.InnoDB_rec_lock_wait_sum_per_sec | humanize :'number' }} (avg load)</span>
       </td>
       <td class="no-left-border rate-load">
@@ -119,7 +119,7 @@
              measurement="number"></div>
       </td>
       <td class="cell-overlay">
-        <span class="sum">{{ queryDetails?.Metrics2.InnoDB_rec_lock_wait_sum | humanize : 'time' }}
+        <span class="sum text-left">{{ queryDetails?.Metrics2.InnoDB_rec_lock_wait_sum | humanize : 'time' }}
           <small>
             <span *ngIf="queryDetails?.Metrics2.InnoDB_rec_lock_wait_sum_of_total" class="text-primary">
               {{ queryDetails?.Metrics2.InnoDB_rec_lock_wait_sum_of_total | humanize : 'percent' }} of total
@@ -149,7 +149,7 @@
              measurement="number"></div>
       </td>
       <td class="cell-overlay">
-        <span class="sum">{{ queryDetails?.Metrics2.InnoDB_IO_r_wait_sum | humanize : 'time' }}
+        <span class="sum text-left">{{ queryDetails?.Metrics2.InnoDB_IO_r_wait_sum | humanize : 'time' }}
           <small>
             <span *ngIf="!isSummary" class="text-primary">
               {{ queryDetails?.Metrics2.InnoDB_IO_r_wait_sum_of_total | humanize : 'percent' }} of total
@@ -170,7 +170,7 @@
     </tr>
     <tr *ngIf="queryDetails?.Metrics2.InnoDB_queue_wait_sum">
       <td class="cell-overlay"><span>Innodb Queue Wait</span></td>
-      <td class="no-right-border cell-overlay rate-sec" align="right">
+      <td class="no-right-border cell-overlay rate-sec">
         <span>{{ queryDetails?.Metrics2.InnoDB_queue_wait_sum_per_sec | humanize :'number'}} (avg load)</span>
       </td>
       <td class="no-left-border rate-load">
@@ -179,7 +179,7 @@
              measurement="number"></div>
       </td>
       <td class="cell-overlay">
-        <span class="sum">{{ queryDetails?.Metrics2.InnoDB_queue_wait_sum | humanize : 'time'}}
+        <span class="sum text-left">{{ queryDetails?.Metrics2.InnoDB_queue_wait_sum | humanize : 'time'}}
           <small>
             <span *ngIf="!isSummary" class="text-primary">
               {{ queryDetails?.Metrics2.InnoDB_queue_wait_sum_of_total | humanize : 'percent' }} of total
@@ -200,7 +200,7 @@
     </tr>
     <tr *ngIf="queryDetails?.Metrics2.InnoDB_IO_r_ops_sum">
       <td class="cell-overlay"><span>Innodb Read Ops</span></td>
-      <td class="no-right-border cell-overlay rate-sec" align="right">
+      <td class="no-right-border cell-overlay rate-sec">
         <span>{{ queryDetails?.Metrics2.InnoDB_IO_r_ops_sum_per_sec | humanize :'number' }} (per sec)</span>
       </td>
       <td class="no-left-border rate-load">
@@ -209,7 +209,7 @@
              measurement="number"></div>
       </td>
       <td class="cell-overlay">
-        <span class="sum">{{ queryDetails?.Metrics2.InnoDB_IO_r_ops_sum | humanize : 'number' }}
+        <span class="sum text-left">{{ queryDetails?.Metrics2.InnoDB_IO_r_ops_sum | humanize : 'number' }}
           <small>
             <span *ngIf="!isSummary" class="text-primary">
               {{ queryDetails?.Metrics2.InnoDB_IO_r_ops_sum_of_total | humanize : 'percent' }} of total
@@ -236,7 +236,7 @@
              measurement="size"></div>
       </td>
       <td class="cell-overlay">
-        <span class="sum">{{ queryDetails?.Metrics2.InnoDB_IO_r_bytes_sum | humanize : 'size' }}
+        <span class="sum text-left">{{ queryDetails?.Metrics2.InnoDB_IO_r_bytes_sum | humanize : 'size' }}
           <small>
             <span *ngIf="!isSummary" class="text-primary">
               {{ queryDetails?.Metrics2.InnoDB_IO_r_bytes_sum_of_total | humanize : 'percent' }} of total
@@ -258,7 +258,7 @@
     <tr *ngIf="queryDetails?.Metrics2.InnoDB_pages_distinct_sum">
       <td class="cell-overlay"><span>Innodb Distinct Pages</span></td>
       <td colspan="2" align="right">-</td>
-      <td><span class="sum">-</span></td>
+      <td><span class="sum text-left">-</span></td>
       <td class="text-xs-right no-right-border cell-overlay rate-sec">
         <span>{{ queryDetails?.Metrics2.InnoDB_pages_distinct_avg | humanize : 'number' }}&nbsp;avg</span>
       </td>
@@ -269,7 +269,7 @@
     </tr>
     <tr *ngIf="queryDetails?.Metrics2.QC_Hit_sum">
       <td class="cell-overlay"><span>Query Cache Hits</span></td>
-      <td class="no-right-border cell-overlay rate-sec" align="right">
+      <td class="no-right-border cell-overlay rate-sec">
         <span>{{ queryDetails?.Metrics2.QC_Hit_sum_per_sec | humanize : 'number' }} (per sec)</span>
       </td>
       <td class="no-left-border rate-load">
@@ -277,7 +277,7 @@
              data-tooltip="Loading..." xkey="Ts" ykey="QC_Hit_sum_per_sec" measurement="number"></div>
       </td>
       <td class="cell-overlay">
-        <span class="sum">{{ queryDetails?.Metrics2.QC_Hit_sum | humanize : 'number' }}
+        <span class="sum text-left">{{ queryDetails?.Metrics2.QC_Hit_sum | humanize : 'number' }}
           <small>
             <span *ngIf="!isSummary" class="text-primary">
               {{ queryDetails?.Metrics2.QC_Hit_sum_of_total | humanize : 'percent' }} of total
@@ -304,7 +304,7 @@
              data-tooltip="Loading..." xkey="Ts" ykey="Rows_sent_sum_per_sec" measurement="number"></div>
       </td>
       <td class="cell-overlay">
-        <span class="sum">{{ queryDetails?.Metrics2.Rows_sent_sum | humanize : 'number' }}
+        <span class="sum text-left">{{ queryDetails?.Metrics2.Rows_sent_sum | humanize : 'number' }}
           <small>
             <span *ngIf="!isSummary" class="text-primary">
               {{ queryDetails?.Metrics2.Rows_sent_sum_of_total | humanize : 'percent' }} of total
@@ -322,7 +322,7 @@
     </tr>
     <tr *ngIf="queryDetails?.Metrics2.Bytes_sent_sum">
       <td class="cell-overlay"><span>Bytes Sent</span></td>
-      <td class="no-right-border cell-overlay rate-sec" align="right">
+      <td class="no-right-border cell-overlay rate-sec">
         <span>{{ queryDetails?.Metrics2.Bytes_sent_sum_per_sec | humanize : 'size' }} (per sec)</span>
       </td>
       <td class="no-left-border rate-load">
@@ -330,7 +330,7 @@
              data-tooltip="Loading..." xkey="Ts" ykey="Bytes_sent_sum_per_sec" measurement="size"></div>
       </td>
       <td class="cell-overlay">
-        <span class="sum">{{ queryDetails?.Metrics2.Bytes_sent_sum | humanize : 'size' }}
+        <span class="sum text-left">{{ queryDetails?.Metrics2.Bytes_sent_sum | humanize : 'size' }}
           <small>
             <span *ngIf="!isSummary" class="text-primary">
               {{ queryDetails?.Metrics2.Bytes_sent_sum_of_total | humanize : 'percent' }} of total
@@ -351,7 +351,7 @@
     </tr>
     <tr *ngIf="queryDetails?.Metrics2.Rows_examined_sum">
       <td class="cell-overlay"><span>Rows Examined</span></td>
-      <td class="no-right-border cell-overlay rate-sec" align="right">
+      <td class="no-right-border cell-overlay rate-sec">
         <span>{{ queryDetails?.Metrics2.Rows_examined_sum_per_sec | humanize : 'number' }} (per sec)</span>
       </td>
       <td class="no-left-border rate-load">
@@ -359,7 +359,7 @@
              data-tooltip="Loading..." xkey="Ts" ykey="Rows_examined_sum_per_sec" measurement="number"></div>
       </td>
       <td class="cell-overlay">
-        <span class="sum">{{ queryDetails?.Metrics2.Rows_examined_sum | humanize : 'number' }}
+        <span class="sum text-left">{{ queryDetails?.Metrics2.Rows_examined_sum | humanize : 'number' }}
           <small>
             <span *ngIf="!isSummary" class="text-primary">
               {{ queryDetails?.Metrics2.Rows_examined_sum_of_total | humanize : 'percent' }} of total
@@ -380,7 +380,7 @@
     </tr>
     <tr *ngIf="queryDetails?.Metrics2.Rows_affected_sum">
       <td class="cell-overlay"><span>Rows Affected</span></td>
-      <td class="no-right-border cell-overlay rate-sec" align="right">
+      <td class="no-right-border cell-overlay rate-sec">
         <span>{{ queryDetails?.Metrics2.Rows_affected_sum_per_sec | humanize : 'number' }} (per sec)</span>
       </td>
       <td class="no-left-border rate-load">
@@ -388,7 +388,7 @@
              data-tooltip="Loading..." xkey="Ts" ykey="Rows_affected_sum_per_sec" measurement="number"></div>
       </td>
       <td class="cell-overlay">
-        <span class="sum">{{ queryDetails?.Metrics2.Rows_affected_sum | humanize : 'number'}}
+        <span class="sum text-left">{{ queryDetails?.Metrics2.Rows_affected_sum | humanize : 'number'}}
           <small>
             <span *ngIf="!isSummary" class="text-primary">
               {{ queryDetails?.Metrics2.Rows_affected_sum_of_total | humanize : 'percent' }} of total
@@ -411,7 +411,7 @@
           <small>(Filesort)</small>
         </span>
       </td>
-      <td class="no-right-border cell-overlay rate-sec" align="right">
+      <td class="no-right-border cell-overlay rate-sec">
         <span>{{ queryDetails?.Metrics2.Filesort_sum_per_sec | humanize : 'number' }} (per sec)</span>
       </td>
       <td class="no-left-border rate-load">
@@ -419,7 +419,7 @@
              data-tooltip="Loading..." xkey="Ts" ykey="Filesort_sum_per_sec" measurement="number"></div>
       </td>
       <td class="cell-overlay">
-        <span class="sum">{{ queryDetails?.Metrics2.Filesort_sum | humanize : 'number' }}
+        <span class="sum text-left">{{ queryDetails?.Metrics2.Filesort_sum | humanize : 'number' }}
           <small>
             <span *ngIf="!isSummary" class="text-primary">
               {{ queryDetails?.Metrics2.Filesort_sum_of_total | humanize : 'percent' }} of total
@@ -442,7 +442,7 @@
           <small>(Filesort on disk)</small>
         </span>
       </td>
-      <td class="no-right-border cell-overlay rate-sec" align="right">
+      <td class="no-right-border cell-overlay rate-sec">
         <span>{{ queryDetails?.Metrics2.Filesort_on_disk_sum_per_sec | humanize : 'number' }} (per sec)</span>
       </td>
       <td class="no-left-border rate-load">
@@ -451,7 +451,7 @@
              measurement="number"></div>
       </td>
       <td class="cell-overlay">
-        <span class="sum">{{ queryDetails?.Metrics2.Filesort_on_disk_sum | humanize : 'number' }}
+        <span class="sum text-left">{{ queryDetails?.Metrics2.Filesort_on_disk_sum | humanize : 'number' }}
           <small>
             <span *ngIf="!isSummary" class="text-primary">
               {{ queryDetails?.Metrics2.Filesort_on_disk_sum_of_total | humanize : 'percent' }} of total
@@ -474,7 +474,7 @@
           <small>(Merge Passes)</small>
         </span>
       </td>
-      <td class="no-right-border cell-overlay rate-sec" align="right">
+      <td class="no-right-border cell-overlay rate-sec">
         <span>{{ queryDetails?.Metrics2.Merge_passes_sum_per_sec | humanize : 'number' }} (per sec)</span>
       </td>
       <td class="no-left-border rate-load">
@@ -482,7 +482,7 @@
              data-tooltip="Loading..." xkey="Ts" ykey="Merge_passes_sum_per_sec" measurement="number"></div>
       </td>
       <td class="cell-overlay">
-        <span class="sum">{{ queryDetails?.Metrics2.Merge_passes_sum | humanize : 'number' }}
+        <span class="sum text-left">{{ queryDetails?.Metrics2.Merge_passes_sum | humanize : 'number' }}
           <small>
             <span *ngIf="!isSummary" class="text-primary">
               {{ queryDetails?.Metrics2.Merge_passes_sum_of_total | humanize : 'percent' }} of total
@@ -507,7 +507,7 @@
           <small>(Full Joins)</small>
         </span>
       </td>
-      <td class="no-right-border" align="right">
+      <td class="no-right-border">
         <span>{{ queryDetails?.Metrics2.Full_join_sum_per_sec | humanize : 'number' }} (per sec)</span>
       </td>
       <td class="no-left-border rate-load">
@@ -515,7 +515,7 @@
              data-tooltip="Loading..." xkey="Ts" ykey="Full_join_sum_per_sec" measurement="number"></div>
       </td>
       <td class="cell-overlay">
-        <span class="sum">{{ queryDetails?.Metrics2.Full_join_sum | humanize : 'number' }}
+        <span class="sum text-left">{{ queryDetails?.Metrics2.Full_join_sum | humanize : 'number' }}
           <small>
             <span *ngIf="!isSummary" class="text-primary">
               {{ queryDetails?.Metrics2.Full_join_sum_of_total | humanize : 'percent' }} of total
@@ -534,7 +534,7 @@
     </tr>
     <tr *ngIf="queryDetails?.Metrics2.Full_scan_sum">
       <td class="cell-overlay"><span>Full Table Scans</span></td>
-      <td class="no-right-border cell-overlay rate-sec" align="right">
+      <td class="no-right-border cell-overlay rate-sec">
         <span>{{ queryDetails?.Metrics2.Full_scan_sum_per_sec | humanize : 'number' }} (per sec)</span>
       </td>
       <td class="no-left-border rate-load">
@@ -542,7 +542,7 @@
              data-tooltip="Loading..." xkey="Ts" ykey="Full_scan_sum_per_sec" measurement="number"></div>
       </td>
       <td class="cell-overlay">
-        <span class="sum">{{ queryDetails?.Metrics2.Full_scan_sum | humanize : 'number' }}
+        <span class="sum text-left">{{ queryDetails?.Metrics2.Full_scan_sum | humanize : 'number' }}
           <small>
             <span *ngIf="!isSummary" class="text-primary">
               {{ queryDetails?.Metrics2.Full_scan_sum_of_total | humanize : 'percent' }} of total
@@ -561,7 +561,7 @@
     </tr>
     <tr *ngIf="queryDetails?.Metrics2.Tmp_table_sum">
       <td class="cell-overlay"><span>Queries Requiring Tmp Table In Memory</span></td>
-      <td class="no-right-border cell-overlay rate-sec" align="right">
+      <td class="no-right-border cell-overlay rate-sec">
         <span>{{ queryDetails?.Metrics2.Tmp_table_sum_per_sec | humanize : 'number' }} (per sec)</span>
       </td>
       <td class="no-left-border rate-load">
@@ -569,7 +569,7 @@
              data-tooltip="Loading..." xkey="Ts" ykey="Tmp_table_sum_per_sec" measurement="number"></div>
       </td>
       <td class="cell-overlay">
-        <span class="sum">{{ queryDetails?.Metrics2.Tmp_table_sum | humanize : 'number' }}
+        <span class="sum text-left">{{ queryDetails?.Metrics2.Tmp_table_sum | humanize : 'number' }}
           <small>
             <span *ngIf="!isSummary" class="text-primary">
               {{ queryDetails?.Metrics2.Tmp_table_sum_of_total | humanize : 'percent' }} of total
@@ -588,7 +588,7 @@
     </tr>
     <tr *ngIf="queryDetails?.Metrics2.Tmp_tables_sum">
       <td class="cell-overlay"><span>Number of Tmp table in Memory</span></td>
-      <td class="no-right-border cell-overlay rate-sec" align="right">
+      <td class="no-right-border cell-overlay rate-sec">
         <span>{{ queryDetails?.Metrics2.Tmp_tables_sum_per_sec | humanize : 'number' }} (per sec)</span>
       </td>
       <td class="no-left-border rate-load">
@@ -596,7 +596,7 @@
              data-tooltip="Loading..." xkey="Ts" ykey="Tmp_tables_sum_per_sec" measurement="number"></div>
       </td>
       <td class="cell-overlay">
-        <span class="sum">{{ queryDetails?.Metrics2.Tmp_tables_sum | humanize : 'number' }}
+        <span class="sum text-left">{{ queryDetails?.Metrics2.Tmp_tables_sum | humanize : 'number' }}
           <small>
             <span *ngIf="!isSummary" class="text-primary">
               {{ queryDetails?.Metrics2.Tmp_tables_sum_of_total | humanize : 'percent' }} of total
@@ -617,7 +617,7 @@
     </tr>
     <tr *ngIf="queryDetails?.Metrics2.Tmp_table_on_disk_sum">
       <td class="cell-overlay"><span>Queries Requiring Tmp Table on Disk</span></td>
-      <td class="no-right-border cell-overlay rate-sec" align="right">
+      <td class="no-right-border cell-overlay rate-sec">
         <span>{{ queryDetails?.Metrics2.Tmp_table_on_disk_sum_per_sec | humanize : 'number' }} (per sec)</span>
       </td>
       <td class="no-left-border rate-load">
@@ -626,7 +626,7 @@
              measurement="number"></div>
       </td>
       <td class="cell-overlay">
-        <span class="sum">{{ queryDetails?.Metrics2.Tmp_table_on_disk_sum | humanize : 'number' }}
+        <span class="sum text-left">{{ queryDetails?.Metrics2.Tmp_table_on_disk_sum | humanize : 'number' }}
           <small>
             <span *ngIf="!isSummary" class="text-primary">
               {{ queryDetails?.Metrics2.Tmp_table_on_disk_sum_of_total | humanize : 'percent' }} of total
@@ -645,7 +645,7 @@
     </tr>
     <tr *ngIf="queryDetails?.Metrics2.Tmp_disk_tables_sum">
       <td class="cell-overlay"><span>Number of Tmp Tables on Disk</span></td>
-      <td class="no-right-border cell-overlay rate-sec" align="right">
+      <td class="no-right-border cell-overlay rate-sec">
         <span>{{ queryDetails?.Metrics2.Tmp_disk_tables_sum_per_sec | humanize : 'number' }} (per sec)</span>
       </td>
       <td class="no-left-border rate-load">
@@ -654,7 +654,7 @@
              measurement="number"></div>
       </td>
       <td class="cell-overlay">
-        <span class="sum">{{ queryDetails?.Metrics2.Tmp_disk_tables_sum | humanize : 'number' }}
+        <span class="sum text-left">{{ queryDetails?.Metrics2.Tmp_disk_tables_sum | humanize : 'number' }}
           <small>
             <span *ngIf="!isSummary" class="text-primary">
               {{ queryDetails?.Metrics2.Tmp_disk_tables_sum_of_total | humanize : 'percent' }} of total
@@ -675,7 +675,7 @@
     </tr>
     <tr *ngIf="queryDetails?.Metrics2.Tmp_table_sizes_sum">
       <td class="cell-overlay"><span>Total Size of Tmp Tables</span></td>
-      <td class="no-right-border cell-overlay rate-sec" align="right">
+      <td class="no-right-border cell-overlay rate-sec">
         <span>{{ queryDetails?.Metrics2.Tmp_table_sizes_sum_per_sec | humanize : 'size' }} (per sec)</span>
       </td>
       <td class="no-left-border rate-load">
@@ -684,7 +684,7 @@
              measurement="size"></div>
       </td>
       <td class="cell-overlay">
-        <span class="sum">{{ queryDetails?.Metrics2.Tmp_table_sizes_sum | humanize : 'size' }}
+        <span class="sum text-left">{{ queryDetails?.Metrics2.Tmp_table_sizes_sum | humanize : 'size' }}
           <small>
             <span *ngIf="!isSummary" class="text-primary">
               {{ queryDetails?.Metrics2.Tmp_table_sizes_sum_of_total | humanize : 'percent' }} of total
