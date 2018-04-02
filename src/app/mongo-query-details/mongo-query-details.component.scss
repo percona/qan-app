@@ -1,16 +1,16 @@
-table.metrics {
-  table-layout: auto;
-}
+.metrics {
+    table-layout: auto;
 
-.rate-sec {
-  width: 12%;
-}
+    .rate-sec {
+        width: 12%;
+    }
 
-.rate-load {
-  width: 10%;
-  padding-right: 20px !important;
-}
+    .rate-load {
+        padding-right: 20px;
+        width: 10%;
+    }
 
-.query-stats {
-  width: 20%;
+    .query-stats {
+        width: 20%;
+    }
 }
