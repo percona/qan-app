@@ -1,8 +1,8 @@
-import {Component, OnInit} from '@angular/core';
-import {ActivatedRoute, Router} from '@angular/router';
-import {InstanceService} from '../core/instance.service';
-import {CoreComponent, QueryParams} from '../core/core.component';
-import {MySQLQueryDetailsService, QueryDetails} from './mysql-query-details.service';
+import { Component, OnInit } from '@angular/core';
+import { Router, ActivatedRoute } from '@angular/router';
+import { Instance, InstanceService } from '../core/instance.service';
+import { CoreComponent, QueryParams } from '../core/core.component';
+import { MySQLQueryDetailsService, QueryDetails, ServerSummary } from './mysql-query-details.service';
 import * as hljs from 'highlight.js';
 import * as vkbeautify from 'vkbeautify';
 import * as moment from 'moment';
@@ -79,6 +79,8 @@ export class MySQLQueryDetailsComponent extends CoreComponent implements OnInit 
       this.queryDetails = await this.queryDetailsService.getQueryDetails(dbServerUUID, queryID, from, to);
       this.firstSeen = moment(this.queryDetails.Query.FirstSeen).calendar(null, {sameElse: 'lll'});
       this.lastSeen = moment(this.queryDetails.Query.LastSeen).calendar(null, {sameElse: 'lll'});
+      this.queryDetails.Query.Fingerprint = 'exlain ' + this.queryDetails.Query.Fingerprint;
+      this.queryDetails.Example.Query = 'expalin ' + this.queryDetails.Example.Query;
       this.fingerprint = this.fixExplainQuery(this.queryDetails.Query.Fingerprint);
       if (this.queryDetails !== null && this.queryDetails.Example !== null && this.queryDetails.Example.Query !== '') {
         this.queryExample = this.fixExplainQuery(this.queryDetails.Example.Query);
