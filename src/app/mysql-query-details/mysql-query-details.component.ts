@@ -79,8 +79,6 @@ export class MySQLQueryDetailsComponent extends CoreComponent implements OnInit 
       this.queryDetails = await this.queryDetailsService.getQueryDetails(dbServerUUID, queryID, from, to);
       this.firstSeen = moment(this.queryDetails.Query.FirstSeen).calendar(null, {sameElse: 'lll'});
       this.lastSeen = moment(this.queryDetails.Query.LastSeen).calendar(null, {sameElse: 'lll'});
-      this.queryDetails.Query.Fingerprint = 'exlain ' + this.queryDetails.Query.Fingerprint;
-      this.queryDetails.Example.Query = 'expalin ' + this.queryDetails.Example.Query;
       this.fingerprint = this.fixExplainQuery(this.queryDetails.Query.Fingerprint);
       if (this.queryDetails !== null && this.queryDetails.Example !== null && this.queryDetails.Example.Query !== '') {
         this.queryExample = this.fixExplainQuery(this.queryDetails.Example.Query);
