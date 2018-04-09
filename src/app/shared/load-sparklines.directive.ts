@@ -76,10 +76,12 @@ export class LoadSparklinesDirective {
         const yScale = scaleLinear().range([height, 0]).domain(yDomain);
 
         const svgLine = line()
+	    .defined(function(d) { return !d['NoData'] })
             .x(d => xScale(moment.utc(d[xkey])))
             .y(d => yScale(d[ykey] === undefined ? 0 : d[ykey]));
 
         const svgArea = area()
+	    .defined(function(d) { return !d['NoData'] })
             .x(d => xScale(moment.utc(d[xkey])))
             .y0(d => yScale(d[ykey] === undefined ? 0 : d[ykey]))
             .y1(height - 1);
@@ -133,7 +135,7 @@ export class LoadSparklinesDirective {
             const d0 = data[i - 1];
             const d1 = data[i];
             // work out which date value is closest to the mouse
-            const d = (mouseDate - moment.utc(d0[xkey])) < (moment.utc(d1[xkey]||0) - mouseDate) ? d1 : d0;
+            const d = (mouseDate - moment.utc(d0[xkey])) < (moment.utc(d1[xkey] || 0) - mouseDate) ? d1 : d0;
 
             const x = xScale(isoParse(d[xkey]));
             const y = yScale(d[ykey] === undefined ? 0 : d[ykey]);
