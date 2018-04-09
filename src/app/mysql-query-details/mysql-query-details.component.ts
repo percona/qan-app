@@ -1,8 +1,8 @@
-import { Component, OnInit } from '@angular/core';
-import { Router, ActivatedRoute } from '@angular/router';
-import { Instance, InstanceService } from '../core/instance.service';
-import { CoreComponent, QueryParams } from '../core/core.component';
-import { MySQLQueryDetailsService, QueryDetails, ServerSummary } from './mysql-query-details.service';
+import {Component, OnInit} from '@angular/core';
+import {ActivatedRoute, Router} from '@angular/router';
+import {InstanceService} from '../core/instance.service';
+import {CoreComponent, QueryParams} from '../core/core.component';
+import {MySQLQueryDetailsService, QueryDetails} from './mysql-query-details.service';
 import * as hljs from 'highlight.js';
 import * as vkbeautify from 'vkbeautify';
 import * as moment from 'moment';
@@ -61,6 +61,16 @@ export class MySQLQueryDetailsComponent extends CoreComponent implements OnInit 
     }
   }
 
+  fixExplainQuery(query: string): string {
+    let partials;
+    if (query.indexOf('explain') !== -1) {
+      const regexp = query.match(new RegExp('explain\\s[A-Za-z]{1,}'));
+      partials = regexp ? regexp[0].toUpperCase().split(' ') : [];
+      return hljs.highlight('sql', vkbeautify.sql(query.replace('explain', ''))).value.replace(partials[1], partials.join(' '));
+    }
+   return hljs.highlight('sql', vkbeautify.sql(query)).value;
+  }
+
   async getQueryDetails(dbServerUUID, queryID, from, to: string) {
     this.isLoading = true;
     this.dbName = this.dbTblNames = '';
@@ -69,10 +79,9 @@ export class MySQLQueryDetailsComponent extends CoreComponent implements OnInit 
       this.queryDetails = await this.queryDetailsService.getQueryDetails(dbServerUUID, queryID, from, to);
       this.firstSeen = moment(this.queryDetails.Query.FirstSeen).calendar(null, {sameElse: 'lll'});
       this.lastSeen = moment(this.queryDetails.Query.LastSeen).calendar(null, {sameElse: 'lll'});
-
-      this.fingerprint = hljs.highlight('sql', vkbeautify.sql(this.queryDetails.Query.Fingerprint)).value;
+      this.fingerprint = this.fixExplainQuery(this.queryDetails.Query.Fingerprint);
       if (this.queryDetails !== null && this.queryDetails.Example !== null && this.queryDetails.Example.Query !== '') {
-        this.queryExample = hljs.highlight('sql', vkbeautify.sql(this.queryDetails.Example.Query)).value;
+        this.queryExample = this.fixExplainQuery(this.queryDetails.Example.Query);
       }
       this.isLoading = false;
       if (this.queryExample) {
