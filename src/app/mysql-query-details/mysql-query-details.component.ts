@@ -61,14 +61,13 @@ export class MySQLQueryDetailsComponent extends CoreComponent implements OnInit 
     }
   }
 
-  fixExplainQuery(query: string): string {
-    let partials;
-    if (query.indexOf('explain') !== -1) {
-      const regexp = query.match(new RegExp('explain\\s[A-Za-z]{1,}'));
-      partials = regexp ? regexp[0].toUpperCase().split(' ') : [];
-      return hljs.highlight('sql', vkbeautify.sql(query.replace('explain', ''))).value.replace(partials[1], partials.join(' '));
-    }
-   return hljs.highlight('sql', vkbeautify.sql(query)).value;
+  /**
+   * Fix beautify dispalying text, will be delete after approve https://github.com/vkiryukhin/vkBeautify/pull/25
+   * @param {string} text
+   * @returns {string}
+   */
+  fixBeautifyText(text: string): string {
+      return vkbeautify.sql(text).replace('explain', 'EXPLAIN ').replace('  ', ' ');
   }
 
   async getQueryDetails(dbServerUUID, queryID, from, to: string) {
@@ -79,9 +78,9 @@ export class MySQLQueryDetailsComponent extends CoreComponent implements OnInit 
       this.queryDetails = await this.queryDetailsService.getQueryDetails(dbServerUUID, queryID, from, to);
       this.firstSeen = moment(this.queryDetails.Query.FirstSeen).calendar(null, {sameElse: 'lll'});
       this.lastSeen = moment(this.queryDetails.Query.LastSeen).calendar(null, {sameElse: 'lll'});
-      this.fingerprint = this.fixExplainQuery(this.queryDetails.Query.Fingerprint);
+      this.fingerprint = hljs.highlight('sql', this.fixBeautifyText(this.queryDetails.Query.Fingerprint)).value;
       if (this.queryDetails !== null && this.queryDetails.Example !== null && this.queryDetails.Example.Query !== '') {
-        this.queryExample = this.fixExplainQuery(this.queryDetails.Example.Query);
+        this.queryExample = hljs.highlight('sql', this.fixBeautifyText(this.queryDetails.Example.Query)).value;
       }
       this.isLoading = false;
       if (this.queryExample) {
