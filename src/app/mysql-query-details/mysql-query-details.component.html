@@ -296,7 +296,7 @@
     </tr>
     <tr *ngIf="queryDetails?.Metrics2.Rows_sent_sum">
       <td class="cell-overlay"><span>Rows Sent</span></td>
-      <td class="no-right-border cell-overlay rate-sec" align="right">
+      <td class="no-right-border cell-overlay rate-sec">
         <span>{{ queryDetails?.Metrics2.Rows_sent_sum_per_sec | humanize : 'number' }} (per sec)</span>
       </td>
       <td class="no-left-border rate-load">
