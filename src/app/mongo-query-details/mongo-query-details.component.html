@@ -32,7 +32,7 @@
             <tr>
                 <td class="cell-overlay"><span>Query Count</span></td>
                 <td class="no-right-border rate-sec cell-overlay">
-                  <span>{{ queryDetails?.Metrics2.Query_count_per_sec | humanize : 'number' }} (per sec)</span>
+                  <span>{{ queryDetails?.Metrics2?.Query_count_per_sec | humanize : 'number' }} (per sec)</span>
                 </td>
                 <td class="no-left-border rate-load">
                     <div class="scaling-svg-container app-tooltip" [appLoadSparklines]="queryDetails?.Sparks2" data-tooltip="Loading..." xkey="Ts"
@@ -40,10 +40,10 @@
                 </td>
                 <td class="cell-overlay">
                     <span class="sum text-left">
-                      {{ queryDetails?.Metrics2.Query_count | humanize : 'number' }}
+                      {{ queryDetails?.Metrics2?.Query_count | humanize : 'number' }}
                       <small>
                         <span *ngIf="!isSummary" class="text-primary">
-                          {{ queryDetails?.Metrics2.Query_count_of_total | humanize : 'percent' }} of total
+                          {{ queryDetails?.Metrics2?.Query_count_of_total | humanize : 'percent' }} of total
                         </span>
                       </small>
                     </span>
@@ -53,8 +53,8 @@
             <tr>
                 <td class="cell-overlay"><span>Query Time</span></td>
                 <td class="no-right-border rate-sec cell-overlay">
-                  <span>{{ queryDetails?.Metrics2.Query_time_sum_per_sec | humanize : 'number' }} load
-                    <span *ngIf="true">({{ queryDetails?.Metrics2.Query_time_sum_of_total | humanize : 'percent' }})</span>
+                  <span>{{ queryDetails?.Metrics2?.Query_time_sum_per_sec | humanize : 'number' }} load
+                    <span *ngIf="true">({{ queryDetails?.Metrics2?.Query_time_sum_of_total | humanize : 'percent' }})</span>
                   </span>
                 </td>
                 <td class="no-left-border rate-load" widht="150px">
@@ -63,48 +63,48 @@
                 </td>
                 <td class="cell-overlay">
                     <span class="sum text-left">
-                      {{ queryDetails?.Metrics2.Query_time_sum | humanize : 'time' }}
+                      {{ queryDetails?.Metrics2?.Query_time_sum | humanize : 'time' }}
                       <small>
-                        <span *ngIf="!isSummary" class="text-primary">{{ queryDetails?.Metrics2.Query_time_sum_of_total | humanize : 'percent' }} of total</span>
+                        <span *ngIf="!isSummary" class="text-primary">{{ queryDetails?.Metrics2?.Query_time_sum_of_total | humanize : 'percent' }} of total</span>
                       </small>
                     </span>
                 </td>
                 <td class="text-xs-right no-right-border query-stats cell-overlay">
-                    <span>{{ queryDetails?.Metrics2.Query_time_avg | humanize : 'time' }}&nbsp;avg</span>
+                    <span>{{ queryDetails?.Metrics2?.Query_time_avg | humanize : 'time' }}&nbsp;avg</span>
                 </td>
                 <td style="width: 10%" class="no-left-border">
                     <div class="scaling-svg-container app-tooltip" data-tooltip="Loading..." measurement="time" [appLatencyChart]="queryDetails?.Metrics2"
                         metricPrefix="Query_time"></div>
                 </td>
             </tr>
-            <tr *ngIf="queryDetails?.Metrics2.Rows_sent_sum">
+            <tr *ngIf="queryDetails?.Metrics2?.Rows_sent_sum">
                 <td class="cell-overlay"><span>Docs Returned</span></td>
                 <td class="no-right-border rate-sec cell-overlay">
-                  <span>{{ queryDetails?.Metrics2.Rows_sent_sum_per_sec | humanize : 'number' }} (per sec)</span>
+                  <span>{{ queryDetails?.Metrics2?.Rows_sent_sum_per_sec | humanize : 'number' }} (per sec)</span>
                 </td>
                 <td class="no-left-border rate-load">
                     <div class="scaling-svg-container app-tooltip" [appLoadSparklines]="queryDetails?.Sparks2" data-tooltip="Loading..." xkey="Ts"
                         ykey="Rows_sent_sum_per_sec" measurement="number"></div>
                 </td>
                 <td class="cell-overlay">
-                    <span class="sum text-left">{{ queryDetails?.Metrics2.Rows_sent_sum | humanize : 'number' }}
+                    <span class="sum text-left">{{ queryDetails?.Metrics2?.Rows_sent_sum | humanize : 'number' }}
                       <small>
-                        <span *ngIf="!isSummary" class="text-primary">{{ queryDetails?.Metrics2.Rows_sent_sum_of_total | humanize : 'percent' }} of total</span>
+                        <span *ngIf="!isSummary" class="text-primary">{{ queryDetails?.Metrics2?.Rows_sent_sum_of_total | humanize : 'percent' }} of total</span>
                       </small>
                     </span>
                 </td>
                 <td class="text-xs-right no-right-border query-stats">
-                  <span>{{ queryDetails?.Metrics2.Rows_sent_avg | humanize : 'number' }}&nbsp;avg</span>
+                  <span>{{ queryDetails?.Metrics2?.Rows_sent_avg | humanize : 'number' }}&nbsp;avg</span>
                 </td>
                 <td style="width: 10%" class="no-left-border">
                     <div class="scaling-svg-container app-tooltip" data-tooltip="Loading..." measurement="number" [appLatencyChart]="queryDetails?.Metrics2"
                         metricPrefix="Rows_sent"></div>
                 </td>
             </tr>
-            <tr *ngIf="queryDetails?.Metrics2.Rows_examined_sum">
+            <tr *ngIf="queryDetails?.Metrics2?.Rows_examined_sum">
                 <td class="cell-overlay"><span>Docs Scanned</span></td>
                 <td class="no-right-border rate-sec cell-overlay">
-                  <span>{{ queryDetails?.Metrics2.Rows_examined_sum_per_sec | humanize : 'number' }} (per sec)</span>
+                  <span>{{ queryDetails?.Metrics2?.Rows_examined_sum_per_sec | humanize : 'number' }} (per sec)</span>
                 </td>
                 <td class="no-left-border rate-load">
                     <div class="scaling-svg-container app-tooltip" [appLoadSparklines]="queryDetails?.Sparks2" data-tooltip="Loading..." xkey="Ts"
@@ -112,25 +112,25 @@
                 </td>
                 <td class="cell-overlay">
                     <span class="sum text-left">
-                      {{ queryDetails?.Metrics2.Rows_examined_sum | humanize : 'number' }}
+                      {{ queryDetails?.Metrics2?.Rows_examined_sum | humanize : 'number' }}
                       <small>
-                        <span *ngIf="!isSummary" class="text-primary">{{ queryDetails?.Metrics2.Rows_examined_sum_of_total | humanize : 'percent' }} of total</span>
-                        <span class="text-success">{{ queryDetails?.Metrics2.Rows_examined_sum_per_rows | humanize : 'number' }} per row sent</span>
+                        <span *ngIf="!isSummary" class="text-primary">{{ queryDetails?.Metrics2?.Rows_examined_sum_of_total | humanize : 'percent' }} of total</span>
+                        <span class="text-success">{{ queryDetails?.Metrics2?.Rows_examined_sum_per_rows | humanize : 'number' }} per row sent</span>
                       </small>
                     </span>
                 </td>
                 <td class="text-xs-right no-right-border query-stats">
-                  <span>{{ queryDetails?.Metrics2.Rows_examined_avg | humanize : 'number' }}&nbsp;avg</span>
+                  <span>{{ queryDetails?.Metrics2?.Rows_examined_avg | humanize : 'number' }}&nbsp;avg</span>
                 </td>
                 <td style="width: 10%" class="no-left-border">
                     <div class="scaling-svg-container app-tooltip" data-tooltip="Loading..." measurement="number" [appLatencyChart]="queryDetails?.Metrics2"
                         metricPrefix="Rows_examined"></div>
                 </td>
             </tr>
-            <tr *ngIf="queryDetails?.Metrics2.Bytes_sent_sum">
+            <tr *ngIf="queryDetails?.Metrics2?.Bytes_sent_sum">
                 <td class="cell-overlay"><span>Response Length</span></td>
                 <td class="no-right-border rate-sec cell-overlay">
-                  <span>{{ queryDetails?.Metrics2.Bytes_sent_sum_per_sec | humanize : 'size' }} (per sec)</span>
+                  <span>{{ queryDetails?.Metrics2?.Bytes_sent_sum_per_sec | humanize : 'size' }} (per sec)</span>
                 </td>
                 <td class="no-left-border rate-load">
                     <div class="scaling-svg-container app-tooltip" [appLoadSparklines]="queryDetails?.Sparks2" data-tooltip="Loading..." xkey="Ts"
@@ -138,15 +138,15 @@
                 </td>
                 <td class="cell-overlay">
                     <span class="sum text-left">
-                      {{ queryDetails?.Metrics2.Bytes_sent_sum | humanize : 'size' }}
+                      {{ queryDetails?.Metrics2?.Bytes_sent_sum | humanize : 'size' }}
                       <small>
-                        <span *ngIf="!isSummary" class="text-primary">{{ queryDetails?.Metrics2.Bytes_sent_sum_of_total | humanize : 'percent' }} of total</span>
-                        <span class="text-success">{{ queryDetails?.Metrics2.Bytes_sent_sum_per_rows | humanize : 'size' }} per row sent</span>
+                        <span *ngIf="!isSummary" class="text-primary">{{ queryDetails?.Metrics2?.Bytes_sent_sum_of_total | humanize : 'percent' }} of total</span>
+                        <span class="text-success">{{ queryDetails?.Metrics2?.Bytes_sent_sum_per_rows | humanize : 'size' }} per row sent</span>
                       </small>
                     </span>
                 </td>
                 <td class="text-xs-right no-right-border query-stats cell-overlay">
-                  <span>{{ queryDetails?.Metrics2.Bytes_sent_avg | humanize : 'size' }}&nbsp;avg</span>
+                  <span>{{ queryDetails?.Metrics2?.Bytes_sent_avg | humanize : 'size' }}&nbsp;avg</span>
                 </td>
                 <td style="width: 10%" class="no-left-border cell">
                     <div class="scaling-svg-container app-tooltip" data-tooltip="Loading..." measurement="size" [appLatencyChart]="queryDetails?.Metrics2"
