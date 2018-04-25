@@ -2,7 +2,13 @@
   There is no any data from this host for this period. Maybe monitoring wasn't available at this moment. Please select  wider period of time or wait for several minutes to collect some data
 </div>
 <div *ngIf="isAllSelected" class="alert alert-warning w-75 mx-auto text-center wrap" role="alert">Please select the Database Host from the Host selector on the top of the page</div>
-<div *ngIf="isNotExistSelected" class="alert alert-warning w-75 mx-auto text-center wrap" role="alert">Host name is not exist in the system</div>
+<div *ngIf="isNotExistSelected" class="alert alert-warning w-75 mx-auto text-center wrap" role="alert">Host name is not exist in the system. Use the
+  <code>pmm-admin add</code> command to add a monitoring service and try again. For more information, see
+  <a href="https://www.percona.com/doc/percona-monitoring-and-management/pmm-admin.html#adding-monitoring-services"
+     target="blank">
+    PMM documentation.
+  </a>
+</div>
 <div *ngIf="dbServer !== null">
     <div class="card">
         <div class="card-header" id="query_profile_heared">
