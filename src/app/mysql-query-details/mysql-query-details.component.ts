@@ -67,7 +67,7 @@ export class MySQLQueryDetailsComponent extends CoreComponent implements OnInit 
    * @returns {string}
    */
   fixBeautifyText(text: string): string {
-      return vkbeautify.sql(text).replace('explain', 'EXPLAIN ').replace('  ', ' ');
+      return vkbeautify.sql(text.toLowerCase()).replace('explain', 'EXPLAIN ').replace('  ', ' ');
   }
 
   async getQueryDetails(dbServerUUID, queryID, from, to: string) {
