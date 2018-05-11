@@ -100,17 +100,17 @@
             </div>
 
             <div class="form-group row">
-              <label for="SlowLogsRotation" class="col-sm-5 col-form-label">Remove old slow logs</label>
+              <label for="SlowLogRotation" class="col-sm-5 col-form-label">Remove old slow logs</label>
               <div class="col-sm-3">
-                <p class="form-control-static" id="SlowLogsRotation">{{ agentConf?.qan?.SlowLogsRotation ? 'ON' :
+                <p class="form-control-static" id="SlowLogRotation">{{ agentConf?.qan?.SlowLogRotation ? 'ON' :
                   'OFF' }}</p>
               </div>
             </div>
 
             <div class="form-group row">
-              <label for="SlowLogsToKeep" class="col-sm-5 col-form-label">Slow logs to retain on disk</label>
+              <label for="RetainSlowLogs" class="col-sm-5 col-form-label">Slow logs to retain on disk</label>
               <div class="col-sm-3">
-                <p class="form-control-static" id="SlowLogsToKeep">{{ agentConf?.qan?.SlowLogsToKeep }}</p>
+                <p class="form-control-static" id="RetainSlowLogs">{{ agentConf?.qan?.RetainSlowLogs }}</p>
               </div>
             </div>
 
