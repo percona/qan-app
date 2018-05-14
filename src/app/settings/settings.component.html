@@ -110,7 +110,7 @@
             <div class="form-group row">
               <label for="RetainSlowLogs" class="col-sm-5 col-form-label">Slow logs to retain on disk</label>
               <div class="col-sm-3">
-                <p class="form-control-static" id="RetainSlowLogs">{{ agentConf?.qan?.RetainSlowLogs }}</p>
+                <p class="form-control-static" id="RetainSlowLogs">{{ agentConf.qan.RetainSlowLogs ? agentConf.qan.RetainSlowLogs : 'N/A' }}</p>
               </div>
             </div>
 
