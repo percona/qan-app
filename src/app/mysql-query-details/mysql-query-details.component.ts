@@ -161,11 +161,13 @@ export class MySQLQueryDetailsComponent extends CoreComponent implements OnInit 
     this.queryDetailsService.getTableInfo(agentUUID, dbServerUUID, dbName, tblName)
       .then(data => {
         const info = data[`${dbName}.${tblName}`];
+        this.tableInfo = info;
+        try {
+          this.createTable = hljs.highlight('sql', this.tableInfo.Create).value;
+        } catch (e) { }
         if (info.hasOwnProperty('Errors') && info['Errors'].length > 0) {
           throw info['Errors'];
         }
-        this.tableInfo = info;
-        this.createTable = hljs.highlight('sql', this.tableInfo.Create).value;
       })
       .catch(errors => {
         for (const err of errors) {
