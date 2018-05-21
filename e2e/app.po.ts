@@ -6,6 +6,10 @@ export class QanAppPage {
   }
 
   getParagraphText() {
-    return element(by.css('app-root h1')).getText();
+    return element(by.css('app-root')).getText();
+  }
+
+  isMainPresent() {
+    return $('app-root').$('main').isPresent();
   }
 }

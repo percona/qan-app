@@ -56,8 +56,8 @@ type TimeEdge = 'from' | 'to';
 export class ParseQueryParamDatePipe implements PipeTransform {
 
   transform(date: string, edge: TimeEdge) {
-    let momentFormatPipe = new MomentFormatPipe();
-    let nowFunc =  momentFormatPipe.timezone === 'utc' ? moment.utc : moment;
+    const momentFormatPipe = new MomentFormatPipe();
+    const nowFunc =  momentFormatPipe.timezone === 'utc' ? moment.utc : moment;
     let parsedDate;
     // from=now
 

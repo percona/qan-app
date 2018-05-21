@@ -23,7 +23,7 @@ export class QueryProfileService {
             );
             params.set('search', search);
         }
-        let response = await this.http
+        const response = await this.http
             .get(url, { headers: this.headers, search: params })
             .toPromise();
         return response.json();

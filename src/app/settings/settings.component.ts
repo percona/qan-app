@@ -84,7 +84,7 @@ export class SettingsComponent extends CoreComponent {
    *  - Collect from: 'slowlog' or 'perfschema'.
    */
   public async setAgentDefaults() {
-    let res = await this.settingsService.setAgentDefaults(
+    const res = await this.settingsService.setAgentDefaults(
       this.agent.UUID,
       this.dbServer.UUID,
       this.interval,

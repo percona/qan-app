@@ -24,7 +24,7 @@ export class HumanizePipe implements PipeTransform {
                 let secs = dur_sec.as('s');
                 const secondsInDay = 24 * 60 * 60;
                 if (secs >= secondsInDay) {
-                    let days = Math.floor(secs / secondsInDay);
+                    const days = Math.floor(secs / secondsInDay);
                     dur = `${days} days, `;
                     secs = secs % secondsInDay;
                 }
