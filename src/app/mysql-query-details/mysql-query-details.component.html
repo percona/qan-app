@@ -818,6 +818,26 @@
         </div>
       </ng-template>
     </ngb-panel>
+
+    <ngb-panel id="visual-explain" *ngIf="!!visualExplain || !!visualExplainError">
+      <ng-template ngbPanelTitle>
+        <h5>VISUAL</h5>
+      </ng-template>
+      <ng-template ngbPanelContent>
+        <i *ngIf="isExplainLoading" class="fa fa-spinner fa-pulse fa-3x fa-fw loading"></i>
+        <button class="btn btn-secondary btn-sm copy-btn"
+                ngxClipboard
+                [cbContent]="this.visualExplain"
+                (cbOnSuccess)="isCopied = true"
+                [class.btn-success]="isCopied">Copy to clipboard
+        </button>
+        <pre>{{ this.visualExplain }}</pre>
+        <div *ngIf="!isExplainLoading && visualExplainError" class="alert alert-warning w-75 mx-auto m-2" role="alert">
+          <i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
+          {{ visualExplainError }}
+        </div>
+      </ng-template>
+    </ngb-panel>
   </ngb-accordion>
 
   <hr/>
@@ -1668,6 +1688,26 @@
                    role="alert">
                 <i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
                 {{ jsonExplainError }}
+              </div>
+            </ng-template>
+          </ngb-panel>
+
+          <ngb-panel id="visual-explain" *ngIf="!!visualExplain || !!visualExplainError">
+            <ng-template ngbPanelTitle>
+              <h5>VISUAL</h5>
+            </ng-template>
+            <ng-template ngbPanelContent>
+              <i *ngIf="isExplainLoading" class="fa fa-spinner fa-pulse fa-3x fa-fw loading"></i>
+              <button class="btn btn-secondary btn-sm copy-btn"
+                      ngxClipboard
+                      [cbContent]="this.visualExplain"
+                      (cbOnSuccess)="isCopied = true"
+                      [class.btn-success]="isCopied">Copy to clipboard
+              </button>
+              <pre>{{ this.visualExplain }}</pre>
+              <div *ngIf="!isExplainLoading && visualExplainError" class="alert alert-warning w-75 mx-auto m-2" role="alert">
+                <i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
+                {{ visualExplainError }}
               </div>
             </ng-template>
           </ngb-panel>

@@ -23,12 +23,14 @@ export class MySQLQueryDetailsComponent extends CoreComponent implements OnInit 
   public queryExample: string;
   protected classicExplain;
   protected jsonExplain;
+  protected visualExplain;
   protected dbName: string;
   public dbTblNames: string;
   protected newDBTblNames: string;
   isSummary: boolean;
   isLoading: boolean;
   isExplainLoading: boolean;
+  isCopied: boolean;
   isTableInfoLoading: boolean;
   firstSeen: string;
   lastSeen: string;
@@ -39,6 +41,7 @@ export class MySQLQueryDetailsComponent extends CoreComponent implements OnInit 
 
   jsonExplainError: string;
   classicExplainError: string;
+  visualExplainError: string;
 
   constructor(protected route: ActivatedRoute, protected router: Router,
               protected instanceService: InstanceService, protected queryDetailsService: MySQLQueryDetailsService) {
@@ -103,10 +106,12 @@ export class MySQLQueryDetailsComponent extends CoreComponent implements OnInit 
 
   async getExplain() {
     this.isExplainLoading = true;
+    this.isCopied = false;
     const agentUUID = this.dbServer.Agent.UUID;
     const dbServerUUID = this.dbServer.UUID;
     this.classicExplainError = '';
     this.jsonExplainError = '';
+    this.visualExplainError = '';
     if (this.dbName === '') {
       this.dbName = this.getDBName();
     }
@@ -115,7 +120,7 @@ export class MySQLQueryDetailsComponent extends CoreComponent implements OnInit 
     // https://github.com/percona/go-mysql/blob/master/event/class.go#L25
     const maxExampleBytes = 10240;
     if (query.length >= maxExampleBytes) {
-      this.classicExplainError = this.jsonExplainError = `Cannot explain truncated query. This query was truncated to maximum size of ${maxExampleBytes} bytes.`;
+      this.classicExplainError = this.jsonExplainError = this.visualExplainError = `Cannot explain truncated query. This query was truncated to maximum size of ${maxExampleBytes} bytes.`;
       this.isExplainLoading = false;
       return
     }
@@ -127,6 +132,8 @@ export class MySQLQueryDetailsComponent extends CoreComponent implements OnInit 
       }
       data = JSON.parse(atob(data.Data));
       this.classicExplain = data.Classic;
+      data.Visual = '+- Table\n|  table          sbtest1\n|  possible_keys  PRIMARY\n+- Constant index lookup\n   key            sbtest1->PRIMARY\n   possible_keys  PRIMARY\n   key_len        4\n   ref            const\n   rows           1';
+      this.visualExplain = data.Visual;
 
       try {
         this.jsonExplain = JSON.parse(data.JSON);
@@ -134,7 +141,7 @@ export class MySQLQueryDetailsComponent extends CoreComponent implements OnInit 
         this.jsonExplainError = err.message;
       }
     } catch (err) {
-      this.classicExplainError = this.jsonExplainError = 'This type of query is not supported for EXPLAIN';
+      this.classicExplainError = this.jsonExplainError = this.visualExplainError = 'This type of query is not supported for EXPLAIN';
     }
 
     this.isExplainLoading = false;
