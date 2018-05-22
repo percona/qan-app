@@ -10,6 +10,7 @@ import { Subscription } from 'rxjs/Subscription';
 import * as moment from 'moment';
 
 import { environment } from '../../environment';
+import { Moment } from 'moment';
 
 @Component({
   moduleId: module.id,
@@ -70,13 +71,12 @@ export class NavComponent extends CoreComponent implements OnDestroy {
       const [, , sign, num, unit] = reg.exec(val);
       switch (sign) {
         case '-':
-	  time = moment().subtract(num as moment.unitOfTime.DurationConstructor, unit).valueOf().toString();
+          time = moment().subtract(num as moment.unitOfTime.DurationConstructor, unit).valueOf().toString();
           break;
         case '+':
           time = moment().add(num as moment.unitOfTime.DurationConstructor, unit).valueOf().toString();
           break;
         case '/':
-	  //time = moment().startOf(num, unit).valueOf();
           time = moment().startOf(unit as moment.unitOfTime.StartOf).valueOf().toString();
           break;
       }
