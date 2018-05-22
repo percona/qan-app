@@ -114,7 +114,8 @@ export class LoadSparklinesDirective {
             .attr('x', 1)
             .attr('y', 8);
 
-        const bisectDate = bisector((d, x) => moment.utc(d[xkey]).isBefore(x)).right;
+	//const bisectDate = bisector((d, x) => moment.utc(d[xkey]).isBefore(x)).right;
+        const bisectDate = bisector((x) => moment.utc(data[xkey]).isBefore(x)).right;
 
         const rect = g.append('rect')
             .attr('class', 'overlay')
@@ -133,7 +134,7 @@ export class LoadSparklinesDirective {
             const d0 = data[i - 1];
             const d1 = data[i];
             // work out which date value is closest to the mouse
-            const d = (mouseDate - moment.utc(d0[xkey])) < (moment.utc(d1[xkey]||0) - mouseDate) ? d1 : d0;
+            const d = (mouseDate.subtract(moment.utc(d0[xkey]))) < (moment.utc(d1[xkey]||0).subtract(mouseDate)) ? d1 : d0;
 
             const x = xScale(isoParse(d[xkey]));
             const y = yScale(d[ykey] === undefined ? 0 : d[ykey]);
