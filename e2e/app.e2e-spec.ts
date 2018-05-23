@@ -11,6 +11,6 @@ describe('qan-app App', function() {
     page.navigateTo();
     console.log('================', page.getParagraphText());
     expect(page.isMainPresent()).toEqual(true);
-    //expect(page.getParagraphText()).toEqual('app works!');
+    // expect(page.getParagraphText()).toEqual('app works!');
   });
 });
