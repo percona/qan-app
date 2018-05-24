@@ -4,7 +4,7 @@ sudo: false
 language: node_js
 node_js:
   - "8"
-  
+
 addons:
   apt:
     sources:
@@ -22,5 +22,10 @@ install:
 script:
   # Use Chromium instead of Chrome.
   - export CHROME_BIN=chromium-browser
-  - xvfb-run -a npm run test -- --single-run --no-progress --browser=ChromeNoSandbox
-  - xvfb-run -a npm run e2e -- --no-progress --config=protractor-ci.conf.js
+  - export PATH=$(npm bin):$PATH
+  - xvfb-run -a npm run test -- --single-run
+  - |
+    json-server --routes=routes.json db.js &
+    SERVER_PID=$!
+  - xvfb-run -a npm run e2e -- --proxy-config=proxy.conf.e2e.json --no-progress --config=protractor-ci.conf.js
+  - kill -9 $SERVER_PID

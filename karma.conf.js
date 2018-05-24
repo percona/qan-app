@@ -13,7 +13,7 @@ module.exports = function (config) {
       require('@angular/cli/plugins/karma')
     ],
     customLaunchers: {
-      ChromeNoSandbox: {
+      Chrome_travis_ci: {
         base: 'Chrome',
         flags: ['--no-sandbox']
       }
@@ -42,7 +42,7 @@ module.exports = function (config) {
     colors: true,
     logLevel: config.LOG_INFO,
     autoWatch: true,
-    browsers: ['Chrome'],
+    browsers: process.env.TRAVIS ? ['Chrome_travis_ci'] : ['Chrome'],
     singleRun: false
   });
 };
