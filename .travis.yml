@@ -21,9 +21,9 @@ install:
 
 script:
   # Use Chromium instead of Chrome.
-  - export CHROME_BIN=chromium-browser
+  - export CHROME_BIN=google-chrome
   - export PATH=$(npm bin):$PATH
-  - xvfb-run -a npm run test -- --single-run
+  - xvfb-run -a npm run test -- --single-run --no-progress
   - |
     json-server --routes=routes.json db.js &
     SERVER_PID=$!
