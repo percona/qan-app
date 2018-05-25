@@ -4,6 +4,8 @@
         Download Summary
     </button>
 </div>
+<div *ngIf="isAllSelected" class="alert alert-warning w-75 mx-auto text-center wrap" role="alert">Please select the Database Host from the Host selector on the top of the page</div>
+<div *ngIf="isNotExistSelected" class="alert alert-warning w-75 mx-auto text-center wrap" role="alert">Host name is not exist in the system</div>
 <div class="row">
     <div class="col-md-12">
         <ngb-accordion activeIds="system-summary-panel,mysql-summary-panel">
