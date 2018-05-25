@@ -2,8 +2,8 @@ import { ErrorHandler } from '@angular/core';
 
 export class QanError {
 
-    public name: string = 'QanError';
-    public message: string = '';
+    public name = 'QanError';
+    public message = '';
 
     constructor(message: string) {
         this.message = message;

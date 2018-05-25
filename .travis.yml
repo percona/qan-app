@@ -1,0 +1,32 @@
+dist: trusty
+sudo: false
+
+language: node_js
+node_js:
+  - "8"
+
+addons:
+  apt:
+    sources:
+      - google-chrome
+    packages:
+      - google-chrome-stable
+
+cache:
+  directories:
+     - ./node_modules
+
+install:
+  - npm install
+
+script:
+  # Use Chromium instead of Chrome.
+  - export CHROME_BIN=google-chrome
+  - export PATH=$(npm bin):$PATH
+  - xvfb-run -a npm run lint
+  - xvfb-run -a npm run test -- --single-run --no-progress
+  - |
+    json-server --quiet --routes=routes.json db.js &
+    SERVER_PID=$!
+  - xvfb-run -a npm run e2e -- --proxy-config=proxy.conf.e2e.json --no-progress --config=protractor-ci.conf.js
+  - kill -9 $SERVER_PID
