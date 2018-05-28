@@ -132,7 +132,6 @@ export class MySQLQueryDetailsComponent extends CoreComponent implements OnInit 
       }
       data = JSON.parse(atob(data.Data));
       this.classicExplain = data.Classic;
-      data.Visual = '+- Table\n|  table          sbtest1\n|  possible_keys  PRIMARY\n+- Constant index lookup\n   key            sbtest1->PRIMARY\n   possible_keys  PRIMARY\n   key_len        4\n   ref            const\n   rows           1';
       this.visualExplain = data.Visual;
 
       try {
