@@ -16,15 +16,15 @@ import * as moment from 'moment';
 export class MySQLQueryDetailsComponent extends CoreComponent implements OnInit {
 
   protected queryID: string;
-  protected queryDetails: QueryDetails;
+  public queryDetails: QueryDetails;
   protected tableInfo;
   public createTable: string;
   public fingerprint: string;
   public queryExample: string;
-  protected classicExplain;
-  protected jsonExplain;
-  protected visualExplain;
-  protected dbName: string;
+  public classicExplain;
+  public jsonExplain;
+  public visualExplain;
+  public dbName: string;
   public dbTblNames: string;
   protected newDBTblNames: string;
   isSummary: boolean;
@@ -55,6 +55,7 @@ export class MySQLQueryDetailsComponent extends CoreComponent implements OnInit 
   }
 
   onChangeParams(params) {
+    if (!this.dbServer) return;
     if (['TOTAL', undefined].indexOf(this.queryParams.queryID) !== -1) {
       this.isSummary = true;
       this.getServerSummary(this.dbServer.UUID, this.fromUTCDate, this.toUTCDate);
@@ -86,6 +87,7 @@ export class MySQLQueryDetailsComponent extends CoreComponent implements OnInit 
         this.queryExample = hljs.highlight('sql', this.fixBeautifyText(this.queryDetails.Example.Query)).value;
       }
       this.isLoading = false;
+
       if (this.queryExample) {
         this.getExplain();
       }
@@ -105,6 +107,7 @@ export class MySQLQueryDetailsComponent extends CoreComponent implements OnInit 
   }
 
   async getExplain() {
+    if (!this.dbServer || !this.dbServer.Agent) return;
     this.isExplainLoading = true;
     this.isCopied = false;
     const agentUUID = this.dbServer.Agent.UUID;
@@ -148,6 +151,7 @@ export class MySQLQueryDetailsComponent extends CoreComponent implements OnInit 
   }
 
   getTableInfo() {
+    if (!this.dbServer || !this.dbServer.Agent) return;
     this.isTableInfoLoading = true;
     const agentUUID = this.dbServer.Agent.UUID;
     const dbServerUUID = this.dbServer.UUID;
@@ -194,6 +198,7 @@ export class MySQLQueryDetailsComponent extends CoreComponent implements OnInit 
   }
 
   selectTableInfo(dbName: string, tblName: string) {
+    if (!this.dbServer || !this.dbServer.Agent) return;
     this.isTableInfoLoading = true;
     this.statusTableError = '';
     this.indexTableError = '';
