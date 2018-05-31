@@ -3,7 +3,6 @@ tslint:
   esversion: 6
   enabled: true
   config_file: tslint-hound.json
-  ignore_file: [protractor.conf.js, dist/*]
 
 jshint:
   config_file: .jshintrc

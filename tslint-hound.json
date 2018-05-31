@@ -1,4 +1,7 @@
 {
+  "linterOptions": {
+    "exclude": ["protractor.conf.js", "dist/*"]
+  },
   "rules": {
     "callable-types": true,
     "class-name": true,
