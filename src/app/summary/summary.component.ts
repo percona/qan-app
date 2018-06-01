@@ -44,7 +44,7 @@ export class SummaryComponent extends CoreComponent {
      */
     getServerSummary(agentUUID: string): void {
         this.summaryService
-            .getServer(agentUUID, this.dbServer.UUID)
+            .getServer(agentUUID, this.dbServer.ParentUUID)
             .then(data => this.serverSummary = data)
             .catch(err => this.serverSummaryError = err.message)
             .then(() => this.serverSummaryLoader = false);

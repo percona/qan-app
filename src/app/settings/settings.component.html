@@ -1,4 +1,6 @@
-<ngb-accordion activeIds="settingsTab" #acSettings="ngbAccordion">
+<div *ngIf="isAllSelected" class="alert alert-warning w-75 mx-auto text-center wrap" role="alert">Please select the Database Host from the Host selector on the top of the page</div>
+<div *ngIf="isNotExistSelected" class="alert alert-warning w-75 mx-auto text-center wrap" role="alert">Host name is not exist in the system</div>
+<ngb-accordion activeIds="settingsTab" #acSettings="ngbAccordion" *ngIf="!isNotExistSelected">
   <ngb-panel id="settingsTab">
     <ng-template ngbPanelTitle>
       <h5>SETTINGS</h5>
@@ -100,10 +102,17 @@
             </div>
 
             <div class="form-group row">
-              <label for="RemoveOldSlowLogs" class="col-sm-5 col-form-label">Remove old slow logs</label>
+              <label for="SlowLogRotation" class="col-sm-5 col-form-label">Slow logs rotation</label>
               <div class="col-sm-3">
-                <p class="form-control-static" id="RemoveOldSlowLogs">{{ agentConf?.qan?.RemoveOldSlowLogs ? 'ON' :
+                <p class="form-control-static" id="SlowLogRotation">{{ agentConf?.qan?.SlowLogRotation ? 'ON' :
                   'OFF' }}</p>
+              </div>
+            </div>
+
+            <div class="form-group row">
+              <label for="RetainSlowLogs" class="col-sm-5 col-form-label">Slow logs to retain on disk</label>
+              <div class="col-sm-3">
+                <p class="form-control-static" id="RetainSlowLogs">{{ agentConf.qan.RetainSlowLogs ? agentConf.qan.RetainSlowLogs : 'N/A' }}</p>
               </div>
             </div>
 
