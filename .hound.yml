@@ -1,8 +1,0 @@
-fail_on_violations: true
-tslint:
-  esversion: 6
-  enabled: true
-  config_file: tslint-hound.json
-
-jshint:
-  config_file: .jshintrc
