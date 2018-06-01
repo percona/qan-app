@@ -70,7 +70,7 @@ export abstract class CoreComponent implements OnDestroy {
     }
 
     parseParams() {
-        this.isAllSelected = this.queryParams['var-host'] ==='All';
+        this.isAllSelected = this.queryParams['var-host'] === 'All';
         this.isQueryDataAbsent = (this.dbServer === null) && (!this.isAllSelected) && (!this.isNotExistSelected);
         try {
             this.dbServer = this.dbServerMap[this.queryParams['var-host']];

@@ -16,7 +16,7 @@ export class SettingsService {
     public async getAgentStatus(agentUUID: string): Promise<{}> {
         const url = `/qan-api/agents/${agentUUID}/status`;
 
-        let response = await this.http
+        const response = await this.http
             .get(url, { headers: this.headers })
             .toPromise();
         return response.json() as {};
@@ -28,7 +28,7 @@ export class SettingsService {
         const params = new URLSearchParams();
         params.set('begin', begin);
         params.set('end', end);
-        let response = await this.http
+        const response = await this.http
             .get(url, { headers: this.headers, search: params })
             .toPromise();
         return response.json() as {};
@@ -43,7 +43,7 @@ export class SettingsService {
             Data: btoa(JSON.stringify({ UUID: dbServerUUID }))
         };
 
-        let response = await this.http
+        const response = await this.http
             .put(url, params, { headers: this.headers })
             .toPromise();
 
@@ -73,7 +73,7 @@ export class SettingsService {
             Data: btoa(JSON.stringify(data))
         };
 
-        let response = await this.http
+        const response = await this.http
             .put(url, params, { headers: this.headers })
             .toPromise();
 

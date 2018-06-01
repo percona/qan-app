@@ -125,7 +125,7 @@ export class MongoQueryDetailsService {
             Data: btoa(JSON.stringify(data))
         };
 
-        let response = await this.http
+        const response = await this.http
             .put(url, params)
             .toPromise();
 
