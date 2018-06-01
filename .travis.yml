@@ -24,9 +24,9 @@ script:
   - export CHROME_BIN=google-chrome
   - export PATH=$(npm bin):$PATH
   - xvfb-run -a npm run lint
-  - xvfb-run -a npm run test -- --single-run --no-progress
-  - |
-    json-server --quiet --routes=routes.json db.js &
-    SERVER_PID=$!
-  - xvfb-run -a npm run e2e -- --proxy-config=proxy.conf.e2e.json --no-progress --config=protractor-ci.conf.js
-  - kill -9 $SERVER_PID
+    #  - xvfb-run -a npm run test -- --single-run --no-progress
+    #  - |
+    #    json-server --quiet --routes=routes.json db.js &
+    #    SERVER_PID=$!
+    #  - xvfb-run -a npm run e2e -- --proxy-config=proxy.conf.e2e.json --no-progress --config=protractor-ci.conf.js
+    #  - kill -9 $SERVER_PID

@@ -33,6 +33,8 @@ export class SettingsComponent extends CoreComponent {
 
   public logPeriod = 12;
   public isDemo = environment.demo;
+  isSuccess = false;
+  isError = false;
 
   constructor(protected route: ActivatedRoute, protected router: Router,
               protected settingsService: SettingsService,
@@ -40,8 +42,6 @@ export class SettingsComponent extends CoreComponent {
     super(route, router, instanceService);
   }
 
-  isSuccess = false;
-  isError = false;
 
   /**
    * Get agent log for N last hours.
@@ -99,7 +99,7 @@ export class SettingsComponent extends CoreComponent {
       setTimeout(() => {
         this.isSuccess = false;
         this.isError = false;
-      }, visibleMessageTime); //add const
+      }, visibleMessageTime); // add const
       this.getAgentDefaults();
     } catch (err) {
       this.isSuccess = false;

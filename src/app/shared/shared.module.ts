@@ -22,4 +22,11 @@ import { ParseQueryParamDatePipe } from './parse-query-param-date.pipe';
     LatencyChartDirective, LoadSparklinesDirective,
     CommonModule, FormsModule, HttpModule, NgbModule, RouterModule]
 })
-export class SharedModule { }
+export class SharedModule {
+  static forRoot() {
+    return {
+        ngModule: SharedModule,
+        providers: [],
+    };
+ }
+}
