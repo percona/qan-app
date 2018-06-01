@@ -55,7 +55,7 @@ export class MySQLQueryDetailsComponent extends CoreComponent implements OnInit 
   }
 
   onChangeParams(params) {
-    if (!this.dbServer) return;
+    if (!this.dbServer) { return; }
     if (['TOTAL', undefined].indexOf(this.queryParams.queryID) !== -1) {
       this.isSummary = true;
       this.getServerSummary(this.dbServer.UUID, this.fromUTCDate, this.toUTCDate);
@@ -107,7 +107,7 @@ export class MySQLQueryDetailsComponent extends CoreComponent implements OnInit 
   }
 
   async getExplain() {
-    if (!this.dbServer || !this.dbServer.Agent) return;
+    if (!this.dbServer || !this.dbServer.Agent) { return; }
     this.isExplainLoading = true;
     this.isCopied = false;
     const agentUUID = this.dbServer.Agent.UUID;
@@ -155,7 +155,7 @@ export class MySQLQueryDetailsComponent extends CoreComponent implements OnInit 
   }
 
   getTableInfo() {
-    if (!this.dbServer || !this.dbServer.Agent) return;
+    if (!this.dbServer || !this.dbServer.Agent) { return; }
     this.isTableInfoLoading = true;
     const agentUUID = this.dbServer.Agent.UUID;
     const dbServerUUID = this.dbServer.UUID;
@@ -202,7 +202,7 @@ export class MySQLQueryDetailsComponent extends CoreComponent implements OnInit 
   }
 
   selectTableInfo(dbName: string, tblName: string) {
-    if (!this.dbServer || !this.dbServer.Agent) return;
+    if (!this.dbServer || !this.dbServer.Agent) { return; }
     this.isTableInfoLoading = true;
     this.statusTableError = '';
     this.indexTableError = '';
