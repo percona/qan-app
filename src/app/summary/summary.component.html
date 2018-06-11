@@ -1,53 +1,62 @@
 <div class="row justify-content-md-center">
-    <button *ngIf="!(mysqlSummaryLoader && mongoSummaryLoader)  && !serverSummaryLoader" (click)="downloadSummary()" class="btn btn-primary">
-        <i class="fa fa-file-archive-o" aria-hidden="true"></i>
-        Download Summary
-    </button>
+  <button
+    *ngIf="!(mysqlSummaryLoader && mongoSummaryLoader)  && !serverSummaryLoader"
+    (click)="downloadSummary()" class="btn btn-primary download-summary">
+    <i class="fa fa-file-archive-o" aria-hidden="true"></i>
+    Download Summary
+  </button>
 </div>
-<div *ngIf="isAllSelected" class="alert alert-warning w-75 mx-auto text-center wrap" role="alert">Please select the Database Host from the Host selector on the top of the page</div>
-<div *ngIf="isNotExistSelected" class="alert alert-warning w-75 mx-auto text-center wrap" role="alert">Host name is not exist in the system</div>
+<div *ngIf="isAllSelected" class="alert alert-warning w-75 mx-auto text-center wrap" role="alert">
+  Please select the Database Host from the Host selector on the top of the page
+</div>
+<div *ngIf="isNotExistSelected" class="alert alert-warning w-75 mx-auto text-center wrap" role="alert">
+  Host name is not exist in the system
+</div>
 <div class="row">
-    <div class="col-md-12">
-        <ngb-accordion activeIds="system-summary-panel,mysql-summary-panel">
-            <ngb-panel id="system-summary-panel">
-                <ng-template ngbPanelTitle>
-                    <h5>System Summary</h5>
-                </ng-template>
-                <ng-template ngbPanelContent>
-                    <pre *ngIf="!serverSummaryLoader && serverSummary" style="margin: 1rem">{{ serverSummary }}</pre>
-                    <i *ngIf="serverSummaryLoader" class="fa fa-spinner fa-pulse fa-3x fa-fw loading"></i>
-                    <div *ngIf="!serverSummaryLoader && serverSummaryError" class="alert alert-warning w-75 mx-auto m-2" role="alert">
-                        <i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
-                        {{ serverSummaryError }}
-                    </div>
-                </ng-template>
-            </ngb-panel>
-            <ngb-panel *ngIf="dbServer.Subsystem === 'mysql'" id="mysql-summary-panel">
-                <ng-template ngbPanelTitle>
-                    <h5>MySQL Summary</h5>
-                </ng-template>
-                <ng-template ngbPanelContent>
-                    <pre *ngIf="!mysqlSummaryLoader && mysqlSummary" style="margin: 1rem">{{ mysqlSummary }}</pre>
-                    <i *ngIf="mysqlSummaryLoader" class="fa fa-spinner fa-pulse fa-3x fa-fw loading"></i>
-                    <div *ngIf="!mysqlSummaryLoader && mysqlSummaryError" class="alert alert-warning w-75 mx-auto m-2" role="alert">
-                        <i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
-                        {{ mysqlSummaryError }}
-                    </div>
-                </ng-template>
-            </ngb-panel>
-            <ngb-panel *ngIf="dbServer.Subsystem === 'mongo'" id="mysql-summary-panel">
-                <ng-template ngbPanelTitle>
-                    <h5>MongoDB Summary</h5>
-                </ng-template>
-                <ng-template ngbPanelContent>
-                    <pre *ngIf="!mongoSummaryLoader && mongoSummary" style="margin: 1rem">{{ mongoSummary }}</pre>
-                    <i *ngIf="mongoSummaryLoader" class="fa fa-spinner fa-pulse fa-3x fa-fw loading"></i>
-                    <div *ngIf="!mongoSummaryLoader && mongoSummaryError" class="alert alert-warning w-75 mx-auto m-2" role="alert">
-                        <i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
-                        {{ mongoSummaryError }}
-                    </div>
-                </ng-template>
-            </ngb-panel>
-        </ngb-accordion>
-    </div>
+  <div class="col-md-12">
+    <ngb-accordion activeIds="system-summary-panel, mysql-summary-panel, mongo-summary-panel">
+      <ngb-panel id="system-summary-panel">
+        <ng-template ngbPanelTitle>
+          <h5>System Summary</h5>
+        </ng-template>
+        <ng-template ngbPanelContent>
+          <pre *ngIf="!serverSummaryLoader && serverSummary" class="summary-output">{{ serverSummary }}</pre>
+          <i *ngIf="serverSummaryLoader" class="fa fa-spinner fa-pulse fa-3x fa-fw loading"></i>
+          <div *ngIf="!serverSummaryLoader && serverSummaryError"
+               class="alert alert-warning w-75 mx-auto m-2" role="alert">
+            <i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
+            {{ serverSummaryError }}
+          </div>
+        </ng-template>
+      </ngb-panel>
+      <ngb-panel *ngIf="dbServer.Subsystem === 'mysql'" id="mysql-summary-panel">
+        <ng-template ngbPanelTitle>
+          <h5>MySQL Summary</h5>
+        </ng-template>
+        <ng-template ngbPanelContent>
+          <pre *ngIf="!mysqlSummaryLoader && mysqlSummary" class="summary-output">{{ mysqlSummary }}</pre>
+          <i *ngIf="mysqlSummaryLoader" class="fa fa-spinner fa-pulse fa-3x fa-fw loading"></i>
+          <div *ngIf="!mysqlSummaryLoader && mysqlSummaryError"
+               class="alert alert-warning w-75 mx-auto m-2" role="alert">
+            <i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
+            {{ mysqlSummaryError }}
+          </div>
+        </ng-template>
+      </ngb-panel>
+      <ngb-panel *ngIf="dbServer.Subsystem === 'mongo'" id="mongo-summary-panel">
+        <ng-template ngbPanelTitle>
+          <h5>MongoDB Summary</h5>
+        </ng-template>
+        <ng-template ngbPanelContent>
+          <pre *ngIf="!mongoSummaryLoader && mongoSummary" class="summary-output">{{ mongoSummary }}</pre>
+          <i *ngIf="mongoSummaryLoader" class="fa fa-spinner fa-pulse fa-3x fa-fw loading"></i>
+          <div *ngIf="!mongoSummaryLoader && mongoSummaryError"
+               class="alert alert-warning w-75 mx-auto m-2" role="alert">
+            <i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
+            {{ mongoSummaryError }}
+          </div>
+        </ng-template>
+      </ngb-panel>
+    </ngb-accordion>
+  </div>
 </div>

@@ -1,14 +1,18 @@
 @media screen {
 
-    .query-profile-table {
-        table-layout: fixed;
-    }
+  .query-profile-table {
+    table-layout: fixed;
+  }
 
-    .query-profile-table td {
-        white-space: nowrap;
-    }
+  .query-profile-table td {
+    white-space: nowrap;
+  }
 
-    .wrap {
-        white-space: normal;
-    }
+  .wrap {
+    white-space: normal;
+  }
+
+  #show_more {
+    cursor: pointer;
+  }
 }

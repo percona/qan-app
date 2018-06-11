@@ -70,7 +70,7 @@
       <td class="text-xs-right no-right-border cell-overlay">
         <span>{{ queryDetails?.Metrics2?.Query_time_avg | humanize : 'time' }}&nbsp;avg</span>
       </td>
-      <td style="width: 10%" class="no-left-border">
+      <td class="no-left-border w-10">
         <div class="scaling-svg-container app-tooltip"
              data-tooltip="Loading..."
              [appLatencyChart]="queryDetails?.Metrics2"
@@ -103,7 +103,7 @@
       <td class="text-xs-right no-right-border cell-overlay">
         <span>{{ queryDetails?.Metrics2?.Lock_time_avg | humanize : 'time' }}&nbsp;avg</span>
       </td>
-      <td style="width: 10%" class="no-left-border">
+      <td class="no-left-border w-10">
         <div class="scaling-svg-container app-tooltip" data-tooltip="Loading..." measurement="time"
              [appLatencyChart]="queryDetails?.Metrics2" metricPrefix="Lock_time"></div>
       </td>
@@ -133,7 +133,7 @@
       <td class="text-xs-right no-right-border cell-overlay">
         <span>{{ queryDetails?.Metrics2?.InnoDB_rec_lock_wait_avg | humanize : 'time' }}&nbsp;avg</span>
       </td>
-      <td style="width: 10%" class="no-left-border">
+      <td class="no-left-border w-10">
         <div class="scaling-svg-container app-tooltip" data-tooltip="Loading..." measurement="time"
              [appLatencyChart]="queryDetails?.Metrics2" metricPrefix="InnoDB_rec_lock_wait"></div>
       </td>
@@ -163,7 +163,7 @@
       <td class="text-xs-right no-right-border cell-overlay">
         <span>{{ queryDetails?.Metrics2?.InnoDB_IO_r_wait_avg | humanize : 'time' }}&nbsp;avg</span>
       </td>
-      <td style="width: 10%" class="no-left-border">
+      <td class="no-left-border w-10">
         <div class="scaling-svg-container app-tooltip" data-tooltip="Loading..." measurement="time"
              [appLatencyChart]="queryDetails?.Metrics2" metricPrefix="InnoDB_IO_r_wait"></div>
       </td>
@@ -193,7 +193,7 @@
       <td class="text-xs-right no-right-border cell-overlay">
         <span>{{ queryDetails?.Metrics2?.InnoDB_queue_wait_avg | humanize : 'time' }}&nbsp;avg</span>
       </td>
-      <td style="width: 10%" class="no-left-border">
+      <td class="no-left-border w-10">
         <div class="scaling-svg-container app-tooltip" data-tooltip="Loading..." measurement="time"
              [appLatencyChart]="queryDetails?.Metrics2" metricPrefix="InnoDB_queue_wait"></div>
       </td>
@@ -220,7 +220,7 @@
       <td class="text-xs-right no-right-border cell-overlay">
         <span>{{ queryDetails?.Metrics2?.InnoDB_IO_r_ops_avg | humanize : 'number' }}&nbsp;avg</span>
       </td>
-      <td style="width: 10%" class="no-left-border">
+      <td class="no-left-border w-10">
         <div class="scaling-svg-container app-tooltip" data-tooltip="Loading..." measurement="number"
              [appLatencyChart]="queryDetails?.Metrics2" metricPrefix="InnoDB_IO_r_ops"></div>
       </td>
@@ -250,7 +250,7 @@
       <td class="text-xs-right no-right-border cell-overlay">
         <span>{{ queryDetails?.Metrics2?.InnoDB_IO_r_bytes_avg | humanize : 'size' }}&nbsp;avg</span>
       </td>
-      <td style="width: 10%" class="no-left-border">
+      <td class="no-left-border w-10">
         <div class="scaling-svg-container app-tooltip" data-tooltip="Loading..." measurement="size"
              [appLatencyChart]="queryDetails?.Metrics2" metricPrefix="InnoDB_IO_r_bytes"></div>
       </td>
@@ -262,7 +262,7 @@
       <td class="text-xs-right no-right-border cell-overlay rate-sec">
         <span>{{ queryDetails?.Metrics2?.InnoDB_pages_distinct_avg | humanize : 'number' }}&nbsp;avg</span>
       </td>
-      <td style="width: 10%" class="no-left-border rate-load">
+      <td class="no-left-border rate-load w-10">
         <div class="scaling-svg-container app-tooltip" data-tooltip="Loading..." measurement="number"
              [appLatencyChart]="queryDetails?.Metrics2" metricPrefix="InnoDB_pages_distinct"></div>
       </td>
@@ -291,7 +291,7 @@
       <td class="text-xs-right no-right-border">
         -
       </td>
-      <td style="width: 10%" class="no-left-border">
+      <td class="no-left-border w-10">
       </td>
     </tr>
     <tr *ngIf="queryDetails?.Metrics2?.Rows_sent_sum">
@@ -315,7 +315,7 @@
       <td class="text-xs-right no-right-border cell-overlay">
         <span>{{ queryDetails?.Metrics2?.Rows_sent_avg | humanize : 'number' }}&nbsp;avg</span>
       </td>
-      <td style="width: 10%" class="no-left-border">
+      <td class="no-left-border w-10">
         <div class="scaling-svg-container app-tooltip" data-tooltip="Loading..." measurement="number"
              [appLatencyChart]="queryDetails?.Metrics2" metricPrefix="Rows_sent"></div>
       </td>
@@ -344,7 +344,7 @@
       <td class="text-xs-right no-right-border cell-overlay">
         <span>{{ queryDetails?.Metrics2?.Bytes_sent_avg | humanize : 'size' }}&nbsp;avg</span>
       </td>
-      <td style="width: 10%" class="no-left-border">
+      <td class="no-left-border w-10">
         <div class="scaling-svg-container app-tooltip" data-tooltip="Loading..." measurement="size"
              [appLatencyChart]="queryDetails?.Metrics2" metricPrefix="Bytes_sent"></div>
       </td>
@@ -373,7 +373,7 @@
       <td class="text-xs-right no-right-border cell-overlay">
         <span>{{ queryDetails?.Metrics2?.Rows_examined_avg | humanize : 'number' }}&nbsp;avg</span>
       </td>
-      <td style="width: 10%" class="no-left-border">
+      <td class="no-left-border w-10">
         <div class="scaling-svg-container app-tooltip" data-tooltip="Loading..." measurement="number"
              [appLatencyChart]="queryDetails?.Metrics2" metricPrefix="Rows_examined"></div>
       </td>
@@ -399,7 +399,7 @@
       <td class="text-xs-right no-right-border cell-overlay">
         <span>{{ queryDetails?.Metrics2?.Rows_affected_avg | humanize : 'number' }}&nbsp;avg</span>
       </td>
-      <td style="width: 10%" class="no-left-border">
+      <td class="no-left-border w-10">
         <div class="scaling-svg-container app-tooltip" data-tooltip="Loading..." measurement="number"
              [appLatencyChart]="queryDetails?.Metrics2" metricPrefix="Rows_affected"></div>
       </td>
@@ -433,7 +433,7 @@
       <td class="text-xs-right no-right-border">
         -
       </td>
-      <td style="width: 10%" class="no-left-border">
+      <td class="no-left-border w-10">
       </td>
     </tr>
     <tr *ngIf="queryDetails?.Metrics2?.Filesort_on_disk_sum">
@@ -465,7 +465,7 @@
       <td class="text-xs-right no-right-border">
         -
       </td>
-      <td style="width: 10%" class="no-left-border">
+      <td class="no-left-border w-10">
       </td>
     </tr>
     <tr *ngIf="queryDetails?.Metrics2?.Merge_passes_sum">
@@ -496,7 +496,7 @@
       <td class="text-xs-right no-right-border cell-overlay">
         <span>{{ queryDetails?.Metrics2?.Merge_passes_avg | humanize : 'number' }}&nbsp;avg</span>
       </td>
-      <td style="width: 10%" class="no-left-border">
+      <td class="no-left-border w-10">
         <div class="scaling-svg-container app-tooltip" data-tooltip="Loading..." measurement="number"
              [appLatencyChart]="queryDetails?.Metrics2" metricPrefix="Merge_passes"></div>
       </td>
@@ -529,7 +529,7 @@
       <td class="text-xs-right no-right-border">
         -
       </td>
-      <td style="width: 10%" class="no-left-border">
+      <td class="no-left-border w-10">
       </td>
     </tr>
     <tr *ngIf="queryDetails?.Metrics2?.Full_scan_sum">
@@ -556,7 +556,7 @@
       <td class="text-xs-right no-right-border">
         -
       </td>
-      <td style="width: 10%" class="no-left-border">
+      <td class="no-left-border w-10">
       </td>
     </tr>
     <tr *ngIf="queryDetails?.Metrics2?.Tmp_table_sum">
@@ -583,7 +583,7 @@
       <td class="text-xs-right no-right-border">
         -
       </td>
-      <td style="width: 10%" class="no-left-border">
+      <td class="no-left-border w-10">
       </td>
     </tr>
     <tr *ngIf="queryDetails?.Metrics2?.Tmp_tables_sum">
@@ -610,7 +610,7 @@
       <td class="text-xs-right no-right-border cell-overlay">
         <span>{{ queryDetails?.Metrics2?.Tmp_tables_avg | humanize : 'number' }}&nbsp;avg</span>
       </td>
-      <td style="width: 10%" class="no-left-border">
+      <td class="no-left-border w-10">
         <div class="scaling-svg-container app-tooltip" data-tooltip="Loading..." measurement="number"
              [appLatencyChart]="queryDetails?.Metrics2" metricPrefix="Tmp_tables"></div>
       </td>
@@ -640,7 +640,7 @@
       <td class="text-xs-right no-right-border">
         -
       </td>
-      <td style="width: 10%" class="no-left-border">
+      <td class="no-left-border w-10">
       </td>
     </tr>
     <tr *ngIf="queryDetails?.Metrics2?.Tmp_disk_tables_sum">
@@ -668,7 +668,7 @@
       <td class="text-xs-right no-right-border cell-overlay">
         <span>{{ queryDetails?.Metrics2?.Tmp_disk_tables_avg | humanize : 'number' }}&nbsp;avg</span>
       </td>
-      <td style="width: 10%" class="no-left-border">
+      <td class="no-left-border w-10">
         <div class="scaling-svg-container app-tooltip" data-tooltip="Loading..." measurement="number"
              [appLatencyChart]="queryDetails?.Metrics2" metricPrefix="Tmp_disk_tables"></div>
       </td>
@@ -698,7 +698,7 @@
       <td class="text-xs-right no-right-border cell-overlay">
         <span>{{ queryDetails?.Metrics2?.Tmp_table_sizes_avg | humanize : 'size' }}&nbsp;avg</span>
       </td>
-      <td style="width: 10%" class="no-left-border">
+      <td class="no-left-border w-10">
         <div class="scaling-svg-container app-tooltip" data-tooltip="Loading..." measurement="size"
              [appLatencyChart]="queryDetails?.Metrics2" metricPrefix="Tmp_table_sizes"></div>
       </td>
@@ -711,7 +711,11 @@
 <!--- additional info for query only-->
 <div *ngIf="!isSummary">
   <hr/>
-  <h3 class="d-inline">QUERY</h3>
+  <div class="row accordion-title">
+    <span class="col-md-2">
+      <h3 class="d-inline">QUERY</h3>
+    </span>
+  </div>
   <ngb-accordion activeIds="query-fingerprint">
     <ngb-panel id="query-fingerprint">
       <ng-template ngbPanelTitle>
@@ -719,7 +723,7 @@
       </ng-template>
       <ng-template ngbPanelContent>
         <i *ngIf="isLoading" class="fa fa-spinner fa-pulse fa-3x fa-fw loading"></i>
-        <pre *ngIf="!isLoading" style="margin: 1rem"><code [innerHTML]="fingerprint" id="query_fingerprint_code"></code></pre>
+        <pre *ngIf="!isLoading" class="code-output"><code [innerHTML]="fingerprint" id="query_fingerprint_code"></code></pre>
       </ng-template>
     </ngb-panel>
     <ngb-panel *ngIf="!!queryExample" id="query-example">
@@ -728,14 +732,14 @@
       </ng-template>
       <ng-template ngbPanelContent>
         <i *ngIf="isLoading" class="fa fa-spinner fa-pulse fa-3x fa-fw loading"></i>
-        <pre *ngIf="!isLoading" style="margin: 1rem"><code [innerHTML]="queryExample"
+        <pre *ngIf="!isLoading" class="code-output"><code [innerHTML]="queryExample"
                                                            id="query_example_code"></code></pre>
       </ng-template>
     </ngb-panel>
   </ngb-accordion>
 
   <hr *ngIf="!!queryExample"/>
-  <div class="row" *ngIf="!!queryExample">
+  <div class="row accordion-title" *ngIf="!!queryExample">
     <span class="col-md-2">
         <h3 class="d-inline">EXPLAIN</h3>
     </span>
@@ -749,14 +753,13 @@
                  id="databaseInput"
                  placeholder="`database-name`">
           <span class="input-group-btn">
-                    <button class="btn btn-primary" [disabled]="!dbName" style="width: 8em" (click)="getExplain();"
+                    <button class="btn btn-primary explain-button" [disabled]="!dbName" (click)="getExplain();"
                             type="submit">EXPLAIN</button>
                 </span>
         </div>
       </form>
     </div>
   </div>
-  <br/>
   <ngb-accordion activeIds="classic-explain" *ngIf="!!queryExample">
     <ngb-panel id="classic-explain">
       <ng-template ngbPanelTitle>
@@ -821,7 +824,7 @@
   </ngb-accordion>
 
   <hr/>
-  <div class="row">
+  <div class="row accordion-title">
     <span class="col-md-2">
         <h3 class="d-inline">TABLES</h3>
     </span>
@@ -834,17 +837,15 @@
                  [ngModelOptions]="{standalone: true}"
                  placeholder="`database-name`.`table-name`">
           <span class="input-group-btn">
-                    <button [disabled]="isDemo || !newDBTblNames" class="btn btn-primary" (click)="addDBTable();"
-                            style="width: 8em" type="submit">ADD</button>
+                    <button [disabled]="isDemo || !newDBTblNames" class="btn btn-primary explain-button" (click)="addDBTable();"
+                            type="submit">ADD</button>
                 </span>
         </div>
       </form>
     </div>
   </div>
 
-  <br/>
-
-  <div class="row">
+  <div class="row accordion-title">
     <div class="col-md-12">
       <div class="card w-100">
         <div class="card-block" id="db_tables_buttons">
@@ -869,7 +870,6 @@
       </div>
     </div>
   </div>
-  <br/>
   <ngb-accordion activeIds="table-create" *ngIf="queryDetails?.Query?.Tables?.length">
     <ngb-panel id="table-create">
       <ng-template ngbPanelTitle>
@@ -881,7 +881,7 @@
           <i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
           {{ createTableError }}
         </div>
-        <pre *ngIf="!isTableInfoLoading && !createTableError" style="margin: 1rem"><code [innerHTML]="createTable"
+        <pre *ngIf="!isTableInfoLoading && !createTableError" class="code-output"><code [innerHTML]="createTable"
                                                                                          id="table_create"></code></pre>
       </ng-template>
     </ngb-panel>
@@ -1003,7 +1003,8 @@
           <tbody *ngIf="!isLoading">
           <tr>
             <td>Query Count</td>
-            <td class="no-right-border" align="right">{{ queryDetails?.Metrics2?.Query_count_per_sec | humanize : 'number' }}
+            <td class="no-right-border" align="right">{{ queryDetails?.Metrics2?.Query_count_per_sec | humanize :
+              'number' }}
               (per sec)
             </td>
             <td style="width: 6em;" class="no-left-border">
@@ -1038,7 +1039,7 @@
             <td class="text-xs-right no-right-border">
               {{ queryDetails?.Metrics2?.Query_time_avg | humanize : 'time' }}&nbsp;avg
             </td>
-            <td style="width: 10%" class="no-left-border">
+            <td class="no-left-border w-10">
               <div class="scaling-svg-container app-tooltip"
                    data-tooltip="Loading..."
                    [appLatencyChart]="queryDetails?.Metrics2"
@@ -1049,7 +1050,8 @@
           </tr>
           <tr *ngIf="queryDetails?.Metrics2?.Lock_time_sum">
             <td>Lock Time</td>
-            <td class="no-right-border" align="right">{{ queryDetails?.Metrics2?.Lock_time_sum_per_sec | humanize : 'number' }}
+            <td class="no-right-border" align="right">{{ queryDetails?.Metrics2?.Lock_time_sum_per_sec | humanize :
+              'number' }}
               (avg load)
             </td>
             <td class="no-left-border">
@@ -1066,14 +1068,15 @@
             <td class="text-xs-right no-right-border">
               {{ queryDetails?.Metrics2?.Lock_time_avg | humanize : 'time' }}&nbsp;avg
             </td>
-            <td style="width: 10%" class="no-left-border">
+            <td class="no-left-border w-10">
               <div class="scaling-svg-container app-tooltip" data-tooltip="Loading..." measurement="time"
                    [appLatencyChart]="queryDetails?.Metrics2" metricPrefix="Lock_time"></div>
             </td>
           </tr>
           <tr *ngIf="queryDetails?.Metrics2?.InnoDB_rec_lock_wait_sum">
             <td>Innodb Row Lock Wait</td>
-            <td class="no-right-border" align="right">{{ queryDetails?.Metrics2?.InnoDB_rec_lock_wait_sum_per_sec | humanize : 'number' }} (avg load)
+            <td class="no-right-border" align="right">{{ queryDetails?.Metrics2?.InnoDB_rec_lock_wait_sum_per_sec |
+              humanize : 'number' }} (avg load)
             </td>
             <td class="no-left-border">
               <div class="scaling-svg-container app-tooltip" [appLoadSparklines]="queryDetails?.Sparks2"
@@ -1090,14 +1093,15 @@
             <td class="text-xs-right no-right-border">
               {{ queryDetails?.Metrics2?.InnoDB_rec_lock_wait_avg | humanize : 'time' }}&nbsp;avg
             </td>
-            <td style="width: 10%" class="no-left-border">
+            <td class="no-left-border w-10">
               <div class="scaling-svg-container app-tooltip" data-tooltip="Loading..." measurement="time"
                    [appLatencyChart]="queryDetails?.Metrics2" metricPrefix="InnoDB_rec_lock_wait"></div>
             </td>
           </tr>
           <tr *ngIf="queryDetails?.Metrics2?.InnoDB_IO_r_wait_sum">
             <td>Innodb IO Read Wait</td>
-            <td class="no-right-border" align="right">{{ queryDetails?.Metrics2?.InnoDB_IO_r_wait_sum_per_sec | humanize : 'number' }} (avg load)
+            <td class="no-right-border" align="right">{{ queryDetails?.Metrics2?.InnoDB_IO_r_wait_sum_per_sec | humanize
+              : 'number' }} (avg load)
             </td>
             <td class="no-left-border">
               <div class="scaling-svg-container app-tooltip" [appLoadSparklines]="queryDetails?.Sparks2"
@@ -1114,14 +1118,15 @@
             <td class="text-xs-right no-right-border">
               {{ queryDetails?.Metrics2?.InnoDB_IO_r_wait_avg | humanize : 'time' }}&nbsp;avg
             </td>
-            <td style="width: 10%" class="no-left-border">
+            <td class="no-left-border w-10">
               <div class="scaling-svg-container app-tooltip" data-tooltip="Loading..." measurement="time"
                    [appLatencyChart]="queryDetails?.Metrics2" metricPrefix="InnoDB_IO_r_wait"></div>
             </td>
           </tr>
           <tr *ngIf="queryDetails?.Metrics2?.InnoDB_queue_wait_sum">
             <td>Innodb Queue Wait</td>
-            <td class="no-right-border" align="right">{{ queryDetails?.Metrics2?.InnoDB_queue_wait_sum_per_sec | humanize : 'number'}} (avg load)
+            <td class="no-right-border" align="right">{{ queryDetails?.Metrics2?.InnoDB_queue_wait_sum_per_sec |
+              humanize : 'number'}} (avg load)
             </td>
             <td class="no-left-border">
               <div class="scaling-svg-container app-tooltip" [appLoadSparklines]="queryDetails?.Sparks2"
@@ -1138,14 +1143,15 @@
             <td class="text-xs-right no-right-border">
               {{ queryDetails?.Metrics2?.InnoDB_queue_wait_avg | humanize : 'time' }}&nbsp;avg
             </td>
-            <td style="width: 10%" class="no-left-border">
+            <td class="no-left-border w-10">
               <div class="scaling-svg-container app-tooltip" data-tooltip="Loading..." measurement="time"
                    [appLatencyChart]="queryDetails?.Metrics2" metricPrefix="InnoDB_queue_wait"></div>
             </td>
           </tr>
           <tr *ngIf="queryDetails?.Metrics2?.InnoDB_IO_r_ops_sum">
             <td>Innodb Read Ops</td>
-            <td class="no-right-border" align="right">{{ queryDetails?.Metrics2?.InnoDB_IO_r_ops_sum_per_sec | humanize : 'number' }} (per sec)
+            <td class="no-right-border" align="right">{{ queryDetails?.Metrics2?.InnoDB_IO_r_ops_sum_per_sec | humanize
+              : 'number' }} (per sec)
             </td>
             <td class="no-left-border">
               <div class="scaling-svg-container app-tooltip" [appLoadSparklines]="queryDetails?.Sparks2"
@@ -1161,14 +1167,15 @@
             <td class="text-xs-right no-right-border">
               {{ queryDetails?.Metrics2?.InnoDB_IO_r_ops_avg | humanize : 'number' }}&nbsp;avg
             </td>
-            <td style="width: 10%" class="no-left-border">
+            <td class="no-left-border w-10">
               <div class="scaling-svg-container app-tooltip" data-tooltip="Loading..." measurement="number"
                    [appLatencyChart]="queryDetails?.Metrics2" metricPrefix="InnoDB_IO_r_ops"></div>
             </td>
           </tr>
           <tr *ngIf="queryDetails?.Metrics2?.InnoDB_IO_r_bytes_sum">
             <td>Innodb Read Bytes</td>
-            <td class="no-right-border" align="right">{{ queryDetails?.Metrics2?.InnoDB_IO_r_bytes_sum_per_sec | humanize : 'size'}} (per sec)
+            <td class="no-right-border" align="right">{{ queryDetails?.Metrics2?.InnoDB_IO_r_bytes_sum_per_sec |
+              humanize : 'size'}} (per sec)
             </td>
             <td class="no-left-border">
               <div class="scaling-svg-container app-tooltip" [appLoadSparklines]="queryDetails?.Sparks2"
@@ -1185,7 +1192,7 @@
             <td class="text-xs-right no-right-border">
               {{ queryDetails?.Metrics2?.InnoDB_IO_r_bytes_avg | humanize : 'size' }}&nbsp;avg
             </td>
-            <td style="width: 10%" class="no-left-border">
+            <td class="no-left-border w-10">
               <div class="scaling-svg-container app-tooltip" data-tooltip="Loading..." measurement="size"
                    [appLatencyChart]="queryDetails?.Metrics2" metricPrefix="InnoDB_IO_r_bytes"></div>
             </td>
@@ -1197,14 +1204,15 @@
             <td class="text-xs-right no-right-border">
               {{ queryDetails?.Metrics2?.InnoDB_pages_distinct_avg | humanize : 'number' }}&nbsp;avg
             </td>
-            <td style="width: 10%" class="no-left-border">
+            <td class="no-left-border w-10">
               <div class="scaling-svg-container app-tooltip" data-tooltip="Loading..." measurement="number"
                    [appLatencyChart]="queryDetails?.Metrics2" metricPrefix="InnoDB_pages_distinct"></div>
             </td>
           </tr>
           <tr *ngIf="queryDetails?.Metrics2?.QC_Hit_sum">
             <td>Query Cache Hits</td>
-            <td class="no-right-border" align="right">{{ queryDetails?.Metrics2?.QC_Hit_sum_per_sec | humanize : 'number' }}
+            <td class="no-right-border" align="right">{{ queryDetails?.Metrics2?.QC_Hit_sum_per_sec | humanize :
+              'number' }}
               (per sec)
             </td>
             <td class="no-left-border">
@@ -1221,12 +1229,13 @@
             <td class="text-xs-right no-right-border">
               -
             </td>
-            <td style="width: 10%" class="no-left-border">
+            <td class="no-left-border w-10">
             </td>
           </tr>
           <tr *ngIf="queryDetails?.Metrics2?.Rows_sent_sum">
             <td>Rows Sent</td>
-            <td class="no-right-border" align="right">{{ queryDetails?.Metrics2?.Rows_sent_sum_per_sec | humanize : 'number' }}
+            <td class="no-right-border" align="right">{{ queryDetails?.Metrics2?.Rows_sent_sum_per_sec | humanize :
+              'number' }}
               (per sec)
             </td>
             <td class="no-left-border">
@@ -1242,14 +1251,15 @@
             <td class="text-xs-right no-right-border">
               {{ queryDetails?.Metrics2?.Rows_sent_avg | humanize : 'number' }}&nbsp;avg
             </td>
-            <td style="width: 10%" class="no-left-border">
+            <td class="no-left-border w-10">
               <div class="scaling-svg-container app-tooltip" data-tooltip="Loading..." measurement="number"
                    [appLatencyChart]="queryDetails?.Metrics2" metricPrefix="Rows_sent"></div>
             </td>
           </tr>
           <tr *ngIf="queryDetails?.Metrics2?.Bytes_sent_sum">
             <td>Bytes Sent</td>
-            <td class="no-right-border" align="right">{{ queryDetails?.Metrics2?.Bytes_sent_sum_per_sec | humanize : 'size' }}
+            <td class="no-right-border" align="right">{{ queryDetails?.Metrics2?.Bytes_sent_sum_per_sec | humanize :
+              'size' }}
               (per sec)
             </td>
             <td class="no-left-border">
@@ -1266,14 +1276,15 @@
             <td class="text-xs-right no-right-border">
               {{ queryDetails?.Metrics2?.Bytes_sent_avg | humanize : 'size' }}&nbsp;avg
             </td>
-            <td style="width: 10%" class="no-left-border">
+            <td class="no-left-border w-10">
               <div class="scaling-svg-container app-tooltip" data-tooltip="Loading..." measurement="size"
                    [appLatencyChart]="queryDetails?.Metrics2" metricPrefix="Bytes_sent"></div>
             </td>
           </tr>
           <tr *ngIf="queryDetails?.Metrics2?.Rows_examined_sum">
             <td>Rows Examined</td>
-            <td class="no-right-border" align="right">{{ queryDetails?.Metrics2?.Rows_examined_sum_per_sec | humanize : 'number' }} (per sec)
+            <td class="no-right-border" align="right">{{ queryDetails?.Metrics2?.Rows_examined_sum_per_sec | humanize :
+              'number' }} (per sec)
             </td>
             <td class="no-left-border">
               <div class="scaling-svg-container app-tooltip" [appLoadSparklines]="queryDetails?.Sparks2"
@@ -1289,14 +1300,15 @@
             <td class="text-xs-right no-right-border">
               {{ queryDetails?.Metrics2?.Rows_examined_avg | humanize : 'number' }}&nbsp;avg
             </td>
-            <td style="width: 10%" class="no-left-border">
+            <td class="no-left-border w-10">
               <div class="scaling-svg-container app-tooltip" data-tooltip="Loading..." measurement="number"
                    [appLatencyChart]="queryDetails?.Metrics2" metricPrefix="Rows_examined"></div>
             </td>
           </tr>
           <tr *ngIf="queryDetails?.Metrics2?.Rows_affected_sum">
             <td>Rows Affected</td>
-            <td class="no-right-border" align="right">{{ queryDetails?.Metrics2?.Rows_affected_sum_per_sec | humanize : 'number' }} (per sec)
+            <td class="no-right-border" align="right">{{ queryDetails?.Metrics2?.Rows_affected_sum_per_sec | humanize :
+              'number' }} (per sec)
             </td>
             <td class="no-left-border">
               <div class="scaling-svg-container app-tooltip" [appLoadSparklines]="queryDetails?.Sparks2"
@@ -1311,7 +1323,7 @@
             <td class="text-xs-right no-right-border">
               {{ queryDetails?.Metrics2?.Rows_affected_avg | humanize : 'number' }}&nbsp;avg
             </td>
-            <td style="width: 10%" class="no-left-border">
+            <td class="no-left-border w-10">
               <div class="scaling-svg-container app-tooltip" data-tooltip="Loading..." measurement="number"
                    [appLatencyChart]="queryDetails?.Metrics2" metricPrefix="Rows_affected"></div>
             </td>
@@ -1321,7 +1333,8 @@
             <td>External Sorts
               <small>(Filesort)</small>
             </td>
-            <td class="no-right-border" align="right">{{ queryDetails?.Metrics2?.Filesort_sum_per_sec | humanize : 'number' }}
+            <td class="no-right-border" align="right">{{ queryDetails?.Metrics2?.Filesort_sum_per_sec | humanize :
+              'number' }}
               (per sec)
             </td>
             <td class="no-left-border">
@@ -1338,14 +1351,15 @@
             <td class="text-xs-right no-right-border">
               -
             </td>
-            <td style="width: 10%" class="no-left-border">
+            <td class="no-left-border w-10">
             </td>
           </tr>
           <tr *ngIf="queryDetails?.Metrics2?.Filesort_on_disk_sum">
             <td>External Sorts of Disk
               <small>(Filesort on disk)</small>
             </td>
-            <td class="no-right-border" align="right">{{ queryDetails?.Metrics2?.Filesort_on_disk_sum_per_sec | humanize : 'number' }} (per sec)
+            <td class="no-right-border" align="right">{{ queryDetails?.Metrics2?.Filesort_on_disk_sum_per_sec | humanize
+              : 'number' }} (per sec)
             </td>
             <td class="no-left-border">
               <div class="scaling-svg-container app-tooltip" [appLoadSparklines]="queryDetails?.Sparks2"
@@ -1362,14 +1376,15 @@
             <td class="text-xs-right no-right-border">
               -
             </td>
-            <td style="width: 10%" class="no-left-border">
+            <td class="no-left-border w-10">
             </td>
           </tr>
           <tr *ngIf="queryDetails?.Metrics2?.Merge_passes_sum">
             <td>External Sort Passes
               <small>(Merge Passes)</small>
             </td>
-            <td class="no-right-border" align="right">{{ queryDetails?.Metrics2?.Merge_passes_sum_per_sec | humanize : 'number' }} (per sec)
+            <td class="no-right-border" align="right">{{ queryDetails?.Metrics2?.Merge_passes_sum_per_sec | humanize :
+              'number' }} (per sec)
             </td>
             <td class="no-left-border">
               <div class="scaling-svg-container app-tooltip" [appLoadSparklines]="queryDetails?.Sparks2"
@@ -1385,7 +1400,7 @@
             <td class="text-xs-right no-right-border">
               {{ queryDetails?.Metrics2?.Merge_passes_avg | humanize : 'number' }}&nbsp;avg
             </td>
-            <td style="width: 10%" class="no-left-border">
+            <td class="no-left-border w-10">
               <div class="scaling-svg-container app-tooltip" data-tooltip="Loading..." measurement="number"
                    [appLatencyChart]="queryDetails?.Metrics2" metricPrefix="Merge_passes"></div>
             </td>
@@ -1394,7 +1409,8 @@
             <td>Cartesian Products
               <small>(Full Joins)</small>
             </td>
-            <td class="no-right-border" align="right">{{ queryDetails?.Metrics2?.Full_join_sum_per_sec | humanize : 'number' }}
+            <td class="no-right-border" align="right">{{ queryDetails?.Metrics2?.Full_join_sum_per_sec | humanize :
+              'number' }}
               (per sec)
             </td>
             <td class="no-left-border">
@@ -1411,12 +1427,13 @@
             <td class="text-xs-right no-right-border">
               -
             </td>
-            <td style="width: 10%" class="no-left-border">
+            <td class="no-left-border w-10">
             </td>
           </tr>
           <tr *ngIf="queryDetails?.Metrics2?.Full_scan_sum">
             <td>Full Table Scans</td>
-            <td class="no-right-border" align="right">{{ queryDetails?.Metrics2?.Full_scan_sum_per_sec | humanize : 'number' }}
+            <td class="no-right-border" align="right">{{ queryDetails?.Metrics2?.Full_scan_sum_per_sec | humanize :
+              'number' }}
               (per sec)
             </td>
             <td class="no-left-border">
@@ -1433,12 +1450,13 @@
             <td class="text-xs-right no-right-border">
               -
             </td>
-            <td style="width: 10%" class="no-left-border">
+            <td class="no-left-border w-10">
             </td>
           </tr>
           <tr *ngIf="queryDetails?.Metrics2?.Tmp_table_sum">
             <td>Queries Requiring Tmp Table In Memory</td>
-            <td class="no-right-border" align="right">{{ queryDetails?.Metrics2?.Tmp_table_sum_per_sec | humanize : 'number' }}
+            <td class="no-right-border" align="right">{{ queryDetails?.Metrics2?.Tmp_table_sum_per_sec | humanize :
+              'number' }}
               (per sec)
             </td>
             <td class="no-left-border">
@@ -1455,12 +1473,13 @@
             <td class="text-xs-right no-right-border">
               -
             </td>
-            <td style="width: 10%" class="no-left-border">
+            <td class="no-left-border w-10">
             </td>
           </tr>
           <tr *ngIf="queryDetails?.Metrics2?.Tmp_tables_sum">
             <td>Number of Tmp table in Memory</td>
-            <td class="no-right-border" align="right">{{ queryDetails?.Metrics2?.Tmp_tables_sum_per_sec | humanize : 'number' }} (per sec)
+            <td class="no-right-border" align="right">{{ queryDetails?.Metrics2?.Tmp_tables_sum_per_sec | humanize :
+              'number' }} (per sec)
             </td>
             <td class="no-left-border">
               <div class="scaling-svg-container app-tooltip" [appLoadSparklines]="queryDetails?.Sparks2"
@@ -1476,14 +1495,15 @@
             <td class="text-xs-right no-right-border">
               {{ queryDetails?.Metrics2?.Tmp_tables_avg | humanize : 'number' }}&nbsp;avg
             </td>
-            <td style="width: 10%" class="no-left-border">
+            <td class="no-left-border w-10">
               <div class="scaling-svg-container app-tooltip" data-tooltip="Loading..." measurement="number"
                    [appLatencyChart]="queryDetails?.Metrics2" metricPrefix="Tmp_tables"></div>
             </td>
           </tr>
           <tr *ngIf="queryDetails?.Metrics2?.Tmp_table_on_disk_sum">
             <td>Queries Requiring Tmp Table on Disk</td>
-            <td class="no-right-border" align="right">{{ queryDetails?.Metrics2?.Tmp_table_on_disk_sum_per_sec | humanize : 'number' }} (per sec)
+            <td class="no-right-border" align="right">{{ queryDetails?.Metrics2?.Tmp_table_on_disk_sum_per_sec |
+              humanize : 'number' }} (per sec)
             </td>
             <td class="no-left-border">
               <div class="scaling-svg-container app-tooltip" [appLoadSparklines]="queryDetails?.Sparks2"
@@ -1500,12 +1520,13 @@
             <td class="text-xs-right no-right-border">
               -
             </td>
-            <td style="width: 10%" class="no-left-border">
+            <td class="no-left-border w-10">
             </td>
           </tr>
           <tr *ngIf="queryDetails?.Metrics2?.Tmp_disk_tables_sum">
             <td>Number of Tmp Tables on Disk</td>
-            <td class="no-right-border" align="right">{{ queryDetails?.Metrics2?.Tmp_disk_tables_sum_per_sec | humanize : 'number' }} (per sec)
+            <td class="no-right-border" align="right">{{ queryDetails?.Metrics2?.Tmp_disk_tables_sum_per_sec | humanize
+              : 'number' }} (per sec)
             </td>
             <td class="no-left-border">
               <div class="scaling-svg-container app-tooltip" [appLoadSparklines]="queryDetails?.Sparks2"
@@ -1522,14 +1543,15 @@
             <td class="text-xs-right no-right-border">
               {{ queryDetails?.Metrics2?.Tmp_disk_tables_avg | humanize : 'number' }}&nbsp;avg
             </td>
-            <td style="width: 10%" class="no-left-border">
+            <td class="no-left-border w-10">
               <div class="scaling-svg-container app-tooltip" data-tooltip="Loading..." measurement="number"
                    [appLatencyChart]="queryDetails?.Metrics2" metricPrefix="Tmp_disk_tables"></div>
             </td>
           </tr>
           <tr *ngIf="queryDetails?.Metrics2?.Tmp_table_sizes_sum">
             <td>Total Size of Tmp Tables</td>
-            <td class="no-right-border" align="right">{{ queryDetails?.Metrics2?.Tmp_table_sizes_sum_per_sec | humanize : 'size' }} (per sec)
+            <td class="no-right-border" align="right">{{ queryDetails?.Metrics2?.Tmp_table_sizes_sum_per_sec | humanize
+              : 'size' }} (per sec)
             </td>
             <td class="no-left-border">
               <div class="scaling-svg-container app-tooltip" [appLoadSparklines]="queryDetails?.Sparks2"
@@ -1546,7 +1568,7 @@
             <td class="text-xs-right no-right-border">
               {{ queryDetails?.Metrics2?.Tmp_table_sizes_avg | humanize : 'size' }}&nbsp;avg
             </td>
-            <td style="width: 10%" class="no-left-border">
+            <td class="no-left-border w-10">
               <div class="scaling-svg-container app-tooltip" data-tooltip="Loading..." measurement="size"
                    [appLatencyChart]="queryDetails?.Metrics2" metricPrefix="Tmp_table_sizes"></div>
             </td>
@@ -1560,6 +1582,7 @@
       <div *ngIf="!isSummary">
         <hr/>
         <h3 class="d-inline">QUERY</h3>
+        <br/>
         <ngb-accordion activeIds="query-fingerprint">
           <ngb-panel id="query-fingerprint">
             <ng-template ngbPanelTitle>
@@ -1567,7 +1590,7 @@
             </ng-template>
             <ng-template ngbPanelContent>
               <i *ngIf="isLoading" class="fa fa-spinner fa-pulse fa-3x fa-fw loading"></i>
-              <pre *ngIf="!isLoading" style="margin: 1rem"><code [innerHTML]="fingerprint"
+              <pre *ngIf="!isLoading" class="code-output"><code [innerHTML]="fingerprint"
                                                                  id="query_fingerprint_code"></code></pre>
             </ng-template>
           </ngb-panel>
@@ -1577,7 +1600,7 @@
             </ng-template>
             <ng-template ngbPanelContent>
               <i *ngIf="isLoading" class="fa fa-spinner fa-pulse fa-3x fa-fw loading"></i>
-              <pre *ngIf="!isLoading" style="margin: 1rem"><code [innerHTML]="queryExample"
+              <pre *ngIf="!isLoading" class="code-output"><code [innerHTML]="queryExample"
                                                                  id="query_example_code"></code></pre>
             </ng-template>
           </ngb-panel>
@@ -1585,9 +1608,9 @@
 
         <hr *ngIf="!!queryExample"/>
         <div class="row" *ngIf="!!queryExample">
-    <span class="col-md-2">
-        <h3 class="d-inline">EXPLAIN</h3>
-    </span>
+          <span class="col-md-2">
+            <h3 class="d-inline">EXPLAIN</h3>
+         </span>
           <div class="col-md-10">
             <form class="form-inline pull-right">
               <div class="input-group">
@@ -1599,7 +1622,7 @@
                        id="databaseInput"
                        placeholder="`database-name`">
                 <span class="input-group-btn">
-                    <button class="btn btn-primary" [disabled]="!dbName" style="width: 8em" (click)="getExplain();"
+                    <button class="btn btn-primary explain-button" [disabled]="!dbName" (click)="getExplain();"
                             type="submit">EXPLAIN</button>
                 </span>
               </div>
@@ -1675,9 +1698,9 @@
 
         <hr/>
         <div class="row">
-    <span class="col-md-2">
-        <h3 class="d-inline">TABLES</h3>
-    </span>
+          <span class="col-md-2">
+            <h3 class="d-inline">TABLES</h3>
+          </span>
           <div class="col-md-10">
             <form class="form-inline pull-right" (submit)="addDBTable();">
               <label for="dbTblNamesInput">DB and table</label>&nbsp;
@@ -1687,16 +1710,14 @@
                        [ngModelOptions]="{standalone: true}"
                        placeholder="`database-name`.`table-name`">
                 <span class="input-group-btn">
-                    <button [disabled]="isDemo || !newDBTblNames" class="btn btn-primary" (click)="addDBTable();"
-                            style="width: 8em" type="submit">ADD</button>
+                    <button [disabled]="isDemo || !newDBTblNames" class="btn btn-primary explain-button" (click)="addDBTable();"
+                            type="submit">ADD</button>
                 </span>
               </div>
             </form>
           </div>
         </div>
-
         <br/>
-
         <div class="row">
           <div class="col-md-12">
             <div class="card w-100">
@@ -1735,7 +1756,7 @@
                 <i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
                 {{ createTableError }}
               </div>
-              <pre *ngIf="!isTableInfoLoading && !createTableError" style="margin: 1rem"><code [innerHTML]="createTable"
+              <pre *ngIf="!isTableInfoLoading && !createTableError" class="code-output"><code [innerHTML]="createTable"
                                                                                                id="table_create"></code></pre>
             </ng-template>
           </ngb-panel>
