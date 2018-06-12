@@ -42,7 +42,7 @@
     "rxjs": "^5.5.6",
     "ts-helpers": "1.1.2",
     "vkbeautify": "^0.99.3",
-    "zone.js": "^0.8.20"
+    "zone.js": "^0.8.21"
   },
   "devDependencies": {
     "@angular/cli": "^1.7.3",
