@@ -2036,8 +2036,7 @@ var PageNotFoundComponent = /** @class */ (function () {
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return environment; });
 var environment = {
     production: true,
-    // demoHosts: ['163.172.51.248', 'pmmdemo.percona.com'],
-    demoHosts: ['127.0.0.1'],
+    demoHosts: ['163.172.51.248', 'pmmdemo.percona.com'],
     version: __webpack_require__("./package.json").version
 };
 
@@ -5321,8 +5320,7 @@ var SummaryService = /** @class */ (function () {
 // The list of which env maps to which file can be found in `angular-cli.json`.
 var environment = {
     production: false,
-    // demoHosts: ['163.172.51.248', 'pmmdemo.percona.com'],
-    demoHosts: ['127.0.0.1'],
+    demoHosts: ['163.172.51.248', 'pmmdemo.percona.com'],
     version: 'dev'
 };
 
@@ -5366,4 +5364,4 @@ module.exports = __webpack_require__("./src/main.ts");
 /***/ })
 
 },[0]);
-//# sourceMappingURL=main.970f32a7f26706c03ca0.bundle.js.map
+//# sourceMappingURL=main.bc144b73604cb08cf580.bundle.js.map
