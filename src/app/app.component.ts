@@ -25,7 +25,7 @@ export class AppComponent implements OnInit {
   }
 
   toggleTheme() {
-    this.theme = this.theme === 'app-theme-light-bbb' ? 'app-theme-dark' : 'app-theme-light';
+    this.theme = this.theme === 'app-theme-light' ? 'app-theme-dark' : 'app-theme-light';
     this.setCookie('theme', this.theme)
     this.document.body.className = this.theme;
   }

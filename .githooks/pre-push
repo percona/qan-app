@@ -1,4 +1,7 @@
 #!/bin/sh
+# This pre-post git hook makes only basic check of a build.
+# Please double check if you made a build over all you changes and committed it.
+# Use --no-verify flag on your risk.
 
 # checks if dist/qan-app/ is the newest againts node_modules/ and src/ folders.
 if [ `stat -f "%m" dist/qan-app/` -ge `stat -f "%m" node_modules/` -a `stat -f "%m" dist/qan-app/` -ge `stat -f "%m" src/` ] ; then
@@ -15,8 +18,3 @@ else
 	echo "Please do npm run build, add dist/qan-app/ and commit."
 	exit 1
 fi
-
-echo "\n\n✄--------------------------------------------------------"
-echo "This pre-post git hook makes only basic check of a build."
-echo "Please double check if you made a build over all you changes and committed it."
-echo "Use --no-verify flag on your risk."

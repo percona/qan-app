@@ -1069,7 +1069,7 @@ var AppComponent = /** @class */ (function () {
         this.hideNav = this.inIframe() || instanceService.dbServers.length === 0;
     }
     AppComponent.prototype.toggleTheme = function () {
-        this.theme = this.theme === 'app-theme-light-bbb' ? 'app-theme-dark' : 'app-theme-light';
+        this.theme = this.theme === 'app-theme-light' ? 'app-theme-dark' : 'app-theme-light';
         this.setCookie('theme', this.theme);
         this.document.body.className = this.theme;
     };
@@ -5364,4 +5364,4 @@ module.exports = __webpack_require__("./src/main.ts");
 /***/ })
 
 },[0]);
-//# sourceMappingURL=main.bc144b73604cb08cf580.bundle.js.map
+//# sourceMappingURL=main.7403ec587dc5db36e031.bundle.js.map
