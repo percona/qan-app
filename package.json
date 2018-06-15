@@ -10,10 +10,7 @@
     "test": "ng test",
     "e2e": "ng e2e --proxy-config proxy.conf.json",
     "server": "PATH=$(npm bin):$PATH; webpack-dev-server --config webpack.config.js",
-    "build:navless": "ng b -bh '/qan/' -pr -aot -op dist/qan-app --environment=navless --output-hashing=all",
-    "build:prod": "ng b -bh '/qan/' -pr -aot -op dist/qan-app --environment=prod --output-hashing=all",
-    "build:demo": "ng b -bh '/qan/' -pr -aot -op dist/qan-app --environment=demo --output-hashing=all",
-    "build:dev": "ng b -bh '/qan/' -pr -aot -op dist/qan-app --output-hashing=all",
+    "build": "ng b -bh '/qan/' -pr -aot -op dist/qan-app --environment=prod --output-hashing=all",
     "pack": "cd dist/; tar -czf qan-app-`date +%Y%m%dT%H%m%S`.tar.gz qan-app",
     "clean": "rm -r dist/*"
   },
@@ -42,7 +39,7 @@
     "rxjs": "^5.5.6",
     "ts-helpers": "1.1.2",
     "vkbeautify": "^0.99.3",
-    "zone.js": "^0.8.20"
+    "zone.js": "^0.8.21"
   },
   "devDependencies": {
     "@angular/cli": "^1.7.3",

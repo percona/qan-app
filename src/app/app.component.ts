@@ -13,19 +13,19 @@ import * as moment from 'moment';
 export class AppComponent implements OnInit {
   title = 'Query Analytics';
   version = environment.version;
-  isDemo = environment.demo;
+  isDemo = false;
   hideNav = false;
   isInstancesListEmpty: boolean;
   theme = 'app-theme-light';
 
   constructor(instanceService: InstanceService, @Inject(DOCUMENT) private document) {
+    this.isDemo = environment.demoHosts.indexOf(location.hostname) > -1;
     // show message how to configure pmm-client.
-    console.log(this.inIframe() || instanceService.dbServers.length === 0);
     this.hideNav = this.inIframe() || instanceService.dbServers.length === 0;
   }
 
   toggleTheme() {
-    this.theme = this.theme === 'app-theme-light' ? 'app-theme-dark' : 'app-theme-light';
+    this.theme = this.theme === 'app-theme-light-bbb' ? 'app-theme-dark' : 'app-theme-light';
     this.setCookie('theme', this.theme)
     this.document.body.className = this.theme;
   }

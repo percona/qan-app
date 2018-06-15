@@ -23,7 +23,7 @@ export interface QueryParams {
  */
 export abstract class CoreComponent implements OnDestroy {
 
-    public isDemo = environment.demo;
+    public isDemo = false;
     protected routerSubscription: Subscription;
     public queryParams: QueryParams;
     public previousQueryParams: QueryParams;
@@ -43,6 +43,7 @@ export abstract class CoreComponent implements OnDestroy {
 
     constructor(protected route: ActivatedRoute, protected router: Router,
         protected instanceService: InstanceService) {
+        this.isDemo =  environment.demoHosts.includes(location.hostname);
         this.dbServer = instanceService.dbServers[0];
         this.agent = instanceService.dbServers[0].Agent;
         this.dbServers = instanceService.dbServers;
