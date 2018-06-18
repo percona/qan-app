@@ -21,7 +21,7 @@ import { Moment } from 'moment';
 export class NavComponent extends CoreComponent implements OnDestroy {
   protected routerSubscription: Subscription;
 
-  public isDemo = environment.demo;
+  public isDemo = false;
 
   public isExtHidden: boolean;
 
@@ -44,6 +44,7 @@ export class NavComponent extends CoreComponent implements OnDestroy {
   public constructor(route: ActivatedRoute, router: Router, instanceService: InstanceService) {
     super(route, router, instanceService);
     const momentFormatPipe = new MomentFormatPipe();
+    this.isDemo = environment.demoHosts.includes(location.hostname);
     this.timezone = momentFormatPipe.getCookie('timezone') || 'browser';
   }
 

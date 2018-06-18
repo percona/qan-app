@@ -1,8 +1,9 @@
-
+init:
+	git config core.hooksPath .githooks
 
 build:
 	rm -rf dist/*
-	npm run build:prod
+	npm run build
 	npm run pack
 deploy:
 	docker exec pmm-server bash -c 'rm -rf /usr/share/percona-qan-app/*'
