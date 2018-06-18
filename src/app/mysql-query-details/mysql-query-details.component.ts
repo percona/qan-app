@@ -19,11 +19,14 @@ export class MySQLQueryDetailsComponent extends CoreComponent implements OnInit 
   public queryDetails: QueryDetails;
   protected tableInfo;
   public createTable: string;
+  public statusTable;
+  public indexTable;
   public fingerprint: string;
   public queryExample: string;
   public classicExplain;
   public jsonExplain;
   public visualExplain;
+  public dataExplain;
   public dbName: string;
   public dbTblNames: string;
   protected newDBTblNames: string;
@@ -118,7 +121,6 @@ export class MySQLQueryDetailsComponent extends CoreComponent implements OnInit 
     if (this.dbName === '') {
       this.dbName = this.getDBName();
     }
-
     const query = this.queryDetails.Example.Query;
     // https://github.com/percona/go-mysql/blob/master/event/class.go#L25
     const maxExampleBytes = 10240;
@@ -134,16 +136,16 @@ export class MySQLQueryDetailsComponent extends CoreComponent implements OnInit 
     }
 
     try {
-      let data = await this.queryDetailsService.getExplain(agentUUID, dbServerUUID, this.dbName, query);
-      if (data.hasOwnProperty('Error') && data['Error'] !== '') {
-        throw new Error(data['Error']);
+      // let data = await this.queryDetailsService.getExplain(agentUUID, dbServerUUID, this.dbName, query);
+      this.dataExplain = await this.queryDetailsService.getExplain(agentUUID, dbServerUUID, this.dbName, query);
+      if (this.dataExplain.hasOwnProperty('Error') && this.dataExplain['Error'] !== '') {
+        throw new Error(this.dataExplain['Error']);
       }
-      data = JSON.parse(atob(data.Data));
-      this.classicExplain = data.Classic;
-      this.visualExplain = data.Visual;
-
+      this.dataExplain = JSON.parse(atob(this.dataExplain.Data));
+      this.classicExplain = this.dataExplain.Classic;
+      this.visualExplain = this.dataExplain.Visual;
       try {
-        this.jsonExplain = JSON.parse(data.JSON);
+        this.jsonExplain = JSON.parse(this.dataExplain.JSON);
       } catch (err) {
         this.jsonExplainError = err.message;
       }
@@ -177,6 +179,8 @@ export class MySQLQueryDetailsComponent extends CoreComponent implements OnInit 
       .then(data => {
         const info = data[`${dbName}.${tblName}`];
         this.tableInfo = info;
+        this.statusTable = info.Status;
+        this.indexTable = info.Index;
         try {
           this.createTable = hljs.highlight('sql', this.tableInfo.Create).value;
         } catch (e) { }
