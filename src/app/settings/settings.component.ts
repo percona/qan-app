@@ -32,7 +32,7 @@ export class SettingsComponent extends CoreComponent {
   ];
 
   public logPeriod = 12;
-  public isDemo = environment.demo;
+  public isDemo = false;
   isSuccess = false;
   isError = false;
 
@@ -40,6 +40,7 @@ export class SettingsComponent extends CoreComponent {
               protected settingsService: SettingsService,
               protected instanceService: InstanceService) {
     super(route, router, instanceService);
+    this.isDemo = environment.demoHosts.includes(location.hostname);
   }
 
 

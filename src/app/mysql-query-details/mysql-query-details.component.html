@@ -771,40 +771,43 @@
           <i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
           {{ jsonExplainError }}
         </div>
-        <table *ngIf="!isExplainLoading && !classicExplainError" class="table table-striped table-hover table-sm ma-0">
-          <thead>
-          <tr>
-            <th width="3%" title="Id">Id</th>
-            <th title="SelectType">SelectType</th>
-            <th title="Table">Table</th>
-            <th title="Partitions">Partitions</th>
-            <th title="CreateTable">CreateTable</th>
-            <th title="Type">Type</th>
-            <th title="PossibleKeys">PossibleKeys</th>
-            <th title="Key">Key</th>
-            <th title="KeyLen">KeyLen</th>
-            <th width="5%" title="Ref">Ref</th>
-            <th title="Rows">Rows</th>
-            <th title="Extra">Extra</th>
-          </tr>
-          </thead>
-          <tbody>
-          <tr *ngFor="let row of classicExplain">
-            <td [attr.title]="row.Id">{{ row.Id }}</td>
-            <td [attr.title]="row.SelectType">{{ row.SelectType }}</td>
-            <td [attr.title]="row.Table">{{ row.Table }}</td>
-            <td [attr.title]="row.Partitions">{{ row.Partitions }}</td>
-            <td [attr.title]="row.CreateTable">{{ row.CreateTable }}</td>
-            <td [attr.title]="row.Type">{{ row.Type }}</td>
-            <td [attr.title]="row.PossibleKeys">{{ row?.PossibleKeys?.replace(',', ', ') }}</td>
-            <td [attr.title]="row.Key">{{ row.Key }}</td>
-            <td [attr.title]="row.KeyLen">{{ row.KeyLen }}</td>
-            <td [attr.title]="row.Ref">{{ row.Ref }}</td>
-            <td [attr.title]="row.Rows">{{ row.Rows }}</td>
-            <td [attr.title]="row.Extra">{{ row.Extra }}</td>
-          </tr>
-          </tbody>
-        </table>
+        <div class="data-output">
+          <table *ngIf="!isExplainLoading && !classicExplainError"
+                 class="table table-striped table-hover table-sm ma-0">
+            <thead>
+            <tr>
+              <th width="3%" title="Id">Id</th>
+              <th title="SelectType">SelectType</th>
+              <th title="Table">Table</th>
+              <th title="Partitions">Partitions</th>
+              <th title="CreateTable">CreateTable</th>
+              <th title="Type">Type</th>
+              <th title="PossibleKeys">PossibleKeys</th>
+              <th title="Key">Key</th>
+              <th title="KeyLen">KeyLen</th>
+              <th width="5%" title="Ref">Ref</th>
+              <th title="Rows">Rows</th>
+              <th title="Extra">Extra</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr *ngFor="let row of classicExplain">
+              <td [attr.title]="row.Id">{{ row.Id }}</td>
+              <td [attr.title]="row.SelectType">{{ row.SelectType }}</td>
+              <td [attr.title]="row.Table">{{ row.Table }}</td>
+              <td [attr.title]="row.Partitions">{{ row.Partitions }}</td>
+              <td [attr.title]="row.CreateTable">{{ row.CreateTable }}</td>
+              <td [attr.title]="row.Type">{{ row.Type }}</td>
+              <td [attr.title]="row.PossibleKeys">{{ row?.PossibleKeys?.replace(',', ', ') }}</td>
+              <td [attr.title]="row.Key">{{ row.Key }}</td>
+              <td [attr.title]="row.KeyLen">{{ row.KeyLen }}</td>
+              <td [attr.title]="row.Ref">{{ row.Ref }}</td>
+              <td [attr.title]="row.Rows">{{ row.Rows }}</td>
+              <td [attr.title]="row.Extra">{{ row.Extra }}</td>
+            </tr>
+            </tbody>
+          </table>
+        </div>
       </ng-template>
     </ngb-panel>
 
@@ -814,10 +817,34 @@
       </ng-template>
       <ng-template ngbPanelContent>
         <i *ngIf="isExplainLoading" class="fa fa-spinner fa-pulse fa-3x fa-fw loading"></i>
-        <app-json-tree [json]="jsonExplain" *ngIf="!isExplainLoading && !jsonExplainError"></app-json-tree>
+        <div class="data-output">
+          <app-json-tree [json]="jsonExplain" *ngIf="!isExplainLoading && !jsonExplainError"></app-json-tree>
+        </div>
         <div *ngIf="!isExplainLoading && jsonExplainError" class="alert alert-warning w-75 mx-auto m-2" role="alert">
           <i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
           {{ jsonExplainError }}
+        </div>
+      </ng-template>
+    </ngb-panel>
+
+    <ngb-panel id="visual-explain" *ngIf="!!visualExplain || !!visualExplainError">
+      <ng-template ngbPanelTitle>
+        <h5>VISUAL</h5>
+      </ng-template>
+      <ng-template ngbPanelContent>
+        <i *ngIf="isExplainLoading" class="fa fa-spinner fa-pulse fa-3x fa-fw loading"></i>
+        <div class="data-output" *ngIf="!isExplainLoading && !visualExplainError">
+          <button class="btn btn-secondary btn-sm copy-btn"
+                  ngxClipboard
+                  [cbContent]="this.visualExplain"
+                  (cbOnSuccess)="isCopied = true"
+                  [class.btn-success]="isCopied">Copy to clipboard
+          </button>
+          <pre>{{ this.visualExplain }}</pre>
+        </div>
+        <div *ngIf="!isExplainLoading && visualExplainError" class="alert alert-warning w-75 mx-auto m-2" role="alert">
+          <i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
+          {{ visualExplainError }}
         </div>
       </ng-template>
     </ngb-panel>
@@ -1642,41 +1669,43 @@
                 <i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
                 {{ jsonExplainError }}
               </div>
-              <table *ngIf="!isExplainLoading && !classicExplainError"
-                     class="table table-striped table-hover table-sm ma-0">
-                <thead>
-                <tr>
-                  <th width="3%" title="Id">Id</th>
-                  <th title="SelectType">SelectType</th>
-                  <th title="Table">Table</th>
-                  <th title="Partitions">Partitions</th>
-                  <th title="CreateTable">CreateTable</th>
-                  <th title="Type">Type</th>
-                  <th title="PossibleKeys">PossibleKeys</th>
-                  <th title="Key">Key</th>
-                  <th title="KeyLen">KeyLen</th>
-                  <th width="5%" title="Ref">Ref</th>
-                  <th title="Rows">Rows</th>
-                  <th title="Extra">Extra</th>
-                </tr>
-                </thead>
-                <tbody>
-                <tr *ngFor="let row of classicExplain">
-                  <td [attr.title]="row.Id">{{ row.Id }}</td>
-                  <td [attr.title]="row.SelectType">{{ row.SelectType }}</td>
-                  <td [attr.title]="row.Table">{{ row.Table }}</td>
-                  <td [attr.title]="row.Partitions">{{ row.Partitions }}</td>
-                  <td [attr.title]="row.CreateTable">{{ row.CreateTable }}</td>
-                  <td [attr.title]="row.Type">{{ row.Type }}</td>
-                  <td [attr.title]="row.PossibleKeys">{{ row?.PossibleKeys?.replace(',', ', ') }}</td>
-                  <td [attr.title]="row.Key">{{ row.Key }}</td>
-                  <td [attr.title]="row.KeyLen">{{ row.KeyLen }}</td>
-                  <td [attr.title]="row.Ref">{{ row.Ref }}</td>
-                  <td [attr.title]="row.Rows">{{ row.Rows }}</td>
-                  <td [attr.title]="row.Extra">{{ row.Extra }}</td>
-                </tr>
-                </tbody>
-              </table>
+              <div class="data-output">
+                <table *ngIf="!isExplainLoading && !classicExplainError"
+                       class="table table-striped table-hover table-sm ma-0">
+                  <thead>
+                  <tr>
+                    <th width="3%" title="Id">Id</th>
+                    <th title="SelectType">SelectType</th>
+                    <th title="Table">Table</th>
+                    <th title="Partitions">Partitions</th>
+                    <th title="CreateTable">CreateTable</th>
+                    <th title="Type">Type</th>
+                    <th title="PossibleKeys">PossibleKeys</th>
+                    <th title="Key">Key</th>
+                    <th title="KeyLen">KeyLen</th>
+                    <th width="5%" title="Ref">Ref</th>
+                    <th title="Rows">Rows</th>
+                    <th title="Extra">Extra</th>
+                  </tr>
+                  </thead>
+                  <tbody>
+                  <tr *ngFor="let row of classicExplain">
+                    <td [attr.title]="row.Id">{{ row.Id }}</td>
+                    <td [attr.title]="row.SelectType">{{ row.SelectType }}</td>
+                    <td [attr.title]="row.Table">{{ row.Table }}</td>
+                    <td [attr.title]="row.Partitions">{{ row.Partitions }}</td>
+                    <td [attr.title]="row.CreateTable">{{ row.CreateTable }}</td>
+                    <td [attr.title]="row.Type">{{ row.Type }}</td>
+                    <td [attr.title]="row.PossibleKeys">{{ row?.PossibleKeys?.replace(',', ', ') }}</td>
+                    <td [attr.title]="row.Key">{{ row.Key }}</td>
+                    <td [attr.title]="row.KeyLen">{{ row.KeyLen }}</td>
+                    <td [attr.title]="row.Ref">{{ row.Ref }}</td>
+                    <td [attr.title]="row.Rows">{{ row.Rows }}</td>
+                    <td [attr.title]="row.Extra">{{ row.Extra }}</td>
+                  </tr>
+                  </tbody>
+                </table>
+              </div>
             </ng-template>
           </ngb-panel>
 
@@ -1686,11 +1715,35 @@
             </ng-template>
             <ng-template ngbPanelContent>
               <i *ngIf="isExplainLoading" class="fa fa-spinner fa-pulse fa-3x fa-fw loading"></i>
-              <app-json-tree [json]="jsonExplain" *ngIf="!isExplainLoading && !jsonExplainError"></app-json-tree>
+              <div class="data-output">
+                <app-json-tree [json]="jsonExplain" *ngIf="!isExplainLoading && !jsonExplainError"></app-json-tree>
+              </div>
               <div *ngIf="!isExplainLoading && jsonExplainError" class="alert alert-warning w-75 mx-auto m-2"
                    role="alert">
                 <i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
                 {{ jsonExplainError }}
+              </div>
+            </ng-template>
+          </ngb-panel>
+
+          <ngb-panel id="visual-explain" *ngIf="!!visualExplain || !!visualExplainError">
+            <ng-template ngbPanelTitle>
+              <h5>VISUAL</h5>
+            </ng-template>
+            <ng-template ngbPanelContent>
+              <i *ngIf="isExplainLoading" class="fa fa-spinner fa-pulse fa-3x fa-fw loading"></i>
+              <div class="data-output" *ngIf="!isExplainLoading && !visualExplainError">
+                <button class="btn btn-secondary btn-sm copy-btn"
+                        ngxClipboard
+                        [cbContent]="this.visualExplain"
+                        (cbOnSuccess)="isCopied = true"
+                        [class.btn-success]="isCopied">Copy to clipboard
+                </button>
+                <pre>{{ this.visualExplain }}</pre>
+              </div>
+              <div *ngIf="!isExplainLoading && visualExplainError" class="alert alert-warning w-75 mx-auto m-2" role="alert">
+                <i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
+                {{ visualExplainError }}
               </div>
             </ng-template>
           </ngb-panel>
