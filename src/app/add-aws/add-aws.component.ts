@@ -17,10 +17,12 @@ export class AddAwsComponent implements OnInit {
   registeredNames: string[] = [];
   isLoading: boolean;
   errorMessage: string;
-  isDemo = environment.demo;
+  isDemo = false;
   submitted = false;
 
-  constructor(public addAwsService: AddAwsService) { }
+  constructor(public addAwsService: AddAwsService) {
+    this.isDemo = environment.demoHosts.includes(location.hostname);
+  }
 
   async onSubmit() {
     this.errorMessage = '';
