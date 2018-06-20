@@ -1,10 +1,13 @@
-<div *ngIf="isAllSelected" class="alert alert-warning w-75 mx-auto text-center wrap" role="alert">
-  Please select the Database Host from the Host selector on the top of the page
+<div *ngIf="isAllSelected" class="alert alert-warning w-75 mx-auto text-center wrap" role="alert">Host name of All is not valid, please click the Host dropdown and select a valid host.</div>
+<div *ngIf="isNotExistSelected" class="alert alert-warning w-75 mx-auto text-center wrap" role="alert">Host name is not valid, please click the Host dropdown and select a valid host. If the Host list is empty, use
+  <code>pmm-admin add</code> to add a monitoring service and check again. For more information on how to add a monitoring service,
+  consult
+  <a href="https://www.percona.com/doc/percona-monitoring-and-management/pmm-admin.html#adding-monitoring-services"
+     target="blank">
+    PMM documentation.
+  </a>
 </div>
-<div *ngIf="isNotExistSelected" class="alert alert-warning w-75 mx-auto text-center wrap" role="alert">
-  Host name is not exist in the system
-</div>
-<ngb-accordion activeIds="settingsTab" #acSettings="ngbAccordion" *ngIf="!isNotExistSelected">
+<ngb-accordion activeIds="settingsTab" #acSettings="ngbAccordion" *ngIf="!isNotExistSelected && !isAllSelected">
   <ngb-panel id="settingsTab">
     <ng-template ngbPanelTitle>
       <h5>SETTINGS</h5>
