@@ -10,6 +10,7 @@ import { Subscription } from 'rxjs/Subscription';
 import * as moment from 'moment';
 
 import { environment } from '../../environment';
+import { Moment } from 'moment';
 
 @Component({
   moduleId: module.id,
@@ -20,7 +21,7 @@ import { environment } from '../../environment';
 export class NavComponent extends CoreComponent implements OnDestroy {
   protected routerSubscription: Subscription;
 
-  public isDemo = environment.demo;
+  public isDemo = false;
 
   public isExtHidden: boolean;
 
@@ -43,6 +44,7 @@ export class NavComponent extends CoreComponent implements OnDestroy {
   public constructor(route: ActivatedRoute, router: Router, instanceService: InstanceService) {
     super(route, router, instanceService);
     const momentFormatPipe = new MomentFormatPipe();
+    this.isDemo = environment.demoHosts.includes(location.hostname);
     this.timezone = momentFormatPipe.getCookie('timezone') || 'browser';
   }
 
@@ -70,21 +72,20 @@ export class NavComponent extends CoreComponent implements OnDestroy {
       const [, , sign, num, unit] = reg.exec(val);
       switch (sign) {
         case '-':
-          time = moment().subtract(num, unit).valueOf();
+          time = moment().subtract(num as moment.unitOfTime.DurationConstructor, unit).valueOf().toString();
           break;
         case '+':
-          time = moment().add(num, unit).valueOf();
+          time = moment().add(num as moment.unitOfTime.DurationConstructor, unit).valueOf().toString();
           break;
         case '/':
-          time = moment().startOf(num, unit).valueOf();
+          time = moment().startOf(unit as moment.unitOfTime.StartOf).valueOf().toString();
           break;
       }
     } else {
       if (val.length > 3) {
-        console.log('val', val);
         try {
           if (moment(val, 'YYYY-MM-DD HH:mm').isValid()) {
-            time = moment(val, 'YYYY-MM-DD HH:mm').valueOf();
+            time = moment(val, 'YYYY-MM-DD HH:mm').valueOf().toString();
           }
         } catch (err) {
           if (dir === 'from') {
@@ -109,9 +110,9 @@ export class NavComponent extends CoreComponent implements OnDestroy {
 
   changeDateCal(event, dir) {
     if (dir === 'from') {
-      this.fromTimeRaw = moment([event.year, event.month - 1, event.day]).valueOf();
+      this.fromTimeRaw = moment([event.year, event.month - 1, event.day]).valueOf().toString();
     } else {
-      this.toTimeRaw = moment([event.year, event.month - 1, event.day]).valueOf();
+      this.toTimeRaw = moment([event.year, event.month - 1, event.day]).valueOf().toString();
     }
   }
 
@@ -124,10 +125,10 @@ export class NavComponent extends CoreComponent implements OnDestroy {
     this.router.navigate([this.path], { queryParams: params, relativeTo: this.route });
   }
 
-  setQuickRange(num = 0, unit = 's') {
+  setQuickRange(num: string, unit = 's') {
     const params: QueryParams = Object.assign({}, this.queryParams);
-    params.to = moment().valueOf();
-    params.from = moment().subtract(num, unit).valueOf();
+    params.to = moment().valueOf().toString();
+    params.from = moment().subtract(num as moment.unitOfTime.DurationConstructor, unit).valueOf().toString();
     this.router.navigate(['profile'], { queryParams: params });
   }
 

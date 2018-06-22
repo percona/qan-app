@@ -80,7 +80,7 @@ export class QueryProfileComponent extends CoreComponent {
         this.isLoading = true;
         const dbServerUUID = this.dbServer.UUID;
         this.offset = this.offset + 10;
-        let data = await this.queryProfileService
+        const data = await this.queryProfileService
             .getQueryProfile(dbServerUUID, this.fromUTCDate, this.toUTCDate, this.offset);
 
         const _ = data['Query'].shift();

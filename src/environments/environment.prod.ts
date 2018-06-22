@@ -1,6 +1,5 @@
 export const environment = {
   production: true,
-  demo: false,
-  hideNav: false,
+  demoHosts: ['163.172.51.248', 'pmmdemo.percona.com'],
   version: require('../../package.json').version
 };

@@ -1,9 +1,13 @@
-<div *ngIf="dbServer === null" class="alert alert-warning w-75 mx-auto text-center wrap" role="alert">
-    There is no query data for the selected host. Use the
-    <code>pmm-admin add</code> command to add a monitoring service and try again. For more information, see
-    <a href="https://www.percona.com/doc/percona-monitoring-and-management/pmm-admin.html#adding-monitoring-services" target="blank">
-        PMM documentation.
-    </a>
+<div *ngIf="isQueryDataAbsent" class="alert alert-warning w-75 mx-auto text-center wrap" role="alert">
+  There is no any data from this host for this period. Maybe monitoring wasn't available at this moment. Please select  wider period of time or wait for several minutes to collect some data
+</div>
+<div *ngIf="isNotExistSelected" class="alert alert-warning w-75 mx-auto text-center wrap" role="alert">Host name is not valid, please click the Host dropdown and select a valid host. If the Host list is empty, use
+  <code>pmm-admin add</code> to add a monitoring service and check again. For more information on how to add a monitoring service,
+  consult
+  <a href="https://www.percona.com/doc/percona-monitoring-and-management/pmm-admin.html#adding-monitoring-services"
+     target="blank">
+    PMM documentation.
+  </a>
 </div>
 <div *ngIf="dbServer !== null">
     <div class="card">
@@ -103,7 +107,7 @@
                             </a>in PMM documentation.
                         </div>
                         <div *ngIf="dbServer.Subsystem === 'mysql'" class="alert alert-warning w-75 mx-auto wrap">
-                            There is no query data because the MySQL Server is not been configured for monitoring. For details about the required configuration,
+                            There is no query data because the MySQL Server is not configured for monitoring. For details about the required configuration,
                             see
                             <a href="https://www.percona.com/doc/percona-monitoring-and-management/conf-mysql.html" target="blank">
                                 Configuring MySQL for Percona Monitoring and Management

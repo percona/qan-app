@@ -16,19 +16,21 @@ import * as moment from 'moment';
 export class MySQLQueryDetailsComponent extends CoreComponent implements OnInit {
 
   protected queryID: string;
-  protected queryDetails: QueryDetails;
+  public queryDetails: QueryDetails;
   protected tableInfo;
   public createTable: string;
   public fingerprint: string;
   public queryExample: string;
-  protected classicExplain;
-  protected jsonExplain;
-  protected dbName: string;
+  public classicExplain;
+  public jsonExplain;
+  public visualExplain;
+  public dbName: string;
   public dbTblNames: string;
   protected newDBTblNames: string;
   isSummary: boolean;
   isLoading: boolean;
   isExplainLoading: boolean;
+  isCopied: boolean;
   isTableInfoLoading: boolean;
   firstSeen: string;
   lastSeen: string;
@@ -39,6 +41,7 @@ export class MySQLQueryDetailsComponent extends CoreComponent implements OnInit 
 
   jsonExplainError: string;
   classicExplainError: string;
+  visualExplainError: string;
 
   constructor(protected route: ActivatedRoute, protected router: Router,
               protected instanceService: InstanceService, protected queryDetailsService: MySQLQueryDetailsService) {
@@ -52,6 +55,7 @@ export class MySQLQueryDetailsComponent extends CoreComponent implements OnInit 
   }
 
   onChangeParams(params) {
+    if (!this.dbServer) { return; }
     if (['TOTAL', undefined].indexOf(this.queryParams.queryID) !== -1) {
       this.isSummary = true;
       this.getServerSummary(this.dbServer.UUID, this.fromUTCDate, this.toUTCDate);
@@ -83,6 +87,7 @@ export class MySQLQueryDetailsComponent extends CoreComponent implements OnInit 
         this.queryExample = hljs.highlight('sql', this.fixBeautifyText(this.queryDetails.Example.Query)).value;
       }
       this.isLoading = false;
+
       if (this.queryExample) {
         this.getExplain();
       }
@@ -102,11 +107,14 @@ export class MySQLQueryDetailsComponent extends CoreComponent implements OnInit 
   }
 
   async getExplain() {
+    if (!this.dbServer || !this.dbServer.Agent) { return; }
     this.isExplainLoading = true;
+    this.isCopied = false;
     const agentUUID = this.dbServer.Agent.UUID;
     const dbServerUUID = this.dbServer.UUID;
     this.classicExplainError = '';
     this.jsonExplainError = '';
+    this.visualExplainError = '';
     if (this.dbName === '') {
       this.dbName = this.getDBName();
     }
@@ -115,7 +123,12 @@ export class MySQLQueryDetailsComponent extends CoreComponent implements OnInit 
     // https://github.com/percona/go-mysql/blob/master/event/class.go#L25
     const maxExampleBytes = 10240;
     if (query.length >= maxExampleBytes) {
-      this.classicExplainError = this.jsonExplainError = `Cannot explain truncated query. This query was truncated to maximum size of ${maxExampleBytes} bytes.`;
+      this.jsonExplainError = `
+        Cannot explain truncated query.
+        This query was truncated to maximum size of ${maxExampleBytes} bytes.
+      `;
+      this.classicExplainError = this.jsonExplainError;
+      this.visualExplainError = this.jsonExplainError;
       this.isExplainLoading = false;
       return
     }
@@ -127,6 +140,7 @@ export class MySQLQueryDetailsComponent extends CoreComponent implements OnInit 
       }
       data = JSON.parse(atob(data.Data));
       this.classicExplain = data.Classic;
+      this.visualExplain = data.Visual;
 
       try {
         this.jsonExplain = JSON.parse(data.JSON);
@@ -134,13 +148,14 @@ export class MySQLQueryDetailsComponent extends CoreComponent implements OnInit 
         this.jsonExplainError = err.message;
       }
     } catch (err) {
-      this.classicExplainError = this.jsonExplainError = 'This type of query is not supported for EXPLAIN';
+      this.classicExplainError = this.jsonExplainError = this.visualExplainError = 'This type of query is not supported for EXPLAIN';
     }
 
     this.isExplainLoading = false;
   }
 
   getTableInfo() {
+    if (!this.dbServer || !this.dbServer.Agent) { return; }
     this.isTableInfoLoading = true;
     const agentUUID = this.dbServer.Agent.UUID;
     const dbServerUUID = this.dbServer.UUID;
@@ -161,11 +176,13 @@ export class MySQLQueryDetailsComponent extends CoreComponent implements OnInit 
     this.queryDetailsService.getTableInfo(agentUUID, dbServerUUID, dbName, tblName)
       .then(data => {
         const info = data[`${dbName}.${tblName}`];
+        this.tableInfo = info;
+        try {
+          this.createTable = hljs.highlight('sql', this.tableInfo.Create).value;
+        } catch (e) { }
         if (info.hasOwnProperty('Errors') && info['Errors'].length > 0) {
           throw info['Errors'];
         }
-        this.tableInfo = info;
-        this.createTable = hljs.highlight('sql', this.tableInfo.Create).value;
       })
       .catch(errors => {
         for (const err of errors) {
@@ -185,6 +202,7 @@ export class MySQLQueryDetailsComponent extends CoreComponent implements OnInit 
   }
 
   selectTableInfo(dbName: string, tblName: string) {
+    if (!this.dbServer || !this.dbServer.Agent) { return; }
     this.isTableInfoLoading = true;
     this.statusTableError = '';
     this.indexTableError = '';

@@ -32,16 +32,17 @@ export class SettingsComponent extends CoreComponent {
   ];
 
   public logPeriod = 12;
-  public isDemo = environment.demo;
+  public isDemo = false;
+  isSuccess = false;
+  isError = false;
 
   constructor(protected route: ActivatedRoute, protected router: Router,
               protected settingsService: SettingsService,
               protected instanceService: InstanceService) {
     super(route, router, instanceService);
+    this.isDemo = environment.demoHosts.includes(location.hostname);
   }
 
-  isSuccess = false;
-  isError = false;
 
   /**
    * Get agent log for N last hours.
@@ -84,7 +85,7 @@ export class SettingsComponent extends CoreComponent {
    *  - Collect from: 'slowlog' or 'perfschema'.
    */
   public async setAgentDefaults() {
-    let res = await this.settingsService.setAgentDefaults(
+    const res = await this.settingsService.setAgentDefaults(
       this.agent.UUID,
       this.dbServer.UUID,
       this.interval,
@@ -99,7 +100,7 @@ export class SettingsComponent extends CoreComponent {
       setTimeout(() => {
         this.isSuccess = false;
         this.isError = false;
-      }, visibleMessageTime); //add const
+      }, visibleMessageTime); // add const
       this.getAgentDefaults();
     } catch (err) {
       this.isSuccess = false;
