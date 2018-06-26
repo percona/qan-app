@@ -114,8 +114,8 @@ export class LoadSparklinesDirective {
             .attr('x', 1)
             .attr('y', 8);
 
-        // const bisectDate = bisector((d, x) => moment.utc(d[xkey]).isBefore(x)).right;
-        const bisectDate = bisector((x) => moment.utc(data[xkey]).isBefore(x)).right;
+        // @ts-ignore TS2345
+        const bisectDate = bisector((d, x) => moment.utc(d[xkey]).isBefore(x)).right;
 
         const rect = g.append('rect')
             .attr('class', 'overlay')
