@@ -4404,8 +4404,8 @@ var LoadSparklinesDirective = /** @class */ (function () {
             .attr('font-size', '10')
             .attr('x', 1)
             .attr('y', 8);
-        // const bisectDate = bisector((d, x) => moment.utc(d[xkey]).isBefore(x)).right;
-        var bisectDate = Object(__WEBPACK_IMPORTED_MODULE_4_d3__["b" /* bisector */])(function (x) { return __WEBPACK_IMPORTED_MODULE_1_moment__["utc"](data[xkey]).isBefore(x); }).right;
+        // @ts-ignore TS2345
+        var bisectDate = Object(__WEBPACK_IMPORTED_MODULE_4_d3__["b" /* bisector */])(function (d, x) { return __WEBPACK_IMPORTED_MODULE_1_moment__["utc"](d[xkey]).isBefore(x); }).right;
         var rect = g.append('rect')
             .attr('class', 'overlay')
             .attr('width', width)
@@ -5095,4 +5095,4 @@ module.exports = __webpack_require__("./src/main.ts");
 /***/ })
 
 },[0]);
-//# sourceMappingURL=main.ba0d41612c91e871b109.bundle.js.map
+//# sourceMappingURL=main.8796733664ec8009ec8d.bundle.js.map
