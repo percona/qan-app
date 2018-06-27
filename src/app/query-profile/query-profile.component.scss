@@ -1,14 +1,124 @@
-@media screen {
+.table-header {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 15px;
 
-    .query-profile-table {
-        table-layout: fixed;
+  .table-title {
+    font-size: 1.6rem;
+  }
+
+  .display-options {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    color: white;
+
+    .option-container {
+      display: flex;
+      align-items: center;
+      overflow: hidden;
+      margin-left: 10px;
+      border-radius: 5px;
+      box-sizing: border-box;
+      border: 1px solid #292929;
+
+      button {
+        margin-top: 0;
+        cursor: pointer;
+        color: inherit;
+        box-sizing: border-box;
+        border-radius: 0;
+
+        &:focus,
+        &:focus{
+          border: none;
+        }
+      }
     }
 
-    .query-profile-table td {
-        white-space: nowrap;
+  }
+
+  .search-input {
+    max-width: 370px;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    .form-control {
+      width: 100%;
+      padding: 10px 30px 10px 10px;
+      box-sizing: border-box;
+      border: 1px solid #292929;
+      border-radius: 5px;
+      color: #919191;
+      background-color: transparent;
+
+      &::placeholder {
+        font-style: italic;
+      }
+      &:focus,
+      &:active {
+        border-color: #2e5785;
+      }
     }
 
-    .wrap {
-        white-space: normal;
+    .search-button {
+      position: absolute;
+      right: 10px;
+      z-index: 99;
+      width: auto;
+      padding: 0;
+      color: #cfd0d1;
+      cursor: pointer;
+      //add background
+      background-color: transparent;
     }
+  }
+}
+
+.table-body {
+  margin-bottom: 15px;
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
+  border-bottom: 1px solid #292929;
+
+  .grid-container {
+    display: grid;
+    grid-template-columns: 1fr 9fr 7fr 10fr 9fr;
+    grid-template-rows: 50px;
+    box-sizing: border-box;
+
+    &.table-active > div:first-child {
+      padding-left: 8px !important;
+      border-left: 3px solid #2e5785 !important;
+    }
+
+    > div {
+      border: 1px solid #292929;
+      border-left: none;
+      border-bottom: none;
+      box-sizing: border-box;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 10px;
+
+      &:first-child {
+        border-left: 1px solid #292929;
+      }
+    }
+  }
+}
+
+.total-queries-amount {
+  max-width: 350px;
+  width: auto;
+  margin: 0 auto;
+  border-radius: 0;
+  color: #cccccc;
+  cursor: pointer;
 }

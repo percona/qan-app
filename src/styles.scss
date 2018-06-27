@@ -202,10 +202,10 @@ label:not(.form-check-label):after {
 
 .scaling-svg-container {
     position: relative;
-    height: 15px; /* 0 */
+    height: 30px; /* 0 */
+    max-width: 100px;
     width: 100%;
     padding: 0;
-    padding-bottom: 14%;
 }
 
 .scaling-svg {
@@ -601,7 +601,7 @@ body {
     $table-bg:                    transparent; // overall background-color
     $table-bg-accent:             $dark-3; // for striping
     $table-bg-hover:              $dark-4; // for hover
-    $table-bg-active:             $gray-2;
+    $table-bg-active:             #112439;
     $table-border:                $dark-2; // table and cell border
     $table-border-width:          0;
 
@@ -624,11 +624,11 @@ body {
 
 
     .cell-overlay>span:focus, .cell-overlay>span:hover {
-        background: #333333;
+        background: transparent;
     }
 
     .table-active>.cell-overlay>span:focus, .table-active>.cell-overlay>span:hover {
-        background: #595959;
+        background: #112439;
     }
 
     footer {
