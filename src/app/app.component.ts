@@ -1,8 +1,8 @@
-import { Component, Inject, OnInit } from '@angular/core';
-import { DOCUMENT } from '@angular/platform-browser';
+import {Component, Inject, OnInit} from '@angular/core';
+import {DOCUMENT} from '@angular/platform-browser';
 
-import { InstanceService } from './core/instance.service';
-import { environment } from './environment';
+import {InstanceService} from './core/instance.service';
+import {environment} from './environment';
 import * as moment from 'moment';
 
 @Component({
@@ -73,11 +73,10 @@ export class AppComponent implements OnInit {
   getJsonFromUrl() {
     const query = location.search.substr(1);
     const result = {};
-    query.split('&').forEach(function(part) {
+    query.split('&').forEach(function (part) {
       const item = part.split('=');
       result[item[0]] = decodeURIComponent(item[1]);
     });
     return result;
   }
-
 }

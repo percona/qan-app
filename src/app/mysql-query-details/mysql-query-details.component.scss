@@ -1,3 +1,7 @@
+button {
+  cursor: pointer;
+}
+
 .metrics {
   table-layout: auto;
 
@@ -13,6 +17,23 @@
   .query-stats {
     width: 20%;
   }
+}
+
+.w-10 {
+  width: 10%;
+}
+
+.explain-button {
+  width: 8em;
+}
+
+.accordion-title {
+  min-height: 38px;
+  height: 100%;
+}
+
+.code-output {
+  margin: 1rem;
 }
 
 .copy-btn {

@@ -100,14 +100,14 @@ export class SummaryComponent extends CoreComponent {
      */
     onChangeParams(params) {
         // to initalise loader when host was changed
-        this.mysqlSummary = '',
-        this.mongoSummary = '',
-        this.serverSummary = '',
-        this.mysqlSummaryError = '',
-        this.mongoSummaryError = '',
+        this.mysqlSummary = '';
+        this.mongoSummary = '';
+        this.serverSummary = '';
+        this.mysqlSummaryError = '';
+        this.mongoSummaryError = '';
         this.serverSummaryError = '';
-        this.mysqlSummaryLoader = true,
-        this.mongoSummaryLoader = true,
+        this.mysqlSummaryLoader = true;
+        this.mongoSummaryLoader = true;
         this.serverSummaryLoader = true;
 
         this.getServerSummary(this.agent.UUID);

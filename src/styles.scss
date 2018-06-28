@@ -152,21 +152,27 @@ table.metrics td span.sum {
 }
 
 .card-header h5 {
-    margin-bottom: -2px;
+    position: relative;
     display: inline-flex;
+    margin-left: 20px;
+    margin-bottom: 0 !important;
+
 }
+
 .card-header h5::before {
+    position: absolute;
+    left: -20px;
     font-family: FontAwesome;
     content: "\f054";
+    transition: 0.1s;
 }
 
 .card-header.active h5::before {
-    font-family: FontAwesome;
-    content: "\f078";
+    transform: rotate(90deg);
 }
 
 .card-block {
-    padding: 0rem;
+    padding: 0;
 }
 
 label {
@@ -490,12 +496,12 @@ footer {
 }
 
 body {
-    background: rgba(0, 0, 0, 0);
+    background: transparent;
 }
 
 .app-theme-dark {
     body {
-        background: #fff;
+        background: transparent;
     }
 }
 
@@ -544,11 +550,11 @@ body {
 
     // Scaffolding
     // -------------------------
-    $body-bg:  			   	    rgb(20,20,20);
+    //$body-bg:  			   	    rgb(20,20,20);
     $page-bg:  			   	    $dark-2;
     $body-color:   		 	    $gray-4;
     $text-color:   	   		    $white;
-    background: $body-bg;
+    background: transparent;
     color: $gray-4;
     .logo-text {
         color: $gray-4;
