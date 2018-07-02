@@ -46,8 +46,8 @@
            [routerLink]="['./', 'report', dbServer.Subsystem]"
            [queryParams]="composeQueryParamsForGrid(row.Id)" routerLinkActive="table-active">
         <div>{{ i || '' }}</div>
-        <div class="smart-query-abstact cell-overlay">
-          <span class="smart-query-abstact cell-overlay" tabindex="0">
+        <div class="cell-overlay">
+          <span class="cell-overlay">
            <a href="javascript:;" title="{{ row.Fingerprint }}">
             {{ row.Rank ? (row.Abstract || 'Low Ranking Queries') : 'TOTAL' }}
            </a>
@@ -81,8 +81,8 @@
                xkey="Start_ts" ykey="Query_time_avg"
                measurement="time">
           </div>
-          <div class="smart-latency-time cell-overlay" tabindex="0">
-            {{ row.Stats.Avg | humanize }} avg
+          <div class="cell-overlay" tabindex="0">
+            <span>{{ row.Stats.Avg | humanize }} avg</span>
           </div>
           <div class="scaling-svg-container app-tooltip"
                data-tooltip="Loading..."
@@ -92,7 +92,7 @@
         </div>
       </div>
     </section>
-    <div *ngIf="totalAmountOfQueries">
+    <div *ngIf="totalAmountOfQueries" class="load-more-wrapper">
       <button class="btn btn-primary btn-block total-queries-amount"
               (click)="loadMoreQueries()" [disabled]="leftInDbQueries === 0">
         <span *ngIf="leftInDbQueries > 0">Load next {{ leftInDbQueries > 10 ? 10 : leftInDbQueries }} queries</span>
