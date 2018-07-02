@@ -199,6 +199,7 @@ table.metrics td span.sum {
 
   .card-header {
     padding: 15px !important;
+    border-bottom: none !important;
 
     a {
       display: block;
@@ -241,6 +242,10 @@ table.metrics td span.sum {
 
     .pre {
       margin-bottom: 0;
+    }
+
+    .grid-container {
+      border-right: none;
     }
 
   }

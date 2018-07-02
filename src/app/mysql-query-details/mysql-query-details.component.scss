@@ -89,9 +89,9 @@ section.explain {
   color: #27b2e5;
 }
 
-.table-wrapper > div > div:not(:last-child) {
-  border-right: 2px solid #292929;
-}
+//.table-wrapper > div > div:not(:last-child) {
+//  border-right: 2px solid #292929;
+//}
 
 .classic-table-wrapper {
   display: table;
@@ -111,6 +111,10 @@ section.explain {
     height: 100%;
     padding: 5px 15px !important;
     vertical-align: middle;
+  }
+
+  .classic-table-row > div:not(:last-child) {
+    border-right: 2px solid #292929;
   }
 }
 
