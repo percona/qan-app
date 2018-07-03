@@ -1,18 +1,7 @@
-.metrics {
-  table-layout: auto;
+section.explain {
+  display: flex;
+  flex-direction: column;
 
-  .rate-sec {
-    width: 12%;
-  }
-
-  .rate-load {
-    padding-right: 20px;
-    width: 10%;
-  }
-
-  .query-stats {
-    width: 20%;
-  }
 }
 
 .metrics-table {
@@ -34,27 +23,6 @@
     height: 100%;
   }
 
-  .table-header {
-    border-bottom: 2px solid #292929;
-  }
-
-  .flex-container {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-  }
-}
-
-section.explain {
-  display: flex;
-  flex-direction: column;
-
-  .section-title {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 20px;
-  }
 }
 
 .explain-search-input {
@@ -68,18 +36,5 @@ section.explain {
   .form-control {
     padding: 10px 85px 10px 30px;
     color: #ffffff;
-  }
-
-  .search-button:hover {
-    color: #27b2e5;
-  }
-}
-
-.search-input {
-  .form-control,
-  .form-control:active,
-  .form-control:focus,
-  .form-control:hover {
-    background-color: transparent;
   }
 }

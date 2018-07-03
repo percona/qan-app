@@ -2,20 +2,10 @@
   float: right;
 }
 
-//section.server-summary,
-//section.query,
-//section.explain,
-//section.tables {
-//  margin-bottom: 20px;
-//}
-
-
 section.explain {
     display: flex;
     flex-direction: column;
 }
-
-////
 
 .query-abstract {
   color: white;
@@ -32,18 +22,6 @@ section.explain {
 .grid-container {
   grid-template-columns: 2fr 2fr 3fr 2fr;
 
-}
-
-.table-body > div:not(:last-child),
-.table-header {
-  border-bottom: 2px solid #292929;
-}
-
-
-.flex-container {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
 }
 
 .first-seen {

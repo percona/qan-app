@@ -147,6 +147,7 @@ table.metrics td span.sum {
   .server-summary {
     margin-bottom: 20px;
   }
+
   .search-input {
     max-width: 370px;
     width: 100%;
@@ -301,6 +302,13 @@ table.metrics td span.sum {
 
     h3 {
       margin-bottom: 0;
+    }
+  }
+
+  .metrics-table {
+    .table-body > div:not(:last-child),
+    .table-header {
+      border-bottom: 2px solid #292929;
     }
   }
 }
@@ -567,13 +575,19 @@ div.app-tooltip:hover::before {
   width: 3em;
 }
 
-.flex-container .cell-overlay {
+.flex-container {
   display: flex;
+  justify-content: space-between;
   align-items: center;
-  justify-content: space-around;
 
-  &:hover span {
-    padding: 0;
+  .cell-overlay {
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+
+    &:hover span {
+      padding: 0;
+    }
   }
 }
 
