@@ -14,3 +14,72 @@
     width: 20%;
   }
 }
+
+.metrics-table {
+
+  .grid-container {
+    grid-template-columns: 2fr 2fr 3fr 2fr;
+
+    & > div:not(:last-child) {
+      border-right: 2px solid #292929;
+    }
+
+    .cell-overlay {
+      height: 100%;
+    }
+  }
+
+  .grid-container:not(:last-child) {
+    border-bottom: 2px solid #292929;
+    height: 100%;
+  }
+
+  .table-header {
+    border-bottom: 2px solid #292929;
+  }
+
+  .flex-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+}
+
+section.explain {
+  display: flex;
+  flex-direction: column;
+
+  .section-title {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+  }
+}
+
+.explain-search-input {
+  position: relative;
+
+  i {
+    position: absolute;
+    left: 10px;
+  }
+
+  .form-control {
+    padding: 10px 85px 10px 30px;
+    color: #ffffff;
+  }
+
+  .search-button:hover {
+    color: #27b2e5;
+  }
+}
+
+.search-input {
+  .form-control,
+  .form-control:active,
+  .form-control:focus,
+  .form-control:hover {
+    background-color: transparent;
+  }
+}

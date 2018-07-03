@@ -143,6 +143,10 @@ table.metrics td span.sum {
 }
 
 .app-theme-dark {
+  .sections-wrapper > section,
+  .server-summary {
+    margin-bottom: 20px;
+  }
   .search-input {
     max-width: 370px;
     width: 100%;
@@ -170,6 +174,7 @@ table.metrics td span.sum {
       &:focus,
       &:active {
         border-color: #2e5785;
+        background-color: transparent;
       }
     }
 
@@ -183,6 +188,14 @@ table.metrics td span.sum {
       cursor: pointer;
       //add background
       background-color: transparent;
+
+      &:hover {
+        color: #27b2e5;
+      }
+
+      &:disabled {
+        background-color: transparent;
+      }
     }
   }
 
@@ -245,7 +258,31 @@ table.metrics td span.sum {
     }
 
     .grid-container {
+      display: grid;
       border-right: none;
+      grid-template-rows: 40px;
+      align-items: center;
+      overflow: hidden;
+
+      & > .cell-overlay {
+        position: relative;
+        display: flex;
+
+        span {
+          align-self: center;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          white-space: nowrap;
+        }
+      }
+
+      & > div {
+        padding: 15px;
+
+        &:not(:last-child) {
+          border-right: 2px solid #292929;
+        }
+      }
     }
 
   }
@@ -254,6 +291,17 @@ table.metrics td span.sum {
     display: flex;
     justify-content: space-between;
     align-items: center;
+  }
+
+  .section-title {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+
+    h3 {
+      margin-bottom: 0;
+    }
   }
 }
 

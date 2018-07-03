@@ -1,42 +1,13 @@
-.metrics {
-  table-layout: auto;
-
-  .rate-sec {
-    width: 12%;
-  }
-
-  .rate-load {
-    padding-right: 20px;
-    width: 10%;
-  }
-
-  .query-stats {
-    width: 20%;
-  }
-}
-
 .copy-btn {
   float: right;
 }
 
-.section-title {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 20px;
-
-  h3 {
-    margin-bottom: 0;
-  }
-}
-
-
-section.server-summary,
-section.query,
-section.explain,
-section.tables {
-  margin-bottom: 20px;
-}
+//section.server-summary,
+//section.query,
+//section.explain,
+//section.tables {
+//  margin-bottom: 20px;
+//}
 
 
 section.explain {
@@ -59,11 +30,8 @@ section.explain {
 }
 
 .grid-container {
-  display: grid;
   grid-template-columns: 2fr 2fr 3fr 2fr;
-  grid-template-rows: 40px;
-  align-items: center;
-  overflow: hidden;
+
 }
 
 .table-body > div:not(:last-child),
@@ -71,13 +39,6 @@ section.explain {
   border-bottom: 2px solid #292929;
 }
 
-.grid-container > div:not(:last-child) {
-  border-right: 2px solid #292929;
-}
-
-.grid-container > div {
-  padding: 15px;
-}
 
 .flex-container {
   display: flex;
@@ -88,10 +49,6 @@ section.explain {
 .first-seen {
   color: #27b2e5;
 }
-
-//.table-wrapper > div > div:not(:last-child) {
-//  border-right: 2px solid #292929;
-//}
 
 .classic-table-wrapper {
   display: table;
@@ -118,44 +75,6 @@ section.explain {
   }
 }
 
-.search-input {
-  max-width: 370px;
-  width: 100%;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-
-  .form-control {
-    width: 100%;
-    padding: 10px 30px 10px 10px;
-    box-sizing: border-box;
-    border: 1px solid #292929;
-    border-radius: 5px;
-    color: #919191;
-    background-color: transparent;
-
-    &::placeholder {
-      font-style: italic;
-    }
-    &:focus,
-    &:active {
-      border-color: #2e5785;
-    }
-  }
-
-  .search-button {
-    position: absolute;
-    right: 10px;
-    z-index: 99;
-    width: auto;
-    padding: 0;
-    color: #cfd0d1;
-    cursor: pointer;
-    //add background
-    background-color: transparent;
-  }
-}
-
 .explain-search-input {
   position: relative;
 
@@ -169,15 +88,11 @@ section.explain {
     color: #ffffff;
   }
 
-  .search-button:hover {
-    color: #27b2e5;
-  }
 }
 
 .status-table-wrapper {
 
   .grid-container {
-    display: grid;
     grid-template-columns: repeat(2, 1fr);
   }
 
