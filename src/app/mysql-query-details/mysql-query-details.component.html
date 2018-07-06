@@ -935,7 +935,7 @@
             <i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
             {{ statusTableError }}
           </div>
-          <div class="table-wrapper status-table-wrapper">
+          <div class="table-wrapper status-table-wrapper" *ngIf="!statusTableError">
             <div class="table-header grid-container">
               <div>Name</div>
               <div>Value</div>

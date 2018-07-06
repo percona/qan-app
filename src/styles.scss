@@ -263,7 +263,6 @@ table.metrics td span.sum {
       border-right: none;
       grid-template-rows: 40px;
       align-items: center;
-      overflow: hidden;
 
       & > .cell-overlay {
         position: relative;
@@ -278,7 +277,10 @@ table.metrics td span.sum {
       }
 
       & > div {
-        padding: 15px;
+        padding: 0 15px;
+        height: 100%;
+        display: flex;
+        align-items: center;
 
         &:not(:last-child) {
           border-right: 2px solid #292929;
