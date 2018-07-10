@@ -142,62 +142,78 @@ table.metrics td span.sum {
   text-align: right;
 }
 
+.search-input {
+  max-width: 370px;
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  label {
+    margin-bottom: 0;
+    text-align: left;
+  }
+
+  .form-control {
+    width: 100%;
+    padding: 10px 30px 10px 10px;
+    box-sizing: border-box;
+    border: 1px solid #292929;
+    border-radius: 5px;
+    color: #919191;
+    background-color: transparent;
+
+    &::placeholder {
+      font-style: italic;
+    }
+    &:focus,
+    &:active {
+      border-color: #2e5785;
+      background-color: transparent;
+    }
+  }
+
+  .search-button {
+    position: absolute;
+    right: 10px;
+    z-index: 99;
+    width: auto;
+    padding: 0;
+    color: #cfd0d1;
+    cursor: pointer;
+    border: none;
+    //add background
+    background-color: transparent;
+
+    &:hover {
+      color: #27b2e5;
+    }
+
+    &:disabled {
+      background-color: transparent;
+    }
+  }
+}
+
 .app-theme-dark {
+  .table-body {
+    border-bottom: 1px solid #292929;
+
+    .grid-container {
+
+      > div {
+        border: 1px solid #292929;
+
+        &:first-child {
+          border-left: 1px solid #292929 !important;
+        }
+      }
+    }
+  }
+
   .sections-wrapper > section,
   .server-summary {
     margin-bottom: 20px;
-  }
-
-  .search-input {
-    max-width: 370px;
-    width: 100%;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-
-    label {
-      margin-bottom: 0;
-      text-align: left;
-    }
-
-    .form-control {
-      width: 100%;
-      padding: 10px 30px 10px 10px;
-      box-sizing: border-box;
-      border: 1px solid #292929;
-      border-radius: 5px;
-      color: #919191;
-      background-color: transparent;
-
-      &::placeholder {
-        font-style: italic;
-      }
-      &:focus,
-      &:active {
-        border-color: #2e5785;
-        background-color: transparent;
-      }
-    }
-
-    .search-button {
-      position: absolute;
-      right: 10px;
-      z-index: 99;
-      width: auto;
-      padding: 0;
-      color: #cfd0d1;
-      cursor: pointer;
-      //add background
-      background-color: transparent;
-
-      &:hover {
-        color: #27b2e5;
-      }
-
-      &:disabled {
-        background-color: transparent;
-      }
-    }
   }
 
   .card {
@@ -318,6 +334,34 @@ table.metrics td span.sum {
 
   .first-seen-time {
     color: #27b2e5;
+  }
+}
+
+.app-theme-light {
+  .search-input {
+
+    .form-control {
+      border-color: rgba(0, 0, 0, 0.15);
+    }
+
+    .search-button {
+      color: #0275d8;;
+    }
+  }
+
+  .table-body {
+    border-bottom: 1px solid rgba(0, 0, 0, 0.15);
+
+    .grid-container {
+
+      > div {
+        border: 1px solid rgba(0, 0, 0, 0.15);
+
+        &:first-child {
+          border-left: 1px solid rgba(0, 0, 0, 0.15) !important;
+        }
+      }
+    }
   }
 }
 
