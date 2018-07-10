@@ -194,7 +194,7 @@
       <h5>LOG</h5>
       <span class="accordion-head-second text-primary">
              (<i>Updated {{ (logUpdatedFromNow$ | async) || 'a few seconds ago' }}</i>)
-            <div class="btn-group btn-group-sm" role="group" aria-label="Log period">
+            <div class="btn-group btn-group-sm" role="group" aria-label="Log period" id="update-group">
                 <button type="button" id="logPeriod1h"
                         (click)="setLogPeriod(1); $event.stopPropagation(); $event.preventDefault();"
                         [ngClass]="{'active': logPeriod === 1 }" value="1" class="btn btn-secondary">1 h</button>

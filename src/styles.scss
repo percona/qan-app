@@ -290,7 +290,9 @@ table.metrics td span.sum {
 
   }
 
-  #metrics-table-header a {
+  #metrics-table-header a,
+  #statusTab-header a,
+  #logTitle-header a {
     display: flex;
     justify-content: space-between;
     align-items: center;
