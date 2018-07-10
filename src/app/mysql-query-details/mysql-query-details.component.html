@@ -783,7 +783,7 @@
         <input type="text" class="form-control"
                [(ngModel)]="dbName" [ngModelOptions]="{standalone: true}"
                id="databaseInput" placeholder="`database-name`">
-        <button class="btn btn-primary search-button" [disabled]="!dbName" (click)="getExplain();" type="submit">
+        <button class="search-button" [disabled]="!dbName" (click)="getExplain();" type="submit">
           EXPLAIN
         </button>
       </form>
@@ -884,7 +884,7 @@
                [ngModelOptions]="{standalone: true}"
                placeholder="`database-name`.`table-name`">
         <button [disabled]="isDemo || !newDBTblNames" (click)="addDBTable();"
-                class="btn btn-primary search-button" type="submit">
+                class="search-button" type="submit">
           ADD
         </button>
       </form>

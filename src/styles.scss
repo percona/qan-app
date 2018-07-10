@@ -196,6 +196,17 @@ table.metrics td span.sum {
 }
 
 .app-theme-dark {
+  .form-control,
+  .search-button {
+    background-color: transparent !important;
+  }
+
+  .search-input .form-control:focus,
+  .search-input .form-control:active {
+    border-color: #2e5785;
+    background-color: transparent;
+  }
+
   .table-body {
     border-bottom: 1px solid #292929;
 
@@ -326,6 +337,25 @@ table.metrics td span.sum {
   }
 
   .metrics-table {
+    .table-body {
+      border-bottom: none;
+
+      .grid-container {
+        &:not(:last-child) {
+          border-bottom: 2px solid #292929 !important;
+        }
+        > div {
+          border-top: none;
+          border-left: none !important;
+          border-bottom: none !important;
+
+          &:last-child {
+            border-right: none !important;
+          }
+        }
+      }
+    }
+
     .table-body > div:not(:last-child),
     .table-header {
       border-bottom: 2px solid #292929;
