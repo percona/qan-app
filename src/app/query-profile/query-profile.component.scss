@@ -53,9 +53,18 @@
     grid-template-rows: 50px;
     box-sizing: border-box;
 
-    &.table-active > div:first-child {
+    &.table-active > div:first-child,
+    &.first-seen-query > div:first-child{
       padding-left: 8px !important;
       border-left: 3px solid #2e5785 !important;
+    }
+
+    &.first-seen-query {
+
+    }
+
+    &.table-active {
+      background: #293a4d;
     }
 
     > div {
