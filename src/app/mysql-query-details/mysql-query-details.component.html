@@ -10,7 +10,7 @@
       Server Summary
     </h3>
   </header>
-  <ngb-accordion>
+  <ngb-accordion activeIds="metrics-table">
     <ngb-panel id="metrics-table" class="accordion-inner-table">
       <ng-template ngbPanelTitle>
         <h5>Metrics</h5>
@@ -29,16 +29,16 @@
           </div>
           <div class="table-body" *ngIf="!isLoading">
             <div class="table-body-row grid-container">
-              <div class="cell-overlay"><span>Query Count</span></div>
+              <div><span>Query Count</span></div>
               <div class="flex-container">
-                <div class="cell-overlay justify-content-start">
+                <div class=" justify-content-start">
                   <span>{{ queryDetails?.Metrics2?.Query_count_per_sec | humanize : 'number' }} (per sec)</span>
                 </div>
                 <div class="scaling-svg-container app-tooltip" [appLoadSparklines]="queryDetails?.Sparks2"
                      data-tooltip="Loading..." xkey="Ts" ykey="Query_count_per_sec" measurement="number">
                 </div>
               </div>
-              <div class="cell-overlay">
+              <div class="">
                 <span>{{ queryDetails?.Metrics2?.Query_count | humanize : 'number' }}
                   <small>
                     <span *ngIf="!isSummary" class="text-primary">
@@ -48,7 +48,7 @@
                 </span>
               </div>
               <div class="flex-container">
-                <div class="cell-overlay justify-content-start">
+                <div class=" justify-content-start">
                   <span>{{ queryDetails?.Metrics2?.Query_time_avg | humanize : 'time' }}&nbsp;avg</span>
                 </div>
                 <div class="scaling-svg-container app-tooltip"
@@ -60,16 +60,16 @@
               </div>
             </div>
             <div class="table-body-row grid-container">
-              <div class="cell-overlay"><span>Query Time</span></div>
+              <div><span>Query Time</span></div>
               <div class="flex-container">
-                <div class="cell-overlay justify-content-start">
+                <div class=" justify-content-start">
                   <span>{{ queryDetails?.Metrics2?.Query_time_sum_per_sec | humanize : 'number' }} load</span>
                 </div>
                 <div class="scaling-svg-container app-tooltip" [appLoadSparklines]="queryDetails?.Sparks2"
                      data-tooltip="Loading..." xkey="Ts" ykey="Query_time_sum_per_sec" measurement="number">
                 </div>
               </div>
-              <div class="cell-overlay">
+              <div class="">
                 <span class="sum text-left">{{ queryDetails?.Metrics2?.Query_time_sum | humanize : 'time' }}
                   <small>
                     <span *ngIf="!isSummary" class="text-primary">
@@ -79,7 +79,7 @@
                 </span>
               </div>
               <div class="flex-container">
-                <div class="cell-overlay justify-content-start">
+                <div class=" justify-content-start">
                   <span>{{ queryDetails?.Metrics2?.Query_time_avg | humanize : 'time' }}&nbsp;avg</span>
                 </div>
                 <div class="scaling-svg-container app-tooltip"
@@ -91,9 +91,9 @@
               </div>
             </div>
             <div *ngIf="queryDetails?.Metrics2?.Lock_time_sum" class="table-body-row grid-container">
-              <div class="cell-overlay"><span>Lock Time</span></div>
+              <div><span>Lock Time</span></div>
               <div class="flex-container">
-                <div class="cell-overlay justify-content-start">
+                <div class=" justify-content-start">
                   <span>{{ queryDetails?.Metrics2?.Lock_time_sum_per_sec | humanize : 'number' }} (avg load)</span>
                 </div>
                 <div class="scaling-svg-container app-tooltip" [appLoadSparklines]="queryDetails?.Sparks2"
@@ -103,7 +103,7 @@
 
                 </div>
               </div>
-              <div class="cell-overlay">
+              <div class="">
                 <span class="sum text-left">{{ queryDetails?.Metrics2?.Lock_time_sum | humanize : 'time' }}
                   <small>
                     <span *ngIf="!isSummary" class="text-primary">
@@ -116,7 +116,7 @@
                 </span>
               </div>
               <div class="flex-container">
-                <div class="cell-overlay justify-content-start">
+                <div class=" justify-content-start">
                   <span>{{ queryDetails?.Metrics2?.Lock_time_avg | humanize : 'time' }}&nbsp;avg</span>
                 </div>
                 <div class="scaling-svg-container app-tooltip" data-tooltip="Loading..." measurement="time"
@@ -125,9 +125,9 @@
               </div>
             </div>
             <div *ngIf="queryDetails?.Metrics2?.InnoDB_rec_lock_wait_sum" class="table-body-row grid-container">
-              <div class="cell-overlay"><span>Innodb Row Lock Wait</span></div>
+              <div class="cell-overlay position-static"><span>Innodb Row Lock Wait</span></div>
               <div class="flex-container">
-                <div class="cell-overlay justify-content-start">
+                <div class=" justify-content-start">
                   <span>
                     {{ queryDetails?.Metrics2?.InnoDB_rec_lock_wait_sum_per_sec | humanize :'number' }} (avg load)
                   </span>
@@ -139,7 +139,7 @@
                      measurement="number">
                 </div>
               </div>
-              <div class="cell-overlay">
+              <div class="">
                 <span class="sum text-left">{{ queryDetails?.Metrics2?.InnoDB_rec_lock_wait_sum | humanize : 'time' }}
                   <small>
                     <span *ngIf="queryDetails?.Metrics2?.InnoDB_rec_lock_wait_sum_of_total" class="text-primary">
@@ -152,7 +152,7 @@
                 </span>
               </div>
               <div class="flex-container">
-                <div class="cell-overlay justify-content-start">
+                <div class=" justify-content-start">
                   <span>{{ queryDetails?.Metrics2?.InnoDB_rec_lock_wait_avg | humanize : 'time' }}&nbsp;avg</span>
                 </div>
                 <div class="scaling-svg-container app-tooltip"
@@ -163,18 +163,18 @@
               </div>
             </div>
             <div *ngIf="queryDetails?.Metrics2?.InnoDB_IO_r_wait_sum" class="table-body-row grid-container">
-              <div class="cell-overlay justify-content-start">
+              <div class="justify-content-start">
                 <span>Innodb IO Read Wait</span>
               </div>
               <div class="flex-container">
-                <div class="cell-overlay justify-content-start">
+                <div class=" justify-content-start">
                   <span>{{ queryDetails?.Metrics2?.InnoDB_IO_r_wait_sum_per_sec | humanize :'number' }} (avg load)</span>
                 </div>
                 <div class="scaling-svg-container app-tooltip" [appLoadSparklines]="queryDetails?.Sparks2"
                      data-tooltip="Loading..." xkey="Ts" ykey="InnoDB_IO_r_wait_sum_per_sec"
                      measurement="number"></div>
               </div>
-              <div class="cell-overlay">
+              <div class="">
                 <span class="sum text-left">{{ queryDetails?.Metrics2?.InnoDB_IO_r_wait_sum | humanize : 'time' }}
                   <small>
                     <span *ngIf="!isSummary" class="text-primary">
@@ -187,7 +187,7 @@
                 </span>
               </div>
               <div class="flex-container">
-                <div class="cell-overlay justify-content-start">
+                <div class=" justify-content-start">
                   <span>{{ queryDetails?.Metrics2?.InnoDB_IO_r_wait_avg | humanize : 'time' }}&nbsp;avg</span>
                 </div>
                 <div class="scaling-svg-container app-tooltip" data-tooltip="Loading..." measurement="time"
@@ -196,9 +196,9 @@
               </div>
             </div>
             <div *ngIf="queryDetails?.Metrics2?.InnoDB_queue_wait_sum" class="table-body-row grid-container">
-              <div class="cell-overlay"><span>Innodb Queue Wait</span></div>
+              <div><span>Innodb Queue Wait</span></div>
               <div class="flex-container">
-                <div class="cell-overlay justify-content-start">
+                <div class=" justify-content-start">
                   <span>{{ queryDetails?.Metrics2?.InnoDB_queue_wait_sum_per_sec | humanize :'number'}} (avg load)</span>
                 </div>
                 <div class="scaling-svg-container app-tooltip" [appLoadSparklines]="queryDetails?.Sparks2"
@@ -206,7 +206,7 @@
                      measurement="number">
                 </div>
               </div>
-              <div class="cell-overlay">
+              <div class="">
                 <span class="sum text-left">{{ queryDetails?.Metrics2?.InnoDB_queue_wait_sum | humanize : 'time'}}
                   <small>
                     <span *ngIf="!isSummary" class="text-primary">
@@ -219,7 +219,7 @@
                 </span>
               </div>
               <div class="flex-container">
-                <div class="cell-overlay justify-content-start">
+                <div class=" justify-content-start">
                   <span>{{ queryDetails?.Metrics2?.InnoDB_queue_wait_avg | humanize : 'time' }}&nbsp;avg</span>
                 </div>
                 <div class="scaling-svg-container app-tooltip" data-tooltip="Loading..." measurement="time"
@@ -228,9 +228,9 @@
               </div>
             </div>
             <div *ngIf="queryDetails?.Metrics2?.InnoDB_IO_r_ops_sum" class="table-body-row grid-container">
-              <div class="cell-overlay"><span>Innodb Read Ops</span></div>
+              <div><span>Innodb Read Ops</span></div>
               <div class="flex-container">
-                <div class="cell-overlay justify-content-start">
+                <div class=" justify-content-start">
                   <span>{{ queryDetails?.Metrics2?.InnoDB_IO_r_ops_sum_per_sec | humanize :'number' }} (per sec)</span>
                 </div>
                 <div class="scaling-svg-container app-tooltip" [appLoadSparklines]="queryDetails?.Sparks2"
@@ -238,7 +238,7 @@
                      measurement="number">
                 </div>
               </div>
-              <div class="cell-overlay">
+              <div class="">
                 <span class="sum text-left">{{ queryDetails?.Metrics2?.InnoDB_IO_r_ops_sum | humanize : 'number' }}
                   <small>
                     <span *ngIf="!isSummary" class="text-primary">
@@ -248,7 +248,7 @@
                 </span>
               </div>
               <div class="flex-container">
-                <div class="cell-overlay justify-content-start">
+                <div class=" justify-content-start">
                   <span>{{ queryDetails?.Metrics2?.InnoDB_IO_r_ops_avg | humanize : 'number' }}&nbsp;avg</span>
                 </div>
                 <div class="scaling-svg-container app-tooltip" data-tooltip="Loading..." measurement="number"
@@ -258,9 +258,9 @@
             </div>
             <div *ngIf="queryDetails?.Metrics2?.InnoDB_IO_r_bytes_sum"
                  class="table-body-row grid-container grid-container">
-              <div class="cell-overlay"><span>Innodb Read Bytes</span></div>
+              <div><span>Innodb Read Bytes</span></div>
               <div class="flex-container">
-                <div class="cell-overlay justify-content-start">
+                <div class=" justify-content-start">
                   <span>{{ queryDetails?.Metrics2?.InnoDB_IO_r_bytes_sum_per_sec | humanize :'size'}} (per sec)</span>
                 </div>
                 <div class="scaling-svg-container app-tooltip" [appLoadSparklines]="queryDetails?.Sparks2"
@@ -268,7 +268,7 @@
                      measurement="size">
                 </div>
               </div>
-              <div class="cell-overlay">
+              <div class="">
                 <span class="sum text-left">{{ queryDetails?.Metrics2?.InnoDB_IO_r_bytes_sum | humanize : 'size' }}
                   <small>
                     <span *ngIf="!isSummary" class="text-primary">
@@ -281,7 +281,7 @@
                 </span>
               </div>
               <div class="flex-container">
-                <div class="cell-overlay justify-content-start">
+                <div class=" justify-content-start">
                   <span>{{ queryDetails?.Metrics2?.InnoDB_IO_r_bytes_avg | humanize : 'size' }}&nbsp;avg</span>
                 </div>
                 <div class="scaling-svg-container app-tooltip" data-tooltip="Loading..." measurement="size"
@@ -291,10 +291,10 @@
             </div>
             <div *ngIf="queryDetails?.Metrics2?.InnoDB_pages_distinct_sum"
                  class="table-body-row grid-container special-row">
-              <div class="cell-overlay"><span>Innodb Distinct Pages</span></div>
+              <div><span>Innodb Distinct Pages</span></div>
               <div>-</div>
               <div class="flex-container">
-                <div class="cell-overlay justify-content-start">
+                <div class=" justify-content-start">
                   <span>{{ queryDetails?.Metrics2?.InnoDB_pages_distinct_avg | humanize : 'number' }}&nbsp;avg</span>
                 </div>
                 <div class="scaling-svg-container app-tooltip" data-tooltip="Loading..." measurement="number"
@@ -303,16 +303,16 @@
               </div>
             </div>
             <div *ngIf="queryDetails?.Metrics2?.QC_Hit_sum" class="table-body-row grid-container">
-              <div class="cell-overlay"><span>Query Cache Hits</span></div>
+              <div><span>Query Cache Hits</span></div>
               <div class="flex-container">
-                <div class="cell-overlay justify-content-start">
+                <div class=" justify-content-start">
                   <span>{{ queryDetails?.Metrics2?.QC_Hit_sum_per_sec | humanize : 'number' }} (per sec)</span>
                 </div>
                 <div class="scaling-svg-container app-tooltip" [appLoadSparklines]="queryDetails?.Sparks2"
                      data-tooltip="Loading..." xkey="Ts" ykey="QC_Hit_sum_per_sec" measurement="number">
                 </div>
               </div>
-              <div class="cell-overlay">
+              <div class="">
                 <span class="sum text-left">{{ queryDetails?.Metrics2?.QC_Hit_sum | humanize : 'number' }}
                   <small>
                     <span *ngIf="!isSummary" class="text-primary">
@@ -329,16 +329,16 @@
               </div>
             </div>
             <div *ngIf="queryDetails?.Metrics2?.Rows_sent_sum" class="table-body-row grid-container">
-              <div class="cell-overlay"><span>Rows Sent</span></div>
+              <div><span>Rows Sent</span></div>
               <div class="flex-container">
-                <div class="cell-overlay justify-content-start">
+                <div class=" justify-content-start">
                   <span>{{ queryDetails?.Metrics2?.Rows_sent_sum_per_sec | humanize : 'number' }} (per sec)</span>
                 </div>
                 <div class="scaling-svg-container app-tooltip" [appLoadSparklines]="queryDetails?.Sparks2"
                      data-tooltip="Loading..." xkey="Ts" ykey="Rows_sent_sum_per_sec" measurement="number">
                 </div>
               </div>
-              <div class="cell-overlay">
+              <div class="">
                 <span class="sum text-left">{{ queryDetails?.Metrics2?.Rows_sent_sum | humanize : 'number' }}
                   <small>
                     <span *ngIf="!isSummary" class="text-primary">
@@ -348,7 +348,7 @@
                 </span>
               </div>
               <div class="flex-container">
-                <div class="cell-overlay justify-content-start">
+                <div class=" justify-content-start">
                   <span>{{ queryDetails?.Metrics2?.Rows_sent_avg | humanize : 'number' }}&nbsp;avg</span>
                 </div>
                 <div class="scaling-svg-container app-tooltip" data-tooltip="Loading..." measurement="number"
@@ -357,16 +357,16 @@
               </div>
             </div>
             <div *ngIf="queryDetails?.Metrics2?.Bytes_sent_sum" class="table-body-row grid-container">
-              <div class="cell-overlay"><span>Bytes Sent</span></div>
+              <div><span>Bytes Sent</span></div>
               <div class="flex-container">
-                <div class="cell-overlay justify-content-start">
+                <div class=" justify-content-start">
                   <span>{{ queryDetails?.Metrics2?.Bytes_sent_sum_per_sec | humanize : 'size' }} (per sec)</span>
                 </div>
                 <div class="scaling-svg-container app-tooltip" [appLoadSparklines]="queryDetails?.Sparks2"
                      data-tooltip="Loading..." xkey="Ts" ykey="Bytes_sent_sum_per_sec" measurement="size">
                 </div>
               </div>
-              <div class="cell-overlay">
+              <div class="">
                 <span class="sum text-left">{{ queryDetails?.Metrics2?.Bytes_sent_sum | humanize : 'size' }}
                   <small>
                     <span *ngIf="!isSummary" class="text-primary">
@@ -379,7 +379,7 @@
                 </span>
               </div>
               <div class="flex-container">
-                <div class="cell-overlay justify-content-start">
+                <div class=" justify-content-start">
                   <span>{{ queryDetails?.Metrics2?.Bytes_sent_avg | humanize : 'size' }}&nbsp;avg</span>
                 </div>
                 <div class="scaling-svg-container app-tooltip" data-tooltip="Loading..." measurement="size"
@@ -388,16 +388,16 @@
               </div>
             </div>
             <div *ngIf="queryDetails?.Metrics2?.Rows_examined_sum" class="table-body-row grid-container">
-              <div class="cell-overlay"><span>Rows Examined</span></div>
+              <div><span>Rows Examined</span></div>
               <div class="flex-container">
-                <div class="cell-overlay justify-content-start">
+                <div class=" justify-content-start">
                   <span>{{ queryDetails?.Metrics2?.Rows_examined_sum_per_sec | humanize : 'number' }} (per sec)</span>
                 </div>
                 <div class="scaling-svg-container app-tooltip" [appLoadSparklines]="queryDetails?.Sparks2"
                      data-tooltip="Loading..." xkey="Ts" ykey="Rows_examined_sum_per_sec" measurement="number">
                 </div>
               </div>
-              <div class="cell-overlay">
+              <div class="">
                 <span class="sum text-left">{{ queryDetails?.Metrics2?.Rows_examined_sum | humanize : 'number' }}
                   <small>
                     <span *ngIf="!isSummary" class="text-primary">
@@ -410,7 +410,7 @@
                 </span>
               </div>
               <div class="flex-container">
-                <div class="cell-overlay justify-content-start">
+                <div class=" justify-content-start">
                   <span>{{ queryDetails?.Metrics2?.Rows_examined_avg | humanize : 'number' }}&nbsp;avg</span>
                 </div>
                 <div class="scaling-svg-container app-tooltip" data-tooltip="Loading..." measurement="number"
@@ -419,16 +419,16 @@
               </div>
             </div>
             <div *ngIf="queryDetails?.Metrics2?.Rows_affected_sum" class="table-body-row grid-container">
-              <div class="cell-overlay"><span>Rows Affected</span></div>
+              <div><span>Rows Affected</span></div>
               <div class="flex-container">
-                <div class="cell-overlay justify-content-start">
+                <div class=" justify-content-start">
                   <span>{{ queryDetails?.Metrics2?.Rows_affected_sum_per_sec | humanize : 'number' }} (per sec)</span>
                 </div>
                 <div class="scaling-svg-container app-tooltip" [appLoadSparklines]="queryDetails?.Sparks2"
                      data-tooltip="Loading..." xkey="Ts" ykey="Rows_affected_sum_per_sec" measurement="number">
                 </div>
               </div>
-              <div class="cell-overlay">
+              <div class="">
                 <span class="sum text-left">{{ queryDetails?.Metrics2?.Rows_affected_sum | humanize : 'number'}}
                   <small>
                     <span *ngIf="!isSummary" class="text-primary">
@@ -438,7 +438,7 @@
                 </span>
               </div>
               <div class="flex-container">
-                <div class="cell-overlay justify-content-start">
+                <div class=" justify-content-start">
                   <span>{{ queryDetails?.Metrics2?.Rows_affected_avg | humanize : 'number' }}&nbsp;avg</span>
                 </div>
                 <div class="scaling-svg-container app-tooltip" data-tooltip="Loading..." measurement="number"
@@ -448,16 +448,16 @@
             </div>
             <div *ngIf="queryDetails?.Metrics2?.Filesort_sum" class="table-body-row grid-container">
               <div>no avg</div>
-              <div class="cell-overlay"><span>External Sorts<small>(Filesort)</small></span></div>
+              <div class=""><span>External Sorts<small>(Filesort)</small></span></div>
               <div class="flex-container">
-                <div class="cell-overlay justify-content-start">
+                <div class=" justify-content-start">
                   <span>{{ queryDetails?.Metrics2?.Filesort_sum_per_sec | humanize : 'number' }} (per sec)</span>
                 </div>
                 <div class="scaling-svg-container app-tooltip" [appLoadSparklines]="queryDetails?.Sparks2"
                      data-tooltip="Loading..." xkey="Ts" ykey="Filesort_sum_per_sec" measurement="number">
                 </div>
               </div>
-              <div class="cell-overlay">
+              <div class="">
                 <span class="sum text-left">{{ queryDetails?.Metrics2?.Filesort_sum | humanize : 'number' }}
                   <small>
                     <span *ngIf="!isSummary" class="text-primary">
@@ -474,11 +474,11 @@
               </div>
             </div>
             <div *ngIf="queryDetails?.Metrics2?.Filesort_on_disk_sum" class="table-body-row grid-container">
-              <div class="cell-overlay">
+              <div class="cell-overlay position-static">
                 <span>External Sorts of Disk<small>(Filesort on disk)</small></span>
               </div>
               <div class="flex-container">
-                <div class="cell-overlay justify-content-start">
+                <div class=" justify-content-start">
                   <span>{{ queryDetails?.Metrics2?.Filesort_on_disk_sum_per_sec | humanize : 'number' }} (per sec)</span>
                 </div>
                 <div class="scaling-svg-container app-tooltip" [appLoadSparklines]="queryDetails?.Sparks2"
@@ -486,7 +486,7 @@
                      measurement="number">
                 </div>
               </div>
-              <div class="cell-overlay">
+              <div class="">
                 <span class="sum text-left">{{ queryDetails?.Metrics2?.Filesort_on_disk_sum | humanize : 'number' }}
                   <small>
                     <span *ngIf="!isSummary" class="text-primary">
@@ -503,18 +503,18 @@
               </div>
             </div>
             <div *ngIf="queryDetails?.Metrics2?.Merge_passes_sum" class="table-body-row grid-container">
-              <div class="cell-overlay">
+              <div class="cell-overlay position-static">
                 <span>External Sort Passes<small>(Merge Passes)</small></span>
               </div>
               <div class="flex-container">
-                <div class="cell-overlay rate-sec">
+                <div class=" rate-sec">
                   <span>{{ queryDetails?.Metrics2?.Merge_passes_sum_per_sec | humanize : 'number' }} (per sec)</span>
                 </div>
                 <div class="scaling-svg-container app-tooltip" [appLoadSparklines]="queryDetails?.Sparks2"
                      data-tooltip="Loading..." xkey="Ts" ykey="Merge_passes_sum_per_sec" measurement="number">
                 </div>
               </div>
-              <div class="cell-overlay">
+              <div class="">
                 <span>{{ queryDetails?.Metrics2?.Merge_passes_sum | humanize : 'number' }}
                   <small>
                     <span *ngIf="!isSummary" class="text-primary">
@@ -527,7 +527,7 @@
                 </span>
               </div>
               <div class="flex-container">
-                <div class="cell-overlay justify-content-start">
+                <div class=" justify-content-start">
                   <span>{{ queryDetails?.Metrics2?.Merge_passes_avg | humanize : 'number' }}&nbsp;avg</span>
                 </div>
                 <div class="scaling-svg-container app-tooltip" data-tooltip="Loading..." measurement="number"
@@ -536,18 +536,18 @@
               </div>
             </div>
             <div *ngIf="queryDetails?.Metrics2?.Full_join_sum" class="table-body-row grid-container">
-              <div class=cell-overlay>
+              <div class="cell-overlay position-static">
                 <span>Cartesian Products<small>(Full Joins)</small></span>
               </div>
               <div class="flex-container">
-                <div class=cell-overlay>
+                <div >
                   <span>{{ queryDetails?.Metrics2?.Full_join_sum_per_sec | humanize : 'number' }} (per sec)</span>
                 </div>
                 <div class="scaling-svg-container app-tooltip" [appLoadSparklines]="queryDetails?.Sparks2"
                      data-tooltip="Loading..." xkey="Ts" ykey="Full_join_sum_per_sec" measurement="number">
                 </div>
               </div>
-              <div class="cell-overlay">
+              <div class="">
                 <span>{{ queryDetails?.Metrics2?.Full_join_sum | humanize : 'number' }}
                   <small>
                     <span *ngIf="!isSummary" class="text-primary">
@@ -564,16 +564,16 @@
               </div>
             </div>
             <div *ngIf="queryDetails?.Metrics2?.Full_scan_sum" class="table-body-row grid-container">
-              <div class="cell-overlay"><span>Full Table Scans</span></div>
+              <div class="cell-overlay position-static"><span>Full Table Scans</span></div>
               <div class="flex-container">
-                <div class="cell-overlay">
+                <div class="">
                   <span>{{ queryDetails?.Metrics2?.Full_scan_sum_per_sec | humanize : 'number' }} (per sec)</span>
                 </div>
                 <div class="scaling-svg-container app-tooltip" [appLoadSparklines]="queryDetails?.Sparks2"
                      data-tooltip="Loading..." xkey="Ts" ykey="Full_scan_sum_per_sec" measurement="number">
                 </div>
               </div>
-              <div class="cell-overlay">
+              <div class="">
                 <span class="sum text-left">{{ queryDetails?.Metrics2?.Full_scan_sum | humanize : 'number' }}
                   <small>
                     <span *ngIf="!isSummary" class="text-primary">
@@ -590,16 +590,16 @@
               </div>
             </div>
             <div *ngIf="queryDetails?.Metrics2?.Tmp_table_sum" class="table-body-row grid-container">
-              <div class="cell-overlay"><span>Queries Requiring Tmp Table In Memory</span></div>
+              <div class="cell-overlay position-static"><span>Queries Requiring Tmp Table In Memory</span></div>
               <div class="flex-container">
-                <div class="cell-overlay">
+                <div class="">
                   <span>{{ queryDetails?.Metrics2?.Tmp_table_sum_per_sec | humanize : 'number' }} (per sec)</span>
                 </div>
                 <div class="scaling-svg-container app-tooltip" [appLoadSparklines]="queryDetails?.Sparks2"
                      data-tooltip="Loading..." xkey="Ts" ykey="Tmp_table_sum_per_sec" measurement="number">
                 </div>
               </div>
-              <div class="cell-overlay">
+              <div class="">
                 <span class="sum text-left">{{ queryDetails?.Metrics2?.Tmp_table_sum | humanize : 'number' }}
                   <small>
                     <span *ngIf="!isSummary" class="text-primary">
@@ -616,16 +616,16 @@
               </div>
             </div>
             <div *ngIf="queryDetails?.Metrics2?.Tmp_tables_sum" class="table-body-row grid-container">
-              <div class="cell-overlay"><span>Number of Tmp table in Memory</span></div>
+              <div class="cell-overlay position-static"><span>Number of Tmp table in Memory</span></div>
               <div class="flex-container">
-                <div class="cell-overlay rate-sec">
+                <div class=" rate-sec">
                   <span>{{ queryDetails?.Metrics2?.Tmp_tables_sum_per_sec | humanize : 'number' }} (per sec)</span>
                 </div>
                 <div class="scaling-svg-container app-tooltip" [appLoadSparklines]="queryDetails?.Sparks2"
                      data-tooltip="Loading..." xkey="Ts" ykey="Tmp_tables_sum_per_sec" measurement="number">
                 </div>
               </div>
-              <div class="cell-overlay">
+              <div class="">
                 <span class="sum text-left">{{ queryDetails?.Metrics2?.Tmp_tables_sum | humanize : 'number' }}
                   <small>
                     <span *ngIf="!isSummary" class="text-primary">
@@ -638,7 +638,7 @@
                 </span>
               </div>
               <div class="flex-container">
-                <div class="cell-overlay justify-content-start">
+                <div class=" justify-content-start">
                   <span>{{ queryDetails?.Metrics2?.Tmp_tables_avg | humanize : 'number' }}&nbsp;avg</span>
                 </div>
                 <div class="scaling-svg-container app-tooltip" data-tooltip="Loading..." measurement="number"
@@ -647,9 +647,9 @@
               </div>
             </div>
             <div *ngIf="queryDetails?.Metrics2?.Tmp_table_on_disk_sum" class="table-body-row grid-container">
-              <div class="cell-overlay"><span>Queries Requiring Tmp Table on Disk</span></div>
+              <div class="cell-overlay position-static"><span>Queries Requiring Tmp Table on Disk</span></div>
               <div class="flex-container">
-                <div class="cell-overlay rate-sec">
+                <div class=" rate-sec">
                   <span>{{ queryDetails?.Metrics2?.Tmp_table_on_disk_sum_per_sec | humanize : 'number' }} (per sec)</span>
                 </div>
                 <div class="scaling-svg-container app-tooltip" [appLoadSparklines]="queryDetails?.Sparks2"
@@ -657,7 +657,7 @@
                      measurement="number">
                 </div>
               </div>
-              <div class="cell-overlay justify-content-start">
+              <div class=" justify-content-start">
                 <span class="sum text-left">{{ queryDetails?.Metrics2?.Tmp_table_on_disk_sum | humanize : 'number' }}
                   <small>
                     <span *ngIf="!isSummary" class="text-primary">
@@ -674,9 +674,9 @@
               </div>
             </div>
             <div *ngIf="queryDetails?.Metrics2?.Tmp_disk_tables_sum" class="table-body-row grid-container">
-              <div class="cell-overlay"><span>Number of Tmp Tables on Disk</span></div>
+              <div class="cell-overlay position-static"><span>Number of Tmp Tables on Disk</span></div>
               <div class="flex-container">
-                <div class="cell-overlay rate-sec">
+                <div class=" rate-sec">
                   <span>{{ queryDetails?.Metrics2?.Tmp_disk_tables_sum_per_sec | humanize : 'number' }} (per sec)</span>
                 </div>
                 <div class="scaling-svg-container app-tooltip" [appLoadSparklines]="queryDetails?.Sparks2"
@@ -684,7 +684,7 @@
                      measurement="number">
                 </div>
               </div>
-              <div class="cell-overlay">
+              <div class="">
                 <span class="sum text-left">{{ queryDetails?.Metrics2?.Tmp_disk_tables_sum | humanize : 'number' }}
                   <small>
                     <span *ngIf="!isSummary" class="text-primary">
@@ -697,7 +697,7 @@
                 </span>
               </div>
               <div class="flex-container">
-                <div class="text-xs-right cell-overlay justify-content-start">
+                <div class="text-xs-right  justify-content-start">
                   <span>{{ queryDetails?.Metrics2?.Tmp_disk_tables_avg | humanize : 'number' }}&nbsp;avg</span>
                 </div>
                 <div class="scaling-svg-container app-tooltip" data-tooltip="Loading..." measurement="number"
@@ -706,9 +706,9 @@
               </div>
             </div>
             <div *ngIf="queryDetails?.Metrics2?.Tmp_table_sizes_sum" class="table-body-row grid-container">
-              <div class="cell-overlay"><span>Total Size of Tmp Tables</span></div>
+              <div class="cell-overlay position-static"><span>Total Size of Tmp Tables</span></div>
               <div class="flex-container">
-                <div class="cell-overlay">
+                <div class="">
                   <span>{{ queryDetails?.Metrics2?.Tmp_table_sizes_sum_per_sec | humanize : 'size' }} (per sec)</span>
                 </div>
                 <div class="scaling-svg-container app-tooltip" [appLoadSparklines]="queryDetails?.Sparks2"
@@ -716,7 +716,7 @@
                      measurement="size">
                 </div>
               </div>
-              <div class="cell-overlay">
+              <div class="">
           <span class="sum text-left">{{ queryDetails?.Metrics2?.Tmp_table_sizes_sum | humanize : 'size' }}
             <small>
               <span *ngIf="!isSummary" class="text-primary">
@@ -729,7 +729,7 @@
           </span>
               </div>
               <div class="flex-container">
-                <div class="cell-overlay justify-content-start">
+                <div class=" justify-content-start">
                   <span>{{ queryDetails?.Metrics2?.Tmp_table_sizes_avg | humanize : 'size' }}&nbsp;avg</span>
                 </div>
                 <div class="scaling-svg-container app-tooltip" data-tooltip="Loading..." measurement="size"
@@ -750,7 +750,7 @@
       <h3 class="d-flex">QUERY</h3>
     </header>
     <ngb-accordion activeIds="query-fingerprint">
-      <ngb-panel>
+      <ngb-panel id="query-fingerprint">
         <ng-template ngbPanelTitle>
           <h5>Fingerprint</h5>
         </ng-template>
@@ -892,11 +892,11 @@
 
     <section class="table-buttons-wrapper">
       <div *ngFor="let item of queryDetails?.Query?.Tables" class="btn-group" role="group" aria-label="Tables">
-        <button type="button" class="btn" (click)="selectTableInfo(item.Db, item.Table);"
-                [ngClass]="isSelectedDbTbl(item) ? 'btn-success' : 'btn-secondary'">
+        <button type="button" class="btn btn-primary btn-tables" (click)="selectTableInfo(item.Db, item.Table);">
+                <!--[ngClass]="isSelectedDbTbl(item) ? 'btn-success' : 'btn-secondary'">-->
           `{{ item.Db }}`.`{{ item.Table }}`
         </button>
-        <button type="button" class="btn btn-warning" (click)="removeDBTable(item);">
+        <button type="button" class="btn btn-primary btn-tables" (click)="removeDBTable(item);">
           <i class="fa fa-times" aria-hidden="true"></i>
         </button>
       </div>

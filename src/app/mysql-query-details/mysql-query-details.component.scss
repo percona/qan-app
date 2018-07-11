@@ -128,3 +128,18 @@ section.explain {
 .table-buttons-wrapper {
   margin-bottom: 20px;
 }
+
+.btn-tables {
+  cursor: pointer;
+  color: white;
+  box-sizing: border-box;
+
+  &:hover,
+  &:focus {
+    color: white !important;
+  }
+  &:focus {
+    box-shadow: none;
+    border: none;
+  }
+}

@@ -6,7 +6,7 @@
   margin-bottom: 15px;
 
   .table-title {
-    font-size: 1.6rem;
+    font-size: 18px;
   }
 
   .display-options {
@@ -53,6 +53,11 @@
     grid-template-rows: 50px;
     box-sizing: border-box;
 
+    &:first-child {
+      font-weight: 500;
+      font-size: 12px;
+    }
+
     &.table-active > div:first-child,
     &.first-seen-query > div:first-child{
       padding-left: 8px !important;
@@ -95,3 +100,38 @@
 .load-more-wrapper {
   margin-bottom: 20px;
 }
+
+.unit:after {
+  font-size: 0.8rem;
+  color: #6f757c;
+}
+
+.unit-percent:after {
+  content: '%'
+}
+
+.unit-avg:after {
+  content: 'avg';
+}
+
+.unit-qps:after {
+  content: 'QPS';
+}
+
+.main-table-overlay {
+  display: block;
+  //justify-content: flex-start;
+  width: 30%;
+  height: 30px;
+}
+
+//.flex-container > div {
+//  max-width: 30%;
+//  width: 100%;
+//}
+//
+//.flex-container:nth-of-type(2) > div,
+//.flex-container-big > div {
+//  max-width: 22%;
+//  width: 100%;
+//}
