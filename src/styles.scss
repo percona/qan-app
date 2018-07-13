@@ -482,6 +482,13 @@ label:not(.form-check-label):after {
   stroke-width: 1px;
 }
 
+.x-axis {
+  fill: none;
+  stroke: #D9721F;
+  stroke-width: 1px;
+  stroke-opacity: 0.1;
+}
+
 .circle {
   fill: white;
   stroke: #D9721F;
