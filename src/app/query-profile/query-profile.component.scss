@@ -16,6 +16,7 @@
     color: white;
 
     .option-container {
+      height: 40px;
       display: flex;
       align-items: center;
       overflow: hidden;
@@ -25,10 +26,12 @@
       border: 1px solid #292929;
 
       button {
+        height: 100%;
         margin-top: 0;
         cursor: pointer;
         color: inherit;
         box-sizing: border-box;
+        background-color: transparent;
         border-radius: 0;
 
         &:focus,
@@ -65,11 +68,11 @@
     }
 
     &.first-seen-query {
-
+      background-color: #0d233b;
     }
 
     &.table-active {
-      background: #293a4d;
+      background-color: #293a4d;
     }
 
     > div {
@@ -120,18 +123,14 @@
 
 .main-table-overlay {
   display: block;
-  //justify-content: flex-start;
   width: 30%;
   height: 30px;
 }
 
-//.flex-container > div {
-//  max-width: 30%;
-//  width: 100%;
-//}
-//
-//.flex-container:nth-of-type(2) > div,
-//.flex-container-big > div {
-//  max-width: 22%;
-//  width: 100%;
-//}
+.btn-switcher {
+  background-color: transparent !important;
+}
+
+.btn-switcher.checked {
+  background-color: #333333 !important;
+}

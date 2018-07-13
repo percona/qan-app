@@ -20,8 +20,12 @@
       <div class="display-options">
         <span>Display</span>
         <div class="option-container">
-          <button class="btn btn-primary btn-block">All queries</button>
-          <button class="btn btn-primary btn-block">First seen</button>
+          <button class="btn btn-block btn-switcher"
+                  [class.checked]="isFirsSeenChecked === false"
+                  (click)="isFirsSeenChecked = !isFirsSeenChecked;">All queries</button>
+          <button class="btn btn-block btn-switcher"
+                  [class.checked]="isFirsSeenChecked === true"
+                  (click)="isFirsSeenChecked = !isFirsSeenChecked;">First seen</button>
         </div>
       </div>
       <form class="search-input" (submit)="search()">
@@ -44,8 +48,8 @@
       <div class="grid-container"
            *ngFor="let row of queryProfile; let i = index; let first = first;"
            [routerLink]="['./', 'report', dbServer.Subsystem]"
-           [queryParams]="composeQueryParamsForGrid(row.Id)" routerLinkActive="table-active">
-            <!--[class.first-seen-query]="true">-->
+           [queryParams]="composeQueryParamsForGrid(row.Id)" routerLinkActive="table-active"
+            [class.first-seen-query]="checkFirstSeen(row) && isFirsSeenChecked">
         <div>{{ i || '' }}</div>
         <div class="cell-overlay">
           <span class="cell-overlay">
@@ -62,7 +66,7 @@
                measurement="number">
           </div>
           <div>{{ row.Load | humanize : 'number' }}</div>
-          <div>{{ row.Percentage | humanize : 'percent' }}</div>
+          <div><span class="unit unit-percent">{{ row.Percentage | humanize : 'percent' }}</span></div>
         </div>
         <div class="flex-container ">
           <div><span class="unit unit-qps">{{row.QPS | humanize : 'number'}}</span></div>

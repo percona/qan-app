@@ -25,6 +25,8 @@ export class QueryProfileComponent extends CoreComponent {
     public toDate: string;
     public isLoading: boolean;
     public noQueryError: string;
+    public isFirstSeen: boolean;
+    public isFirsSeenChecked = false;
 
     constructor(protected route: ActivatedRoute, protected router: Router,
         protected instanceService: InstanceService, protected queryProfileService: QueryProfileService) {
@@ -45,6 +47,11 @@ export class QueryProfileComponent extends CoreComponent {
             this.previousQueryParams.tz !== this.queryParams.tz) {
             this.loadQueries();
         }
+    }
+
+    checkFirstSeen(currentQuery) {
+      this.isFirstSeen = moment(currentQuery['FirstSeen']).valueOf() > moment(this.fromUTCDate).valueOf();
+      return this.isFirstSeen
     }
 
     public async loadQueries() {

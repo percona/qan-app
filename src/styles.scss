@@ -150,6 +150,21 @@ table.metrics td span.sum {
   }
 }
 
+.btn-expand-all,
+.copy-btn {
+  cursor: pointer;
+  color: white !important;
+
+  &:focus {
+    border: none !important;
+    box-shadow: none !important;
+  }
+}
+
+.btn-expand-all-success {
+  background-color: #292929;
+}
+
 .search-input {
   max-width: 370px;
   width: 100%;
@@ -158,7 +173,7 @@ table.metrics td span.sum {
   align-items: center;
 
   label {
-    margin-bottom: 0;
+    margin-bottom: 0 !important;
     text-align: left;
   }
 
@@ -203,6 +218,10 @@ table.metrics td span.sum {
   }
 }
 
+.table-header-row {
+  font-weight: bold;
+}
+
 .app-theme-dark {
   .form-control,
   .search-button {
@@ -228,6 +247,10 @@ table.metrics td span.sum {
         }
       }
     }
+  }
+
+  .table-header-row {
+    background-color: #333333;
   }
 
   .sections-wrapper > section,

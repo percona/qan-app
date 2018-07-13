@@ -21,7 +21,7 @@
       </ng-template>
       <ng-template ngbPanelContent>
         <div class="table-wrapper metrics-table">
-          <div class="table-header grid-container">
+          <div class="table-header grid-container table-header-row">
             <div>Metrics</div>
             <div>Rate/Sec</div>
             <div>Sum</div>
@@ -801,7 +801,7 @@
             {{ jsonExplainError }}
           </div>
           <div class="table-wrapper classic-table-wrapper" *ngIf="!isExplainLoading && !classicExplainError">
-            <div class="table-header classic-table-row">
+            <div class="table-header classic-table-row table-header-row">
               <div title="Id">Id</div>
               <div title="SelectType">SelectType</div>
               <div title="Table">Table</div>
@@ -936,7 +936,7 @@
             {{ statusTableError }}
           </div>
           <div class="table-wrapper status-table-wrapper" *ngIf="!statusTableError">
-            <div class="table-header grid-container">
+            <div class="table-header grid-container table-header-row">
               <div>Name</div>
               <div>Value</div>
             </div>
@@ -969,7 +969,7 @@
             {{ indexTableError }}
           </div>
           <div class="table-wrapper indexes-table" *ngIf="!isTableInfoLoading && !indexTableError">
-            <div class="table-header grid-container">
+            <div class="table-header grid-container table-header-row">
               <div>KeyName</div>
               <div>Type</div>
               <div>Unique</div>
