@@ -32,7 +32,7 @@
               <div><span>Query Count</span></div>
               <div class="flex-container">
                 <div class="justify-content-start">
-                  <span>{{ queryDetails?.Metrics2?.Query_count_per_sec | humanize : 'number' }} (per sec)</span>
+                  <span class="unit unit-per-sec">{{ queryDetails?.Metrics2?.Query_count_per_sec | humanize : 'number' }}</span>
                 </div>
                 <div class="scaling-svg-container app-tooltip" [appLoadSparklines]="queryDetails?.Sparks2"
                      data-tooltip="Loading..." xkey="Ts" ykey="Query_count_per_sec" measurement="number">
@@ -42,14 +42,14 @@
                 <span>{{ queryDetails?.Metrics2?.Query_count | humanize : 'number' }}
                   <small>
                     <span *ngIf="!isSummary" class="text-primary">
-                      {{ queryDetails?.Metrics2?.Query_count_of_total | humanize : 'percent' }} of total
+                      <span class="unit unit-percent">{{ queryDetails?.Metrics2?.Query_count_of_total | humanize : 'percent' }}</span> of total
                     </span>
                   </small>
                 </span>
               </div>
               <div class="flex-container">
                 <div class="justify-content-start">
-                  <span>{{ queryDetails?.Metrics2?.Query_time_avg | humanize : 'time' }}&nbsp;avg</span>
+                  <span class="unit unit-avg">{{ queryDetails?.Metrics2?.Query_time_avg | humanize : 'time' }}</span>
                 </div>
                 <div class="scaling-svg-container app-tooltip"
                      data-tooltip="Loading..."
@@ -64,7 +64,7 @@
               <div class="flex-container">
                 <div class="cell-overlay justify-content-start">
                   <span>{{ queryDetails?.Metrics2?.Query_time_sum_per_sec | humanize : 'number' }} load
-                    ({{ queryDetails?.Metrics2?.Query_time_sum_of_total | humanize : 'percent' }})
+                    (<span class="unit unit-percent">{{ queryDetails?.Metrics2?.Query_time_sum_of_total | humanize : 'percent' }}</span>)
                   </span>
                 </div>
                 <div class="scaling-svg-container app-tooltip" [appLoadSparklines]="queryDetails?.Sparks2"
@@ -75,14 +75,14 @@
                 <span class="sum text-left">{{ queryDetails?.Metrics2?.Query_time_sum | humanize : 'time' }}
                   <small>
                     <span *ngIf="!isSummary" class="text-primary">
-                      {{ queryDetails?.Metrics2?.Query_time_sum_of_total | humanize : 'percent' }} of total
+                      <span class="unit unit-percent">{{ queryDetails?.Metrics2?.Query_time_sum_of_total | humanize : 'percent' }}</span> of total
                     </span>
                   </small>
                 </span>
               </div>
               <div class="flex-container">
                 <div class="justify-content-start">
-                  <span>{{ queryDetails?.Metrics2?.Query_time_avg | humanize : 'time' }}&nbsp;avg</span>
+                  <span class="unit unit-avg">{{ queryDetails?.Metrics2?.Query_time_avg | humanize : 'time' }}</span>
                 </div>
                 <div class="scaling-svg-container app-tooltip"
                      data-tooltip="Loading..."
@@ -96,7 +96,7 @@
               <div><span>Docs Returned</span></div>
               <div class="flex-container">
                 <div class="cell-overlay justify-content-start">
-                  <span>{{ queryDetails?.Metrics2?.Rows_sent_sum_per_sec | humanize : 'number' }} (per sec)</span>
+                  <span class="unit unit-per-sec">{{ queryDetails?.Metrics2?.Rows_sent_sum_per_sec | humanize : 'number' }}</span>
                 </div>
                 <div class="scaling-svg-container app-tooltip" [appLoadSparklines]="queryDetails?.Sparks2"
                      data-tooltip="Loading..." xkey="Ts" ykey="Rows_sent_sum_per_sec" measurement="number">
@@ -106,14 +106,14 @@
                 <span class="sum text-left">{{ queryDetails?.Metrics2?.Rows_sent_sum | humanize : 'number' }}
                   <small>
                     <span *ngIf="!isSummary" class="text-primary">
-                      {{ queryDetails?.Metrics2?.Rows_sent_sum_of_total | humanize : 'percent' }} of total
+                      <span class="unit unit-percent">{{ queryDetails?.Metrics2?.Rows_sent_sum_of_total | humanize : 'percent' }}</span> of total
                     </span>
                   </small>
                 </span>
               </div>
               <div class="flex-container">
                 <div class="justify-content-start">
-                  <span>{{ queryDetails?.Metrics2?.Rows_sent_avg | humanize : 'number' }}&nbsp;avg</span>
+                  <span class="unit unit unit-avg">{{ queryDetails?.Metrics2?.Rows_sent_avg | humanize : 'number' }}</span>
                 </div>
                 <div class="scaling-svg-container app-tooltip" data-tooltip="Loading..." measurement="number"
                      [appLatencyChart]="queryDetails?.Metrics2" metricPrefix="Rows_sent">
@@ -124,7 +124,7 @@
               <div><span>Response Length</span></div>
               <div class="flex-container">
                 <div class="justify-content-start">
-                  <span>{{ queryDetails?.Metrics2?.Bytes_sent_sum_per_sec | humanize : 'size' }} (per sec)</span>
+                  <span class="unit unit-per-sec">{{ queryDetails?.Metrics2?.Bytes_sent_sum_per_sec | humanize : 'size' }}</span>
                 </div>
                 <div class="scaling-svg-container app-tooltip" [appLoadSparklines]="queryDetails?.Sparks2"
                      data-tooltip="Loading..." xkey="Ts" ykey="Bytes_sent_sum_per_sec" measurement="size">
@@ -134,7 +134,7 @@
                 <span class="sum text-left">{{ queryDetails?.Metrics2?.Bytes_sent_sum | humanize : 'size' }}
                   <small>
                     <span *ngIf="!isSummary" class="text-primary">
-                      {{ queryDetails?.Metrics2?.Bytes_sent_sum_of_total | humanize : 'percent' }} of total
+                      <span class="unit unit-percent">{{ queryDetails?.Metrics2?.Bytes_sent_sum_of_total | humanize : 'percent' }}</span> of total
                     </span>
                     <span class="text-success" ng-if="queryDetails?.Metrics2?.Bytes_sent_sum_per_rows">
                       {{ queryDetails?.Metrics2?.Bytes_sent_sum_per_rows | humanize : 'size' }} bytes/row
@@ -144,7 +144,7 @@
               </div>
               <div class="flex-container">
                 <div class=" justify-content-start">
-                  <span>{{ queryDetails?.Metrics2?.Bytes_sent_avg | humanize : 'size' }}&nbsp;avg</span>
+                  <span class="unit unit-avg">{{ queryDetails?.Metrics2?.Bytes_sent_avg | humanize : 'size' }}</span>
                 </div>
                 <div class="scaling-svg-container app-tooltip" data-tooltip="Loading..." measurement="size"
                      [appLatencyChart]="queryDetails?.Metrics2" metricPrefix="Bytes_sent">
@@ -155,7 +155,7 @@
               <div class=""><span>Docs Scanned</span></div>
               <div class="flex-container">
                 <div class=" justify-content-start">
-                  <span>{{ queryDetails?.Metrics2?.Rows_examined_sum_per_sec | humanize : 'number' }} (per sec)</span>
+                  <span class="unit unit-per-sec">{{ queryDetails?.Metrics2?.Rows_examined_sum_per_sec | humanize : 'number' }}</span>
                 </div>
                 <div class="scaling-svg-container app-tooltip" [appLoadSparklines]="queryDetails?.Sparks2"
                      data-tooltip="Loading..." xkey="Ts" ykey="Rows_examined_sum_per_sec" measurement="number">
@@ -165,7 +165,7 @@
                 <span class="sum text-left">{{ queryDetails?.Metrics2?.Rows_examined_sum | humanize : 'number' }}
                   <small>
                     <span *ngIf="!isSummary" class="text-primary">
-                      {{ queryDetails?.Metrics2?.Rows_examined_sum_of_total | humanize : 'percent' }} of total
+                      <span class="unit unit-percent">{{ queryDetails?.Metrics2?.Rows_examined_sum_of_total | humanize : 'percent' }}</span> of total
                     </span>
                     <span class="text-success">
                       {{ queryDetails?.Metrics2?.Rows_examined_sum_per_rows | humanize : 'number' }} per row sent
@@ -175,7 +175,7 @@
               </div>
               <div class="flex-container">
                 <div class=" justify-content-start">
-                  <span>{{ queryDetails?.Metrics2?.Rows_examined_avg | humanize : 'number' }}&nbsp;avg</span>
+                  <span class="unit unit-avg">{{ queryDetails?.Metrics2?.Rows_examined_avg | humanize : 'number' }}</span>
                 </div>
                 <div class="scaling-svg-container app-tooltip" data-tooltip="Loading..." measurement="number"
                      [appLatencyChart]="queryDetails?.Metrics2" metricPrefix="Rows_examined">

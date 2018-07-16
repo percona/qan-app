@@ -104,23 +104,6 @@
   margin-bottom: 20px;
 }
 
-.unit:after {
-  font-size: 0.8rem;
-  color: #6f757c;
-}
-
-.unit-percent:after {
-  content: '%'
-}
-
-.unit-avg:after {
-  content: 'avg';
-}
-
-.unit-qps:after {
-  content: 'QPS';
-}
-
 .main-table-overlay {
   display: block;
   width: 30%;
