@@ -50,7 +50,7 @@ export class QueryProfileComponent extends CoreComponent {
     }
 
     checkFirstSeen(currentQuery) {
-      this.isFirstSeen = moment(currentQuery['FirstSeen']).valueOf() > moment(this.fromUTCDate).valueOf();
+      this.isFirstSeen = moment.utc(currentQuery['FirstSeen']).valueOf() > moment.utc(this.fromUTCDate).valueOf();
       return this.isFirstSeen
     }
 

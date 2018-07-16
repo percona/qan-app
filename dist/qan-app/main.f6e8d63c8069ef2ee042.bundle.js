@@ -3496,7 +3496,7 @@ var QueryProfileComponent = /** @class */ (function (_super) {
         }
     };
     QueryProfileComponent.prototype.checkFirstSeen = function (currentQuery) {
-        this.isFirstSeen = __WEBPACK_IMPORTED_MODULE_4_moment__(currentQuery['FirstSeen']).valueOf() > __WEBPACK_IMPORTED_MODULE_4_moment__(this.fromUTCDate).valueOf();
+        this.isFirstSeen = __WEBPACK_IMPORTED_MODULE_4_moment__["utc"](currentQuery['FirstSeen']).valueOf() > __WEBPACK_IMPORTED_MODULE_4_moment__["utc"](this.fromUTCDate).valueOf();
         return this.isFirstSeen;
     };
     QueryProfileComponent.prototype.loadQueries = function () {
@@ -5255,4 +5255,4 @@ module.exports = __webpack_require__("./src/main.ts");
 /***/ })
 
 },[0]);
-//# sourceMappingURL=main.516fcaf0ba9fb24a75b3.bundle.js.map
+//# sourceMappingURL=main.f6e8d63c8069ef2ee042.bundle.js.map
