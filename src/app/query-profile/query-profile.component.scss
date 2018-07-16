@@ -67,10 +67,6 @@
       border-left: 3px solid #2e5785 !important;
     }
 
-    &.first-seen-query {
-      background-color: #0d233b;
-    }
-
     &.table-active {
       background-color: #293a4d;
     }
@@ -112,6 +108,13 @@
 
 .btn-switcher {
   background-color: transparent !important;
+  border:none;
+  box-sizing: border-box;
+
+  &:focus,
+  &:active {
+    box-shadow: none;
+  }
 }
 
 .btn-switcher.checked {

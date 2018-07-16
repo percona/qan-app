@@ -932,6 +932,12 @@ body {
     background-color: #161719;
   }
 
+  .first-seen-query,
+  .first-seen-query > .cell-overlay > span:focus,
+  .first-seen-query > .cell-overlay > span:hover {
+    background: #0d233b;
+  }
+
   .table-active > .cell-overlay > span:focus,
   .table-active > .cell-overlay > span:hover {
     background: #293a4d;
