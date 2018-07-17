@@ -1,11 +1,13 @@
-<button class="btn btn-primary btn-sm btn-expand-all"
-        [class.btn-expand-all-success]="isCollapsed"
-        (click)="toggleAll()">{{isCollapsed ? 'Expand All' : 'Collapse All' }}
-</button>
-<button class="btn btn-primary btn-sm copy-btn"
-        ngxClipboard
-        [cbContent]="getJSONString()"
-        (cbOnSuccess)="isCopied = true"
-        [class.btn-success]="isCopied">Copy to clipboard
-</button>
+<div class="tools-wrapper">
+  <button class="btn-expand-all"
+          [class.btn-expanded]="!isCollapsed"
+          (click)="toggleAll()">{{isCollapsed ? 'Expand All' : 'Collapse All'}}
+  </button>
+  <button class="btn-copy"
+          ngxClipboard
+          [cbContent]="getJSONString()"
+          (cbOnSuccess)="isCopied = true"
+          [class.btn-copied]="isCopied">Copy to clipboard
+  </button>
+</div>
 <div id="json-viewer"></div>

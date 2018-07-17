@@ -856,7 +856,7 @@
         <ng-template ngbPanelContent>
           <i *ngIf="isExplainLoading" class="fa fa-spinner fa-pulse fa-3x fa-fw loading"></i>
           <div class="data-output" *ngIf="!isExplainLoading && !visualExplainError">
-            <button class="btn btn-secondary btn-sm copy-btn"
+            <button class="btn btn-secondary btn-sm btn-copy"
                     ngxClipboard
                     [cbContent]="this.visualExplain"
                     (cbOnSuccess)="isCopied = true"

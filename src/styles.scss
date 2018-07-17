@@ -149,18 +149,14 @@ table.metrics td span.sum {
 }
 
 .btn-expand-all,
-.copy-btn {
+.btn-copy {
   cursor: pointer;
   color: white !important;
+  border: none;
 
   &:focus {
-    border: none !important;
     box-shadow: none !important;
   }
-}
-
-.btn-expand-all-success {
-  background-color: #292929;
 }
 
 .search-input {
