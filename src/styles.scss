@@ -148,8 +148,8 @@ table.metrics td span.sum {
   }
 }
 
-.btn-expand-all,
-.btn-copy {
+.pmm-button,
+.pmm-button {
   cursor: pointer;
   color: white !important;
   border: none;
@@ -176,7 +176,7 @@ table.metrics td span.sum {
     padding: 10px 30px 10px 10px;
     box-sizing: border-box;
     border: 1px solid #292929;
-    border-radius: 5px;
+    border-radius: unset;
     color: #919191;
     background-color: transparent;
 
@@ -449,6 +449,55 @@ table.metrics td span.sum {
   content: 'load';
 }
 
+.btn-switcher,
+.total-queries-amount,
+.btn-tables {
+  height: 100%;
+  margin-top: 0;
+  cursor: pointer;
+  color: white;
+  box-sizing: border-box;
+  background-color: transparent;
+  border-radius: 0;
+  font-size: 1rem;
+  font-weight: 500;
+  width: 115px;
+  border:none;
+  outline: none;
+
+  &.checked {
+    background-color: #212327;
+  }
+
+  &:focus,
+  &:active {
+    box-shadow: none;
+    outline: none !important;
+  }
+}
+
+.total-queries-amount {
+  border: 1px solid #292929;
+}
+
+.btn-tables {
+  width: auto;
+  height: 40px;
+  margin-right: 20px;
+  padding: 0 40px 0 15px;
+  border: 1px solid #292929;
+}
+
+.btn-tables-remove {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 0;
+  margin-left: -28px !important;
+  border: none;
+  z-index: 99;
+}
+
 .tools-wrapper {
   display: flex;
   justify-content: space-between;
@@ -456,45 +505,44 @@ table.metrics td span.sum {
   width: 100%;
 }
 
-.btn-expand-all {
-  height: 30px;
-  width: 100px;
-}
-
-.btn-copy {
+.pmm-button {
   width: 135px;
   height: 30px;
+  padding-bottom: 0;
 }
 
-.btn-copy,
-.btn-expand-all {
+.pmm-button,
+.pmm-button {
   display: flex;
   justify-content: center;
   align-items: center;
   font-size: 0.9rem !important;
 }
 
-.btn-copy,
-.btn-copy:focus,
-.btn-copy:active,
-.btn-expand-all,
-.btn-expand-all:active,
-.btn-expand-all:focus {
+.pmm-button,
+.pmm-button:focus,
+.pmm-button:active,
+.pmm-button,
+.pmm-button:active,
+.pmm-button:focus {
+  height: 35px;
   border: 1px solid #292929;
   box-sizing: border-box;
+  font-weight: 500;
+  font-size: 12px;
+  outline: none !important;
   background-color: #1a1919;
-  outline: none;
 }
 
-.btn-copy.btn-copied,
-.btn-copy.btn-copied:active,
-.btn-copy.btn-copied:focus,
-.btn-expand-all.btn-expanded,
-.btn-expand-all.btn-expanded:active,
-.btn-expand-all.btn-expanded:focus {
+.pmm-button.btn-copied,
+.pmm-button.btn-copied:active,
+.pmm-button.btn-copied:focus,
+.pmm-button.btn-expanded,
+.pmm-button.btn-expanded:active,
+.pmm-button.btn-expanded:focus {
   background-color: #333333 !important;
   border: none;
-  outline: none;
+  outline: none !important;
 }
 
 .card-block {

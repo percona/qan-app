@@ -1,9 +1,9 @@
 <div class="tools-wrapper">
-  <button class="btn-expand-all"
+  <button class="pmm-button"
           [class.btn-expanded]="!isCollapsed"
           (click)="toggleAll()">{{isCollapsed ? 'Expand All' : 'Collapse All'}}
   </button>
-  <button class="btn-copy"
+  <button class="pmm-button"
           ngxClipboard
           [cbContent]="getJSONString()"
           (cbOnSuccess)="isCopied = true"

@@ -783,7 +783,7 @@
         <input type="text" class="form-control"
                [(ngModel)]="dbName" [ngModelOptions]="{standalone: true}"
                id="databaseInput" placeholder="`database-name`">
-        <button class="search-button" [disabled]="!dbName" (click)="getExplain();" type="submit">
+        <button class="search-button pmm-button" [disabled]="!dbName" (click)="getExplain();" type="submit">
           EXPLAIN
         </button>
       </form>
@@ -856,11 +856,11 @@
         <ng-template ngbPanelContent>
           <i *ngIf="isExplainLoading" class="fa fa-spinner fa-pulse fa-3x fa-fw loading"></i>
           <div class="data-output" *ngIf="!isExplainLoading && !visualExplainError">
-            <button class="btn-copy"
+            <button class="pmm-button"
                     ngxClipboard
                     [cbContent]="this.visualExplain"
                     (cbOnSuccess)="isCopied = true"
-                    [class.btn-success]="isCopied">Copy to clipboard
+                    [class.btn-copied]="isCopied">Copy to clipboard
             </button>
             <pre>{{ this.visualExplain }}</pre>
           </div>
@@ -892,12 +892,12 @@
 
     <section class="table-buttons-wrapper">
       <div *ngFor="let item of queryDetails?.Query?.Tables" class="btn-group" role="group" aria-label="Tables">
-        <button type="button" class="btn btn-primary btn-tables" (click)="selectTableInfo(item.Db, item.Table);">
-                <!--[ngClass]="isSelectedDbTbl(item) ? 'btn-success' : 'btn-secondary'">-->
+        <button type="button" class="btn-tables" (click)="selectTableInfo(item.Db, item.Table);"
+                [ngClass]="isSelectedDbTbl(item) ? 'checked' : ''">
           `{{ item.Db }}`.`{{ item.Table }}`
         </button>
-        <button type="button" class="btn btn-primary btn-tables" (click)="removeDBTable(item);">
-          <i class="fa fa-times" aria-hidden="true"></i>
+        <button type="button" class="btn-tables btn-tables-remove" (click)="removeDBTable(item);">
+          <i class="fa fa-times" aria-hidden="true" ></i>
         </button>
       </div>
       <div *ngIf="queryDetails?.Query?.Tables === null || queryDetails?.Query?.Tables?.length === 0"

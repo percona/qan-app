@@ -20,10 +20,10 @@
       <div class="display-options">
         <span>Display</span>
         <div class="option-container">
-          <button class="btn btn-block btn-switcher"
+          <button class="btn-switcher"
                   [class.checked]="isFirsSeenChecked === false"
                   (click)="isFirsSeenChecked = !isFirsSeenChecked;">All queries</button>
-          <button class="btn btn-block btn-switcher"
+          <button class="btn-switcher"
                   [class.checked]="isFirsSeenChecked === true"
                   (click)="isFirsSeenChecked = !isFirsSeenChecked;">First seen</button>
         </div>
@@ -98,7 +98,7 @@
       </div>
     </section>
     <div *ngIf="totalAmountOfQueries" class="load-more-wrapper">
-      <button class="btn btn-primary btn-block total-queries-amount"
+      <button class="total-queries-amount"
               (click)="loadMoreQueries()" [disabled]="leftInDbQueries === 0">
         <span *ngIf="leftInDbQueries > 0">Load next {{ leftInDbQueries > 10 ? 10 : leftInDbQueries }} queries</span>
         <span *ngIf="leftInDbQueries === 0">No more queries for selected time range</span>
