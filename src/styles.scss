@@ -422,7 +422,7 @@ table.metrics td span.sum {
 .unit:after {
   margin-left: 3px;
   font-size: 0.8rem;
-  color: #6f757c;
+  color: #999999;
 }
 
 .unit-percent:after {
@@ -447,6 +447,54 @@ table.metrics td span.sum {
 
 .unit-load:after {
   content: 'load';
+}
+
+.tools-wrapper {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+}
+
+.btn-expand-all {
+  height: 30px;
+  width: 100px;
+}
+
+.btn-copy {
+  width: 135px;
+  height: 30px;
+}
+
+.btn-copy,
+.btn-expand-all {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 0.9rem !important;
+}
+
+.btn-copy,
+.btn-copy:focus,
+.btn-copy:active,
+.btn-expand-all,
+.btn-expand-all:active,
+.btn-expand-all:focus {
+  border: 1px solid #292929;
+  box-sizing: border-box;
+  background-color: #1a1919;
+  outline: none;
+}
+
+.btn-copy.btn-copied,
+.btn-copy.btn-copied:active,
+.btn-copy.btn-copied:focus,
+.btn-expand-all.btn-expanded,
+.btn-expand-all.btn-expanded:active,
+.btn-expand-all.btn-expanded:focus {
+  background-color: #333333 !important;
+  border: none;
+  outline: none;
 }
 
 .card-block {
