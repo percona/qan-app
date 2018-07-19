@@ -3543,15 +3543,16 @@ var QueryProfileComponent = /** @class */ (function (_super) {
     };
     QueryProfileComponent.prototype.loadMoreQueries = function () {
         return __awaiter(this, void 0, void 0, function () {
-            var dbServerUUID, data, _, _i, _a, q;
+            var dbServerUUID, search, data, _, _i, _a, q;
             return __generator(this, function (_b) {
                 switch (_b.label) {
                     case 0:
                         this.isLoading = true;
                         dbServerUUID = this.dbServer.UUID;
                         this.offset = this.offset + 10;
+                        search = this.queryParams.search;
                         return [4 /*yield*/, this.queryProfileService
-                                .getQueryProfile(dbServerUUID, this.fromUTCDate, this.toUTCDate, this.offset)];
+                                .getQueryProfile(dbServerUUID, this.fromUTCDate, this.toUTCDate, this.offset, search)];
                     case 1:
                         data = _b.sent();
                         _ = data['Query'].shift();
@@ -5255,4 +5256,4 @@ module.exports = __webpack_require__("./src/main.ts");
 /***/ })
 
 },[0]);
-//# sourceMappingURL=main.c9b45d8e7dd86af12163.bundle.js.map
+//# sourceMappingURL=main.507c8fe1f2d0431d8887.bundle.js.map
