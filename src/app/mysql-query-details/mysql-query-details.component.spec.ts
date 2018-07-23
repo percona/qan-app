@@ -169,8 +169,8 @@ fdescribe('MySQLQueryDetailsComponent', () => {
   it('should create fields with information about query', () => {
     component.isSummary = false;
     fixture.detectChanges();
-    const spanAbstract = fixture.nativeElement.querySelector('#queryAbstract');
-    const spanId = fixture.nativeElement.querySelector('#queryId');
+    const spanAbstract = fixture.nativeElement.querySelector('.query-abstract');
+    const spanId = fixture.nativeElement.querySelector('.query-id');
     expect(spanAbstract.innerHTML).toBe(component.queryDetails.Query.Abstract);
     expect(spanId.innerHTML).toBe(component.queryDetails.Query.Id);
   });
@@ -219,8 +219,8 @@ fdescribe('MySQLQueryDetailsComponent', () => {
     component.queryDetails.Query.Abstract = undefined;
     component.queryDetails.Query.Id = undefined;
     fixture.detectChanges();
-    const spanAbstract = fixture.nativeElement.querySelector('#queryAbstract');
-    const spanId = fixture.nativeElement.querySelector('#queryId');
+    const spanAbstract = fixture.nativeElement.querySelector('.query-abstract');
+    const spanId = fixture.nativeElement.querySelector('.query-id');
     expect(spanAbstract.innerHTML).toBe('');
     expect(spanId.innerHTML).toBe('');
   });

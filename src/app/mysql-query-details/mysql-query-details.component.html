@@ -366,7 +366,7 @@
                      data-tooltip="Loading..." xkey="Ts" ykey="Bytes_sent_sum_per_sec" measurement="size">
                 </div>
               </div>
-              <div class="">
+              <div>
                 <span class="sum text-left">{{ queryDetails?.Metrics2?.Bytes_sent_sum | humanize : 'size' }}
                   <small>
                     <span *ngIf="!isSummary" class="text-primary">
@@ -750,7 +750,7 @@
       <h3 class="d-flex">QUERY</h3>
     </header>
     <ngb-accordion activeIds="query-fingerprint">
-      <ngb-panel id="query-fingerprint">
+      <ngb-panel *ngIf="!!fingerprint" id="query-fingerprint">
         <ng-template ngbPanelTitle>
           <h5>Fingerprint</h5>
         </ng-template>
@@ -901,13 +901,13 @@
         </button>
       </div>
       <div *ngIf="queryDetails?.Query?.Tables === null || queryDetails?.Query?.Tables?.length === 0"
-           class="alert alert-info w-25 mx-auto m-2" role="alert">
+           class="alert alert-info w-25 mx-auto m-2 empty-table-error" role="alert">
         <i class="fa fa-info-circle" aria-hidden="true"></i>
         List of tables is empty.
       </div>
     </section>
     <ngb-accordion activeIds="table-create" *ngIf="queryDetails?.Query?.Tables?.length">
-      <ngb-panel id="table-create">
+      <ngb-panel id="table-create" *ngIf="!!createTable || !!createTableError">
         <ng-template ngbPanelTitle>
           <h5>CREATE</h5>
         </ng-template>
@@ -924,7 +924,7 @@
         </ng-template>
       </ngb-panel>
 
-      <ngb-panel id="table-status" class="accordion-inner-table">
+      <ngb-panel id="table-status" class="accordion-inner-table" *ngIf="!!statusTable || !!statusTableError">
         <ng-template ngbPanelTitle>
           <h5>STATUS</h5>
         </ng-template>
@@ -957,13 +957,14 @@
         </ng-template>
       </ngb-panel>
 
-      <ngb-panel id="table-indexes">
+      <ngb-panel id="table-indexes" *ngIf="!!indexTable || !!indexTableError">
         <ng-template ngbPanelTitle>
           <h5>INDEXES</h5>
         </ng-template>
         <ng-template ngbPanelContent class="accordion-inner-table">
           <i *ngIf="isTableInfoLoading" class="fa fa-spinner fa-pulse fa-3x fa-fw loading"></i>
-          <div *ngIf="!isTableInfoLoading && !!indexTableError" class="alert alert-warning w-75 mx-auto m-2"
+          <div *ngIf="!isTableInfoLoading && !!indexTableError"
+               class="alert alert-warning w-75 mx-auto m-2"
                role="alert">
             <i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
             {{ indexTableError }}
