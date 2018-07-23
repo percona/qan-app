@@ -41,7 +41,6 @@ export class MySQLQueryDetailsComponent extends CoreComponent implements OnInit 
   createTableError: string;
   statusTableError: string;
   indexTableError: string;
-
   jsonExplainError: string;
   classicExplainError: string;
   visualExplainError: string;

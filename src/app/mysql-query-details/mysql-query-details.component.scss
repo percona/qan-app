@@ -1,16 +1,130 @@
-.metrics {
-  table-layout: auto;
+.pmm-button {
+  float: right;
+}
 
-  .rate-sec {
-    width: 12%;
+section.explain {
+    display: flex;
+    flex-direction: column;
+}
+
+.query-abstract {
+  color: white;
+}
+
+.query-id {
+  color: #999999;
+}
+
+.query-panel {
+  margin-bottom: 20px;
+}
+
+.grid-container {
+  grid-template-columns: 2fr 2fr 3fr 2fr;
+
+}
+
+.classic-table-wrapper {
+  display: table;
+  border-collapse: collapse;
+  width: 100%;
+
+  & > div:not(:last-child) {
+    border-bottom: 2px solid #292929;
   }
 
-  .rate-load {
-    padding-right: 20px;
-    width: 10%;
+  .classic-table-row {
+    display: table-row;
   }
 
-  .query-stats {
-    width: 20%;
+  .classic-table-row > div {
+    display: table-cell;
+    height: 100%;
+    padding: 5px 15px !important;
+    vertical-align: middle;
   }
+
+  .classic-table-row > div:not(:last-child) {
+    border-right: 2px solid #292929;
+  }
+}
+
+.explain-search-input {
+  position: relative;
+
+  i {
+    position: absolute;
+    left: 10px;
+  }
+
+  .form-control {
+    padding: 10px 85px 10px 30px;
+    color: #ffffff;
+  }
+
+}
+
+.status-table-wrapper {
+
+  .grid-container {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .grid-container:not(:last-child) {
+    border-bottom: 2px solid #292929;
+  }
+}
+
+.indexes-table {
+
+  & > div:not(:last-child) {
+    border-bottom: 2px solid #292929;
+  }
+
+  .grid-container-wrapper {
+    display: flex;
+  }
+
+  .table-body.grid-container,
+  .table-header.grid-container {
+    width: 100%;
+    grid-template-columns: 1fr 1fr 0.5fr 0.5fr 1fr 1fr 1fr 0.5fr 1fr;
+  }
+
+  .table-body.grid-container > div:not(:last-child) {
+    border-bottom: none !important;
+    height: 100%;
+    display: flex;
+    align-items: center;
+  }
+}
+
+.table-wrapper.accordion-table .table-body-row.grid-container {
+  border-right: none;
+}
+
+.grid-container-wrapper {
+  flex-direction: column;
+
+  & > div {
+    border-right: none !important;
+  }
+
+  & > div:not(:last-child) {
+    border-bottom: 2px solid #292929 !important;
+  }
+}
+
+
+.tables-input {
+  max-width: 420px;
+
+  .form-control {
+    max-width: 320px;
+    padding-right: 45px;
+  }
+}
+
+.table-buttons-wrapper {
+  margin-bottom: 20px;
 }
