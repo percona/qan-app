@@ -1,21 +1,21 @@
 /* tslint:disable:no-unused-variable */
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { By } from '@angular/platform-browser';
-import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+import {async, ComponentFixture, TestBed} from '@angular/core/testing';
+import {By} from '@angular/platform-browser';
+import {CUSTOM_ELEMENTS_SCHEMA} from '@angular/core';
 
-import { MySQLQueryDetailsComponent } from './mysql-query-details.component';
-import { HumanizePipe } from '../shared/humanize.pipe';
-import { LoadSparklinesDirective } from '../shared/load-sparklines.directive';
-import { LatencyChartDirective } from '../shared/latency-chart.directive';
-import { FormsModule } from '@angular/forms';
-import { ClipboardModule } from 'ngx-clipboard';
-import { MapToIterablePipe } from '../shared/map-to-iterable.pipe';
-import { ActivatedRoute } from '@angular/router';
-import { RouterTestingModule } from '@angular/router/testing';
-import { Instance, InstanceService } from '../core/instance.service';
-import { HttpModule } from '@angular/http';
-import { MySQLQueryDetailsService } from './mysql-query-details.service';
-import { NgbAccordionConfig, NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import {MySQLQueryDetailsComponent} from './mysql-query-details.component';
+import {HumanizePipe} from '../shared/humanize.pipe';
+import {LoadSparklinesDirective} from '../shared/load-sparklines.directive';
+import {LatencyChartDirective} from '../shared/latency-chart.directive';
+import {FormsModule} from '@angular/forms';
+import {ClipboardModule} from 'ngx-clipboard';
+import {MapToIterablePipe} from '../shared/map-to-iterable.pipe';
+import {ActivatedRoute} from '@angular/router';
+import {RouterTestingModule} from '@angular/router/testing';
+import {Instance, InstanceService} from '../core/instance.service';
+import {HttpModule} from '@angular/http';
+import {MySQLQueryDetailsService} from './mysql-query-details.service';
+import {NgbAccordionConfig, NgbModule} from '@ng-bootstrap/ng-bootstrap';
 
 describe('MySQLQueryDetailsComponent', () => {
   let component: MySQLQueryDetailsComponent;
@@ -347,5 +347,4 @@ describe('MySQLQueryDetailsComponent', () => {
     const tableIndexHeader = fixture.nativeElement.querySelector('#table-index-header');
     [tableCreateHeader, tableStatusHeader, tableIndexHeader].map(item => expect(item).toBeFalsy());
   });
-
 });
