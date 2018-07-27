@@ -17,7 +17,7 @@ import {HttpModule} from '@angular/http';
 import {MySQLQueryDetailsService} from './mysql-query-details.service';
 import {NgbAccordionConfig, NgbModule} from '@ng-bootstrap/ng-bootstrap';
 
-describe('MySQLQueryDetailsComponent', () => {
+fdescribe('MySQLQueryDetailsComponent', () => {
   let component: MySQLQueryDetailsComponent;
   let fixture: ComponentFixture<MySQLQueryDetailsComponent>;
 
@@ -200,7 +200,7 @@ describe('MySQLQueryDetailsComponent', () => {
     expect(tableTools).toBeFalsy();
   });
 
-  it('should create explain section if if query details is undefined', () => {
+  it('should create explain section if query details is undefined', () => {
     component.queryDetails = undefined;
     fixture.detectChanges();
     const explainWrapper = fixture.nativeElement.querySelector('.explain-wrapper');

@@ -16,12 +16,12 @@ import * as moment from 'moment';
 export class MongoQueryDetailsComponent extends CoreComponent implements OnInit {
 
   protected queryID: string;
-  protected queryDetails: any | QueryDetails;
+  public queryDetails: any | QueryDetails;
   public fingerprint: string;
   public queryExample: string;
-  protected classicExplain;
-  protected jsonExplain;
-  protected errExplain;
+  public classicExplain;
+  public jsonExplain;
+  public errExplain;
   protected dbName: string;
   public dbTblNames: string;
   isSummary: boolean;
@@ -42,6 +42,7 @@ export class MongoQueryDetailsComponent extends CoreComponent implements OnInit 
   }
 
   onChangeParams(params) {
+    if (!this.dbServer) { return; }
     if (['TOTAL', undefined].indexOf(this.queryParams.queryID) !== -1) {
       this.isSummary = true;
       this.getServerSummary(this.dbServer.UUID, this.fromUTCDate, this.toUTCDate);
@@ -78,6 +79,7 @@ export class MongoQueryDetailsComponent extends CoreComponent implements OnInit 
   }
 
   async getExplain() {
+    if (!this.dbServer || !this.dbServer.Agent) { return; }
     this.isExplainLoading = true;
     this.jsonExplain = '';
     this.errExplain = '';

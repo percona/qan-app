@@ -6,17 +6,15 @@
 </header>
 <section class="server-summary">
   <header>
-    <h3 *ngIf="isSummary" class="d-inline">
-      Server Summary
-    </h3>
+    <h3 *ngIf="isSummary" class="d-inline summary-header">Server Summary</h3>
   </header>
   <ngb-accordion activeIds="metrics-table">
     <ngb-panel id="metrics-table" class="accordion-inner-table">
       <ng-template ngbPanelTitle>
         <h5>Metrics</h5>
-        <span *ngIf="!isSummary">
-        Query first seen:<span class="first-seen-time">{{ firstSeen }}</span>
-        Last seen: <strong>{{ lastSeen }}</strong>
+        <span *ngIf="!isSummary" class="first-seen-range">
+          Query first seen:<span class="first-seen-time">{{ firstSeen }}</span>
+          Last seen: <strong>{{ lastSeen }}</strong>
       </span>
       </ng-template>
       <ng-template ngbPanelContent>
@@ -161,7 +159,7 @@
                      data-tooltip="Loading..." xkey="Ts" ykey="Rows_examined_sum_per_sec" measurement="number">
                 </div>
               </div>
-              <div class="">
+              <div>
                 <span class="sum text-left">{{ queryDetails?.Metrics2?.Rows_examined_sum | humanize : 'number' }}
                   <small>
                     <span *ngIf="!isSummary" class="text-primary">
@@ -196,7 +194,7 @@
       <h3 class="d-flex">QUERY</h3>
     </header>
     <ngb-accordion activeIds="query-fingerprint">
-      <ngb-panel>
+      <ngb-panel *ngIf="!!fingerprint" id="query-fingerprint">
         <ng-template ngbPanelTitle>
           <h5>Fingerprint</h5>
         </ng-template>
