@@ -40,7 +40,7 @@ section.explain {
   .classic-table-row > div {
     display: table-cell;
     height: 100%;
-    padding: 5px 15px !important;
+    padding: 5px !important;
     vertical-align: middle;
   }
 
@@ -127,4 +127,8 @@ section.explain {
 
 .table-buttons-wrapper {
   margin-bottom: 20px;
+
+  .btn-group {
+    margin-right: 30px;
+  }
 }

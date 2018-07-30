@@ -37,7 +37,7 @@
   .grid-container {
     display: grid;
     grid-template-columns: 1fr 9fr 7fr 10fr 9fr;
-    grid-template-rows: 50px;
+    grid-template-rows: 40px;
     box-sizing: border-box;
 
     &:first-child {
