@@ -1,5 +1,6 @@
 init:
 	git config core.hooksPath .githooks
+	npm ci
 
 build:
 	rm -rf dist/*
