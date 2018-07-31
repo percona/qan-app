@@ -36,7 +36,6 @@
         </button>
       </form>
     </section>
-    <i *ngIf="isLoading" class="fa fa-spinner fa-pulse fa-3x fa-fw loading-in-front"></i>
     <section class="table-body query-profile-table" id="query_profile_table">
       <div class="grid-container">
         <div>#</div>
@@ -99,10 +98,11 @@
     </section>
     <div *ngIf="totalAmountOfQueries" class="load-more-wrapper">
       <button class="total-queries-amount"
-              (click)="loadMoreQueries()" [disabled]="leftInDbQueries === 0">
+              (click)="loadMoreQueries()" [disabled]="leftInDbQueries === 0 || isLoading">
         <span *ngIf="leftInDbQueries > 0">Load next {{ leftInDbQueries > 10 ? 10 : leftInDbQueries }} queries</span>
         <span *ngIf="leftInDbQueries === 0">No more queries for selected time range</span>
       </button>
+      <i *ngIf="isLoading" class="fa fa-spinner fa-pulse fa-fw loading-in-front"></i>
     </div>
     <router-outlet></router-outlet>
   </div>

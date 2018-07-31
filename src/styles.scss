@@ -196,7 +196,6 @@ table.metrics td span.sum {
   }
 }
 
-
 .explain-search-input {
   position: relative;
 
@@ -481,7 +480,7 @@ table.metrics td span.sum {
   font-size: 1rem;
   font-weight: 500;
   width: 115px;
-  border:none;
+  border: none;
   outline: none;
 
   &.checked {
@@ -497,6 +496,12 @@ table.metrics td span.sum {
 
 .total-queries-amount {
   border: 1px solid #292929;
+
+  &:disabled {
+    background-color: #333333;
+    cursor: not-allowed !important;
+    opacity: .65;
+  }
 }
 
 .btn-tables {
@@ -816,8 +821,9 @@ div.app-tooltip:hover::before {
 }
 
 .loading-in-front {
-  @extend .loading;
-  position: absolute;
+  //@extend .loading;
+  //position: absolute;
+  font-size: 40px;
 }
 
 .smart-query-abstract {
