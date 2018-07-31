@@ -10,7 +10,7 @@ section.explain {
     grid-template-columns: 2fr 2fr 3fr 2fr;
 
     & > div:not(:last-child) {
-      border-right: 2px solid #292929;
+      border-right: 1px solid #292929;
     }
 
     .cell-overlay {
@@ -19,22 +19,8 @@ section.explain {
   }
 
   .grid-container:not(:last-child) {
-    border-bottom: 2px solid #292929;
+    border-bottom: 1px solid #292929;
     height: 100%;
   }
 
-}
-
-.explain-search-input {
-  position: relative;
-
-  i {
-    position: absolute;
-    left: 10px;
-  }
-
-  .form-control {
-    padding: 10px 85px 10px 30px;
-    color: #ffffff;
-  }
 }

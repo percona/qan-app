@@ -148,17 +148,6 @@ table.metrics td span.sum {
   }
 }
 
-.pmm-button,
-.pmm-button {
-  cursor: pointer;
-  color: white !important;
-  border: none;
-
-  &:focus {
-    box-shadow: none !important;
-  }
-}
-
 .search-input {
   max-width: 370px;
   width: 100%;
@@ -201,18 +190,42 @@ table.metrics td span.sum {
     border: none;
     background-color: transparent;
 
-    &:hover {
-      color: #27b2e5;
-    }
-
     &:disabled {
       background-color: transparent;
     }
   }
 }
 
+
+.explain-search-input {
+  position: relative;
+
+  i {
+    position: absolute;
+    left: 10px;
+  }
+
+  .form-control {
+    padding: 10px 85px 10px 30px;
+    color: #ffffff;
+  }
+
+  .search-button:hover {
+    color: #27b2e5;
+
+    &:active,
+    &:focus {
+      border: none;
+    }
+  }
+}
+
 .table-header-row {
   font-weight: bold;
+}
+
+.table-body.grid-container:last-child {
+  border-bottom: none;
 }
 
 .app-theme-dark {
@@ -225,6 +238,12 @@ table.metrics td span.sum {
   .search-input .form-control:active {
     border-color: #2e5785;
     background-color: transparent;
+  }
+
+  .search-button {
+    &:hover {
+      color: #27b2e5;
+    }
   }
 
   .table-body {
@@ -253,7 +272,7 @@ table.metrics td span.sum {
 
   .card {
     box-sizing: border-box;
-    border: 2px solid #292929 !important;
+    border: 1px solid #292929 !important;
     border-radius: 0;
     background-color: #1f1d1d !important;
   }
@@ -299,7 +318,7 @@ table.metrics td span.sum {
   }
 
   .card-body {
-    border-top: 2px solid #292929;
+    border-top: 1px solid #292929;
 
     .data-output {
       margin: 15px;
@@ -334,7 +353,7 @@ table.metrics td span.sum {
         align-items: center;
 
         &:not(:last-child) {
-          border-right: 2px solid #292929;
+          border-right: 1px solid #292929;
         }
       }
     }
@@ -366,7 +385,7 @@ table.metrics td span.sum {
 
       .grid-container {
         &:not(:last-child) {
-          border-bottom: 2px solid #292929 !important;
+          border-bottom: 1px solid #292929 !important;
         }
         > div {
           border-top: none;
@@ -382,7 +401,7 @@ table.metrics td span.sum {
 
     .table-body > div:not(:last-child),
     .table-header {
-      border-bottom: 2px solid #292929;
+      border-bottom: 1px solid #292929;
     }
   }
 
@@ -500,38 +519,38 @@ table.metrics td span.sum {
 
 .tools-wrapper {
   display: flex;
-  justify-content: space-between;
+  justify-content: flex-end;
   align-items: center;
   width: 100%;
+
+  .pmm-button:last-child {
+    margin-left: 25px;
+  }
 }
 
-.pmm-button {
-  width: 135px;
-  height: 30px;
-  padding-bottom: 0;
-}
-
-.pmm-button,
 .pmm-button {
   display: flex;
   justify-content: center;
   align-items: center;
+  width: 135px;
+  height: 35px;
+  padding-bottom: 0;
   font-size: 0.9rem !important;
+  font-weight: 500;
+  color: white;
+  cursor: pointer;
+  border: 1px solid #292929;
+  background-color: #1a1919;
+  box-sizing: border-box;
 }
 
-.pmm-button,
 .pmm-button:focus,
 .pmm-button:active,
-.pmm-button,
 .pmm-button:active,
 .pmm-button:focus {
-  height: 35px;
-  border: 1px solid #292929;
-  box-sizing: border-box;
-  font-weight: 500;
-  font-size: 12px;
   outline: none !important;
-  background-color: #1a1919;
+  //background-color: #1a1919;
+  box-shadow: none !important;
 }
 
 .pmm-button.btn-copied,

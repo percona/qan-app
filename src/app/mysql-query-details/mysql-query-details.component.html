@@ -783,7 +783,7 @@
         <input type="text" class="form-control"
                [(ngModel)]="dbName" [ngModelOptions]="{standalone: true}"
                id="databaseInput" placeholder="`database-name`">
-        <button class="search-button pmm-button" [disabled]="!dbName" (click)="getExplain();" type="submit">
+        <button class="search-button" [disabled]="!dbName" (click)="getExplain();" type="submit">
           EXPLAIN
         </button>
       </form>
