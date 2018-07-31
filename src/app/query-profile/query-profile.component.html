@@ -65,7 +65,7 @@
                xkey="Start_ts" ykey="Query_load"
                measurement="number">
           </div>
-          <div>{{ row.Load | humanize : 'number' }}</div>
+          <div class="ml-3 mr-3">{{ row.Load | humanize : 'number' }}</div>
           <div><span class="unit unit-percent">{{ row.Percentage | humanize : 'percent' }}</span></div>
         </div>
         <div class="flex-container ">
@@ -76,7 +76,7 @@
                xkey="Start_ts" ykey="Query_count"
                measurement="number">
           </div>
-          <div>{{row.Stats.Cnt | humanize : 'number'}}</div>
+          <div class="ml-2 mr-2">{{row.Stats.Cnt | humanize : 'number'}}</div>
           <div><span class="unit unit-percent">{{ (row.Stats.Cnt / profileTotal?.Stats.Cnt * 100).toFixed(2) }}</span></div>
         </div>
         <div class="flex-container">
