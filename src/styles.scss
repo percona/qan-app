@@ -196,29 +196,6 @@ table.metrics td span.sum {
   }
 }
 
-.explain-search-input {
-  position: relative;
-
-  i {
-    position: absolute;
-    left: 10px;
-  }
-
-  .form-control {
-    padding: 10px 85px 10px 30px;
-    color: #ffffff;
-  }
-
-  .search-button:hover {
-    color: #27b2e5;
-
-    &:active,
-    &:focus {
-      border: none;
-    }
-  }
-}
-
 .table-header-row {
   font-weight: bold;
 }
@@ -401,6 +378,29 @@ table.metrics td span.sum {
     .table-body > div:not(:last-child),
     .table-header {
       border-bottom: 1px solid #292929;
+    }
+  }
+
+  .explain-search-input {
+    position: relative;
+
+    i {
+      position: absolute;
+      left: 10px;
+    }
+
+    .form-control {
+      padding: 10px 85px 10px 30px;
+      color: #ffffff;
+    }
+
+    .search-button:hover {
+      color: #27b2e5;
+
+      &:active,
+      &:focus {
+        border: none;
+      }
     }
   }
 
