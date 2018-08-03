@@ -22,10 +22,13 @@
         <div class="option-container">
           <button class="btn-switcher"
                   [class.checked]="isFirsSeenChecked === false"
-                  (click)="isFirsSeenChecked = !isFirsSeenChecked;">All queries</button>
-          <button class="btn-switcher"
+                  (click)="getFirstSeen()">All queries
+          </button>
+          <button class="btn-switcher btn-switcher-first-seen"
                   [class.checked]="isFirsSeenChecked === true"
-                  (click)="isFirsSeenChecked = !isFirsSeenChecked;">First seen</button>
+                  (click)="getFirstSeen(true)"
+                  [disabled]="!isQuerySwitching && !isLoading && totalAmountOfQueries === 0 && !isFirsSeenChecked ">First seen
+          </button>
         </div>
       </div>
       <form class="search-input" (submit)="search()">
@@ -48,7 +51,7 @@
            *ngFor="let row of queryProfile; let i = index; let first = first;"
            [routerLink]="['./', 'report', dbServer.Subsystem]"
            [queryParams]="composeQueryParamsForGrid(row.Id)" routerLinkActive="table-active"
-            [class.first-seen-query]="checkFirstSeen(row) && isFirsSeenChecked">
+           [class.first-seen-query]="checkFirstSeen(row) && !isFirsSeenChecked">
         <div>{{ i || '' }}</div>
         <div class="cell-overlay">
           <span class="cell-overlay">
@@ -76,7 +79,8 @@
                measurement="number">
           </div>
           <div class="ml-2 mr-2">{{row.Stats.Cnt | humanize : 'number'}}</div>
-          <div><span class="unit unit-percent">{{ (row.Stats.Cnt / profileTotal?.Stats.Cnt * 100).toFixed(2) }}</span></div>
+          <div><span class="unit unit-percent">{{ (row.Stats.Cnt / profileTotal?.Stats.Cnt * 100).toFixed(2) }}</span>
+          </div>
         </div>
         <div class="flex-container">
           <div class="scaling-svg-container app-tooltip"
@@ -96,6 +100,9 @@
         </div>
       </div>
     </section>
+    <div class="loader-wrapper">
+      <i *ngIf="isQuerySwitching" class="fa fa-spinner fa-pulse fa-3x fa-fw loading-on-switch"></i>
+    </div>
     <div *ngIf="totalAmountOfQueries" class="load-more-wrapper">
       <button class="total-queries-amount"
               (click)="loadMoreQueries()" [disabled]="leftInDbQueries === 0 || isLoading">
@@ -109,20 +116,23 @@
   <div *ngIf="!!noQueryError" class="text-center alert alert-danger w-75 mx-auto" role="alert">
     {{ noQueryError }}
   </div>
-  <div *ngIf="!isLoading && totalAmountOfQueries === 0" class="text-center">
-    <div *ngIf="dbServer.Subsystem === 'mongo'" class="alert alert-warning w-75 mx-auto wrap">
+  <div *ngIf="!isQuerySwitching && !isLoading && totalAmountOfQueries === 0" class="text-center">
+    <div *ngIf="dbServer.Subsystem === 'mongo' && !isFirsSeenChecked" class="alert alert-warning w-75 mx-auto wrap">
       There is no query data because profiling is not enabled for the selected host. For information about how to
       enable profiling, see
       <a href="https://www.percona.com/doc/percona-monitoring-and-management/conf-mongodb.html" target="blank">
         Configuring profiling in MongoDB
       </a>in PMM documentation.
     </div>
-    <div *ngIf="dbServer.Subsystem === 'mysql'" class="alert alert-warning w-75 mx-auto wrap">
+    <div *ngIf="dbServer.Subsystem === 'mysql' && !isFirsSeenChecked" class="alert alert-warning w-75 mx-auto wrap">
       There is no query data because the MySQL Server is not configured for monitoring. For details about the
       required configuration, see
       <a href="https://www.percona.com/doc/percona-monitoring-and-management/conf-mysql.html" target="blank">
         Configuring MySQL for Percona Monitoring and Management
       </a>in PMM documentation.
+    </div>
+    <div *ngIf="isFirsSeenChecked" class="alert alert-warning w-75 mx-auto wrap">
+      There is no query during selected time range
     </div>
   </div>
 </div>

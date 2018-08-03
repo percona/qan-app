@@ -24,6 +24,7 @@ export class QueryProfileComponent extends CoreComponent {
     public fromDate: string;
     public toDate: string;
     public isLoading: boolean;
+    public isQuerySwitching: boolean;
     public noQueryError: string;
     public isFirstSeen: boolean;
     public isFirsSeenChecked = false;
@@ -44,6 +45,7 @@ export class QueryProfileComponent extends CoreComponent {
             this.previousQueryParams.from !== this.queryParams.from ||
             this.previousQueryParams.to !== this.queryParams.to ||
             this.previousQueryParams.search !== this.queryParams.search ||
+            this.previousQueryParams.first_seen !== this.queryParams.first_seen ||
             this.previousQueryParams.tz !== this.queryParams.tz) {
             this.loadQueries();
         }
@@ -55,7 +57,7 @@ export class QueryProfileComponent extends CoreComponent {
     }
 
     public async loadQueries() {
-        this.isLoading = true;
+        this.isQuerySwitching = true;
 
         // clear after error
         this.noQueryError = '';
@@ -63,10 +65,11 @@ export class QueryProfileComponent extends CoreComponent {
         this.queryProfile = [];
 
         const search = this.queryParams.search;
+        const firstSeen = this.queryParams.first_seen;
         this.offset = 0;
         try {
             const data = await this.queryProfileService
-                .getQueryProfile(this.dbServer.UUID, this.fromUTCDate, this.toUTCDate, this.offset, search);
+                .getQueryProfile(this.dbServer.UUID, this.fromUTCDate, this.toUTCDate, this.offset, search, firstSeen);
             if (data.hasOwnProperty('Error') && data['Error'] !== '') {
                 throw new QanError('Queries are not availible.');
             }
@@ -79,7 +82,7 @@ export class QueryProfileComponent extends CoreComponent {
         } catch (err) {
             this.noQueryError = err.name === QanError.errType ? err.message : queryProfileError;
         } finally {
-            this.isLoading = false;
+            this.isQuerySwitching = false;
         }
     }
 
@@ -88,8 +91,9 @@ export class QueryProfileComponent extends CoreComponent {
         const dbServerUUID = this.dbServer.UUID;
         this.offset = this.offset + 10;
         const search = this.queryParams.search;
+        const firstSeen = this.queryParams.first_seen;
         const data = await this.queryProfileService
-            .getQueryProfile(dbServerUUID, this.fromUTCDate, this.toUTCDate, this.offset, search);
+            .getQueryProfile(dbServerUUID, this.fromUTCDate, this.toUTCDate, this.offset, search, firstSeen);
 
         const _ = data['Query'].shift();
         for (const q of data['Query']) {
@@ -114,5 +118,19 @@ export class QueryProfileComponent extends CoreComponent {
         }
         delete params.queryID;
         this.router.navigate(['profile'], { queryParams: params });
+    }
+
+    getFirstSeen(isFirsSeenChecked = false) {
+      this.isQuerySwitching = true;
+      this.isFirsSeenChecked = isFirsSeenChecked;
+      const params: QueryParams = Object.assign({}, this.queryParams);
+      if (isFirsSeenChecked) {
+        params.first_seen = this.isFirsSeenChecked;
+      } else {
+        delete params.first_seen;
+      }
+      delete params.queryID;
+      this.router.navigate(['profile'], { queryParams: params });
+      this.isQuerySwitching = false;
     }
 }

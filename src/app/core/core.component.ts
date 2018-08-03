@@ -16,6 +16,7 @@ export interface QueryParams {
     queryID?: string;
     tz?: string;
     theme?: string;
+    first_seen?: boolean;
 }
 
 /**
