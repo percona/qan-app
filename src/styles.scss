@@ -496,16 +496,19 @@ table.metrics td span.sum {
     box-shadow: none;
     outline: none !important;
   }
+  &:disabled {
+      background-color: #333333;
+      cursor: not-allowed !important;
+      opacity: .65;
+  }
+}
+
+.btn-switcher-first-seen.btn-switcher:disabled {
+  background-color: transparent;
 }
 
 .total-queries-amount {
   border: 1px solid #292929;
-
-  &:disabled {
-    background-color: #333333;
-    cursor: not-allowed !important;
-    opacity: .65;
-  }
 }
 
 .btn-tables {
@@ -828,6 +831,14 @@ div.app-tooltip:hover::before {
   //@extend .loading;
   //position: absolute;
   font-size: 40px;
+}
+
+.loading-on-switch {
+  margin: 0 auto;
+}
+
+.loader-wrapper {
+  display: flex;
 }
 
 .smart-query-abstract {
