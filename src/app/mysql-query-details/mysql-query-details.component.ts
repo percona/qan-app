@@ -32,6 +32,7 @@ export class MySQLQueryDetailsComponent extends CoreComponent implements OnInit 
   isExplainLoading: boolean;
   isCopied: boolean;
   isTableInfoLoading: boolean;
+  isFirstSeen: boolean;
   firstSeen: string;
   lastSeen: string;
 
@@ -85,6 +86,7 @@ export class MySQLQueryDetailsComponent extends CoreComponent implements OnInit 
       if (this.queryDetails !== null && this.queryDetails.Example !== null && this.queryDetails.Example.Query !== '') {
         this.queryExample = hljs.highlight('sql', this.fixBeautifyText(this.queryDetails.Example.Query)).value;
       }
+      this.isFirstSeen = moment.utc(this.queryDetails.Query.FirstSeen).valueOf() > moment.utc(this.fromUTCDate).valueOf();
       this.isLoading = false;
 
       if (this.queryExample) {

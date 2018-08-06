@@ -15,7 +15,7 @@
       <ng-template ngbPanelTitle>
         <h5>Metrics</h5>
         <span *ngIf="!isSummary">
-        Query first seen:<span class="first-seen-time">{{ firstSeen }}</span>
+        Query first seen: <strong class="first-seen-time" [class.first-seen]="isFirstSeen">{{ firstSeen }}</strong>
         Last seen: <strong>{{ lastSeen }}</strong>
       </span>
       </ng-template>
