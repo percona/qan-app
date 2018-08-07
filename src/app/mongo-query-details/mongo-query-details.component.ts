@@ -27,6 +27,7 @@ export class MongoQueryDetailsComponent extends CoreComponent implements OnInit 
   isSummary: boolean;
   isLoading: boolean;
   isExplainLoading: boolean;
+  isFirstSeen: boolean;
   firstSeen: string;
   lastSeen: string;
 
@@ -63,6 +64,7 @@ export class MongoQueryDetailsComponent extends CoreComponent implements OnInit 
         this.lastSeen = moment(this.queryDetails.Query.LastSeen).calendar(null, {sameElse: 'lll'});
         this.fingerprint = this.queryDetails.Query.Fingerprint;
         this.queryExample = hljs.highlight('json', vkbeautify.json(this.queryDetails.Example.Query)).value;
+        this.isFirstSeen = moment.utc(this.queryDetails.Query.FirstSeen).valueOf() > moment.utc(this.fromUTCDate).valueOf();
         this.isLoading = false;
       })
       .then(() => this.getExplain())

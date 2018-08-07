@@ -227,7 +227,6 @@ fdescribe('QueryProfileComponent', () => {
   });
 
   it('should highlight first-seen query if they are presented', () => {
-    component.isFirsSeenChecked = true;
     component.isFirstSeen = true;
     fixture.detectChanges();
     const firstSeenQuery = fixture.nativeElement.querySelector('.first-seen-query');
@@ -235,19 +234,9 @@ fdescribe('QueryProfileComponent', () => {
   });
 
   it('should not highlight first-seen query if they are not in range', () => {
-    component.isFirsSeenChecked = true;
     component.isFirstSeen = false;
     fixture.detectChanges();
     const firstSeenQuery = fixture.nativeElement.querySelector('.first-seen-query');
     expect(firstSeenQuery).toBeFalsy();
   });
-
-  it('should not highlight first-seen query if first seen option not active', () => {
-    component.isFirsSeenChecked = false;
-    component.isFirstSeen = true;
-    fixture.detectChanges();
-    const firstSeenQuery = fixture.nativeElement.querySelector('.first-seen-query');
-    expect(firstSeenQuery).toBeFalsy();
-  });
-
 });

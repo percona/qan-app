@@ -409,7 +409,7 @@ table.metrics td span.sum {
   }
 
   .first-seen-time {
-    color: #27b2e5;
+    color: #d8d9da;;
   }
 }
 
@@ -892,7 +892,7 @@ div.app-tooltip:hover::before {
   display: inline-block;
   position: absolute;
   z-index: 999;
-  background: rgb(238, 236, 236);
+  background: #234682;
 }
 
 .hosts-list-menu {
@@ -1060,19 +1060,25 @@ body {
   $pre-bg: $dark-2;
   $pre-color: $white;
 
-  .cell-overlay > span:focus, .cell-overlay > span:hover {
+  .cell-overlay > span:focus,
+  .cell-overlay > span:hover {
     background-color: #161719;
   }
 
   .first-seen-query,
   .first-seen-query > .cell-overlay > span:focus,
-  .first-seen-query > .cell-overlay > span:hover {
+  .first-seen-query > .cell-overlay > span:hover,
+  .first-seen-query .cell-overlay > span:focus,
+  .first-seen-query .cell-overlay > span:hover {
     background: #0d233b;
+
   }
 
   .table-active > .cell-overlay > span:focus,
-  .table-active > .cell-overlay > span:hover {
-    background: #293a4d;
+  .table-active > .cell-overlay > span:hover,
+  .table-active.first-seen-query .cell-overlay > span:focus,
+  .table-active.first-seen-query .cell-overlay > span:hover {
+    background: #234682;
   }
 
   footer {

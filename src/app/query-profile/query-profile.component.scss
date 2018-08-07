@@ -41,6 +41,13 @@
     grid-template-columns: 1fr 9fr 7fr 10fr 9fr;
     grid-template-rows: 40px;
     box-sizing: border-box;
+    outline: none;
+
+    &:active,
+    &:visited,
+    &:hover {
+      outline: none;
+    }
 
     &:first-child {
       font-weight: 500;
@@ -54,7 +61,14 @@
     }
 
     &.table-active {
-      background-color: #293a4d;
+      background-color: #234682;
+      outline: none;
+
+      &:active,
+      &:visited,
+      &:hover {
+        outline: none
+      }
     }
 
     > div {

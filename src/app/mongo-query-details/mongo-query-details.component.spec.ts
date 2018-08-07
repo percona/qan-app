@@ -17,7 +17,7 @@ import {RouterTestingModule} from '@angular/router/testing';
 import {ActivatedRoute} from '@angular/router';
 import {MongoQueryDetailsService} from './mongo-query-details.service';
 
-fdescribe('QueryDetailsComponent', () => {
+fdescribe('MongoQueryDetailsComponent', () => {
   let component: MongoQueryDetailsComponent;
   let fixture: ComponentFixture<MongoQueryDetailsComponent>;
 
