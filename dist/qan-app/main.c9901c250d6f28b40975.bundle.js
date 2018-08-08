@@ -2166,7 +2166,7 @@ var MongoQueryDetailsComponentNgFactory = __WEBPACK_IMPORTED_MODULE_1__angular_c
  * @suppress {suspiciousCode,uselessCode,missingProperties,missingOverride,checkTypes}
  * tslint:disable
  */ 
-var styles = ["section.explain[_ngcontent-%COMP%] {\n  display: -webkit-box;\n  display: -ms-flexbox;\n  display: flex;\n  -webkit-box-orient: vertical;\n  -webkit-box-direction: normal;\n      -ms-flex-direction: column;\n          flex-direction: column; }\n\n.metrics-table[_ngcontent-%COMP%]   .grid-container[_ngcontent-%COMP%] {\n  -ms-grid-columns: 2fr 2fr 3fr 2fr;\n      grid-template-columns: 2fr 2fr 3fr 2fr; }\n\n.metrics-table[_ngcontent-%COMP%]   .grid-container[_ngcontent-%COMP%]    > div[_ngcontent-%COMP%]:not(:last-child) {\n    border-right: 1px solid; }\n\n.metrics-table[_ngcontent-%COMP%]   .grid-container[_ngcontent-%COMP%]   .cell-overlay[_ngcontent-%COMP%] {\n    height: 100%; }\n\n.metrics-table[_ngcontent-%COMP%]   .grid-container[_ngcontent-%COMP%]:not(:last-child) {\n  border-bottom: 1px solid;\n  height: 100%; }"];
+var styles = ["section.explain[_ngcontent-%COMP%] {\n  display: -webkit-box;\n  display: -ms-flexbox;\n  display: flex;\n  -webkit-box-orient: vertical;\n  -webkit-box-direction: normal;\n      -ms-flex-direction: column;\n          flex-direction: column; }\n\n.metrics-table[_ngcontent-%COMP%]   .grid-container[_ngcontent-%COMP%] {\n  -ms-grid-columns: 2fr 2fr 3fr 2fr;\n      grid-template-columns: 2fr 2fr 3fr 2fr; }\n\n.metrics-table[_ngcontent-%COMP%]   .grid-container[_ngcontent-%COMP%]   .cell-overlay[_ngcontent-%COMP%] {\n    height: 100%; }\n\n.metrics-table[_ngcontent-%COMP%]   .grid-container[_ngcontent-%COMP%]:not(:last-child) {\n  height: 100%; }"];
 
 
 
@@ -5279,4 +5279,4 @@ module.exports = __webpack_require__("./src/main.ts");
 /***/ })
 
 },[0]);
-//# sourceMappingURL=main.e6b7b5d5c549e6f42d67.bundle.js.map
+//# sourceMappingURL=main.c9901c250d6f28b40975.bundle.js.map

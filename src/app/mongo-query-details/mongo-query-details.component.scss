@@ -4,13 +4,8 @@ section.explain {
 }
 
 .metrics-table {
-
   .grid-container {
     grid-template-columns: 2fr 2fr 3fr 2fr;
-
-    & > div:not(:last-child) {
-      border-right: 1px solid;
-    }
 
     .cell-overlay {
       height: 100%;
@@ -18,7 +13,6 @@ section.explain {
   }
 
   .grid-container:not(:last-child) {
-    border-bottom: 1px solid;
     height: 100%;
   }
 }

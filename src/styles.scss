@@ -544,11 +544,6 @@ table.metrics td span.sum {
     background-color: #333333;
   }
 
-  .table-active,
-  .first-seen-query.table-active {
-    background-color: #234682;
-  }
-
   .explain-search-input {
     .form-control {
       color: #ffffff;
@@ -591,6 +586,21 @@ table.metrics td span.sum {
   .pmm-button.btn-expanded:active,
   .pmm-button.btn-expanded:focus {
     background-color: #333333 !important;
+  }
+
+  .table-active,
+  .first-seen-query.table-active {
+    background-color: #234682;
+  }
+
+  .query-profile-table .cell-overlay > span:focus,
+  .query-profile-table .cell-overlay > span:hover {
+    background-color: #161719;
+  }
+
+  .query-profile-table .table-active .cell-overlay > span:focus,
+  .query-profile-table .table-active .cell-overlay > span:hover {
+    background-color: #293a4d;
   }
 
   .cell-overlay > span:focus,
@@ -757,7 +767,6 @@ table.metrics td span.sum {
     border: 1px solid rgba(0, 0, 0, 0.15);
     color: #52545c;
     background-color: transparent;
-
   }
 
   .pmm-button.btn-copied,
@@ -769,6 +778,8 @@ table.metrics td span.sum {
     background-color: #dde4ed !important;
   }
 
+  .query-profile-table > .cell-overlay > span:focus,
+  .query-profile-table > .cell-overlay > span:hover,
   .cell-overlay > span:focus,
   .cell-overlay > span:hover {
     background-color: #f7f7f9;
@@ -784,6 +795,8 @@ table.metrics td span.sum {
 
   .table-active > .cell-overlay > span:focus,
   .table-active > .cell-overlay > span:hover,
+  .query-profile-table .table-active .cell-overlay > span:hover,
+  .query-profile-table .table-active .cell-overlay > span:focus,
   .table-active.first-seen-query .cell-overlay > span:focus,
   .table-active.first-seen-query .cell-overlay > span:hover {
     background: #FFE4E1;
