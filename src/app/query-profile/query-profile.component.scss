@@ -15,7 +15,6 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    color: white;
 
     .option-container {
       height: 40px;
@@ -24,7 +23,6 @@
       overflow: hidden;
       margin-left: 10px;
       box-sizing: border-box;
-      border: 1px solid #292929;
     }
 
   }
@@ -61,7 +59,6 @@
     }
 
     &.table-active {
-      background-color: #234682;
       outline: none;
 
       &:active,
@@ -82,6 +79,7 @@
 
       &:first-child {
         padding-right: 0;
+        border-left: 1px solid;
       }
     }
   }
@@ -106,5 +104,4 @@
   width: auto;
   padding: 0 15px;
   cursor: pointer;
-  background-color: #212327;
 }
