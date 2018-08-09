@@ -24,7 +24,6 @@
       margin-left: 10px;
       box-sizing: border-box;
     }
-
   }
 }
 
@@ -52,13 +51,13 @@
       font-size: 12px;
     }
 
-    &.table-active > div:first-child,
+    &.table-selected > div:first-child,
     &.first-seen-query > div:first-child{
       padding-left: 8px !important;
       border-left: 3px solid #2e5785 !important;
     }
 
-    &.table-active {
+    &.table-selected {
       outline: none;
 
       &:active,
