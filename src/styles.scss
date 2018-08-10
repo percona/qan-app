@@ -243,6 +243,10 @@ table.metrics td span.sum {
         content: "\f054";
       }
     }
+
+    & > span {
+      color: #d8d9da;
+    }
   }
 }
 
@@ -307,6 +311,10 @@ table.metrics td span.sum {
       align-items: center;
     }
   }
+
+  table {
+    width: 100%;
+  }
 }
 
 #metrics-table-header a,
@@ -350,7 +358,8 @@ table.metrics td span.sum {
 
 .btn-switcher,
 .total-queries-amount,
-.btn-tables {
+.btn-tables,
+.pmm-button-big {
   height: 100%;
   margin-top: 0;
   cursor: pointer;
@@ -371,6 +380,12 @@ table.metrics td span.sum {
     cursor: not-allowed !important;
     opacity: .65;
   }
+}
+
+.pmm-button-big {
+  width: 230px !important;
+  height: 40px;
+  margin-bottom: 15px !important;
 }
 
 .btn-switcher-first-seen.btn-switcher:disabled {
@@ -406,17 +421,37 @@ table.metrics td span.sum {
   }
 }
 
+.table-bordered {
+  border: none !important;
+}
+
+.pmm-button-group {
+  display: flex;
+  justify-content: start;
+  align-items: center;
+  flex-wrap: wrap;
+
+  .pmm-button:not(:last-child) {
+    border-right: none;
+  }
+}
+
 .pmm-button {
   display: flex;
   justify-content: center;
   align-items: center;
   width: 135px;
   height: 35px;
-  padding-bottom: 0;
   font-size: 0.9rem !important;
   color: white;
   cursor: pointer;
   box-sizing: border-box;
+  line-height: 0 !important;
+  padding: 0 !important;
+}
+
+.pmm-button-sm {
+  width: 55px !important;
 }
 
 .pmm-button:focus,
@@ -432,7 +467,10 @@ table.metrics td span.sum {
 .pmm-button.btn-copied:focus,
 .pmm-button.btn-expanded,
 .pmm-button.btn-expanded:active,
-.pmm-button.btn-expanded:focus {
+.pmm-button.btn-expanded:focus,
+.pmm-button.pmm-button-success,
+.pmm-button.pmm-button-success:active,
+.pmm-button.pmm-button-success:focus {
   border: none;
   outline: none !important;
 }
@@ -446,7 +484,28 @@ table.metrics td span.sum {
   background-color: transparent !important;
 }
 
+#statusTab-header + .card-body,
+#logTitle-header + .card-body {
+  border-top: none !important;
+}
+
 .app-theme-dark {
+  .table-bordered.main-table-bordered td,
+  .table-bordered.main-table-bordered th {
+    border: 1px solid #292929 !important;
+    border-left: none !important;
+  }
+
+  #statusTab-header + .card-body tr td:last-child,
+  #logTitle-header + .card-body tr td:last-child,
+  #logTitle-header + .card-body tr th:last-child {
+    border-right: none !important;
+  }
+
+  #statusTab-header + .card-body tr:last-child td,
+  #logTitle-header + .card-body tr:last-child td {
+    border-bottom: none !important;
+  }
 
   .table-header {
     .display-options {
@@ -511,7 +570,8 @@ table.metrics td span.sum {
 
   .btn-switcher,
   .total-queries-amount,
-  .btn-tables {
+  .btn-tables,
+  .pmm-button-big {
     color: white;
     background-color: transparent;
     &.checked {
@@ -600,7 +660,10 @@ table.metrics td span.sum {
   .pmm-button.btn-copied:focus,
   .pmm-button.btn-expanded,
   .pmm-button.btn-expanded:active,
-  .pmm-button.btn-expanded:focus {
+  .pmm-button.btn-expanded:focus,
+  .pmm-button.pmm-button-success,
+  .pmm-button.pmm-button-success:active,
+  .pmm-button.pmm-button-success:focus {
     background-color: #333333 !important;
   }
 
@@ -635,6 +698,22 @@ table.metrics td span.sum {
 }
 
 .app-theme-light {
+  .table-bordered.main-table-bordered td,
+  .table-bordered.main-table-bordered th {
+    border: 1px solid rgba(0, 0, 0, 0.15) !important;
+    border-left: none !important;
+  }
+
+  #statusTab-header + .card-body tr td:last-child,
+  #logTitle-header + .card-body tr td:last-child,
+  #logTitle-header + .card-body tr th:last-child {
+    border-right: none !important;
+  }
+
+  #statusTab-header + .card-body tr:last-child td,
+  #logTitle-header + .card-body tr:last-child td {
+    border-bottom: none !important;
+  }
 
   .table-header {
     .display-options {
@@ -700,7 +779,8 @@ table.metrics td span.sum {
 
   .btn-switcher,
   .total-queries-amount,
-  .btn-tables {
+  .btn-tables,
+  .pmm-button-big {
     color: #52545c;
     background-color: transparent;
     &.checked {
@@ -784,7 +864,10 @@ table.metrics td span.sum {
   .pmm-button.btn-copied:focus,
   .pmm-button.btn-expanded,
   .pmm-button.btn-expanded:active,
-  .pmm-button.btn-expanded:focus {
+  .pmm-button.btn-expanded:focus,
+  .pmm-button.pmm-button-success,
+  .pmm-button.pmm-button-success:active,
+  .pmm-button.pmm-button-success:focus {
     background-color: #dde4ed !important;
   }
 
