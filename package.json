@@ -8,6 +8,7 @@
     "start": "ng serve --proxy-config proxy.conf.json",
     "lint": "ng lint",
     "test": "ng test",
+    "coverage-report": "open coverage/index.html",
     "e2e": "ng e2e --proxy-config proxy.conf.json",
     "server": "PATH=$(npm bin):$PATH; webpack-dev-server --config webpack.config.js",
     "build": "ng build qan-app  --base-href '/qan/' --aot --output-path 'dist/qan-app' --prod --progress --output-hashing=all",

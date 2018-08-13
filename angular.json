@@ -96,6 +96,7 @@
             "karmaConfig": "./karma.conf.js",
             "polyfills": "src/polyfills.ts",
             "tsConfig": "src/tsconfig.spec.json",
+            "codeCoverage": true,
             "scripts": [],
             "styles": [
               "node_modules/font-awesome/scss/font-awesome.scss",
