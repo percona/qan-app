@@ -1,23 +1,25 @@
-<header class="section-title" *ngIf="!isSummary" >
+<header class="section-title" *ngIf="!isSummary">
   <h3 class="d-flex justify-content-between w-100">
     <span class="query-abstract">{{ queryDetails?.Query?.Abstract }}</span>
     <span class="query-id">{{ queryDetails?.Query?.Id }}</span>
   </h3>
 </header>
 <section class="server-summary">
-  <header>
-    <h3 *ngIf="isSummary" class="d-inline">
+  <header class="section-title" *ngIf="isSummary">
+    <h3 class="d-inline">
       Server Summary
     </h3>
   </header>
   <ngb-accordion activeIds="metrics-table">
     <ngb-panel id="metrics-table" class="accordion-inner-table">
       <ng-template ngbPanelTitle>
-        <h5>Metrics</h5>
-        <span *ngIf="!isSummary">
-        Query first seen: <strong class="first-seen-time" [class.first-seen]="isFirstSeen">{{ firstSeen }}</strong>
-        Last seen: <strong>{{ lastSeen }}</strong>
-      </span>
+        <div class="accordion-title">
+          <h5>Metrics</h5>
+          <span *ngIf="!isSummary">
+            Query first seen: <strong class="first-seen-time" [class.first-seen]="isFirstSeen">{{ firstSeen }}</strong>
+            Last seen: <strong>{{ lastSeen }}</strong>
+          </span>
+        </div>
       </ng-template>
       <ng-template ngbPanelContent>
         <div class="table-wrapper metrics-table">
@@ -153,7 +155,8 @@
               </div>
               <div class="flex-container">
                 <div class=" justify-content-start">
-                  <span class="unit unit-avg">{{ queryDetails?.Metrics2?.InnoDB_rec_lock_wait_avg | humanize : 'time' }}</span>
+                  <span
+                    class="unit unit-avg">{{ queryDetails?.Metrics2?.InnoDB_rec_lock_wait_avg | humanize : 'time' }}</span>
                 </div>
                 <div class="scaling-svg-container app-tooltip"
                      data-tooltip="Loading..." measurement="time"
@@ -188,7 +191,8 @@
               </div>
               <div class="flex-container">
                 <div class=" justify-content-start">
-                  <span class="unit unit-avg">{{ queryDetails?.Metrics2?.InnoDB_IO_r_wait_avg | humanize : 'time' }}</span>
+                  <span
+                    class="unit unit-avg">{{ queryDetails?.Metrics2?.InnoDB_IO_r_wait_avg | humanize : 'time' }}</span>
                 </div>
                 <div class="scaling-svg-container app-tooltip" data-tooltip="Loading..." measurement="time"
                      [appLatencyChart]="queryDetails?.Metrics2" metricPrefix="InnoDB_IO_r_wait">
@@ -220,7 +224,8 @@
               </div>
               <div class="flex-container">
                 <div class=" justify-content-start">
-                  <span class="unit unit-avg">{{ queryDetails?.Metrics2?.InnoDB_queue_wait_avg | humanize : 'time' }}</span>
+                  <span
+                    class="unit unit-avg">{{ queryDetails?.Metrics2?.InnoDB_queue_wait_avg | humanize : 'time' }}</span>
                 </div>
                 <div class="scaling-svg-container app-tooltip" data-tooltip="Loading..." measurement="time"
                      [appLatencyChart]="queryDetails?.Metrics2" metricPrefix="InnoDB_queue_wait">
@@ -249,7 +254,8 @@
               </div>
               <div class="flex-container">
                 <div class=" justify-content-start">
-                  <span class="unit unit-avg">{{ queryDetails?.Metrics2?.InnoDB_IO_r_ops_avg | humanize : 'number' }}</span>
+                  <span
+                    class="unit unit-avg">{{ queryDetails?.Metrics2?.InnoDB_IO_r_ops_avg | humanize : 'number' }}</span>
                 </div>
                 <div class="scaling-svg-container app-tooltip" data-tooltip="Loading..." measurement="number"
                      [appLatencyChart]="queryDetails?.Metrics2" metricPrefix="InnoDB_IO_r_ops">
@@ -282,7 +288,8 @@
               </div>
               <div class="flex-container">
                 <div class=" justify-content-start">
-                  <span class="unit unit-avg">{{ queryDetails?.Metrics2?.InnoDB_IO_r_bytes_avg | humanize : 'size' }}</span>
+                  <span
+                    class="unit unit-avg">{{ queryDetails?.Metrics2?.InnoDB_IO_r_bytes_avg | humanize : 'size' }}</span>
                 </div>
                 <div class="scaling-svg-container app-tooltip" data-tooltip="Loading..." measurement="size"
                      [appLatencyChart]="queryDetails?.Metrics2" metricPrefix="InnoDB_IO_r_bytes">
@@ -306,7 +313,8 @@
               <div><span>Query Cache Hits</span></div>
               <div class="flex-container">
                 <div class=" justify-content-start">
-                  <span class="unit unit-per-sec">{{ queryDetails?.Metrics2?.QC_Hit_sum_per_sec | humanize : 'number' }}</span>
+                  <span
+                    class="unit unit-per-sec">{{ queryDetails?.Metrics2?.QC_Hit_sum_per_sec | humanize : 'number' }}</span>
                 </div>
                 <div class="scaling-svg-container app-tooltip" [appLoadSparklines]="queryDetails?.Sparks2"
                      data-tooltip="Loading..." xkey="Ts" ykey="QC_Hit_sum_per_sec" measurement="number">
@@ -411,7 +419,8 @@
               </div>
               <div class="flex-container">
                 <div class=" justify-content-start">
-                  <span class="unit unit-avg">{{ queryDetails?.Metrics2?.Rows_examined_avg | humanize : 'number' }}</span>
+                  <span
+                    class="unit unit-avg">{{ queryDetails?.Metrics2?.Rows_examined_avg | humanize : 'number' }}</span>
                 </div>
                 <div class="scaling-svg-container app-tooltip" data-tooltip="Loading..." measurement="number"
                      [appLatencyChart]="queryDetails?.Metrics2" metricPrefix="Rows_examined">
@@ -439,7 +448,8 @@
               </div>
               <div class="flex-container">
                 <div class=" justify-content-start">
-                  <span class="unit unit-avg">{{ queryDetails?.Metrics2?.Rows_affected_avg | humanize : 'number' }}</span>
+                  <span
+                    class="unit unit-avg">{{ queryDetails?.Metrics2?.Rows_affected_avg | humanize : 'number' }}</span>
                 </div>
                 <div class="scaling-svg-container app-tooltip" data-tooltip="Loading..." measurement="number"
                      [appLatencyChart]="queryDetails?.Metrics2" metricPrefix="Rows_affected">
@@ -528,7 +538,8 @@
               </div>
               <div class="flex-container">
                 <div class=" justify-content-start">
-                  <span class="unit unit-avg">{{ queryDetails?.Metrics2?.Merge_passes_avg | humanize : 'number' }}</span>
+                  <span
+                    class="unit unit-avg">{{ queryDetails?.Metrics2?.Merge_passes_avg | humanize : 'number' }}</span>
                 </div>
                 <div class="scaling-svg-container app-tooltip" data-tooltip="Loading..." measurement="number"
                      [appLatencyChart]="queryDetails?.Metrics2" metricPrefix="Merge_passes">
@@ -698,7 +709,8 @@
               </div>
               <div class="flex-container">
                 <div class="text-xs-right  justify-content-start">
-                  <span class="unit unit-avg">{{ queryDetails?.Metrics2?.Tmp_disk_tables_avg | humanize : 'number' }}</span>
+                  <span
+                    class="unit unit-avg">{{ queryDetails?.Metrics2?.Tmp_disk_tables_avg | humanize : 'number' }}</span>
                 </div>
                 <div class="scaling-svg-container app-tooltip" data-tooltip="Loading..." measurement="number"
                      [appLatencyChart]="queryDetails?.Metrics2" metricPrefix="Tmp_disk_tables">
@@ -730,7 +742,8 @@
               </div>
               <div class="flex-container">
                 <div class=" justify-content-start">
-                  <span class="unit unit-avg">{{ queryDetails?.Metrics2?.Tmp_table_sizes_avg | humanize : 'size' }}</span>
+                  <span
+                    class="unit unit-avg">{{ queryDetails?.Metrics2?.Tmp_table_sizes_avg | humanize : 'size' }}</span>
                 </div>
                 <div class="scaling-svg-container app-tooltip" data-tooltip="Loading..." measurement="size"
                      [appLatencyChart]="queryDetails?.Metrics2" metricPrefix="Tmp_table_sizes">
@@ -752,7 +765,9 @@
     <ngb-accordion activeIds="query-fingerprint">
       <ngb-panel *ngIf="!!fingerprint" id="query-fingerprint">
         <ng-template ngbPanelTitle>
-          <h5>Fingerprint</h5>
+          <div class="accordion-title">
+            <h5>Fingerprint</h5>
+          </div>
         </ng-template>
         <ng-template ngbPanelContent>
           <div class="data-output">
@@ -763,7 +778,9 @@
       </ngb-panel>
       <ngb-panel *ngIf="!!queryExample" class="query-example query-panel">
         <ng-template ngbPanelTitle class="ngb-panel-title">
-          <h5 class="title">Example</h5>
+          <div class="accordion-title">
+            <h5 class="title">Example</h5>
+          </div>
         </ng-template>
         <ng-template ngbPanelContent>
           <div class="data-output">
@@ -791,7 +808,9 @@
     <ngb-accordion activeIds="classic-explain" *ngIf="!!queryExample" class="accordion-inner-table">
       <ngb-panel id="classic-explain">
         <ng-template ngbPanelTitle>
-          <h5>CLASSIC</h5>
+          <div class="accordion-title">
+            <h5>CLASSIC</h5>
+          </div>
         </ng-template>
         <ng-template ngbPanelContent>
           <i *ngIf="isExplainLoading" class="fa fa-spinner fa-pulse fa-3x fa-fw loading"></i>
@@ -835,7 +854,9 @@
 
       <ngb-panel id="json-explain" *ngIf="!!jsonExplain || !!jsonExplainError">
         <ng-template ngbPanelTitle>
-          <h5>JSON</h5>
+          <div class="accordion-title">
+            <h5>JSON</h5>
+          </div>
         </ng-template>
         <ng-template ngbPanelContent>
           <i *ngIf="isExplainLoading" class="fa fa-spinner fa-pulse fa-3x fa-fw loading"></i>
@@ -851,7 +872,9 @@
 
       <ngb-panel id="visual-explain" *ngIf="!!visualExplain || !!visualExplainError">
         <ng-template ngbPanelTitle>
-          <h5>VISUAL</h5>
+          <div class="accordion-title">
+            <h5>VISUAL</h5>
+          </div>
         </ng-template>
         <ng-template ngbPanelContent>
           <i *ngIf="isExplainLoading" class="fa fa-spinner fa-pulse fa-3x fa-fw loading"></i>
@@ -897,7 +920,7 @@
           `{{ item.Db }}`.`{{ item.Table }}`
         </button>
         <button type="button" class="btn-tables btn-tables-remove" (click)="removeDBTable(item);">
-          <i class="fa fa-times" aria-hidden="true" ></i>
+          <i class="fa fa-times" aria-hidden="true"></i>
         </button>
       </div>
       <div *ngIf="queryDetails?.Query?.Tables === null || queryDetails?.Query?.Tables?.length === 0"
@@ -909,7 +932,9 @@
     <ngb-accordion activeIds="table-create" *ngIf="queryDetails?.Query?.Tables?.length">
       <ngb-panel id="table-create" *ngIf="!!createTable || !!createTableError">
         <ng-template ngbPanelTitle>
-          <h5>CREATE</h5>
+          <div class="accordion-title">
+            <h5>CREATE</h5>
+          </div>
         </ng-template>
         <ng-template ngbPanelContent>
           <div class="data-output">
@@ -926,7 +951,9 @@
 
       <ngb-panel id="table-status" class="accordion-inner-table" *ngIf="!!statusTable || !!statusTableError">
         <ng-template ngbPanelTitle>
-          <h5>STATUS</h5>
+          <div class="accordion-title">
+            <h5>STATUS</h5>
+          </div>
         </ng-template>
         <ng-template ngbPanelContent class="accordion-inner-table">
           <i *ngIf="isTableInfoLoading" class="fa fa-spinner fa-pulse fa-3x fa-fw loading"></i>
@@ -959,7 +986,9 @@
 
       <ngb-panel id="table-indexes" *ngIf="!!indexTable || !!indexTableError">
         <ng-template ngbPanelTitle>
-          <h5>INDEXES</h5>
+          <div class="accordion-title">
+            <h5>INDEXES</h5>
+          </div>
         </ng-template>
         <ng-template ngbPanelContent class="accordion-inner-table">
           <i *ngIf="isTableInfoLoading" class="fa fa-spinner fa-pulse fa-3x fa-fw loading"></i>

@@ -5,17 +5,21 @@
   </h3>
 </header>
 <section class="server-summary">
-  <header>
-    <h3 *ngIf="isSummary" class="d-inline summary-header">Server Summary</h3>
+  <header class="section-title" *ngIf="isSummary">
+    <h3 class="d-inline summary-header">
+      Server Summary
+    </h3>
   </header>
   <ngb-accordion activeIds="metrics-table">
     <ngb-panel id="metrics-table" class="accordion-inner-table">
       <ng-template ngbPanelTitle>
-        <h5>Metrics</h5>
-        <span *ngIf="!isSummary" class="first-seen-range">
-        Query first seen: <strong class="first-seen-time" [class.first-seen]="isFirstSeen">{{ firstSeen }}</strong>
-        Last seen: <strong>{{ lastSeen }}</strong>
-      </span>
+        <div class="accordion-title">
+          <h5>Metrics</h5>
+          <span *ngIf="!isSummary" class="first-seen-range">
+            Query first seen: <strong class="first-seen-time" [class.first-seen]="isFirstSeen">{{ firstSeen }}</strong>
+            Last seen: <strong>{{ lastSeen }}</strong>
+          </span>
+        </div>
       </ng-template>
       <ng-template ngbPanelContent>
         <div class="table-wrapper metrics-table">
@@ -111,7 +115,8 @@
               </div>
               <div class="flex-container">
                 <div class="justify-content-start">
-                  <span class="unit unit unit-avg">{{ queryDetails?.Metrics2?.Rows_sent_avg | humanize : 'number' }}</span>
+                  <span
+                    class="unit unit unit-avg">{{ queryDetails?.Metrics2?.Rows_sent_avg | humanize : 'number' }}</span>
                 </div>
                 <div class="scaling-svg-container app-tooltip" data-tooltip="Loading..." measurement="number"
                      [appLatencyChart]="queryDetails?.Metrics2" metricPrefix="Rows_sent">
@@ -173,7 +178,8 @@
               </div>
               <div class="flex-container">
                 <div class=" justify-content-start">
-                  <span class="unit unit-avg">{{ queryDetails?.Metrics2?.Rows_examined_avg | humanize : 'number' }}</span>
+                  <span
+                    class="unit unit-avg">{{ queryDetails?.Metrics2?.Rows_examined_avg | humanize : 'number' }}</span>
                 </div>
                 <div class="scaling-svg-container app-tooltip" data-tooltip="Loading..." measurement="number"
                      [appLatencyChart]="queryDetails?.Metrics2" metricPrefix="Rows_examined">
@@ -196,7 +202,9 @@
     <ngb-accordion activeIds="query-fingerprint">
       <ngb-panel *ngIf="!!fingerprint" id="query-fingerprint">
         <ng-template ngbPanelTitle>
-          <h5>Fingerprint</h5>
+          <div class="accordion-title">
+            <h5>Fingerprint</h5>
+          </div>
         </ng-template>
         <ng-template ngbPanelContent>
           <div class="data-output">
@@ -207,7 +215,9 @@
       </ngb-panel>
       <ngb-panel *ngIf="!!queryExample" class="query-example query-panel">
         <ng-template ngbPanelTitle class="ngb-panel-title">
-          <h5 class="title">Example</h5>
+          <div class="accordion-title">
+            <h5 class="title">Example</h5>
+          </div>
         </ng-template>
         <ng-template ngbPanelContent>
           <div class="data-output">
@@ -234,7 +244,9 @@
     <ngb-accordion activeIds="classic-explain" *ngIf="!!queryExample" class="accordion-inner-table">
       <ngb-panel id="json-explain" *ngIf="!!jsonExplain || !!errExplain">
         <ng-template ngbPanelTitle>
-          <h5>JSON</h5>
+          <div class="accordion-title">
+            <h5>JSON</h5>
+          </div>
         </ng-template>
         <ng-template ngbPanelContent>
           <i *ngIf="isExplainLoading" class="fa fa-spinner fa-pulse fa-3x fa-fw loading"></i>

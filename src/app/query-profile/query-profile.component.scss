@@ -15,7 +15,6 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    color: white;
 
     .option-container {
       height: 40px;
@@ -24,9 +23,7 @@
       overflow: hidden;
       margin-left: 10px;
       box-sizing: border-box;
-      border: 1px solid #292929;
     }
-
   }
 }
 
@@ -54,14 +51,13 @@
       font-size: 12px;
     }
 
-    &.table-active > div:first-child,
+    &.table-selected > div:first-child,
     &.first-seen-query > div:first-child{
       padding-left: 8px !important;
       border-left: 3px solid #2e5785 !important;
     }
 
-    &.table-active {
-      background-color: #234682;
+    &.table-selected {
       outline: none;
 
       &:active,
@@ -82,6 +78,7 @@
 
       &:first-child {
         padding-right: 0;
+        border-left: 1px solid;
       }
     }
   }
@@ -106,5 +103,4 @@
   width: auto;
   padding: 0 15px;
   cursor: pointer;
-  background-color: #212327;
 }

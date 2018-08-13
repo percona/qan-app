@@ -1,17 +1,11 @@
 section.explain {
   display: flex;
   flex-direction: column;
-
 }
 
 .metrics-table {
-
   .grid-container {
     grid-template-columns: 2fr 2fr 3fr 2fr;
-
-    & > div:not(:last-child) {
-      border-right: 1px solid #292929;
-    }
 
     .cell-overlay {
       height: 100%;
@@ -19,12 +13,6 @@ section.explain {
   }
 
   .grid-container:not(:last-child) {
-    border-bottom: 1px solid #292929;
     height: 100%;
   }
-
-}
-
-.first-seen {
-  color: #27b2e5;
 }
