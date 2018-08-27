@@ -17,7 +17,7 @@ export class MySQLQueryDetailsComponent extends CoreComponent implements OnInit 
 
   protected queryID: string;
   public queryDetails: QueryDetails;
-  protected tableInfo;
+  public tableInfo;
   public createTable: string;
   public statusTable;
   public indexTable;
@@ -38,6 +38,12 @@ export class MySQLQueryDetailsComponent extends CoreComponent implements OnInit 
   isFirstSeen: boolean;
   firstSeen: string;
   lastSeen: string;
+  accordionIds = {
+    serverSummary: 'metrics-table',
+    querySection: 'query-fingerprint',
+    explainSection: 'classic-explain',
+    tableSection: 'table-create',
+  };
 
   createTableError: string;
   statusTableError: string;
@@ -180,6 +186,7 @@ export class MySQLQueryDetailsComponent extends CoreComponent implements OnInit 
       .then(data => {
         const info = data[`${dbName}.${tblName}`];
         this.tableInfo = info;
+        console.log('this.tableInfo - ', this.tableInfo);
         this.statusTable = info.Status;
         this.indexTable = info.Index;
         try {
@@ -224,6 +231,7 @@ export class MySQLQueryDetailsComponent extends CoreComponent implements OnInit 
           throw info['Errors'];
         }
         this.tableInfo = info;
+        console.log('this.tableInfo - ', this.tableInfo);
         this.createTable = hljs.highlight('sql', this.tableInfo.Create).value;
       })
       .catch(errors => {

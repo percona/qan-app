@@ -158,6 +158,53 @@ fdescribe('MySQLQueryDetailsComponent', () => {
       },
       Sparks2: [{Point: 1, Ts: '2018-06-12T13:49:53Z'}, {Point: 2, Ts: '2018-06-12T13:25:53Z'}],
     };
+    component.tableInfo = {
+      Create: 'CREATE TABLE `events_statements_history` (↵  `THREAD_ID` bigint(20) unsigned NOT NULL,↵  ' +
+      '`EVENT_ID` bigint(20) unsigned NOT NULL,↵  `END_EVENT_ID` bigint(20) unsigned DEFAULT NULL,↵  ' +
+      '`EVENT_NAME` varchar(128) NOT NULL,↵  `SOURCE` varchar(64) DEFAULT NULL,↵  `TIMER_START` bigint(20) unsigned DEFAULT NULL,↵  ' +
+      '`TIMER_END` bigint(20) unsigned DEFAULT NULL,↵  `TIMER_WAIT` bigint(20) unsigned DEFAULT NULL,↵  `LOCK_TIME` bigint(20) ' +
+      'unsigned NOT NULL,↵  `SQL_TEXT` longtext,↵  `DIGEST` varchar(64) DEFAULT NULL,↵  `DIGEST_TEXT` longtext,↵  `CURRENT_SCHEMA` ' +
+      'varchar(64) DEFAULT NULL,↵  `OBJECT_TYPE` varchar(64) DEFAULT NULL,↵  `OBJECT_SCHEMA` varchar(64) DEFAULT NULL,↵  `OBJECT_NAME` ' +
+      'varchar(64) DEFAULT NULL,↵  `OBJECT_INSTANCE_BEGIN` bigint(20) unsigned DEFAULT NULL,↵  `MYSQL_ERRNO` int(11) DEFAULT NULL,↵  ' +
+      '`RETURNED_SQLSTATE` varchar(5) DEFAULT NULL,↵  `MESSAGE_TEXT` varchar(128) DEFAULT NULL,↵  `ERRORS` bigint(20)' +
+      ' unsigned NOT NULL,↵  `WARNINGS` bigint(20) unsigned NOT NULL,↵  `ROWS_AFFECTED` bigint(20) unsigned NOT NULL,↵  `ROWS_SENT` ' +
+      'bigint(20) unsigned NOT NULL,↵  `ROWS_EXAMINED` bigint(20) unsigned NOT NULL,↵  `CREATED_TMP_DISK_TABLES` bigint(20) ' +
+      'unsigned NOT NULL,↵  `CREATED_TMP_TABLES` bigint(20) unsigned NOT NULL,↵  `SELECT_FULL_JOIN` bigint(20) unsigned NOT NULL,↵ ' +
+      ' `SELECT_FULL_RANGE_JOIN` bigint(20) unsigned NOT NULL,↵  `SELECT_RANGE` bigint(20) unsigned NOT NULL,↵  `SELECT_RANGE_CHECK` ' +
+      'bigint(20) unsigned NOT NULL,↵  `SELECT_SCAN` bigint(20) unsigned NOT NULL,↵  `SORT_MERGE_PASSES` bigint(20) unsigned NOT NULL,↵  ' +
+      '`SORT_RANGE` bigint(20) unsigned NOT NULL,↵  `SORT_ROWS` bigint(20) unsigned NOT NULL,↵  `SORT_SCAN` bigint(20) ' +
+      'unsigned NOT NULL,↵  `NO_INDEX_USED` bigint(20) unsigned NOT NULL,↵  `NO_GOOD_INDEX_USED` bigint(20) unsigned NOT NULL,↵ ' +
+      ' `NESTING_EVENT_ID` bigint(20) unsigned DEFAULT NULL,↵  `NESTING_EVENT_TYPE` ' +
+      'enum(\'TRANSACTION\',\'STATEMENT\',\'STAGE\',\'WAIT\')' +
+      ' DEFAULT NULL,↵  `NESTING_EVENT_LEVEL` int(11) DEFAULT NULL,↵  PRIMARY KEY (`THREAD_ID`,`EVENT_ID`)↵) ' +
+      'ENGINE=PERFORMANCE_SCHEMA DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci',
+      Index: {
+        PRIMARY: [
+          {
+            Cardinality: null, Collation: null, ColumnName: 'THREAD_ID', Comment: '', IndexComment: '', IndexType: 'HASH',
+            KeyName: 'PRIMARY', NonUnique: false, Null: '', Packed: null, SeqInIndex: 1, SubPart: null, Table: 'events_statements_history',
+            Visible: 'YES'
+          },
+          {
+            Cardinality: null, Collation: null, ColumnName: 'EVENT_ID', Comment: '', IndexComment: '', IndexType: 'HASH',
+            KeyName: 'PRIMARY', NonUnique: false, Null: '', Packed: null, SeqInIndex: 2, SubPart: null, Table: 'events_statements_history',
+            Visible: 'YES'
+          }
+        ]
+      },
+      Status: {
+        AutoIncrement: null, AvgRowLength: 0, CheckTime: '0001-01-01T00:00:00Z', Checksum: null, Collation: 'utf8mb4_0900_ai_ci',
+        Comment: '', CreateOptions: '', CreateTime: '2018-08-14T14:16:29Z', DataFree: 0, DataLength: 0, Engine: 'PERFORMANCE_SCHEMA',
+        IndexLength: 0, MaxDataLength: 0, Name: 'events_statements_history', RowFormat: 'Dynamic', Rows: 2560,
+        UpdateTime: '0001-01-01T00:00:00Z', Version: '10',
+      }
+    };
+    component.accordionIds = {
+      serverSummary: 'metrics-table',
+      querySection: 'query-fingerprint, query-example',
+      explainSection: 'classic-explain, json-explain, visual-explain',
+      tableSection: 'table-create, table-status, table-indexes',
+    };
     fixture.detectChanges();
     jasmine.DEFAULT_TIMEOUT_INTERVAL = 600000;
   });
@@ -330,21 +377,91 @@ fdescribe('MySQLQueryDetailsComponent', () => {
 
   it('should not display fingerprint output if fingerprint is undefined', () => {
     component.queryDetails.Query.Fingerprint = undefined;
+    fixture.detectChanges();
     const fingerprintOutput = fixture.nativeElement.querySelector('#query-fingerprint-header');
     expect(fingerprintOutput).toBeFalsy();
   });
 
   it('should not display fingerprint output if fingerprint is null', () => {
     component.queryDetails.Query.Fingerprint = null;
+    fixture.detectChanges();
     const fingerprintOutput = fixture.nativeElement.querySelector('#query-fingerprint-header');
     expect(fingerprintOutput).toBeFalsy();
   });
 
   it('should not create table sections if data is undefined', () => {
     component.createTable = component.statusTable = component.indexTable = undefined;
+    fixture.detectChanges();
     const tableCreateHeader = fixture.nativeElement.querySelector('#table-create-header');
     const tableStatusHeader = fixture.nativeElement.querySelector('#table-status-header');
     const tableIndexHeader = fixture.nativeElement.querySelector('#table-index-header');
     [tableCreateHeader, tableStatusHeader, tableIndexHeader].map(item => expect(item).toBeFalsy());
   });
+
+  it('should display additional information about query if not total option is checked', () => {
+    component.isSummary = false;
+    fixture.detectChanges();
+    const nonSummaryInfo = fixture.nativeElement.querySelector('.non-summary-info');
+    [nonSummaryInfo].map(item => expect(item).toBeTruthy());
+  });
+
+  it('should not display additional information about query if total option is not checked ', () => {
+    component.isSummary = true;
+    fixture.detectChanges();
+    const nonSummaryInfo = fixture.nativeElement.querySelector('.non-summary-info');
+    [nonSummaryInfo].map(item => expect(item).toBeFalsy());
+  });
+
+  it('should display table spinner if data is loading', () => {
+    component.indexTable = 'data';
+    component.isTableInfoLoading = true;
+    fixture.detectChanges();
+    const tableSpinner = fixture.nativeElement.querySelector('.table-spinner');
+    expect(tableSpinner).toBeTruthy();
+  });
+
+  it('should not display table spinner if data is loaded', () => {
+    component.isSummary = false;
+    component.indexTable = 'data';
+    component.isTableInfoLoading = false;
+    fixture.detectChanges();
+    const tableSpinner = fixture.nativeElement.querySelector('.table-spinner');
+    expect(tableSpinner).toBeFalsy();
+  });
+
+  it('should display error if index table error is presented', () => {
+    component.isSummary = false;
+    component.indexTable = 'data';
+    component.isTableInfoLoading = false;
+    component.indexTableError = 'Error';
+    fixture.detectChanges();
+    const indexTableError = fixture.nativeElement.querySelector('.index-table-error');
+    expect(indexTableError).toBeTruthy();
+  });
+
+  it('should not display error if index table error is not presented', () => {
+    component.isSummary = false;
+    component.indexTable = 'data';
+    component.isTableInfoLoading = false;
+    component.indexTableError = '';
+    fixture.detectChanges();
+    const indexTableError = fixture.nativeElement.querySelector('.index-table-error');
+    expect(indexTableError).toBeFalsy();
+  });
+
+  it('should display no data message', () => {
+    component.indexTable = 'data';
+    component.isTableInfoLoading = false;
+    component.indexTableError = '';
+    component.tableInfo.Index.length = 0;
+    fixture.detectChanges();
+    const noData = fixture.nativeElement.querySelector('.no-data');
+    expect(noData).toBeTruthy();
+  });
+
+  // it('should display no data message', () => {
+  //   fixture.detectChanges();
+  //   const noData = fixture.nativeElement.querySelector('.no-data');
+  //   expect(noData).toBeTruthy();
+  // });
 });

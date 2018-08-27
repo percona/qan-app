@@ -132,5 +132,6 @@ export class QueryProfileComponent extends CoreComponent {
       delete params.queryID;
       this.router.navigate(['profile'], { queryParams: params });
       this.isQuerySwitching = false;
+
     }
 }
