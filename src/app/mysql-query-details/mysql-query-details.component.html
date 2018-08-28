@@ -10,7 +10,7 @@
       Server Summary
     </h3>
   </header>
-  <ngb-accordion activeIds="metrics-table">
+  <ngb-accordion [activeIds]="accordionIds.serverSummary">
     <ngb-panel id="metrics-table" class="accordion-inner-table">
       <ng-template ngbPanelTitle>
         <div class="accordion-title">
@@ -43,7 +43,7 @@
               <div>
                 <span>{{ queryDetails?.Metrics2?.Query_count | humanize : 'number' }}
                   <small>
-                    <span *ngIf="!isSummary" class="text-primary !!!!!!!">
+                    <span *ngIf="!isSummary" class="text-primary non-summary-info">
                       <span class="unit unit-percent">{{ queryDetails?.Metrics2?.Query_count_of_total | humanize : 'percent' }}</span> of total
                     </span>
                   </small>
@@ -74,7 +74,7 @@
               <div class="">
                 <span class="sum text-left">{{ queryDetails?.Metrics2?.Query_time_sum | humanize : 'time' }}
                   <small>
-                    <span *ngIf="!isSummary" class="text-primary">
+                    <span *ngIf="!isSummary" class="text-primary non-summary-info">
                       <span class="unit unit-percent">{{ queryDetails?.Metrics2?.Query_time_sum_of_total | humanize : 'percent' }}</span> of total
                     </span>
                   </small>
@@ -108,7 +108,7 @@
               <div class="">
                 <span class="sum text-left">{{ queryDetails?.Metrics2?.Lock_time_sum | humanize : 'time' }}
                   <small>
-                    <span *ngIf="!isSummary" class="text-primary">
+                    <span *ngIf="!isSummary" class="text-primary non-summary-info">
                       <span class="unit unit-percent">{{ queryDetails?.Metrics2?.Lock_time_sum_of_total | humanize : 'percent'}}</span> of total
                     </span>
                     <span class="text-success">
@@ -141,7 +141,7 @@
                      measurement="number">
                 </div>
               </div>
-              <div class="">
+              <div>
                 <span class="sum text-left">{{ queryDetails?.Metrics2?.InnoDB_rec_lock_wait_sum | humanize : 'time' }}
                   <small>
                     <span *ngIf="queryDetails?.Metrics2?.InnoDB_rec_lock_wait_sum_of_total" class="text-primary">
@@ -180,7 +180,7 @@
               <div class="">
                 <span class="sum text-left">{{ queryDetails?.Metrics2?.InnoDB_IO_r_wait_sum | humanize : 'time' }}
                   <small>
-                    <span *ngIf="!isSummary" class="text-primary">
+                    <span *ngIf="!isSummary" class="text-primary non-summary-info">
                       <span class="unit unit-percent">{{ queryDetails?.Metrics2?.InnoDB_IO_r_wait_sum_of_total | humanize : 'percent' }}</span> of total
                     </span>
                     <span class="text-success">
@@ -213,7 +213,7 @@
               <div class="">
                 <span class="sum text-left">{{ queryDetails?.Metrics2?.InnoDB_queue_wait_sum | humanize : 'time'}}
                   <small>
-                    <span *ngIf="!isSummary" class="text-primary">
+                    <span *ngIf="!isSummary" class="text-primary non-summary-info">
                       <span class="unit unit-percent">{{ queryDetails?.Metrics2?.InnoDB_queue_wait_sum_of_total | humanize : 'percent' }}</span> of total
                     </span>
                     <span class="text-success">
@@ -246,7 +246,7 @@
               <div class="">
                 <span class="sum text-left">{{ queryDetails?.Metrics2?.InnoDB_IO_r_ops_sum | humanize : 'number' }}
                   <small>
-                    <span *ngIf="!isSummary" class="text-primary">
+                    <span *ngIf="!isSummary" class="text-primary non-summary-info">
                       <span class="unit unit-percent">{{ queryDetails?.Metrics2?.InnoDB_IO_r_ops_sum_of_total | humanize : 'percent' }}</span> of total
                     </span>
                   </small>
@@ -277,7 +277,7 @@
               <div class="">
                 <span class="sum text-left">{{ queryDetails?.Metrics2?.InnoDB_IO_r_bytes_sum | humanize : 'size' }}
                   <small>
-                    <span *ngIf="!isSummary" class="text-primary">
+                    <span *ngIf="!isSummary" class="text-primary non-summary-info">
                       <span class="unit unit-percent">{{ queryDetails?.Metrics2?.InnoDB_IO_r_bytes_sum_of_total | humanize : 'percent' }}</span> of total
                     </span>
                     <span class="text-success">
@@ -323,7 +323,7 @@
               <div class="">
                 <span class="sum text-left">{{ queryDetails?.Metrics2?.QC_Hit_sum | humanize : 'number' }}
                   <small>
-                    <span *ngIf="!isSummary" class="text-primary">
+                    <span *ngIf="!isSummary" class="text-primary non-summary-info">
                       <span class="unit unit-percent">{{ queryDetails?.Metrics2?.QC_Hit_sum_of_total | humanize : 'percent' }}</span> of total
                    </span>
                     <span class="text-success">
@@ -349,7 +349,7 @@
               <div class="">
                 <span class="sum text-left">{{ queryDetails?.Metrics2?.Rows_sent_sum | humanize : 'number' }}
                   <small>
-                    <span *ngIf="!isSummary" class="text-primary">
+                    <span *ngIf="!isSummary" class="text-primary non-summary-info">
                       <span class="unit unit-percent">{{ queryDetails?.Metrics2?.Rows_sent_sum_of_total | humanize : 'percent' }}</span> of total
                     </span>
                   </small>
@@ -374,10 +374,10 @@
                      data-tooltip="Loading..." xkey="Ts" ykey="Bytes_sent_sum_per_sec" measurement="size">
                 </div>
               </div>
-              <div class="">
+              <div>
                 <span class="sum text-left">{{ queryDetails?.Metrics2?.Bytes_sent_sum | humanize : 'size' }}
                   <small>
-                    <span *ngIf="!isSummary" class="text-primary">
+                    <span *ngIf="!isSummary" class="text-primary non-summary-info">
                       <span class="unit unit-percent">{{ queryDetails?.Metrics2?.Bytes_sent_sum_of_total | humanize : 'percent' }}</span> of total
                     </span>
                     <span class="text-success" ng-if="queryDetails?.Metrics2?.Bytes_sent_sum_per_rows">
@@ -408,7 +408,7 @@
               <div class="">
                 <span class="sum text-left">{{ queryDetails?.Metrics2?.Rows_examined_sum | humanize : 'number' }}
                   <small>
-                    <span *ngIf="!isSummary" class="text-primary">
+                    <span *ngIf="!isSummary" class="text-primary non-summary-info">
                       <span class="unit unit-percent">{{ queryDetails?.Metrics2?.Rows_examined_sum_of_total | humanize : 'percent' }}</span> of total
                     </span>
                     <span class="text-success">
@@ -440,7 +440,7 @@
               <div class="">
                 <span class="sum text-left">{{ queryDetails?.Metrics2?.Rows_affected_sum | humanize : 'number'}}
                   <small>
-                    <span *ngIf="!isSummary" class="text-primary">
+                    <span *ngIf="!isSummary" class="text-primary non-summary-info">
                       <span class="unit unit-percent">{{ queryDetails?.Metrics2?.Rows_affected_sum_of_total | humanize : 'percent' }}</span> of total
                     </span>
                   </small>
@@ -470,7 +470,7 @@
               <div class="">
                 <span class="sum text-left">{{ queryDetails?.Metrics2?.Filesort_sum | humanize : 'number' }}
                   <small>
-                    <span *ngIf="!isSummary" class="text-primary">
+                    <span *ngIf="!isSummary" class="text-primary non-summary-info">
                       <span class="unit unit-percent">{{ queryDetails?.Metrics2?.Filesort_sum_of_total | humanize : 'percent' }}</span> of total
                     </span>
                     <span class="text-success">
@@ -499,7 +499,7 @@
               <div class="">
                 <span class="sum text-left">{{ queryDetails?.Metrics2?.Filesort_on_disk_sum | humanize : 'number' }}
                   <small>
-                    <span *ngIf="!isSummary" class="text-primary">
+                    <span *ngIf="!isSummary" class="text-primary non-summary-info">
                       <span class="unit unit-percent">{{ queryDetails?.Metrics2?.Filesort_on_disk_sum_of_total | humanize : 'percent' }}</span> of total
                     </span>
                     <span class="text-success">
@@ -527,7 +527,7 @@
               <div class="">
                 <span>{{ queryDetails?.Metrics2?.Merge_passes_sum | humanize : 'number' }}
                   <small>
-                    <span *ngIf="!isSummary" class="text-primary">
+                    <span *ngIf="!isSummary" class="text-primary non-summary-info">
                       <span class="unit unit-percent">{{ queryDetails?.Metrics2?.Merge_passes_sum_of_total | humanize : 'percent' }}</span> of total
                     </span>
                     <span class="text-success">
@@ -561,7 +561,7 @@
               <div class="">
                 <span>{{ queryDetails?.Metrics2?.Full_join_sum | humanize : 'number' }}
                   <small>
-                    <span *ngIf="!isSummary" class="text-primary">
+                    <span *ngIf="!isSummary" class="text-primary non-summary-info">
                       <span class="unit unit-percent">{{ queryDetails?.Metrics2?.Full_join_sum_of_total | humanize : 'percent' }}</span> of total
                     </span>
                     <span class="text-success">
@@ -587,7 +587,7 @@
               <div class="">
                 <span class="sum text-left">{{ queryDetails?.Metrics2?.Full_scan_sum | humanize : 'number' }}
                   <small>
-                    <span *ngIf="!isSummary" class="text-primary">
+                    <span *ngIf="!isSummary" class="text-primary non-summary-info">
                       <span class="unit unit-percent">{{ queryDetails?.Metrics2?.Full_scan_sum_of_total | humanize : 'percent' }}</span> of total
                     </span>
                     <span class="text-success">
@@ -613,7 +613,7 @@
               <div class="">
                 <span class="sum text-left">{{ queryDetails?.Metrics2?.Tmp_table_sum | humanize : 'number' }}
                   <small>
-                    <span *ngIf="!isSummary" class="text-primary">
+                    <span *ngIf="!isSummary" class="text-primary non-summary-info">
                       <span class="unit unit-percent">{{ queryDetails?.Metrics2?.Tmp_table_sum_of_total | humanize : 'percent' }}</span> of total
                     </span>
                     <span class="text-success">
@@ -639,7 +639,7 @@
               <div class="">
                 <span class="sum text-left">{{ queryDetails?.Metrics2?.Tmp_tables_sum | humanize : 'number' }}
                   <small>
-                    <span *ngIf="!isSummary" class="text-primary">
+                    <span *ngIf="!isSummary" class="text-primary non-summary-info">
                       <span class="unit unit-percent">{{ queryDetails?.Metrics2?.Tmp_tables_sum_of_total | humanize : 'percent' }}</span> of total
                     </span>
                     <span class="text-success">
@@ -671,7 +671,7 @@
               <div class=" justify-content-start">
                 <span class="sum text-left">{{ queryDetails?.Metrics2?.Tmp_table_on_disk_sum | humanize : 'number' }}
                   <small>
-                    <span *ngIf="!isSummary" class="text-primary">
+                    <span *ngIf="!isSummary" class="text-primary non-summary-info">
                       <span class="unit unit-percent">{{ queryDetails?.Metrics2?.Tmp_table_on_disk_sum_of_total | humanize : 'percent' }}</span> of total
                     </span>
                     <span class="text-success">
@@ -698,7 +698,7 @@
               <div class="">
                 <span class="sum text-left">{{ queryDetails?.Metrics2?.Tmp_disk_tables_sum | humanize : 'number' }}
                   <small>
-                    <span *ngIf="!isSummary" class="text-primary">
+                    <span *ngIf="!isSummary" class="text-primary non-summary-info">
                       <span class="unit unit-percent">{{ queryDetails?.Metrics2?.Tmp_disk_tables_sum_of_total | humanize : 'percent' }}</span> of total
                     </span>
                     <span class="text-success">
@@ -731,7 +731,7 @@
               <div class="">
           <span class="sum text-left">{{ queryDetails?.Metrics2?.Tmp_table_sizes_sum | humanize : 'size' }}
             <small>
-              <span *ngIf="!isSummary" class="text-primary">
+              <span *ngIf="!isSummary" class="text-primary non-summary-info">
                 <span class="unit unit-percent">{{ queryDetails?.Metrics2?.Tmp_table_sizes_sum_of_total | humanize : 'percent' }}</span> of total
               </span>
               <span class="text-success">
@@ -762,8 +762,8 @@
     <header class="section-title">
       <h3 class="d-flex">QUERY</h3>
     </header>
-    <ngb-accordion activeIds="query-fingerprint">
-      <ngb-panel id="query-fingerprint">
+    <ngb-accordion [activeIds]="accordionIds.querySection">
+      <ngb-panel *ngIf="!!fingerprint" id="query-fingerprint">
         <ng-template ngbPanelTitle>
           <div class="accordion-title">
             <h5>Fingerprint</h5>
@@ -776,7 +776,7 @@
           </div>
         </ng-template>
       </ngb-panel>
-      <ngb-panel *ngIf="!!queryExample" class="query-example query-panel">
+      <ngb-panel *ngIf="!!queryExample" class="query-example query-panel" id="query-example">
         <ng-template ngbPanelTitle class="ngb-panel-title">
           <div class="accordion-title">
             <h5 class="title">Example</h5>
@@ -805,7 +805,7 @@
         </button>
       </form>
     </header>
-    <ngb-accordion activeIds="classic-explain" *ngIf="!!queryExample" class="accordion-inner-table">
+    <ngb-accordion [activeIds]="accordionIds.explainSection" *ngIf="!!queryExample" class="accordion-inner-table">
       <ngb-panel id="classic-explain">
         <ng-template ngbPanelTitle>
           <div class="accordion-title">
@@ -924,13 +924,13 @@
         </button>
       </div>
       <div *ngIf="queryDetails?.Query?.Tables === null || queryDetails?.Query?.Tables?.length === 0"
-           class="alert alert-info w-25 mx-auto m-2" role="alert">
+           class="alert alert-info w-25 mx-auto m-2 empty-table-error" role="alert">
         <i class="fa fa-info-circle" aria-hidden="true"></i>
         List of tables is empty.
       </div>
     </section>
-    <ngb-accordion activeIds="table-create" *ngIf="queryDetails?.Query?.Tables?.length">
-      <ngb-panel id="table-create">
+    <ngb-accordion [activeIds]="accordionIds.tableSection" *ngIf="queryDetails?.Query?.Tables?.length">
+      <ngb-panel id="table-create" *ngIf="!!createTable || !!createTableError">
         <ng-template ngbPanelTitle>
           <div class="accordion-title">
             <h5>CREATE</h5>
@@ -949,7 +949,7 @@
         </ng-template>
       </ngb-panel>
 
-      <ngb-panel id="table-status" class="accordion-inner-table">
+      <ngb-panel id="table-status" class="accordion-inner-table" *ngIf="!!statusTable || !!statusTableError">
         <ng-template ngbPanelTitle>
           <div class="accordion-title">
             <h5>STATUS</h5>
@@ -984,15 +984,16 @@
         </ng-template>
       </ngb-panel>
 
-      <ngb-panel id="table-indexes">
+      <ngb-panel id="table-indexes" *ngIf="!!indexTable || !!indexTableError">
         <ng-template ngbPanelTitle>
           <div class="accordion-title">
             <h5>INDEXES</h5>
           </div>
         </ng-template>
         <ng-template ngbPanelContent class="accordion-inner-table">
-          <i *ngIf="isTableInfoLoading" class="fa fa-spinner fa-pulse fa-3x fa-fw loading"></i>
-          <div *ngIf="!isTableInfoLoading && !!indexTableError" class="alert alert-warning w-75 mx-auto m-2"
+          <i *ngIf="isTableInfoLoading" class="fa fa-spinner fa-pulse fa-3x fa-fw loading table-spinner"></i>
+          <div *ngIf="!isTableInfoLoading && !!indexTableError"
+               class="alert alert-warning w-75 mx-auto m-2 index-table-error"
                role="alert">
             <i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
             {{ indexTableError }}
@@ -1031,7 +1032,7 @@
                   <div *ngIf="isFirst">{{ row.Comment }}</div>
                 </div>
               </div>
-              <div *ngIf="tableInfo?.Index?.length === 0">No data.</div>
+              <div *ngIf="tableInfo?.Index?.length === 0" class="no-data">No data.</div>
             </div>
           </div>
         </ng-template>
