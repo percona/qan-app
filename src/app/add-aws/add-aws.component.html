@@ -17,7 +17,7 @@
         </div>
       </div>
       <div class="col">
-        <button type="submit" class="btn btn-primary">Discover</button>
+        <button type="submit" class="not-checked-button">Discover</button>
       </div>
     </div>
   </form>
@@ -41,8 +41,8 @@
 
 <form (ngSubmit)="onConnect()">
   <div class="d-flex justify-content-center" *ngIf="allRDSInstances?.length">
-    <table class="table table-striped table-sm">
-      <thead>
+    <table class="aws-table table-bordered main-table-bordered table-sm">
+      <thead class="table-header-row">
         <tr>
           <th scope="col">Name</th>
           <th scope="col">Region</th>
@@ -53,7 +53,7 @@
       </thead>
       <tbody>
         <ng-template ngFor let-instance [ngForOf]="allRDSInstances" let-i="index" let-odd="odd">
-          <tr [ngClass]="{'right top left active': showConnect(instance.node)}">
+          <tr [ngClass]="{'active': showConnect(instance.node)}">
             <th scope="row">{{ instance.node.name }}</th>
             <td>{{ instance.node.region }}</td>
             <td>{{ instance.service.address }}:{{ instance.service.port }}</td>
@@ -68,20 +68,20 @@
               </a>
             </td>
           </tr>
-          <tr *ngIf="showConnect(instance.node)" class="right bottom left active">
+          <tr *ngIf="showConnect(instance.node)" class="active">
             <td colspan="2">
-              <div class="form-group">
+              <div>
                 <input type="text" [(ngModel)]="mysqlCredentials.username" name="username" class="form-control" placeholder="MySQL username">
               </div>
             </td>
             <td>
-              <div class="form-group">
+              <div>
                 <input type="password" [(ngModel)]="mysqlCredentials.password" name="password" class="form-control" placeholder="MySQL Password">
               </div>
             </td>
             <td colspan="2">
-              <button type="submit" [disabled]="isDemo"  class="btn btn-primary">Connect</button>
-              <button type="cancel" (click)="cancel()" class="btn btn-primary">Cancel</button>
+              <button type="submit" [disabled]="isDemo"  class="not-checked-button">Connect</button>
+              <button type="cancel" (click)="cancel()" class="not-checked-button">Cancel</button>
             </td>
           </tr>
         </ng-template>

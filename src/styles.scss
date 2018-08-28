@@ -243,10 +243,6 @@ table.metrics td span.sum {
         content: "\f054";
       }
     }
-
-    & > span {
-      color: #d8d9da;
-    }
   }
 }
 
@@ -382,6 +378,17 @@ table.metrics td span.sum {
   }
 }
 
+.not-checked-button:focus,
+.not-checked-button:active {
+  box-shadow: none;
+  outline: none !important;
+}
+
+.not-checked-button:disabled {
+  cursor: not-allowed !important;
+  opacity: .65;
+}
+
 .pmm-button-big {
   width: 230px !important;
   height: 40px;
@@ -507,11 +514,31 @@ table.metrics td span.sum {
     border-bottom: none !important;
   }
 
+  .aws-table {
+    border-left: 1px solid #292929 !important;
+  }
+
   .table-header {
     .display-options {
       color: white;
       .option-container {
         border: 1px solid #292929;
+      }
+    }
+  }
+
+  .section-title {
+    color: white;
+  }
+
+  .card-header {
+    & > h5 > button {
+     color: white;
+
+      &:hover,
+      &:visited,
+      &:visited {
+        color: white;
       }
     }
   }
@@ -582,9 +609,11 @@ table.metrics td span.sum {
     }
   }
 
-  .total-queries-amount {
-    border: 1px solid #292929;
+  .total-queries-amount,
+  .not-checked-button {
+    border: 1px solid #292929 !important;
     background-color: #212327;
+    color: white;
   }
 
   .search-input {
@@ -715,6 +744,10 @@ table.metrics td span.sum {
     border-bottom: none !important;
   }
 
+  .aws-table {
+    border-left: 1px solid rgba(0, 0, 0, 0.15) !important;
+  }
+
   .table-header {
     .display-options {
       color: #52545c;
@@ -779,6 +812,7 @@ table.metrics td span.sum {
 
   .btn-switcher,
   .total-queries-amount,
+  .not-checked-button,
   .btn-tables,
   .pmm-button-big {
     color: #52545c;
@@ -792,7 +826,8 @@ table.metrics td span.sum {
     }
   }
 
-  .total-queries-amount {
+  .total-queries-amount,
+  .not-checked-button {
     border: 1px solid rgba(0, 0, 0, 0.15);
     background-color: #dde4ed;
   }
