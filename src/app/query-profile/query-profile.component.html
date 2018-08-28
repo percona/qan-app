@@ -1,8 +1,8 @@
-<div *ngIf="isQueryDataAbsent" class="alert alert-warning w-75 mx-auto text-center wrap" role="alert">
+<div *ngIf="isQueryDataAbsent" class="alert alert-warning w-75 mx-auto text-center wrap no-data-message" role="alert">
   There is no any data from this host for this period. Maybe monitoring wasn't available at this moment. Please select
   wider period of time or wait for several minutes to collect some data
 </div>
-<div *ngIf="isNotExistSelected" class="alert alert-warning w-75 mx-auto text-center wrap" role="alert">
+<div *ngIf="isNotExistSelected" class="alert alert-warning w-75 mx-auto text-center wrap invalid-name-message" role="alert">
   Host name is not valid, please click the Host dropdown and select a valid host. If the Host list is empty, use
   <code>pmm-admin add</code> to add a monitoring service and check again. For more information on how to add a
   monitoring service,
@@ -10,7 +10,7 @@
   <a href="https://www.percona.com/doc/percona-monitoring-and-management/pmm-admin.html#adding-monitoring-services"
      target="blank">PMM documentation.</a>
 </div>
-<div *ngIf="dbServer !== null" class="content-container">
+<div *ngIf="dbServer !== null && dbServer !== undefined" class="content-container">
   <div *ngIf="!noQueryError" class="table-wrapper">
     <section class="table-header">
       <div class="table-title">
@@ -47,7 +47,7 @@
         <div>Count</div>
         <div>Latency</div>
       </div>
-      <div class="grid-container"
+      <div class="grid-container grid-container-data"
            *ngFor="let row of queryProfile; let i = index; let first = first;"
            [routerLink]="['./', 'report', dbServer.Subsystem]"
            [queryParams]="composeQueryParamsForGrid(row.Id)" routerLinkActive="table-selected"
@@ -106,25 +106,25 @@
     <div *ngIf="totalAmountOfQueries" class="load-more-wrapper">
       <button class="total-queries-amount"
               (click)="loadMoreQueries()" [disabled]="leftInDbQueries === 0 || isLoading">
-        <span *ngIf="leftInDbQueries > 0">Load next {{ leftInDbQueries > 10 ? 10 : leftInDbQueries }} queries</span>
-        <span *ngIf="leftInDbQueries === 0">No more queries for selected time range</span>
+        <span *ngIf="leftInDbQueries > 0" class="load-next">Load next {{ leftInDbQueries > 10 ? 10 : leftInDbQueries }} queries</span>
+        <span *ngIf="leftInDbQueries === 0" class="load-next">No more queries for selected time range</span>
       </button>
       <i *ngIf="isLoading" class="fa fa-spinner fa-pulse fa-fw loading-in-front"></i>
     </div>
     <router-outlet></router-outlet>
   </div>
-  <div *ngIf="!!noQueryError" class="text-center alert alert-danger w-75 mx-auto" role="alert">
+  <div *ngIf="!!noQueryError" class="text-center alert alert-danger w-75 mx-auto wrong-configuration-message" role="alert">
     {{ noQueryError }}
   </div>
   <div *ngIf="!isQuerySwitching && !isLoading && totalAmountOfQueries === 0" class="text-center">
-    <div *ngIf="dbServer.Subsystem === 'mongo' && !isFirsSeenChecked" class="alert alert-warning w-75 mx-auto wrap">
+    <div *ngIf="dbServer.Subsystem === 'mongo' && !isFirsSeenChecked" class="alert alert-warning w-75 mx-auto wrap no-mongo-queries">
       There is no query data because profiling is not enabled for the selected host. For information about how to
       enable profiling, see
       <a href="https://www.percona.com/doc/percona-monitoring-and-management/conf-mongodb.html" target="blank">
         Configuring profiling in MongoDB
       </a>in PMM documentation.
     </div>
-    <div *ngIf="dbServer.Subsystem === 'mysql' && !isFirsSeenChecked" class="alert alert-warning w-75 mx-auto wrap">
+    <div *ngIf="dbServer.Subsystem === 'mysql' && !isFirsSeenChecked" class="alert alert-warning w-75 mx-auto wrap no-mysql-queries">
       There is no query data because the MySQL Server is not configured for monitoring. For details about the
       required configuration, see
       <a href="https://www.percona.com/doc/percona-monitoring-and-management/conf-mysql.html" target="blank">
