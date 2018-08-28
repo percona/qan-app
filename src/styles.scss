@@ -1146,7 +1146,7 @@ dfn:hover::before {
 div.app-tooltip::before {
   content: attr(data-tooltip);
   position: absolute;
-  top: 1.8em;
+  top: 2.2em;
   font-size: 0.7em;
   padding: 1px 5px;
   white-space: pre;
