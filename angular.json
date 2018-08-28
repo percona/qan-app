@@ -80,7 +80,7 @@
           "configurations": {
             "production": {
               "browserTarget": "qan-app:build:production"
-            },
+            }
           }
         },
         "extract-i18n": {
