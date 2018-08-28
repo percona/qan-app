@@ -20,7 +20,6 @@ export class JSONTreeComponent implements OnChanges {
   }
 
   ngOnChanges() {
-    console.log(this.element.nativeElement.querySelector('#json-viewer'));
     this.element.nativeElement.querySelector('#json-viewer').appendChild(renderjson(this.json));
   }
 

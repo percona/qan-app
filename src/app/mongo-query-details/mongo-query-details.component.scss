@@ -1,16 +1,18 @@
-.metrics {
-  table-layout: auto;
+section.explain {
+  display: flex;
+  flex-direction: column;
+}
 
-  .rate-sec {
-    width: 12%;
+.metrics-table {
+  .grid-container {
+    grid-template-columns: 2fr 2fr 3fr 2fr;
+
+    .cell-overlay {
+      height: 100%;
+    }
   }
 
-  .rate-load {
-    padding-right: 20px;
-    width: 10%;
-  }
-
-  .query-stats {
-    width: 20%;
+  .grid-container:not(:last-child) {
+    height: 100%;
   }
 }

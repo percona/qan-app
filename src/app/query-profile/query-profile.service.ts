@@ -10,12 +10,13 @@ export class QueryProfileService {
     constructor(private http: Http) { }
 
     public async getQueryProfile(dbServerUUID, begin, end: string,
-        offset = 0, search = ''): Promise<{}> {
+        offset = 0, search = '', first_seen): Promise<{}> {
         const url = `/qan-api/qan/profile/${dbServerUUID}`;
         const params = new URLSearchParams();
         params.set('begin', begin);
         params.set('end', end);
         params.set('offset', String(offset));
+        params.set('first_seen', first_seen);
         if (search) {
             search = btoa(
                 search.replace(/%([0-9A-F]{2})/g,

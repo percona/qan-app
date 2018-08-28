@@ -30,3 +30,18 @@
 .show{
   opacity: 1 !important;
 }
+
+.accordion-head-second.text-primary {
+  display: flex;
+  align-items: baseline;
+}
+
+#refreshStatusLink,
+#refreshLogLink {
+  color: inherit;
+  margin-left: 5px;
+}
+
+#update-group {
+  margin: 0 5px;
+}

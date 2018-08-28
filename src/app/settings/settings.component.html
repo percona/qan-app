@@ -1,6 +1,10 @@
-<div *ngIf="isAllSelected" class="alert alert-warning w-75 mx-auto text-center wrap" role="alert">Host name of All is not valid, please click the Host dropdown and select a valid host.</div>
-<div *ngIf="isNotExistSelected" class="alert alert-warning w-75 mx-auto text-center wrap" role="alert">Host name is not valid, please click the Host dropdown and select a valid host. If the Host list is empty, use
-  <code>pmm-admin add</code> to add a monitoring service and check again. For more information on how to add a monitoring service,
+<div *ngIf="isAllSelected" class="alert alert-warning w-75 mx-auto text-center wrap" role="alert">Host name of All is
+  not valid, please click the Host dropdown and select a valid host.
+</div>
+<div *ngIf="isNotExistSelected" class="alert alert-warning w-75 mx-auto text-center wrap" role="alert">Host name is not
+  valid, please click the Host dropdown and select a valid host. If the Host list is empty, use
+  <code>pmm-admin add</code> to add a monitoring service and check again. For more information on how to add a
+  monitoring service,
   consult
   <a href="https://www.percona.com/doc/percona-monitoring-and-management/pmm-admin.html#adding-monitoring-services"
      target="blank">
@@ -10,16 +14,15 @@
 <ngb-accordion activeIds="settingsTab" #acSettings="ngbAccordion" *ngIf="!isNotExistSelected && !isAllSelected">
   <ngb-panel id="settingsTab">
     <ng-template ngbPanelTitle>
-      <h5>SETTINGS</h5>
+      <div class="accordion-title">
+        <h5>SETTINGS</h5>
+      </div>
     </ng-template>
     <ng-template ngbPanelContent>
-      <br/>
-
-      <div class="row">
+      <div class="row data-output">
         <div class="col-md-6">
           <div class="container">
             <form>
-
               <div class="form-group row">
                 <label class="col-sm-3 col-form-label">DSN</label>
                 <div class="col-sm-9">
@@ -73,7 +76,7 @@
               <div class="form-group row">
                 <div class="offset-sm-3 col-sm-7 button-block">
                   <button id="settings_apply_button" [disabled]="isDemo" type="submit" (click)="setAgentDefaults()"
-                          class="btn btn-primary">
+                          class="pmm-button">
                     <i class="fa fa-check"></i>Apply
                   </button>
                   <p class="success-message" [class.show]="isSuccess">Your settings have been applied</p>
@@ -119,7 +122,8 @@
             <div class="form-group row">
               <label for="RetainSlowLogs" class="col-sm-5 col-form-label">Slow logs to retain on disk</label>
               <div class="col-sm-3">
-                <p class="form-control-static" id="RetainSlowLogs">{{ agentConf.qan.RetainSlowLogs ? agentConf.qan.RetainSlowLogs : 'N/A' }}</p>
+                <p class="form-control-static" id="RetainSlowLogs">{{ agentConf.qan.RetainSlowLogs ?
+                  agentConf.qan.RetainSlowLogs : 'N/A' }}</p>
               </div>
             </div>
 
@@ -168,17 +172,19 @@
   </ngb-panel>
   <ngb-panel id="statusTab">
     <ng-template ngbPanelTitle>
-      <h5>STATUS</h5>
-      <span class="accordion-head-second text-primary">
-                (<i>Updated {{ (statusUpdatedFromNow$ | async) || 'a few seconds ago' }}</i>) |
-                <a href="javascript:void(0);" id="refreshStatusLink" title="Refresh status"
-                   (click)="getAgentStatus(); $event.stopPropagation();">
-                    <i class="fa fa-refresh"></i>
-                </a>
-            </span>
+      <div class="accordion-title">
+        <h5>STATUS</h5>
+        <span class="accordion-head-second text-primary">
+          (<i>Updated {{ (statusUpdatedFromNow$ | async) || 'a few seconds ago' }}</i>) |
+          <a href="javascript:void(0);" id="refreshStatusLink" title="Refresh status"
+             (click)="getAgentStatus(); $event.stopPropagation();">
+            <i class="fa fa-refresh"></i>
+          </a>
+        </span>
+      </div>
     </ng-template>
     <ng-template ngbPanelContent>
-      <table *ngIf="agentStatus | async as status; else loading" class="table table-bordered table-sm" id="statusTable">
+      <table *ngIf="agentStatus | async as status; else loading" class="table-bordered main-table-bordered table-sm" id="statusTable">
         <tr *ngFor="let item of status | mapToIterable">
           <td>{{ item.key }}</td>
           <td>{{ item.val }}</td>
@@ -191,41 +197,47 @@
   </ngb-panel>
   <ngb-panel id="logTitle">
     <ng-template ngbPanelTitle>
-      <h5>LOG</h5>
-      <span class="accordion-head-second text-primary">
+      <div class="accordion-title">
+        <h5>LOG</h5>
+        <span class="accordion-head-second text-primary">
              (<i>Updated {{ (logUpdatedFromNow$ | async) || 'a few seconds ago' }}</i>)
-            <div class="btn-group btn-group-sm" role="group" aria-label="Log period">
+            <div class="pmm-button-group" role="group" aria-label="Log period" id="update-group">
                 <button type="button" id="logPeriod1h"
                         (click)="setLogPeriod(1); $event.stopPropagation(); $event.preventDefault();"
-                        [ngClass]="{'active': logPeriod === 1 }" value="1" class="btn btn-secondary">1 h</button>
+                        [ngClass]="{'pmm-button-success': logPeriod === 1 }" value="1"
+                        class="pmm-button pmm-button-sm">1 h</button>
                 <button type="button" id="logPeriod2h"
                         (click)="setLogPeriod(2); $event.preventDefault(); $event.stopPropagation();"
-                        [ngClass]="{'active': logPeriod === 2 }" value="2" class="btn btn-secondary">2 h</button>
+                        [ngClass]="{'pmm-button-success': logPeriod === 2 }" value="2"
+                        class="pmm-button pmm-button-sm">2 h</button>
                 <button type="button" id="logPeriod6h"
                         (click)="setLogPeriod(6); $event.preventDefault(); $event.stopPropagation();"
-                        [ngClass]="{'active': logPeriod === 6 }" value="6" class="btn btn-secondary">6 h</button>
+                        [ngClass]="{'pmm-button-success': logPeriod === 6 }" value="6"
+                        class="pmm-button pmm-button-sm">6 h</button>
                 <button href="javascript:void(0);" type="button" id="logPeriod12h"
                         (click)="setLogPeriod(12); $event.preventDefault(); $event.stopPropagation();"
-                        [ngClass]="{'active': logPeriod === 12 }" value="12"
-                        class="btn btn-secondary">12 h</button>
+                        [ngClass]="{'pmm-button-success': logPeriod === 12 }" value="12"
+                        class="pmm-button pmm-button-sm">12 h</button>
                 <button href="javascript:void(0);" type="button" id="logPeriod1d"
                         (click)="setLogPeriod(24); $event.preventDefault(); $event.stopPropagation();"
-                        [ngClass]="{'active': logPeriod === 24 }" value="24" class="btn btn-secondary">1 d</button>
+                        [ngClass]="{'pmm-button-success': logPeriod === 24 }" value="24"
+                        class="pmm-button pmm-button-sm">1 d</button>
                 <button href="javascript:void(0);" type="button" id="logPeriod5d"
                         (click)="setLogPeriod(120); $event.preventDefault(); $event.stopPropagation();"
-                        [ngClass]="{'active': logPeriod === 120 }" value="120"
-                        class="btn btn-secondary">5 d</button>
+                        [ngClass]="{'pmm-button-success': logPeriod === 120 }" value="120"
+                        class="pmm-button pmm-button-sm">5 d</button>
             </div>
             |
             <a href="javascript:void(0);" id="refreshLogLink" title="Refresh log"
                (click)="refreshAgentLog(); $event.preventDefault(); $event.stopPropagation();">
                 <i class="fa fa-refresh"></i>
             </a>
-            </span>
+        </span>
+      </div>
     </ng-template>
     <ng-template ngbPanelContent>
-      <table *ngIf="agentLog | async as aLog; else loading" class="table table-bordered table-sm" id="logTable">
-        <thead>
+      <table *ngIf="agentLog | async as aLog; else loading" class="table-bordered main-table-bordered table-sm" id="logTable">
+        <thead class="table-header-row">
         <tr>
           <th>Timestamp</th>
           <th>Service</th>
