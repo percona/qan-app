@@ -68,11 +68,11 @@ export class LoadSparklinesDirective {
 
         const xDomain = extent(data.map(d => moment.utc(d[xkey])));
 
-        const xScale = scaleTime().range([0, width]).domain(xDomain);
+        const xScale = scaleTime().range([2, width - 2]).domain(xDomain);
 
         const yDomain = extent(data.map(d => ykey in d ? d[ykey] : 0));
 
-        const yScale = scaleLinear().range([height, 0]).domain(yDomain).clamp(true);
+        const yScale = scaleLinear().range([height, 2]).domain(yDomain).clamp(true);
 
         const svgLine = line()
             .defined(d => !d['NoData'])
