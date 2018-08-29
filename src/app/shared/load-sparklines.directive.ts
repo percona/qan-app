@@ -60,19 +60,19 @@ export class LoadSparklinesDirective {
             .attr('width', '100')
             .attr('class', 'scaling-svg')
             .attr('preserveAspectRatio', 'none')
-            .attr('viewBox', '0 0 100 20');
+            .attr('viewBox', '-1 0 102 20');
 
         const height = 15;
         const width = Math.floor(svg.node().getBoundingClientRect().width);
-        svg.attr('width', width).attr('viewBox', '0 0 ' + width + ' 20');
+        svg.attr('width', width).attr('viewBox', '-1 0 ' + (width + 2) + ' 20');
 
         const xDomain = extent(data.map(d => moment.utc(d[xkey])));
 
-        const xScale = scaleTime().range([0, width]).domain(xDomain);
+        const xScale = scaleTime().range([2, width - 2]).domain(xDomain);
 
         const yDomain = extent(data.map(d => ykey in d ? d[ykey] : 0));
 
-        const yScale = scaleLinear().range([height, 0]).domain(yDomain);
+        const yScale = scaleLinear().range([height, 2]).domain(yDomain).clamp(true);
 
         const svgLine = line()
             .defined(d => !d['NoData'])
@@ -91,7 +91,6 @@ export class LoadSparklinesDirective {
             .datum(data)
             .attr('class', 'area')
             .attr('d', svgArea);
-
 
         g.append('path')
             .datum(data)
@@ -113,7 +112,7 @@ export class LoadSparklinesDirective {
 
         focus.append('circle')
             .attr('id', 'focusCircle')
-            .attr('r', 1)
+            .attr('r', 1.5)
             .attr('class', 'circle focusCircle');
 
         focus.append('text')
@@ -136,13 +135,18 @@ export class LoadSparklinesDirective {
             const coords = mouse(currentEvent.currentTarget);
 
             const mouseDate: any = moment.utc(xScale.invert(coords[0]));
-            let i = bisectDate(data, mouseDate); // returns the index to the current data item
-            i = i > 59 ? 59 : i;
-            i = i < 1 ? 1 : i;
-            const d0 = data[i - 1];
-            const d1 = data[i];
-            // work out which date value is closest to the mouse
-            const d = (mouseDate.subtract(moment.utc(d0[xkey]))) < (moment.utc(d1[xkey] || 0).subtract(mouseDate)) ? d1 : d0;
+            // returns the index to the current data item
+            const i = Math.min(Math.max(bisectDate(data, mouseDate), 0), data.length - 1);
+            let d = data[i];
+
+            // correction bisector to use data[0] on right edge of sparkline.
+            if (i === 1) {
+                const d0 = moment.utc(data[0][xkey]);
+                const d1 = moment.utc(data[1][xkey]);
+                if (mouseDate.diff(d1) > 0 && d0.diff(mouseDate) < mouseDate.diff(d1)) {
+                    d = data[0];
+                }
+            }
 
             const x = xScale(isoParse(d[xkey]));
             const y = yScale(d[ykey] === undefined ? 0 : d[ykey]);
@@ -155,7 +159,6 @@ export class LoadSparklinesDirective {
             focus.select('#focusLineX')
                 .attr('x1', x).attr('y1', yScale(yDomain[MIN]))
                 .attr('x2', x).attr('y2', yScale(yDomain[MAX]));
-
 
             const value = d[ykey] === undefined ? 0 : d[ykey];
             const load = this.humanize.transform(value, measurement);
