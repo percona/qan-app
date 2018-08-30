@@ -90,7 +90,9 @@ export class QueryProfileComponent extends CoreComponent {
         this.isLoading = true;
         const dbServerUUID = this.dbServer.UUID;
         this.offset = this.offset + 10;
-        const search = this.queryParams.search === 'null' && this.searchValue !== 'NULL' && this.searchValue !== 'null' ? '' : this.queryParams.search;
+        const search =
+          this.queryParams.search === 'null' &&
+          this.searchValue !== 'NULL' && this.searchValue !== 'null' ? '' : this.queryParams.search;
         const firstSeen = this.queryParams.first_seen;
         const data = await this.queryProfileService
             .getQueryProfile(dbServerUUID, this.fromUTCDate, this.toUTCDate, this.offset, search, firstSeen);
