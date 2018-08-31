@@ -105,6 +105,14 @@ export class MySQLQueryDetailsComponent extends CoreComponent implements OnInit 
     } catch (err) {
       console.error(err);
     }
+    console.log('*****************************');
+    console.log('this.queryDetails - ', this.queryDetails);
+    console.log('fingerprint - ', this.fingerprint);
+    console.log('!fingerprint - ', !this.fingerprint);
+    console.log('!!fingerprint - ', !!this.fingerprint);
+    console.log('queryExample - ', this.queryExample);
+    console.log('!queryExample - ', !this.queryExample);
+    console.log('!!queryExample - ', !!this.queryExample);
   }
 
   async getServerSummary(dbServerUUID: string, from: string, to: string) {

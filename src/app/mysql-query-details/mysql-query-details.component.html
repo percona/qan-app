@@ -4,7 +4,7 @@
     <span class="query-id">{{ queryDetails?.Query?.Id }}</span>
   </h3>
 </header>
-<section class="server-summary">
+<section class="server-summary" *ngIf="!!isSummary || !!queryDetails?.Metrics2">
   <header class="section-title" *ngIf="isSummary">
     <h3 class="d-inline">
       Server Summary
@@ -22,14 +22,14 @@
         </div>
       </ng-template>
       <ng-template ngbPanelContent>
-        <div class="table-wrapper metrics-table">
+        <div class="table-wrapper metrics-table" *ngIf="!isLoading">
           <div class="table-header grid-container table-header-row">
             <div>Metrics</div>
             <div>Rate/Sec</div>
             <div>Sum</div>
             <div>Per Query Stats</div>
           </div>
-          <div class="table-body" *ngIf="!isLoading">
+          <div class="table-body">
             <div class="table-body-row grid-container">
               <div><span>Query Count</span></div>
               <div class="flex-container">
@@ -758,7 +758,7 @@
 </section>
 <!--- additional info for query only-->
 <div class="sections-wrapper" *ngIf="!isSummary">
-  <section class="query">
+  <section class="query" *ngIf="!!fingerprint || !!queryExample">
     <header class="section-title">
       <h3 class="d-flex">QUERY</h3>
     </header>
@@ -792,7 +792,8 @@
     </ngb-accordion>
   </section>
 
-  <section class="explain" *ngIf="!!queryExample">
+  <section class="explain"
+           *ngIf="!!queryExample || classicExplainError || !!jsonExplain || !!jsonExplainError || !!visualExplain || !!visualExplainError">
     <header class="section-title">
       <h3>EXPLAIN</h3>
       <form class="search-input explain-search-input">
@@ -805,7 +806,7 @@
         </button>
       </form>
     </header>
-    <ngb-accordion [activeIds]="accordionIds.explainSection" *ngIf="!!queryExample" class="accordion-inner-table">
+    <ngb-accordion [activeIds]="accordionIds.explainSection" class="accordion-inner-table">
       <ngb-panel id="classic-explain">
         <ng-template ngbPanelTitle>
           <div class="accordion-title">
@@ -897,7 +898,8 @@
     </ngb-accordion>
   </section>
 
-  <section class="tables">
+  <section class="tables"
+           *ngIf="!!createTable || !!createTableError || !!statusTable || !!statusTableError || !!indexTable || !!indexTableError">
     <header class="section-title">
       <h3>TABLES</h3>
       <form class="search-input tables-input" (submit)="addDBTable();">
@@ -912,7 +914,6 @@
         </button>
       </form>
     </header>
-
     <section class="table-buttons-wrapper">
       <div *ngFor="let item of queryDetails?.Query?.Tables" class="btn-group" role="group" aria-label="Tables">
         <button type="button" class="btn-tables" (click)="selectTableInfo(item.Db, item.Table);"
@@ -962,7 +963,7 @@
             <i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
             {{ statusTableError }}
           </div>
-          <div class="table-wrapper status-table-wrapper" *ngIf="!statusTableError">
+          <div class="table-wrapper status-table-wrapper" *ngIf="!isTableInfoLoading && !statusTableError">
             <div class="table-header grid-container table-header-row">
               <div>Name</div>
               <div>Value</div>
