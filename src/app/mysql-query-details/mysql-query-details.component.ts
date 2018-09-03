@@ -105,14 +105,6 @@ export class MySQLQueryDetailsComponent extends CoreComponent implements OnInit 
     } catch (err) {
       console.error(err);
     }
-    console.log('*****************************');
-    console.log('this.queryDetails - ', this.queryDetails);
-    console.log('fingerprint - ', this.fingerprint);
-    console.log('!fingerprint - ', !this.fingerprint);
-    console.log('!!fingerprint - ', !!this.fingerprint);
-    console.log('queryExample - ', this.queryExample);
-    console.log('!queryExample - ', !this.queryExample);
-    console.log('!!queryExample - ', !!this.queryExample);
   }
 
   async getServerSummary(dbServerUUID: string, from: string, to: string) {
@@ -194,11 +186,11 @@ export class MySQLQueryDetailsComponent extends CoreComponent implements OnInit 
       .then(data => {
         const info = data[`${dbName}.${tblName}`];
         this.tableInfo = info;
-        console.log('this.tableInfo - ', this.tableInfo);
         this.statusTable = info.Status;
         this.indexTable = info.Index;
         try {
           this.createTable = hljs.highlight('sql', this.tableInfo.Create).value;
+          console.log('this.createTable', this.createTable);
         } catch (e) { }
         if (info.hasOwnProperty('Errors') && info['Errors'].length > 0) {
           throw info['Errors'];
@@ -214,6 +206,7 @@ export class MySQLQueryDetailsComponent extends CoreComponent implements OnInit 
           }
           if (err.startsWith('SHOW CREATE TABLE')) {
             this.createTableError = err;
+            console.log('this.createTableError', this.createTableError);
           }
         }
 
@@ -239,8 +232,8 @@ export class MySQLQueryDetailsComponent extends CoreComponent implements OnInit 
           throw info['Errors'];
         }
         this.tableInfo = info;
-        console.log('this.tableInfo - ', this.tableInfo);
         this.createTable = hljs.highlight('sql', this.tableInfo.Create).value;
+        console.log('this.queryDetailsService this.createTable', this.createTable)
       })
       .catch(errors => {
         for (const err of errors) {
@@ -252,6 +245,7 @@ export class MySQLQueryDetailsComponent extends CoreComponent implements OnInit 
           }
           if (err.startsWith('SHOW CREATE TABLE')) {
             this.createTableError = err;
+            console.log('this.createTableError', this.createTableError);
           }
         }
 

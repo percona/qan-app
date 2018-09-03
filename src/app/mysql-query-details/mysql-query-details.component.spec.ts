@@ -222,29 +222,70 @@ fdescribe('MySQLQueryDetailsComponent', () => {
     expect(spanId.innerHTML).toBe(component.queryDetails.Query.Id);
   });
 
-  it('should not create table section if query details is undefined', () => {
-    component.queryDetails = undefined;
+  it('should not create fields with information about query when not-total query is selected', () => {
+    component.isSummary = true;
     fixture.detectChanges();
-    const tableCreate = fixture.nativeElement.querySelector('#table-create-header');
-    const tableStatus = fixture.nativeElement.querySelector('#table-status-header');
-    const tableIndexes = fixture.nativeElement.querySelector('#table-indexes-header');
-    [tableCreate, tableStatus, tableIndexes].map(item => expect(item).toBeFalsy());
+    const spanAbstract = fixture.nativeElement.querySelector('.query-abstract');
+    const spanId = fixture.nativeElement.querySelector('.query-id');
+    [spanAbstract, spanId].map(item => expect(item).toBeFalsy());
   });
 
-  it('should not create table section if query details is null', () => {
-    component.queryDetails = null;
+  it('should create server summary section if total query is selected', () => {
+    component.isSummary = true;
     fixture.detectChanges();
-    const tableCreate = fixture.nativeElement.querySelector('#table-create-header');
-    const tableStatus = fixture.nativeElement.querySelector('#table-status-header');
-    const tableIndexes = fixture.nativeElement.querySelector('#table-indexes-header');
-    [tableCreate, tableStatus, tableIndexes].map(item => expect(item).toBeFalsy());
+    const serverSummary = fixture.nativeElement.querySelector('.server-summary');
+    expect(serverSummary).toBeTruthy();
   });
 
-  it('should not create table tools if if query details is undefined', () => {
-    component.queryDetails = undefined;
+  it('should create server summary section if query is selected', () => {
+    component.isSummary = false;
     fixture.detectChanges();
-    const tableTools = fixture.nativeElement.querySelector('.table-tools');
-    expect(tableTools).toBeFalsy();
+    const serverSummary = fixture.nativeElement.querySelector('.server-summary');
+    expect(serverSummary).toBeTruthy();
+  });
+
+  it('should not create server summary section if query data is undefined', () => {
+    component.isSummary = false;
+    component.queryDetails.Metrics2 = undefined;
+    fixture.detectChanges();
+    const serverSummary = fixture.nativeElement.querySelector('.server-summary');
+    expect(serverSummary).toBeFalsy();
+  });
+
+  it('should not create server summary section if query data is null', () => {
+    component.isSummary = false;
+    component.queryDetails.Metrics2 = undefined;
+    fixture.detectChanges();
+    const serverSummary = fixture.nativeElement.querySelector('.server-summary');
+    expect(serverSummary).toBeFalsy();
+  });
+
+  it('should create server summary title if total query is selected', () => {
+    component.isSummary = true;
+    fixture.detectChanges();
+    const serverSummaryTitle = fixture.nativeElement.querySelector('.server-summary-title');
+    expect(serverSummaryTitle).toBeTruthy();
+  });
+
+  it('should not create server summary title if total query is not selected', () => {
+    component.isSummary = false;
+    fixture.detectChanges();
+    const serverSummaryTitle = fixture.nativeElement.querySelector('.server-summary-title');
+    expect(serverSummaryTitle).toBeFalsy();
+  });
+
+  it('should create query information element if total query is not selected', () => {
+    component.isSummary = false;
+    fixture.detectChanges();
+    const queryInformation = fixture.nativeElement.querySelector('.query-information');
+    expect(queryInformation).toBeTruthy();
+  });
+
+  it('should not create query information element if total query is selected', () => {
+    component.isSummary = true;
+    fixture.detectChanges();
+    const queryInformation = fixture.nativeElement.querySelector('.query-information');
+    expect(queryInformation).toBeFalsy();
   });
 
   it('should create explain section if query details is undefined', () => {
@@ -332,13 +373,13 @@ fdescribe('MySQLQueryDetailsComponent', () => {
     [classicExplain, jsonExplain, visualExplain].map(item => expect(item).toBeFalsy());
   });
 
-  it('should not create Explain section if error is presented', () => {
+  it('should create Explain section if error is presented', () => {
     component.classicExplainError = component.jsonExplainError = component.visualExplainError = 'error';
     fixture.detectChanges();
     const jsonExplain = fixture.nativeElement.querySelector('#json-explain-header');
     const classicExplain = fixture.nativeElement.querySelector('#classic-explain-header');
     const visualExplain = fixture.nativeElement.querySelector('#visual-explain-header');
-    [classicExplain, jsonExplain, visualExplain].map(item => expect(item).toBeFalsy());
+    [classicExplain, jsonExplain, visualExplain].map(item => expect(item).toBeTruthy());
   });
 
   it('should create table section if response has tables', () => {
@@ -359,20 +400,6 @@ fdescribe('MySQLQueryDetailsComponent', () => {
     const tableStatus = fixture.nativeElement.querySelector('#table-status-header');
     const tableIndexes = fixture.nativeElement.querySelector('#table-indexes-header');
     [tableCreate, tableStatus, tableIndexes].map(item => expect(item).toBeFalsy());
-  });
-
-  it('should display error message if table in response is null', () => {
-    component.queryDetails.Query.Tables = null;
-    fixture.detectChanges();
-    const emptyTableError = fixture.nativeElement.querySelector('.empty-table-error');
-    expect(emptyTableError).toBeTruthy();
-  });
-
-  it('should display error message if table in response is empty', () => {
-    component.queryDetails.Query.Tables.length = 0;
-    fixture.detectChanges();
-    const emptyTableError = fixture.nativeElement.querySelector('.empty-table-error');
-    expect(emptyTableError).toBeTruthy();
   });
 
   it('should not display fingerprint output if fingerprint is undefined', () => {
@@ -459,9 +486,28 @@ fdescribe('MySQLQueryDetailsComponent', () => {
     expect(noData).toBeTruthy();
   });
 
-  // it('should display no data message', () => {
-  //   fixture.detectChanges();
-  //   const noData = fixture.nativeElement.querySelector('.no-data');
-  //   expect(noData).toBeTruthy();
-  // });
+  it('should not create table section if query details is undefined', () => {
+    component.queryDetails = undefined;
+    fixture.detectChanges();
+    const tableCreate = fixture.nativeElement.querySelector('#table-create-header');
+    const tableStatus = fixture.nativeElement.querySelector('#table-status-header');
+    const tableIndexes = fixture.nativeElement.querySelector('#table-indexes-header');
+    [tableCreate, tableStatus, tableIndexes].map(item => expect(item).toBeFalsy());
+  });
+
+  it('should not create table section if query details is null', () => {
+    component.queryDetails = null;
+    fixture.detectChanges();
+    const tableCreate = fixture.nativeElement.querySelector('#table-create-header');
+    const tableStatus = fixture.nativeElement.querySelector('#table-status-header');
+    const tableIndexes = fixture.nativeElement.querySelector('#table-indexes-header');
+    [tableCreate, tableStatus, tableIndexes].map(item => expect(item).toBeFalsy());
+  });
+
+  it('should not create table tools if if query details is undefined', () => {
+    component.queryDetails = undefined;
+    fixture.detectChanges();
+    const tableTools = fixture.nativeElement.querySelector('.table-tools');
+    expect(tableTools).toBeFalsy();
+  });
 });

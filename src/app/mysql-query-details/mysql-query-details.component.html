@@ -5,7 +5,7 @@
   </h3>
 </header>
 <section class="server-summary" *ngIf="!!isSummary || !!queryDetails?.Metrics2">
-  <header class="section-title" *ngIf="isSummary">
+  <header class="server-summary-title section-title" *ngIf="!!isSummary">
     <h3 class="d-inline">
       Server Summary
     </h3>
@@ -15,7 +15,7 @@
       <ng-template ngbPanelTitle>
         <div class="accordion-title">
           <h5>Metrics</h5>
-          <span *ngIf="!isSummary">
+          <span class="query-information" *ngIf="!isSummary">
             Query first seen: <strong class="first-seen-time" [class.first-seen]="isFirstSeen">{{ firstSeen }}</strong>
             Last seen: <strong>{{ lastSeen }}</strong>
           </span>
@@ -924,13 +924,8 @@
           <i class="fa fa-times" aria-hidden="true"></i>
         </button>
       </div>
-      <div *ngIf="queryDetails?.Query?.Tables === null || queryDetails?.Query?.Tables?.length === 0"
-           class="alert alert-info w-25 mx-auto m-2 empty-table-error" role="alert">
-        <i class="fa fa-info-circle" aria-hidden="true"></i>
-        List of tables is empty.
-      </div>
     </section>
-    <ngb-accordion [activeIds]="accordionIds.tableSection" *ngIf="queryDetails?.Query?.Tables?.length">
+    <ngb-accordion [activeIds]="accordionIds.tableSection">
       <ngb-panel id="table-create" *ngIf="!!createTable || !!createTableError">
         <ng-template ngbPanelTitle>
           <div class="accordion-title">
