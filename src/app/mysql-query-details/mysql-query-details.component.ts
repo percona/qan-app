@@ -190,7 +190,6 @@ export class MySQLQueryDetailsComponent extends CoreComponent implements OnInit 
         this.indexTable = info.Index;
         try {
           this.createTable = hljs.highlight('sql', this.tableInfo.Create).value;
-          console.log('this.createTable', this.createTable);
         } catch (e) { }
         if (info.hasOwnProperty('Errors') && info['Errors'].length > 0) {
           throw info['Errors'];
@@ -206,7 +205,6 @@ export class MySQLQueryDetailsComponent extends CoreComponent implements OnInit 
           }
           if (err.startsWith('SHOW CREATE TABLE')) {
             this.createTableError = err;
-            console.log('this.createTableError', this.createTableError);
           }
         }
 
@@ -233,7 +231,6 @@ export class MySQLQueryDetailsComponent extends CoreComponent implements OnInit 
         }
         this.tableInfo = info;
         this.createTable = hljs.highlight('sql', this.tableInfo.Create).value;
-        console.log('this.queryDetailsService this.createTable', this.createTable)
       })
       .catch(errors => {
         for (const err of errors) {
@@ -245,7 +242,6 @@ export class MySQLQueryDetailsComponent extends CoreComponent implements OnInit 
           }
           if (err.startsWith('SHOW CREATE TABLE')) {
             this.createTableError = err;
-            console.log('this.createTableError', this.createTableError);
           }
         }
 
