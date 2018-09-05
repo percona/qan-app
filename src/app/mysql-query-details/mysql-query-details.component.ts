@@ -143,7 +143,6 @@ export class MySQLQueryDetailsComponent extends CoreComponent implements OnInit 
     }
 
     try {
-      // let data = await this.queryDetailsService.getExplain(agentUUID, dbServerUUID, this.dbName, query);
       this.dataExplain = await this.queryDetailsService.getExplain(agentUUID, dbServerUUID, this.dbName, query);
       if (this.dataExplain.hasOwnProperty('Error') && this.dataExplain['Error'] !== '') {
         throw new Error(this.dataExplain['Error']);
@@ -295,7 +294,7 @@ export class MySQLQueryDetailsComponent extends CoreComponent implements OnInit 
     return '';
   }
 
-  private getDBName(): string {
+  getDBName(): string {
     if (this.queryDetails.Example.Db !== '') {
       return this.queryDetails.Example.Db;
     } else if (this.queryDetails.hasOwnProperty('Query')
