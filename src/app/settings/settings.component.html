@@ -42,7 +42,7 @@
                 <div class="col-sm-2">
                   <input class="form-control" type="number" min="1" max="60" id="inputInterval" name="interval"
                          aria-describedby="intervalHelpBlock"
-                         [(ngModel)]="interval" [ngModelOptions]="{standalone: true}">
+                         [ngModel]="interval" (ngModelChange)="validateValue($event)" [ngModelOptions]="{standalone: true}">
                 </div>
                 <div class="col-sm-5">
                   <span id="intervalHelpBlock" class="form-text"><small>minutes (from 1 to 60)</small></span>

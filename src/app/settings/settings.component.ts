@@ -20,6 +20,7 @@ export class SettingsComponent extends CoreComponent {
   public agentStatus: {};
   public qanConf: {};
   public agentConf: any;
+  public oldInterval: number;
   public interval = 1;
   public collectFrom: 'perfschema' | 'slowlog' = 'slowlog';
   public exampleQueries: boolean;
@@ -58,6 +59,14 @@ export class SettingsComponent extends CoreComponent {
    */
   refreshAgentLog(): void {
     this.getAgentLog();
+  }
+
+  validateValue(value) {
+    if (this.oldInterval !== +value) {
+      this.interval = +value > 60 || +value < 1 ? this.oldInterval : value;
+    }
+    this.oldInterval = this.interval;
+    (<HTMLInputElement>document.getElementById('inputInterval')).value = this.interval.toString();
   }
 
   /**
@@ -132,6 +141,7 @@ export class SettingsComponent extends CoreComponent {
     const updated: any = moment();
     this.logUpdatedFromNow$ = Observable.interval(60000).map(n => updated.fromNow());
   }
+
   /**
    * Ovverrides parent method.
    * Executes on route was changed to refresh data.
