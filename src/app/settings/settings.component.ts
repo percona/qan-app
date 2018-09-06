@@ -20,7 +20,7 @@ export class SettingsComponent extends CoreComponent {
   public agentStatus: {};
   public qanConf: {};
   public agentConf: any;
-  public oldInterval: number;
+  public oldInterval = 1;
   public interval = 1;
   public collectFrom: 'perfschema' | 'slowlog' = 'slowlog';
   public exampleQueries: boolean;
@@ -62,6 +62,7 @@ export class SettingsComponent extends CoreComponent {
   }
 
   validateValue(value) {
+    // this.interval = this.interval === null ? 1 : this.interval;
     if (this.oldInterval !== +value) {
       this.interval = +value > 60 || +value < 1 ? this.oldInterval : value;
     }
