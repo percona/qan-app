@@ -62,12 +62,10 @@ export class SettingsComponent extends CoreComponent {
   }
 
   validateValue(value) {
-    // this.interval = this.interval === null ? 1 : this.interval;
     if (this.oldInterval !== +value) {
-      this.interval = +value > 60 || +value < 1 ? this.oldInterval : value;
+        this.interval = (+value > 60 || +value < 1) ? this.oldInterval : +value;
     }
     this.oldInterval = this.interval;
-    (<HTMLInputElement>document.getElementById('inputInterval')).value = this.interval.toString();
   }
 
   /**
