@@ -1,5 +1,6 @@
 p {
   margin-bottom: 0;
+  width: 100%;
 }
 #settings_apply_button {
   cursor: pointer;
@@ -55,4 +56,18 @@ p {
 
 .button-block {
   height: 40px;
+}
+
+.pmm-button {
+  width: 95px;
+  opacity: 1 !important;
+
+  &:disabled {
+    cursor: not-allowed !important;
+    opacity: .65;
+  }
+}
+
+.btn-copied {
+  opacity: 1 !important;
 }
