@@ -4,6 +4,8 @@ main {
   padding-top: 70px;
 }
 
+
+
 .logo-img-mobile {
   display: block;
   position: absolute;
@@ -276,6 +278,12 @@ table.metrics td span.sum {
 
   .data-output {
     margin: 15px;
+    display: flex;
+    justify-content: space-between;
+
+    pre {
+      margin-bottom: 0;
+    }
   }
 
   pre.renderjson {

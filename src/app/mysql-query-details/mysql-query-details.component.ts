@@ -33,7 +33,12 @@ export class MySQLQueryDetailsComponent extends CoreComponent implements OnInit 
   isSummary: boolean;
   isLoading: boolean;
   isExplainLoading: boolean;
-  isCopied: boolean;
+  isCopied = {
+    visualExplain: false,
+    queryExample: false,
+    fingerprint: false,
+    createTable: false
+  };
   isTableInfoLoading: boolean;
   isFirstSeen: boolean;
   firstSeen: string;
@@ -119,7 +124,7 @@ export class MySQLQueryDetailsComponent extends CoreComponent implements OnInit 
   async getExplain() {
     if (!this.dbServer || !this.dbServer.Agent) { return; }
     this.isExplainLoading = true;
-    this.isCopied = false;
+    this.isCopied.visualExplain = false;
     const agentUUID = this.dbServer.Agent.UUID;
     const dbServerUUID = this.dbServer.UUID;
     this.classicExplainError = '';

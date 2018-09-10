@@ -770,9 +770,15 @@
           </div>
         </ng-template>
         <ng-template ngbPanelContent>
-          <div class="data-output">
-            <i *ngIf="isLoading" class="fa fa-spinner fa-pulse fa-3x fa-fw loading"></i>
-            <pre *ngIf="!isLoading"><code [innerHTML]="fingerprint"></code></pre>
+          <i *ngIf="isLoading" class="fa fa-spinner fa-pulse fa-3x fa-fw loading"></i>
+          <div class="data-output" *ngIf="!isLoading">
+            <pre><code [innerHTML]="fingerprint"></code></pre>
+            <button class="pmm-button"
+                    ngxClipboard
+                    [cbContent]="fingerprint"
+                    (cbOnSuccess)="isCopied.fingerprint = true"
+                    [class.btn-copied]="isCopied.fingerprint">Copy to clipboard
+            </button>
           </div>
         </ng-template>
       </ngb-panel>
@@ -783,9 +789,15 @@
           </div>
         </ng-template>
         <ng-template ngbPanelContent>
-          <div class="data-output">
-            <i *ngIf="isLoading" class="fa fa-spinner fa-pulse fa-3x fa-fw loading"></i>
-            <pre *ngIf="!isLoading"><code [innerHTML]="queryExample"></code></pre>
+          <i *ngIf="isLoading" class="fa fa-spinner fa-pulse fa-3x fa-fw loading"></i>
+          <div class="data-output" *ngIf="!isLoading">
+            <pre><code [innerHTML]="queryExample"></code></pre>
+            <button class="pmm-button"
+                    ngxClipboard
+                    [cbContent]="queryExample"
+                    (cbOnSuccess)="isCopied.queryExample = true"
+                    [class.btn-copied]="isCopied.queryExample">Copy to clipboard
+            </button>
           </div>
         </ng-template>
       </ngb-panel>
@@ -860,9 +872,7 @@
         </ng-template>
         <ng-template ngbPanelContent>
           <i *ngIf="isExplainLoading" class="fa fa-spinner fa-pulse fa-3x fa-fw loading"></i>
-          <div class="data-output">
-            <app-json-tree [json]="jsonExplain" *ngIf="!isExplainLoading && !jsonExplainError"></app-json-tree>
-          </div>
+          <app-json-tree [json]="jsonExplain" *ngIf="!isExplainLoading && !jsonExplainError"></app-json-tree>
           <div *ngIf="!isExplainLoading && jsonExplainError" class="alert alert-warning w-75 mx-auto m-2" role="alert">
             <i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
             {{ jsonExplainError }}
@@ -879,13 +889,13 @@
         <ng-template ngbPanelContent>
           <i *ngIf="isExplainLoading" class="fa fa-spinner fa-pulse fa-3x fa-fw loading"></i>
           <div class="data-output" *ngIf="!isExplainLoading && !visualExplainError">
+            <pre>{{ visualExplain }}</pre>
             <button class="pmm-button"
                     ngxClipboard
-                    [cbContent]="this.visualExplain"
-                    (cbOnSuccess)="isCopied = true"
-                    [class.btn-copied]="isCopied">Copy to clipboard
+                    [cbContent]="visualExplain"
+                    (cbOnSuccess)="isCopied.visualExplain = true"
+                    [class.btn-copied]="isCopied.visualExplain">Copy to clipboard
             </button>
-            <pre>{{ this.visualExplain }}</pre>
           </div>
           <div *ngIf="!isExplainLoading && visualExplainError" class="alert alert-warning w-75 mx-auto m-2"
                role="alert">
@@ -937,14 +947,22 @@
           </div>
         </ng-template>
         <ng-template ngbPanelContent>
-          <div class="data-output">
-            <i *ngIf="isTableInfoLoading" class="fa fa-spinner fa-pulse fa-3x fa-fw loading"></i>
-            <div *ngIf="!isTableInfoLoading && createTableError" class="alert alert-warning w-75 mx-auto m-2"
+          <i *ngIf="isTableInfoLoading" class="fa fa-spinner fa-pulse fa-3x fa-fw loading"></i>
+          <div class="data-output" *ngIf="!isTableInfoLoading && createTableError">
+            <div class="alert alert-warning w-75 mx-auto m-2"
                  role="alert">
               <i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
               {{ createTableError }}
             </div>
-            <pre *ngIf="!isTableInfoLoading && !createTableError"><code [innerHTML]="createTable"></code></pre>
+          </div>
+          <div class="data-output" *ngIf="!isTableInfoLoading && !createTableError">
+            <pre><code [innerHTML]="createTable"></code></pre>
+            <button class="pmm-button"
+                    ngxClipboard
+                    [cbContent]="createTable"
+                    (cbOnSuccess)="isCopied.createTable = true"
+                    [class.btn-copied]="isCopied.createTable">Copy to clipboard
+            </button>
           </div>
         </ng-template>
       </ngb-panel>
