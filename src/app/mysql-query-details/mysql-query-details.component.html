@@ -775,7 +775,7 @@
             <pre><code [innerHTML]="fingerprint"></code></pre>
             <button class="pmm-button"
                     ngxClipboard
-                    [cbContent]="fingerprint"
+                    [cbContent]="queryDetails.Query.Fingerprint"
                     (cbOnSuccess)="isCopied.fingerprint = true"
                     [class.btn-copied]="isCopied.fingerprint">Copy to clipboard
             </button>
@@ -794,7 +794,7 @@
             <pre><code [innerHTML]="queryExample"></code></pre>
             <button class="pmm-button"
                     ngxClipboard
-                    [cbContent]="queryExample"
+                    [cbContent]="queryDetails.Example.Query"
                     (cbOnSuccess)="isCopied.queryExample = true"
                     [class.btn-copied]="isCopied.queryExample">Copy to clipboard
             </button>
@@ -959,7 +959,7 @@
             <pre><code [innerHTML]="createTable"></code></pre>
             <button class="pmm-button"
                     ngxClipboard
-                    [cbContent]="createTable"
+                    [cbContent]="tableInfo.Create"
                     (cbOnSuccess)="isCopied.createTable = true"
                     [class.btn-copied]="isCopied.createTable">Copy to clipboard
             </button>
