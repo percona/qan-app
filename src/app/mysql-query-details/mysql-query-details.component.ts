@@ -71,7 +71,9 @@ export class MySQLQueryDetailsComponent extends CoreComponent implements OnInit 
     this.onChangeParams(this.queryParams);
   }
 
-  showSuccessNotification() {
+  showSuccessNotification(key) {
+    this.isCopied[key] = true;
+    setTimeout( () => { this.isCopied[key] = false }, 3000);
     window.parent.document.dispatchEvent(this.event);
   }
 

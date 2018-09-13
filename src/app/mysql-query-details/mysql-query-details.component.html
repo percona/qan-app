@@ -776,7 +776,7 @@
             <button class="pmm-button"
                     ngxClipboard
                     [cbContent]="queryDetails.Query.Fingerprint"
-                    (cbOnSuccess)="isCopied.fingerprint = true; showSuccessNotification()"
+                    (cbOnSuccess)="showSuccessNotification('fingerprint')"
                     [class.btn-copied]="isCopied.fingerprint">Copy to clipboard
             </button>
           </div>
@@ -795,7 +795,7 @@
             <button class="pmm-button"
                     ngxClipboard
                     [cbContent]="queryDetails.Example.Query"
-                    (cbOnSuccess)="isCopied.queryExample = true; showSuccessNotification()"
+                    (cbOnSuccess)="showSuccessNotification('queryExample')"
                     [class.btn-copied]="isCopied.queryExample">Copy to clipboard
             </button>
           </div>
@@ -877,7 +877,7 @@
             <button class="pmm-button"
                     ngxClipboard
                     [cbContent]="jsonExplainString"
-                    (cbOnSuccess)="isCopied.jsonExplain = true; showSuccessNotification()"
+                    (cbOnSuccess)="showSuccessNotification('jsonExplain')"
                     [class.btn-copied]="isCopied.jsonExplain">Copy to clipboard
             </button>
           </div>
@@ -901,7 +901,7 @@
             <button class="pmm-button"
                     ngxClipboard
                     [cbContent]="visualExplain"
-                    (cbOnSuccess)="isCopied.visualExplain = true; showSuccessNotification()"
+                    (cbOnSuccess)="showSuccessNotification('visualExplain')"
                     [class.btn-copied]="isCopied.visualExplain">Copy to clipboard
             </button>
           </div>
@@ -968,7 +968,7 @@
             <button class="pmm-button"
                     ngxClipboard
                     [cbContent]="tableInfo.Create"
-                    (cbOnSuccess)="isCopied.createTable = true; showSuccessNotification()"
+                    (cbOnSuccess)="showSuccessNotification('createTable')"
                     [class.btn-copied]="isCopied.createTable">Copy to clipboard
             </button>
           </div>
