@@ -4,8 +4,6 @@ main {
   padding-top: 70px;
 }
 
-
-
 .logo-img-mobile {
   display: block;
   position: absolute;
@@ -455,7 +453,8 @@ table.metrics td span.sum {
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 135px;
+  max-width: 135px;
+  width: 100%;
   height: 35px;
   font-size: 0.9rem !important;
   color: white;

@@ -25,6 +25,7 @@ export class MySQLQueryDetailsComponent extends CoreComponent implements OnInit 
   public queryExample: string;
   public classicExplain;
   public jsonExplain;
+  public jsonExplainString;
   public visualExplain;
   public dataExplain;
   public dbName: string;
@@ -37,7 +38,8 @@ export class MySQLQueryDetailsComponent extends CoreComponent implements OnInit 
     visualExplain: false,
     queryExample: false,
     fingerprint: false,
-    createTable: false
+    createTable: false,
+    jsonExplain: false
   };
   isTableInfoLoading: boolean;
   isFirstSeen: boolean;
@@ -56,6 +58,7 @@ export class MySQLQueryDetailsComponent extends CoreComponent implements OnInit 
   jsonExplainError: string;
   classicExplainError: string;
   visualExplainError: string;
+  event = new Event('showSuccessNotification');
 
   constructor(protected route: ActivatedRoute, protected router: Router,
               protected instanceService: InstanceService, protected queryDetailsService: MySQLQueryDetailsService) {
@@ -66,6 +69,10 @@ export class MySQLQueryDetailsComponent extends CoreComponent implements OnInit 
     this.queryParams = this.route.snapshot.queryParams as QueryParams;
     this.parseParams();
     this.onChangeParams(this.queryParams);
+  }
+
+  showSuccessNotification() {
+    window.parent.document.dispatchEvent(this.event);
   }
 
   onChangeParams(params) {
@@ -158,6 +165,7 @@ export class MySQLQueryDetailsComponent extends CoreComponent implements OnInit 
       this.visualExplain = this.dataExplain.Visual;
       try {
         this.jsonExplain = JSON.parse(this.dataExplain.JSON);
+        this.jsonExplainString = JSON.stringify(this.jsonExplain);
       } catch (err) {
         this.jsonExplainError = err.message;
       }

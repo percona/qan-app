@@ -1,15 +1,5 @@
-<div class="data-output">
-  <div id="json-viewer"></div>
-  <div class="tools-wrapper">
-    <button class="pmm-button"
-            [class.btn-expanded]="!isCollapsed"
-            (click)="toggleAll()">{{isCollapsed ? 'Expand All' : 'Collapse All'}}
-    </button>
-    <button class="pmm-button"
-            ngxClipboard
-            [cbContent]="getJSONString()"
-            (cbOnSuccess)="isCopied = true"
-            [class.btn-copied]="isCopied">Copy to clipboard
-    </button>
-  </div>
-</div>
+<div id="json-viewer"></div>
+<button class="pmm-button"
+        [class.btn-expanded]="!isCollapsed"
+        (click)="toggleAll()">{{isCollapsed ? 'Expand All' : 'Collapse All'}}
+</button>
