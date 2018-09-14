@@ -907,27 +907,6 @@ fdescribe('MySQLQueryDetailsComponent', () => {
     expect(result).toEqual('performance_schema');
   });
 
-  // it('should return empty string if queryDetails is null', () => {
-  //   component.queryDetails = null;
-  //   const result = component.getDBName();
-  //   fixture.detectChanges();
-  //   expect(result).toEqual('');
-  // });
-
-  // it('should return false if queryDetails.Example is null', () => {
-  //   component.queryDetails.Example = null;
-  //   const result = component.getDBName();
-  //   fixture.detectChanges();
-  //   expect(result).toEqual('');
-  // });
-  //
-  // it('should return false if queryDetails.Query is null', () => {
-  //   component.queryDetails.Query  = null;
-  //   const result = component.getDBName();
-  //   fixture.detectChanges();
-  //   expect(result).toEqual('');
-  // });
-
   it('should return empty string if queryDetails.Query.Tables is null', () => {
     component.queryDetails.Query.Tables = null;
     const result = component.getDBName();
@@ -1139,9 +1118,177 @@ fdescribe('MySQLQueryDetailsComponent', () => {
     component.dbTblNames = '`performance_schema`.`events_waits_summary_global_by_event_name`';
     component.getTableInfo();
     fixture.detectChanges();
-    console.log('component.getTableInfo', component.getTableInfo());
     expect(component.getTableInfo()).toBeFalsy();
   });
+
+  it('should create error message if queryDetails.Example.Query.length more than maxExampleBytes', () => {
+    component.dbServer = {
+      Created: 'string',
+      DSN: 'string',
+      Deleted: 'string',
+      Distro: 'string',
+      Id: 12,
+      Name: 'string',
+      ParentUUID: 'string',
+      Subsystem: 'string',
+      UUID: 'string',
+      Version: 'string',
+      Agent: {
+        Created: 'string',
+        DSN: 'string',
+        Deleted: 'string',
+        Distro: 'string',
+        Id: 12,
+        Name: 'string',
+        ParentUUID: 'string',
+        Subsystem: 'string',
+        UUID: 'string',
+        Version: 'string',
+      }
+    };
+    component.maxExampleBytes = 1;
+    component.getExplain();
+    fixture.detectChanges();
+    expect(component.jsonExplainError).toBeTruthy();
+  });
+
+  it('should be truthy if total query is not selected', () => {
+    component.dbServer = {
+      Created: 'string',
+      DSN: 'string',
+      Deleted: 'string',
+      Distro: 'string',
+      Id: 12,
+      Name: 'string',
+      ParentUUID: 'string',
+      Subsystem: 'string',
+      UUID: 'string',
+      Version: 'string',
+      Agent: {
+        Created: 'string',
+        DSN: 'string',
+        Deleted: 'string',
+        Distro: 'string',
+        Id: 12,
+        Name: 'string',
+        ParentUUID: 'string',
+        Subsystem: 'string',
+        UUID: 'string',
+        Version: 'string',
+      }
+    };
+    component.queryParams = {
+      from: '1242341241',
+      to: '9991283',
+      'var-host': 'MySQL67',
+      search: 'sda',
+      queryID: 'TOTAL',
+      tz: 'tz',
+      theme: 'dark',
+      first_seen: false,
+    };
+    component.onChangeParams(component.queryParams);
+    fixture.detectChanges();
+    expect(component.isSummary).toBeTruthy();
+  });
+
+  it('should be truthy if query is undefined', () => {
+    component.dbServer = {
+      Created: 'string',
+      DSN: 'string',
+      Deleted: 'string',
+      Distro: 'string',
+      Id: 12,
+      Name: 'string',
+      ParentUUID: 'string',
+      Subsystem: 'string',
+      UUID: 'string',
+      Version: 'string',
+      Agent: {
+        Created: 'string',
+        DSN: 'string',
+        Deleted: 'string',
+        Distro: 'string',
+        Id: 12,
+        Name: 'string',
+        ParentUUID: 'string',
+        Subsystem: 'string',
+        UUID: 'string',
+        Version: 'string',
+      }
+    };
+    component.queryParams = {
+      from: '1242341241',
+      to: '9991283',
+      'var-host': 'MySQL67',
+      search: 'sda',
+      queryID: undefined,
+      tz: 'tz',
+      theme: 'dark',
+      first_seen: false,
+    };
+    component.onChangeParams(component.queryParams);
+    fixture.detectChanges();
+    expect(component.isSummary).toBeTruthy();
+  });
+
+  it('should be false if query is not total', () => {
+    component.dbServer = {
+      Created: 'string',
+      DSN: 'string',
+      Deleted: 'string',
+      Distro: 'string',
+      Id: 12,
+      Name: 'string',
+      ParentUUID: 'string',
+      Subsystem: 'string',
+      UUID: 'string',
+      Version: 'string',
+      Agent: {
+        Created: 'string',
+        DSN: 'string',
+        Deleted: 'string',
+        Distro: 'string',
+        Id: 12,
+        Name: 'string',
+        ParentUUID: 'string',
+        Subsystem: 'string',
+        UUID: 'string',
+        Version: 'string',
+      }
+    };
+    component.queryParams = {
+      from: '1242341241',
+      to: '9991283',
+      'var-host': 'MySQL67',
+      search: 'sda',
+      queryID: 'adasdfee',
+      tz: 'tz',
+      theme: 'dark',
+      first_seen: false,
+    };
+    component.onChangeParams(component.queryParams);
+    fixture.detectChanges();
+    expect(component.isSummary).toBeFalsy();
+  });
+
+  it('should return false if dbserver is not existed', () => {
+    component.dbServer = null
+    component.queryParams = {
+      from: '1242341241',
+      to: '9991283',
+      'var-host': 'MySQL67',
+      search: 'sda',
+      queryID: 'adasdfee',
+      tz: 'tz',
+      theme: 'dark',
+      first_seen: false,
+    };
+    const result = component.onChangeParams(component.queryParams);
+    fixture.detectChanges();
+    expect(result).toBeFalsy();
+  });
+
 
   it('should be false if query params is null', () => {
     component.queryParams = null;
@@ -1178,9 +1325,5 @@ fdescribe('MySQLQueryDetailsComponent', () => {
     fixture.detectChanges();
     expect(component.queryExample).toBeFalsy();
   });
-  it('should be false if queryID.Example.Query is empty string', () => {
-    component.queryDetails.Example.Query = '';
-    fixture.detectChanges();
-    expect(component.queryExample).toBeFalsy();
-  });
+
 });

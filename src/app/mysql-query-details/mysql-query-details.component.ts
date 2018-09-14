@@ -51,9 +51,10 @@ export class MySQLQueryDetailsComponent extends CoreComponent implements OnInit 
   jsonExplainError: string;
   classicExplainError: string;
   visualExplainError: string;
+  maxExampleBytes = 10240;
 
   constructor(protected route: ActivatedRoute, protected router: Router,
-              protected instanceService: InstanceService, protected queryDetailsService: MySQLQueryDetailsService) {
+              protected instanceService: InstanceService, public queryDetailsService: MySQLQueryDetailsService) {
     super(route, router, instanceService);
   }
 
@@ -130,11 +131,11 @@ export class MySQLQueryDetailsComponent extends CoreComponent implements OnInit 
     }
     const query = this.queryDetails.Example.Query;
     // https://github.com/percona/go-mysql/blob/master/event/class.go#L25
-    const maxExampleBytes = 10240;
-    if (query.length >= maxExampleBytes) {
+
+    if (query.length >= this.maxExampleBytes) {
       this.jsonExplainError = `
         Cannot explain truncated query.
-        This query was truncated to maximum size of ${maxExampleBytes} bytes.
+        This query was truncated to maximum size of ${this.maxExampleBytes} bytes.
       `;
       this.classicExplainError = this.jsonExplainError;
       this.visualExplainError = this.jsonExplainError;
