@@ -32,7 +32,7 @@
                     </div>
                 </ng-template>
             </ngb-panel>
-            <ngb-panel *ngIf="dbServer.Subsystem === 'mysql'" id="mysql-summary-panel">
+            <ngb-panel *ngIf="dbServer && (dbServer.Subsystem === 'mysql')" id="mysql-summary-panel">
                 <ng-template ngbPanelTitle>
                   <div class="accordion-title">
                     <h5>MySQL Summary</h5>
@@ -47,7 +47,7 @@
                     </div>
                 </ng-template>
             </ngb-panel>
-            <ngb-panel *ngIf="dbServer.Subsystem === 'mongo'" id="mysql-summary-panel">
+            <ngb-panel *ngIf="dbServer && (dbServer.Subsystem === 'mongo')" id="mysql-summary-panel">
                 <ng-template ngbPanelTitle>
                   <div class="accordion-title">
                     <h5>MongoDB Summary</h5>

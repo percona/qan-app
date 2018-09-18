@@ -24,6 +24,8 @@ export class SummaryComponent extends CoreComponent {
     public serverSummary: string;
     public mysqlSummary: string;
     public mongoSummary: string;
+    public isDownloadMongoSummary = false;
+    public isDownloadMysqlSummary = false;
 
     public serverSummaryError: string;
     public mysqlSummaryError: string;
@@ -34,7 +36,7 @@ export class SummaryComponent extends CoreComponent {
     public mongoSummaryLoader: boolean;
 
     constructor(protected route: ActivatedRoute, protected router: Router,
-        protected summaryService: SummaryService, protected instanceService: InstanceService) {
+        public summaryService: SummaryService, protected instanceService: InstanceService) {
         super(route, router, instanceService);
     }
 
@@ -43,6 +45,7 @@ export class SummaryComponent extends CoreComponent {
      * @param agentUUID agent UUID that is installed on same host as MySQL.
      */
     getServerSummary(agentUUID: string): void {
+        if (!this.dbServer || ! this.dbServer.ParentUUID) { return; }
         this.summaryService
             .getServer(agentUUID, this.dbServer.ParentUUID)
             .then(data => this.serverSummary = data)
@@ -55,6 +58,7 @@ export class SummaryComponent extends CoreComponent {
      * @param agentUUID agent UUID that is monitoring MySQL Server.
      */
     getMySQLSummary(agentUUID: string): void {
+        if (!this.dbServer || !this.dbServer.UUID) { return; }
         this.summaryService
             .getMySQL(agentUUID, this.dbServer.UUID)
             .then(data => this.mysqlSummary = data)
@@ -67,6 +71,7 @@ export class SummaryComponent extends CoreComponent {
      * @param agentUUID agent UUID that is monitoring MongoDB Server.
      */
     getMongoSummary(agentUUID: string): void {
+        if (!this.dbServer || !this.dbServer.UUID) { return; }
         this.summaryService
             .getMongo(agentUUID, this.dbServer.UUID)
             .then(data => this.mongoSummary = data)
@@ -75,6 +80,7 @@ export class SummaryComponent extends CoreComponent {
     }
 
     downloadSummary() {
+        if (!this.dbServer || !this.dbServer.Subsystem || !this.dbServer.Name) { return; }
         const momentFormatPipe = new MomentFormatPipe();
         const date = momentFormatPipe.transform(moment.utc(), 'YYYY-MM-DDTHH:mm:ss');
         const filename = `pmm-${this.dbServer.Name}-${date}-summary.zip`;
@@ -82,8 +88,10 @@ export class SummaryComponent extends CoreComponent {
         zip.file('system_summary.txt', this.serverSummary);
         if (this.dbServer.Subsystem === 'mongo') {
             zip.file('server_summary.txt', this.mongoSummary);
+            this.isDownloadMongoSummary = true;
         } else if (this.dbServer.Subsystem === 'mysql') {
             zip.file('server_summary.txt', this.mysqlSummary);
+            this.isDownloadMysqlSummary = true;
         }
         zip.generateAsync({type: 'blob'})
         .then(function(content) {
@@ -99,15 +107,16 @@ export class SummaryComponent extends CoreComponent {
      * @param params - URL query parameters
      */
     onChangeParams(params) {
+        if (!this.dbServer || !this.dbServer.Subsystem || !this.agent || !this.agent.UUID) { return; }
         // to initalise loader when host was changed
-        this.mysqlSummary = '',
-        this.mongoSummary = '',
-        this.serverSummary = '',
-        this.mysqlSummaryError = '',
-        this.mongoSummaryError = '',
+        this.mysqlSummary = '';
+        this.mongoSummary = '';
+        this.serverSummary = '';
+        this.mysqlSummaryError = '';
+        this.mongoSummaryError = '';
         this.serverSummaryError = '';
-        this.mysqlSummaryLoader = true,
-        this.mongoSummaryLoader = true,
+        this.mysqlSummaryLoader = true;
+        this.mongoSummaryLoader = true;
         this.serverSummaryLoader = true;
 
         this.getServerSummary(this.agent.UUID);
