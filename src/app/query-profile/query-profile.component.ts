@@ -36,9 +36,13 @@ export class QueryProfileComponent extends CoreComponent {
 
     onChangeParams(params) {
         // checks changing tz
-        const momentFormatPipe = new MomentFormatPipe();
-        this.fromDate = momentFormatPipe.transform(this.from, 'llll');
-        this.toDate = momentFormatPipe.transform(this.to, 'llll');
+        // const momentFormatPipe = new MomentFormatPipe();
+        // this.fromDate = momentFormatPipe.transform(this.from, 'llll');
+        // this.toDate = momentFormatPipe.transform(this.to, 'llll');
+
+        this.fromDate = moment(this.from).format('llll');
+        this.toDate = moment(this.to).format('llll');
+
         // only if host, from and to are diffrent from prev router - load queries.
         if (!this.previousQueryParams ||
             this.previousQueryParams['var-host'] !== this.queryParams['var-host'] ||
@@ -132,6 +136,5 @@ export class QueryProfileComponent extends CoreComponent {
       delete params.queryID;
       this.router.navigate(['profile'], { queryParams: params });
       this.isQuerySwitching = false;
-
     }
 }

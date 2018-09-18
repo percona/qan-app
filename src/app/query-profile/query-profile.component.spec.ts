@@ -1,9 +1,9 @@
 /* tslint:disable:no-unused-variable */
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { By } from '@angular/platform-browser';
-import { DebugElement } from '@angular/core';
+import {async, ComponentFixture, TestBed} from '@angular/core/testing';
+import {By} from '@angular/platform-browser';
+import {CUSTOM_ELEMENTS_SCHEMA, DebugElement, PipeTransform} from '@angular/core';
 
-import { QueryProfileComponent } from './query-profile.component';
+import {QueryProfileComponent} from './query-profile.component';
 import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 import {FormsModule} from '@angular/forms';
 import {HttpModule} from '@angular/http';
@@ -14,6 +14,11 @@ import {QueryProfileService} from './query-profile.service';
 import {LoadSparklinesDirective} from '../shared/load-sparklines.directive';
 import {HumanizePipe} from '../shared/humanize.pipe';
 import {LatencyChartDirective} from '../shared/latency-chart.directive';
+import {MomentFormatPipe} from '../shared/moment-format.pipe';
+import {ParseQueryParamDatePipe} from '../shared/parse-query-param-date.pipe';
+import {CoreComponent} from '../core/core.component';
+import {CoreModule} from '../core/core.module';
+import {ActivatedRoute} from '@angular/router';
 
 fdescribe('QueryProfileComponent', () => {
   let component: QueryProfileComponent;
@@ -22,11 +27,14 @@ fdescribe('QueryProfileComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [
+        MomentFormatPipe,
         QueryProfileComponent,
+        ParseQueryParamDatePipe,
+        HumanizePipe,
         LoadSparklinesDirective,
         LatencyChartDirective,
-        HumanizePipe
       ],
+      schemas: [CUSTOM_ELEMENTS_SCHEMA],
       imports: [
         FormsModule,
         ClipboardModule,
@@ -37,6 +45,22 @@ fdescribe('QueryProfileComponent', () => {
       providers: [
         InstanceService,
         QueryProfileService,
+        {
+          provide: ActivatedRoute,
+          useValue: {
+            snapshot: {
+              queryParams: {
+                from: '1527630870872',
+                queryID: 'E477191F9BF35C18',
+                theme: 'dark',
+                to: '1527674070873',
+                type: 'mysql',
+                tz: 'browser',
+                'var-host': 'MySQL57',
+              }
+            }
+          }
+        },
         {
           provide: InstanceService,
           useValue: {
@@ -54,7 +78,7 @@ fdescribe('QueryProfileComponent', () => {
         }
       ]
     })
-    .compileComponents();
+      .compileComponents();
   }));
 
   beforeEach(() => {
@@ -70,6 +94,27 @@ fdescribe('QueryProfileComponent', () => {
       Name: 'MongoDB', ParentUUID: '5a862a0626f945216aa31679c0a8ed8a', Subsystem: 'mongo', UUID: '0386354b2ce3464f4c0c5a7e59442df2',
       Version: '3.2.20'
     };
+    component.queryParams = {
+      from: '1537248810919',
+      queryID: 'E477191F9BF35C18',
+      theme: 'dark',
+      to: '1537292010920',
+      tz: 'browser',
+      search: 'select',
+      first_seen: true,
+      'var-host': 'MySQL57',
+    };
+    component.previousQueryParams = {
+      from: '1537248810919',
+      queryID: 'E477191F9BF35C18',
+      theme: 'dark',
+      to: '1537292010920',
+      tz: 'browser',
+      search: 'select',
+      first_seen: true,
+      'var-host': 'MySQL57',
+    };
+    // new MomentFormatPipe();
     fixture.detectChanges();
     jasmine.DEFAULT_TIMEOUT_INTERVAL = 600000;
   });
@@ -238,5 +283,73 @@ fdescribe('QueryProfileComponent', () => {
     fixture.detectChanges();
     const firstSeenQuery = fixture.nativeElement.querySelector('.first-seen-query');
     expect(firstSeenQuery).toBeFalsy();
+  });
+
+  it('should not call loadQueries() if previousQueryParams is null', () => {
+    const spy = spyOn(component, 'loadQueries');
+    component.previousQueryParams = null;
+    fixture.detectChanges();
+    component.onChangeParams(component.previousQueryParams);
+    expect(spy).toHaveBeenCalled();
+  });
+
+  it('should not call loadQueries() if previousQueryParams host is not like queryParams host', () => {
+    const spy = spyOn(component, 'loadQueries');
+    component.previousQueryParams['var-host'] = 'test';
+    component.onChangeParams(component.queryParams);
+    fixture.detectChanges();
+    expect(spy).toHaveBeenCalled();
+  });
+
+  it('should not call loadQueries() if previousQueryParams.from is not like queryParams.from', () => {
+    const spy = spyOn(component, 'loadQueries');
+    component.previousQueryParams.from = '152763087087212';
+    component.onChangeParams(component.queryParams);
+    fixture.detectChanges();
+    expect(spy).toHaveBeenCalled();
+  });
+
+  it('should not call loadQueries() if previousQueryParams.to is not like queryParams.to', () => {
+    const spy = spyOn(component, 'loadQueries');
+    component.previousQueryParams.to = '152767407087312';
+    component.onChangeParams(component.queryParams);
+    fixture.detectChanges();
+    expect(spy).toHaveBeenCalled();
+  });
+
+  it('should not call loadQueries() if previousQueryParams.search is not like queryParams.search', () => {
+    const spy = spyOn(component, 'loadQueries');
+    component.previousQueryParams.search = 'select1';
+    component.onChangeParams(component.queryParams);
+    fixture.detectChanges();
+    expect(spy).toHaveBeenCalled();
+  });
+
+  it('should not call loadQueries() if previousQueryParams.first_seen is not like queryParams.first_seen', () => {
+    const spy = spyOn(component, 'loadQueries');
+    component.previousQueryParams.first_seen = false;
+    component.onChangeParams(component.queryParams);
+    fixture.detectChanges();
+    expect(spy).toHaveBeenCalled();
+  });
+
+  it('should not call loadQueries() if previousQueryParams.tz is not like queryParams.tz', () => {
+    const spy = spyOn(component, 'loadQueries');
+    component.previousQueryParams.tz = 'browser1';
+    component.onChangeParams(component.queryParams);
+    fixture.detectChanges();
+    expect(spy).toHaveBeenCalled();
+  });
+
+  it('should be true if queryParams is not null', () => {
+    component.loadQueries();
+    fixture.detectChanges();
+    expect(component.isQuerySwitching).toBeTruthy();
+  });
+
+  it('should return true if needed data is presented', () => {
+    component.loadMoreQueries();
+    fixture.detectChanges();
+    expect(component.isLoading).toBeTruthy();
   });
 });
