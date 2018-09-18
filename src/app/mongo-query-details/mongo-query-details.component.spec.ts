@@ -254,4 +254,299 @@ fdescribe('MongoQueryDetailsComponent', () => {
     const jsonExplain = fixture.nativeElement.querySelector('#json-explain-header');
     expect(jsonExplain).toBeFalsy();
   });
+
+  it('should be truthy if total query is not selected', () => {
+    component.dbServer = {
+      Created: 'string',
+      DSN: 'string',
+      Deleted: 'string',
+      Distro: 'string',
+      Id: 12,
+      Name: 'string',
+      ParentUUID: 'string',
+      Subsystem: 'string',
+      UUID: 'string',
+      Version: 'string',
+      Agent: {
+        Created: 'string',
+        DSN: 'string',
+        Deleted: 'string',
+        Distro: 'string',
+        Id: 12,
+        Name: 'string',
+        ParentUUID: 'string',
+        Subsystem: 'string',
+        UUID: 'string',
+        Version: 'string',
+      }
+    };
+    component.queryParams = {
+      from: '1242341241',
+      to: '9991283',
+      'var-host': 'MySQL67',
+      search: 'sda',
+      queryID: 'TOTAL',
+      tz: 'tz',
+      theme: 'dark',
+      first_seen: false,
+    };
+    component.onChangeParams(component.queryParams);
+    fixture.detectChanges();
+    expect(component.isSummary).toBeTruthy();
+  });
+
+  it('should be truthy if query is undefined', () => {
+    component.dbServer = {
+      Created: 'string',
+      DSN: 'string',
+      Deleted: 'string',
+      Distro: 'string',
+      Id: 12,
+      Name: 'string',
+      ParentUUID: 'string',
+      Subsystem: 'string',
+      UUID: 'string',
+      Version: 'string',
+      Agent: {
+        Created: 'string',
+        DSN: 'string',
+        Deleted: 'string',
+        Distro: 'string',
+        Id: 12,
+        Name: 'string',
+        ParentUUID: 'string',
+        Subsystem: 'string',
+        UUID: 'string',
+        Version: 'string',
+      }
+    };
+    component.queryParams = {
+      from: '1242341241',
+      to: '9991283',
+      'var-host': 'MySQL67',
+      search: 'sda',
+      queryID: undefined,
+      tz: 'tz',
+      theme: 'dark',
+      first_seen: false,
+    };
+    component.onChangeParams(component.queryParams);
+    fixture.detectChanges();
+    expect(component.isSummary).toBeTruthy();
+  });
+
+  it('should be false if query is not total', () => {
+    component.dbServer = {
+      Created: 'string',
+      DSN: 'string',
+      Deleted: 'string',
+      Distro: 'string',
+      Id: 12,
+      Name: 'string',
+      ParentUUID: 'string',
+      Subsystem: 'string',
+      UUID: 'string',
+      Version: 'string',
+      Agent: {
+        Created: 'string',
+        DSN: 'string',
+        Deleted: 'string',
+        Distro: 'string',
+        Id: 12,
+        Name: 'string',
+        ParentUUID: 'string',
+        Subsystem: 'string',
+        UUID: 'string',
+        Version: 'string',
+      }
+    };
+    component.queryParams = {
+      from: '1242341241',
+      to: '9991283',
+      'var-host': 'MySQL67',
+      search: 'sda',
+      queryID: 'adasdfee',
+      tz: 'tz',
+      theme: 'dark',
+      first_seen: false,
+    };
+    component.onChangeParams(component.queryParams);
+    fixture.detectChanges();
+    expect(component.isSummary).toBeFalsy();
+  });
+
+  it('onChangeParams() should return false if dbServer is null', () => {
+    component.dbServer = null;
+    component.queryParams = {
+      from: '1527630870872',
+      queryID: 'E477191F9BF35C18',
+      theme: 'dark',
+      to: '1527674070873',
+      tz: 'browser',
+      'var-host': 'MongoDB',
+    };
+    const result = component.onChangeParams(component.queryParams);
+    fixture.detectChanges();
+    expect(result).toBeFalsy();
+  });
+
+  it('getExplain() should return false if dbServer is null', () => {
+    component.dbServer = null;
+    fixture.detectChanges();
+    component.getExplain().then((data) => {
+      expect(data).toBeFalsy();
+    });
+  });
+
+  it('getExplain() should return false if dbServer.Agent is null', async(() => {
+    component.dbServer = {
+      Created: 'string',
+      DSN: 'string',
+      Deleted: 'string',
+      Distro: 'string',
+      Id: 12,
+      Name: 'string',
+      ParentUUID: 'string',
+      Subsystem: 'string',
+      UUID: 'string',
+      Version: 'string',
+      Agent: null
+    };
+    fixture.detectChanges();
+    component.getExplain().then((data) => {
+      expect(data).toBeFalsy();
+    });
+  }));
+
+  it('should call getDBName() and getTableName() if dbTblNames is empty string', () => {
+    const getDBNameSpy = spyOn(component, 'getDBName');
+    component.dbServer = {
+      Created: 'string',
+      DSN: 'string',
+      Deleted: 'string',
+      Distro: 'string',
+      Id: 12,
+      Name: 'string',
+      ParentUUID: 'string',
+      Subsystem: 'string',
+      UUID: 'string',
+      Version: 'string',
+      Agent: {
+        Created: 'string',
+        DSN: 'string',
+        Deleted: 'string',
+        Distro: 'string',
+        Id: 12,
+        Name: 'string',
+        ParentUUID: 'string',
+        Subsystem: 'string',
+        UUID: 'string',
+        Version: 'string',
+      }
+    };
+    component.queryDetails.Query.Tables = [
+      {
+        Db: 'performance_schema',
+        Table:
+          'events_waits_summary_global_by_event_name'
+      }
+    ];
+    component.dbName = '';
+    component.getExplain();
+    fixture.detectChanges();
+    expect(getDBNameSpy).toHaveBeenCalled();
+  });
+
+  it('should not call getDBName if dbName is presented', () => {
+    const getDBNameSpy = spyOn(component, 'getDBName');
+    component.dbServer = {
+      Created: 'string',
+      DSN: 'string',
+      Deleted: 'string',
+      Distro: 'string',
+      Id: 12,
+      Name: 'string',
+      ParentUUID: 'string',
+      Subsystem: 'string',
+      UUID: 'string',
+      Version: 'string',
+      Agent: {
+        Created: 'string',
+        DSN: 'string',
+        Deleted: 'string',
+        Distro: 'string',
+        Id: 12,
+        Name: 'string',
+        ParentUUID: 'string',
+        Subsystem: 'string',
+        UUID: 'string',
+        Version: 'string',
+      }
+    };
+    component.dbName = 'dbName';
+    component.getExplain();
+    fixture.detectChanges();
+    expect(getDBNameSpy).not.toHaveBeenCalled();
+  });
+
+  it('should return Db name if it presented', () => {
+    component.queryDetails.Example.Db = 'performance_schema';
+    const result = component.getDBName();
+    fixture.detectChanges();
+    expect(result).toEqual('performance_schema');
+  });
+
+  it('should return empty string if queryDetails.Query.Tables is null', () => {
+    component.queryDetails.Query.Tables = null;
+    const result = component.getDBName();
+    fixture.detectChanges();
+    expect(result).toEqual('');
+  });
+
+  it('should return performance_schema string if queryDetails.Query.Tables is presented', () => {
+    component.queryDetails.Query.Tables = [
+      {
+        Db: 'performance_schema',
+        Table:
+          'events_waits_summary_global_by_event_name'
+      }
+    ];
+    const result = component.getDBName();
+    fixture.detectChanges();
+    expect(result).toEqual('performance_schema');
+  });
+
+  it('should return empty string if queryDetails.Query.Tables is empty array', () => {
+    component.queryDetails.Query.Tables = [];
+    const result = component.getDBName();
+    fixture.detectChanges();
+    expect(result).toEqual('');
+  });
+
+  it('should return Db name if it presented', () => {
+    component.queryDetails.Example.Db = 'performance_schema';
+    const result = component.getDBName();
+    fixture.detectChanges();
+    expect(result).toEqual('performance_schema');
+  });
+
+  it('should return empty string if queryDetails.Query.Tables is null', () => {
+    component.queryDetails.Query.Tables = null;
+    const result = component.getTableName();
+    fixture.detectChanges();
+    expect(result).toEqual('');
+  });
+
+  it('should return performance_schema string if queryDetails.Query.Tables is presented', () => {
+    component.queryDetails.Query.Tables = [
+      {
+        Db: 'performance_schema',
+        Table:
+          'events_waits_summary_global_by_event_name'
+      }
+    ];
+    const result = component.getTableName();
+    fixture.detectChanges();
+    expect(result).toEqual('events_waits_summary_global_by_event_name');
+  });
 });

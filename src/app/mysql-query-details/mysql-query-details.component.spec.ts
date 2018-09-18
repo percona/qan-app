@@ -1273,7 +1273,7 @@ fdescribe('MySQLQueryDetailsComponent', () => {
   });
 
   it('should return false if dbserver is not existed', () => {
-    component.dbServer = null
+    component.dbServer = null;
     component.queryParams = {
       from: '1242341241',
       to: '9991283',
@@ -1325,5 +1325,33 @@ fdescribe('MySQLQueryDetailsComponent', () => {
     fixture.detectChanges();
     expect(component.queryExample).toBeFalsy();
   });
+
+  it('getExplain() should return false if dbServer is null', () => {
+    component.dbServer = null;
+    fixture.detectChanges();
+    component.getExplain().then((data) => {
+      expect(data).toBeFalsy();
+    });
+  });
+
+  it('getExplain() should return false if dbServer.Agent is null', async(() => {
+    component.dbServer = {
+      Created: 'string',
+      DSN: 'string',
+      Deleted: 'string',
+      Distro: 'string',
+      Id: 12,
+      Name: 'string',
+      ParentUUID: 'string',
+      Subsystem: 'string',
+      UUID: 'string',
+      Version: 'string',
+      Agent: null
+    };
+    fixture.detectChanges();
+    component.getExplain().then((data) => {
+      expect(data).toBeFalsy();
+    });
+  }));
 
 });

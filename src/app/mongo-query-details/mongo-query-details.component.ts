@@ -22,7 +22,7 @@ export class MongoQueryDetailsComponent extends CoreComponent implements OnInit 
   public classicExplain;
   public jsonExplain;
   public errExplain;
-  protected dbName: string;
+  public dbName: string;
   public dbTblNames: string;
   isSummary: boolean;
   isLoading: boolean;
@@ -32,7 +32,7 @@ export class MongoQueryDetailsComponent extends CoreComponent implements OnInit 
   lastSeen: string;
 
   constructor(protected route: ActivatedRoute, protected router: Router,
-              protected instanceService: InstanceService, protected queryDetailsService: MongoQueryDetailsService) {
+              protected instanceService: InstanceService, public queryDetailsService: MongoQueryDetailsService) {
     super(route, router, instanceService);
   }
 
@@ -117,7 +117,7 @@ export class MongoQueryDetailsComponent extends CoreComponent implements OnInit 
     return '';
   }
 
-  private getDBName(): string {
+  getDBName(): string {
     if (this.queryDetails.Example.Db !== '') {
       return this.queryDetails.Example.Db;
     } else if (this.queryDetails.hasOwnProperty('Query')
