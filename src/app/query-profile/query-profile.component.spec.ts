@@ -114,7 +114,93 @@ fdescribe('QueryProfileComponent', () => {
       first_seen: true,
       'var-host': 'MySQL57',
     };
-    // new MomentFormatPipe();
+    component.queryProfile = [
+      {
+        Abstract: '', Fingerprint: '', FirstSeen: '0001-01-01T00:00:00Z', Id: '', Load: 0.35376342640982733,
+        Log: [
+          {
+            NoData: false, Point: 0, Query_count: 2395, Query_load: 6.185599, Query_time_avg: 2.007294, Start_ts: '2018-07-26T13:01:23Z'
+          },
+          {
+            NoData: false, Point: 1, Query_count: 3959, Query_load: 7.3765154, Query_time_avg: 1.3971101, Start_ts: '2018-07-26T12:49:23Z'
+          }
+        ],
+        Percentage: 1, QPS: 0.346875, Rank: 0,
+        Stats:
+          {
+            Avg: 1.0198585265868896, Cnt: 14985, Max: 13.063, Med: 1.0610000052162119, Min: 0.1, P5: 0, P95: 2.8103783839457743,
+            Sum: 15282.580020904541
+          }
+      },
+      {
+        Abstract: 'INSERT sbtest3', Fingerprint: 'INSERT sbtest3', FirstSeen: '2018-07-26T12:23:00Z',
+        Id: '20d0ff1066870382aaeb206cad4689b5', Load: 0.0443306017253134,
+        Log: [
+          {
+            NoData: false, Point: 0, Query_count: 308, Query_load: 0.77318054, Query_time_avg: 1.9463924, Start_ts: '2018-07-26T13:01:23Z'
+          },
+          {
+            NoData: false, Point: 1, Query_count: 501, Query_load: 0.9261889, Query_time_avg: 1.3868859, Start_ts: '2018-07-26T12:49:23Z'
+          }
+        ],
+        Percentage: 0.12531143248809826, QPS: 0.04377314814814815, Rank: 1,
+        Stats: {
+          Avg: 1.0127350579236059, Cnt: 1891, Max: 12.767, Med: 1.0246351353220038, Min: 0.101, P5: 0, P95: 2.7552432651455336,
+          Sum: 1915.0819945335388
+        }
+      },
+      {
+        Abstract: 'INSERT sbtest3', Fingerprint: 'INSERT sbtest3', FirstSeen: '2018-07-26T12:23:00Z',
+        Id: '20d0ff1066870382aaeb206cad4689b5', Load: 0.0443306017253134,
+        Log: [
+          {
+            NoData: false, Point: 0, Query_count: 308, Query_load: 0.77318054, Query_time_avg: 1.9463924, Start_ts: '2018-07-26T13:01:23Z'
+          },
+          {
+            NoData: false, Point: 1, Query_count: 501, Query_load: 0.9261889, Query_time_avg: 1.3868859, Start_ts: '2018-07-26T12:49:23Z'
+          }
+        ],
+        Percentage: 0.12531143248809826, QPS: 0.04377314814814815, Rank: 1,
+        Stats: {
+          Avg: 1.0127350579236059, Cnt: 1891, Max: 12.767, Med: 1.0246351353220038, Min: 0.101, P5: 0, P95: 2.7552432651455336,
+          Sum: 1915.0819945335388
+        }
+      },
+      {
+        Abstract: 'INSERT sbtest3', Fingerprint: 'INSERT sbtest3', FirstSeen: '2018-07-26T12:23:00Z',
+        Id: '20d0ff1066870382aaeb206cad4689b5', Load: 0.0443306017253134,
+        Log: [
+          {
+            NoData: false, Point: 0, Query_count: 308, Query_load: 0.77318054, Query_time_avg: 1.9463924, Start_ts: '2018-07-26T13:01:23Z'
+          },
+          {
+            NoData: false, Point: 1, Query_count: 501, Query_load: 0.9261889, Query_time_avg: 1.3868859, Start_ts: '2018-07-26T12:49:23Z'
+          }
+        ],
+        Percentage: 0.12531143248809826, QPS: 0.04377314814814815, Rank: 1,
+        Stats: {
+          Avg: 1.0127350579236059, Cnt: 1891, Max: 12.767, Med: 1.0246351353220038, Min: 0.101, P5: 0, P95: 2.7552432651455336,
+          Sum: 1915.0819945335388
+        }
+      },
+      {
+        Abstract: 'INSERT sbtest3', Fingerprint: 'INSERT sbtest3', FirstSeen: '2018-07-26T12:23:00Z',
+        Id: '20d0ff1066870382aaeb206cad4689b5', Load: 0.0443306017253134,
+        Log: [
+          {
+            NoData: false, Point: 0, Query_count: 308, Query_load: 0.77318054, Query_time_avg: 1.9463924, Start_ts: '2018-07-26T13:01:23Z'
+          },
+          {
+            NoData: false, Point: 1, Query_count: 501, Query_load: 0.9261889, Query_time_avg: 1.3868859, Start_ts: '2018-07-26T12:49:23Z'
+          }
+        ],
+        Percentage: 0.12531143248809826, QPS: 0.04377314814814815, Rank: 1,
+        Stats: {
+          Avg: 1.0127350579236059, Cnt: 1891, Max: 12.767, Med: 1.0246351353220038, Min: 0.101, P5: 0, P95: 2.7552432651455336,
+          Sum: 1915.0819945335388
+        }
+      }
+    ];
     fixture.detectChanges();
     jasmine.DEFAULT_TIMEOUT_INTERVAL = 600000;
   });
@@ -351,5 +437,53 @@ fdescribe('QueryProfileComponent', () => {
     component.loadMoreQueries();
     fixture.detectChanges();
     expect(component.isLoading).toBeTruthy();
+  });
+
+  // it('should show how many queries left if query profile is existed', () => {
+  //   component.totalAmountOfQueries = 23;
+  //   component.fromUTCDate = '2018-02-20T13:59:31.238Z';
+  //   component.toUTCDate = '2018-04-20T13:59:31.238Z';
+  //   component.offset = 20;
+  //   component.loadMoreQueries();
+  //   fixture.detectChanges();
+  //   expect(component.leftInDbQueries).toBe(19);
+  // });
+
+  it('should be true if search value is presented', () => {
+    component.searchValue = 'Select';
+    component.search();
+    fixture.detectChanges();
+    expect(component.testingVariable).toBeTruthy();
+  });
+
+  it('should be false if search value is not presented', () => {
+    component.searchValue = '';
+    component.search();
+    fixture.detectChanges();
+    expect(component.testingVariable).toBeFalsy();
+  });
+
+  it('should be true if first seen is checked', () => {
+    component.getFirstSeen( true);
+    fixture.detectChanges();
+    expect(component.testingVariable).toBeTruthy();
+  });
+
+  it('should be false if first seen not checked', () => {
+    component.getFirstSeen( false);
+    fixture.detectChanges();
+    expect(component.testingVariable).toBeFalsy();
+  });
+
+  it('should be false if first seen is not presented', () => {
+    component.getFirstSeen();
+    fixture.detectChanges();
+    expect(component.testingVariable).toBeFalsy();
+  });
+
+  it('should be false if first seen is not presented', () => {
+    component.getFirstSeen();
+    fixture.detectChanges();
+    expect(component.testingVariable).toBeFalsy();
   });
 });

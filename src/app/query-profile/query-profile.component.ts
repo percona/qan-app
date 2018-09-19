@@ -28,6 +28,7 @@ export class QueryProfileComponent extends CoreComponent {
     public noQueryError: string;
     public isFirstSeen: boolean;
     public isFirsSeenChecked = false;
+    public testingVariable: boolean;
 
     constructor(protected route: ActivatedRoute, protected router: Router,
         protected instanceService: InstanceService, protected queryProfileService: QueryProfileService) {
@@ -44,7 +45,7 @@ export class QueryProfileComponent extends CoreComponent {
         this.toDate = moment(this.to).format('llll');
 
         // only if host, from and to are diffrent from prev router - load queries.
-        if (!this.previousQueryParams ||
+        /* istanbul ignore else*/ if (!this.previousQueryParams ||
             this.previousQueryParams['var-host'] !== this.queryParams['var-host'] ||
             this.previousQueryParams.from !== this.queryParams.from ||
             this.previousQueryParams.to !== this.queryParams.to ||
@@ -116,8 +117,10 @@ export class QueryProfileComponent extends CoreComponent {
     search() {
         const params: QueryParams = Object.assign({}, this.queryParams);
         if (!!this.searchValue) {
+            this.testingVariable = true;
             params.search = this.searchValue;
         } else {
+            this.testingVariable = false;
             delete params.search;
         }
         delete params.queryID;
@@ -129,8 +132,10 @@ export class QueryProfileComponent extends CoreComponent {
       this.isFirsSeenChecked = isFirsSeenChecked;
       const params: QueryParams = Object.assign({}, this.queryParams);
       if (isFirsSeenChecked) {
+        this.testingVariable = true;
         params.first_seen = this.isFirsSeenChecked;
       } else {
+        this.testingVariable = false;
         delete params.first_seen;
       }
       delete params.queryID;
