@@ -774,6 +774,7 @@
           <div class="data-output" *ngIf="!isLoading">
             <pre><code [innerHTML]="fingerprint"></code></pre>
             <button class="pmm-button"
+                    id="copyFingerprint"
                     ngxClipboard
                     [cbContent]="queryDetails.Query.Fingerprint"
                     (cbOnSuccess)="showSuccessNotification('fingerprint')"
@@ -793,6 +794,7 @@
           <div class="data-output" *ngIf="!isLoading">
             <pre><code [innerHTML]="queryExample"></code></pre>
             <button class="pmm-button"
+                    id="copyQueryExample"
                     ngxClipboard
                     [cbContent]="queryDetails.Example.Query"
                     (cbOnSuccess)="showSuccessNotification('queryExample')"
@@ -875,6 +877,7 @@
           <div class="data-output" *ngIf="!isExplainLoading && !jsonExplainError">
             <app-json-tree [json]="jsonExplain"></app-json-tree>
             <button class="pmm-button"
+                    id="copyJson"
                     ngxClipboard
                     [cbContent]="jsonExplainString"
                     (cbOnSuccess)="showSuccessNotification('jsonExplain')"
@@ -899,6 +902,7 @@
           <div class="data-output" *ngIf="!isExplainLoading && !visualExplainError">
             <pre>{{ visualExplain }}</pre>
             <button class="pmm-button"
+                    id="copyVisualExplain"
                     ngxClipboard
                     [cbContent]="visualExplain"
                     (cbOnSuccess)="showSuccessNotification('visualExplain')"
@@ -966,6 +970,7 @@
           <div class="data-output" *ngIf="!isTableInfoLoading && !createTableError">
             <pre><code [innerHTML]="createTable"></code></pre>
             <button class="pmm-button"
+                    id="copyCreateTable"
                     ngxClipboard
                     [cbContent]="tableInfo.Create"
                     (cbOnSuccess)="showSuccessNotification('createTable')"
