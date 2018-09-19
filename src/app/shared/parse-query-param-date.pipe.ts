@@ -57,7 +57,7 @@ export class ParseQueryParamDatePipe implements PipeTransform {
 
   transform(date: string, edge: TimeEdge) {
     const momentFormatPipe = new MomentFormatPipe();
-    const nowFunc =  momentFormatPipe.timezone === 'utc' ? moment.utc : moment;
+    /* istanbul ignore next */ const nowFunc =  momentFormatPipe.timezone === 'utc' ? moment.utc : moment;
     let parsedDate;
     // from=now
 
@@ -77,7 +77,7 @@ export class ParseQueryParamDatePipe implements PipeTransform {
       // ex: ["now-7d/d", "now", "-", "7", "d", "/", "d"]
       const parts = date.match('(now)(-|/)?([0-9]*)([yMwdhms])(/)?([yMwdhms])?');
 
-      if (parts[1] === 'now') {
+      /* istanbul ignore else*/ if (parts[1] === 'now') {
         parsedDate = nowFunc();
       }
       if (parts[2] === '-') {
