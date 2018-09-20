@@ -141,7 +141,7 @@ export class MySQLQueryDetailsComponent extends CoreComponent implements OnInit 
       this.visualExplainError = this.jsonExplainError;
       this.isExplainLoading = false;
       return
-    }
+    } /* istanbul ignore else*/
 
     try {
       this.dataExplain = await this.queryDetailsService.getExplain(agentUUID, dbServerUUID, this.dbName, query);

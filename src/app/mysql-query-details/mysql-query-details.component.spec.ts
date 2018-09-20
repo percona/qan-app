@@ -1354,4 +1354,8 @@ fdescribe('MySQLQueryDetailsComponent', () => {
     });
   }));
 
+  it('should beautify text is it has explain substring', () => {
+    const result = component.fixBeautifyText('explain spme test here');
+    expect(result).toBe('EXPLAIN spme test here');
+  });
 });
