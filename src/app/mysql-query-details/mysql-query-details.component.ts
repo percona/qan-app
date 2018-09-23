@@ -30,6 +30,7 @@ export class MySQLQueryDetailsComponent extends CoreComponent implements OnInit 
   public dbName: string;
   public dbTblNames: string;
   protected newDBTblNames: string;
+  public testingVariable: boolean;
   isSummary: boolean;
   isLoading: boolean;
   isExplainLoading: boolean;
@@ -141,11 +142,12 @@ export class MySQLQueryDetailsComponent extends CoreComponent implements OnInit 
       this.visualExplainError = this.jsonExplainError;
       this.isExplainLoading = false;
       return
-    } /* istanbul ignore else*/
+    } /* istanbul ignore else */
 
     try {
       this.dataExplain = await this.queryDetailsService.getExplain(agentUUID, dbServerUUID, this.dbName, query);
       if (this.dataExplain.hasOwnProperty('Error') && this.dataExplain['Error'] !== '') {
+        this.testingVariable = true;
         throw new Error(this.dataExplain['Error']);
       }
       this.dataExplain = JSON.parse(atob(this.dataExplain.Data));
@@ -154,6 +156,7 @@ export class MySQLQueryDetailsComponent extends CoreComponent implements OnInit 
       try {
         this.jsonExplain = JSON.parse(this.dataExplain.JSON);
       } catch (err) {
+        /* istanbul ignore next */
         this.jsonExplainError = err.message;
       }
     } catch (err) {
@@ -191,7 +194,9 @@ export class MySQLQueryDetailsComponent extends CoreComponent implements OnInit 
         try {
           this.createTable = hljs.highlight('sql', this.tableInfo.Create).value;
         } catch (e) { }
+        /* istanbul ignore else */
         if (info.hasOwnProperty('Errors') && info['Errors'].length > 0) {
+          this.testingVariable = true;
           throw info['Errors'];
         }
       })
@@ -221,7 +226,7 @@ export class MySQLQueryDetailsComponent extends CoreComponent implements OnInit 
     const agentUUID = this.dbServer.Agent.UUID;
     const dbServerUUID = this.dbServer.UUID;
     this.dbTblNames = `\`${dbName}\`.\`${tblName}\``;
-
+    this.testingVariable = true;
 
     this.queryDetailsService.getTableInfo(agentUUID, dbServerUUID, dbName, tblName)
       .then(data => {
@@ -268,6 +273,7 @@ export class MySQLQueryDetailsComponent extends CoreComponent implements OnInit 
 
   removeDBTable(dbTableItem) {
     const len = this.queryDetails.Query.Tables.length;
+    this.testingVariable = true;
     for (let i = 0; i < len; i++) {
       try {
         if (this.queryDetails.Query.Tables[i].Db === dbTableItem.Db

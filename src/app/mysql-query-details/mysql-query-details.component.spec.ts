@@ -16,6 +16,7 @@ import {Instance, InstanceService} from '../core/instance.service';
 import {HttpModule} from '@angular/http';
 import {MySQLQueryDetailsService} from './mysql-query-details.service';
 import {NgbAccordionConfig, NgbModule} from '@ng-bootstrap/ng-bootstrap';
+import {sp} from '@angular/core/src/render3';
 
 fdescribe('MySQLQueryDetailsComponent', () => {
   let component: MySQLQueryDetailsComponent;
@@ -1024,6 +1025,38 @@ fdescribe('MySQLQueryDetailsComponent', () => {
     expect(result).toBeFalsy();
   });
 
+  it('should return true if all data for selectTableInfo is presented', () => {
+    component.dbServer = {
+      Created: 'string',
+      DSN: 'string',
+      Deleted: 'string',
+      Distro: 'string',
+      Id: 12,
+      Name: 'string',
+      ParentUUID: 'string',
+      Subsystem: 'string',
+      UUID: 'string',
+      Version: 'string',
+      Agent: {
+        Created: 'string',
+        DSN: 'string',
+        Deleted: 'string',
+        Distro: 'string',
+        Id: 12,
+        Name: 'string',
+        ParentUUID: 'string',
+        Subsystem: 'string',
+        UUID: 'string',
+        Version: 'string',
+      }
+    };
+    fixture.detectChanges();
+    const dbName = 'dbName';
+    const tblName = 'tblName';
+    component.selectTableInfo(dbName, tblName);
+    expect(component.testingVariable).toBeTruthy();
+  });
+
   it('should return false when call getTableInfo if dbServer is null', () => {
     component.dbServer = null;
     fixture.detectChanges();
@@ -1354,8 +1387,1099 @@ fdescribe('MySQLQueryDetailsComponent', () => {
     });
   }));
 
+  it('should call getDBName() if dbName is empty string', () => {
+    const spy = spyOn(component, 'getDBName');
+    component.dbServer = {
+      Created: 'string',
+      DSN: 'string',
+      Deleted: 'string',
+      Distro: 'string',
+      Id: 12,
+      Name: 'string',
+      ParentUUID: 'string',
+      Subsystem: 'string',
+      UUID: 'string',
+      Version: 'string',
+      Agent: {
+        Created: 'string',
+        DSN: 'string',
+        Deleted: 'string',
+        Distro: 'string',
+        Id: 12,
+        Name: 'string',
+        ParentUUID: 'string',
+        Subsystem: 'string',
+        UUID: 'string',
+        Version: 'string',
+      }
+    };
+    component.dbName = '';
+    component.getExplain();
+    fixture.detectChanges();
+    expect(spy).toHaveBeenCalled();
+  });
+
   it('should beautify text is it has explain substring', () => {
     const result = component.fixBeautifyText('explain spme test here');
     expect(result).toBe('EXPLAIN spme test here');
+  });
+
+  it('should return true if all data presented for removeDBTable()', () => {
+    component.queryDetails.Query.Tables = [
+      {
+        Db: 'performance_schema',
+        Table:
+          'events_waits_summary_global_by_event_name'
+      },
+      {
+        Db: 'performance_schema',
+        Table:
+          'events_waits_summary_global_by_event_status'
+      },
+      {
+        Db: 'performance_schema',
+        Table:
+          'events_waits_summary_global_by_event'
+      }
+    ];
+    component.removeDBTable({Db: 'performance_schema', Table: 'events_waits_summary_global_by_event_status'});
+    fixture.detectChanges();
+    expect(component.testingVariable).toBeTruthy();
+  });
+
+  it('should be true if dbTnlNames is coincides with item argument in isSelectedDbTbl()', () => {
+    component.queryDetails.Query.Tables = [
+      {
+        Db: 'performance_schema',
+        Table:
+          'events_waits_summary_global_by_event_name'
+      },
+      {
+        Db: 'performance_schema',
+        Table:
+          'events_waits_summary_global_by_event_status'
+      },
+      {
+        Db: 'performance_schema',
+        Table:
+          'events_waits_summary_global_by_event'
+      }
+    ];
+    component.dbTblNames = '`performance_schema`.`events_waits_summary_global_by_event_name`';
+    const item = {
+      Db: 'performance_schema',
+      Table:
+        'events_waits_summary_global_by_event_name'
+    };
+    const result = component.isSelectedDbTbl(item);
+    expect(result).toBeTruthy();
+  });
+
+  it('should be false if dbTnlNames is not coincides with item argument in isSelectedDbTbl()', () => {
+    component.queryDetails.Query.Tables = [
+      {
+        Db: 'performance_schema',
+        Table:
+          'events_waits_summary_global_by_event_name'
+      },
+      {
+        Db: 'performance_schema',
+        Table:
+          'events_waits_summary_global_by_event_status'
+      },
+      {
+        Db: 'performance_schema',
+        Table:
+          'events_waits_summary_global_by_event'
+      }
+    ];
+    component.dbTblNames = '`performance_`.`events_waits_summary_global_by_event_name`';
+    const item = {
+      Db: 'performance_schema',
+      Table:
+        'events_waits_summary_global_by_event_name'
+    };
+    const result = component.isSelectedDbTbl(item);
+    expect(result).toBeFalsy();
+  });
+
+  it('should be true if info has needed data', (done) => {
+    component.dbServer = {
+      Created: 'string',
+      DSN: 'string',
+      Deleted: 'string',
+      Distro: 'string',
+      Id: 12,
+      Name: 'string',
+      ParentUUID: 'string',
+      Subsystem: 'string',
+      UUID: 'string',
+      Version: 'string',
+      Agent: {
+        Created: 'string',
+        DSN: 'string',
+        Deleted: 'string',
+        Distro: 'string',
+        Id: 12,
+        Name: 'string',
+        ParentUUID: 'string',
+        Subsystem: 'string',
+        UUID: 'string',
+        Version: 'string',
+      }
+    };
+    component.dbTblNames = '`performance_schema`.`events_statements_history`';
+    const val = {
+      'performance_schema.events_statements_history': {
+        'Create': 'CREATE TABLE `events_statements_history` (\n  `THREAD_ID` bigint(20) unsigned NOT NULL,\n  `EVENT_ID` bigint(20) ' +
+        'unsigned NOT NULL,\n  `END_EVENT_ID` bigint(20) unsigned DEFAULT NULL,\n  `EVENT_NAME` varchar(128) NOT NULL,\n  `SOURCE` ' +
+        'varchar(64) DEFAULT NULL,\n  `TIMER_START` bigint(20) unsigned DEFAULT NULL,\n  `TIMER_END` bigint(20) unsigned DEFAULT NULL,\n  ' +
+        '`TIMER_WAIT` bigint(20) unsigned DEFAULT NULL,\n  `LOCK_TIME` bigint(20) unsigned NOT NULL,\n  `SQL_TEXT` longtext,\n  `DIGEST`' +
+        ' varchar(64) DEFAULT NULL,\n  `DIGEST_TEXT` longtext,\n  `CURRENT_SCHEMA` varchar(64) DEFAULT NULL,\n  `OBJECT_TYPE` varchar(64)' +
+        ' DEFAULT NULL,\n  `OBJECT_SCHEMA` varchar(64) DEFAULT NULL,\n  `OBJECT_NAME` varchar(64) DEFAULT NULL,\n  `OBJECT_INSTANCE_BEGIN` ' +
+        'bigint(20) unsigned DEFAULT NULL,\n  `MYSQL_ERRNO` int(11) DEFAULT NULL,\n  `RETURNED_SQLSTATE` varchar(5) DEFAULT NULL,\n  ' +
+        '`MESSAGE_TEXT` varchar(128) DEFAULT NULL,\n  `ERRORS` bigint(20) unsigned NOT NULL,\n  `WARNINGS` bigint(20) unsigned NOT NULL,\n  ' +
+        '`ROWS_AFFECTED` bigint(20) unsigned NOT NULL,\n  `ROWS_SENT` bigint(20) unsigned NOT NULL,\n  `ROWS_EXAMINED` bigint(20) unsigned' +
+        ' NOT NULL,\n  `CREATED_TMP_DISK_TABLES` bigint(20) unsigned NOT NULL,\n  `CREATED_TMP_TABLES` bigint(20) unsigned NOT NULL,\n  ' +
+        '`SELECT_FULL_JOIN` bigint(20) unsigned NOT NULL,\n  `SELECT_FULL_RANGE_JOIN` bigint(20) unsigned NOT NULL,\n  `SELECT_RANGE`' +
+        ' bigint(20) unsigned NOT NULL,\n  `SELECT_RANGE_CHECK` bigint(20) unsigned NOT NULL,\n  `SELECT_SCAN` bigint(20) unsigned ' +
+        'NOT NULL,\n  `SORT_MERGE_PASSES` bigint(20) unsigned NOT NULL,\n  `SORT_RANGE` bigint(20) unsigned NOT NULL,\n  `SORT_ROWS`' +
+        ' bigint(20) unsigned NOT NULL,\n  `SORT_SCAN` bigint(20) unsigned NOT NULL,\n  `NO_INDEX_USED` bigint(20) unsigned NOT NULL,\n  ' +
+        '`NO_GOOD_INDEX_USED` bigint(20) unsigned NOT NULL,\n  `NESTING_EVENT_ID` bigint(20) unsigned DEFAULT NULL,\n  `NESTING_EVENT_TYPE`' +
+        ' enum(\'TRANSACTION\',\'STATEMENT\',\'STAGE\',\'WAIT\') DEFAULT NULL,\n  `NESTING_EVENT_LEVEL` int(11) DEFAULT NULL,\n  PRIMARY' +
+        ' KEY (`THREAD_ID`,`EVENT_ID`)\n) ENGINE=PERFORMANCE_SCHEMA DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci',
+        'Index': {
+          'PRIMARY': [{
+            'Table': 'events_statements_history',
+            'NonUnique': false,
+            'KeyName': 'PRIMARY',
+            'SeqInIndex': 1,
+            'ColumnName': 'THREAD_ID',
+            'Collation': null,
+            'Cardinality': null,
+            'SubPart': null,
+            'Packed': null,
+            'Null': '',
+            'IndexType': 'HASH',
+            'Comment': '',
+            'IndexComment': '',
+            'Visible': 'YES'
+          }, {
+            'Table': 'events_statements_history',
+            'NonUnique': false,
+            'KeyName': 'PRIMARY',
+            'SeqInIndex': 2,
+            'ColumnName': 'EVENT_ID',
+            'Collation': null,
+            'Cardinality': null,
+            'SubPart': null,
+            'Packed': null,
+            'Null': '',
+            'IndexType': 'HASH',
+            'Comment': '',
+            'IndexComment': '',
+            'Visible': 'YES'
+          }]
+        },
+        'Status': {
+          'Name': 'events_statements_history',
+          'Engine': 'PERFORMANCE_SCHEMA',
+          'Version': '10',
+          'RowFormat': 'Dynamic',
+          'Rows': 2560,
+          'AvgRowLength': 0,
+          'DataLength': 0,
+          'MaxDataLength': 0,
+          'IndexLength': 0,
+          'DataFree': 0,
+          'AutoIncrement': null,
+          'CreateTime': '2018-09-21T12:26:43Z',
+          'UpdateTime': '0001-01-01T00:00:00Z',
+          'CheckTime': '0001-01-01T00:00:00Z',
+          'Collation': 'utf8mb4_0900_ai_ci',
+          'Checksum': null,
+          'CreateOptions': '',
+          'Comment': ''
+        },
+      },
+    };
+    const spy = spyOn(component.queryDetailsService, 'getTableInfo').and.returnValue(Promise.resolve(val));
+    component.getTableInfo();
+    spy.calls.mostRecent().returnValue.then((data) => {
+      fixture.detectChanges();
+      expect(component.tableInfo).toBeTruthy();
+      done();
+    });
+  });
+
+  it('should be true if object has Error property', (done) => {
+    component.dbServer = {
+      Created: 'string',
+      DSN: 'string',
+      Deleted: 'string',
+      Distro: 'string',
+      Id: 12,
+      Name: 'string',
+      ParentUUID: 'string',
+      Subsystem: 'string',
+      UUID: 'string',
+      Version: 'string',
+      Agent: {
+        Created: 'string',
+        DSN: 'string',
+        Deleted: 'string',
+        Distro: 'string',
+        Id: 12,
+        Name: 'string',
+        ParentUUID: 'string',
+        Subsystem: 'string',
+        UUID: 'string',
+        Version: 'string',
+      }
+    };
+    component.dbTblNames = '`performance_schema`.`events_statements_history`';
+    const val = {
+      'performance_schema.events_statements_history': {
+        'Create': 'CREATE TABLE `events_statements_history` (\n  `THREAD_ID` bigint(20) unsigned NOT NULL,\n  `EVENT_ID` bigint(20) ' +
+        'unsigned NOT NULL,\n  `END_EVENT_ID` bigint(20) unsigned DEFAULT NULL,\n  `EVENT_NAME` varchar(128) NOT NULL,\n  `SOURCE` ' +
+        'varchar(64) DEFAULT NULL,\n  `TIMER_START` bigint(20) unsigned DEFAULT NULL,\n  `TIMER_END` bigint(20) unsigned DEFAULT NULL,\n  ' +
+        '`TIMER_WAIT` bigint(20) unsigned DEFAULT NULL,\n  `LOCK_TIME` bigint(20) unsigned NOT NULL,\n  `SQL_TEXT` longtext,\n  `DIGEST`' +
+        ' varchar(64) DEFAULT NULL,\n  `DIGEST_TEXT` longtext,\n  `CURRENT_SCHEMA` varchar(64) DEFAULT NULL,\n  `OBJECT_TYPE` varchar(64)' +
+        ' DEFAULT NULL,\n  `OBJECT_SCHEMA` varchar(64) DEFAULT NULL,\n  `OBJECT_NAME` varchar(64) DEFAULT NULL,\n  `OBJECT_INSTANCE_BEGIN` ' +
+        'bigint(20) unsigned DEFAULT NULL,\n  `MYSQL_ERRNO` int(11) DEFAULT NULL,\n  `RETURNED_SQLSTATE` varchar(5) DEFAULT NULL,\n  ' +
+        '`MESSAGE_TEXT` varchar(128) DEFAULT NULL,\n  `ERRORS` bigint(20) unsigned NOT NULL,\n  `WARNINGS` bigint(20) unsigned NOT NULL,\n  ' +
+        '`ROWS_AFFECTED` bigint(20) unsigned NOT NULL,\n  `ROWS_SENT` bigint(20) unsigned NOT NULL,\n  `ROWS_EXAMINED` bigint(20) unsigned' +
+        ' NOT NULL,\n  `CREATED_TMP_DISK_TABLES` bigint(20) unsigned NOT NULL,\n  `CREATED_TMP_TABLES` bigint(20) unsigned NOT NULL,\n  ' +
+        '`SELECT_FULL_JOIN` bigint(20) unsigned NOT NULL,\n  `SELECT_FULL_RANGE_JOIN` bigint(20) unsigned NOT NULL,\n  `SELECT_RANGE`' +
+        ' bigint(20) unsigned NOT NULL,\n  `SELECT_RANGE_CHECK` bigint(20) unsigned NOT NULL,\n  `SELECT_SCAN` bigint(20) unsigned ' +
+        'NOT NULL,\n  `SORT_MERGE_PASSES` bigint(20) unsigned NOT NULL,\n  `SORT_RANGE` bigint(20) unsigned NOT NULL,\n  `SORT_ROWS`' +
+        ' bigint(20) unsigned NOT NULL,\n  `SORT_SCAN` bigint(20) unsigned NOT NULL,\n  `NO_INDEX_USED` bigint(20) unsigned NOT NULL,\n  ' +
+        '`NO_GOOD_INDEX_USED` bigint(20) unsigned NOT NULL,\n  `NESTING_EVENT_ID` bigint(20) unsigned DEFAULT NULL,\n  `NESTING_EVENT_TYPE`' +
+        ' enum(\'TRANSACTION\',\'STATEMENT\',\'STAGE\',\'WAIT\') DEFAULT NULL,\n  `NESTING_EVENT_LEVEL` int(11) DEFAULT NULL,\n  PRIMARY' +
+        ' KEY (`THREAD_ID`,`EVENT_ID`)\n) ENGINE=PERFORMANCE_SCHEMA DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci',
+        'Index': {
+          'PRIMARY': [{
+            'Table': 'events_statements_history',
+            'NonUnique': false,
+            'KeyName': 'PRIMARY',
+            'SeqInIndex': 1,
+            'ColumnName': 'THREAD_ID',
+            'Collation': null,
+            'Cardinality': null,
+            'SubPart': null,
+            'Packed': null,
+            'Null': '',
+            'IndexType': 'HASH',
+            'Comment': '',
+            'IndexComment': '',
+            'Visible': 'YES'
+          }, {
+            'Table': 'events_statements_history',
+            'NonUnique': false,
+            'KeyName': 'PRIMARY',
+            'SeqInIndex': 2,
+            'ColumnName': 'EVENT_ID',
+            'Collation': null,
+            'Cardinality': null,
+            'SubPart': null,
+            'Packed': null,
+            'Null': '',
+            'IndexType': 'HASH',
+            'Comment': '',
+            'IndexComment': '',
+            'Visible': 'YES'
+          }]
+        },
+        'Status': {
+          'Name': 'events_statements_history',
+          'Engine': 'PERFORMANCE_SCHEMA',
+          'Version': '10',
+          'RowFormat': 'Dynamic',
+          'Rows': 2560,
+          'AvgRowLength': 0,
+          'DataLength': 0,
+          'MaxDataLength': 0,
+          'IndexLength': 0,
+          'DataFree': 0,
+          'AutoIncrement': null,
+          'CreateTime': '2018-09-21T12:26:43Z',
+          'UpdateTime': '0001-01-01T00:00:00Z',
+          'CheckTime': '0001-01-01T00:00:00Z',
+          'Collation': 'utf8mb4_0900_ai_ci',
+          'Checksum': null,
+          'CreateOptions': '',
+          'Comment': ''
+        },
+        'Errors': [
+          'err1',
+          'err2',
+          'err3',
+        ]
+      }
+    };
+    const spy = spyOn(component.queryDetailsService, 'getTableInfo').and.returnValue(Promise.resolve(val));
+    component.getTableInfo();
+    spy.calls.mostRecent().returnValue.then((data) => {
+      fixture.detectChanges();
+      expect(component.testingVariable).toBeTruthy();
+      done();
+    });
+  });
+
+  it('should be true if data has been loaded', (done) => {
+    component.dbServer = {
+      Created: 'string',
+      DSN: 'string',
+      Deleted: 'string',
+      Distro: 'string',
+      Id: 12,
+      Name: 'string',
+      ParentUUID: 'string',
+      Subsystem: 'string',
+      UUID: 'string',
+      Version: 'string',
+      Agent: {
+        Created: 'string',
+        DSN: 'string',
+        Deleted: 'string',
+        Distro: 'string',
+        Id: 12,
+        Name: 'string',
+        ParentUUID: 'string',
+        Subsystem: 'string',
+        UUID: 'string',
+        Version: 'string',
+      }
+    };
+    component.dbTblNames = '`performance_schema`.`events_statements_history`';
+    const val = {
+      'performance_schema.events_statements_history': {
+        'Create': 'CREATE TABLE `events_statements_history` (\n  `THREAD_ID` bigint(20) unsigned NOT NULL,\n  `EVENT_ID` bigint(20) ' +
+        'unsigned NOT NULL,\n  `END_EVENT_ID` bigint(20) unsigned DEFAULT NULL,\n  `EVENT_NAME` varchar(128) NOT NULL,\n  `SOURCE` ' +
+        'varchar(64) DEFAULT NULL,\n  `TIMER_START` bigint(20) unsigned DEFAULT NULL,\n  `TIMER_END` bigint(20) unsigned DEFAULT NULL,\n  ' +
+        '`TIMER_WAIT` bigint(20) unsigned DEFAULT NULL,\n  `LOCK_TIME` bigint(20) unsigned NOT NULL,\n  `SQL_TEXT` longtext,\n  `DIGEST`' +
+        ' varchar(64) DEFAULT NULL,\n  `DIGEST_TEXT` longtext,\n  `CURRENT_SCHEMA` varchar(64) DEFAULT NULL,\n  `OBJECT_TYPE` varchar(64)' +
+        ' DEFAULT NULL,\n  `OBJECT_SCHEMA` varchar(64) DEFAULT NULL,\n  `OBJECT_NAME` varchar(64) DEFAULT NULL,\n  `OBJECT_INSTANCE_BEGIN` ' +
+        'bigint(20) unsigned DEFAULT NULL,\n  `MYSQL_ERRNO` int(11) DEFAULT NULL,\n  `RETURNED_SQLSTATE` varchar(5) DEFAULT NULL,\n  ' +
+        '`MESSAGE_TEXT` varchar(128) DEFAULT NULL,\n  `ERRORS` bigint(20) unsigned NOT NULL,\n  `WARNINGS` bigint(20) unsigned NOT NULL,\n  ' +
+        '`ROWS_AFFECTED` bigint(20) unsigned NOT NULL,\n  `ROWS_SENT` bigint(20) unsigned NOT NULL,\n  `ROWS_EXAMINED` bigint(20) unsigned' +
+        ' NOT NULL,\n  `CREATED_TMP_DISK_TABLES` bigint(20) unsigned NOT NULL,\n  `CREATED_TMP_TABLES` bigint(20) unsigned NOT NULL,\n  ' +
+        '`SELECT_FULL_JOIN` bigint(20) unsigned NOT NULL,\n  `SELECT_FULL_RANGE_JOIN` bigint(20) unsigned NOT NULL,\n  `SELECT_RANGE`' +
+        ' bigint(20) unsigned NOT NULL,\n  `SELECT_RANGE_CHECK` bigint(20) unsigned NOT NULL,\n  `SELECT_SCAN` bigint(20) unsigned ' +
+        'NOT NULL,\n  `SORT_MERGE_PASSES` bigint(20) unsigned NOT NULL,\n  `SORT_RANGE` bigint(20) unsigned NOT NULL,\n  `SORT_ROWS`' +
+        ' bigint(20) unsigned NOT NULL,\n  `SORT_SCAN` bigint(20) unsigned NOT NULL,\n  `NO_INDEX_USED` bigint(20) unsigned NOT NULL,\n  ' +
+        '`NO_GOOD_INDEX_USED` bigint(20) unsigned NOT NULL,\n  `NESTING_EVENT_ID` bigint(20) unsigned DEFAULT NULL,\n  `NESTING_EVENT_TYPE`' +
+        ' enum(\'TRANSACTION\',\'STATEMENT\',\'STAGE\',\'WAIT\') DEFAULT NULL,\n  `NESTING_EVENT_LEVEL` int(11) DEFAULT NULL,\n  PRIMARY' +
+        ' KEY (`THREAD_ID`,`EVENT_ID`)\n) ENGINE=PERFORMANCE_SCHEMA DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci',
+        'Index': {
+          'PRIMARY': [{
+            'Table': 'events_statements_history',
+            'NonUnique': false,
+            'KeyName': 'PRIMARY',
+            'SeqInIndex': 1,
+            'ColumnName': 'THREAD_ID',
+            'Collation': null,
+            'Cardinality': null,
+            'SubPart': null,
+            'Packed': null,
+            'Null': '',
+            'IndexType': 'HASH',
+            'Comment': '',
+            'IndexComment': '',
+            'Visible': 'YES'
+          }, {
+            'Table': 'events_statements_history',
+            'NonUnique': false,
+            'KeyName': 'PRIMARY',
+            'SeqInIndex': 2,
+            'ColumnName': 'EVENT_ID',
+            'Collation': null,
+            'Cardinality': null,
+            'SubPart': null,
+            'Packed': null,
+            'Null': '',
+            'IndexType': 'HASH',
+            'Comment': '',
+            'IndexComment': '',
+            'Visible': 'YES'
+          }]
+        },
+        'Status': {
+          'Name': 'events_statements_history',
+          'Engine': 'PERFORMANCE_SCHEMA',
+          'Version': '10',
+          'RowFormat': 'Dynamic',
+          'Rows': 2560,
+          'AvgRowLength': 0,
+          'DataLength': 0,
+          'MaxDataLength': 0,
+          'IndexLength': 0,
+          'DataFree': 0,
+          'AutoIncrement': null,
+          'CreateTime': '2018-09-21T12:26:43Z',
+          'UpdateTime': '0001-01-01T00:00:00Z',
+          'CheckTime': '0001-01-01T00:00:00Z',
+          'Collation': 'utf8mb4_0900_ai_ci',
+          'Checksum': null,
+          'CreateOptions': '',
+          'Comment': ''
+        },
+        'Errors': ['SHOW CREATE TABLE sbtest1: Error 1046: No database selected', 'SHOW INDEX FROM .sbtest1: Error 1046: No database selected', 'SHOW TABLE STATUS FROM  WHERE Name=\'sbtest1\': Error 1064: You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near \'WHERE Name=\'sbtest1\'\' at line 1']
+      }
+    };
+    const spy = spyOn(component.queryDetailsService, 'getTableInfo').and.returnValue(Promise.resolve(val));
+    component.getTableInfo();
+    spy.calls.mostRecent().returnValue.then((data) => {
+      fixture.detectChanges();
+      expect(component.isTableInfoLoading).toBeTruthy();
+      done();
+    });
+  });
+
+  //////
+
+  it('should be true if info has needed data', (done) => {
+    component.dbServer = {
+      Created: 'string',
+      DSN: 'string',
+      Deleted: 'string',
+      Distro: 'string',
+      Id: 12,
+      Name: 'string',
+      ParentUUID: 'string',
+      Subsystem: 'string',
+      UUID: 'string',
+      Version: 'string',
+      Agent: {
+        Created: 'string',
+        DSN: 'string',
+        Deleted: 'string',
+        Distro: 'string',
+        Id: 12,
+        Name: 'string',
+        ParentUUID: 'string',
+        Subsystem: 'string',
+        UUID: 'string',
+        Version: 'string',
+      }
+    };
+    component.dbTblNames = '`performance_schema`.`events_statements_history`';
+    const val = {
+      'performance_schema.events_statements_history': {
+        'Create': 'CREATE TABLE `events_statements_history` (\n  `THREAD_ID` bigint(20) unsigned NOT NULL,\n  `EVENT_ID` bigint(20) ' +
+        'unsigned NOT NULL,\n  `END_EVENT_ID` bigint(20) unsigned DEFAULT NULL,\n  `EVENT_NAME` varchar(128) NOT NULL,\n  `SOURCE` ' +
+        'varchar(64) DEFAULT NULL,\n  `TIMER_START` bigint(20) unsigned DEFAULT NULL,\n  `TIMER_END` bigint(20) unsigned DEFAULT NULL,\n  ' +
+        '`TIMER_WAIT` bigint(20) unsigned DEFAULT NULL,\n  `LOCK_TIME` bigint(20) unsigned NOT NULL,\n  `SQL_TEXT` longtext,\n  `DIGEST`' +
+        ' varchar(64) DEFAULT NULL,\n  `DIGEST_TEXT` longtext,\n  `CURRENT_SCHEMA` varchar(64) DEFAULT NULL,\n  `OBJECT_TYPE` varchar(64)' +
+        ' DEFAULT NULL,\n  `OBJECT_SCHEMA` varchar(64) DEFAULT NULL,\n  `OBJECT_NAME` varchar(64) DEFAULT NULL,\n  `OBJECT_INSTANCE_BEGIN` ' +
+        'bigint(20) unsigned DEFAULT NULL,\n  `MYSQL_ERRNO` int(11) DEFAULT NULL,\n  `RETURNED_SQLSTATE` varchar(5) DEFAULT NULL,\n  ' +
+        '`MESSAGE_TEXT` varchar(128) DEFAULT NULL,\n  `ERRORS` bigint(20) unsigned NOT NULL,\n  `WARNINGS` bigint(20) unsigned NOT NULL,\n  ' +
+        '`ROWS_AFFECTED` bigint(20) unsigned NOT NULL,\n  `ROWS_SENT` bigint(20) unsigned NOT NULL,\n  `ROWS_EXAMINED` bigint(20) unsigned' +
+        ' NOT NULL,\n  `CREATED_TMP_DISK_TABLES` bigint(20) unsigned NOT NULL,\n  `CREATED_TMP_TABLES` bigint(20) unsigned NOT NULL,\n  ' +
+        '`SELECT_FULL_JOIN` bigint(20) unsigned NOT NULL,\n  `SELECT_FULL_RANGE_JOIN` bigint(20) unsigned NOT NULL,\n  `SELECT_RANGE`' +
+        ' bigint(20) unsigned NOT NULL,\n  `SELECT_RANGE_CHECK` bigint(20) unsigned NOT NULL,\n  `SELECT_SCAN` bigint(20) unsigned ' +
+        'NOT NULL,\n  `SORT_MERGE_PASSES` bigint(20) unsigned NOT NULL,\n  `SORT_RANGE` bigint(20) unsigned NOT NULL,\n  `SORT_ROWS`' +
+        ' bigint(20) unsigned NOT NULL,\n  `SORT_SCAN` bigint(20) unsigned NOT NULL,\n  `NO_INDEX_USED` bigint(20) unsigned NOT NULL,\n  ' +
+        '`NO_GOOD_INDEX_USED` bigint(20) unsigned NOT NULL,\n  `NESTING_EVENT_ID` bigint(20) unsigned DEFAULT NULL,\n  `NESTING_EVENT_TYPE`' +
+        ' enum(\'TRANSACTION\',\'STATEMENT\',\'STAGE\',\'WAIT\') DEFAULT NULL,\n  `NESTING_EVENT_LEVEL` int(11) DEFAULT NULL,\n  PRIMARY' +
+        ' KEY (`THREAD_ID`,`EVENT_ID`)\n) ENGINE=PERFORMANCE_SCHEMA DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci',
+        'Index': {
+          'PRIMARY': [{
+            'Table': 'events_statements_history',
+            'NonUnique': false,
+            'KeyName': 'PRIMARY',
+            'SeqInIndex': 1,
+            'ColumnName': 'THREAD_ID',
+            'Collation': null,
+            'Cardinality': null,
+            'SubPart': null,
+            'Packed': null,
+            'Null': '',
+            'IndexType': 'HASH',
+            'Comment': '',
+            'IndexComment': '',
+            'Visible': 'YES'
+          }, {
+            'Table': 'events_statements_history',
+            'NonUnique': false,
+            'KeyName': 'PRIMARY',
+            'SeqInIndex': 2,
+            'ColumnName': 'EVENT_ID',
+            'Collation': null,
+            'Cardinality': null,
+            'SubPart': null,
+            'Packed': null,
+            'Null': '',
+            'IndexType': 'HASH',
+            'Comment': '',
+            'IndexComment': '',
+            'Visible': 'YES'
+          }]
+        },
+        'Status': {
+          'Name': 'events_statements_history',
+          'Engine': 'PERFORMANCE_SCHEMA',
+          'Version': '10',
+          'RowFormat': 'Dynamic',
+          'Rows': 2560,
+          'AvgRowLength': 0,
+          'DataLength': 0,
+          'MaxDataLength': 0,
+          'IndexLength': 0,
+          'DataFree': 0,
+          'AutoIncrement': null,
+          'CreateTime': '2018-09-21T12:26:43Z',
+          'UpdateTime': '0001-01-01T00:00:00Z',
+          'CheckTime': '0001-01-01T00:00:00Z',
+          'Collation': 'utf8mb4_0900_ai_ci',
+          'Checksum': null,
+          'CreateOptions': '',
+          'Comment': ''
+        },
+      },
+    };
+    const spy = spyOn(component.queryDetailsService, 'getTableInfo').and.returnValue(Promise.resolve(val));
+    component.selectTableInfo('performance_schema', 'events_statements_history');
+    spy.calls.mostRecent().returnValue.then((data) => {
+      fixture.detectChanges();
+      expect(component.tableInfo).toBeTruthy();
+      done();
+    });
+  });
+
+  it('should be true if object has Error property', (done) => {
+    component.dbServer = {
+      Created: 'string',
+      DSN: 'string',
+      Deleted: 'string',
+      Distro: 'string',
+      Id: 12,
+      Name: 'string',
+      ParentUUID: 'string',
+      Subsystem: 'string',
+      UUID: 'string',
+      Version: 'string',
+      Agent: {
+        Created: 'string',
+        DSN: 'string',
+        Deleted: 'string',
+        Distro: 'string',
+        Id: 12,
+        Name: 'string',
+        ParentUUID: 'string',
+        Subsystem: 'string',
+        UUID: 'string',
+        Version: 'string',
+      }
+    };
+    component.dbTblNames = '`performance_schema`.`events_statements_history`';
+    const val = {
+      'performance_schema.events_statements_history': {
+        'Create': 'CREATE TABLE `events_statements_history` (\n  `THREAD_ID` bigint(20) unsigned NOT NULL,\n  `EVENT_ID` bigint(20) ' +
+        'unsigned NOT NULL,\n  `END_EVENT_ID` bigint(20) unsigned DEFAULT NULL,\n  `EVENT_NAME` varchar(128) NOT NULL,\n  `SOURCE` ' +
+        'varchar(64) DEFAULT NULL,\n  `TIMER_START` bigint(20) unsigned DEFAULT NULL,\n  `TIMER_END` bigint(20) unsigned DEFAULT NULL,\n  ' +
+        '`TIMER_WAIT` bigint(20) unsigned DEFAULT NULL,\n  `LOCK_TIME` bigint(20) unsigned NOT NULL,\n  `SQL_TEXT` longtext,\n  `DIGEST`' +
+        ' varchar(64) DEFAULT NULL,\n  `DIGEST_TEXT` longtext,\n  `CURRENT_SCHEMA` varchar(64) DEFAULT NULL,\n  `OBJECT_TYPE` varchar(64)' +
+        ' DEFAULT NULL,\n  `OBJECT_SCHEMA` varchar(64) DEFAULT NULL,\n  `OBJECT_NAME` varchar(64) DEFAULT NULL,\n  `OBJECT_INSTANCE_BEGIN` ' +
+        'bigint(20) unsigned DEFAULT NULL,\n  `MYSQL_ERRNO` int(11) DEFAULT NULL,\n  `RETURNED_SQLSTATE` varchar(5) DEFAULT NULL,\n  ' +
+        '`MESSAGE_TEXT` varchar(128) DEFAULT NULL,\n  `ERRORS` bigint(20) unsigned NOT NULL,\n  `WARNINGS` bigint(20) unsigned NOT NULL,\n  ' +
+        '`ROWS_AFFECTED` bigint(20) unsigned NOT NULL,\n  `ROWS_SENT` bigint(20) unsigned NOT NULL,\n  `ROWS_EXAMINED` bigint(20) unsigned' +
+        ' NOT NULL,\n  `CREATED_TMP_DISK_TABLES` bigint(20) unsigned NOT NULL,\n  `CREATED_TMP_TABLES` bigint(20) unsigned NOT NULL,\n  ' +
+        '`SELECT_FULL_JOIN` bigint(20) unsigned NOT NULL,\n  `SELECT_FULL_RANGE_JOIN` bigint(20) unsigned NOT NULL,\n  `SELECT_RANGE`' +
+        ' bigint(20) unsigned NOT NULL,\n  `SELECT_RANGE_CHECK` bigint(20) unsigned NOT NULL,\n  `SELECT_SCAN` bigint(20) unsigned ' +
+        'NOT NULL,\n  `SORT_MERGE_PASSES` bigint(20) unsigned NOT NULL,\n  `SORT_RANGE` bigint(20) unsigned NOT NULL,\n  `SORT_ROWS`' +
+        ' bigint(20) unsigned NOT NULL,\n  `SORT_SCAN` bigint(20) unsigned NOT NULL,\n  `NO_INDEX_USED` bigint(20) unsigned NOT NULL,\n  ' +
+        '`NO_GOOD_INDEX_USED` bigint(20) unsigned NOT NULL,\n  `NESTING_EVENT_ID` bigint(20) unsigned DEFAULT NULL,\n  `NESTING_EVENT_TYPE`' +
+        ' enum(\'TRANSACTION\',\'STATEMENT\',\'STAGE\',\'WAIT\') DEFAULT NULL,\n  `NESTING_EVENT_LEVEL` int(11) DEFAULT NULL,\n  PRIMARY' +
+        ' KEY (`THREAD_ID`,`EVENT_ID`)\n) ENGINE=PERFORMANCE_SCHEMA DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci',
+        'Index': {
+          'PRIMARY': [{
+            'Table': 'events_statements_history',
+            'NonUnique': false,
+            'KeyName': 'PRIMARY',
+            'SeqInIndex': 1,
+            'ColumnName': 'THREAD_ID',
+            'Collation': null,
+            'Cardinality': null,
+            'SubPart': null,
+            'Packed': null,
+            'Null': '',
+            'IndexType': 'HASH',
+            'Comment': '',
+            'IndexComment': '',
+            'Visible': 'YES'
+          }, {
+            'Table': 'events_statements_history',
+            'NonUnique': false,
+            'KeyName': 'PRIMARY',
+            'SeqInIndex': 2,
+            'ColumnName': 'EVENT_ID',
+            'Collation': null,
+            'Cardinality': null,
+            'SubPart': null,
+            'Packed': null,
+            'Null': '',
+            'IndexType': 'HASH',
+            'Comment': '',
+            'IndexComment': '',
+            'Visible': 'YES'
+          }]
+        },
+        'Status': {
+          'Name': 'events_statements_history',
+          'Engine': 'PERFORMANCE_SCHEMA',
+          'Version': '10',
+          'RowFormat': 'Dynamic',
+          'Rows': 2560,
+          'AvgRowLength': 0,
+          'DataLength': 0,
+          'MaxDataLength': 0,
+          'IndexLength': 0,
+          'DataFree': 0,
+          'AutoIncrement': null,
+          'CreateTime': '2018-09-21T12:26:43Z',
+          'UpdateTime': '0001-01-01T00:00:00Z',
+          'CheckTime': '0001-01-01T00:00:00Z',
+          'Collation': 'utf8mb4_0900_ai_ci',
+          'Checksum': null,
+          'CreateOptions': '',
+          'Comment': ''
+        },
+        'Errors': [
+          'err1',
+          'err2',
+          'err3',
+        ]
+      }
+    };
+    const spy = spyOn(component.queryDetailsService, 'getTableInfo').and.returnValue(Promise.resolve(val));
+    component.selectTableInfo('performance_schema', 'events_statements_history');
+    spy.calls.mostRecent().returnValue.then((data) => {
+      fixture.detectChanges();
+      expect(component.testingVariable).toBeTruthy();
+      done();
+    });
+  });
+
+  it('should be true if data has been loaded', (done) => {
+    component.dbServer = {
+      Created: 'string',
+      DSN: 'string',
+      Deleted: 'string',
+      Distro: 'string',
+      Id: 12,
+      Name: 'string',
+      ParentUUID: 'string',
+      Subsystem: 'string',
+      UUID: 'string',
+      Version: 'string',
+      Agent: {
+        Created: 'string',
+        DSN: 'string',
+        Deleted: 'string',
+        Distro: 'string',
+        Id: 12,
+        Name: 'string',
+        ParentUUID: 'string',
+        Subsystem: 'string',
+        UUID: 'string',
+        Version: 'string',
+      }
+    };
+    component.dbTblNames = '`performance_schema`.`events_statements_history`';
+    const val = {
+      'performance_schema.events_statements_history': {
+        'Create': 'CREATE TABLE `events_statements_history` (\n  `THREAD_ID` bigint(20) unsigned NOT NULL,\n  `EVENT_ID` bigint(20) ' +
+        'unsigned NOT NULL,\n  `END_EVENT_ID` bigint(20) unsigned DEFAULT NULL,\n  `EVENT_NAME` varchar(128) NOT NULL,\n  `SOURCE` ' +
+        'varchar(64) DEFAULT NULL,\n  `TIMER_START` bigint(20) unsigned DEFAULT NULL,\n  `TIMER_END` bigint(20) unsigned DEFAULT NULL,\n  ' +
+        '`TIMER_WAIT` bigint(20) unsigned DEFAULT NULL,\n  `LOCK_TIME` bigint(20) unsigned NOT NULL,\n  `SQL_TEXT` longtext,\n  `DIGEST`' +
+        ' varchar(64) DEFAULT NULL,\n  `DIGEST_TEXT` longtext,\n  `CURRENT_SCHEMA` varchar(64) DEFAULT NULL,\n  `OBJECT_TYPE` varchar(64)' +
+        ' DEFAULT NULL,\n  `OBJECT_SCHEMA` varchar(64) DEFAULT NULL,\n  `OBJECT_NAME` varchar(64) DEFAULT NULL,\n  `OBJECT_INSTANCE_BEGIN` ' +
+        'bigint(20) unsigned DEFAULT NULL,\n  `MYSQL_ERRNO` int(11) DEFAULT NULL,\n  `RETURNED_SQLSTATE` varchar(5) DEFAULT NULL,\n  ' +
+        '`MESSAGE_TEXT` varchar(128) DEFAULT NULL,\n  `ERRORS` bigint(20) unsigned NOT NULL,\n  `WARNINGS` bigint(20) unsigned NOT NULL,\n  ' +
+        '`ROWS_AFFECTED` bigint(20) unsigned NOT NULL,\n  `ROWS_SENT` bigint(20) unsigned NOT NULL,\n  `ROWS_EXAMINED` bigint(20) unsigned' +
+        ' NOT NULL,\n  `CREATED_TMP_DISK_TABLES` bigint(20) unsigned NOT NULL,\n  `CREATED_TMP_TABLES` bigint(20) unsigned NOT NULL,\n  ' +
+        '`SELECT_FULL_JOIN` bigint(20) unsigned NOT NULL,\n  `SELECT_FULL_RANGE_JOIN` bigint(20) unsigned NOT NULL,\n  `SELECT_RANGE`' +
+        ' bigint(20) unsigned NOT NULL,\n  `SELECT_RANGE_CHECK` bigint(20) unsigned NOT NULL,\n  `SELECT_SCAN` bigint(20) unsigned ' +
+        'NOT NULL,\n  `SORT_MERGE_PASSES` bigint(20) unsigned NOT NULL,\n  `SORT_RANGE` bigint(20) unsigned NOT NULL,\n  `SORT_ROWS`' +
+        ' bigint(20) unsigned NOT NULL,\n  `SORT_SCAN` bigint(20) unsigned NOT NULL,\n  `NO_INDEX_USED` bigint(20) unsigned NOT NULL,\n  ' +
+        '`NO_GOOD_INDEX_USED` bigint(20) unsigned NOT NULL,\n  `NESTING_EVENT_ID` bigint(20) unsigned DEFAULT NULL,\n  `NESTING_EVENT_TYPE`' +
+        ' enum(\'TRANSACTION\',\'STATEMENT\',\'STAGE\',\'WAIT\') DEFAULT NULL,\n  `NESTING_EVENT_LEVEL` int(11) DEFAULT NULL,\n  PRIMARY' +
+        ' KEY (`THREAD_ID`,`EVENT_ID`)\n) ENGINE=PERFORMANCE_SCHEMA DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci',
+        'Index': {
+          'PRIMARY': [{
+            'Table': 'events_statements_history',
+            'NonUnique': false,
+            'KeyName': 'PRIMARY',
+            'SeqInIndex': 1,
+            'ColumnName': 'THREAD_ID',
+            'Collation': null,
+            'Cardinality': null,
+            'SubPart': null,
+            'Packed': null,
+            'Null': '',
+            'IndexType': 'HASH',
+            'Comment': '',
+            'IndexComment': '',
+            'Visible': 'YES'
+          }, {
+            'Table': 'events_statements_history',
+            'NonUnique': false,
+            'KeyName': 'PRIMARY',
+            'SeqInIndex': 2,
+            'ColumnName': 'EVENT_ID',
+            'Collation': null,
+            'Cardinality': null,
+            'SubPart': null,
+            'Packed': null,
+            'Null': '',
+            'IndexType': 'HASH',
+            'Comment': '',
+            'IndexComment': '',
+            'Visible': 'YES'
+          }]
+        },
+        'Status': {
+          'Name': 'events_statements_history',
+          'Engine': 'PERFORMANCE_SCHEMA',
+          'Version': '10',
+          'RowFormat': 'Dynamic',
+          'Rows': 2560,
+          'AvgRowLength': 0,
+          'DataLength': 0,
+          'MaxDataLength': 0,
+          'IndexLength': 0,
+          'DataFree': 0,
+          'AutoIncrement': null,
+          'CreateTime': '2018-09-21T12:26:43Z',
+          'UpdateTime': '0001-01-01T00:00:00Z',
+          'CheckTime': '0001-01-01T00:00:00Z',
+          'Collation': 'utf8mb4_0900_ai_ci',
+          'Checksum': null,
+          'CreateOptions': '',
+          'Comment': ''
+        },
+        'Errors': ['SHOW CREATE TABLE sbtest1: Error 1046: No database selected', 'SHOW INDEX FROM .sbtest1: Error 1046: No database selected', 'SHOW TABLE STATUS FROM  WHERE Name=\'sbtest1\': Error 1064: You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near \'WHERE Name=\'sbtest1\'\' at line 1']
+      }
+    };
+    const spy = spyOn(component.queryDetailsService, 'getTableInfo').and.returnValue(Promise.resolve(val));
+    component.selectTableInfo('performance_schema', 'events_statements_history');
+    spy.calls.mostRecent().returnValue.then((data) => {
+      fixture.detectChanges();
+      expect(component.isTableInfoLoading).toBeTruthy();
+      done();
+    });
+  });
+
+  it('should create visual explain if neede data is presented', (done) => {
+    component.dbServer = {
+      Created: 'string',
+      DSN: 'string',
+      Deleted: 'string',
+      Distro: 'string',
+      Id: 12,
+      Name: 'string',
+      ParentUUID: 'string',
+      Subsystem: 'string',
+      UUID: 'string',
+      Version: 'string',
+      Agent: {
+        Created: 'string',
+        DSN: 'string',
+        Deleted: 'string',
+        Distro: 'string',
+        Id: 12,
+        Name: 'string',
+        ParentUUID: 'string',
+        Subsystem: 'string',
+        UUID: 'string',
+        Version: 'string',
+      }
+    };
+    const val = {
+      Cmd: 'Explain',
+      Data: 'eyJDbGFzc2ljIjpbeyJJZCI6MSwiU2VsZWN0VHlwZSI6IlNJTVBMRSIsIlRhYmxlIjoiZXZlbnRzX3dhaXRzX3N1bW1hcnlfZ2xvYmFsX2J5X2V2ZW50X25hbWUiLCJQYXJ0aXRpb25zIjpudWxsLCJDcmVhdGVUYWJsZSI6bnVsbCwiVHlwZSI6IkFMTCIsIlBvc3NpYmxlS2V5cyI6bnVsbCwiS2V5IjpudWxsLCJLZXlMZW4iOm51bGwsIlJlZiI6bnVsbCwiUm93cyI6NTM0LCJGaWx0ZXJlZCI6MTAwLCJFeHRyYSI6bnVsbH1dLCJKU09OIjoie1xuICBcInF1ZXJ5X2Jsb2NrXCI6IHtcbiAgICBcInNlbGVjdF9pZFwiOiAxLFxuICAgIFwiY29zdF9pbmZvXCI6IHtcbiAgICAgIFwicXVlcnlfY29zdFwiOiBcIjUzLjY1XCJcbiAgICB9LFxuICAgIFwidGFibGVcIjoge1xuICAgICAgXCJ0YWJsZV9uYW1lXCI6IFwiZXZlbnRzX3dhaXRzX3N1bW1hcnlfZ2xvYmFsX2J5X2V2ZW50X25hbWVcIixcbiAgICAgIFwiYWNjZXNzX3R5cGVcIjogXCJBTExcIixcbiAgICAgIFwicm93c19leGFtaW5lZF9wZXJfc2NhblwiOiA1MzQsXG4gICAgICBcInJvd3NfcHJvZHVjZWRfcGVyX2pvaW5cIjogNTM0LFxuICAgICAgXCJmaWx0ZXJlZFwiOiBcIjEwMC4wMFwiLFxuICAgICAgXCJjb3N0X2luZm9cIjoge1xuICAgICAgICBcInJlYWRfY29zdFwiOiBcIjAuMjVcIixcbiAgICAgICAgXCJldmFsX2Nvc3RcIjogXCI1My40MFwiLFxuICAgICAgICBcInByZWZpeF9jb3N0XCI6IFwiNTMuNjVcIixcbiAgICAgICAgXCJkYXRhX3JlYWRfcGVyX2pvaW5cIjogXCIyOTJLXCJcbiAgICAgIH0sXG4gICAgICBcInVzZWRfY29sdW1uc1wiOiBbXG4gICAgICAgIFwiRVZFTlRfTkFNRVwiLFxuICAgICAgICBcIkNPVU5UX1NUQVJcIixcbiAgICAgICAgXCJTVU1fVElNRVJfV0FJVFwiXG4gICAgICBdXG4gICAgfVxuICB9XG59IiwiVmlzdWFsIjoiVGFibGUgc2Nhblxucm93cyAgICAgICAgICAgNTM0XG4rLSBUYWJsZVxuICAgdGFibGUgICAgICAgICAgZXZlbnRzX3dhaXRzX3N1bW1hcnlfZ2xvYmFsX2J5X2V2ZW50X25hbWVcbiJ9',
+      Error: '',
+      Id: '83268a37-947e-4a80-561b-d51b6b0350fa'
+    };
+    const spy = spyOn(component.queryDetailsService, 'getExplain').and.returnValue(Promise.resolve(val));
+    component.getExplain();
+    spy.calls.mostRecent().returnValue.then((data) => {
+      fixture.detectChanges();
+      expect(component.visualExplain).toBeTruthy();
+      done();
+    });
+  });
+
+  it('should create error if error method is presented in response', (done) => {
+    component.dbServer = {
+      Created: 'string',
+      DSN: 'string',
+      Deleted: 'string',
+      Distro: 'string',
+      Id: 12,
+      Name: 'string',
+      ParentUUID: 'string',
+      Subsystem: 'string',
+      UUID: 'string',
+      Version: 'string',
+      Agent: {
+        Created: 'string',
+        DSN: 'string',
+        Deleted: 'string',
+        Distro: 'string',
+        Id: 12,
+        Name: 'string',
+        ParentUUID: 'string',
+        Subsystem: 'string',
+        UUID: 'string',
+        Version: 'string',
+      }
+    };
+    const val = {
+      Cmd: 'Explain',
+      Data: 'eyJDbGFzc2ljIjpbeyJJZCI6MSwiU2VsZWN0VHlwZSI6IlNJTVBMRSIsIlRhYmxlIjoiZXZlbnRzX3dhaXRzX3N1bW1hcnlfZ2xvYmFsX2J5X2V2ZW50X25hbWUiLCJQYXJ0aXRpb25zIjpudWxsLCJDcmVhdGVUYWJsZSI6bnVsbCwiVHlwZSI6IkFMTCIsIlBvc3NpYmxlS2V5cyI6bnVsbCwiS2V5IjpudWxsLCJLZXlMZW4iOm51bGwsIlJlZiI6bnVsbCwiUm93cyI6NTM0LCJGaWx0ZXJlZCI6MTAwLCJFeHRyYSI6bnVsbH1dLCJKU09OIjoie1xuICBcInF1ZXJ5X2Jsb2NrXCI6IHtcbiAgICBcInNlbGVjdF9pZFwiOiAxLFxuICAgIFwiY29zdF9pbmZvXCI6IHtcbiAgICAgIFwicXVlcnlfY29zdFwiOiBcIjUzLjY1XCJcbiAgICB9LFxuICAgIFwidGFibGVcIjoge1xuICAgICAgXCJ0YWJsZV9uYW1lXCI6IFwiZXZlbnRzX3dhaXRzX3N1bW1hcnlfZ2xvYmFsX2J5X2V2ZW50X25hbWVcIixcbiAgICAgIFwiYWNjZXNzX3R5cGVcIjogXCJBTExcIixcbiAgICAgIFwicm93c19leGFtaW5lZF9wZXJfc2NhblwiOiA1MzQsXG4gICAgICBcInJvd3NfcHJvZHVjZWRfcGVyX2pvaW5cIjogNTM0LFxuICAgICAgXCJmaWx0ZXJlZFwiOiBcIjEwMC4wMFwiLFxuICAgICAgXCJjb3N0X2luZm9cIjoge1xuICAgICAgICBcInJlYWRfY29zdFwiOiBcIjAuMjVcIixcbiAgICAgICAgXCJldmFsX2Nvc3RcIjogXCI1My40MFwiLFxuICAgICAgICBcInByZWZpeF9jb3N0XCI6IFwiNTMuNjVcIixcbiAgICAgICAgXCJkYXRhX3JlYWRfcGVyX2pvaW5cIjogXCIyOTJLXCJcbiAgICAgIH0sXG4gICAgICBcInVzZWRfY29sdW1uc1wiOiBbXG4gICAgICAgIFwiRVZFTlRfTkFNRVwiLFxuICAgICAgICBcIkNPVU5UX1NUQVJcIixcbiAgICAgICAgXCJTVU1fVElNRVJfV0FJVFwiXG4gICAgICBdXG4gICAgfVxuICB9XG59IiwiVmlzdWFsIjoiVGFibGUgc2Nhblxucm93cyAgICAgICAgICAgNTM0XG4rLSBUYWJsZVxuICAgdGFibGUgICAgICAgICAgZXZlbnRzX3dhaXRzX3N1bW1hcnlfZ2xvYmFsX2J5X2V2ZW50X25hbWVcbiJ9',
+      Error: 'error',
+      Id: '83268a37-947e-4a80-561b-d51b6b0350fa'
+    };
+    const spy = spyOn(component.queryDetailsService, 'getExplain').and.returnValue(Promise.resolve(val));
+    component.getExplain();
+    spy.calls.mostRecent().returnValue.then((data) => {
+      fixture.detectChanges();
+      expect(component.testingVariable).toBeTruthy();
+      done();
+    });
+  });
+
+  //
+
+  it('should create fingerprint if needed data is presented', (done) => {
+    component.dbServer = {
+      Created: 'string',
+      DSN: 'string',
+      Deleted: 'string',
+      Distro: 'string',
+      Id: 12,
+      Name: 'string',
+      ParentUUID: 'string',
+      Subsystem: 'string',
+      UUID: 'string',
+      Version: 'string',
+      Agent: {
+        Created: 'string',
+        DSN: 'string',
+        Deleted: 'string',
+        Distro: 'string',
+        Id: 12,
+        Name: 'string',
+        ParentUUID: 'string',
+        Subsystem: 'string',
+        UUID: 'string',
+        Version: 'string',
+      }
+    };
+    component.fromUTCDate = '12345678';
+    component.toUTCDate = '92345678';
+    const val = {
+      Begin: '2018-09-22T21:59:55Z',
+      End: '2018-09-23T09:59:55Z',
+      Example: {
+        Db: '',
+        InstanceUUID: '',
+        Period: '0001-01-01T00:00:00Z',
+        Query: '',
+        QueryId: '',
+        QueryTime: 0,
+        Ts: '0001-01-01T00:00:00Z',
+      },
+      InstanceId: '173a02eadfd04bea72d0674faaee734a',
+      Metrics: null,
+      Metrics2: {
+        Bytes_sent_avg: 0,
+        Bytes_sent_max: 0,
+        Bytes_sent_med: 0,
+        Bytes_sent_min: 0,
+        Bytes_sent_p95: 0,
+        Bytes_sent_sum: 0,
+        Lock_time_avg: 0,
+        Lock_time_max: 0,
+        Lock_time_med: 0,
+        Lock_time_min: 0,
+        Lock_time_p95: 0,
+        Lock_time_sum: 0,
+        Lock_time_sum_of_total: 0,
+        NoData: false,
+        Point: 0,
+        Query_count: 2,
+        Query_count_of_total: 0.000018053475,
+        Query_count_per_sec: 0.000046296296,
+        Query_time_avg: 0.00052055,
+        Query_time_max: 0.0005561,
+        Query_time_med: 0,
+        Query_time_min: 0.000485,
+        Query_time_p95: 0,
+        Query_time_sum: 0.0010411,
+        Query_time_sum_of_total: 0.000003999888,
+        Query_time_sum_per_sec: 2.4099537e-8,
+        Rows_examined_avg: 0,
+        Rows_examined_max: 0,
+        Rows_examined_med: 0,
+        Rows_examined_min: 0,
+        Rows_examined_p95: 0,
+        Rows_examined_sum: 0,
+        Rows_examined_sum_of_total: 0,
+        Rows_sent_avg: 0,
+        Rows_sent_max: 0,
+        Rows_sent_med: 0,
+        Rows_sent_min: 0,
+        Rows_sent_p95: 0,
+        Rows_sent_sum: 0,
+        Rows_sent_sum_of_total: 0,
+        Ts: '0001-01-01T00:00:00Z'
+      },
+      Query: {
+        Abstract: 'SHOW CREATE TABLE',
+        Fingerprint: 'SHOW CREATE TABLE `performance_schema` . `events_statements_history`',
+        FirstSeen: '2018-09-23T08:45:59Z',
+        Id: 'CED2D0328DC4C22B',
+        LastSeen: '2018-09-23T08:45:59Z',
+        Status: 'new',
+        Tables: null
+      },
+      Sparks2: [
+        {
+          NoData: true,
+          Point: 0,
+          Ts: '2018-09-23T09:59:55Z'
+        },
+        {
+          NoData: true,
+          Point: 1,
+          Ts: '2018-09-23T09:47:55Z',
+        }
+      ]
+    };
+    const spy = spyOn(component.queryDetailsService, 'getQueryDetails').and.returnValue(Promise.resolve(val));
+    component.getQueryDetails(component.dbServer.UUID, component.queryParams.queryID, component.fromUTCDate, component.toUTCDate);
+    spy.calls.mostRecent().returnValue.then((data) => {
+      fixture.detectChanges();
+      expect(component.fingerprint).toBeTruthy();
+      done();
+    });
+  });
+
+  it('should create queryExample if needed data presented in response', (done) => {
+    component.dbServer = {
+      Created: 'string',
+      DSN: 'string',
+      Deleted: 'string',
+      Distro: 'string',
+      Id: 12,
+      Name: 'string',
+      ParentUUID: 'string',
+      Subsystem: 'string',
+      UUID: 'string',
+      Version: 'string',
+      Agent: {
+        Created: 'string',
+        DSN: 'string',
+        Deleted: 'string',
+        Distro: 'string',
+        Id: 12,
+        Name: 'string',
+        ParentUUID: 'string',
+        Subsystem: 'string',
+        UUID: 'string',
+        Version: 'string',
+      }
+    };
+    component.fromUTCDate = '12345678';
+    component.toUTCDate = '92345678';
+    const val = {
+      Begin: '2018-09-22T21:59:55Z',
+      End: '2018-09-23T09:59:55Z',
+      Example: {
+        Db: '',
+        InstanceUUID: '',
+        Period: '0001-01-01T00:00:00Z',
+        Query: 'Query',
+        QueryId: '',
+        QueryTime: 0,
+        Ts: '0001-01-01T00:00:00Z',
+      },
+      InstanceId: '173a02eadfd04bea72d0674faaee734a',
+      Metrics: null,
+      Metrics2: {
+        Bytes_sent_avg: 0,
+        Bytes_sent_max: 0,
+        Bytes_sent_med: 0,
+        Bytes_sent_min: 0,
+        Bytes_sent_p95: 0,
+        Bytes_sent_sum: 0,
+        Lock_time_avg: 0,
+        Lock_time_max: 0,
+        Lock_time_med: 0,
+        Lock_time_min: 0,
+        Lock_time_p95: 0,
+        Lock_time_sum: 0,
+        Lock_time_sum_of_total: 0,
+        NoData: false,
+        Point: 0,
+        Query_count: 2,
+        Query_count_of_total: 0.000018053475,
+        Query_count_per_sec: 0.000046296296,
+        Query_time_avg: 0.00052055,
+        Query_time_max: 0.0005561,
+        Query_time_med: 0,
+        Query_time_min: 0.000485,
+        Query_time_p95: 0,
+        Query_time_sum: 0.0010411,
+        Query_time_sum_of_total: 0.000003999888,
+        Query_time_sum_per_sec: 2.4099537e-8,
+        Rows_examined_avg: 0,
+        Rows_examined_max: 0,
+        Rows_examined_med: 0,
+        Rows_examined_min: 0,
+        Rows_examined_p95: 0,
+        Rows_examined_sum: 0,
+        Rows_examined_sum_of_total: 0,
+        Rows_sent_avg: 0,
+        Rows_sent_max: 0,
+        Rows_sent_med: 0,
+        Rows_sent_min: 0,
+        Rows_sent_p95: 0,
+        Rows_sent_sum: 0,
+        Rows_sent_sum_of_total: 0,
+        Ts: '0001-01-01T00:00:00Z'
+      },
+      Query: {
+        Abstract: 'SHOW CREATE TABLE',
+        Fingerprint: 'SHOW CREATE TABLE `performance_schema` . `events_statements_history`',
+        FirstSeen: '2018-09-23T08:45:59Z',
+        Id: 'CED2D0328DC4C22B',
+        LastSeen: '2018-09-23T08:45:59Z',
+        Status: 'new',
+        Tables: null
+      },
+      Sparks2: [
+        {
+          NoData: true,
+          Point: 0,
+          Ts: '2018-09-23T09:59:55Z'
+        },
+        {
+          NoData: true,
+          Point: 1,
+          Ts: '2018-09-23T09:47:55Z',
+        }
+      ]
+    };
+    const spy = spyOn(component.queryDetailsService, 'getQueryDetails').and.returnValue(Promise.resolve(val));
+    component.getQueryDetails(component.dbServer.UUID, component.queryParams.queryID, component.fromUTCDate, component.toUTCDate);
+    spy.calls.mostRecent().returnValue.then((data) => {
+      fixture.detectChanges();
+      expect(component.queryExample).toBeTruthy();
+      done();
+    });
   });
 });
