@@ -2251,8 +2251,6 @@ fdescribe('MySQLQueryDetailsComponent', () => {
     });
   });
 
-  //
-
   it('should create fingerprint if needed data is presented', (done) => {
     component.dbServer = {
       Created: 'string',

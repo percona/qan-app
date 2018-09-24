@@ -549,4 +549,293 @@ fdescribe('MongoQueryDetailsComponent', () => {
     fixture.detectChanges();
     expect(result).toEqual('events_waits_summary_global_by_event_name');
   });
+
+  it('should be false if all promise data is true and has been loaded', (done) => {
+    component.dbServer = {
+      Created: 'string',
+      DSN: 'string',
+      Deleted: 'string',
+      Distro: 'string',
+      Id: 12,
+      Name: 'string',
+      ParentUUID: 'string',
+      Subsystem: 'string',
+      UUID: 'string',
+      Version: 'string',
+      Agent: {
+        Created: 'string',
+        DSN: 'string',
+        Deleted: 'string',
+        Distro: 'string',
+        Id: 12,
+        Name: 'string',
+        ParentUUID: 'string',
+        Subsystem: 'string',
+        UUID: 'string',
+        Version: 'string',
+      }
+    };
+    component.fromUTCDate = '2018-08-23T08:45:59Z';
+    component.toUTCDate = '2018-10-23T08:45:59Z';
+    const val = {
+      Begin: '2018-09-22T21:59:55Z',
+      End: '2018-09-23T09:59:55Z',
+      Example: {
+        Db: '',
+        InstanceUUID: '',
+        Period: '0001-01-01T00:00:00Z',
+        Query: {
+          'ns': 'local.oplog.rs',
+          'op': 'getmore',
+          'query': {
+            'getMore': {'$numberLong': 35133673781},
+            'collection': 'oplog.rs',
+            'maxTimeMS': {'$numberLong': 5000},
+            'term': {'$numberLong': 743},
+            'lastKnownCommittedOpTime': {'ts': {'$timestamp': {'t': 1537774671, 'i': 1}}, 't': {'$numberLong': 743}}
+          },
+          'originatingCommand': {
+            'find': 'oplog.rs',
+            'filter': {'ts': {'$gte': {'$timestamp': {'t': 1518762420, 'i': 1}}}},
+            'tailable': true,
+            'oplogReplay': true,
+            'awaitData': true,
+            'maxTimeMS': {'$numberLong': 60000},
+            'term': {'$numberLong': 743}
+          }
+        },
+        QueryId: '',
+        QueryTime: 0,
+        Ts: '0001-01-01T00:00:00Z',
+      },
+      InstanceId: '173a02eadfd04bea72d0674faaee734a',
+      Metrics: null,
+      Metrics2: {
+        Bytes_sent_avg: 0,
+        Bytes_sent_max: 0,
+        Bytes_sent_med: 0,
+        Bytes_sent_min: 0,
+        Bytes_sent_p95: 0,
+        Bytes_sent_sum: 0,
+        Lock_time_avg: 0,
+        Lock_time_max: 0,
+        Lock_time_med: 0,
+        Lock_time_min: 0,
+        Lock_time_p95: 0,
+        Lock_time_sum: 0,
+        Lock_time_sum_of_total: 0,
+        NoData: false,
+        Point: 0,
+        Query_count: 2,
+        Query_count_of_total: 0.000018053475,
+        Query_count_per_sec: 0.000046296296,
+        Query_time_avg: 0.00052055,
+        Query_time_max: 0.0005561,
+        Query_time_med: 0,
+        Query_time_min: 0.000485,
+        Query_time_p95: 0,
+        Query_time_sum: 0.0010411,
+        Query_time_sum_of_total: 0.000003999888,
+        Query_time_sum_per_sec: 2.4099537e-8,
+        Rows_examined_avg: 0,
+        Rows_examined_max: 0,
+        Rows_examined_med: 0,
+        Rows_examined_min: 0,
+        Rows_examined_p95: 0,
+        Rows_examined_sum: 0,
+        Rows_examined_sum_of_total: 0,
+        Rows_sent_avg: 0,
+        Rows_sent_max: 0,
+        Rows_sent_med: 0,
+        Rows_sent_min: 0,
+        Rows_sent_p95: 0,
+        Rows_sent_sum: 0,
+        Rows_sent_sum_of_total: 0,
+        Ts: '0001-01-01T00:00:00Z'
+      },
+      Query: {
+        Abstract: 'SHOW CREATE TABLE',
+        Fingerprint: 'SHOW CREATE TABLE `performance_schema` . `events_statements_history`',
+        FirstSeen: '2018-09-23T08:45:59Z',
+        Id: 'CED2D0328DC4C22B',
+        LastSeen: '2018-09-23T08:45:59Z',
+        Status: 'new',
+        Tables: null
+      },
+      Sparks2: [
+        {
+          NoData: true,
+          Point: 0,
+          Ts: '2018-09-23T09:59:55Z'
+        },
+        {
+          NoData: true,
+          Point: 1,
+          Ts: '2018-09-23T09:47:55Z',
+        }
+      ]
+    };
+    const spy = spyOn(component.queryDetailsService, 'getQueryDetails').and.returnValue(Promise.resolve(val));
+    component.getQueryDetails(component.dbServer.UUID, component.queryParams.queryID, component.fromUTCDate, component.toUTCDate);
+    spy.calls.mostRecent().returnValue.then((data) => {
+      fixture.detectChanges();
+      expect(component.isLoading).toBeFalsy();
+      done();
+    });
+  });
+
+  it('should create jsonExplain if needed data is present in response', (done) => {
+    component.dbServer = {
+      Created: 'string',
+      DSN: 'string',
+      Deleted: 'string',
+      Distro: 'string',
+      Id: 12,
+      Name: 'string',
+      ParentUUID: 'string',
+      Subsystem: 'string',
+      UUID: 'string',
+      Version: 'string',
+      Agent: {
+        Created: 'string',
+        DSN: 'string',
+        Deleted: 'string',
+        Distro: 'string',
+        Id: 12,
+        Name: 'string',
+        ParentUUID: 'string',
+        Subsystem: 'string',
+        UUID: 'string',
+        Version: 'string',
+      }
+    };
+    const val = {
+      Cmd: 'Explain',
+      Data: 'eyJDbGFzc2ljIjpbeyJJZCI6MSwiU2VsZWN0VHlwZSI6IlNJTVBMRSIsIlRhYmxlIjoiZXZlbnRzX3dhaXRzX3N1bW1hcnlfZ2xvYmFsX2J5X2V2ZW50X25hbWUiLCJQYXJ0aXRpb25zIjpudWxsLCJDcmVhdGVUYWJsZSI6bnVsbCwiVHlwZSI6IkFMTCIsIlBvc3NpYmxlS2V5cyI6bnVsbCwiS2V5IjpudWxsLCJLZXlMZW4iOm51bGwsIlJlZiI6bnVsbCwiUm93cyI6NTM0LCJGaWx0ZXJlZCI6MTAwLCJFeHRyYSI6bnVsbH1dLCJKU09OIjoie1xuICBcInF1ZXJ5X2Jsb2NrXCI6IHtcbiAgICBcInNlbGVjdF9pZFwiOiAxLFxuICAgIFwiY29zdF9pbmZvXCI6IHtcbiAgICAgIFwicXVlcnlfY29zdFwiOiBcIjUzLjY1XCJcbiAgICB9LFxuICAgIFwidGFibGVcIjoge1xuICAgICAgXCJ0YWJsZV9uYW1lXCI6IFwiZXZlbnRzX3dhaXRzX3N1bW1hcnlfZ2xvYmFsX2J5X2V2ZW50X25hbWVcIixcbiAgICAgIFwiYWNjZXNzX3R5cGVcIjogXCJBTExcIixcbiAgICAgIFwicm93c19leGFtaW5lZF9wZXJfc2NhblwiOiA1MzQsXG4gICAgICBcInJvd3NfcHJvZHVjZWRfcGVyX2pvaW5cIjogNTM0LFxuICAgICAgXCJmaWx0ZXJlZFwiOiBcIjEwMC4wMFwiLFxuICAgICAgXCJjb3N0X2luZm9cIjoge1xuICAgICAgICBcInJlYWRfY29zdFwiOiBcIjAuMjVcIixcbiAgICAgICAgXCJldmFsX2Nvc3RcIjogXCI1My40MFwiLFxuICAgICAgICBcInByZWZpeF9jb3N0XCI6IFwiNTMuNjVcIixcbiAgICAgICAgXCJkYXRhX3JlYWRfcGVyX2pvaW5cIjogXCIyOTJLXCJcbiAgICAgIH0sXG4gICAgICBcInVzZWRfY29sdW1uc1wiOiBbXG4gICAgICAgIFwiRVZFTlRfTkFNRVwiLFxuICAgICAgICBcIkNPVU5UX1NUQVJcIixcbiAgICAgICAgXCJTVU1fVElNRVJfV0FJVFwiXG4gICAgICBdXG4gICAgfVxuICB9XG59IiwiVmlzdWFsIjoiVGFibGUgc2Nhblxucm93cyAgICAgICAgICAgNTM0XG4rLSBUYWJsZVxuICAgdGFibGUgICAgICAgICAgZXZlbnRzX3dhaXRzX3N1bW1hcnlfZ2xvYmFsX2J5X2V2ZW50X25hbWVcbiJ9',
+      Error: '',
+      Id: '83268a37-947e-4a80-561b-d51b6b0350fa'
+    };
+    const spy = spyOn(component.queryDetailsService, 'getExplain').and.returnValue(Promise.resolve(val));
+    component.getExplain();
+    spy.calls.mostRecent().returnValue.then((data) => {
+      fixture.detectChanges();
+      expect(component.jsonExplain).toBeTruthy();
+      done();
+    });
+  });
+
+  it('should  create error if it presented in response', (done) => {
+    component.dbServer = {
+      Created: 'string',
+      DSN: 'string',
+      Deleted: 'string',
+      Distro: 'string',
+      Id: 12,
+      Name: 'string',
+      ParentUUID: 'string',
+      Subsystem: 'string',
+      UUID: 'string',
+      Version: 'string',
+      Agent: {
+        Created: 'string',
+        DSN: 'string',
+        Deleted: 'string',
+        Distro: 'string',
+        Id: 12,
+        Name: 'string',
+        ParentUUID: 'string',
+        Subsystem: 'string',
+        UUID: 'string',
+        Version: 'string',
+      }
+    };
+    const val = {
+      Cmd: 'Explain',
+      Data: 'eyJDbGFzc2ljIjpbeyJJZCI6MSwiU2VsZWN0VHlwZSI6IlNJTVBMRSIsIlRhYmxlIjoiZXZlbnRzX3dhaXRzX3N1bW1hcnlfZ2xvYmFsX2J5X2V2ZW50X25hbWUiLCJQYXJ0aXRpb25zIjpudWxsLCJDcmVhdGVUYWJsZSI6bnVsbCwiVHlwZSI6IkFMTCIsIlBvc3NpYmxlS2V5cyI6bnVsbCwiS2V5IjpudWxsLCJLZXlMZW4iOm51bGwsIlJlZiI6bnVsbCwiUm93cyI6NTM0LCJGaWx0ZXJlZCI6MTAwLCJFeHRyYSI6bnVsbH1dLCJKU09OIjoie1xuICBcInF1ZXJ5X2Jsb2NrXCI6IHtcbiAgICBcInNlbGVjdF9pZFwiOiAxLFxuICAgIFwiY29zdF9pbmZvXCI6IHtcbiAgICAgIFwicXVlcnlfY29zdFwiOiBcIjUzLjY1XCJcbiAgICB9LFxuICAgIFwidGFibGVcIjoge1xuICAgICAgXCJ0YWJsZV9uYW1lXCI6IFwiZXZlbnRzX3dhaXRzX3N1bW1hcnlfZ2xvYmFsX2J5X2V2ZW50X25hbWVcIixcbiAgICAgIFwiYWNjZXNzX3R5cGVcIjogXCJBTExcIixcbiAgICAgIFwicm93c19leGFtaW5lZF9wZXJfc2NhblwiOiA1MzQsXG4gICAgICBcInJvd3NfcHJvZHVjZWRfcGVyX2pvaW5cIjogNTM0LFxuICAgICAgXCJmaWx0ZXJlZFwiOiBcIjEwMC4wMFwiLFxuICAgICAgXCJjb3N0X2luZm9cIjoge1xuICAgICAgICBcInJlYWRfY29zdFwiOiBcIjAuMjVcIixcbiAgICAgICAgXCJldmFsX2Nvc3RcIjogXCI1My40MFwiLFxuICAgICAgICBcInByZWZpeF9jb3N0XCI6IFwiNTMuNjVcIixcbiAgICAgICAgXCJkYXRhX3JlYWRfcGVyX2pvaW5cIjogXCIyOTJLXCJcbiAgICAgIH0sXG4gICAgICBcInVzZWRfY29sdW1uc1wiOiBbXG4gICAgICAgIFwiRVZFTlRfTkFNRVwiLFxuICAgICAgICBcIkNPVU5UX1NUQVJcIixcbiAgICAgICAgXCJTVU1fVElNRVJfV0FJVFwiXG4gICAgICBdXG4gICAgfVxuICB9XG59IiwiVmlzdWFsIjoiVGFibGUgc2Nhblxucm93cyAgICAgICAgICAgNTM0XG4rLSBUYWJsZVxuICAgdGFibGUgICAgICAgICAgZXZlbnRzX3dhaXRzX3N1bW1hcnlfZ2xvYmFsX2J5X2V2ZW50X25hbWVcbiJ9',
+      Error: 'error',
+      Id: '83268a37-947e-4a80-561b-d51b6b0350fa'
+    };
+    const spy = spyOn(component.queryDetailsService, 'getExplain').and.returnValue(Promise.resolve(val));
+    component.getExplain();
+    spy.calls.mostRecent().returnValue.then((data) => {
+      fixture.detectChanges();
+      expect(component.errExplain).toBeTruthy();
+      done();
+    });
+  });
+
+  it('should parse json in promise data if it not string', (done) => {
+    component.dbServer = {
+      Created: 'string',
+      DSN: 'string',
+      Deleted: 'string',
+      Distro: 'string',
+      Id: 12,
+      Name: 'string',
+      ParentUUID: 'string',
+      Subsystem: 'string',
+      UUID: 'string',
+      Version: 'string',
+      Agent: {
+        Created: 'string',
+        DSN: 'string',
+        Deleted: 'string',
+        Distro: 'string',
+        Id: 12,
+        Name: 'string',
+        ParentUUID: 'string',
+        Subsystem: 'string',
+        UUID: 'string',
+        Version: 'string',
+      }
+    };
+    const val = {
+      Cmd: 'Explain',
+      Data: 'eyJDbGFzc2ljIjpbeyJJZCI6MSwiU2VsZWN0VHlwZSI6IlNJTVBMRSIsIlRhYmxlIjoiZXZlbnRzX3dhaXRzX3N1bW1hcnlfZ2xvYmFsX2J5X2V2ZW50X25hbWUiLCJQYXJ0aXRpb25zIjpudWxsLCJDcmVhdGVUYWJsZSI6bnVsbCwiVHlwZSI6IkFMTCIsIlBvc3NpYmxlS2V5cyI6bnVsbCwiS2V5IjpudWxsLCJLZXlMZW4iOm51bGwsIlJlZiI6bnVsbCwiUm93cyI6NTM0LCJGaWx0ZXJlZCI6MTAwLCJFeHRyYSI6bnVsbH1dLCJKU09OIjp7ICAKICAgIkNsYXNzaWMiOlsgIAogICAgICB7ICAKICAgICAgICAgIklkIjoxLAogICAgICAgICAiU2VsZWN0VHlwZSI6IlNJTVBMRSIsCiAgICAgICAgICJUYWJsZSI6ImV2ZW50c193YWl0c19zdW1tYXJ5X2dsb2JhbF9ieV9ldmVudF9uYW1lIiwKICAgICAgICAgIlBhcnRpdGlvbnMiOm51bGwsCiAgICAgICAgICJDcmVhdGVUYWJsZSI6bnVsbCwKICAgICAgICAgIlR5cGUiOiJBTEwiLAogICAgICAgICAiUG9zc2libGVLZXlzIjpudWxsLAogICAgICAgICAiS2V5IjpudWxsLAogICAgICAgICAiS2V5TGVuIjpudWxsLAogICAgICAgICAiUmVmIjpudWxsLAogICAgICAgICAiUm93cyI6NTM0LAogICAgICAgICAiRmlsdGVyZWQiOjEwMCwKICAgICAgICAgIkV4dHJhIjpudWxsCiAgICAgIH0KICAgXSwKICAgIkpTT04iOnsicXVlcnlfYmxvY2siOiB7InNlbGVjdF9pZCI6IDEsICJjb3N0X2luZm8iOiB7InF1ZXJ5X2Nvc3QiOiAiNTMuNjUifSwgICAgInRhYmxlIjogeyJ0YWJsZV9uYW1lIjogImV2ZW50c193YWl0c19zdW1tYXJ5X2dsb2JhbF9ieV9ldmVudF9uYW1lIiwgImFjY2Vzc190eXBlIjogIkFMTCIsICJyb3dzX2V4YW1pbmVkX3Blcl9zY2FuIjogNTM0LCAicm93c19wcm9kdWNlZF9wZXJfam9pbiI6IDUzNCwgImZpbHRlcmVkIjogIjEwMC4wMCIsICAgImNvc3RfaW5mbyI6IHsicmVhZF9jb3N0IjogIjAuMjUiLCAiZXZhbF9jb3N0IjogIjUzLjQwIiwgICAgICAgInByZWZpeF9jb3N0IjogIjUzLjY1IiwgImRhdGFfcmVhZF9wZXJfam9pbiI6ICIyOTJLIn0sICJ1c2VkX2NvbHVtbnMiOiBbIkVWRU5UX05BTUUiLCAiQ09VTlRfU1RBUiIsIlNVTV9USU1FUl9XQUlUIl19ICB9fX19',
+      Error: '',
+      Id: '83268a37-947e-4a80-561b-d51b6b0350fa'
+    };
+    const spy = spyOn(component.queryDetailsService, 'getExplain').and.returnValue(Promise.resolve(val));
+    component.getExplain();
+    spy.calls.mostRecent().returnValue.then((data) => {
+      fixture.detectChanges();
+      expect(component.jsonExplain).toBeTruthy();
+      done();
+    });
+  });
+
+  it('should be false if promise data is null', (done) => {
+    component.dbServer = {
+      Created: 'string',
+      DSN: 'string',
+      Deleted: 'string',
+      Distro: 'string',
+      Id: 12,
+      Name: 'string',
+      ParentUUID: 'string',
+      Subsystem: 'string',
+      UUID: 'string',
+      Version: 'string',
+      Agent: {
+        Created: 'string',
+        DSN: 'string',
+        Deleted: 'string',
+        Distro: 'string',
+        Id: 12,
+        Name: 'string',
+        ParentUUID: 'string',
+        Subsystem: 'string',
+        UUID: 'string',
+        Version: 'string',
+      }
+    };
+    const val = null;
+    const spy = spyOn(component.queryDetailsService, 'getExplain').and.returnValue(Promise.resolve(val));
+    component.getExplain();
+    spy.calls.mostRecent().returnValue.then((data) => {
+      fixture.detectChanges();
+      expect(component.isExplainLoading).toBeFalsy();
+      done();
+    });
+  });
 });
