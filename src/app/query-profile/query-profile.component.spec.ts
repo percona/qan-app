@@ -439,16 +439,6 @@ fdescribe('QueryProfileComponent', () => {
     expect(component.isLoading).toBeTruthy();
   });
 
-  // it('should show how many queries left if query profile is existed', () => {
-  //   component.totalAmountOfQueries = 23;
-  //   component.fromUTCDate = '2018-02-20T13:59:31.238Z';
-  //   component.toUTCDate = '2018-04-20T13:59:31.238Z';
-  //   component.offset = 20;
-  //   component.loadMoreQueries();
-  //   fixture.detectChanges();
-  //   expect(component.leftInDbQueries).toBe(19);
-  // });
-
   it('should be true if search value is presented', () => {
     component.searchValue = 'Select';
     component.search();
@@ -464,13 +454,13 @@ fdescribe('QueryProfileComponent', () => {
   });
 
   it('should be true if first seen is checked', () => {
-    component.getFirstSeen( true);
+    component.getFirstSeen(true);
     fixture.detectChanges();
     expect(component.testingVariable).toBeTruthy();
   });
 
   it('should be false if first seen not checked', () => {
-    component.getFirstSeen( false);
+    component.getFirstSeen(false);
     fixture.detectChanges();
     expect(component.testingVariable).toBeFalsy();
   });
@@ -486,4 +476,568 @@ fdescribe('QueryProfileComponent', () => {
     fixture.detectChanges();
     expect(component.testingVariable).toBeFalsy();
   });
+
+  it('should create profileTotal if needed data presented in response', (done) => {
+    component.dbServer = {
+      Created: 'string',
+      DSN: 'string',
+      Deleted: 'string',
+      Distro: 'string',
+      Id: 12,
+      Name: 'string',
+      ParentUUID: 'string',
+      Subsystem: 'string',
+      UUID: 'string',
+      Version: 'string',
+      Agent: {
+        Created: 'string',
+        DSN: 'string',
+        Deleted: 'string',
+        Distro: 'string',
+        Id: 12,
+        Name: 'string',
+        ParentUUID: 'string',
+        Subsystem: 'string',
+        UUID: 'string',
+        Version: 'string',
+      }
+    };
+    component.fromUTCDate = '12345678';
+    component.toUTCDate = '92345678';
+    const val = {
+      'InstanceId': '',
+      'Begin': '2018-09-23T22:28:04Z',
+      'End': '2018-09-24T10:28:04Z',
+      'TotalTime': 478,
+      'TotalQueries': 42,
+      'RankBy': {
+        'Metric': 'Query_time',
+        'Stat': 'sum',
+        'Limit': 10
+      },
+      'Query': [
+        {
+          'Rank': 0,
+          'Percentage': 1,
+          'Id': '',
+          'Abstract': '',
+          'Fingerprint': '',
+          'QPS': 0.24847222222222223,
+          'Load': 0.003135669820562557,
+          'FirstSeen': '0001-01-01T00:00:00Z',
+          'Log': [
+            {
+              'Point': 0,
+              'Start_ts': '2018-09-24T10:28:04Z',
+              'NoData': false,
+              'Query_count': 10734,
+              'Query_load': 0.18814018,
+              'Query_time_avg': 0.014273983
+            },
+            {
+              'Point': 1,
+              'Start_ts': '2018-09-24T10:16:04Z',
+              'NoData': true,
+              'Query_count': 0,
+              'Query_load': 0,
+              'Query_time_avg': 0
+            },
+            {
+              'Point': 2,
+              'Start_ts': '2018-09-24T10:04:04Z',
+              'NoData': true,
+              'Query_count': 0,
+              'Query_load': 0,
+              'Query_time_avg': 0
+            }
+          ],
+          'Stats': {
+            'Cnt': 10734,
+            'Sum': 135.46093624830246,
+            'Min': 0.0000752,
+            'P5': 0,
+            'Avg': 0.012619800283985697,
+            'Med': 0,
+            'P95': 0,
+            'Max': 8.011851
+          }
+        },
+        {
+          'Rank': 1,
+          'Percentage': 0.6319815631761129,
+          'Id': 'D2B2DCCF0040F792',
+          'Abstract': 'INSERT sbtest1',
+          'Fingerprint': 'INSERT INTO `sbtest1` ( `k` , `c` , `pad` ) VALUES (...) /* , ... */',
+          'QPS': 0.00863425925925926,
+          'Load': 0.001981685514803286,
+          'FirstSeen': '2018-09-24T10:20:59Z',
+          'Log': [
+            {
+              'Point': 0,
+              'Start_ts': '2018-09-24T10:28:04Z',
+              'NoData': false,
+              'Query_count': 373,
+              'Query_load': 0.11890113,
+              'Query_time_avg': 0.22389653
+            },
+            {
+              'Point': 1,
+              'Start_ts': '2018-09-24T10:16:04Z',
+              'NoData': true,
+              'Query_count': 0,
+              'Query_load': 0,
+              'Query_time_avg': 0
+            },
+            {
+              'Point': 2,
+              'Start_ts': '2018-09-24T10:04:04Z',
+              'NoData': true,
+              'Query_count': 0,
+              'Query_load': 0,
+              'Query_time_avg': 0
+            }
+          ],
+          'Stats': {
+            'Cnt': 373,
+            'Sum': 85.60881423950195,
+            'Min': 0.0042949673,
+            'P5': 0,
+            'Avg': 0.22951424729088996,
+            'Med': 0,
+            'P95': 0,
+            'Max': 3.1928995
+          }
+        },
+        {
+          'Rank': 2,
+          'Percentage': 0.059145105095421056,
+          'Id': '5E556C57819E58FF',
+          'Abstract': 'CREATE INDEX',
+          'Fingerprint': 'CREATE INDEX `k_1` ON `sbtest1` ( `k` )',
+          'QPS': 0.000023148148148148147,
+          'Load': 0.00018545952108171252,
+          'FirstSeen': '2018-09-24T10:21:59Z',
+          'Log': [
+            {
+              'Point': 0,
+              'Start_ts': '2018-09-24T10:28:04Z',
+              'NoData': false,
+              'Query_count': 1,
+              'Query_load': 0.011127572,
+              'Query_time_avg': 8.011851
+            },
+            {
+              'Point': 1,
+              'Start_ts': '2018-09-24T10:16:04Z',
+              'NoData': true,
+              'Query_count': 0,
+              'Query_load': 0,
+              'Query_time_avg': 0
+            },
+            {
+              'Point': 2,
+              'Start_ts': '2018-09-24T10:04:04Z',
+              'NoData': true,
+              'Query_count': 0,
+              'Query_load': 0,
+              'Query_time_avg': 0
+            }
+          ],
+          'Stats': {
+            'Cnt': 1,
+            'Sum': 8.01185131072998,
+            'Min': 0.0042949673,
+            'P5': 0,
+            'Avg': 8.01185131072998,
+            'Med': 0,
+            'P95': 0,
+            'Max': 8.011851
+          }
+        }]
+    };
+    const spy = spyOn(component.queryProfileService, 'getQueryProfile').and.returnValue(Promise.resolve(val));
+    component.loadQueries();
+    spy.calls.mostRecent().returnValue.then((data) => {
+      fixture.detectChanges();
+      expect(component.profileTotal).toBeTruthy();
+      done();
+    });
+  });
+
+  it('should create error if itpresented in response', (done) => {
+    component.dbServer = {
+      Created: 'string',
+      DSN: 'string',
+      Deleted: 'string',
+      Distro: 'string',
+      Id: 12,
+      Name: 'string',
+      ParentUUID: 'string',
+      Subsystem: 'string',
+      UUID: 'string',
+      Version: 'string',
+      Agent: {
+        Created: 'string',
+        DSN: 'string',
+        Deleted: 'string',
+        Distro: 'string',
+        Id: 12,
+        Name: 'string',
+        ParentUUID: 'string',
+        Subsystem: 'string',
+        UUID: 'string',
+        Version: 'string',
+      }
+    };
+    component.fromUTCDate = '12345678';
+    component.toUTCDate = '92345678';
+    const val = {
+      'InstanceId': '',
+      'Begin': '2018-09-23T22:28:04Z',
+      'End': '2018-09-24T10:28:04Z',
+      'TotalTime': 478,
+      'TotalQueries': 42,
+      'Error': 'here is error',
+      'RankBy': {
+        'Metric': 'Query_time',
+        'Stat': 'sum',
+        'Limit': 10
+      },
+      'Query': [
+        {
+          'Rank': 0,
+          'Percentage': 1,
+          'Id': '',
+          'Abstract': '',
+          'Fingerprint': '',
+          'QPS': 0.24847222222222223,
+          'Load': 0.003135669820562557,
+          'FirstSeen': '0001-01-01T00:00:00Z',
+          'Log': [
+            {
+              'Point': 0,
+              'Start_ts': '2018-09-24T10:28:04Z',
+              'NoData': false,
+              'Query_count': 10734,
+              'Query_load': 0.18814018,
+              'Query_time_avg': 0.014273983
+            },
+            {
+              'Point': 1,
+              'Start_ts': '2018-09-24T10:16:04Z',
+              'NoData': true,
+              'Query_count': 0,
+              'Query_load': 0,
+              'Query_time_avg': 0
+            },
+            {
+              'Point': 2,
+              'Start_ts': '2018-09-24T10:04:04Z',
+              'NoData': true,
+              'Query_count': 0,
+              'Query_load': 0,
+              'Query_time_avg': 0
+            }
+          ],
+          'Stats': {
+            'Cnt': 10734,
+            'Sum': 135.46093624830246,
+            'Min': 0.0000752,
+            'P5': 0,
+            'Avg': 0.012619800283985697,
+            'Med': 0,
+            'P95': 0,
+            'Max': 8.011851
+          }
+        },
+        {
+          'Rank': 1,
+          'Percentage': 0.6319815631761129,
+          'Id': 'D2B2DCCF0040F792',
+          'Abstract': 'INSERT sbtest1',
+          'Fingerprint': 'INSERT INTO `sbtest1` ( `k` , `c` , `pad` ) VALUES (...) /* , ... */',
+          'QPS': 0.00863425925925926,
+          'Load': 0.001981685514803286,
+          'FirstSeen': '2018-09-24T10:20:59Z',
+          'Log': [
+            {
+              'Point': 0,
+              'Start_ts': '2018-09-24T10:28:04Z',
+              'NoData': false,
+              'Query_count': 373,
+              'Query_load': 0.11890113,
+              'Query_time_avg': 0.22389653
+            },
+            {
+              'Point': 1,
+              'Start_ts': '2018-09-24T10:16:04Z',
+              'NoData': true,
+              'Query_count': 0,
+              'Query_load': 0,
+              'Query_time_avg': 0
+            },
+            {
+              'Point': 2,
+              'Start_ts': '2018-09-24T10:04:04Z',
+              'NoData': true,
+              'Query_count': 0,
+              'Query_load': 0,
+              'Query_time_avg': 0
+            }
+          ],
+          'Stats': {
+            'Cnt': 373,
+            'Sum': 85.60881423950195,
+            'Min': 0.0042949673,
+            'P5': 0,
+            'Avg': 0.22951424729088996,
+            'Med': 0,
+            'P95': 0,
+            'Max': 3.1928995
+          }
+        },
+        {
+          'Rank': 2,
+          'Percentage': 0.059145105095421056,
+          'Id': '5E556C57819E58FF',
+          'Abstract': 'CREATE INDEX',
+          'Fingerprint': 'CREATE INDEX `k_1` ON `sbtest1` ( `k` )',
+          'QPS': 0.000023148148148148147,
+          'Load': 0.00018545952108171252,
+          'FirstSeen': '2018-09-24T10:21:59Z',
+          'Log': [
+            {
+              'Point': 0,
+              'Start_ts': '2018-09-24T10:28:04Z',
+              'NoData': false,
+              'Query_count': 1,
+              'Query_load': 0.011127572,
+              'Query_time_avg': 8.011851
+            },
+            {
+              'Point': 1,
+              'Start_ts': '2018-09-24T10:16:04Z',
+              'NoData': true,
+              'Query_count': 0,
+              'Query_load': 0,
+              'Query_time_avg': 0
+            },
+            {
+              'Point': 2,
+              'Start_ts': '2018-09-24T10:04:04Z',
+              'NoData': true,
+              'Query_count': 0,
+              'Query_load': 0,
+              'Query_time_avg': 0
+            }
+          ],
+          'Stats': {
+            'Cnt': 1,
+            'Sum': 8.01185131072998,
+            'Min': 0.0042949673,
+            'P5': 0,
+            'Avg': 8.01185131072998,
+            'Med': 0,
+            'P95': 0,
+            'Max': 8.011851
+          }
+        }]
+    };
+    const spy = spyOn(component.queryProfileService, 'getQueryProfile').and.returnValue(Promise.resolve(val));
+    component.loadQueries();
+    spy.calls.mostRecent().returnValue.then((data) => {
+      fixture.detectChanges();
+      expect(component.testingVariable).toBeTruthy();
+      done();
+    });
+  });
+
+  it('should finish loading process if load more queries hs been loaded', (done) => {
+    component.dbServer = {
+      Created: 'string',
+      DSN: 'string',
+      Deleted: 'string',
+      Distro: 'string',
+      Id: 12,
+      Name: 'string',
+      ParentUUID: 'string',
+      Subsystem: 'string',
+      UUID: 'string',
+      Version: 'string',
+      Agent: {
+        Created: 'string',
+        DSN: 'string',
+        Deleted: 'string',
+        Distro: 'string',
+        Id: 12,
+        Name: 'string',
+        ParentUUID: 'string',
+        Subsystem: 'string',
+        UUID: 'string',
+        Version: 'string',
+      }
+    };
+    component.fromUTCDate = '12345678';
+    component.toUTCDate = '92345678';
+    const val = {
+      'InstanceId': '',
+      'Begin': '2018-09-23T22:28:04Z',
+      'End': '2018-09-24T10:28:04Z',
+      'TotalTime': 478,
+      'TotalQueries': 42,
+      'Error': 'here is error',
+      'RankBy': {
+        'Metric': 'Query_time',
+        'Stat': 'sum',
+        'Limit': 10
+      },
+      'Query': [
+        {
+          'Rank': 0,
+          'Percentage': 1,
+          'Id': '',
+          'Abstract': '',
+          'Fingerprint': '',
+          'QPS': 0.24847222222222223,
+          'Load': 0.003135669820562557,
+          'FirstSeen': '0001-01-01T00:00:00Z',
+          'Log': [
+            {
+              'Point': 0,
+              'Start_ts': '2018-09-24T10:28:04Z',
+              'NoData': false,
+              'Query_count': 10734,
+              'Query_load': 0.18814018,
+              'Query_time_avg': 0.014273983
+            },
+            {
+              'Point': 1,
+              'Start_ts': '2018-09-24T10:16:04Z',
+              'NoData': true,
+              'Query_count': 0,
+              'Query_load': 0,
+              'Query_time_avg': 0
+            },
+            {
+              'Point': 2,
+              'Start_ts': '2018-09-24T10:04:04Z',
+              'NoData': true,
+              'Query_count': 0,
+              'Query_load': 0,
+              'Query_time_avg': 0
+            }
+          ],
+          'Stats': {
+            'Cnt': 10734,
+            'Sum': 135.46093624830246,
+            'Min': 0.0000752,
+            'P5': 0,
+            'Avg': 0.012619800283985697,
+            'Med': 0,
+            'P95': 0,
+            'Max': 8.011851
+          }
+        },
+        {
+          'Rank': 1,
+          'Percentage': 0.6319815631761129,
+          'Id': 'D2B2DCCF0040F792',
+          'Abstract': 'INSERT sbtest1',
+          'Fingerprint': 'INSERT INTO `sbtest1` ( `k` , `c` , `pad` ) VALUES (...) /* , ... */',
+          'QPS': 0.00863425925925926,
+          'Load': 0.001981685514803286,
+          'FirstSeen': '2018-09-24T10:20:59Z',
+          'Log': [
+            {
+              'Point': 0,
+              'Start_ts': '2018-09-24T10:28:04Z',
+              'NoData': false,
+              'Query_count': 373,
+              'Query_load': 0.11890113,
+              'Query_time_avg': 0.22389653
+            },
+            {
+              'Point': 1,
+              'Start_ts': '2018-09-24T10:16:04Z',
+              'NoData': true,
+              'Query_count': 0,
+              'Query_load': 0,
+              'Query_time_avg': 0
+            },
+            {
+              'Point': 2,
+              'Start_ts': '2018-09-24T10:04:04Z',
+              'NoData': true,
+              'Query_count': 0,
+              'Query_load': 0,
+              'Query_time_avg': 0
+            }
+          ],
+          'Stats': {
+            'Cnt': 373,
+            'Sum': 85.60881423950195,
+            'Min': 0.0042949673,
+            'P5': 0,
+            'Avg': 0.22951424729088996,
+            'Med': 0,
+            'P95': 0,
+            'Max': 3.1928995
+          }
+        },
+        {
+          'Rank': 2,
+          'Percentage': 0.059145105095421056,
+          'Id': '5E556C57819E58FF',
+          'Abstract': 'CREATE INDEX',
+          'Fingerprint': 'CREATE INDEX `k_1` ON `sbtest1` ( `k` )',
+          'QPS': 0.000023148148148148147,
+          'Load': 0.00018545952108171252,
+          'FirstSeen': '2018-09-24T10:21:59Z',
+          'Log': [
+            {
+              'Point': 0,
+              'Start_ts': '2018-09-24T10:28:04Z',
+              'NoData': false,
+              'Query_count': 1,
+              'Query_load': 0.011127572,
+              'Query_time_avg': 8.011851
+            },
+            {
+              'Point': 1,
+              'Start_ts': '2018-09-24T10:16:04Z',
+              'NoData': true,
+              'Query_count': 0,
+              'Query_load': 0,
+              'Query_time_avg': 0
+            },
+            {
+              'Point': 2,
+              'Start_ts': '2018-09-24T10:04:04Z',
+              'NoData': true,
+              'Query_count': 0,
+              'Query_load': 0,
+              'Query_time_avg': 0
+            }
+          ],
+          'Stats': {
+            'Cnt': 1,
+            'Sum': 8.01185131072998,
+            'Min': 0.0042949673,
+            'P5': 0,
+            'Avg': 8.01185131072998,
+            'Med': 0,
+            'P95': 0,
+            'Max': 8.011851
+          }
+        }]
+    };
+    const spy = spyOn(component.queryProfileService, 'getQueryProfile').and.returnValue(Promise.resolve(val));
+    component.loadMoreQueries();
+    spy.calls.mostRecent().returnValue.then((data) => {
+      fixture.detectChanges();
+      expect(component.isLoading).toBeFalsy();
+      done();
+    });
+  });
+
 });
