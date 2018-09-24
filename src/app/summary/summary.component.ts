@@ -24,8 +24,7 @@ export class SummaryComponent extends CoreComponent {
     public serverSummary: string;
     public mysqlSummary: string;
     public mongoSummary: string;
-    public isDownloadMongoSummary = false;
-    public isDownloadMysqlSummary = false;
+    public testingVariable = false;
 
     public serverSummaryError: string;
     public mysqlSummaryError: string;
@@ -88,10 +87,10 @@ export class SummaryComponent extends CoreComponent {
         zip.file('system_summary.txt', this.serverSummary);
         if (this.dbServer.Subsystem === 'mongo') {
             zip.file('server_summary.txt', this.mongoSummary);
-            this.isDownloadMongoSummary = true;
+            this.testingVariable = true;
         } else if (this.dbServer.Subsystem === 'mysql') {
             zip.file('server_summary.txt', this.mysqlSummary);
-            this.isDownloadMysqlSummary = true;
+            this.testingVariable = true;
         }
         zip.generateAsync({type: 'blob'})
         .then(function(content) {
