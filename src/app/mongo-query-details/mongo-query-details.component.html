@@ -4,7 +4,7 @@
     <span class="query-id">{{ queryDetails?.Query?.Id }}</span>
   </h3>
 </header>
-<section class="server-summary">
+<section class="server-summary" *ngIf="!!isSummary || !!queryDetails?.Metrics2">
   <header class="section-title" *ngIf="isSummary">
     <h3 class="d-inline summary-header">Server Summary</h3>
   </header>
@@ -20,14 +20,14 @@
         </div>
       </ng-template>
       <ng-template ngbPanelContent>
-        <div class="table-wrapper metrics-table">
+        <div class="table-wrapper metrics-table" *ngIf="!isLoading">
           <div class="table-header grid-container table-header-row">
             <div>Metrics</div>
             <div>Rate/Sec</div>
             <div>Sum</div>
             <div>Per Query Stats</div>
           </div>
-          <div class="table-body" *ngIf="!isLoading">
+          <div class="table-body">
             <div class="table-body-row grid-container">
               <div><span>Query Count</span></div>
               <div class="flex-container">
@@ -193,7 +193,7 @@
 
 <!--- additional info for query only-->
 <div class="sections-wrapper" *ngIf="!isSummary">
-  <section class="query">
+  <section class="query" *ngIf="!!fingerprint || !!queryExample">
     <header class="section-title">
       <h3 class="d-flex">QUERY</h3>
     </header>
@@ -226,7 +226,8 @@
       </ngb-panel>
     </ngb-accordion>
   </section>
-  <section class="explain" *ngIf="!!queryExample">
+  <section class="explain"
+           *ngIf="!!queryExample || !!jsonExplain || !!errExplain">
     <header class="section-title">
       <h3>EXPLAIN</h3>
       <form class="search-input explain-search-input">
