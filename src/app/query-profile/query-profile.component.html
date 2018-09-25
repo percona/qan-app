@@ -100,8 +100,8 @@
         </div>
       </div>
     </section>
-    <div class="loader-wrapper">
-      <i *ngIf="isQuerySwitching" class="fa fa-spinner fa-pulse fa-3x fa-fw loading-on-switch"></i>
+    <div class="loader-wrapper" *ngIf="isQuerySwitching">
+      <i class="fa fa-spinner fa-pulse fa-3x fa-fw loading-on-switch"></i>
     </div>
     <div *ngIf="totalAmountOfQueries" class="load-more-wrapper">
       <button class="total-queries-amount"
