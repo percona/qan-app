@@ -19,7 +19,7 @@ export class LatencyChartDirective {
   @Input() set appLatencyChart(data: {}) {
     if (data !== null) {
       this.drawChart(data);
-    } /* istanbul ignore else*/
+    }
   }
 
   constructor(
@@ -50,15 +50,15 @@ export class LatencyChartDirective {
     let p95 = 0;
 
     if (!!this.metricPrefix) {
-      /* istanbul ignore next*/ min = `${this.metricPrefix}_min` in data ? data[`${this.metricPrefix}_min`] : 0;
-      /* istanbul ignore next*/ max = `${this.metricPrefix}_max` in data ? data[`${this.metricPrefix}_max`] : 0;
-      /* istanbul ignore next*/ avg = `${this.metricPrefix}_avg` in data ? data[`${this.metricPrefix}_avg`] : 0;
-      /* istanbul ignore next*/ p95 = `${this.metricPrefix}_p95` in data ? data[`${this.metricPrefix}_p95`] : 0;
+      min = `${this.metricPrefix}_min` in data ? data[`${this.metricPrefix}_min`] : 0;
+      max = `${this.metricPrefix}_max` in data ? data[`${this.metricPrefix}_max`] : 0;
+      avg = `${this.metricPrefix}_avg` in data ? data[`${this.metricPrefix}_avg`] : 0;
+      p95 = `${this.metricPrefix}_p95` in data ? data[`${this.metricPrefix}_p95`] : 0;
     } else {
-      /* istanbul ignore next*/ min = 'Min' in data ? data['Min'] : 0;
-      /* istanbul ignore next*/ max = 'Max' in data ? data['Max'] : 0;
-      /* istanbul ignore next*/ avg = 'Avg' in data ? data['Avg'] : 0;
-      /* istanbul ignore next*/ p95 = 'P95' in data ? data['P95'] : 0;
+      min = 'Min' in data ? data['Min'] : 0;
+      max = 'Max' in data ? data['Max'] : 0;
+      avg = 'Avg' in data ? data['Avg'] : 0;
+      p95 = 'P95' in data ? data['P95'] : 0;
     }
 
     const humanize = new HumanizePipe();

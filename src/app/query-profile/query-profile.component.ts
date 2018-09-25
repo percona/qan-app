@@ -45,7 +45,6 @@ export class QueryProfileComponent extends CoreComponent {
         this.toDate = moment(this.to).format('llll');
 
         // only if host, from and to are diffrent from prev router - load queries.
-        /* istanbul ignore else*/
         if (!this.previousQueryParams ||
             this.previousQueryParams['var-host'] !== this.queryParams['var-host'] ||
             this.previousQueryParams.from !== this.queryParams.from ||
@@ -81,7 +80,6 @@ export class QueryProfileComponent extends CoreComponent {
                 throw new QanError('Queries are not availible.');
             }
             this.totalAmountOfQueries = data['TotalQueries'];
-            /* istanbul ignore else*/
             if (this.totalAmountOfQueries > 0) {
                 this.queryProfile = data['Query'];
                 this.leftInDbQueries = this.totalAmountOfQueries - (this.queryProfile.length - 1);

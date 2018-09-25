@@ -11,7 +11,6 @@ export class MapToIterablePipe implements PipeTransform {
     }
     const a: Array<{}> = [];
     for (const key in dict) {
-      /* istanbul ignore else*/
       if (dict.hasOwnProperty(key)) {
         a.push({key: key, val: dict[key]});
       }

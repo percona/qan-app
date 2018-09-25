@@ -104,7 +104,7 @@ export class SettingsComponent extends CoreComponent {
         this.isError = false;
       }, visibleMessageTime); // add const
       this.getAgentDefaults();
-    } catch (err) /* istanbul ignore next */ {
+    } catch (err) {
       this.isSuccess = false;
       this.isError = true;
       setTimeout(() => {
@@ -121,7 +121,7 @@ export class SettingsComponent extends CoreComponent {
   getAgentStatus() {
     this.agentStatus = this.settingsService.getAgentStatus(this.agent.UUID);
     const updated: any = moment();
-    this.statusUpdatedFromNow$ = Observable.interval(60000).map(/* istanbul ignore next */ n => updated.fromNow());
+    this.statusUpdatedFromNow$ = Observable.interval(60000).map(n => updated.fromNow());
   }
 
   /**
@@ -132,7 +132,7 @@ export class SettingsComponent extends CoreComponent {
     const end = moment.utc().format('YYYY-MM-DDTHH:mm:ss');
     this.agentLog = this.settingsService.getAgentLog(this.agent.UUID, begin, end);
     const updated: any = moment();
-    this.logUpdatedFromNow$ = Observable.interval(60000).map(/* istanbul ignore next */ n => updated.fromNow());
+    this.logUpdatedFromNow$ = Observable.interval(60000).map(n => updated.fromNow());
   }
   /**
    * Ovverrides parent method.

@@ -12,7 +12,6 @@ export class MomentFormatPipe implements PipeTransform {
   getCookie(name) {
     return document.cookie.split('; ').reduce((r, v) => {
       const parts = v.split('=');
-      /* istanbul ignore next */
       return parts[0] === name ? decodeURIComponent(parts[1]) : r;
     }, '');
   }

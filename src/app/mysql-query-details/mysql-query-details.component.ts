@@ -142,7 +142,7 @@ export class MySQLQueryDetailsComponent extends CoreComponent implements OnInit 
       this.visualExplainError = this.jsonExplainError;
       this.isExplainLoading = false;
       return
-    } /* istanbul ignore else */
+    }
 
     try {
       this.dataExplain = await this.queryDetailsService.getExplain(agentUUID, dbServerUUID, this.dbName, query);
@@ -156,7 +156,6 @@ export class MySQLQueryDetailsComponent extends CoreComponent implements OnInit 
       try {
         this.jsonExplain = JSON.parse(this.dataExplain.JSON);
       } catch (err) {
-        /* istanbul ignore next */
         this.jsonExplainError = err.message;
       }
     } catch (err) {
@@ -194,7 +193,6 @@ export class MySQLQueryDetailsComponent extends CoreComponent implements OnInit 
         try {
           this.createTable = hljs.highlight('sql', this.tableInfo.Create).value;
         } catch (e) { }
-        /* istanbul ignore else */
         if (info.hasOwnProperty('Errors') && info['Errors'].length > 0) {
           this.testingVariable = true;
           throw info['Errors'];
