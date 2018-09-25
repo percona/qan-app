@@ -37,7 +37,7 @@ export class SettingsComponent extends CoreComponent {
   isError = false;
 
   constructor(protected route: ActivatedRoute, protected router: Router,
-              protected settingsService: SettingsService,
+              public settingsService: SettingsService,
               protected instanceService: InstanceService) {
     super(route, router, instanceService);
     this.isDemo = environment.demoHosts.includes(location.hostname);
@@ -68,13 +68,14 @@ export class SettingsComponent extends CoreComponent {
    */
   public async getAgentDefaults() {
     const res = await this.settingsService.getAgentDefaults(this.agent.UUID, this.dbServer.UUID);
+    console.log('getAgentDefaults res - ', JSON.stringify(res));
     try {
       this.agentConf = res;
       this.interval = this.agentConf.qan.Interval / 60;
       this.collectFrom = this.agentConf.qan.CollectFrom;
       this.exampleQueries = this.agentConf.qan.ExampleQueries;
     } catch (err) {
-      console.error(err)
+      console.error(err);
     }
   }
 
@@ -92,6 +93,7 @@ export class SettingsComponent extends CoreComponent {
       this.exampleQueries,
       this.collectFrom
     );
+    console.log('setAgentDefaults res - ', JSON.stringify(res));
     const visibleMessageTime = 5000;
     try {
       // this.agentConf = res; // diffrent responce than GetDefaults.
@@ -102,7 +104,7 @@ export class SettingsComponent extends CoreComponent {
         this.isError = false;
       }, visibleMessageTime); // add const
       this.getAgentDefaults();
-    } catch (err) {
+    } catch (err) /* istanbul ignore next */ {
       this.isSuccess = false;
       this.isError = true;
       setTimeout(() => {
@@ -119,7 +121,7 @@ export class SettingsComponent extends CoreComponent {
   getAgentStatus() {
     this.agentStatus = this.settingsService.getAgentStatus(this.agent.UUID);
     const updated: any = moment();
-    this.statusUpdatedFromNow$ = Observable.interval(60000).map(n => updated.fromNow());
+    this.statusUpdatedFromNow$ = Observable.interval(60000).map(/* istanbul ignore next */ n => updated.fromNow());
   }
 
   /**
@@ -130,7 +132,7 @@ export class SettingsComponent extends CoreComponent {
     const end = moment.utc().format('YYYY-MM-DDTHH:mm:ss');
     this.agentLog = this.settingsService.getAgentLog(this.agent.UUID, begin, end);
     const updated: any = moment();
-    this.logUpdatedFromNow$ = Observable.interval(60000).map(n => updated.fromNow());
+    this.logUpdatedFromNow$ = Observable.interval(60000).map(/* istanbul ignore next */ n => updated.fromNow());
   }
   /**
    * Ovverrides parent method.
