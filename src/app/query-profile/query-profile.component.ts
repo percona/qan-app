@@ -29,6 +29,7 @@ export class QueryProfileComponent extends CoreComponent {
     public isFirstSeen: boolean;
     public isFirsSeenChecked = false;
     public testingVariable: boolean;
+    public isSearchQuery = false;
 
     constructor(protected route: ActivatedRoute, protected router: Router,
         protected instanceService: InstanceService, public queryProfileService: QueryProfileService) {
@@ -116,6 +117,7 @@ export class QueryProfileComponent extends CoreComponent {
     }
 
     search() {
+        this.isSearchQuery = true;
         const params: QueryParams = Object.assign({}, this.queryParams);
         if (!!this.searchValue) {
             this.testingVariable = true;
