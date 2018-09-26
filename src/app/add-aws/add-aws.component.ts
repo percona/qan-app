@@ -1,6 +1,6 @@
-import { Component, OnInit } from '@angular/core';
-import { RDSCredentials, MySQLCredentials, RDSInstance, RDSNode, AddAwsService } from './add-aws.service'
-import { environment } from '../environment';
+import {Component, OnInit} from '@angular/core';
+import {RDSCredentials, MySQLCredentials, RDSInstance, RDSNode, AddAwsService} from './add-aws.service'
+import {environment} from '../environment';
 
 @Component({
   selector: 'app-add-aws',
@@ -24,6 +24,35 @@ export class AddAwsComponent implements OnInit {
     this.isDemo = environment.demoHosts.includes(location.hostname);
   }
 
+  async ngOnInit() {
+    this.errorMessage = '';
+    try {
+      const allRDSInstances = await this.addAwsService.discover(this.rdsCredentials);
+      if (this.submitted) { // ignore results if user submitted form with creds.
+        return;
+      }
+      await this.getRegistered();
+      this.allRDSInstances = allRDSInstances;
+      this.errorMessage = '';
+
+    } catch (err) {
+      if (this.submitted) { // ignore results if user submitted form with creds.
+        return;
+      }
+      const msg = this.isJsonError(err) ? err.json().error : 'Bad response';
+      this.errorMessage = msg.startsWith('NoCredentialProviders') ?
+        'Cannot automatically discover instances - please provide AWS access credentials' : msg;
+    }
+  }
+
+  isJsonError(str) {
+    try {
+      return str.json().error;
+    } catch {
+      return false;
+    }
+  }
+
   async onSubmit() {
     this.errorMessage = '';
     this.isLoading = true;
@@ -34,11 +63,9 @@ export class AddAwsComponent implements OnInit {
       this.errorMessage = '';
     } catch (err) {
       this.allRDSInstances = [];
-      let msg = err.json().error;
-      if (msg.startsWith('NoCredentialProviders')) {
-        msg = 'Cannot discover instances - please provide AWS access credentials';
-      }
-      this.errorMessage = msg;
+      const msg = this.isJsonError(err) ? err.json().error : 'Bad response';
+      this.errorMessage = msg.startsWith('NoCredentialProviders') ?
+        'Cannot automatically discover instances - please provide AWS access credentials' : msg;
     } finally {
       this.isLoading = false;
     }
@@ -46,7 +73,7 @@ export class AddAwsComponent implements OnInit {
 
   enableInstanceMonitoring(node: RDSNode) {
     this.mysqlCredentials = new MySQLCredentials();
-    this.rdsNode = { name: node.name, region: node.region } as RDSNode;
+    this.rdsNode = {name: node.name, region: node.region} as RDSNode;
   }
 
   showConnect(node: RDSNode): boolean {
@@ -63,7 +90,7 @@ export class AddAwsComponent implements OnInit {
     try {
       const res = await this.addAwsService.enable(this.rdsCredentials, this.rdsNode, this.mysqlCredentials);
     } catch (err) {
-      this.errorMessage = err.json().error;
+      this.errorMessage = this.isJsonError(err) ? err.json().error : 'Bad response';
       return;
     }
     this.rdsNode = {} as RDSNode;
@@ -71,6 +98,7 @@ export class AddAwsComponent implements OnInit {
     await this.getRegistered();
   }
 
+  /* istanbul ignore next */
   async disableInstanceMonitoring(node: RDSNode) {
     if (this.isDemo) {
       return false;
@@ -82,7 +110,7 @@ export class AddAwsComponent implements OnInit {
         const res = await this.addAwsService.disable(node);
         await this.getRegistered();
       } catch (err) {
-        this.errorMessage = err.json().error;
+        this.errorMessage = this.isJsonError(err) ? err.json().error : 'Bad response';
       }
     }
   }
@@ -96,36 +124,13 @@ export class AddAwsComponent implements OnInit {
     try {
       this.registeredRDSInstances = await this.addAwsService.getRegistered();
     } catch (err) {
-      this.errorMessage = err.json().error;
+      this.errorMessage = this.isJsonError(err) ? err.json().error : 'Bad response';
     }
     this.registeredNames = [];
     if (this.registeredRDSInstances !== undefined) {
       this.registeredRDSInstances.forEach(element => {
-        this.registeredNames.push(element.node.name + ':' + element.node.region);
+        this.registeredNames.push(`${element.node.name}:${element.node.region}`);
       });
-    }
-  }
-
-  async ngOnInit() {
-    this.errorMessage = '';
-    try {
-      const allRDSInstances = await this.addAwsService.discover(this.rdsCredentials);
-      if (this.submitted) { // ignore results if user submitted form with creds.
-        return;
-      }
-      await this.getRegistered();
-      this.allRDSInstances = allRDSInstances;
-      this.errorMessage = '';
-
-    } catch (err) {
-      if (this.submitted) { // ignore results if user submitted form with creds.
-        return;
-      }
-      let msg = err.json().error;
-      if (msg.startsWith('NoCredentialProviders')) {
-        msg = 'Cannot automatically discover instances - please provide AWS access credentials';
-      }
-      this.errorMessage = msg;
     }
   }
 }
