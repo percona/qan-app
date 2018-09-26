@@ -20,7 +20,8 @@ export class SettingsComponent extends CoreComponent {
   public agentStatus: {};
   public qanConf: {};
   public agentConf: any;
-  public interval = 1;
+  public oldInterval = '1';
+  public interval = '1';
   public collectFrom: 'perfschema' | 'slowlog' = 'slowlog';
   public exampleQueries: boolean;
   public statusUpdatedFromNow$: Observable<string>;
@@ -60,6 +61,15 @@ export class SettingsComponent extends CoreComponent {
     this.getAgentLog();
   }
 
+  validateValue(value) {
+    if (this.interval === null) { return this.interval = ''; }
+
+    if (this.oldInterval !== value) {
+        this.interval = (value > 60 || value < 1) ? this.oldInterval : value;
+    }
+    this.oldInterval = this.interval;
+  }
+
   /**
    * Get from agent:
    *  - Collect interval: positive intager;
@@ -71,7 +81,7 @@ export class SettingsComponent extends CoreComponent {
     console.log('getAgentDefaults res - ', JSON.stringify(res));
     try {
       this.agentConf = res;
-      this.interval = this.agentConf.qan.Interval / 60;
+      this.interval = (this.agentConf.qan.Interval / 60).toString();
       this.collectFrom = this.agentConf.qan.CollectFrom;
       this.exampleQueries = this.agentConf.qan.ExampleQueries;
     } catch (err) {
@@ -89,7 +99,7 @@ export class SettingsComponent extends CoreComponent {
     const res = await this.settingsService.setAgentDefaults(
       this.agent.UUID,
       this.dbServer.UUID,
-      this.interval,
+      +this.interval,
       this.exampleQueries,
       this.collectFrom
     );
@@ -134,6 +144,7 @@ export class SettingsComponent extends CoreComponent {
     const updated: any = moment();
     this.logUpdatedFromNow$ = Observable.interval(60000).map(n => updated.fromNow());
   }
+
   /**
    * Ovverrides parent method.
    * Executes on route was changed to refresh data.
