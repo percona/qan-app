@@ -10,7 +10,6 @@ import { Subscription } from 'rxjs/Subscription';
 import * as moment from 'moment';
 
 import { environment } from '../../environment';
-import { Moment } from 'moment';
 
 @Component({
   moduleId: module.id,
@@ -33,13 +32,14 @@ export class NavComponent extends CoreComponent implements OnDestroy {
 
   private compactDateFormat = 'MMM D, YYYY HH:mm:ss';
 
-  private fromTimeRaw: string;
-  private toTimeRaw: string;
+  public fromTimeRaw: string;
+  public toTimeRaw: string;
 
   public isValidToInput = true;
   public isValidFromInput = true;
   public path: string;
   public hostSelectorPath = [];
+  public testingVariable = true;
 
   public constructor(route: ActivatedRoute, router: Router, instanceService: InstanceService) {
     super(route, router, instanceService);
@@ -73,12 +73,15 @@ export class NavComponent extends CoreComponent implements OnDestroy {
       switch (sign) {
         case '-':
           time = moment().subtract(num as moment.unitOfTime.DurationConstructor, unit).valueOf().toString();
+          this.testingVariable = true;
           break;
         case '+':
           time = moment().add(num as moment.unitOfTime.DurationConstructor, unit).valueOf().toString();
+          this.testingVariable = true;
           break;
         case '/':
           time = moment().startOf(unit as moment.unitOfTime.StartOf).valueOf().toString();
+          this.testingVariable = true;
           break;
       }
     } else {
@@ -86,6 +89,9 @@ export class NavComponent extends CoreComponent implements OnDestroy {
         try {
           if (moment(val, 'YYYY-MM-DD HH:mm').isValid()) {
             time = moment(val, 'YYYY-MM-DD HH:mm').valueOf().toString();
+            this.testingVariable = true;
+          } else {
+            throw new Error('Input value is invalid');
           }
         } catch (err) {
           if (dir === 'from') {
@@ -130,6 +136,7 @@ export class NavComponent extends CoreComponent implements OnDestroy {
     params.to = moment().valueOf().toString();
     params.from = moment().subtract(num as moment.unitOfTime.DurationConstructor, unit).valueOf().toString();
     this.router.navigate(['profile'], { queryParams: params });
+    this.testingVariable = true;
   }
 
   setTimeRange(from, to) {
@@ -137,6 +144,7 @@ export class NavComponent extends CoreComponent implements OnDestroy {
     params.to = this.toTimeRaw;
     params.from = this.fromTimeRaw;
     this.router.navigate(['profile'], { queryParams: params });
+    this.testingVariable = true;
   }
 
   getDBLogo(distro: string): string {
@@ -144,12 +152,15 @@ export class NavComponent extends CoreComponent implements OnDestroy {
     switch (true) {
       case distro.indexOf('Percona Server') !== -1:
         src = 'assets/percona-server-black-50.png';
+        this.testingVariable = true;
         break;
       case distro.indexOf('Percona XtraDB') !== -1:
         src = 'assets/Percona_XtraDB_Cluster.png';
+        this.testingVariable = true;
         break;
       default:
         src = 'assets/database.png';
+        this.testingVariable = true;
         break;
     }
     return src;

@@ -67,7 +67,7 @@
 										[(ngModel)]="fromCal"
 										name="fromCal"
 										(ngModelChange)="changeDateCal($event, 'from')"
-										[maxDate]="toCal"></ngb-datepicker>
+										[maxDate]="toCal" ngDefaultControl></ngb-datepicker>
 					</div>
 					<div class="col-md-3" title="Time range">
 						To:
@@ -75,7 +75,7 @@
 										[(ngModel)]="toCal"
 										name="toCal"
 										(ngModelChange)="changeDateCal($event, 'to')"
-										[minDate]="fromCal"></ngb-datepicker>
+										[minDate]="fromCal" ngDefaultControl></ngb-datepicker>
 						<button type="button" class="btn btn-secondary"
 								[disabled]=""
 							    (click)="setTimeRange(); $event.stopPropagation(); timeRangeDrop.close();">Apply</button>
