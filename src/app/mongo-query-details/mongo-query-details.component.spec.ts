@@ -1,7 +1,6 @@
 /* tslint:disable:no-unused-variable */
 import {async, ComponentFixture, TestBed} from '@angular/core/testing';
-import {By} from '@angular/platform-browser';
-import {CUSTOM_ELEMENTS_SCHEMA, DebugElement} from '@angular/core';
+import {CUSTOM_ELEMENTS_SCHEMA} from '@angular/core';
 
 import {MongoQueryDetailsComponent} from './mongo-query-details.component';
 import {LoadSparklinesDirective} from '../shared/load-sparklines.directive';
@@ -390,11 +389,12 @@ describe('MongoQueryDetailsComponent', () => {
     expect(result).toBeFalsy();
   });
 
-  it('getExplain() should return false if dbServer is null', () => {
+  it('getExplain() should return false if dbServer is null', (done) => {
     component.dbServer = null;
     fixture.detectChanges();
     component.getExplain().then((data) => {
       expect(data).toBeFalsy();
+      done();
     });
   });
 

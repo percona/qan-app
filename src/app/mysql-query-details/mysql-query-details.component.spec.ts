@@ -1,6 +1,5 @@
 /* tslint:disable:no-unused-variable */
 import {async, ComponentFixture, TestBed} from '@angular/core/testing';
-import {By} from '@angular/platform-browser';
 import {CUSTOM_ELEMENTS_SCHEMA} from '@angular/core';
 
 import {MySQLQueryDetailsComponent} from './mysql-query-details.component';
@@ -12,11 +11,10 @@ import {ClipboardModule} from 'ngx-clipboard';
 import {MapToIterablePipe} from '../shared/map-to-iterable.pipe';
 import {ActivatedRoute} from '@angular/router';
 import {RouterTestingModule} from '@angular/router/testing';
-import {Instance, InstanceService} from '../core/instance.service';
+import {InstanceService} from '../core/instance.service';
 import {HttpModule} from '@angular/http';
 import {MySQLQueryDetailsService} from './mysql-query-details.service';
 import {NgbAccordionConfig, NgbModule} from '@ng-bootstrap/ng-bootstrap';
-import {sp} from '@angular/core/src/render3';
 
 describe('MySQLQueryDetailsComponent', () => {
   let component: MySQLQueryDetailsComponent;
@@ -1359,11 +1357,12 @@ describe('MySQLQueryDetailsComponent', () => {
     expect(component.queryExample).toBeFalsy();
   });
 
-  it('getExplain() should return false if dbServer is null', () => {
+  it('getExplain() should return false if dbServer is null', (done) => {
     component.dbServer = null;
     fixture.detectChanges();
     component.getExplain().then((data) => {
       expect(data).toBeFalsy();
+      done();
     });
   });
 
