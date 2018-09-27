@@ -20,7 +20,7 @@ import {CoreComponent} from '../core/core.component';
 import {CoreModule} from '../core/core.module';
 import {ActivatedRoute} from '@angular/router';
 
-fdescribe('QueryProfileComponent', () => {
+describe('QueryProfileComponent', () => {
   let component: QueryProfileComponent;
   let fixture: ComponentFixture<QueryProfileComponent>;
 

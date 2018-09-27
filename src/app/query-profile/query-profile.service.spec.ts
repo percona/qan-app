@@ -2,11 +2,12 @@
 
 import { TestBed, async, inject } from '@angular/core/testing';
 import { QueryProfileService } from './query-profile.service';
+import {ConnectionBackend, Http, RequestOptions} from '@angular/http';
 
 describe('QueryProfileService', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
-      providers: [QueryProfileService]
+      providers: [QueryProfileService, Http, ConnectionBackend, RequestOptions]
     });
   });
 

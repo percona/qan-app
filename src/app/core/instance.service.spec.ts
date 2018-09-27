@@ -1,11 +1,12 @@
 import { TestBed, inject } from '@angular/core/testing';
 
 import { InstanceService } from './instance.service';
+import {ConnectionBackend, Http, RequestOptions} from '@angular/http';
 
 describe('InstanceService', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
-      providers: [InstanceService]
+      providers: [InstanceService, Http, ConnectionBackend, RequestOptions]
     });
   });
 

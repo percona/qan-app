@@ -7,7 +7,7 @@ import {FormsModule} from '@angular/forms';
 import {HttpModule} from '@angular/http';
 import {AddAwsService, MySQLCredentials, RDSCredentials} from './add-aws.service';
 
-fdescribe('AddAwsComponent', () => {
+describe('AddAwsComponent', () => {
   let component: AddAwsComponent;
   let fixture: ComponentFixture<AddAwsComponent>;
 

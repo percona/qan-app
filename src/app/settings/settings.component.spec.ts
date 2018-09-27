@@ -13,7 +13,7 @@ import {HumanizePipe} from '../shared/humanize.pipe';
 import {MapToIterablePipe} from '../shared/map-to-iterable.pipe';
 import {Instance, InstanceService} from '../core/instance.service';
 
-fdescribe('SettingsComponent', () => {
+describe('SettingsComponent', () => {
   let component: SettingsComponent;
   let fixture: ComponentFixture<SettingsComponent>;
 

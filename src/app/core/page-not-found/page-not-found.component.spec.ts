@@ -5,7 +5,7 @@ import { DebugElement } from '@angular/core';
 
 import { PageNotFoundComponent } from './page-not-found.component';
 
-fdescribe('PageNotFoundComponent', () => {
+describe('PageNotFoundComponent', () => {
   let component: PageNotFoundComponent;
   let fixture: ComponentFixture<PageNotFoundComponent>;
 

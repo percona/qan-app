@@ -2,7 +2,7 @@ import { ParseQueryParamDatePipe } from './parse-query-param-date.pipe';
 import {MomentFormatPipe} from './moment-format.pipe';
 import moment = require('moment');
 
-fdescribe('ParseQueryParamDatePipe', () => {
+describe('ParseQueryParamDatePipe', () => {
   it('create an instance', () => {
     const pipe = new ParseQueryParamDatePipe();
     expect(pipe).toBeTruthy();

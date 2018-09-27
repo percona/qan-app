@@ -11,7 +11,7 @@ import {HttpModule} from '@angular/http';
 import {SummaryService} from './summary.service';
 import {InstanceService} from '../core/instance.service';
 
-fdescribe('SummaryComponent', () => {
+describe('SummaryComponent', () => {
   let component: SummaryComponent;
   let fixture: ComponentFixture<SummaryComponent>;
 

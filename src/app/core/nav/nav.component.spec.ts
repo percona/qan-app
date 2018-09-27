@@ -13,7 +13,7 @@ import {InstanceService} from '../instance.service';
 import {MomentFormatPipe} from '../../shared/moment-format.pipe';
 import * as moment from 'moment';
 
-fdescribe('NavComponent', () => {
+describe('NavComponent', () => {
   let component: NavComponent;
   let fixture: ComponentFixture<NavComponent>;
 

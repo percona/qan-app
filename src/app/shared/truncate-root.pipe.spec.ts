@@ -3,7 +3,7 @@
 import { TestBed, async } from '@angular/core/testing';
 import { TruncateRootPipe } from './truncate-root.pipe';
 
-fdescribe('TruncateRootPipe', () => {
+describe('TruncateRootPipe', () => {
   it('create an instance', () => {
     const pipe = new TruncateRootPipe();
     expect(pipe).toBeTruthy();

@@ -3,7 +3,7 @@
 import {TestBed, async} from '@angular/core/testing';
 import {MapToIterablePipe} from './map-to-iterable.pipe';
 
-fdescribe('MapToIterablePipe', () => {
+describe('MapToIterablePipe', () => {
   it('create an instance', () => {
     const pipe = new MapToIterablePipe();
     expect(pipe).toBeTruthy();

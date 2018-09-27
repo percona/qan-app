@@ -18,7 +18,7 @@ import {MySQLQueryDetailsService} from './mysql-query-details.service';
 import {NgbAccordionConfig, NgbModule} from '@ng-bootstrap/ng-bootstrap';
 import {sp} from '@angular/core/src/render3';
 
-fdescribe('MySQLQueryDetailsComponent', () => {
+describe('MySQLQueryDetailsComponent', () => {
   let component: MySQLQueryDetailsComponent;
   let fixture: ComponentFixture<MySQLQueryDetailsComponent>;
 

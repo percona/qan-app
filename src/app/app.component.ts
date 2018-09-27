@@ -24,9 +24,24 @@ export class AppComponent implements OnInit {
     this.hideNav = this.inIframe() || instanceService.dbServers.length === 0;
   }
 
+  ngOnInit() {
+    let res: any;
+    res = this.getJsonFromUrl();
+    const theme = res.theme || '';
+    if (theme === '') {
+      this.theme = this.getCookie('theme');
+    } else if (theme === 'dark') {
+      this.theme = 'app-theme-dark';
+    } else if (theme === 'light') {
+      this.theme = 'app-theme-light';
+    }
+    this.setCookie('theme', this.theme);
+    this.document.body.className = this.theme;
+  }
+
   toggleTheme() {
     this.theme = this.theme === 'app-theme-light' ? 'app-theme-dark' : 'app-theme-light';
-    this.setCookie('theme', this.theme)
+    this.setCookie('theme', this.theme);
     this.document.body.className = this.theme;
   }
 
@@ -53,21 +68,6 @@ export class AppComponent implements OnInit {
   setCookie(key, value) {
     const expireDays = moment().utc().add(7, 'y').toString();
     document.cookie = `${key}=${value}; expires=${expireDays}; path=/`;
-  }
-
-  ngOnInit() {
-    let res: any;
-    res = this.getJsonFromUrl()
-    const theme = res.theme || '';
-    if (theme === '') {
-      this.theme = this.getCookie('theme');
-    } else if (theme === 'dark') {
-      this.theme = 'app-theme-dark';
-    } else if (theme === 'light') {
-      this.theme = 'app-theme-light';
-    }
-    this.setCookie('theme', this.theme);
-    this.document.body.className = this.theme;
   }
 
   getJsonFromUrl() {
