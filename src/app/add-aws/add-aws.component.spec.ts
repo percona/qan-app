@@ -334,6 +334,26 @@ describe('AddAwsComponent', () => {
     });
   });
 
+  it('should be NoCredentialProviders error if this error is presented in response ', (done) => {
+    const err = {
+      _body: '{"error":"NoCredentialProviders: no valid providers in chain", "code":2}',
+      status: 500,
+      ok: false,
+      statusText: 'Internal Server Error',
+      type: 2,
+      url: 'http://localhost/managed/v0/rds/discover',
+      json: () => {return JSON.parse(err._body)}
+    };
+    const spy = spyOn(component.addAwsService, 'enable').and.returnValue(Promise.reject(err));
+
+    component.onConnect();
+    spy.calls.mostRecent().returnValue.then().catch((err) => {
+      fixture.detectChanges();
+      expect(component.errorMessage).toBe('NoCredentialProviders: no valid providers in chain');
+      done();
+    });
+  });
+
   it('should create rdsNode if enable instance monitoring has been called', () => {
     component.enableInstanceMonitoring({name: 'name', region: 'region'});
     fixture.detectChanges();
@@ -369,5 +389,38 @@ describe('AddAwsComponent', () => {
       expect(component.registeredNames).toEqual(['name:region']);
       done();
     })
+  });
+
+  it('should be NoCredentialProviders error if this error is presented in response ', (done) => {
+    const err = {
+      _body: '{"error":"NoCredentialProviders: no valid providers in chain", "code":2}',
+      status: 500,
+      ok: false,
+      statusText: 'Internal Server Error',
+      type: 2,
+      url: 'http://localhost/managed/v0/rds/discover',
+      json: () => {return JSON.parse(err._body)}
+    };
+    const spy = spyOn(component.addAwsService, 'getRegistered').and.returnValue(Promise.reject(err));
+    component.getRegistered();
+    spy.calls.mostRecent().returnValue.then().catch((err) => {
+      fixture.detectChanges();
+      expect(component.errorMessage).toBe('NoCredentialProviders: no valid providers in chain');
+      done();
+    });
+  });
+
+  it('should create error if response has NoCredentialProviders error', () => {
+    const err = {
+      _body: '{"error":"NoCredentialProviders: no valid providers in chain", "code":2}',
+      status: 500,
+      ok: false,
+      statusText: 'Internal Server Error',
+      type: 2,
+      url: 'http://localhost/managed/v0/rds/discover',
+      json: () => {return JSON.parse(err._body)}
+    };
+    component.checkErrorMessage(err);
+    expect(component.errorMessage).toBe('Cannot automatically discover instances - please provide AWS access credentials');
   });
 });

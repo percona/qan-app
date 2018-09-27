@@ -78,7 +78,6 @@ export class SettingsComponent extends CoreComponent {
    */
   public async getAgentDefaults() {
     const res = await this.settingsService.getAgentDefaults(this.agent.UUID, this.dbServer.UUID);
-    console.log('getAgentDefaults res - ', JSON.stringify(res));
     try {
       this.agentConf = res;
       this.interval = (this.agentConf.qan.Interval / 60).toString();
@@ -103,7 +102,6 @@ export class SettingsComponent extends CoreComponent {
       this.exampleQueries,
       this.collectFrom
     );
-    console.log('setAgentDefaults res - ', JSON.stringify(res));
     const visibleMessageTime = 5000;
     try {
       // this.agentConf = res; // diffrent responce than GetDefaults.

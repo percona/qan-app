@@ -39,15 +39,21 @@ export class AddAwsComponent implements OnInit {
       if (this.submitted) { // ignore results if user submitted form with creds.
         return;
       }
-      const msg = this.isJsonError(err) ? err.json().error : 'Bad response';
-      this.errorMessage = msg.startsWith('NoCredentialProviders') ?
-        'Cannot automatically discover instances - please provide AWS access credentials' : msg;
+
+      this.checkErrorMessage(err);
     }
   }
 
-  isJsonError(str) {
+  checkErrorMessage(err) {
+    const msg = this.isJsonError(err) ? err.json().error : 'Bad response';
+    this.errorMessage = msg.startsWith('NoCredentialProviders') ?
+      'Cannot automatically discover instances - please provide AWS access credentials' : msg;
+    return this.errorMessage;
+  }
+
+  isJsonError(err) {
     try {
-      return str.json().error;
+      return err.json().error;
     } catch {
       return false;
     }
@@ -63,9 +69,7 @@ export class AddAwsComponent implements OnInit {
       this.errorMessage = '';
     } catch (err) {
       this.allRDSInstances = [];
-      const msg = this.isJsonError(err) ? err.json().error : 'Bad response';
-      this.errorMessage = msg.startsWith('NoCredentialProviders') ?
-        'Cannot automatically discover instances - please provide AWS access credentials' : msg;
+      this.checkErrorMessage(err);
     } finally {
       this.isLoading = false;
     }

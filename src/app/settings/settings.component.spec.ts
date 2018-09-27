@@ -147,12 +147,54 @@ describe('SettingsComponent', () => {
     });
   });
 
-  it('', () => {
+  it('should be false if promise data is not valid', (done) => {
+    const promiseData = {
+      'UUID': '99b747a27565487a49944759bc89f15a',
+      'CollectFrom': 'perfschema',
+      'Interval': 720,
+      'ExampleQueries': true,
+      'SlowLogRotation': true,
+      'RetainSlowLogs': 1,
+      'ReportLimit': 200
+    };
+    const spy = spyOn(component.settingsService, 'setAgentDefaults').and.returnValue(Promise.resolve(promiseData));
+    spyOn(component, 'getAgentDefaults').and.throwError('error');
+    component.setAgentDefaults();
+    spy.calls.mostRecent().returnValue.then((data) => {
+      fixture.detectChanges();
+      setTimeout(() => {
+        expect(component.isError).toBeFalsy();
+        done();
+      }, 6000);
+    });
+  });
+
+  it('should be false if promise return error', (done) => {
+    const promiseData = {
+      'UUID': '99b747a27565487a49944759bc89f15a',
+      'CollectFrom': 'perfschema',
+      'Interval': 720,
+      'ExampleQueries': true,
+      'SlowLogRotation': true,
+      'RetainSlowLogs': 1,
+      'ReportLimit': 200
+    };
+    const spy = spyOn(component.settingsService, 'setAgentDefaults').and.returnValue(Promise.resolve(promiseData));
+    spyOn(component, 'getAgentDefaults').and.throwError('error');
+    component.setAgentDefaults();
+    spy.calls.mostRecent().returnValue.then((data) => {
+      fixture.detectChanges();
+      expect(component.isSuccess).toBeFalsy();
+      done();
+    });
+  });
+
+  it('should be true if getAgentStatus has been called', () => {
     component.getAgentStatus();
     expect(component.statusUpdatedFromNow$).toBeTruthy();
   });
 
-  it('', () => {
+  it('should be true if getAgentLog has been called', () => {
     component.getAgentLog();
     expect(component.logUpdatedFromNow$).toBeTruthy();
   });
@@ -164,5 +206,30 @@ describe('SettingsComponent', () => {
     fixture.detectChanges();
     component.onChangeParams('params');
     [getAgentDefaultsSpy, getAgentStatusSpy, getAgentLogSpy].map(item => expect(item).toHaveBeenCalled());
+  });
+
+  it('should be empty string if interval is null', () => {
+    component.interval = null;
+    const result = component.validateValue('value');
+    expect(result).toBe('');
+  });
+
+  it('should be equal with value if it is in range', () => {
+    component.interval = '12';
+    component.validateValue('22');
+    expect(component.oldInterval).toBe('22');
+  });
+
+  it('should be equal with oldInterval if value is not in range', () => {
+    component.oldInterval = '12';
+    component.validateValue('62');
+    expect(component.oldInterval).toBe('12');
+  });
+
+  it('should be equal interval if value and old interval are equal', () => {
+    component.oldInterval = '12';
+    component.interval = '15';
+    component.validateValue('12');
+    expect(component.oldInterval).toBe('15');
   });
 });
