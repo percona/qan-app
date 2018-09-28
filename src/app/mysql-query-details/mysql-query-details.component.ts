@@ -201,7 +201,6 @@ export class MySQLQueryDetailsComponent extends CoreComponent implements OnInit 
       .then(data => {
         const info = data[`${dbName}.${tblName}`];
         this.tableInfo = info;
-        console.log('this.tableInfo - ', this.tableInfo);
         this.statusTable = info.Status;
         this.indexTable = info.Index;
         try {
@@ -246,7 +245,6 @@ export class MySQLQueryDetailsComponent extends CoreComponent implements OnInit 
           throw info['Errors'];
         }
         this.tableInfo = info;
-        console.log('this.tableInfo - ', this.tableInfo);
         this.createTable = hljs.highlight('sql', this.tableInfo.Create).value;
       })
       .catch(errors => {

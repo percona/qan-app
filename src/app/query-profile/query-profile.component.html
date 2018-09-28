@@ -27,13 +27,13 @@
           <button class="btn-switcher btn-switcher-first-seen"
                   [class.checked]="isFirsSeenChecked === true"
                   (click)="getFirstSeen(true)"
-                  [disabled]="!isQuerySwitching && !isLoading && totalAmountOfQueries === 0 && !isFirsSeenChecked ">First seen
+                  [disabled]="!isQuerySwitching && !isLoading && totalAmountOfQueries === 0 && !isFirsSeenChecked && !isSearchQuery">First seen
           </button>
         </div>
       </div>
       <form class="search-input" (submit)="search()">
         <input class="form-control" [(ngModel)]="searchValue" name="searchValue"
-               type="text" placeholder="Search by query abstract, fingerprint or ID">
+               type="text" placeholder="Search by query abstract, fingerprint or ID" [disabled]="!isQuerySwitching && !isLoading && totalAmountOfQueries === 0 && !isSearchQuery">
         <button class="search-button" (submit)="search()" type="submit">
           <i class="fa fa-search"></i>
         </button>
@@ -100,8 +100,8 @@
         </div>
       </div>
     </section>
-    <div class="loader-wrapper">
-      <i *ngIf="isQuerySwitching" class="fa fa-spinner fa-pulse fa-3x fa-fw loading-on-switch"></i>
+    <div class="loader-wrapper" *ngIf="isQuerySwitching">
+      <i class="fa fa-spinner fa-pulse fa-3x fa-fw loading-on-switch"></i>
     </div>
     <div *ngIf="totalAmountOfQueries" class="load-more-wrapper">
       <button class="total-queries-amount"
@@ -117,22 +117,25 @@
     {{ noQueryError }}
   </div>
   <div *ngIf="!isQuerySwitching && !isLoading && totalAmountOfQueries === 0" class="text-center">
-    <div *ngIf="dbServer.Subsystem === 'mongo' && !isFirsSeenChecked" class="alert alert-warning w-75 mx-auto wrap no-mongo-queries">
+    <div *ngIf="dbServer.Subsystem === 'mongo' && !isFirsSeenChecked && !isSearchQuery" class="alert alert-warning w-75 mx-auto wrap no-mongo-queries">
       There is no query data because profiling is not enabled for the selected host. For information about how to
       enable profiling, see
       <a href="https://www.percona.com/doc/percona-monitoring-and-management/conf-mongodb.html" target="blank">
         Configuring profiling in MongoDB
       </a>in PMM documentation.
     </div>
-    <div *ngIf="dbServer.Subsystem === 'mysql' && !isFirsSeenChecked" class="alert alert-warning w-75 mx-auto wrap no-mysql-queries">
+    <div *ngIf="dbServer.Subsystem === 'mysql' && !isFirsSeenChecked && !isSearchQuery" class="alert alert-warning w-75 mx-auto wrap no-mysql-queries">
       There is no query data because the MySQL Server is not configured for monitoring. For details about the
       required configuration, see
       <a href="https://www.percona.com/doc/percona-monitoring-and-management/conf-mysql.html" target="blank">
         Configuring MySQL for Percona Monitoring and Management
       </a>in PMM documentation.
     </div>
-    <div *ngIf="isFirsSeenChecked" class="alert alert-warning w-75 mx-auto wrap">
-      There is no query during selected time range
+    <div *ngIf="isFirsSeenChecked && !isSearchQuery" class="alert alert-warning w-75 mx-auto wrap">
+      There are no queries First Seen during the selected time range, try widening your time range.
+    </div>
+    <div *ngIf="isSearchQuery" class="alert alert-warning w-75 mx-auto wrap">
+      There are no queries during the selected time range, try widening your time range.
     </div>
   </div>
 </div>

@@ -28,6 +28,7 @@ export class QueryProfileComponent extends CoreComponent {
     public noQueryError: string;
     public isFirstSeen: boolean;
     public isFirsSeenChecked = false;
+    public isSearchQuery = false;
 
     constructor(protected route: ActivatedRoute, protected router: Router,
         protected instanceService: InstanceService, protected queryProfileService: QueryProfileService) {
@@ -110,6 +111,7 @@ export class QueryProfileComponent extends CoreComponent {
     }
 
     search() {
+        this.isSearchQuery = true;
         const params: QueryParams = Object.assign({}, this.queryParams);
         if (!!this.searchValue) {
             params.search = this.searchValue;
