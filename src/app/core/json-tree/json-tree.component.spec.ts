@@ -51,12 +51,6 @@ describe('JSONTreeComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should create sub Json if it present', () => {
-    component.json = {JSON: {JSON: 'json'}};
-    component.getJSONString();
-    expect(component.json.JSON).toEqual({JSON: 'json'});
-  });
-
   it('should be true if ngOnChanges has been called', () => {
     component.ngOnChanges();
     expect(component).toBeTruthy();
