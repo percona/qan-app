@@ -10,4 +10,12 @@ describe('LatencyChartDirective', () => {
     const directive = new LatencyChartDirective(elementRef);
     expect(directive).toBeTruthy();
   });
+
+  it('should create an instance', () => {
+    const elementRef = new ElementRef('<div></div>');
+    const directive = new LatencyChartDirective(elementRef);
+    const spy = spyOn(directive, 'drawChart');
+    directive.appLatencyChart = null;
+    expect(spy).not.toHaveBeenCalled();
+  });
 });

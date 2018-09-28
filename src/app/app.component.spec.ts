@@ -86,6 +86,7 @@ describe('AppComponent', () => {
   });
 
   it('should be app-theme-dark if parameter for theme is not valid case', () => {
+    component.theme = 'app-theme-dark';
     spyOn(component, 'getJsonFromUrl').and.returnValue({theme: '???'});
     component.ngOnInit();
     fixture.detectChanges();

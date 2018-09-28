@@ -11,7 +11,7 @@ import {HttpModule} from '@angular/http';
 import {LatencyChartDirective} from '../shared/latency-chart.directive';
 import {ClipboardModule} from 'ngx-clipboard';
 import {FormsModule} from '@angular/forms';
-import {InstanceService} from '../core/instance.service';
+import {Instance, InstanceService} from '../core/instance.service';
 import {RouterTestingModule} from '@angular/router/testing';
 import {ActivatedRoute} from '@angular/router';
 import {MongoQueryDetailsService} from './mongo-query-details.service';
@@ -42,10 +42,10 @@ describe('MongoQueryDetailsComponent', () => {
               queryParams: {
                 from: '1527630870872',
                 queryID: 'E477191F9BF35C18',
-                theme: 'dark',
+                theme: '',
                 to: '1527674070873',
                 type: 'mongo',
-                tz: 'browser',
+                tz: '',
                 'var-host': 'MongoDB',
               }
             }
@@ -837,5 +837,86 @@ describe('MongoQueryDetailsComponent', () => {
       expect(component.isExplainLoading).toBeFalsy();
       done();
     });
+  });
+
+  it('shoud be true if isAllSelected and isNonExistSelected is false', () => {
+    component.isAllSelected = false;
+    component.isNotExistSelected = false;
+    component.parseParams();
+    fixture.detectChanges();
+    expect(component.isQueryDataAbsent).toBeTruthy();
+  });
+
+  it('shoud be true if var host is not presented', () => {
+    component.isAllSelected = false;
+    component.isNotExistSelected = false;
+    component.queryParams = {
+      from: '1527630870872',
+      queryID: 'E477191F9BF35C18',
+      theme: 'dark',
+      to: '1527674070873',
+      tz: 'browser',
+    };
+    component.parseParams();
+    fixture.detectChanges();
+    expect(component.dbServer).toBeTruthy();
+  });
+
+  it('shoud be true if var host is presented, and data in dbserverMap is valid', () => {
+    component.isAllSelected = false;
+    component.isNotExistSelected = false;
+    component.dbServerMap = {
+      'MySQL57': {
+        'Subsystem': 'mysql',
+        'ParentUUID': 'b7ea960bd91b45706ca3e1636467bbf0',
+        'Id': 0,
+        'UUID': 'a7725644598849416ef6aa1272373452',
+        'Name': 'MySQL57',
+        'DSN': 'root:***@tcp(localhost:3306)',
+        'Distro': 'MySQL Community Server - GPL',
+        'Version': '8.0.12',
+        'Created': '2018-09-26T08:15:55Z',
+        'Deleted': '1970-01-01T00:00:01Z',
+        'Agent': {
+          'Subsystem': 'agent',
+          'ParentUUID': 'b7ea960bd91b45706ca3e1636467bbf0',
+          'Id': 0,
+          'UUID': '92f18c80631047f0554bf7d3360c1b20',
+          'Name': '9b49105d096a',
+          'DSN': '',
+          'Distro': '',
+          'Version': '1.0.5',
+          'Created': '2018-09-26T08:15:55Z',
+          'Deleted': '0001-01-01T00:00:00Z'
+        }
+      }
+    };
+    component.queryParams = {
+      from: '1527630870872',
+      queryID: 'E477191F9BF35C18',
+      theme: 'dark',
+      to: '1527674070873',
+      tz: 'browser',
+      'var-host': 'MySQL57'
+    };
+    component.parseParams();
+    fixture.detectChanges();
+    [component.dbServer, component.agent].map(item => expect(item).toBeTruthy());
+  });
+
+  it('should call setThemeFromParams if timezone is empty string', () => {
+    component.queryParams.tz = '';
+    const spy = spyOn(component, 'setTimeZoneFromParams');
+    component.setTimeZoneFromParams();
+    fixture.detectChanges();
+    expect(spy).toHaveBeenCalled();
+  });
+
+  it('should call setThemeFromParams if theme is empty string', () => {
+    component.queryParams.theme = '';
+    const spy = spyOn(component, 'setThemeFromParams');
+    component.setThemeFromParams();
+    fixture.detectChanges();
+    expect(spy).toHaveBeenCalled();
   });
 });
