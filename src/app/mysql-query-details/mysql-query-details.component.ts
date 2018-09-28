@@ -25,6 +25,7 @@ export class MySQLQueryDetailsComponent extends CoreComponent implements OnInit 
   public queryExample: string;
   public classicExplain;
   public jsonExplain;
+  public jsonExplainString;
   public visualExplain;
   public dataExplain;
   public dbName: string;
@@ -34,7 +35,13 @@ export class MySQLQueryDetailsComponent extends CoreComponent implements OnInit 
   isSummary: boolean;
   isLoading: boolean;
   isExplainLoading: boolean;
-  isCopied: boolean;
+  isCopied = {
+    visualExplain: false,
+    queryExample: false,
+    fingerprint: false,
+    createTable: false,
+    jsonExplain: false
+  };
   isTableInfoLoading: boolean;
   isFirstSeen: boolean;
   firstSeen: string;
@@ -53,6 +60,7 @@ export class MySQLQueryDetailsComponent extends CoreComponent implements OnInit 
   classicExplainError: string;
   visualExplainError: string;
   maxExampleBytes = 10240;
+  event = new Event('showSuccessNotification');
 
   constructor(protected route: ActivatedRoute, protected router: Router,
               protected instanceService: InstanceService, public queryDetailsService: MySQLQueryDetailsService) {
@@ -63,6 +71,12 @@ export class MySQLQueryDetailsComponent extends CoreComponent implements OnInit 
     this.queryParams = this.route.snapshot.queryParams as QueryParams;
     this.parseParams();
     this.onChangeParams(this.queryParams);
+  }
+
+  showSuccessNotification(key) {
+    this.isCopied[key] = true;
+    setTimeout( () => { this.isCopied[key] = false }, 3000);
+    window.parent.document.dispatchEvent(this.event);
   }
 
   onChangeParams(params) {
@@ -121,7 +135,7 @@ export class MySQLQueryDetailsComponent extends CoreComponent implements OnInit 
   async getExplain() {
     if (!this.dbServer || !this.dbServer.Agent) { return; }
     this.isExplainLoading = true;
-    this.isCopied = false;
+    this.isCopied.visualExplain = false;
     const agentUUID = this.dbServer.Agent.UUID;
     const dbServerUUID = this.dbServer.UUID;
     this.classicExplainError = '';
@@ -155,6 +169,7 @@ export class MySQLQueryDetailsComponent extends CoreComponent implements OnInit 
       this.visualExplain = this.dataExplain.Visual;
       try {
         this.jsonExplain = JSON.parse(this.dataExplain.JSON);
+        this.jsonExplainString = JSON.stringify(this.jsonExplain);
       } catch (err) {
         this.jsonExplainError = err.message;
       }
