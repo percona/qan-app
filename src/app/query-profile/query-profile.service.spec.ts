@@ -6,7 +6,7 @@ import {NO_ERRORS_SCHEMA} from '@angular/core';
 import {MockBackend} from '@angular/http/testing';
 import {QueryProfileService} from './query-profile.service';
 
-fdescribe('QueryProfileService', () => {
+describe('QueryProfileService', () => {
   let service: QueryProfileService;
   let backend: MockBackend;
   const dataResponse = {

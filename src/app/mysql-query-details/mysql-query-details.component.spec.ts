@@ -2479,4 +2479,15 @@ describe('MySQLQueryDetailsComponent', () => {
       done();
     });
   });
+
+  it('should be true for key and after 3,5 sec should be false', (done) => {
+    const key = 'jsonExplain';
+    component.showSuccessNotification(key);
+    expect(component.isCopied[key]).toBeTruthy();
+    setTimeout(() => {
+      expect(component.isCopied[key]).toBeFalsy();
+      done();
+    }, 3500);
+  });
+
 });
