@@ -1,4 +1,3 @@
-///<reference path="../../../node_modules/@angular/core/testing/src/fake_async.d.ts"/>
 /* tslint:disable:no-unused-variable */
 
 import {TestBed, async, inject, fakeAsync, tick} from '@angular/core/testing';
@@ -275,5 +274,4 @@ describe('SummaryService', () => {
           tick();
         });
     }));
-
 });
