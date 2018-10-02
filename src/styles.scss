@@ -940,12 +940,13 @@ table.metrics td span.sum {
 
 .unit:after {
   margin-left: 3px;
-  font-size: 0.8rem;
-  color: #999999;
+  font-size: inherit;
+  color: inherit;
 }
 
 .unit-percent:after {
-  content: '%'
+  content: '%';
+  margin-left: 0;
 }
 
 .unit-avg:after {
