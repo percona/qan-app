@@ -78,7 +78,7 @@ export class HumanizePipe implements PipeTransform {
                 if (input !== 0 && input < 0.0001) {
                     res = '<0.01';
                 } else {
-                    res = numeral(input).format('0.00');
+                    res = numeral(input).format('0.00%');
                 }
                 break;
             // ops

@@ -42,7 +42,7 @@
                 <span>{{ queryDetails?.Metrics2?.Query_count | humanize : 'number' }}
                   <small>
                     <span *ngIf="!isSummary" class="text-primary">
-                      <span class="unit unit-percent">{{ queryDetails?.Metrics2?.Query_count_of_total | humanize : 'percent' }}</span> of total
+                      <span>{{ queryDetails?.Metrics2?.Query_count_of_total | humanize : 'percent' }}</span> of total
                     </span>
                   </small>
                 </span>
@@ -64,7 +64,7 @@
               <div class="flex-container">
                 <div class="cell-overlay justify-content-start">
                   <span>{{ queryDetails?.Metrics2?.Query_time_sum_per_sec | humanize : 'number' }} load
-                    (<span class="unit unit-percent">{{ queryDetails?.Metrics2?.Query_time_sum_of_total | humanize : 'percent' }}</span>)
+                    (<span>{{ queryDetails?.Metrics2?.Query_time_sum_of_total | humanize : 'percent' }}</span>)
                   </span>
                 </div>
                 <div class="scaling-svg-container app-tooltip" [appLoadSparklines]="queryDetails?.Sparks2"
@@ -75,7 +75,7 @@
                 <span class="sum text-left">{{ queryDetails?.Metrics2?.Query_time_sum | humanize : 'time' }}
                   <small>
                     <span *ngIf="!isSummary" class="text-primary">
-                      <span class="unit unit-percent">{{ queryDetails?.Metrics2?.Query_time_sum_of_total | humanize : 'percent' }}</span> of total
+                      <span>{{ queryDetails?.Metrics2?.Query_time_sum_of_total | humanize : 'percent' }}</span> of total
                     </span>
                   </small>
                 </span>
@@ -106,7 +106,7 @@
                 <span class="sum text-left">{{ queryDetails?.Metrics2?.Rows_sent_sum | humanize : 'number' }}
                   <small>
                     <span *ngIf="!isSummary" class="text-primary">
-                      <span class="unit unit-percent">{{ queryDetails?.Metrics2?.Rows_sent_sum_of_total | humanize : 'percent' }}</span> of total
+                      <span>{{ queryDetails?.Metrics2?.Rows_sent_sum_of_total | humanize : 'percent' }}</span> of total
                     </span>
                   </small>
                 </span>
@@ -135,7 +135,7 @@
                 <span class="sum text-left">{{ queryDetails?.Metrics2?.Bytes_sent_sum | humanize : 'size' }}
                   <small>
                     <span *ngIf="!isSummary" class="text-primary">
-                      <span class="unit unit-percent">{{ queryDetails?.Metrics2?.Bytes_sent_sum_of_total | humanize : 'percent' }}</span> of total
+                      <span>{{ queryDetails?.Metrics2?.Bytes_sent_sum_of_total | humanize : 'percent' }}</span> of total
                     </span>
                     <span class="text-success" ng-if="queryDetails?.Metrics2?.Bytes_sent_sum_per_rows">
                       {{ queryDetails?.Metrics2?.Bytes_sent_sum_per_rows | humanize : 'size' }} bytes/row
@@ -166,7 +166,7 @@
                 <span class="sum text-left">{{ queryDetails?.Metrics2?.Rows_examined_sum | humanize : 'number' }}
                   <small>
                     <span *ngIf="!isSummary" class="text-primary">
-                      <span class="unit unit-percent">{{ queryDetails?.Metrics2?.Rows_examined_sum_of_total | humanize : 'percent' }}</span> of total
+                      <span>{{ queryDetails?.Metrics2?.Rows_examined_sum_of_total | humanize : 'percent' }}</span> of total
                     </span>
                     <span class="text-success">
                       {{ queryDetails?.Metrics2?.Rows_examined_sum_per_rows | humanize : 'number' }} per row sent
