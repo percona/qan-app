@@ -10,6 +10,53 @@ import {AddAwsService, MySQLCredentials, RDSCredentials} from './add-aws.service
 describe('AddAwsComponent', () => {
   let component: AddAwsComponent;
   let fixture: ComponentFixture<AddAwsComponent>;
+  const promiseData = [
+    {
+      'node': {'region': 'us-east-1', 'name': 'rds-aurora1'},
+      'service': {
+        'address': 'rds-aurora1.cg8slbmxcsve.us-east-1.rds.amazonaws.com',
+        'port': 3306,
+        'engine': 'aurora',
+        'engine_version': '5.6.10a'
+      }
+    },
+    {
+      'node': {'region': 'us-east-1', 'name': 'rds-aurora57'},
+      'service': {
+        'address': 'rds-aurora57.cg8slbmxcsve.us-east-1.rds.amazonaws.com',
+        'port': 3306,
+        'engine': 'aurora-mysql',
+        'engine_version': '5.7.12'
+      }
+    },
+    {
+      'node': {'region': 'us-east-1', 'name': 'rds-mysql56'},
+      'service': {
+        'address': 'rds-mysql56.cg8slbmxcsve.us-east-1.rds.amazonaws.com',
+        'port': 3306,
+        'engine': 'mysql',
+        'engine_version': '5.6.37'
+      }
+    },
+    {
+      'node': {'region': 'us-east-1', 'name': 'rds-mysql57'},
+      'service': {
+        'address': 'rds-mysql57.cg8slbmxcsve.us-east-1.rds.amazonaws.com',
+        'port': 3306,
+        'engine': 'mysql',
+        'engine_version': '5.7.19'
+      }
+    }
+  ];
+  const err = {
+    _body: '{"error":"NoCredentialProviders: no valid providers in chain", "code":2}',
+    status: 500,
+    ok: false,
+    statusText: 'Internal Server Error',
+    type: 2,
+    url: 'http://localhost/managed/v0/rds/discover',
+    json: () => {return JSON.parse(err._body)}
+  };
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -30,44 +77,6 @@ describe('AddAwsComponent', () => {
   });
 
   it('should create component user was submitted changes and promise data is correct ', (done) => {
-    const promiseData = [
-      {
-        'node': {'region': 'us-east-1', 'name': 'rds-aurora1'},
-        'service': {
-          'address': 'rds-aurora1.cg8slbmxcsve.us-east-1.rds.amazonaws.com',
-          'port': 3306,
-          'engine': 'aurora',
-          'engine_version': '5.6.10a'
-        }
-      },
-      {
-        'node': {'region': 'us-east-1', 'name': 'rds-aurora57'},
-        'service': {
-          'address': 'rds-aurora57.cg8slbmxcsve.us-east-1.rds.amazonaws.com',
-          'port': 3306,
-          'engine': 'aurora-mysql',
-          'engine_version': '5.7.12'
-        }
-      },
-      {
-        'node': {'region': 'us-east-1', 'name': 'rds-mysql56'},
-        'service': {
-          'address': 'rds-mysql56.cg8slbmxcsve.us-east-1.rds.amazonaws.com',
-          'port': 3306,
-          'engine': 'mysql',
-          'engine_version': '5.6.37'
-        }
-      },
-      {
-        'node': {'region': 'us-east-1', 'name': 'rds-mysql57'},
-        'service': {
-          'address': 'rds-mysql57.cg8slbmxcsve.us-east-1.rds.amazonaws.com',
-          'port': 3306,
-          'engine': 'mysql',
-          'engine_version': '5.7.19'
-        }
-      }
-    ];
     component.submitted = true;
     const spy = spyOn(component.addAwsService, 'discover').and.returnValue(Promise.resolve(promiseData));
     component.ngOnInit();
@@ -79,44 +88,6 @@ describe('AddAwsComponent', () => {
   });
 
   it('should not create error if getRegistered return data', (done) => {
-    const promiseData = [
-      {
-        'node': {'region': 'us-east-1', 'name': 'rds-aurora1'},
-        'service': {
-          'address': 'rds-aurora1.cg8slbmxcsve.us-east-1.rds.amazonaws.com',
-          'port': 3306,
-          'engine': 'aurora',
-          'engine_version': '5.6.10a'
-        }
-      },
-      {
-        'node': {'region': 'us-east-1', 'name': 'rds-aurora57'},
-        'service': {
-          'address': 'rds-aurora57.cg8slbmxcsve.us-east-1.rds.amazonaws.com',
-          'port': 3306,
-          'engine': 'aurora-mysql',
-          'engine_version': '5.7.12'
-        }
-      },
-      {
-        'node': {'region': 'us-east-1', 'name': 'rds-mysql56'},
-        'service': {
-          'address': 'rds-mysql56.cg8slbmxcsve.us-east-1.rds.amazonaws.com',
-          'port': 3306,
-          'engine': 'mysql',
-          'engine_version': '5.6.37'
-        }
-      },
-      {
-        'node': {'region': 'us-east-1', 'name': 'rds-mysql57'},
-        'service': {
-          'address': 'rds-mysql57.cg8slbmxcsve.us-east-1.rds.amazonaws.com',
-          'port': 3306,
-          'engine': 'mysql',
-          'engine_version': '5.7.19'
-        }
-      }
-    ];
     const regData = [{
       'node': {'region': 'us-east-1', 'name': 'rds-aurora1'},
       'service': {
@@ -149,44 +120,6 @@ describe('AddAwsComponent', () => {
   });
 
   it('should not create error if response data is valid', (done) => {
-    const promiseData = [
-      {
-        'node': {'region': 'us-east-1', 'name': 'rds-aurora1'},
-        'service': {
-          'address': 'rds-aurora1.cg8slbmxcsve.us-east-1.rds.amazonaws.com',
-          'port': 3306,
-          'engine': 'aurora',
-          'engine_version': '5.6.10a'
-        }
-      },
-      {
-        'node': {'region': 'us-east-1', 'name': 'rds-aurora57'},
-        'service': {
-          'address': 'rds-aurora57.cg8slbmxcsve.us-east-1.rds.amazonaws.com',
-          'port': 3306,
-          'engine': 'aurora-mysql',
-          'engine_version': '5.7.12'
-        }
-      },
-      {
-        'node': {'region': 'us-east-1', 'name': 'rds-mysql56'},
-        'service': {
-          'address': 'rds-mysql56.cg8slbmxcsve.us-east-1.rds.amazonaws.com',
-          'port': 3306,
-          'engine': 'mysql',
-          'engine_version': '5.6.37'
-        }
-      },
-      {
-        'node': {'region': 'us-east-1', 'name': 'rds-mysql57'},
-        'service': {
-          'address': 'rds-mysql57.cg8slbmxcsve.us-east-1.rds.amazonaws.com',
-          'port': 3306,
-          'engine': 'mysql',
-          'engine_version': '5.7.19'
-        }
-      }
-    ];
     const spy = spyOn(component.addAwsService, 'discover').and.returnValue(Promise.resolve(promiseData));
     component.onSubmit();
     spy.calls.mostRecent().returnValue.then((data) => {
@@ -197,44 +130,6 @@ describe('AddAwsComponent', () => {
   });
 
   it('should not create error if response data is valid', (done) => {
-    const promiseData = [
-      {
-        'node': {'region': 'us-east-1', 'name': 'rds-aurora1'},
-        'service': {
-          'address': 'rds-aurora1.cg8slbmxcsve.us-east-1.rds.amazonaws.com',
-          'port': 3306,
-          'engine': 'aurora',
-          'engine_version': '5.6.10a'
-        }
-      },
-      {
-        'node': {'region': 'us-east-1', 'name': 'rds-aurora57'},
-        'service': {
-          'address': 'rds-aurora57.cg8slbmxcsve.us-east-1.rds.amazonaws.com',
-          'port': 3306,
-          'engine': 'aurora-mysql',
-          'engine_version': '5.7.12'
-        }
-      },
-      {
-        'node': {'region': 'us-east-1', 'name': 'rds-mysql56'},
-        'service': {
-          'address': 'rds-mysql56.cg8slbmxcsve.us-east-1.rds.amazonaws.com',
-          'port': 3306,
-          'engine': 'mysql',
-          'engine_version': '5.6.37'
-        }
-      },
-      {
-        'node': {'region': 'us-east-1', 'name': 'rds-mysql57'},
-        'service': {
-          'address': 'rds-mysql57.cg8slbmxcsve.us-east-1.rds.amazonaws.com',
-          'port': 3306,
-          'engine': 'mysql',
-          'engine_version': '5.7.19'
-        }
-      }
-    ];
     const spy = spyOn(component.addAwsService, 'discover').and.returnValue(Promise.resolve(promiseData));
     component.onSubmit();
     spy.calls.mostRecent().returnValue.then((data) => {
@@ -277,44 +172,6 @@ describe('AddAwsComponent', () => {
   });
 
   it('should not create error if all promise data is valid', (done) => {
-    const promiseData = [
-      {
-        'node': {'region': 'us-east-1', 'name': 'rds-aurora1'},
-        'service': {
-          'address': 'rds-aurora1.cg8slbmxcsve.us-east-1.rds.amazonaws.com',
-          'port': 3306,
-          'engine': 'aurora',
-          'engine_version': '5.6.10a'
-        }
-      },
-      {
-        'node': {'region': 'us-east-1', 'name': 'rds-aurora57'},
-        'service': {
-          'address': 'rds-aurora57.cg8slbmxcsve.us-east-1.rds.amazonaws.com',
-          'port': 3306,
-          'engine': 'aurora-mysql',
-          'engine_version': '5.7.12'
-        }
-      },
-      {
-        'node': {'region': 'us-east-1', 'name': 'rds-mysql56'},
-        'service': {
-          'address': 'rds-mysql56.cg8slbmxcsve.us-east-1.rds.amazonaws.com',
-          'port': 3306,
-          'engine': 'mysql',
-          'engine_version': '5.6.37'
-        }
-      },
-      {
-        'node': {'region': 'us-east-1', 'name': 'rds-mysql57'},
-        'service': {
-          'address': 'rds-mysql57.cg8slbmxcsve.us-east-1.rds.amazonaws.com',
-          'port': 3306,
-          'engine': 'mysql',
-          'engine_version': '5.7.19'
-        }
-      }
-    ];
     const spy = spyOn(component.addAwsService, 'enable').and.returnValue(Promise.resolve(promiseData));
     component.onConnect();
     spy.calls.mostRecent().returnValue.then((data) => {
@@ -335,15 +192,6 @@ describe('AddAwsComponent', () => {
   });
 
   it('should be NoCredentialProviders error if this error is presented in response ', (done) => {
-    const err = {
-      _body: '{"error":"NoCredentialProviders: no valid providers in chain", "code":2}',
-      status: 500,
-      ok: false,
-      statusText: 'Internal Server Error',
-      type: 2,
-      url: 'http://localhost/managed/v0/rds/discover',
-      json: () => {return JSON.parse(err._body)}
-    };
     const spy = spyOn(component.addAwsService, 'enable').and.returnValue(Promise.reject(err));
 
     component.onConnect();
@@ -368,7 +216,7 @@ describe('AddAwsComponent', () => {
   });
 
   it('should create registeredNames array if promise data is presented', (done) => {
-    const promiseData = [
+    const promise = [
       {
         node: {
           name: 'name',
@@ -382,7 +230,7 @@ describe('AddAwsComponent', () => {
         }
       }
     ];
-    const spy = spyOn(component.addAwsService, 'getRegistered').and.returnValue(Promise.resolve(promiseData));
+    const spy = spyOn(component.addAwsService, 'getRegistered').and.returnValue(Promise.resolve(promise));
     component.getRegistered();
     spy.calls.mostRecent().returnValue.then((data) => {
       fixture.detectChanges();
@@ -392,15 +240,6 @@ describe('AddAwsComponent', () => {
   });
 
   it('should be NoCredentialProviders error if this error is presented in response ', (done) => {
-    const err = {
-      _body: '{"error":"NoCredentialProviders: no valid providers in chain", "code":2}',
-      status: 500,
-      ok: false,
-      statusText: 'Internal Server Error',
-      type: 2,
-      url: 'http://localhost/managed/v0/rds/discover',
-      json: () => {return JSON.parse(err._body)}
-    };
     const spy = spyOn(component.addAwsService, 'getRegistered').and.returnValue(Promise.reject(err));
     component.getRegistered();
     spy.calls.mostRecent().returnValue.then().catch((err) => {
@@ -411,15 +250,6 @@ describe('AddAwsComponent', () => {
   });
 
   it('should create error if response has NoCredentialProviders error', () => {
-    const err = {
-      _body: '{"error":"NoCredentialProviders: no valid providers in chain", "code":2}',
-      status: 500,
-      ok: false,
-      statusText: 'Internal Server Error',
-      type: 2,
-      url: 'http://localhost/managed/v0/rds/discover',
-      json: () => {return JSON.parse(err._body)}
-    };
     component.checkErrorMessage(err);
     expect(component.errorMessage).toBe('Cannot automatically discover instances - please provide AWS access credentials');
   });

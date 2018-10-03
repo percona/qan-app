@@ -93,10 +93,10 @@ describe('HumanizePipe', () => {
     expect(result).toBe('2.00');
   });
 
-  it('should return 2.00 if input is 2 and name is percent', () => {
+  it('should return 200.00% if input is 2 and name is percent', () => {
     const pipe = new HumanizePipe();
     const result = pipe.transform(2, 'percent');
-    expect(result).toBe('2.00');
+    expect(result).toBe('200.00%');
   });
 
   it('should return <0.01 if input is 0.0000001 and name is percent', () => {
