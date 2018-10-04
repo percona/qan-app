@@ -9,20 +9,49 @@
       "ns": "local.oplog.rs",
       "op": "getmore",
       "query": {
-        "getMore": {"$numberLong": 35133673781},
+        "getMore": {
+          "$numberLong": 35133673781
+        },
         "collection": "oplog.rs",
-        "maxTimeMS": {"$numberLong": 5000},
-        "term": {"$numberLong": 743},
-        "lastKnownCommittedOpTime": {"ts": {"$timestamp": {"t": 1537774671, "i": 1}}, "t": {"$numberLong": 743}}
+        "maxTimeMS": {
+          "$numberLong": 5000
+        },
+        "term": {
+          "$numberLong": 743
+        },
+        "lastKnownCommittedOpTime": {
+          "ts": {
+            "$timestamp": {
+              "t": 1537774671,
+              "i": 1
+            }
+          },
+          "t": {
+            "$numberLong": 743
+          }
+        }
       },
       "originatingCommand": {
         "find": "oplog.rs",
-        "filter": {"ts": {"$gte": {"$timestamp": {"t": 1518762420, "i": 1}}}},
+        "filter": {
+          "ts": {
+            "$gte": {
+              "$timestamp": {
+                "t": 1518762420,
+                "i": 1
+              }
+            }
+          }
+        },
         "tailable": true,
         "oplogReplay": true,
         "awaitData": true,
-        "maxTimeMS": {"$numberLong": 60000},
-        "term": {"$numberLong": 743}
+        "maxTimeMS": {
+          "$numberLong": 60000
+        },
+        "term": {
+          "$numberLong": 743
+        }
       }
     },
     "QueryId": "",
