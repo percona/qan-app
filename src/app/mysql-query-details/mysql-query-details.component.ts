@@ -6,6 +6,7 @@ import { MySQLQueryDetailsService, QueryDetails, ServerSummary } from './mysql-q
 import * as hljs from 'highlight.js';
 import * as vkbeautify from 'vkbeautify';
 import * as moment from 'moment';
+import {BaseQueryDetailsComponent} from '../core/base-query-details.component';
 
 @Component({
   moduleId: module.id,
@@ -13,7 +14,7 @@ import * as moment from 'moment';
   templateUrl: './mysql-query-details.component.html',
   styleUrls: ['./mysql-query-details.component.scss']
 })
-export class MySQLQueryDetailsComponent extends CoreComponent implements OnInit {
+export class MySQLQueryDetailsComponent extends BaseQueryDetailsComponent implements OnInit {
 
   protected queryID: string;
   public queryDetails: QueryDetails;
@@ -69,6 +70,8 @@ export class MySQLQueryDetailsComponent extends CoreComponent implements OnInit 
     this.queryParams = this.route.snapshot.queryParams as QueryParams;
     this.parseParams();
     this.onChangeParams(this.queryParams);
+    console.log('queryParams - ', this.queryParams);
+    console.log('dbServer - ', this.dbServer);
   }
 
   showSuccessNotification(key) {
@@ -77,6 +80,7 @@ export class MySQLQueryDetailsComponent extends CoreComponent implements OnInit 
     window.parent.document.dispatchEvent(this.event);
   }
 
+  //rm
   onChangeParams(params) {
     if (!this.dbServer) { return; }
     if (['TOTAL', undefined].indexOf(this.queryParams.queryID) !== -1) {
@@ -88,6 +92,7 @@ export class MySQLQueryDetailsComponent extends CoreComponent implements OnInit 
     }
   }
 
+  //rm
   /**
    * Fix beautify dispalying text, will be delete after approve https://github.com/vkiryukhin/vkBeautify/pull/25
    * @param {string} text
@@ -97,6 +102,7 @@ export class MySQLQueryDetailsComponent extends CoreComponent implements OnInit 
       return vkbeautify.sql(text.toLowerCase()).replace('explain', 'EXPLAIN ').replace('  ', ' ');
   }
 
+  //rm
   async getQueryDetails(dbServerUUID, queryID, from, to: string) {
     this.isLoading = true;
     this.dbName = this.dbTblNames = '';
@@ -178,6 +184,7 @@ export class MySQLQueryDetailsComponent extends CoreComponent implements OnInit 
     this.isExplainLoading = false;
   }
 
+  //rm
   getTableInfo() {
     if (!this.dbServer || !this.dbServer.Agent) { return; }
     this.isTableInfoLoading = true;
@@ -300,25 +307,27 @@ export class MySQLQueryDetailsComponent extends CoreComponent implements OnInit 
     return `\`${item.Db}\`.\`${item.Table}\`` === this.dbTblNames;
   }
 
-  getTableName(): string {
-    if (this.queryDetails.hasOwnProperty('Query')
-      && this.queryDetails.Query.hasOwnProperty('Tables')
-      && this.queryDetails.Query.Tables !== null
-      && this.queryDetails.Query.Tables.length > 0) {
-      return this.queryDetails.Query.Tables[0].Table;
-    }
-    return '';
-  }
+  //rm
+  // getTableName(): string {
+  //   if (this.queryDetails.hasOwnProperty('Query')
+  //     && this.queryDetails.Query.hasOwnProperty('Tables')
+  //     && this.queryDetails.Query.Tables !== null
+  //     && this.queryDetails.Query.Tables.length > 0) {
+  //     return this.queryDetails.Query.Tables[0].Table;
+  //   }
+  //   return '';
+  // }
 
-  private getDBName(): string {
-    if (this.queryDetails.Example.Db !== '') {
-      return this.queryDetails.Example.Db;
-    } else if (this.queryDetails.hasOwnProperty('Query')
-      && this.queryDetails.Query.hasOwnProperty('Tables')
-      && this.queryDetails.Query.Tables !== null
-      && this.queryDetails.Query.Tables.length > 0) {
-      return this.queryDetails.Query.Tables[0].Db;
-    }
-    return '';
-  }
+  //rm
+  // private getDBName(): string {
+  //   if (this.queryDetails.Example.Db !== '') {
+  //     return this.queryDetails.Example.Db;
+  //   } else if (this.queryDetails.hasOwnProperty('Query')
+  //     && this.queryDetails.Query.hasOwnProperty('Tables')
+  //     && this.queryDetails.Query.Tables !== null
+  //     && this.queryDetails.Query.Tables.length > 0) {
+  //     return this.queryDetails.Query.Tables[0].Db;
+  //   }
+  //   return '';
+  // }
 }

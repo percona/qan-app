@@ -40,6 +40,8 @@ export class MongoQueryDetailsComponent extends CoreComponent implements OnInit 
     this.queryParams = this.route.snapshot.queryParams as QueryParams;
     this.parseParams();
     this.onChangeParams(this.queryParams);
+    console.log('queryParams - ', this.queryParams);
+    console.log('dbServer - ', this.dbServer);
   }
 
   onChangeParams(params) {
@@ -71,13 +73,13 @@ export class MongoQueryDetailsComponent extends CoreComponent implements OnInit 
       .catch(err => console.log(err));
   }
 
-  getServerSummary(dbServerUUID: string, from: string, to: string) {
+  async getServerSummary(dbServerUUID: string, from: string, to: string) {
     this.dbName = this.dbTblNames = '';
-    this.queryDetailsService.getSummary(dbServerUUID, from, to)
-      .then(data => {
-        this.queryDetails = data;
-      })
-      .catch(err => console.log(err));
+    try {
+      this.queryDetails = await this.queryDetailsService.getSummary(dbServerUUID, from, to) as QueryDetails;
+    } catch (err) {
+      console.error(err);
+    }
   }
 
   async getExplain() {
@@ -107,6 +109,7 @@ export class MongoQueryDetailsComponent extends CoreComponent implements OnInit 
     }
   }
 
+  //rm
   getTableName(): string {
     if (this.queryDetails.hasOwnProperty('Query')
       && this.queryDetails.Query.hasOwnProperty('Tables')
@@ -117,6 +120,7 @@ export class MongoQueryDetailsComponent extends CoreComponent implements OnInit 
     return '';
   }
 
+  //rm
   private getDBName(): string {
     if (this.queryDetails.Example.Db !== '') {
       return this.queryDetails.Example.Db;
