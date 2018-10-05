@@ -31,11 +31,11 @@ describe('InstanceService', () => {
     service = TestBed.get(InstanceService);
   });
 
-  it('should be empty array if response data is undefined', () => {
+  it('should create service', () => {
     expect(service).toBeTruthy();
   });
 
-  it('should be created', fakeAsync(() => {
+  it('should be empty array if response is undefined', fakeAsync(() => {
     backend.connections.subscribe(connection => {
       connection.mockRespond(undefined);
     });
@@ -47,7 +47,6 @@ describe('InstanceService', () => {
 
   it('should create dbServer if response data is valid', fakeAsync(() => {
     const response = Object.assign({}, dbServerResponse, {json: () => response._body});
-    response._body = Object.assign({}, response._body);
 
     backend.connections.subscribe(connection => {
       connection.mockRespond(response);
