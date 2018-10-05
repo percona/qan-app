@@ -195,7 +195,7 @@ describe('AddAwsComponent', () => {
     const spy = spyOn(component.addAwsService, 'enable').and.returnValue(Promise.reject(err));
 
     component.onConnect();
-    spy.calls.mostRecent().returnValue.then().catch((err) => {
+    spy.calls.mostRecent().returnValue.then().catch((error) => {
       fixture.detectChanges();
       expect(component.errorMessage).toBe('NoCredentialProviders: no valid providers in chain');
       done();
@@ -242,7 +242,7 @@ describe('AddAwsComponent', () => {
   it('should be NoCredentialProviders error if this error is presented in response ', (done) => {
     const spy = spyOn(component.addAwsService, 'getRegistered').and.returnValue(Promise.reject(err));
     component.getRegistered();
-    spy.calls.mostRecent().returnValue.then().catch((err) => {
+    spy.calls.mostRecent().returnValue.then().catch((error) => {
       fixture.detectChanges();
       expect(component.errorMessage).toBe('NoCredentialProviders: no valid providers in chain');
       done();

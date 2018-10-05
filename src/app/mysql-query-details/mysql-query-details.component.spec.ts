@@ -218,693 +218,6 @@ describe('MySQLQueryDetailsComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should create fields with information about query', () => {
-    component.isSummary = false;
-    fixture.detectChanges();
-    const spanAbstract = fixture.nativeElement.querySelector('.query-abstract');
-    const spanId = fixture.nativeElement.querySelector('.query-id');
-    expect(spanAbstract.innerHTML).toBe(component.queryDetails.Query.Abstract);
-    expect(spanId.innerHTML).toBe(component.queryDetails.Query.Id);
-  });
-
-  it('should create header section title if total query is not selected', () => {
-    component.isSummary = false;
-    fixture.detectChanges();
-    const headerSectionTitle = fixture.nativeElement.querySelector('.header-section-title');
-    expect(headerSectionTitle).toBeTruthy();
-  });
-
-  it('should not create header section title if total query is selected', () => {
-    component.isSummary = true;
-    fixture.detectChanges();
-    const headerSectionTitle = fixture.nativeElement.querySelector('.header-section-title');
-    expect(headerSectionTitle).toBeFalsy();
-  });
-
-  it('should create empty fields if Id or Abstract is not presented', () => {
-    component.isSummary = false;
-    component.queryDetails.Query.Abstract = undefined;
-    component.queryDetails.Query.Id = undefined;
-    fixture.detectChanges();
-    const spanAbstract = fixture.nativeElement.querySelector('.query-abstract');
-    const spanId = fixture.nativeElement.querySelector('.query-id');
-    expect(spanAbstract.innerHTML).toBe('');
-    expect(spanId.innerHTML).toBe('');
-  });
-
-  it('should create server summary section if total query is selected', () => {
-    component.isSummary = true;
-    fixture.detectChanges();
-    const serverSummary = fixture.nativeElement.querySelector('.server-summary');
-    expect(serverSummary).toBeTruthy();
-  });
-
-  it('should create server summary section if query is selected', () => {
-    component.isSummary = false;
-    fixture.detectChanges();
-    const serverSummary = fixture.nativeElement.querySelector('.server-summary');
-    expect(serverSummary).toBeTruthy();
-  });
-
-  it('should not create server summary section if query data is undefined', () => {
-    component.isSummary = false;
-    component.queryDetails.Metrics2 = undefined;
-    fixture.detectChanges();
-    const serverSummary = fixture.nativeElement.querySelector('.server-summary');
-    expect(serverSummary).toBeFalsy();
-  });
-
-  it('should not create server summary section if query data is null', () => {
-    component.isSummary = false;
-    component.queryDetails.Metrics2 = undefined;
-    fixture.detectChanges();
-    const serverSummary = fixture.nativeElement.querySelector('.server-summary');
-    expect(serverSummary).toBeFalsy();
-  });
-
-  it('should create server summary title if total query is selected', () => {
-    component.isSummary = true;
-    fixture.detectChanges();
-    const serverSummaryTitle = fixture.nativeElement.querySelector('.server-summary-title');
-    expect(serverSummaryTitle).toBeTruthy();
-  });
-
-  it('should not create server summary title if total query is not selected', () => {
-    component.isSummary = false;
-    fixture.detectChanges();
-    const serverSummaryTitle = fixture.nativeElement.querySelector('.server-summary-title');
-    expect(serverSummaryTitle).toBeFalsy();
-  });
-
-  it('should create query information element if total query is not selected', () => {
-    component.isSummary = false;
-    fixture.detectChanges();
-    const queryInformation = fixture.nativeElement.querySelector('.query-information');
-    expect(queryInformation).toBeTruthy();
-  });
-
-  it('should not create query information element if total query is selected', () => {
-    component.isSummary = true;
-    fixture.detectChanges();
-    const queryInformation = fixture.nativeElement.querySelector('.query-information');
-    expect(queryInformation).toBeFalsy();
-  });
-
-  it('should create metrics table if data was loaded', () => {
-    component.isLoading = false;
-    fixture.detectChanges();
-    const metricsTable = fixture.nativeElement.querySelector('.metrics-table');
-    expect(metricsTable).toBeTruthy();
-  });
-
-  it('should not create metrics table if data is loading', () => {
-    component.isLoading = true;
-    fixture.detectChanges();
-    const metricsTable = fixture.nativeElement.querySelector('.metrics-table');
-    expect(metricsTable).toBeFalsy();
-  });
-
-  it('should display additional information about query in metrics table if not total option is checked', () => {
-    component.isSummary = false;
-    fixture.detectChanges();
-    const nonSummaryInfo = fixture.nativeElement.querySelector('.non-summary-info');
-    [nonSummaryInfo].map(item => expect(item).toBeTruthy());
-  });
-
-  it('should not display additional information about query in metrics table if total option is not checked ', () => {
-    component.isSummary = true;
-    fixture.detectChanges();
-    const nonSummaryInfo = fixture.nativeElement.querySelector('.non-summary-info');
-    [nonSummaryInfo].map(item => expect(item).toBeFalsy());
-  });
-
-  it('should create needed table rows if needed data is present', () => {
-    component.queryDetails.Metrics2['Lock_time_sum'] = 0.323221;
-    component.queryDetails.Metrics2['InnoDB_rec_lock_wait_sum'] = 0.323221;
-    component.queryDetails.Metrics2['InnoDB_IO_r_wait_sum'] = 0.323221;
-    component.queryDetails.Metrics2['InnoDB_queue_wait_sum'] = 0.323221;
-    component.queryDetails.Metrics2['InnoDB_IO_r_ops_sum'] = 0.323221;
-    component.queryDetails.Metrics2['InnoDB_IO_r_bytes_sum'] = 0.323221;
-    component.queryDetails.Metrics2['InnoDB_pages_distinct_sum'] = 0.323221;
-    component.queryDetails.Metrics2['QC_Hit_sum'] = 0.323221;
-    component.queryDetails.Metrics2['Rows_sent_sum'] = 0.323221;
-    component.queryDetails.Metrics2['Bytes_sent_sum'] = 0.323221;
-    component.queryDetails.Metrics2['Rows_examined_sum'] = 0.323221;
-    component.queryDetails.Metrics2['Rows_affected_sum'] = 0.323221;
-    component.queryDetails.Metrics2['Filesort_sum'] = 0.323221;
-    component.queryDetails.Metrics2['Filesort_on_disk_sum'] = 0.323221;
-    component.queryDetails.Metrics2['Merge_passes_sum'] = 0.323221;
-    component.queryDetails.Metrics2['Full_join_sum'] = 0.323221;
-    component.queryDetails.Metrics2['Full_scan_sum'] = 0.323221;
-    component.queryDetails.Metrics2['Tmp_table_sum'] = 0.323221;
-    component.queryDetails.Metrics2['Tmp_tables_sum'] = 0.323221;
-    component.queryDetails.Metrics2['Tmp_table_on_disk_sum'] = 0.323221;
-    component.queryDetails.Metrics2['Tmp_disk_tables_sum'] = 0.323221;
-    component.queryDetails.Metrics2['Tmp_table_sizes_sum'] = 0.323221;
-    fixture.detectChanges();
-    const lockTime = fixture.nativeElement.querySelector('.lock-time');
-    const innoDBRecLockWaitSum = fixture.nativeElement.querySelector('.innoDB-rec-lock-wait-sum');
-    const innoDBIoRWaitSum = fixture.nativeElement.querySelector('.innoDB-io-r-wait-sum');
-    const innoDBQueueWaitSum = fixture.nativeElement.querySelector('.innoDB-queue-wait-sum');
-    const innoDBIoROpsSum = fixture.nativeElement.querySelector('.innoDB-io-r-ops-sum');
-    const innoDBIoRBytesSum = fixture.nativeElement.querySelector('.innoDB-io-r-bytes-sum');
-    const innoDBPagesDistinctSum = fixture.nativeElement.querySelector('.innoDB-pages-distinct-sum');
-    const qcHitSum = fixture.nativeElement.querySelector('.qc-hit-sum');
-    const rowsSentSum = fixture.nativeElement.querySelector('.rows-sent-sum');
-    const bytesSentSum = fixture.nativeElement.querySelector('.bytes-sent-sum');
-    const rowsExaminedSum = fixture.nativeElement.querySelector('.rows-examined-sum');
-    const rowsAffectedSum = fixture.nativeElement.querySelector('.rows-affected-sum');
-    const filesortSum = fixture.nativeElement.querySelector('.filesort-sum');
-    const filesortOnDisk = fixture.nativeElement.querySelector('.filesort-on-disk-sum');
-    const mergePassesSum = fixture.nativeElement.querySelector('.merge-passes-sum');
-    const fullJoinSum = fixture.nativeElement.querySelector('.full-join-sum');
-    const fullScanSum = fixture.nativeElement.querySelector('.full-scan-sum');
-    const tmpTableSum = fixture.nativeElement.querySelector('.tmp-table-sum');
-    const tmpTablesSum = fixture.nativeElement.querySelector('.tmp-tables-sum');
-    const tmpTableOnDiskSum = fixture.nativeElement.querySelector('.tmp-table-on-disk-sum');
-    const tmpDiskTablesSum = fixture.nativeElement.querySelector('.tmp-disk-tables-sum');
-    const tmpTableSizesSum = fixture.nativeElement.querySelector('.tmp-table-sizes-sum');
-    [
-      lockTime,
-      innoDBRecLockWaitSum,
-      innoDBIoRWaitSum,
-      innoDBQueueWaitSum,
-      innoDBIoROpsSum,
-      innoDBIoRBytesSum,
-      innoDBPagesDistinctSum,
-      qcHitSum,
-      rowsSentSum,
-      bytesSentSum,
-      rowsExaminedSum,
-      rowsAffectedSum,
-      filesortSum,
-      filesortOnDisk,
-      mergePassesSum,
-      fullJoinSum,
-      fullScanSum,
-      tmpTableSum,
-      tmpTablesSum,
-      tmpTableOnDiskSum,
-      tmpDiskTablesSum,
-      tmpTableSizesSum
-    ].map(item => expect(item).toBeTruthy());
-  });
-
-  it('should not create needed table rows if needed data is undefined', () => {
-    component.queryDetails.Metrics2['Lock_time_sum'] = undefined;
-    component.queryDetails.Metrics2['InnoDB_rec_lock_wait_sum'] = undefined;
-    component.queryDetails.Metrics2['InnoDB_IO_r_wait_sum'] = undefined;
-    component.queryDetails.Metrics2['InnoDB_queue_wait_sum'] = undefined;
-    component.queryDetails.Metrics2['InnoDB_IO_r_ops_sum'] = undefined;
-    component.queryDetails.Metrics2['InnoDB_IO_r_bytes_sum'] = undefined;
-    component.queryDetails.Metrics2['InnoDB_pages_distinct_sum'] = undefined;
-    component.queryDetails.Metrics2['QC_Hit_sum'] = undefined;
-    component.queryDetails.Metrics2['Rows_sent_sum'] = undefined;
-    component.queryDetails.Metrics2['Bytes_sent_sum'] = undefined;
-    component.queryDetails.Metrics2['Rows_examined_sum'] = undefined;
-    component.queryDetails.Metrics2['Rows_affected_sum'] = undefined;
-    component.queryDetails.Metrics2['Filesort_sum'] = undefined;
-    component.queryDetails.Metrics2['Filesort_on_disk_sum'] = undefined;
-    component.queryDetails.Metrics2['Merge_passes_sum'] = undefined;
-    component.queryDetails.Metrics2['Full_join_sum'] = undefined;
-    component.queryDetails.Metrics2['Full_scan_sum'] = undefined;
-    component.queryDetails.Metrics2['Tmp_table_sum'] = undefined;
-    component.queryDetails.Metrics2['Tmp_tables_sum'] = undefined;
-    component.queryDetails.Metrics2['Tmp_table_on_disk_sum'] = undefined;
-    component.queryDetails.Metrics2['Tmp_disk_tables_sum'] = undefined;
-    component.queryDetails.Metrics2['Tmp_table_sizes_sum'] = undefined;
-    fixture.detectChanges();
-    const lockTime = fixture.nativeElement.querySelector('.lock-time');
-    const innoDBRecLockWaitSum = fixture.nativeElement.querySelector('.innoDB-rec-lock-wait-sum');
-    const innoDBIoRWaitSum = fixture.nativeElement.querySelector('.innoDB-io-r-wait-sum');
-    const innoDBQueueWaitSum = fixture.nativeElement.querySelector('.innoDB-queue-wait-sum');
-    const innoDBIoROpsSum = fixture.nativeElement.querySelector('.innoDB-io-r-ops-sum');
-    const innoDBIoRBytesSum = fixture.nativeElement.querySelector('.innoDB-io-r-bytes-sum');
-    const innoDBPagesDistinctSum = fixture.nativeElement.querySelector('.innoDB-pages-distinct-sum');
-    const qcHitSum = fixture.nativeElement.querySelector('.qc-hit-sum');
-    const rowsSentSum = fixture.nativeElement.querySelector('.rows-sent-sum');
-    const bytesSentSum = fixture.nativeElement.querySelector('.bytes-sent-sum');
-    const rowsExaminedSum = fixture.nativeElement.querySelector('.rows-examined-sum');
-    const rowsAffectedSum = fixture.nativeElement.querySelector('.rows-affected-sum');
-    const filesortSum = fixture.nativeElement.querySelector('.filesort-sum');
-    const filesortOnDisk = fixture.nativeElement.querySelector('.filesort-on-disk-sum');
-    const mergePassesSum = fixture.nativeElement.querySelector('.merge-passes-sum');
-    const fullJoinSum = fixture.nativeElement.querySelector('.full-join-sum');
-    const fullScanSum = fixture.nativeElement.querySelector('.full-scan-sum');
-    const tmpTableSum = fixture.nativeElement.querySelector('.tmp-table-sum');
-    const tmpTablesSum = fixture.nativeElement.querySelector('.tmp-tables-sum');
-    const tmpTableOnDiskSum = fixture.nativeElement.querySelector('.tmp-table-on-disk-sum');
-    const tmpDiskTablesSum = fixture.nativeElement.querySelector('.tmp-disk-tables-sum');
-    const tmpTableSizesSum = fixture.nativeElement.querySelector('.tmp-table-sizes-sum');
-    [
-      lockTime,
-      innoDBRecLockWaitSum,
-      innoDBIoRWaitSum,
-      innoDBQueueWaitSum,
-      innoDBIoROpsSum,
-      innoDBIoRBytesSum,
-      innoDBPagesDistinctSum,
-      qcHitSum,
-      rowsSentSum,
-      bytesSentSum,
-      rowsExaminedSum,
-      rowsAffectedSum,
-      filesortSum,
-      filesortOnDisk,
-      mergePassesSum,
-      fullJoinSum,
-      fullScanSum,
-      tmpTableSum,
-      tmpTablesSum,
-      tmpTableOnDiskSum,
-      tmpDiskTablesSum,
-      tmpTableSizesSum
-    ].map(item => expect(item).toBeFalsy());
-  });
-
-  it('should not create needed table rows if needed data is null', () => {
-    component.queryDetails.Metrics2['Lock_time_sum'] = null;
-    component.queryDetails.Metrics2['InnoDB_rec_lock_wait_sum'] = null;
-    component.queryDetails.Metrics2['InnoDB_IO_r_wait_sum'] = null;
-    component.queryDetails.Metrics2['InnoDB_queue_wait_sum'] = null;
-    component.queryDetails.Metrics2['InnoDB_IO_r_ops_sum'] = null;
-    component.queryDetails.Metrics2['InnoDB_IO_r_bytes_sum'] = null;
-    component.queryDetails.Metrics2['InnoDB_pages_distinct_sum'] = null;
-    component.queryDetails.Metrics2['QC_Hit_sum'] = null;
-    component.queryDetails.Metrics2['Rows_sent_sum'] = null;
-    component.queryDetails.Metrics2['Bytes_sent_sum'] = null;
-    component.queryDetails.Metrics2['Rows_examined_sum'] = null;
-    component.queryDetails.Metrics2['Rows_affected_sum'] = null;
-    component.queryDetails.Metrics2['Filesort_sum'] = null;
-    component.queryDetails.Metrics2['Filesort_on_disk_sum'] = null;
-    component.queryDetails.Metrics2['Merge_passes_sum'] = null;
-    component.queryDetails.Metrics2['Full_join_sum'] = null;
-    component.queryDetails.Metrics2['Full_scan_sum'] = null;
-    component.queryDetails.Metrics2['Tmp_table_sum'] = null;
-    component.queryDetails.Metrics2['Tmp_tables_sum'] = null;
-    component.queryDetails.Metrics2['Tmp_table_on_disk_sum'] = null;
-    component.queryDetails.Metrics2['Tmp_disk_tables_sum'] = null;
-    component.queryDetails.Metrics2['Tmp_table_sizes_sum'] = null;
-    fixture.detectChanges();
-    const lockTime = fixture.nativeElement.querySelector('.lock-time');
-    const innoDBRecLockWaitSum = fixture.nativeElement.querySelector('.innoDB-rec-lock-wait-sum');
-    const innoDBIoRWaitSum = fixture.nativeElement.querySelector('.innoDB-io-r-wait-sum');
-    const innoDBQueueWaitSum = fixture.nativeElement.querySelector('.innoDB-queue-wait-sum');
-    const innoDBIoROpsSum = fixture.nativeElement.querySelector('.innoDB-io-r-ops-sum');
-    const innoDBIoRBytesSum = fixture.nativeElement.querySelector('.innoDB-io-r-bytes-sum');
-    const innoDBPagesDistinctSum = fixture.nativeElement.querySelector('.innoDB-pages-distinct-sum');
-    const qcHitSum = fixture.nativeElement.querySelector('.qc-hit-sum');
-    const rowsSentSum = fixture.nativeElement.querySelector('.rows-sent-sum');
-    const bytesSentSum = fixture.nativeElement.querySelector('.bytes-sent-sum');
-    const rowsExaminedSum = fixture.nativeElement.querySelector('.rows-examined-sum');
-    const rowsAffectedSum = fixture.nativeElement.querySelector('.rows-affected-sum');
-    const filesortSum = fixture.nativeElement.querySelector('.filesort-sum');
-    const filesortOnDisk = fixture.nativeElement.querySelector('.filesort-on-disk-sum');
-    const mergePassesSum = fixture.nativeElement.querySelector('.merge-passes-sum');
-    const fullJoinSum = fixture.nativeElement.querySelector('.full-join-sum');
-    const fullScanSum = fixture.nativeElement.querySelector('.full-scan-sum');
-    const tmpTableSum = fixture.nativeElement.querySelector('.tmp-table-sum');
-    const tmpTablesSum = fixture.nativeElement.querySelector('.tmp-tables-sum');
-    const tmpTableOnDiskSum = fixture.nativeElement.querySelector('.tmp-table-on-disk-sum');
-    const tmpDiskTablesSum = fixture.nativeElement.querySelector('.tmp-disk-tables-sum');
-    const tmpTableSizesSum = fixture.nativeElement.querySelector('.tmp-table-sizes-sum');
-    [
-      lockTime,
-      innoDBRecLockWaitSum,
-      innoDBIoRWaitSum,
-      innoDBQueueWaitSum,
-      innoDBIoROpsSum,
-      innoDBIoRBytesSum,
-      innoDBPagesDistinctSum,
-      qcHitSum,
-      rowsSentSum,
-      bytesSentSum,
-      rowsExaminedSum,
-      rowsAffectedSum,
-      filesortSum,
-      filesortOnDisk,
-      mergePassesSum,
-      fullJoinSum,
-      fullScanSum,
-      tmpTableSum,
-      tmpTablesSum,
-      tmpTableOnDiskSum,
-      tmpDiskTablesSum,
-      tmpTableSizesSum
-    ].map(item => expect(item).toBeFalsy());
-  });
-
-  it('should create needed table row data section if InnoDB_rec_lock_wait_sum_of_total and InnoDB_rec_lock_wait_sum are presented', () => {
-    component.queryDetails.Metrics2['InnoDB_rec_lock_wait_sum'] = 0.323221;
-    component.queryDetails.Metrics2['InnoDB_rec_lock_wait_sum_of_total'] = 0.323221;
-    fixture.detectChanges();
-    const tmpTablesSum = fixture.nativeElement.querySelector('.innoDB-rec-lock-wait-sum-of-total');
-    expect(tmpTablesSum).toBeTruthy();
-  });
-
-  it('should not create needed table row data section if innoDB-rec-lock-wait-sum-of-total is undefined', () => {
-    component.queryDetails.Metrics2['InnoDB_rec_lock_wait_sum'] = 0.323221;
-    component.queryDetails.Metrics2['InnoDB_rec_lock_wait_sum_of_total'] = undefined;
-    fixture.detectChanges();
-    const tmpTablesSum = fixture.nativeElement.querySelector('.innoDB-rec-lock-wait-sum-of-total');
-    expect(tmpTablesSum).toBeFalsy();
-  });
-
-  it('should not create needed table row data section if innoDB-rec-lock-wait-sum-of-total is null', () => {
-    component.queryDetails.Metrics2['InnoDB_rec_lock_wait_sum'] = 0.323221;
-    component.queryDetails.Metrics2['InnoDB_rec_lock_wait_sum_of_total'] = null;
-    fixture.detectChanges();
-    const tmpTablesSum = fixture.nativeElement.querySelector('.innoDB-rec-lock-wait-sum-of-total');
-    expect(tmpTablesSum).toBeFalsy();
-  });
-
-  it('should not create needed table row data section if InnoDB_rec_lock_wait_sum is undefined', () => {
-    component.queryDetails.Metrics2['InnoDB_rec_lock_wait_sum'] = undefined;
-    component.queryDetails.Metrics2['InnoDB_rec_lock_wait_sum_of_total'] = 0.323221;
-    fixture.detectChanges();
-    const tmpTablesSum = fixture.nativeElement.querySelector('.innoDB-rec-lock-wait-sum-of-total');
-    expect(tmpTablesSum).toBeFalsy();
-  });
-
-  it('should not create needed table row data section if InnoDB_rec_lock_wait_sum is null', () => {
-    component.queryDetails.Metrics2['InnoDB_rec_lock_wait_sum'] = null;
-    component.queryDetails.Metrics2['InnoDB_rec_lock_wait_sum_of_total'] = 0.323221;
-    fixture.detectChanges();
-    const tmpTablesSum = fixture.nativeElement.querySelector('.innoDB-rec-lock-wait-sum-of-total');
-    expect(tmpTablesSum).toBeFalsy();
-  });
-
-  it('should create query details section wrapper if not total query is not selected', () => {
-    component.isSummary = false;
-    fixture.detectChanges();
-    const sectionWrapper = fixture.nativeElement.querySelector('.sections-wrapper');
-    expect(sectionWrapper).toBeTruthy();
-  });
-
-  it('should not create query details section wrapper if total query is selected', () => {
-    component.isSummary = true;
-    fixture.detectChanges();
-    const sectionWrapper = fixture.nativeElement.querySelector('.sections-wrapper');
-    expect(sectionWrapper).toBeFalsy();
-  });
-
-  it('should create Query section if needed data is presented', () => {
-    component.isSummary = false;
-    component.queryExample = 'testQueryExample';
-    component.fingerprint = 'fingerprint';
-    fixture.detectChanges();
-    const query = fixture.nativeElement.querySelector('.query');
-    expect(query).toBeTruthy();
-  });
-
-  it('should create Query section if queryExample data is presented and fingerprint data is not presented', () => {
-    component.isSummary = false;
-    component.queryExample = 'testQueryExample';
-    component.fingerprint = '';
-    fixture.detectChanges();
-    const query = fixture.nativeElement.querySelector('.query');
-    expect(query).toBeTruthy();
-  });
-
-  it('should create Query section if fingerprint data is presented and queryExample data is not presented', () => {
-    component.isSummary = false;
-    component.queryExample = '';
-    component.fingerprint = 'testFingerprint';
-    fixture.detectChanges();
-    const query = fixture.nativeElement.querySelector('.query');
-    expect(query).toBeTruthy();
-  });
-
-  it('should not create Query section if needed data is not presented', () => {
-    component.isSummary = false;
-    component.queryExample = '';
-    component.fingerprint = '';
-    fixture.detectChanges();
-    const query = fixture.nativeElement.querySelector('.query');
-    expect(query).toBeFalsy();
-  });
-
-  it('should display fingerprint section if fingerprint is presented', () => {
-    component.fingerprint = 'testFingerprint';
-    fixture.detectChanges();
-    const fingerprintOutput = fixture.nativeElement.querySelector('#query-fingerprint-header');
-    expect(fingerprintOutput).toBeTruthy();
-  });
-
-  it('should not display fingerprint section if fingerprint is undefined', () => {
-    component.fingerprint = undefined;
-    fixture.detectChanges();
-    const fingerprintOutput = fixture.nativeElement.querySelector('#query-fingerprint-header');
-    expect(fingerprintOutput).toBeFalsy();
-  });
-
-  it('should not display fingerprint section if fingerprint is null', () => {
-    component.fingerprint = null;
-    fixture.detectChanges();
-    const fingerprintOutput = fixture.nativeElement.querySelector('#query-fingerprint-header');
-    expect(fingerprintOutput).toBeFalsy();
-  });
-
-  it('should display fingerprint output if data has been loaded', () => {
-    component.isLoading = false;
-    component.fingerprint = 'testFingerprint';
-    fixture.detectChanges();
-    const fingerprintOutput = fixture.nativeElement.querySelector('.fingerprint-output');
-    expect(fingerprintOutput).toBeTruthy();
-  });
-
-  it('should not display fingerprint output if data is not loaded', () => {
-    component.isLoading = true;
-    component.fingerprint = 'testFingerprint';
-    fixture.detectChanges();
-    const fingerprintOutput = fixture.nativeElement.querySelector('.fingerprint-output');
-    expect(fingerprintOutput).toBeFalsy();
-  });
-
-  it('should display query example section if query example data is presented', () => {
-    component.queryExample = 'testFingerprint';
-    fixture.detectChanges();
-    const fingerprintOutput = fixture.nativeElement.querySelector('#query-example-header');
-    expect(fingerprintOutput).toBeTruthy();
-  });
-
-  it('should not display query example section if query example data is undefined', () => {
-    component.queryExample = undefined;
-    fixture.detectChanges();
-    const fingerprintOutput = fixture.nativeElement.querySelector('#query-example-header');
-    expect(fingerprintOutput).toBeFalsy();
-  });
-
-  it('should not display query example section if query example data is null', () => {
-    component.queryExample = null;
-    fixture.detectChanges();
-    const fingerprintOutput = fixture.nativeElement.querySelector('#query-example-header');
-    expect(fingerprintOutput).toBeFalsy();
-  });
-
-  it('should display query example output if data has been loaded', () => {
-    component.isLoading = false;
-    component.queryExample = 'testFingerprint';
-    fixture.detectChanges();
-    const fingerprintOutput = fixture.nativeElement.querySelector('.query-example-output');
-    expect(fingerprintOutput).toBeTruthy();
-  });
-
-  it('should not display query example output if data is not loaded', () => {
-    component.isLoading = true;
-    component.queryExample = 'testFingerprint';
-    fixture.detectChanges();
-    const fingerprintOutput = fixture.nativeElement.querySelector('.query-example-output');
-    expect(fingerprintOutput).toBeFalsy();
-  });
-
-  it('should not display explain section if needed data is not presented', () => {
-    component.queryExample = '';
-    component.classicExplainError = '';
-    component.jsonExplain = false;
-    component.jsonExplainError = '';
-    component.visualExplain = false;
-    component.visualExplainError = '';
-    fixture.detectChanges();
-    const explain = fixture.nativeElement.querySelector('.explain');
-    expect(explain).toBeFalsy();
-  });
-
-  it('should create explain section if query details is undefined', () => {
-    component.queryDetails = undefined;
-    fixture.detectChanges();
-    const explainWrapper = fixture.nativeElement.querySelector('.explain-wrapper');
-    expect(explainWrapper).toBeFalsy();
-  });
-
-  it('should create explain section if if query details is null', () => {
-    component.queryDetails = null;
-    fixture.detectChanges();
-    const explainWrapper = fixture.nativeElement.querySelector('.explain-wrapper');
-    expect(explainWrapper).toBeFalsy();
-  });
-
-  it('should create detail information about query', () => {
-    component.isSummary = true;
-    fixture.detectChanges();
-    const h3 = fixture.nativeElement.querySelector('h3');
-    expect(h3).toBeTruthy();
-  });
-
-  it('should create Classic Explain section if data is correct', () => {
-    component.queryExample = 'testQueryExample';
-    component.isExplainLoading = false;
-    component.classicExplainError = '';
-    component.classicExplain = [{
-      CreateTable: null,
-      Extra: null,
-      Filtered: 100,
-      Id: 1,
-      Key: 'PRIMARY',
-      KeyLen: '4',
-      Partitions: null,
-      PossibleKeys: 'PRIMARY',
-      Ref: 'const',
-      Rows: 1,
-      SelectType: 'SIMPLE',
-      Table: 'sbtest1',
-      Type: 'const'
-    }];
-    fixture.detectChanges();
-    const classicExplain = fixture.nativeElement.querySelector('#classic-explain-header');
-    expect(classicExplain).toBeTruthy();
-  });
-
-  it('should create Visual Explain section and Json Explain section if data is correct', () => {
-    component.queryExample = 'testQueryExample';
-    component.isExplainLoading = false;
-    component.visualExplainError = component.jsonExplainError = '';
-    component.visualExplain = component.jsonExplain = 'data';
-    fixture.detectChanges();
-    const visualExplain = fixture.nativeElement.querySelector('#visual-explain-header');
-    const jsonExplain = fixture.nativeElement.querySelector('#json-explain-header');
-    [jsonExplain, visualExplain].map(item => expect(item).toBeTruthy());
-  });
-
-  it('should not create Explain section if data is undefined', () => {
-    component.classicExplain = component.jsonExplain = component.visualExplain = undefined;
-    fixture.detectChanges();
-    const jsonExplain = fixture.nativeElement.querySelector('#json-explain-header');
-    const classicExplain = fixture.nativeElement.querySelector('#classic-explain-header');
-    const visualExplain = fixture.nativeElement.querySelector('#visual-explain-header');
-    [classicExplain, jsonExplain, visualExplain].map(item => expect(item).toBeFalsy());
-  });
-
-  it('should create Explain section if error is presented', () => {
-    component.classicExplainError = component.jsonExplainError = component.visualExplainError = 'error';
-    fixture.detectChanges();
-    const jsonExplain = fixture.nativeElement.querySelector('#json-explain-header');
-    const classicExplain = fixture.nativeElement.querySelector('#classic-explain-header');
-    const visualExplain = fixture.nativeElement.querySelector('#visual-explain-header');
-    [classicExplain, jsonExplain, visualExplain].map(item => expect(item).toBeTruthy());
-  });
-
-  it('should create table section if response has tables', () => {
-    component.createTable = 'data';
-    component.statusTable = 'data';
-    component.indexTable = 'data';
-    fixture.detectChanges();
-    const tableCreate = fixture.nativeElement.querySelector('#table-create-header');
-    const tableStatus = fixture.nativeElement.querySelector('#table-status-header');
-    const tableIndexes = fixture.nativeElement.querySelector('#table-indexes-header');
-    [tableCreate, tableStatus, tableIndexes].map(item => expect(item).toBeTruthy());
-  });
-
-  it('should not create table section if response has no tables', () => {
-    component.queryDetails.Query.Tables = null;
-    fixture.detectChanges();
-    const tableCreate = fixture.nativeElement.querySelector('#table-create-header');
-    const tableStatus = fixture.nativeElement.querySelector('#table-status-header');
-    const tableIndexes = fixture.nativeElement.querySelector('#table-indexes-header');
-    [tableCreate, tableStatus, tableIndexes].map(item => expect(item).toBeFalsy());
-  });
-
-  it('should not create table sections if data is undefined', () => {
-    component.createTable = component.statusTable = component.indexTable = undefined;
-    fixture.detectChanges();
-    const tableCreateHeader = fixture.nativeElement.querySelector('#table-create-header');
-    const tableStatusHeader = fixture.nativeElement.querySelector('#table-status-header');
-    const tableIndexHeader = fixture.nativeElement.querySelector('#table-index-header');
-    [tableCreateHeader, tableStatusHeader, tableIndexHeader].map(item => expect(item).toBeFalsy());
-  });
-
-  it('should display table spinner if data is loading', () => {
-    component.indexTable = 'data';
-    component.isTableInfoLoading = true;
-    fixture.detectChanges();
-    const tableSpinner = fixture.nativeElement.querySelector('.table-spinner');
-    expect(tableSpinner).toBeTruthy();
-  });
-
-  it('should not display table spinner if data is loaded', () => {
-    component.isSummary = false;
-    component.indexTable = 'data';
-    component.isTableInfoLoading = false;
-    fixture.detectChanges();
-    const tableSpinner = fixture.nativeElement.querySelector('.table-spinner');
-    expect(tableSpinner).toBeFalsy();
-  });
-
-  it('should display error if index table error is presented', () => {
-    component.isSummary = false;
-    component.indexTable = 'data';
-    component.isTableInfoLoading = false;
-    component.indexTableError = 'Error';
-    fixture.detectChanges();
-    const indexTableError = fixture.nativeElement.querySelector('.index-table-error');
-    expect(indexTableError).toBeTruthy();
-  });
-
-  it('should not display error if index table error is not presented', () => {
-    component.isSummary = false;
-    component.indexTable = 'data';
-    component.isTableInfoLoading = false;
-    component.indexTableError = '';
-    fixture.detectChanges();
-    const indexTableError = fixture.nativeElement.querySelector('.index-table-error');
-    expect(indexTableError).toBeFalsy();
-  });
-
-  it('should display no data message', () => {
-    component.indexTable = 'data';
-    component.isTableInfoLoading = false;
-    component.indexTableError = '';
-    component.tableInfo.Index.length = 0;
-    fixture.detectChanges();
-    const noData = fixture.nativeElement.querySelector('.no-data');
-    expect(noData).toBeTruthy();
-  });
-
-  it('should not create table section if query details is undefined', () => {
-    component.queryDetails = undefined;
-    fixture.detectChanges();
-    const tableCreate = fixture.nativeElement.querySelector('#table-create-header');
-    const tableStatus = fixture.nativeElement.querySelector('#table-status-header');
-    const tableIndexes = fixture.nativeElement.querySelector('#table-indexes-header');
-    [tableCreate, tableStatus, tableIndexes].map(item => expect(item).toBeFalsy());
-  });
-
-  it('should not create table section if query details is null', () => {
-    component.queryDetails = null;
-    fixture.detectChanges();
-    const tableCreate = fixture.nativeElement.querySelector('#table-create-header');
-    const tableStatus = fixture.nativeElement.querySelector('#table-status-header');
-    const tableIndexes = fixture.nativeElement.querySelector('#table-indexes-header');
-    [tableCreate, tableStatus, tableIndexes].map(item => expect(item).toBeFalsy());
-  });
-
-  it('should not create table tools if if query details is undefined', () => {
-    component.queryDetails = undefined;
-    fixture.detectChanges();
-    const tableTools = fixture.nativeElement.querySelector('.table-tools');
-    expect(tableTools).toBeFalsy();
-  });
-
   it('should return Db name if it presented', () => {
     component.queryDetails.Example.Db = 'performance_schema';
     const result = component.getDBName();
@@ -1534,7 +847,8 @@ describe('MySQLQueryDetailsComponent', () => {
       }
     };
     component.dbTblNames = '`performance_schema`.`events_statements_history`';
-    const response = Object.assign({}, tableInfoResponse);
+    const response = Object.assign({}, tableInfoResponse, {json: () => response._body});
+    response._body = Object.assign({}, response._body);
     delete response['performance_schema.events_statements_history']['Errors'];
     const spy = spyOn(component.queryDetailsService, 'getTableInfo').and.returnValue(Promise.resolve(response));
     component.getTableInfo();
@@ -1571,7 +885,8 @@ describe('MySQLQueryDetailsComponent', () => {
       }
     };
     component.dbTblNames = '`performance_schema`.`events_statements_history`';
-    const response = Object.assign({}, tableInfoResponse);
+    const response = Object.assign({}, tableInfoResponse, {json: () => response._body});
+    response._body = Object.assign({}, response._body);
     response['performance_schema.events_statements_history']['Errors'] = ['err1', 'err2'];
     const spy = spyOn(component.queryDetailsService, 'getTableInfo').and.returnValue(Promise.resolve(response));
     component.getTableInfo();
@@ -1608,7 +923,8 @@ describe('MySQLQueryDetailsComponent', () => {
       }
     };
     component.dbTblNames = '`performance_schema`.`events_statements_history`';
-    const response = Object.assign({}, tableInfoResponse);
+    const response = Object.assign({}, tableInfoResponse, {json: () => response._body});
+    response._body = Object.assign({}, response._body);
     delete response['Create'];
     response['performance_schema.events_statements_history']['Errors'] = [
       'SHOW CREATE TABLE sbtest1: Error 1046: No database selected',
@@ -1653,7 +969,8 @@ describe('MySQLQueryDetailsComponent', () => {
     };
     component.dbTblNames = '`performance_schema`.`events_statements_history`';
     component.dbTblNames = '`performance_schema`.`events_statements_history`';
-    const response = Object.assign({}, tableInfoResponse);
+    const response = Object.assign({}, tableInfoResponse, {json: () => response._body});
+    response._body = Object.assign({}, response._body);
     response['performance_schema.events_statements_history']['Errors'] = null;
     const spy = spyOn(component.queryDetailsService, 'getTableInfo').and.returnValue(Promise.resolve(response));
     component.selectTableInfo('performance_schema', 'events_statements_history');
@@ -1690,7 +1007,8 @@ describe('MySQLQueryDetailsComponent', () => {
       }
     };
     component.dbTblNames = '`performance_schema`.`events_statements_history`';
-    const response = Object.assign({}, tableInfoResponse);
+    const response = Object.assign({}, tableInfoResponse, {json: () => response._body});
+    response._body = Object.assign({}, response._body);
     const spy = spyOn(component.queryDetailsService, 'getTableInfo').and.returnValue(Promise.resolve(response));
     component.selectTableInfo('performance_schema', 'events_statements_history');
     spy.calls.mostRecent().returnValue.then((data) => {
@@ -1726,7 +1044,8 @@ describe('MySQLQueryDetailsComponent', () => {
       }
     };
     component.dbTblNames = '`performance_schema`.`events_statements_history`';
-    const response = Object.assign({}, tableInfoResponse);
+    const response = Object.assign({}, tableInfoResponse, {json: () => response._body});
+    response._body = Object.assign({}, response._body);
     const spy = spyOn(component.queryDetailsService, 'getTableInfo').and.returnValue(Promise.resolve(response));
     component.selectTableInfo('performance_schema', 'events_statements_history');
     spy.calls.mostRecent().returnValue.then((data) => {
@@ -1761,7 +1080,8 @@ describe('MySQLQueryDetailsComponent', () => {
         Version: 'string',
       }
     };
-    const response = Object.assign({}, explainResponse);
+    const response = Object.assign({}, explainResponse, {json: () => response._body});
+    response._body = Object.assign({}, response._body);
     const spy = spyOn(component.queryDetailsService, 'getExplain').and.returnValue(Promise.resolve(response));
     component.getExplain();
     spy.calls.mostRecent().returnValue.then((data) => {
@@ -1774,6 +1094,9 @@ describe('MySQLQueryDetailsComponent', () => {
   it('should not call getExplain if needed data is not presented', () => {
     const spy = spyOn(component, 'getExplain');
     const response = Object.assign({}, queryDetailsResponse);
+    response.Example = Object.assign({}, response.Example);
+    response.Example.Query = Object.assign({}, response.Example.Query);
+    response['Example']['Query'] = '';
     component.dbServer = {
       Created: 'string',
       DSN: 'string',
@@ -1800,7 +1123,6 @@ describe('MySQLQueryDetailsComponent', () => {
     };
     component.fromUTCDate = '2017-08-23T08:45:59Z';
     component.toUTCDate = '92345678';
-    response['Example']['Query'] = '';
     component.getQueryDetails(component.dbServer.UUID, component.queryParams.queryID, component.fromUTCDate, component.toUTCDate);
     expect(spy).not.toHaveBeenCalled();
   });
@@ -1906,7 +1228,9 @@ describe('MySQLQueryDetailsComponent', () => {
     component.fromUTCDate = '2017-08-23T08:45:59Z';
     component.toUTCDate = '92345678';
     const response = Object.assign({}, queryDetailsResponse);
-    response['Example']['Query'] = 'Query';
+    response.Example = Object.assign({}, response.Example);
+    response.Example.Query = Object.assign({}, response.Example.Query);
+    response.Example['Query'] = 'Query';
     const spy = spyOn(component.queryDetailsService, 'getQueryDetails').and.returnValue(Promise.resolve(response));
     component.getQueryDetails(component.dbServer.UUID, component.queryParams.queryID, component.fromUTCDate, component.toUTCDate);
     spy.calls.mostRecent().returnValue.then((data) => {

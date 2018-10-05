@@ -10,7 +10,7 @@ describe('InstanceService', () => {
   let service: InstanceService;
   let backend: MockBackend;
   const dbServersJson = require('../mock-data/dbServers-mock.json');
-  const dbServerResponse = Object.assign(dbServersJson, {json: () => dbServersJson._body});
+  const dbServerResponse = Object.assign({}, dbServersJson);
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -20,7 +20,7 @@ describe('InstanceService', () => {
         BaseRequestOptions,
         {
           provide: Http,
-          useFactory: (backend, defaultOptions) => new Http(backend, defaultOptions),
+          useFactory: (backendData, defaultOptions) => new Http(backend, defaultOptions),
           deps: [MockBackend, BaseRequestOptions]
         },
         InstanceService
@@ -36,10 +36,8 @@ describe('InstanceService', () => {
   });
 
   it('should be created', fakeAsync(() => {
-    const dataResponse = undefined;
-
     backend.connections.subscribe(connection => {
-      connection.mockRespond(dataResponse);
+      connection.mockRespond(undefined);
     });
 
     service.getDBServers();
@@ -48,9 +46,11 @@ describe('InstanceService', () => {
   }));
 
   it('should create dbServer if response data is valid', fakeAsync(() => {
-    const dataResponse = Object.assign({}, dbServerResponse);
+    const response = Object.assign({}, dbServerResponse, {json: () => response._body});
+    response._body = Object.assign({}, response._body);
+
     backend.connections.subscribe(connection => {
-      connection.mockRespond(dataResponse);
+      connection.mockRespond(response);
     });
 
     service.getDBServers();

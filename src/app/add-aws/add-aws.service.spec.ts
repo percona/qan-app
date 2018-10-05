@@ -18,7 +18,7 @@ describe('AddAwsService', () => {
     region: 'string'
   };
   const instanceJson = require('../mock-data/instance-mock.json');
-  const dataResponse = Object.assign(instanceJson, {json: () => instanceJson._body});
+  const instanceResponse = Object.assign({}, instanceJson);
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -28,7 +28,7 @@ describe('AddAwsService', () => {
         BaseRequestOptions,
         {
           provide: Http,
-          useFactory: (backend, defaultOptions) => new Http(backend, defaultOptions),
+          useFactory: (backendData, defaultOptions) => new Http(backend, defaultOptions),
           deps: [MockBackend, BaseRequestOptions]
         },
         AddAwsService
@@ -44,8 +44,10 @@ describe('AddAwsService', () => {
   });
 
   it('should be true if discover response data is valid', fakeAsync(() => {
+    const response = Object.assign({}, instanceResponse, {json: () => response._body});
+    response._body = Object.assign({}, response._body);
     backend.connections.subscribe(connection => {
-      connection.mockRespond(dataResponse);
+      connection.mockRespond(response);
     });
 
     const result = service.discover(rdsCredentials);
@@ -58,9 +60,11 @@ describe('AddAwsService', () => {
       username: 'username',
       password: 'password'
     };
+    const response = Object.assign({}, instanceResponse, {json: () => response._body});
+    response._body = Object.assign({}, response._body);
 
     backend.connections.subscribe(connection => {
-      connection.mockRespond(dataResponse);
+      connection.mockRespond(response);
     });
 
     const result = service.enable(rdsCredentials, rdsNode, mysqlCredentials);
@@ -69,8 +73,10 @@ describe('AddAwsService', () => {
   }));
 
   it('should be true if disable response data is valid', fakeAsync(() => {
+    const response = Object.assign({}, instanceResponse, {json: () => response._body});
+    response._body = Object.assign({}, response._body);
     backend.connections.subscribe(connection => {
-      connection.mockRespond(dataResponse);
+      connection.mockRespond(response);
     });
 
     const result = service.disable(rdsNode);
@@ -79,8 +85,10 @@ describe('AddAwsService', () => {
   }));
 
   it('should be true if getRegistered response data is valid', fakeAsync(() => {
+    const response = Object.assign({}, instanceResponse, {json: () => response._body});
+    response._body = Object.assign({}, response._body);
     backend.connections.subscribe(connection => {
-      connection.mockRespond(dataResponse);
+      connection.mockRespond(response);
     });
 
     const result = service.getRegistered();

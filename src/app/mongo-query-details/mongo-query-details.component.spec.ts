@@ -21,8 +21,8 @@ describe('MongoQueryDetailsComponent', () => {
     let fixture: ComponentFixture<MongoQueryDetailsComponent>;
     const mockExplainData = require('../mock-data/explain-mock.json');
     const mockQueryDetailsData = require('../mock-data/query-details-mock.json');
-    const responseExplain = Object.assign(mockExplainData, {json: () => JSON.parse(mockExplainData)});
-    const responseQueryDetails = Object.assign(mockQueryDetailsData, {json: () => JSON.parse(mockQueryDetailsData)});
+    const responseExplain = Object.assign({}, mockExplainData);
+    const responseQueryDetails = Object.assign({}, mockQueryDetailsData);
 
     beforeEach(async(() => {
       TestBed.configureTestingModule({
@@ -169,96 +169,7 @@ describe('MongoQueryDetailsComponent', () => {
       expect(component).toBeTruthy();
     });
 
-    it('should create fields with information about query', () => {
-      component.isSummary = false;
-      fixture.detectChanges();
-      const spanAbstract = fixture.nativeElement.querySelector('.query-abstract');
-      const spanId = fixture.nativeElement.querySelector('.query-id');
-      expect(spanAbstract.innerHTML).toBe(component.queryDetails.Query.Abstract);
-      expect(spanId.innerHTML).toBe(component.queryDetails.Query.Id);
-    });
-
-    it('should display information about first seen and last seen query', () => {
-      component.isSummary = false;
-      fixture.detectChanges();
-      const firstSeenTimeRange = fixture.nativeElement.querySelector('.first-seen-range');
-      expect(firstSeenTimeRange).toBeTruthy();
-    });
-
-    it('should display server summery if summery option is selected', () => {
-      component.isSummary = true;
-      fixture.detectChanges();
-      const summaryHeader = fixture.nativeElement.querySelector('.summary-header');
-      expect(summaryHeader).toBeTruthy();
-      expect(summaryHeader.innerHTML).toBe('Server Summary');
-    });
-
-    it('should display additional information about selected query', () => {
-      component.isSummary = false;
-      fixture.detectChanges();
-      const spanAbstract = fixture.nativeElement.querySelector('.sections-wrapper');
-      expect(spanAbstract).toBeTruthy();
-    });
-
-    it('should not display additional information about selected query', () => {
-      component.isSummary = true;
-      fixture.detectChanges();
-      const spanAbstract = fixture.nativeElement.querySelector('.sections-wrapper');
-      expect(spanAbstract).toBeFalsy();
-    });
-
-    it('should display fingerprint output if fingerprint is correct', () => {
-      component.queryDetails.Query.Fingerprint = 'queryFingerprint';
-      const fingerprintOutput = fixture.nativeElement.querySelector('#query-fingerprint-header');
-      expect(fingerprintOutput).toBeFalsy();
-    });
-
-    it('should not display fingerprint output if fingerprint is null', () => {
-      component.queryDetails.Query.Fingerprint = null;
-      const fingerprintOutput = fixture.nativeElement.querySelector('#query-fingerprint-header');
-      expect(fingerprintOutput).toBeFalsy();
-    });
-
-    it('should not display fingerprint output if fingerprint is undefined', () => {
-      component.queryDetails.Query.Fingerprint = undefined;
-      const fingerprintOutput = fixture.nativeElement.querySelector('#query-fingerprint-header');
-      expect(fingerprintOutput).toBeFalsy();
-    });
-
-    it('should create Query section if data is correct', () => {
-      component.isSummary = false;
-      component.queryExample = 'testQueryExample';
-      fixture.detectChanges();
-      const queryFingerprint = fixture.nativeElement.querySelector('#query-fingerprint-header');
-      const queryExample = fixture.nativeElement.querySelector('#query-example-header');
-      expect([queryFingerprint, queryExample]).toBeTruthy();
-    });
-
-    it('should create Json Explain section if data is correct', () => {
-      component.queryExample = 'testQueryExample';
-      component.isExplainLoading = false;
-      component.errExplain = '';
-      component.jsonExplain = 'data';
-      fixture.detectChanges();
-      const jsonExplain = fixture.nativeElement.querySelector('#json-explain-header');
-      expect(jsonExplain).toBeTruthy();
-    });
-
-    it('should not create Explain section if data is undefined', () => {
-      component.jsonExplain = undefined;
-      fixture.detectChanges();
-      const jsonExplain = fixture.nativeElement.querySelector('#json-explain-header');
-      expect(jsonExplain).toBeFalsy();
-    });
-
-    it('should not create Explain section if error is presented', () => {
-      component.errExplain = 'error';
-      fixture.detectChanges();
-      const jsonExplain = fixture.nativeElement.querySelector('#json-explain-header');
-      expect(jsonExplain).toBeFalsy();
-    });
-
-    it('should be truthy if total query is not selected', () => {
+    it('should be true if total query is not selected', () => {
       component.dbServer = {
         Created: 'string',
         DSN: 'string',
@@ -579,10 +490,11 @@ describe('MongoQueryDetailsComponent', () => {
           Version: 'string',
         }
       };
+      const responseData = Object.assign({}, responseQueryDetails);
+      console.log('responseData - ', responseData);
+      const spy = spyOn(component.queryDetailsService, 'getQueryDetails').and.returnValue(Promise.resolve(responseData));
       component.fromUTCDate = '2018-08-23T08:45:59Z';
       component.toUTCDate = '2018-10-23T08:45:59Z';
-      const responseData = Object.assign({}, responseQueryDetails);
-      const spy = spyOn(component.queryDetailsService, 'getQueryDetails').and.returnValue(Promise.resolve(responseData));
       component.getQueryDetails(component.dbServer.UUID, component.queryParams.queryID, component.fromUTCDate, component.toUTCDate);
       spy.calls.mostRecent().returnValue.then((data) => {
         fixture.detectChanges();

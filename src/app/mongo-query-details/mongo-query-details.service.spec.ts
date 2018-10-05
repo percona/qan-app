@@ -11,8 +11,8 @@ describe('MongoQueryDetailsService', () => {
   let backend: MockBackend;
   const mockExplainDecodeData = require('../mock-data/explain-decode-mock.json');
   const mockQueryDetailsData = require('../mock-data/query-details-mock.json');
-  const responseExplain = Object.assign(mockExplainDecodeData, {json: () => mockExplainDecodeData._body});
-  const responseQueryDetails = Object.assign(mockQueryDetailsData, {json: () => JSON.parse(mockQueryDetailsData)});
+  const responseExplain = Object.assign(mockExplainDecodeData);
+  const responseQueryDetails = Object.assign({}, mockQueryDetailsData);
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -22,7 +22,7 @@ describe('MongoQueryDetailsService', () => {
         BaseRequestOptions,
         {
           provide: Http,
-          useFactory: (backend, defaultOptions) => new Http(backend, defaultOptions),
+          useFactory: (backendData, defaultOptions) => new Http(backend, defaultOptions),
           deps: [MockBackend, BaseRequestOptions]
         },
         MongoQueryDetailsService
@@ -74,7 +74,7 @@ describe('MongoQueryDetailsService', () => {
   }));
 
   it('should be true if getExplain response data is valid', fakeAsync(() => {
-    const responseData = Object.assign({}, responseExplain);
+    const responseData = Object.assign({}, responseExplain, {json: () => responseData._body});
     backend.connections.subscribe(connection => {
       connection.mockRespond(responseData);
     });

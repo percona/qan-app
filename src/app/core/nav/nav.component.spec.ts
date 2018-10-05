@@ -7,7 +7,7 @@ import {TruncateRootPipe} from '../../shared/truncate-root.pipe';
 import {RouterTestingModule} from '@angular/router/testing';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {HttpModule} from '@angular/http';
-import {NgbDropdownConfig, NgbDropdownModule,} from '@ng-bootstrap/ng-bootstrap';
+import {NgbDropdownConfig, NgbDropdownModule} from '@ng-bootstrap/ng-bootstrap';
 import {ActivatedRoute} from '@angular/router';
 import {InstanceService} from '../instance.service';
 import {MomentFormatPipe} from '../../shared/moment-format.pipe';
