@@ -1,5 +1,11 @@
+.data-output {
+  position: relative;
+  overflow-y: scroll;
+}
+
 .pmm-button {
-  float: right;
+  position: fixed;
+  right: 15px;
 }
 
 section.explain {
