@@ -2,7 +2,7 @@
  * Base class for query-details-pages.
  */
 import {CoreComponent} from './core.component';
-import {QueryDetails} from '../mongo-query-details/mongo-query-details.service';
+import { QueryDetails } from './base-query-details.service';
 import {ActivatedRoute, Router} from '@angular/router';
 import {InstanceService} from './instance.service';
 import {BaseQueryDetailsService} from './base-query-details.service';
@@ -143,7 +143,6 @@ export abstract class BaseQueryDetailsComponent extends CoreComponent {
 
     try {
       this.data = await this.queryDetailsService.getExplain(agentUUID, dbServerUUID, this.dbName, query);
-
       if (this.data.hasOwnProperty('Error') && this.data['Error'] !== '') {
         throw new Error(this.data['Error']);
       }
@@ -155,7 +154,7 @@ export abstract class BaseQueryDetailsComponent extends CoreComponent {
       }
 
 
-      const jsonSection = JSON.parse(atob(this.data.JSON));
+      const jsonSection = this.data.JSON;
       this.jsonExplain = typeof jsonSection === 'string' ? JSON.parse(jsonSection) : jsonSection;
       this.jsonExplainString = JSON.stringify(this.jsonExplain);
 

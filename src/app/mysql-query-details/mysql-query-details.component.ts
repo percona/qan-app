@@ -2,10 +2,11 @@ import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { InstanceService } from '../core/instance.service';
 import { QueryParams } from '../core/core.component';
-import { MySQLQueryDetailsService, QueryDetails } from './mysql-query-details.service';
+import { MySQLQueryDetailsService } from './mysql-query-details.service';
+import {BaseQueryDetailsService} from '../core/base-query-details.service';
+import { QueryDetails } from '../core/base-query-details.service';
 import * as hljs from 'highlight.js';
 import {BaseQueryDetailsComponent} from '../core/base-query-details.component';
-import {BaseQueryDetailsService} from '../core/base-query-details.service';
 
 @Component({
   moduleId: module.id,
@@ -45,7 +46,6 @@ export class MySQLQueryDetailsComponent extends BaseQueryDetailsComponent implem
   }
 
   ngOnInit() {
-    console.log('OnInit');
     this.queryParams = this.route.snapshot.queryParams as QueryParams;
     this.parseParams();
     this.onChangeParams(this.queryParams);

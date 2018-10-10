@@ -2,7 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { InstanceService } from '../core/instance.service';
 import { QueryParams } from '../core/core.component';
-import { MongoQueryDetailsService, QueryDetails } from './mongo-query-details.service';
+import { MongoQueryDetailsService } from './mongo-query-details.service';
+import {QueryDetails} from '../core/base-query-details.service';
 import {BaseQueryDetailsComponent} from '../core/base-query-details.component';
 import {BaseQueryDetailsService} from '../core/base-query-details.service';
 
