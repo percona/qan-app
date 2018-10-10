@@ -20,6 +20,9 @@ export abstract class BaseQueryDetailsComponent extends CoreComponent {
   public createTable: string;
   public statusTable;
   public indexTable;
+  public classicExplain;
+  public visualExplain;
+  public data;
   isSummary: boolean;
   isLoading: boolean;
   isFirstSeen: boolean;
@@ -31,6 +34,8 @@ export abstract class BaseQueryDetailsComponent extends CoreComponent {
   statusTableError: string;
   indexTableError: string;
   jsonExplainError: string;
+  jsonExplainString: string;
+  jsonExplain: string;
   classicExplainError: string;
   visualExplainError: string;
   isCopied = {
@@ -40,6 +45,8 @@ export abstract class BaseQueryDetailsComponent extends CoreComponent {
     createTable: false,
     jsonExplain: false
   };
+
+  event = new Event('showSuccessNotification');
 
   constructor(protected route: ActivatedRoute, protected router: Router,
               protected instanceService: InstanceService, protected queryDetailsService: BaseQueryDetailsService) {
@@ -68,27 +75,6 @@ export abstract class BaseQueryDetailsComponent extends CoreComponent {
     }
   }
 
-  //mongo
-  // getQueryDetails(dbServerUUID, queryID, from, to: string) {
-  //   this.isLoading = true;
-  //   this.dbName = this.dbTblNames = '';
-  //   this.queryExample = '';
-  //   this.queryDetailsService.getQueryDetails(dbServerUUID, queryID, from, to)
-  //     .then(data => {
-  //       this.queryDetails = data;
-  //       this.firstSeen = moment(this.queryDetails.Query.FirstSeen).calendar(null, {sameElse: 'lll'});
-  //       this.lastSeen = moment(this.queryDetails.Query.LastSeen).calendar(null, {sameElse: 'lll'});
-  //       this.fingerprint = this.queryDetails.Query.Fingerprint; // dif
-  //       this.queryExample = hljs.highlight('json', vkbeautify.json(this.queryDetails.Example.Query)).value; //dif
-  //       this.isFirstSeen = moment.utc(this.queryDetails.Query.FirstSeen).valueOf() > moment.utc(this.fromUTCDate).valueOf();
-  //       this.isLoading = false;
-  //     })
-  //     // .then(() => this.getExplain())
-  //     // dif
-  //     .catch(err => console.log(err));
-  // }
-
-  //mysql
   async getQueryDetails(dbServerUUID, queryID, from, to: string) {
     this.isLoading = true;
     this.dbName = this.dbTblNames = '';
@@ -124,6 +110,62 @@ export abstract class BaseQueryDetailsComponent extends CoreComponent {
     } catch (err) {
       console.error(err);
     }
+  }
+
+  async getExplain() {
+    if (!this.dbServer || !this.dbServer.Agent) { return; }
+    this.isExplainLoading = true;
+    this.jsonExplain = '';
+    this.jsonExplainError = '';
+    this.classicExplainError = '';
+    this.visualExplainError = '';
+    const agentUUID = this.dbServer.Agent.UUID;
+    const dbServerUUID = this.dbServer.UUID;
+
+    this.isCopied.visualExplain = false;
+
+    if (this.dbName === '') {
+      this.dbName = this.getDBName();
+    }
+    const query = this.queryDetails.Example.Query;
+
+    const maxExampleBytes = 10240;
+    if (query.length >= maxExampleBytes) {
+      this.jsonExplainError = `
+        Cannot explain truncated query.
+        This query was truncated to maximum size of ${maxExampleBytes} bytes.
+      `;
+      this.classicExplainError = this.jsonExplainError;
+      this.visualExplainError = this.jsonExplainError;
+      this.isExplainLoading = false;
+      return
+    }
+
+    try {
+      this.data = await this.queryDetailsService.getExplain(agentUUID, dbServerUUID, this.dbName, query);
+
+      if (this.data.hasOwnProperty('Error') && this.data['Error'] !== '') {
+        throw new Error(this.data['Error']);
+      }
+      this.data = JSON.parse(atob(this.data.Data));
+
+      if (this.dbServer.Subsystem === 'mysql') {
+        this.classicExplain = this.data.Classic;
+        this.visualExplain = this.data.Visual;
+      }
+
+
+      const jsonSection = JSON.parse(atob(this.data.JSON));
+      this.jsonExplain = typeof jsonSection === 'string' ? JSON.parse(jsonSection) : jsonSection;
+      this.jsonExplainString = JSON.stringify(this.jsonExplain);
+
+    } catch (err) {
+      this.jsonExplainError = this.data.Error;
+      this.classicExplainError = this.jsonExplainError = this.visualExplainError = 'This type of query is not supported for EXPLAIN';
+      console.log(err);
+    }
+
+    this.isExplainLoading = false;
   }
 
   getTableInfo() {
@@ -185,7 +227,7 @@ export abstract class BaseQueryDetailsComponent extends CoreComponent {
     return '';
   }
 
-  private getDBName(): string {
+  getDBName(): string {
     if (this.queryDetails.Example.Db !== '') {
       return this.queryDetails.Example.Db;
     } else if (this.queryDetails.hasOwnProperty('Query')
@@ -204,5 +246,11 @@ export abstract class BaseQueryDetailsComponent extends CoreComponent {
    */
   fixBeautifyText(text: string): string {
     return vkbeautify.sql(text.toLowerCase()).replace('explain', 'EXPLAIN ').replace('  ', ' ');
+  }
+
+  showSuccessNotification(key) {
+    this.isCopied[key] = true;
+    setTimeout( () => { this.isCopied[key] = false }, 3000);
+    window.parent.document.dispatchEvent(this.event);
   }
 }
