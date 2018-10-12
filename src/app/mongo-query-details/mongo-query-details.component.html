@@ -226,22 +226,25 @@
       </ngb-panel>
     </ngb-accordion>
   </section>
-  <section class="explain"
-           *ngIf="!!queryExample || !!jsonExplain || !!errExplain">
+  <section *ngIf="!!queryExample || !!jsonExplain || !!explainError" class="explain">
     <header class="section-title">
       <h3>EXPLAIN</h3>
       <form class="search-input explain-search-input">
         <i class="fa fa-database" aria-hidden="true"></i>
-        <input type="text" class="form-control"
-               [(ngModel)]="dbName" [ngModelOptions]="{standalone: true}"
+        <input [(ngModel)]="dbName"
+               [ngModelOptions]="{standalone: true}"
+               type="text" class="form-control"
                id="databaseInput" placeholder="`database-name`">
-        <button class="search-button" [disabled]="!dbName" (click)="getExplain();" type="submit">
+        <button
+          [disabled]="!dbName"
+          (click)="getExplain();"
+          type="submit" class="search-button">
           EXPLAIN
         </button>
       </form>
     </header>
-    <ngb-accordion activeIds="classic-explain" *ngIf="!!queryExample" class="accordion-inner-table">
-      <ngb-panel id="json-explain" *ngIf="!!jsonExplain || !!errExplain">
+    <ngb-accordion *ngIf="!!queryExample" activeIds="classic-explain" class="accordion-inner-table">
+      <ngb-panel *ngIf="!!jsonExplain || !!explainError" id="json-explain">
         <ng-template ngbPanelTitle>
           <div class="accordion-title">
             <h5>JSON</h5>
@@ -250,11 +253,12 @@
         <ng-template ngbPanelContent>
           <i *ngIf="isExplainLoading" class="fa fa-spinner fa-pulse fa-3x fa-fw loading"></i>
           <div class="data-output">
-            <app-json-tree [json]="jsonExplain" *ngIf="!isExplainLoading && !errExplain"></app-json-tree>
+            <app-json-tree [json]="jsonExplain" *ngIf="!isExplainLoading && !explainError"></app-json-tree>
           </div>
-          <div *ngIf="!isExplainLoading && errExplain" class="alert alert-warning w-75 mx-auto m-2" role="alert">
+          <div *ngIf="!isExplainLoading && explainError"
+               class="alert alert-warning w-75 mx-auto m-2" role="alert">
             <i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
-            {{ errExplain }}
+            {{ explainError }}
           </div>
         </ng-template>
       </ngb-panel>

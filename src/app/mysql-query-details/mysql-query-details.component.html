@@ -535,7 +535,7 @@
                     </span>
                   </small>
                 </span>
-              </div>
+            </div>
               <div class="flex-container">
                 <div class=" justify-content-start">
                   <span
@@ -807,7 +807,7 @@
   </section>
 
   <section class="explain"
-           *ngIf="!!queryExample || classicExplainError || !!jsonExplain || !!jsonExplainError || !!visualExplain || !!visualExplainError">
+           *ngIf="!!queryExample || !!explainError || !!explainJson || !!explainVisual || !!explainClassic">
     <header class="section-title">
       <h3>EXPLAIN</h3>
       <form class="search-input explain-search-input">
@@ -829,12 +829,12 @@
         </ng-template>
         <ng-template ngbPanelContent>
           <i *ngIf="isExplainLoading" class="fa fa-spinner fa-pulse fa-3x fa-fw loading"></i>
-          <div *ngIf="!isExplainLoading && classicExplainError" class="alert alert-warning w-75 mx-auto m-2"
+          <div *ngIf="!isExplainLoading && explainError" class="alert alert-warning w-75 mx-auto m-2"
                role="alert">
             <i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
-            {{ jsonExplainError }}
+            {{ explainError }}
           </div>
-          <div class="table-wrapper classic-table-wrapper" *ngIf="!isExplainLoading && !classicExplainError">
+          <div *ngIf="!isExplainLoading && !explainError" class="table-wrapper classic-table-wrapper">
             <div class="table-header classic-table-row table-header-row">
               <div title="Id">Id</div>
               <div title="SelectType">SelectType</div>
@@ -849,7 +849,7 @@
               <div title="Rows">Rows</div>
               <div title="Extra">Extra</div>
             </div>
-            <div class="table-body-row classic-table-row" *ngFor="let row of classicExplain; let i = index">
+            <div *ngFor="let row of explainClassic; let i = index" class="table-body-row classic-table-row">
               <div [attr.title]="row.Id">{{ row.Id }}</div>
               <div [attr.title]="row.SelectType">{{ row.SelectType }}</div>
               <div [attr.title]="row.Table">{{ row.Table }}</div>
@@ -867,7 +867,7 @@
         </ng-template>
       </ngb-panel>
 
-      <ngb-panel id="json-explain" *ngIf="!!jsonExplain || !!jsonExplainError">
+      <ngb-panel id="json-explain" *ngIf="!!jsonExplain || !!explainError">
         <ng-template ngbPanelTitle>
           <div class="accordion-title">
             <h5>JSON</h5>
@@ -875,24 +875,25 @@
         </ng-template>
         <ng-template ngbPanelContent>
           <i *ngIf="isExplainLoading" class="fa fa-spinner fa-pulse fa-3x fa-fw loading"></i>
-          <div class="data-output" *ngIf="!isExplainLoading && !jsonExplainError">
-            <app-json-tree [json]="jsonExplain"></app-json-tree>
+          <div class="data-output" *ngIf="!isExplainLoading && !explainError">
+            <app-json-tree [json]="explainJson"></app-json-tree>
             <button class="pmm-button"
                     id="copyJson"
                     ngxClipboard
-                    [cbContent]="jsonExplainString"
+                    [cbContent]="explainJsonString"
                     (cbOnSuccess)="showSuccessNotification('jsonExplain')"
-                    [class.btn-copied]="isCopied.jsonExplain">Copy to clipboard
+                    [class.btn-copied]="isCopied.jsonExplain">
+              Copy to clipboard
             </button>
           </div>
-          <div *ngIf="!isExplainLoading && jsonExplainError" class="alert alert-warning w-75 mx-auto m-2" role="alert">
+          <div *ngIf="!isExplainLoading && explainError" class="alert alert-warning w-75 mx-auto m-2" role="alert">
             <i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
-            {{ jsonExplainError }}
+            {{ explainError }}
           </div>
         </ng-template>
       </ngb-panel>
 
-      <ngb-panel id="visual-explain" *ngIf="!!visualExplain || !!visualExplainError">
+      <ngb-panel id="visual-explain" *ngIf="!!visualExplain || !!explainError">
         <ng-template ngbPanelTitle>
           <div class="accordion-title">
             <h5>VISUAL</h5>
@@ -900,20 +901,21 @@
         </ng-template>
         <ng-template ngbPanelContent>
           <i *ngIf="isExplainLoading" class="fa fa-spinner fa-pulse fa-3x fa-fw loading"></i>
-          <div class="data-output" *ngIf="!isExplainLoading && !visualExplainError">
+          <div *ngIf="!isExplainLoading && !explainError" class="data-output">
             <pre>{{ visualExplain }}</pre>
             <button class="pmm-button"
                     id="copyVisualExplain"
                     ngxClipboard
                     [cbContent]="visualExplain"
                     (cbOnSuccess)="showSuccessNotification('visualExplain')"
-                    [class.btn-copied]="isCopied.visualExplain">Copy to clipboard
+                    [class.btn-copied]="isCopied.visualExplain">
+              Copy to clipboard
             </button>
           </div>
-          <div *ngIf="!isExplainLoading && visualExplainError" class="alert alert-warning w-75 mx-auto m-2"
-               role="alert">
+          <div *ngIf="!isExplainLoading && explainError"
+               class="alert alert-warning w-75 mx-auto m-2" role="alert">
             <i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
-            {{ visualExplainError }}
+            {{ explainError }}
           </div>
         </ng-template>
       </ngb-panel>

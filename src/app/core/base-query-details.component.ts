@@ -2,7 +2,7 @@
  * Base class for query-details-pages.
  */
 import {CoreComponent} from './core.component';
-import { QueryDetails } from './base-query-details.service';
+import {QueryDetails} from './base-query-details.service';
 import {ActivatedRoute, Router} from '@angular/router';
 import {InstanceService} from './instance.service';
 import {BaseQueryDetailsService} from './base-query-details.service';
@@ -20,24 +20,25 @@ export abstract class BaseQueryDetailsComponent extends CoreComponent {
   public createTable: string;
   public statusTable;
   public indexTable;
-  public classicExplain;
-  public visualExplain;
-  public data;
-  isSummary: boolean;
+  public explainClassic;
+  public explainVisual;
+  public explainData;
   isLoading: boolean;
   isFirstSeen: boolean;
+  isSummary: boolean;
+  isExplainLoading: boolean;
   firstSeen: string;
   lastSeen: string;
   isTableInfoLoading: boolean;
-  isExplainLoading: boolean;
+
   createTableError: string;
   statusTableError: string;
   indexTableError: string;
-  jsonExplainError: string;
-  jsonExplainString: string;
-  jsonExplain: string;
-  classicExplainError: string;
-  visualExplainError: string;
+
+  explainError: string;
+
+  explainJsonString: string;
+  explainJson: string;
   isCopied = {
     visualExplain: false,
     queryExample: false,
@@ -55,8 +56,9 @@ export abstract class BaseQueryDetailsComponent extends CoreComponent {
 
   onChangeParams(params) {
     if (!this.dbServer) {
-      return;
+      return
     }
+
     if (['TOTAL', undefined].indexOf(this.queryParams.queryID) !== -1) {
       this.isSummary = true;
       this.getServerSummary(this.dbServer.UUID, this.fromUTCDate, this.toUTCDate);
@@ -83,92 +85,131 @@ export abstract class BaseQueryDetailsComponent extends CoreComponent {
       this.queryDetails = await this.queryDetailsService.getQueryDetails(dbServerUUID, queryID, from, to);
       this.firstSeen = moment(this.queryDetails.Query.FirstSeen).calendar(null, {sameElse: 'lll'});
       this.lastSeen = moment(this.queryDetails.Query.LastSeen).calendar(null, {sameElse: 'lll'});
-
-      if (this.dbServer.Subsystem === 'mysql') {
-        this.fingerprint = hljs.highlight('sql', this.fixBeautifyText(this.queryDetails.Query.Fingerprint)).value;
-      } else if (this.dbServer.Subsystem === 'mongo') {
-        this.fingerprint = this.queryDetails.Query.Fingerprint; // dif
-      }
-
-      if (this.queryDetails !== null && this.queryDetails.Example !== null
-        && this.queryDetails.Example.Query !== '' && this.dbServer.Subsystem === 'mysql') {
-        this.queryExample = hljs.highlight('sql', this.fixBeautifyText(this.queryDetails.Example.Query)).value;
-      } else if (this.dbServer.Subsystem === 'mongo') {
-        this.queryExample = hljs.highlight('json', vkbeautify.json(this.queryDetails.Example.Query)).value;
-      }
-
       this.isFirstSeen = moment.utc(this.queryDetails.Query.FirstSeen).valueOf() > moment.utc(this.fromUTCDate).valueOf();
-      this.isLoading = false;
+
+      switch (this.dbServer.Subsystem) {
+        case('mysql'):
+          this.fingerprint = hljs.highlight('sql', this.fixBeautifyText(this.queryDetails.Query.Fingerprint)).value;
+          this.queryExample = hljs.highlight('sql', this.fixBeautifyText(this.queryDetails.Example.Query)).value;
+          this.getTableInfo();
+          break;
+        case('mongo'):
+          this.fingerprint = this.queryDetails.Query.Fingerprint;
+          this.queryExample = hljs.highlight('json', vkbeautify.json(this.queryDetails.Example.Query)).value;
+          break;
+        default:
+          throw new Error();
+      }
 
       if (this.queryExample) {
         this.getExplain();
       }
 
-      if (this.dbServer.Subsystem === 'mysql') {
-        this.getTableInfo();
-      }
+      // if (this.dbServer.Subsystem === 'mysql') {
+      //   this.fingerprint = hljs.highlight('sql', this.fixBeautifyText(this.queryDetails.Query.Fingerprint)).value;
+      // } else if (this.dbServer.Subsystem === 'mongo') {
+      //   this.fingerprint = this.queryDetails.Query.Fingerprint; // dif
+      // }
+
+      // if (this.queryDetails !== null && this.queryDetails.Example !== null
+      //   && this.queryDetails.Example.Query !== '' && this.dbServer.Subsystem === 'mysql') {
+      //   this.queryExample = hljs.highlight('sql', this.fixBeautifyText(this.queryDetails.Example.Query)).value;
+      // } else if (this.dbServer.Subsystem === 'mongo') {
+      //   this.queryExample = hljs.highlight('json', vkbeautify.json(this.queryDetails.Example.Query)).value;
+      // }
+
+      // this.isFirstSeen = moment.utc(this.queryDetails.Query.FirstSeen).valueOf() > moment.utc(this.fromUTCDate).valueOf();
+      // this.isLoading = false;
+
+      // if (this.queryExample) {
+      //   this.getExplain();
+      // }
+
+      // if (this.dbServer.Subsystem === 'mysql') {
+      //   this.getTableInfo();
+      // }
     } catch (err) {
       console.error(err);
     }
+    this.isLoading = false;
   }
 
   async getExplain() {
-    if (!this.dbServer || !this.dbServer.Agent) { return; }
+    if (!this.dbServer.Agent) {
+      return
+    }
+
     this.isExplainLoading = true;
-    this.jsonExplain = '';
-    this.jsonExplainError = '';
-    this.classicExplainError = '';
-    this.visualExplainError = '';
+
+    this.explainJson = '';
+
+    // this.explainJsonError = ''; // ??????????????????
+    // this.classicExplainError = ''; // ??????????????????
+    // this.visualExplainError = ''; // ??????????????????
+
+    this.explainError = '';
+
     const agentUUID = this.dbServer.Agent.UUID;
     const dbServerUUID = this.dbServer.UUID;
-
-    this.isCopied.visualExplain = false;
-
-    if (this.dbName === '') {
-      this.dbName = this.getDBName();
-    }
     const query = this.queryDetails.Example.Query;
-
     const maxExampleBytes = 10240;
+
     if (query.length >= maxExampleBytes) {
-      this.jsonExplainError = `
+      this.explainError = `
         Cannot explain truncated query.
         This query was truncated to maximum size of ${maxExampleBytes} bytes.
       `;
-      this.classicExplainError = this.jsonExplainError;
-      this.visualExplainError = this.jsonExplainError;
+
+      // this.classicExplainError = this.explainJsonError;
+      // this.visualExplainError = this.explainJsonError;
       this.isExplainLoading = false;
       return
     }
 
+    this.isCopied.visualExplain = false; // ??????????????
+
+    if (this.dbName === '') {
+      this.dbName = this.getDBName();
+    }
+
     try {
-      this.data = await this.queryDetailsService.getExplain(agentUUID, dbServerUUID, this.dbName, query);
-      if (this.data.hasOwnProperty('Error') && this.data['Error'] !== '') {
-        throw new Error(this.data['Error']);
+      this.explainData = await this.queryDetailsService.getExplain(agentUUID, dbServerUUID, this.dbName, query);
+
+      if (this.explainData.hasOwnProperty('Error') && this.explainData['Error'] !== '') {
+        throw new Error(this.explainData['Error']);
       }
-      this.data = JSON.parse(atob(this.data.Data));
+
+      this.explainData = JSON.parse(atob(this.explainData.Data));
 
       if (this.dbServer.Subsystem === 'mysql') {
-        this.classicExplain = this.data.Classic;
-        this.visualExplain = this.data.Visual;
+        this.explainClassic = this.explainData.Classic;
+        this.explainVisual = this.explainData.Visual;
       }
+      // const jsonSection = this.explainData.JSON;
 
-
-      const jsonSection = this.data.JSON;
-      this.jsonExplain = typeof jsonSection === 'string' ? JSON.parse(jsonSection) : jsonSection;
-      this.jsonExplainString = JSON.stringify(this.jsonExplain);
-
+      this.explainJson = typeof this.explainData.JSON === 'string' ? JSON.parse(this.explainData.JSON) : this.explainData.JSON;
+      this.explainJsonString = JSON.stringify(this.explainJson);
     } catch (err) {
-      this.jsonExplainError = this.data.Error;
-      this.classicExplainError = this.jsonExplainError = this.visualExplainError = 'This type of query is not supported for EXPLAIN';
-      console.log(err);
+      switch (this.dbServer.Subsystem) {
+        case('mysql'):
+          this.explainError = 'This type of query is not supported for EXPLAIN';
+          break;
+        case('mongo'):
+          this.explainError = this.explainData.Error;
+          break;
+        default:
+          console.error(err);
+      }
     }
 
     this.isExplainLoading = false;
   }
 
   getTableInfo() {
-    if (!this.dbServer || !this.dbServer.Agent) { return; }
+    if (!this.dbServer.Agent) {
+      return
+    }
+
     this.isTableInfoLoading = true;
     const agentUUID = this.dbServer.Agent.UUID;
     const dbServerUUID = this.dbServer.UUID;
@@ -194,7 +235,8 @@ export abstract class BaseQueryDetailsComponent extends CoreComponent {
         this.indexTable = info.Index;
         try {
           this.createTable = hljs.highlight('sql', this.tableInfo.Create).value;
-        } catch (e) { }
+        } catch (e) {
+        }
         if (info.hasOwnProperty('Errors') && info['Errors'].length > 0) {
           throw info['Errors'];
         }
@@ -231,7 +273,7 @@ export abstract class BaseQueryDetailsComponent extends CoreComponent {
       return this.queryDetails.Example.Db;
     } else if (this.queryDetails.hasOwnProperty('Query')
       && this.queryDetails.Query.hasOwnProperty('Tables')
-      && this.queryDetails.Query.Tables !== null
+      && this.queryDetails.Query.Tables !== null // ?????????
       && this.queryDetails.Query.Tables.length > 0) {
       return this.queryDetails.Query.Tables[0].Db;
     }
@@ -249,7 +291,9 @@ export abstract class BaseQueryDetailsComponent extends CoreComponent {
 
   showSuccessNotification(key) {
     this.isCopied[key] = true;
-    setTimeout( () => { this.isCopied[key] = false }, 3000);
+    setTimeout(() => {
+      this.isCopied[key] = false
+    }, 3000);
     window.parent.document.dispatchEvent(this.event);
   }
 }
