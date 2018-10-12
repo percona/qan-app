@@ -206,7 +206,7 @@
         </ng-template>
         <ng-template ngbPanelContent>
             <i *ngIf="isLoading" class="fa fa-spinner fa-pulse fa-3x fa-fw loading"></i>
-          <div class="data-output"  *ngIf="!isLoading">
+          <div *ngIf="!isLoading" class="data-output">
             <pre><code [innerHTML]="fingerprint"></code></pre>
             <button class="pmm-button"
                     id="copyFingerprint"
