@@ -64,15 +64,15 @@ export class QueryProfileComponent extends CoreComponent {
         this.noQueryError = '';
         this.totalAmountOfQueries = this.leftInDbQueries = 0;
         this.queryProfile = [];
-
-        const search = this.queryParams.search;
+        this.searchValue = this.queryParams.search === 'null' ? '' : this.queryParams.search;
+        const search = this.queryParams.search === 'null' && this.searchValue !== 'NULL' ? '' : this.queryParams.search;
         const firstSeen = this.queryParams.first_seen;
         this.offset = 0;
         try {
             const data = await this.queryProfileService
                 .getQueryProfile(this.dbServer.UUID, this.fromUTCDate, this.toUTCDate, this.offset, search, firstSeen);
             if (data.hasOwnProperty('Error') && data['Error'] !== '') {
-                throw new QanError('Queries are not availible.');
+                throw new QanError('Queries are not available.');
             }
             this.totalAmountOfQueries = data['TotalQueries'];
             if (this.totalAmountOfQueries > 0) {
@@ -91,7 +91,9 @@ export class QueryProfileComponent extends CoreComponent {
         this.isLoading = true;
         const dbServerUUID = this.dbServer.UUID;
         this.offset = this.offset + 10;
-        const search = this.queryParams.search;
+        const search =
+          this.queryParams.search === 'null' &&
+          this.searchValue !== 'NULL' && this.searchValue !== 'null' ? '' : this.queryParams.search;
         const firstSeen = this.queryParams.first_seen;
         const data = await this.queryProfileService
             .getQueryProfile(dbServerUUID, this.fromUTCDate, this.toUTCDate, this.offset, search, firstSeen);
@@ -114,7 +116,7 @@ export class QueryProfileComponent extends CoreComponent {
         this.isSearchQuery = true;
         const params: QueryParams = Object.assign({}, this.queryParams);
         if (!!this.searchValue) {
-            params.search = this.searchValue;
+            params.search = this.searchValue === 'null' ? 'NULL' : this.searchValue;
         } else {
             delete params.search;
         }
