@@ -4,8 +4,8 @@
     <span class="query-id">{{ queryDetails?.Query?.Id }}</span>
   </h3>
 </header>
-<section class="server-summary">
-  <header class="section-title" *ngIf="isSummary">
+<section class="server-summary" *ngIf="!!isSummary || !!queryDetails?.Metrics2">
+  <header class="server-summary-title section-title" *ngIf="!!isSummary">
     <h3 class="d-inline">
       Server Summary
     </h3>
@@ -15,21 +15,21 @@
       <ng-template ngbPanelTitle>
         <div class="accordion-title">
           <h5>Metrics</h5>
-          <span *ngIf="!isSummary">
+          <span class="query-information" *ngIf="!isSummary">
             Query first seen: <strong class="first-seen-time" [class.first-seen]="isFirstSeen">{{ firstSeen }}</strong>
             Last seen: <strong>{{ lastSeen }}</strong>
           </span>
         </div>
       </ng-template>
       <ng-template ngbPanelContent>
-        <div class="table-wrapper metrics-table">
+        <div class="table-wrapper metrics-table" *ngIf="!isLoading">
           <div class="table-header grid-container table-header-row">
             <div>Metrics</div>
             <div>Rate/Sec</div>
             <div>Sum</div>
             <div>Per Query Stats</div>
           </div>
-          <div class="table-body" *ngIf="!isLoading">
+          <div class="table-body">
             <div class="table-body-row grid-container">
               <div><span>Query Count</span></div>
               <div class="flex-container">
@@ -44,7 +44,7 @@
                 <span>{{ queryDetails?.Metrics2?.Query_count | humanize : 'number' }}
                   <small>
                     <span *ngIf="!isSummary" class="text-primary non-summary-info">
-                      <span class="unit unit-percent">{{ queryDetails?.Metrics2?.Query_count_of_total | humanize : 'percent' }}</span> of total
+                      <span>{{ queryDetails?.Metrics2?.Query_count_of_total | humanize : 'percent' }}</span> of total
                     </span>
                   </small>
                 </span>
@@ -75,7 +75,7 @@
                 <span class="sum text-left">{{ queryDetails?.Metrics2?.Query_time_sum | humanize : 'time' }}
                   <small>
                     <span *ngIf="!isSummary" class="text-primary non-summary-info">
-                      <span class="unit unit-percent">{{ queryDetails?.Metrics2?.Query_time_sum_of_total | humanize : 'percent' }}</span> of total
+                      <span>{{ queryDetails?.Metrics2?.Query_time_sum_of_total | humanize : 'percent' }}</span> of total
                     </span>
                   </small>
                 </span>
@@ -109,10 +109,10 @@
                 <span class="sum text-left">{{ queryDetails?.Metrics2?.Lock_time_sum | humanize : 'time' }}
                   <small>
                     <span *ngIf="!isSummary" class="text-primary non-summary-info">
-                      <span class="unit unit-percent">{{ queryDetails?.Metrics2?.Lock_time_sum_of_total | humanize : 'percent'}}</span> of total
+                      <span>{{ queryDetails?.Metrics2?.Lock_time_sum_of_total | humanize : 'percent'}}</span> of total
                     </span>
                     <span class="text-success">
-                      <span class="unit unit-percent">{{ queryDetails?.Metrics2?.Lock_time_avg_per_query_time | humanize : 'percent' }}</span> of query time
+                      <span>{{ queryDetails?.Metrics2?.Lock_time_avg_per_query_time | humanize : 'percent' }}</span> of query time
                     </span>
                   </small>
                 </span>
@@ -145,10 +145,10 @@
                 <span class="sum text-left">{{ queryDetails?.Metrics2?.InnoDB_rec_lock_wait_sum | humanize : 'time' }}
                   <small>
                     <span *ngIf="queryDetails?.Metrics2?.InnoDB_rec_lock_wait_sum_of_total" class="text-primary">
-                      <span class="unit unit-percent">{{ queryDetails?.Metrics2?.InnoDB_rec_lock_wait_sum_of_total | humanize : 'percent' }}</span> of total
+                      <span>{{ queryDetails?.Metrics2?.InnoDB_rec_lock_wait_sum_of_total | humanize : 'percent' }}</span> of total
                     </span>
                     <span class="text-success">
-                      <span class="unit unit-percent">{{ queryDetails?.Metrics2?.InnoDB_rec_lock_wait_avg_per_query_time | humanize : 'percent' }}</span> of query time
+                      <span>{{ queryDetails?.Metrics2?.InnoDB_rec_lock_wait_avg_per_query_time | humanize : 'percent' }}</span> of query time
                     </span>
                   </small>
                 </span>
@@ -181,10 +181,10 @@
                 <span class="sum text-left">{{ queryDetails?.Metrics2?.InnoDB_IO_r_wait_sum | humanize : 'time' }}
                   <small>
                     <span *ngIf="!isSummary" class="text-primary non-summary-info">
-                      <span class="unit unit-percent">{{ queryDetails?.Metrics2?.InnoDB_IO_r_wait_sum_of_total | humanize : 'percent' }}</span> of total
+                      <span>{{ queryDetails?.Metrics2?.InnoDB_IO_r_wait_sum_of_total | humanize : 'percent' }}</span> of total
                     </span>
                     <span class="text-success">
-                      <span class="unit unit-percent">{{ queryDetails?.Metrics2?.InnoDB_IO_r_wait_avg_per_query_time | humanize : 'percent' }}</span> of query time
+                      <span>{{ queryDetails?.Metrics2?.InnoDB_IO_r_wait_avg_per_query_time | humanize : 'percent' }}</span> of query time
                     </span>
                   </small>
                 </span>
@@ -214,10 +214,10 @@
                 <span class="sum text-left">{{ queryDetails?.Metrics2?.InnoDB_queue_wait_sum | humanize : 'time'}}
                   <small>
                     <span *ngIf="!isSummary" class="text-primary non-summary-info">
-                      <span class="unit unit-percent">{{ queryDetails?.Metrics2?.InnoDB_queue_wait_sum_of_total | humanize : 'percent' }}</span> of total
+                      <span>{{ queryDetails?.Metrics2?.InnoDB_queue_wait_sum_of_total | humanize : 'percent' }}</span> of total
                     </span>
                     <span class="text-success">
-                      <span class="unit unit-percent">{{ queryDetails?.Metrics2?.innodbQueueWait?.InnoDB_queue_wait_avg_per_query_time | humanize : 'percent' }}</span> of query time
+                      <span>{{ queryDetails?.Metrics2?.innodbQueueWait?.InnoDB_queue_wait_avg_per_query_time | humanize : 'percent' }}</span> of query time
                     </span>
                   </small>
                 </span>
@@ -247,7 +247,7 @@
                 <span class="sum text-left">{{ queryDetails?.Metrics2?.InnoDB_IO_r_ops_sum | humanize : 'number' }}
                   <small>
                     <span *ngIf="!isSummary" class="text-primary non-summary-info">
-                      <span class="unit unit-percent">{{ queryDetails?.Metrics2?.InnoDB_IO_r_ops_sum_of_total | humanize : 'percent' }}</span> of total
+                      <span>{{ queryDetails?.Metrics2?.InnoDB_IO_r_ops_sum_of_total | humanize : 'percent' }}</span> of total
                     </span>
                   </small>
                 </span>
@@ -278,7 +278,7 @@
                 <span class="sum text-left">{{ queryDetails?.Metrics2?.InnoDB_IO_r_bytes_sum | humanize : 'size' }}
                   <small>
                     <span *ngIf="!isSummary" class="text-primary non-summary-info">
-                      <span class="unit unit-percent">{{ queryDetails?.Metrics2?.InnoDB_IO_r_bytes_sum_of_total | humanize : 'percent' }}</span> of total
+                      <span>{{ queryDetails?.Metrics2?.InnoDB_IO_r_bytes_sum_of_total | humanize : 'percent' }}</span> of total
                     </span>
                     <span class="text-success">
                       <span class="unit unit-avg">{{ queryDetails?.Metrics2?.InnoDB_IO_r_bytes_sum_per_io | humanize : 'size' }}</span> io size
@@ -324,10 +324,10 @@
                 <span class="sum text-left">{{ queryDetails?.Metrics2?.QC_Hit_sum | humanize : 'number' }}
                   <small>
                     <span *ngIf="!isSummary" class="text-primary non-summary-info">
-                      <span class="unit unit-percent">{{ queryDetails?.Metrics2?.QC_Hit_sum_of_total | humanize : 'percent' }}</span> of total
+                      <span>{{ queryDetails?.Metrics2?.QC_Hit_sum_of_total | humanize : 'percent' }}</span> of total
                    </span>
                     <span class="text-success">
-                      <span class="unit unit-percent">{{ queryDetails?.Metrics2?.QC_Hit_sum_per_query | humanize : 'percent'}}</span> QC hit ratio
+                      <span>{{ queryDetails?.Metrics2?.QC_Hit_sum_per_query | humanize : 'percent'}}</span> QC hit ratio
                     </span>
                   </small>
                 </span>
@@ -350,7 +350,7 @@
                 <span class="sum text-left">{{ queryDetails?.Metrics2?.Rows_sent_sum | humanize : 'number' }}
                   <small>
                     <span *ngIf="!isSummary" class="text-primary non-summary-info">
-                      <span class="unit unit-percent">{{ queryDetails?.Metrics2?.Rows_sent_sum_of_total | humanize : 'percent' }}</span> of total
+                      <span>{{ queryDetails?.Metrics2?.Rows_sent_sum_of_total | humanize : 'percent' }}</span> of total
                     </span>
                   </small>
                 </span>
@@ -378,7 +378,7 @@
                 <span class="sum text-left">{{ queryDetails?.Metrics2?.Bytes_sent_sum | humanize : 'size' }}
                   <small>
                     <span *ngIf="!isSummary" class="text-primary non-summary-info">
-                      <span class="unit unit-percent">{{ queryDetails?.Metrics2?.Bytes_sent_sum_of_total | humanize : 'percent' }}</span> of total
+                      <span>{{ queryDetails?.Metrics2?.Bytes_sent_sum_of_total | humanize : 'percent' }}</span> of total
                     </span>
                     <span class="text-success" ng-if="queryDetails?.Metrics2?.Bytes_sent_sum_per_rows">
                       {{ queryDetails?.Metrics2?.Bytes_sent_sum_per_rows | humanize : 'size' }} bytes/row
@@ -409,7 +409,7 @@
                 <span class="sum text-left">{{ queryDetails?.Metrics2?.Rows_examined_sum | humanize : 'number' }}
                   <small>
                     <span *ngIf="!isSummary" class="text-primary non-summary-info">
-                      <span class="unit unit-percent">{{ queryDetails?.Metrics2?.Rows_examined_sum_of_total | humanize : 'percent' }}</span> of total
+                      <span>{{ queryDetails?.Metrics2?.Rows_examined_sum_of_total | humanize : 'percent' }}</span> of total
                     </span>
                     <span class="text-success">
                       {{ queryDetails?.Metrics2?.Rows_examined_sum_per_rows | humanize : 'number' }} per row sent
@@ -441,7 +441,7 @@
                 <span class="sum text-left">{{ queryDetails?.Metrics2?.Rows_affected_sum | humanize : 'number'}}
                   <small>
                     <span *ngIf="!isSummary" class="text-primary non-summary-info">
-                      <span class="unit unit-percent">{{ queryDetails?.Metrics2?.Rows_affected_sum_of_total | humanize : 'percent' }}</span> of total
+                      <span>{{ queryDetails?.Metrics2?.Rows_affected_sum_of_total | humanize : 'percent' }}</span> of total
                     </span>
                   </small>
                 </span>
@@ -471,10 +471,10 @@
                 <span class="sum text-left">{{ queryDetails?.Metrics2?.Filesort_sum | humanize : 'number' }}
                   <small>
                     <span *ngIf="!isSummary" class="text-primary non-summary-info">
-                      <span class="unit unit-percent">{{ queryDetails?.Metrics2?.Filesort_sum_of_total | humanize : 'percent' }}</span> of total
+                      <span>{{ queryDetails?.Metrics2?.Filesort_sum_of_total | humanize : 'percent' }}</span> of total
                     </span>
                     <span class="text-success">
-                      <span class="unit unit-percent">{{ queryDetails?.Metrics2?.Filesort_sum_per_query | humanize : 'percent' }}</span> of queries
+                      <span>{{ queryDetails?.Metrics2?.Filesort_sum_per_query | humanize : 'percent' }}</span> of queries
                     </span>
                   </small>
                 </span>
@@ -500,10 +500,10 @@
                 <span class="sum text-left">{{ queryDetails?.Metrics2?.Filesort_on_disk_sum | humanize : 'number' }}
                   <small>
                     <span *ngIf="!isSummary" class="text-primary non-summary-info">
-                      <span class="unit unit-percent">{{ queryDetails?.Metrics2?.Filesort_on_disk_sum_of_total | humanize : 'percent' }}</span> of total
+                      <span>{{ queryDetails?.Metrics2?.Filesort_on_disk_sum_of_total | humanize : 'percent' }}</span> of total
                     </span>
                     <span class="text-success">
-                      <span class="unit unit-percent">{{ queryDetails?.Metrics2?.Filesort_on_disk_sum_per_query | humanize : 'percent' }}</span> of queries
+                      <span>{{ queryDetails?.Metrics2?.Filesort_on_disk_sum_per_query | humanize : 'percent' }}</span> of queries
                     </span>
                   </small>
                 </span>
@@ -528,10 +528,10 @@
                 <span>{{ queryDetails?.Metrics2?.Merge_passes_sum | humanize : 'number' }}
                   <small>
                     <span *ngIf="!isSummary" class="text-primary non-summary-info">
-                      <span class="unit unit-percent">{{ queryDetails?.Metrics2?.Merge_passes_sum_of_total | humanize : 'percent' }}</span> of total
+                      <span>{{ queryDetails?.Metrics2?.Merge_passes_sum_of_total | humanize : 'percent' }}</span> of total
                     </span>
                     <span class="text-success">
-                      <span class="unit unit-percent">{{ queryDetails?.Metrics2?.Merge_passes_sum_per_external_sort | humanize : 'percent' }}</span> per external sort
+                      <span>{{ queryDetails?.Metrics2?.Merge_passes_sum_per_external_sort | humanize : 'percent' }}</span> per external sort
                     </span>
                   </small>
                 </span>
@@ -562,10 +562,10 @@
                 <span>{{ queryDetails?.Metrics2?.Full_join_sum | humanize : 'number' }}
                   <small>
                     <span *ngIf="!isSummary" class="text-primary non-summary-info">
-                      <span class="unit unit-percent">{{ queryDetails?.Metrics2?.Full_join_sum_of_total | humanize : 'percent' }}</span> of total
+                      <span>{{ queryDetails?.Metrics2?.Full_join_sum_of_total | humanize : 'percent' }}</span> of total
                     </span>
                     <span class="text-success">
-                      <span class="unit unit-percent">{{ queryDetails?.Metrics2?.Full_join_sum_per_query | humanize : 'percent' }}</span> of queries
+                      <span>{{ queryDetails?.Metrics2?.Full_join_sum_per_query | humanize : 'percent' }}</span> of queries
                     </span>
                   </small>
                 </span>
@@ -588,10 +588,10 @@
                 <span class="sum text-left">{{ queryDetails?.Metrics2?.Full_scan_sum | humanize : 'number' }}
                   <small>
                     <span *ngIf="!isSummary" class="text-primary non-summary-info">
-                      <span class="unit unit-percent">{{ queryDetails?.Metrics2?.Full_scan_sum_of_total | humanize : 'percent' }}</span> of total
+                      <span>{{ queryDetails?.Metrics2?.Full_scan_sum_of_total | humanize : 'percent' }}</span> of total
                     </span>
                     <span class="text-success">
-                      <span class="unit unit-percent">{{ queryDetails?.Metrics2?.Full_scan_sum_per_query | humanize : 'percent' }}</span> of queries
+                      <span>{{ queryDetails?.Metrics2?.Full_scan_sum_per_query | humanize : 'percent' }}</span> of queries
                     </span>
                   </small>
                 </span>
@@ -614,10 +614,10 @@
                 <span class="sum text-left">{{ queryDetails?.Metrics2?.Tmp_table_sum | humanize : 'number' }}
                   <small>
                     <span *ngIf="!isSummary" class="text-primary non-summary-info">
-                      <span class="unit unit-percent">{{ queryDetails?.Metrics2?.Tmp_table_sum_of_total | humanize : 'percent' }}</span> of total
+                      <span>{{ queryDetails?.Metrics2?.Tmp_table_sum_of_total | humanize : 'percent' }}</span> of total
                     </span>
                     <span class="text-success">
-                      <span class="unit unit-percent">{{ queryDetails?.Metrics2?.Tmp_table_sum_per_query | humanize : 'percent' }}</span> of queries
+                      <span>{{ queryDetails?.Metrics2?.Tmp_table_sum_per_query | humanize : 'percent' }}</span> of queries
                     </span>
                   </small>
                 </span>
@@ -640,7 +640,7 @@
                 <span class="sum text-left">{{ queryDetails?.Metrics2?.Tmp_tables_sum | humanize : 'number' }}
                   <small>
                     <span *ngIf="!isSummary" class="text-primary non-summary-info">
-                      <span class="unit unit-percent">{{ queryDetails?.Metrics2?.Tmp_tables_sum_of_total | humanize : 'percent' }}</span> of total
+                      <span>{{ queryDetails?.Metrics2?.Tmp_tables_sum_of_total | humanize : 'percent' }}</span> of total
                     </span>
                     <span class="text-success">
                       {{ queryDetails?.Metrics2?.Tmp_tables_sum_per_query_with_tmp_table | humanize : 'number'}} per query with tmp table
@@ -672,10 +672,10 @@
                 <span class="sum text-left">{{ queryDetails?.Metrics2?.Tmp_table_on_disk_sum | humanize : 'number' }}
                   <small>
                     <span *ngIf="!isSummary" class="text-primary non-summary-info">
-                      <span class="unit unit-percent">{{ queryDetails?.Metrics2?.Tmp_table_on_disk_sum_of_total | humanize : 'percent' }}</span> of total
+                      <span>{{ queryDetails?.Metrics2?.Tmp_table_on_disk_sum_of_total | humanize : 'percent' }}</span> of total
                     </span>
                     <span class="text-success">
-                      <span class="unit unit-percent">{{ queryDetails?.Metrics2?.Tmp_table_on_disk_sum_per_query | humanize : 'percent' }}</span> of queries
+                      <span>{{ queryDetails?.Metrics2?.Tmp_table_on_disk_sum_per_query | humanize : 'percent' }}</span> of queries
                     </span>
                   </small>
                 </span>
@@ -699,7 +699,7 @@
                 <span class="sum text-left">{{ queryDetails?.Metrics2?.Tmp_disk_tables_sum | humanize : 'number' }}
                   <small>
                     <span *ngIf="!isSummary" class="text-primary non-summary-info">
-                      <span class="unit unit-percent">{{ queryDetails?.Metrics2?.Tmp_disk_tables_sum_of_total | humanize : 'percent' }}</span> of total
+                      <span>{{ queryDetails?.Metrics2?.Tmp_disk_tables_sum_of_total | humanize : 'percent' }}</span> of total
                     </span>
                     <span class="text-success">
                      {{ queryDetails?.Metrics2?.Tmp_disk_tables_sum_per_query_with_tmp_table | humanize : 'number' }} per query with disk tmp table
@@ -732,7 +732,7 @@
           <span class="sum text-left">{{ queryDetails?.Metrics2?.Tmp_table_sizes_sum | humanize : 'size' }}
             <small>
               <span *ngIf="!isSummary" class="text-primary non-summary-info">
-                <span class="unit unit-percent">{{ queryDetails?.Metrics2?.Tmp_table_sizes_sum_of_total | humanize : 'percent' }}</span> of total
+                <span>{{ queryDetails?.Metrics2?.Tmp_table_sizes_sum_of_total | humanize : 'percent' }}</span> of total
               </span>
               <span class="text-success">
                 {{ queryDetails?.Metrics2?.Tmp_table_sizes_sum_per_query_with_any_tmp_table | humanize : 'size' }} per query
@@ -758,7 +758,7 @@
 </section>
 <!--- additional info for query only-->
 <div class="sections-wrapper" *ngIf="!isSummary">
-  <section class="query">
+  <section class="query" *ngIf="!!fingerprint || !!queryExample">
     <header class="section-title">
       <h3 class="d-flex">QUERY</h3>
     </header>
@@ -770,9 +770,16 @@
           </div>
         </ng-template>
         <ng-template ngbPanelContent>
-          <div class="data-output">
-            <i *ngIf="isLoading" class="fa fa-spinner fa-pulse fa-3x fa-fw loading"></i>
-            <pre *ngIf="!isLoading"><code [innerHTML]="fingerprint"></code></pre>
+          <i *ngIf="isLoading" class="fa fa-spinner fa-pulse fa-3x fa-fw loading"></i>
+          <div class="data-output" *ngIf="!isLoading">
+            <pre><code [innerHTML]="fingerprint"></code></pre>
+            <button class="pmm-button"
+                    id="copyFingerprint"
+                    ngxClipboard
+                    [cbContent]="queryDetails.Query.Fingerprint"
+                    (cbOnSuccess)="showSuccessNotification('fingerprint')"
+                    [class.btn-copied]="isCopied.fingerprint">Copy to clipboard
+            </button>
           </div>
         </ng-template>
       </ngb-panel>
@@ -783,16 +790,24 @@
           </div>
         </ng-template>
         <ng-template ngbPanelContent>
-          <div class="data-output">
-            <i *ngIf="isLoading" class="fa fa-spinner fa-pulse fa-3x fa-fw loading"></i>
-            <pre *ngIf="!isLoading"><code [innerHTML]="queryExample"></code></pre>
+          <i *ngIf="isLoading" class="fa fa-spinner fa-pulse fa-3x fa-fw loading"></i>
+          <div class="data-output" *ngIf="!isLoading">
+            <pre><code [innerHTML]="queryExample"></code></pre>
+            <button class="pmm-button"
+                    id="copyQueryExample"
+                    ngxClipboard
+                    [cbContent]="queryDetails.Example.Query"
+                    (cbOnSuccess)="showSuccessNotification('queryExample')"
+                    [class.btn-copied]="isCopied.queryExample">Copy to clipboard
+            </button>
           </div>
         </ng-template>
       </ngb-panel>
     </ngb-accordion>
   </section>
 
-  <section class="explain" *ngIf="!!queryExample">
+  <section class="explain"
+           *ngIf="!!queryExample || classicExplainError || !!jsonExplain || !!jsonExplainError || !!visualExplain || !!visualExplainError">
     <header class="section-title">
       <h3>EXPLAIN</h3>
       <form class="search-input explain-search-input">
@@ -805,7 +820,7 @@
         </button>
       </form>
     </header>
-    <ngb-accordion [activeIds]="accordionIds.explainSection" *ngIf="!!queryExample" class="accordion-inner-table">
+    <ngb-accordion [activeIds]="accordionIds.explainSection" class="accordion-inner-table">
       <ngb-panel id="classic-explain">
         <ng-template ngbPanelTitle>
           <div class="accordion-title">
@@ -860,8 +875,15 @@
         </ng-template>
         <ng-template ngbPanelContent>
           <i *ngIf="isExplainLoading" class="fa fa-spinner fa-pulse fa-3x fa-fw loading"></i>
-          <div class="data-output">
-            <app-json-tree [json]="jsonExplain" *ngIf="!isExplainLoading && !jsonExplainError"></app-json-tree>
+          <div class="data-output" *ngIf="!isExplainLoading && !jsonExplainError">
+            <app-json-tree [json]="jsonExplain"></app-json-tree>
+            <button class="pmm-button"
+                    id="copyJson"
+                    ngxClipboard
+                    [cbContent]="jsonExplainString"
+                    (cbOnSuccess)="showSuccessNotification('jsonExplain')"
+                    [class.btn-copied]="isCopied.jsonExplain">Copy to clipboard
+            </button>
           </div>
           <div *ngIf="!isExplainLoading && jsonExplainError" class="alert alert-warning w-75 mx-auto m-2" role="alert">
             <i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
@@ -879,13 +901,14 @@
         <ng-template ngbPanelContent>
           <i *ngIf="isExplainLoading" class="fa fa-spinner fa-pulse fa-3x fa-fw loading"></i>
           <div class="data-output" *ngIf="!isExplainLoading && !visualExplainError">
+            <pre>{{ visualExplain }}</pre>
             <button class="pmm-button"
+                    id="copyVisualExplain"
                     ngxClipboard
-                    [cbContent]="this.visualExplain"
-                    (cbOnSuccess)="isCopied = true"
-                    [class.btn-copied]="isCopied">Copy to clipboard
+                    [cbContent]="visualExplain"
+                    (cbOnSuccess)="showSuccessNotification('visualExplain')"
+                    [class.btn-copied]="isCopied.visualExplain">Copy to clipboard
             </button>
-            <pre>{{ this.visualExplain }}</pre>
           </div>
           <div *ngIf="!isExplainLoading && visualExplainError" class="alert alert-warning w-75 mx-auto m-2"
                role="alert">
@@ -897,7 +920,8 @@
     </ngb-accordion>
   </section>
 
-  <section class="tables">
+  <section class="tables"
+           *ngIf="!!createTable || !!createTableError || !!statusTable || !!statusTableError || !!indexTable || !!indexTableError">
     <header class="section-title">
       <h3>TABLES</h3>
       <form class="search-input tables-input" (submit)="addDBTable();">
@@ -912,7 +936,6 @@
         </button>
       </form>
     </header>
-
     <section class="table-buttons-wrapper">
       <div *ngFor="let item of queryDetails?.Query?.Tables" class="btn-group" role="group" aria-label="Tables">
         <button type="button" class="btn-tables" (click)="selectTableInfo(item.Db, item.Table);"
@@ -923,13 +946,8 @@
           <i class="fa fa-times" aria-hidden="true"></i>
         </button>
       </div>
-      <div *ngIf="queryDetails?.Query?.Tables === null || queryDetails?.Query?.Tables?.length === 0"
-           class="alert alert-info w-25 mx-auto m-2 empty-table-error" role="alert">
-        <i class="fa fa-info-circle" aria-hidden="true"></i>
-        List of tables is empty.
-      </div>
     </section>
-    <ngb-accordion [activeIds]="accordionIds.tableSection" *ngIf="queryDetails?.Query?.Tables?.length">
+    <ngb-accordion [activeIds]="accordionIds.tableSection">
       <ngb-panel id="table-create" *ngIf="!!createTable || !!createTableError">
         <ng-template ngbPanelTitle>
           <div class="accordion-title">
@@ -937,14 +955,23 @@
           </div>
         </ng-template>
         <ng-template ngbPanelContent>
-          <div class="data-output">
-            <i *ngIf="isTableInfoLoading" class="fa fa-spinner fa-pulse fa-3x fa-fw loading"></i>
-            <div *ngIf="!isTableInfoLoading && createTableError" class="alert alert-warning w-75 mx-auto m-2"
+          <i *ngIf="isTableInfoLoading" class="fa fa-spinner fa-pulse fa-3x fa-fw loading"></i>
+          <div class="data-output" *ngIf="!isTableInfoLoading && createTableError">
+            <div class="alert alert-warning w-75 mx-auto m-2"
                  role="alert">
               <i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
               {{ createTableError }}
             </div>
-            <pre *ngIf="!isTableInfoLoading && !createTableError"><code [innerHTML]="createTable"></code></pre>
+          </div>
+          <div class="data-output" *ngIf="!isTableInfoLoading && !createTableError">
+            <pre><code [innerHTML]="createTable"></code></pre>
+            <button class="pmm-button"
+                    id="copyCreateTable"
+                    ngxClipboard
+                    [cbContent]="tableInfo.Create"
+                    (cbOnSuccess)="showSuccessNotification('createTable')"
+                    [class.btn-copied]="isCopied.createTable">Copy to clipboard
+            </button>
           </div>
         </ng-template>
       </ngb-panel>
@@ -962,7 +989,7 @@
             <i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
             {{ statusTableError }}
           </div>
-          <div class="table-wrapper status-table-wrapper" *ngIf="!statusTableError">
+          <div class="table-wrapper status-table-wrapper" *ngIf="!isTableInfoLoading && !statusTableError">
             <div class="table-header grid-container table-header-row">
               <div>Name</div>
               <div>Value</div>

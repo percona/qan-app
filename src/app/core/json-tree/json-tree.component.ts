@@ -9,7 +9,6 @@ import * as renderjson from 'renderjson';
 
 export class JSONTreeComponent implements OnChanges {
   public element: ElementRef;
-  public isCopied = false;
   public isCollapsed = true;
 
   @Input() public json: any;
@@ -21,10 +20,6 @@ export class JSONTreeComponent implements OnChanges {
 
   ngOnChanges() {
     this.element.nativeElement.querySelector('#json-viewer').appendChild(renderjson(this.json));
-  }
-
-  getJSONString() {
-    return this.json.JSON ? JSON.stringify(this.json.JSON) : JSON.stringify(this.json);
   }
 
   public toggleAll() {
