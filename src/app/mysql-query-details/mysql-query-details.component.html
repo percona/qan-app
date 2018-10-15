@@ -797,8 +797,8 @@
                     id="copyQueryExample"
                     ngxClipboard
                     [cbContent]="queryDetails.Example.Query"
-                    (cbOnSuccess)="showSuccessNotification('queryExample')"
-                    [class.btn-copied]="isCopied.queryExample">Copy to clipboard
+                    (cbOnSuccess)="showSuccessNotification('example')"
+                    [class.btn-copied]="isCopied.example">Copy to clipboard
             </button>
           </div>
         </ng-template>
@@ -867,7 +867,7 @@
         </ng-template>
       </ngb-panel>
 
-      <ngb-panel id="json-explain" *ngIf="!!jsonExplain || !!explainError">
+      <ngb-panel id="json-explain" *ngIf="!!explainJson || !!explainError">
         <ng-template ngbPanelTitle>
           <div class="accordion-title">
             <h5>JSON</h5>
@@ -881,8 +881,8 @@
                     id="copyJson"
                     ngxClipboard
                     [cbContent]="explainJsonString"
-                    (cbOnSuccess)="showSuccessNotification('jsonExplain')"
-                    [class.btn-copied]="isCopied.jsonExplain">
+                    (cbOnSuccess)="showSuccessNotification('json')"
+                    [class.btn-copied]="isCopied.json">
               Copy to clipboard
             </button>
           </div>
@@ -893,7 +893,7 @@
         </ng-template>
       </ngb-panel>
 
-      <ngb-panel id="visual-explain" *ngIf="!!visualExplain || !!explainError">
+      <ngb-panel id="visual-explain" *ngIf="!!explainVisual || !!explainError">
         <ng-template ngbPanelTitle>
           <div class="accordion-title">
             <h5>VISUAL</h5>
@@ -902,13 +902,13 @@
         <ng-template ngbPanelContent>
           <i *ngIf="isExplainLoading" class="fa fa-spinner fa-pulse fa-3x fa-fw loading"></i>
           <div *ngIf="!isExplainLoading && !explainError" class="data-output">
-            <pre>{{ visualExplain }}</pre>
+            <pre>{{ explainVisual }}</pre>
             <button class="pmm-button"
                     id="copyVisualExplain"
                     ngxClipboard
-                    [cbContent]="visualExplain"
-                    (cbOnSuccess)="showSuccessNotification('visualExplain')"
-                    [class.btn-copied]="isCopied.visualExplain">
+                    [cbContent]="explainVisual"
+                    (cbOnSuccess)="showSuccessNotification('visual')"
+                    [class.btn-copied]="isCopied.visual">
               Copy to clipboard
             </button>
           </div>
@@ -971,8 +971,9 @@
                     id="copyCreateTable"
                     ngxClipboard
                     [cbContent]="tableInfo.Create"
-                    (cbOnSuccess)="showSuccessNotification('createTable')"
-                    [class.btn-copied]="isCopied.createTable">Copy to clipboard
+                    (cbOnSuccess)="showSuccessNotification('create')"
+                    [class.btn-copied]="isCopied.create">
+              Copy to clipboard
             </button>
           </div>
         </ng-template>
