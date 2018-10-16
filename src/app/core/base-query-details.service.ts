@@ -12,7 +12,7 @@ export interface QueryClass {
   FirstSeen: string;
   LastSeen: string;
   Status: string;
-};
+}
 
 export interface QueryExample {
   QueryId: string;
@@ -22,7 +22,7 @@ export interface QueryExample {
   Db: string;
   QueryTime: number;
   Query: string;
-};
+}
 
 export interface QueryDetails {
   InstanceId: string;
@@ -32,7 +32,7 @@ export interface QueryDetails {
   Example: QueryExample;
   Metrics2: {};
   Sparks2: Array<{}>;
-};
+}
 
 export interface ServerSummary {
   InstanceId: string;
@@ -40,7 +40,7 @@ export interface ServerSummary {
   End: string;
   Metrics2: {};
   Sparks2: Array<{}>;
-};
+}
 
 @Injectable()
 export class BaseQueryDetailsService {

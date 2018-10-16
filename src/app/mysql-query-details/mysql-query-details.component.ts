@@ -53,18 +53,19 @@ export class MySQLQueryDetailsComponent extends BaseQueryDetailsComponent implem
 
   selectTableInfo(dbName: string, tblName: string) {
     if (!this.dbServer || !this.dbServer.Agent) { return; }
+    const agentUUID = this.dbServer.Agent.UUID;
+    const dbServerUUID = this.dbServer.UUID;
+
     this.isTableInfoLoading = true;
     this.statusTableError = '';
     this.indexTableError = '';
     this.createTableError = '';
-    const agentUUID = this.dbServer.Agent.UUID;
-    const dbServerUUID = this.dbServer.UUID;
     this.dbTblNames = `\`${dbName}\`.\`${tblName}\``;
-
 
     this.queryDetailsService.getTableInfo(agentUUID, dbServerUUID, dbName, tblName)
       .then(data => {
         const info = data[`${dbName}.${tblName}`];
+
         if (info.hasOwnProperty('Errors') && info['Errors'].length > 0) {
           throw info['Errors'];
         }
@@ -93,9 +94,11 @@ export class MySQLQueryDetailsComponent extends BaseQueryDetailsComponent implem
       const part = this.newDBTblNames.split('.');
       const db = part[0].replace(/`/g, '');
       const tbl = part[1].replace(/`/g, '');
+
       if (this.queryDetails.Query.Tables === null) {
         this.queryDetails.Query.Tables = [];
       }
+
       this.queryDetails.Query.Tables.push({Db: db, Table: tbl});
       this.mysqlQueryDetailsService.updateTables(this.queryDetails.Query.Id, this.queryDetails.Query.Tables);
       this.dbTblNames = this.newDBTblNames;
@@ -107,6 +110,7 @@ export class MySQLQueryDetailsComponent extends BaseQueryDetailsComponent implem
 
   removeDBTable(dbTableItem) {
     const len = this.queryDetails.Query.Tables.length;
+
     for (let i = 0; i < len; i++) {
       try {
         if (this.queryDetails.Query.Tables[i].Db === dbTableItem.Db

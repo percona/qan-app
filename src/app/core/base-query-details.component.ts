@@ -55,9 +55,7 @@ export abstract class BaseQueryDetailsComponent extends CoreComponent {
   }
 
   onChangeParams(params) {
-    if (!this.dbServer) {
-      return
-    }
+    if (!this.dbServer) { return }
 
     if (['TOTAL', undefined].indexOf(this.queryParams.queryID) !== -1) {
       this.isSummary = true;
@@ -111,9 +109,7 @@ export abstract class BaseQueryDetailsComponent extends CoreComponent {
   }
 
   async getExplain() {
-    if (!this.dbServer.Agent) {
-      return
-    }
+    if (!this.dbServer.Agent) { return }
 
     this.isExplainLoading = true;
     this.explainJson = '';
@@ -145,15 +141,13 @@ export abstract class BaseQueryDetailsComponent extends CoreComponent {
       }
 
       this.explainData = JSON.parse(atob(this.explainData.Data));
+      this.explainJson = typeof this.explainData.JSON === 'string' ? JSON.parse(this.explainData.JSON) : this.explainData.JSON;
+      this.explainJsonString = JSON.stringify(this.explainJson);
 
       if (this.dbServer.Subsystem === 'mysql') {
         this.explainClassic = this.explainData.Classic;
         this.explainVisual = this.explainData.Visual;
       }
-
-      this.explainJson = typeof this.explainData.JSON === 'string' ? JSON.parse(this.explainData.JSON) : this.explainData.JSON;
-      this.explainJsonString = JSON.stringify(this.explainJson);
-
     } catch (err) {
       switch (this.dbServer.Subsystem) {
         case('mysql'):
@@ -171,9 +165,7 @@ export abstract class BaseQueryDetailsComponent extends CoreComponent {
   }
 
   getTableInfo() {
-    if (!this.dbServer.Agent) {
-      return
-    }
+    if (!this.dbServer.Agent) { return }
 
     const agentUUID = this.dbServer.Agent.UUID;
     const dbServerUUID = this.dbServer.UUID;
