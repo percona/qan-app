@@ -49,7 +49,6 @@ export class MySQLQueryDetailsService {
 
     public async getQueryDetails(dbServerUUID, queryUUID, begin, end: string): Promise<QueryDetails> {
         const url = `/qan-api/qan/report/${dbServerUUID}/query/${queryUUID}`;
-
         const params = new URLSearchParams();
         params.set('begin', begin);
         params.set('end', end);
