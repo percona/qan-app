@@ -1,3 +1,13 @@
+.data-output {
+  position: relative;
+  overflow-y: scroll;
+}
+
+.pmm-button {
+  position: fixed;
+  right: 15px;
+}
+
 section.explain {
   display: flex;
   flex-direction: column;

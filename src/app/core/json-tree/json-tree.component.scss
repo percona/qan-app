@@ -13,3 +13,14 @@
   .renderjson .array.syntax  { color: lightsalmon; }
 }
 
+.json-tree-wrapper {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  margin-right: 20px;
+}
+
+.pmm-button {
+  position: fixed;
+  right: 175px;
+}
