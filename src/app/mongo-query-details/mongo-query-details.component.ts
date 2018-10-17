@@ -20,16 +20,23 @@ export class MongoQueryDetailsComponent extends CoreComponent implements OnInit 
   public fingerprint: string;
   public queryExample: string;
   public classicExplain;
+  public jsonExplainString;
   public jsonExplain;
   public errExplain;
   public dbName: string;
   public dbTblNames: string;
+  isCopied = {
+    queryExample: false,
+    fingerprint: false,
+    jsonExplain: false
+  };
   isSummary: boolean;
   isLoading: boolean;
   isExplainLoading: boolean;
   isFirstSeen: boolean;
   firstSeen: string;
   lastSeen: string;
+  event = new Event('showSuccessNotification');
 
   constructor(protected route: ActivatedRoute, protected router: Router,
               protected instanceService: InstanceService, public queryDetailsService: MongoQueryDetailsService) {
@@ -40,6 +47,12 @@ export class MongoQueryDetailsComponent extends CoreComponent implements OnInit 
     this.queryParams = this.route.snapshot.queryParams as QueryParams;
     this.parseParams();
     this.onChangeParams(this.queryParams);
+  }
+
+  showSuccessNotification(key) {
+    this.isCopied[key] = true;
+    setTimeout( () => { this.isCopied[key] = false }, 3000);
+    window.parent.document.dispatchEvent(this.event);
   }
 
   onChangeParams(params) {
@@ -97,6 +110,7 @@ export class MongoQueryDetailsComponent extends CoreComponent implements OnInit 
       if (data.Error === '') {
         const jsonSection = JSON.parse(atob(data.Data)).JSON;
         this.jsonExplain = typeof jsonSection === 'string' ? JSON.parse(jsonSection) : jsonSection;
+        this.jsonExplainString = JSON.stringify(this.jsonExplain);
       } else {
         this.errExplain = data.Error
       }
