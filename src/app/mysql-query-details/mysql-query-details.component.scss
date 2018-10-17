@@ -1,5 +1,11 @@
+.data-output {
+  position: relative;
+  overflow-y: scroll;
+}
+
 .pmm-button {
-  float: right;
+  position: fixed;
+  right: 15px;
 }
 
 section.explain {
@@ -81,11 +87,4 @@ section.explain {
   .btn-group {
     margin-right: 30px;
   }
-}
-
-app-json-tree {
-  display: flex;
-  justify-content: space-between;
-  width: 100%;
-  margin-right: 20px;
 }
