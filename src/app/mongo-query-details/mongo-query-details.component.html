@@ -30,7 +30,7 @@
           <div class="table-body">
             <div class="table-body-row grid-container">
               <div><span>Query Count</span></div>
-              <div class="flex-container">
+              <div class="row__cells">
                 <div class="justify-content-start">
                   <span class="unit unit-per-sec">{{ queryDetails?.Metrics2?.Query_count_per_sec | humanize : 'number' }}</span>
                 </div>
@@ -47,7 +47,7 @@
                   </small>
                 </span>
               </div>
-              <div class="flex-container">
+              <div class="row__cells">
                 <div class="justify-content-start">
                   <span class="unit unit-avg">{{ queryDetails?.Metrics2?.Query_time_avg | humanize : 'time' }}</span>
                 </div>
@@ -61,7 +61,7 @@
             </div>
             <div class="table-body-row grid-container">
               <div><span>Query Time</span></div>
-              <div class="flex-container">
+              <div class="row__cells">
                 <div class="cell-overlay justify-content-start">
                   <span>{{ queryDetails?.Metrics2?.Query_time_sum_per_sec | humanize : 'number' }} load
                     (<span>{{ queryDetails?.Metrics2?.Query_time_sum_of_total | humanize : 'percent' }}</span>)
@@ -80,7 +80,7 @@
                   </small>
                 </span>
               </div>
-              <div class="flex-container">
+              <div class="row__cells">
                 <div class="justify-content-start">
                   <span class="unit unit-avg">{{ queryDetails?.Metrics2?.Query_time_avg | humanize : 'time' }}</span>
                 </div>
@@ -94,7 +94,7 @@
             </div>
             <div *ngIf="queryDetails?.Metrics2?.Rows_sent_sum" class="table-body-row grid-container">
               <div><span>Docs Returned</span></div>
-              <div class="flex-container">
+              <div class="row__cells">
                 <div class="cell-overlay justify-content-start">
                   <span class="unit unit-per-sec">{{ queryDetails?.Metrics2?.Rows_sent_sum_per_sec | humanize : 'number' }}</span>
                 </div>
@@ -111,7 +111,7 @@
                   </small>
                 </span>
               </div>
-              <div class="flex-container">
+              <div class="row__cells">
                 <div class="justify-content-start">
                   <span
                     class="unit unit unit-avg">{{ queryDetails?.Metrics2?.Rows_sent_avg | humanize : 'number' }}</span>
@@ -123,7 +123,7 @@
             </div>
             <div *ngIf="queryDetails?.Metrics2?.Bytes_sent_sum" class="table-body-row grid-container">
               <div><span>Response Length</span></div>
-              <div class="flex-container">
+              <div class="row__cells">
                 <div class="justify-content-start">
                   <span class="unit unit-per-sec">{{ queryDetails?.Metrics2?.Bytes_sent_sum_per_sec | humanize : 'size' }}</span>
                 </div>
@@ -143,7 +143,7 @@
                   </small>
                 </span>
               </div>
-              <div class="flex-container">
+              <div class="row__cells">
                 <div class=" justify-content-start">
                   <span class="unit unit-avg">{{ queryDetails?.Metrics2?.Bytes_sent_avg | humanize : 'size' }}</span>
                 </div>
@@ -154,7 +154,7 @@
             </div>
             <div *ngIf="queryDetails?.Metrics2?.Rows_examined_sum" class="table-body-row grid-container">
               <div class=""><span>Docs Scanned</span></div>
-              <div class="flex-container">
+              <div class="row__cells">
                 <div class=" justify-content-start">
                   <span class="unit unit-per-sec">{{ queryDetails?.Metrics2?.Rows_examined_sum_per_sec | humanize : 'number' }}</span>
                 </div>
@@ -174,7 +174,7 @@
                   </small>
                 </span>
               </div>
-              <div class="flex-container">
+              <div class="row__cells">
                 <div class=" justify-content-start">
                   <span
                     class="unit unit-avg">{{ queryDetails?.Metrics2?.Rows_examined_avg | humanize : 'number' }}</span>

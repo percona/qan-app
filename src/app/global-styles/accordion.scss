@@ -1,0 +1,64 @@
+.accordion {
+  --border-color: var(--main-border-color);
+  --background: rgb(31, 29, 29);
+}
+
+.accordion .card,
+.accordion .card:first-of-type,
+.accordion .card:not(:first-of-type):not(:last-of-type) {
+  border-radius: 0;
+  border: 1px solid var(--border-color);
+  background-color: var(--background);
+}
+
+.accordion .card:not(:last-child) {
+  margin-bottom: 20px;
+}
+
+// Reset card-header default styles
+.accordion .card .card-header {
+  padding: 0;
+  background-color: inherit;
+  border-bottom: none;
+}
+
+.accordion .card .btn.btn-link {
+  width: 100%;
+  padding: 0;
+
+  &:hover,
+  &:active,
+  &:focus,
+  &:visited {
+    text-decoration: none !important;
+  }
+}
+
+.card-header__content {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px;
+  font-size: 1.25rem;
+  color: white;
+}
+
+.card-header__title {
+  margin-bottom: 0;
+  color: inherit;
+}
+
+.card-header__title::before {
+  margin-right: 7px;
+  font-size: 1rem;
+  font-family: FontAwesome;
+  content: "\f054";
+}
+
+.btn.btn-link.collapsed .card-header__title::before {
+  content: "\f078";
+}
+
+.card-body {
+  border-top: 1px solid var(--border-color);
+}

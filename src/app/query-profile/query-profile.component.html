@@ -27,7 +27,8 @@
           <button class="btn-switcher btn-switcher-first-seen"
                   [class.checked]="isFirsSeenChecked === true"
                   (click)="getFirstSeen(true)"
-                  [disabled]="!isQuerySwitching && !isLoading && totalAmountOfQueries === 0 && !isFirsSeenChecked && !isSearchQuery">First seen
+                  [disabled]="!isQuerySwitching && !isLoading && totalAmountOfQueries === 0 && !isFirsSeenChecked && !isSearchQuery">First
+            seen
           </button>
         </div>
       </div>
@@ -40,58 +41,56 @@
         </button>
       </form>
     </section>
-    <section class="table-body query-profile-table" id="query_profile_table">
-      <div class="grid-container">
-        <div>#</div>
-        <div>Query Abstract</div>
-        <div>Load</div>
-        <div>Count</div>
-        <div>Latency</div>
+
+    <section class="grid-table" id="query_profile_table">
+      <div class="grid-table__row grid-table__row--title">
+        <span>#</span>
+        <span>Query Abstract</span>
+        <span>Load</span>
+        <span>Count</span>
+        <span>Latency</span>
       </div>
-      <div class="grid-container grid-container-data"
+      <div class="grid-table__row"
            *ngFor="let row of queryProfile; let i = index; let first = first;"
            [routerLink]="['./', 'report', dbServer.Subsystem]"
-           [queryParams]="composeQueryParamsForGrid(row.Id)" routerLinkActive="table-selected"
-           [class.first-seen-query]="checkFirstSeen(row)">
-        <div>{{ i || '' }}</div>
-        <div class="cell-overlay">
-          <span class="cell-overlay">
-           <a href="javascript:;" title="{{ row.Fingerprint }}">
+           [queryParams]="composeQueryParamsForGrid(row.Id)" routerLinkActive="grid-table__row--active"
+           [class.grid-table__row--first-seen]="checkFirstSeen(row)">
+        <span>{{ i || '' }}</span>
+        <div class="overlay-container">
+          <a href="javascript:;" class="row__link overlay-container__item" title="{{ row.Fingerprint }}">
             {{ row.Rank ? (row.Abstract || 'Low Ranking Queries') : 'TOTAL' }}
-           </a>
-          </span>
+          </a>
         </div>
-        <div class="flex-container">
+        <div class="row__cells">
           <div class="scaling-svg-container app-tooltip"
                [appLoadSparklines]="row.Log"
                data-tooltip="Loading..."
                xkey="Start_ts" ykey="Query_load"
                measurement="number">
           </div>
-          <div class="ml-3 mr-3">{{ row.Load | humanize : 'number' }}</div>
-          <div><span>{{ row.Percentage | humanize : 'percent' }}</span></div>
+          <span>{{ row.Load | humanize : 'number' }}</span>
+          <span>{{ row.Percentage | humanize : 'percent' }}</span>
         </div>
-        <div class="flex-container ">
-          <div><span class="unit unit-qps">{{row.QPS | humanize : 'number'}}</span></div>
+        <div class="row__cells">
+          <span class="unit unit-qps">{{row.QPS | humanize : 'number'}}</span>
           <div class="scaling-svg-container app-tooltip"
                [appLoadSparklines]="row.Log"
                data-tooltip="Loading..."
                xkey="Start_ts" ykey="Query_count"
                measurement="number">
           </div>
-          <div class="ml-2 mr-2">{{row.Stats.Cnt | humanize : 'number'}}</div>
-          <div><span class="unit unit-percent">{{ (row.Stats.Cnt / profileTotal?.Stats.Cnt * 100).toFixed(2) }}</span>
-          </div>
+          <span>{{row.Stats.Cnt | humanize : 'number'}}</span>
+          <span class="unit unit-percent">{{ (row.Stats.Cnt / profileTotal?.Stats.Cnt * 100).toFixed(2) }}</span>
         </div>
-        <div class="flex-container">
+        <div class="row__cells">
           <div class="scaling-svg-container app-tooltip"
                [appLoadSparklines]="row.Log"
                data-tooltip="Loading..."
                xkey="Start_ts" ykey="Query_time_avg"
                measurement="time">
           </div>
-          <div class="cell-overlay main-table-overlay">
-            <span class="unit unit-avg">{{ row.Stats.Avg | humanize }}</span>
+          <div class="overlay-container row__cells--w-30">
+            <span class="unit unit-avg overlay-container__item">{{ row.Stats.Avg | humanize }}</span>
           </div>
           <div class="scaling-svg-container app-tooltip"
                data-tooltip="Loading..."
@@ -118,14 +117,16 @@
     {{ noQueryError }}
   </div>
   <div *ngIf="!isQuerySwitching && !isLoading && totalAmountOfQueries === 0" class="text-center">
-    <div *ngIf="dbServer.Subsystem === 'mongo' && !isFirsSeenChecked && !isSearchQuery" class="alert alert-warning w-75 mx-auto wrap no-mongo-queries">
+    <div *ngIf="dbServer.Subsystem === 'mongo' && !isFirsSeenChecked && !isSearchQuery"
+         class="alert alert-warning w-75 mx-auto wrap no-mongo-queries">
       There is no query data because profiling is not enabled for the selected host. For information about how to
       enable profiling, see
       <a href="https://www.percona.com/doc/percona-monitoring-and-management/conf-mongodb.html" target="blank">
         Configuring profiling in MongoDB
       </a>in PMM documentation.
     </div>
-    <div *ngIf="dbServer.Subsystem === 'mysql' && !isFirsSeenChecked && !isSearchQuery" class="alert alert-warning w-75 mx-auto wrap no-mysql-queries">
+    <div *ngIf="dbServer.Subsystem === 'mysql' && !isFirsSeenChecked && !isSearchQuery"
+         class="alert alert-warning w-75 mx-auto wrap no-mysql-queries">
       There is no query data because the MySQL Server is not configured for monitoring. For details about the
       required configuration, see
       <a href="https://www.percona.com/doc/percona-monitoring-and-management/conf-mysql.html" target="blank">

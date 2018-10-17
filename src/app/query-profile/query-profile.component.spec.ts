@@ -229,14 +229,14 @@ fdescribe('QueryProfileComponent', () => {
   it('should highlight first-seen query if they are presented', () => {
     component.isFirstSeen = true;
     fixture.detectChanges();
-    const firstSeenQuery = fixture.nativeElement.querySelector('.first-seen-query');
+    const firstSeenQuery = fixture.nativeElement.querySelector('.grid-table__row--first-seen');
     expect(firstSeenQuery).toBeFalsy();
   });
 
   it('should not highlight first-seen query if they are not in range', () => {
     component.isFirstSeen = false;
     fixture.detectChanges();
-    const firstSeenQuery = fixture.nativeElement.querySelector('.first-seen-query');
+    const firstSeenQuery = fixture.nativeElement.querySelector('.grid-table__row--first-seen');
     expect(firstSeenQuery).toBeFalsy();
   });
 });

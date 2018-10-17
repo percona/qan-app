@@ -1,0 +1,32 @@
+.overlay-container:hover {
+  --overflow-state: visible;
+  height: 100%;
+}
+
+.overlay-container,
+.overlay-container__item {
+  overflow: var(--overflow-state, hidden);
+  background-color: inherit;
+}
+
+.overlay-container {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.overlay-container__item {
+  display: inline-block;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.overlay-container:hover .overlay-container__item {
+  position: absolute;
+  z-index: 999;
+  display: flex;
+  align-items: center;
+  height: 100%;
+  padding-right: 5px;
+  text-overflow: initial;
+}

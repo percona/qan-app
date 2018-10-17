@@ -51,13 +51,13 @@
       font-size: 12px;
     }
 
-    &.table-selected > div:first-child,
-    &.first-seen-query > div:first-child{
+    &.grid-table__row--active > div:first-child,
+    &.grid-table__row--first-seen > div:first-child{
       padding-left: 8px !important;
       border-left: 3px solid #2e5785 !important;
     }
 
-    &.table-selected {
+    &.grid-table__row--active {
       outline: none;
 
       &:active,
