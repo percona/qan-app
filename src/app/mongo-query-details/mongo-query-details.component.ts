@@ -30,6 +30,11 @@ export class MongoQueryDetailsComponent extends CoreComponent implements OnInit 
     fingerprint: false,
     jsonExplain: false
   };
+  accordionIds = {
+    serverSummary: ['metrics-table'],
+    querySection: ['query-fingerprint'],
+    explainSection: ['classic-explain'],
+  };
   isSummary: boolean;
   isLoading: boolean;
   isExplainLoading: boolean;
@@ -63,6 +68,11 @@ export class MongoQueryDetailsComponent extends CoreComponent implements OnInit 
     } else {
       this.isSummary = false;
       this.getQueryDetails(this.dbServer.UUID, this.queryParams.queryID, this.fromUTCDate, this.toUTCDate);
+      this.accordionIds = {
+        serverSummary: ['metrics-table'],
+        querySection: ['query-fingerprint'],
+        explainSection: ['classic-explain'],
+      };
     }
   }
 
