@@ -6,14 +6,15 @@
     <div class="row justify-content-center">
       <div class="col-5">
         <div class="form-group">
-          <input type="text" [(ngModel)]="rdsCredentials.aws_access_key_id" name="aws_access_key_id" class="form-control" id="aws_access_key_id"
-            placeholder="AWS_ACCESS_KEY_ID">
+          <input type="text" [(ngModel)]="rdsCredentials.aws_access_key_id" name="aws_access_key_id" class="form-control"
+                 id="aws_access_key_id"
+                 placeholder="AWS_ACCESS_KEY_ID">
         </div>
       </div>
       <div class="col-5">
         <div class="form-group">
           <input type="password" class="form-control" [(ngModel)]="rdsCredentials.aws_secret_access_key" name="aws_secret_access_key"
-            id="aws_secret_access_key" aria-describedby="aws_secret_access_key" placeholder="AWS_SECRET_ACCESS_KEY">
+                 id="aws_secret_access_key" aria-describedby="aws_secret_access_key" placeholder="AWS_SECRET_ACCESS_KEY">
         </div>
       </div>
       <div class="col">
@@ -22,7 +23,9 @@
     </div>
   </form>
   <div class="row justify-content-end">
-    <a href="https://www.percona.com/doc/percona-monitoring-and-management/amazon-rds.html#essential-aws-settings-for-monitoring-amazon-rds-db-instances-in-pmm" target="_blank">Where do I get the security credentials for my Amazon RDS DB instance?</a>
+    <a
+      href="https://www.percona.com/doc/percona-monitoring-and-management/amazon-rds.html#essential-aws-settings-for-monitoring-amazon-rds-db-instances-in-pmm"
+      target="_blank">Where do I get the security credentials for my Amazon RDS DB instance?</a>
   </div>
   <div class="row justify-content-md-center" *ngIf="isLoading && !allRDSInstances?.length">
     <div>
@@ -39,53 +42,42 @@
   {{ errorMessage }}
 </div>
 
-<form (ngSubmit)="onConnect()">
-  <div class="d-flex justify-content-center" *ngIf="allRDSInstances?.length">
-    <table class="aws-table table-bordered main-table-bordered table-sm">
-      <thead class="table-header-row">
-        <tr>
-          <th scope="col">Name</th>
-          <th scope="col">Region</th>
-          <th scope="col">Endpoint</th>
-          <th scope="col">Engine</th>
-          <th scope="col">Enabled</th>
-        </tr>
-      </thead>
-      <tbody>
-        <ng-template ngFor let-instance [ngForOf]="allRDSInstances" let-i="index" let-odd="odd">
-          <tr [ngClass]="{'active': showConnect(instance.node)}">
-            <th scope="row">{{ instance.node.name }}</th>
-            <td>{{ instance.node.region }}</td>
-            <td>{{ instance.service.address }}:{{ instance.service.port }}</td>
-            <td>{{ instance.service.engine }} v{{ instance.service.engine_version }}</td>
-            <td align="center">
-		    <a *ngIf="isEnabled(instance)" href="javascript:void(0)" title="Enabled"
-	               (click)="disableInstanceMonitoring(instance.node);">
-                <i class="fa fa-toggle-on fa-lg" aria-hidden="true"></i>
-              </a>
-              <a *ngIf="!isEnabled(instance)" href="javascript:void(0)" title="Disabled" (click)="enableInstanceMonitoring(instance.node);">
-                <i class="fa fa-toggle-off fa-lg" aria-hidden="true"></i>
-              </a>
-            </td>
-          </tr>
-          <tr *ngIf="showConnect(instance.node)" class="active">
-            <td colspan="2">
-              <div>
-                <input type="text" [(ngModel)]="mysqlCredentials.username" name="username" class="form-control" placeholder="MySQL username">
-              </div>
-            </td>
-            <td>
-              <div>
-                <input type="password" [(ngModel)]="mysqlCredentials.password" name="password" class="form-control" placeholder="MySQL Password">
-              </div>
-            </td>
-            <td colspan="2">
-              <button type="submit" [disabled]="isDemo"  class="not-checked-button">Connect</button>
-              <button type="cancel" (click)="cancel()" class="not-checked-button">Cancel</button>
-            </td>
-          </tr>
-        </ng-template>
-      </tbody>
-    </table>
-  </div>
+<form *ngIf="allRDSInstances?.length" (ngSubmit)="onConnect()">
+  <section class="grid-table">
+    <header class="grid-table__row grid-table__row--instances">
+      <span>Name</span>
+      <span>Region</span>
+      <span>Endpoint</span>
+      <span>Engine</span>
+      <span>Enabled</span>
+    </header>
+    <ng-template ngFor let-instance [ngForOf]="allRDSInstances" let-i="index" let-odd="odd">
+      <div [ngClass]="{'active': showConnect(instance.node)}" class="grid-table__row grid-table__row--instances">
+        <span>{{ instance.node.name }}</span>
+        <span>{{ instance.node.region }}</span>
+        <span>{{ instance.service.address }}:{{ instance.service.port }}</span>
+        <span>{{ instance.service.engine }} v{{ instance.service.engine_version }}</span>
+        <div>
+          <a *ngIf="isEnabled(instance)" href="javascript:void(0)" title="Enabled" (click)="disableInstanceMonitoring(instance.node);">
+            <i class="fa fa-toggle-on fa-lg" aria-hidden="true"></i>
+          </a>
+          <a *ngIf="!isEnabled(instance)" href="javascript:void(0)" title="Disabled" (click)="enableInstanceMonitoring(instance.node);">
+            <i class="fa fa-toggle-off fa-lg" aria-hidden="true"></i>
+          </a>
+        </div>
+      </div>
+      <div *ngIf="showConnect(instance.node)" class="grid-table__row grid-table__row--connect-instances">
+        <div>
+          <input type="text" [(ngModel)]="mysqlCredentials.username" name="username" class="form-control" placeholder="MySQL username">
+        </div>
+        <div>
+          <input type="password" [(ngModel)]="mysqlCredentials.password" name="password" class="form-control" placeholder="MySQL Password">
+        </div>
+        <div>
+          <button type="submit" [disabled]="isDemo" class="not-checked-button">Connect</button>
+          <button type="cancel" (click)="cancel()" class="not-checked-button">Cancel</button>
+        </div>
+      </div>
+    </ng-template>
+  </section>
 </form>

@@ -1,6 +1,5 @@
 .accordion {
   --border-color: var(--main-border-color);
-  --background: rgb(31, 29, 29);
 }
 
 .accordion .card,
@@ -8,7 +7,7 @@
 .accordion .card:not(:first-of-type):not(:last-of-type) {
   border-radius: 0;
   border: 1px solid var(--border-color);
-  background-color: var(--background);
+  background-color: var(--accordion-background);
 }
 
 .accordion .card:not(:last-child) {
@@ -60,5 +59,6 @@
 }
 
 .card-body {
+  padding: 0;
   border-top: 1px solid var(--border-color);
 }

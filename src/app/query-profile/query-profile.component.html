@@ -42,15 +42,15 @@
       </form>
     </section>
 
-    <section class="grid-table" id="query_profile_table">
-      <div class="grid-table__row grid-table__row--title">
+    <section class="grid-table">
+      <header class="grid-table__row grid-table__row--main grid-table__row--title">
         <span>#</span>
         <span>Query Abstract</span>
         <span>Load</span>
         <span>Count</span>
         <span>Latency</span>
-      </div>
-      <div class="grid-table__row"
+      </header>
+      <div class="grid-table__row grid-table__row--main grid-table__row--cursor"
            *ngFor="let row of queryProfile; let i = index; let first = first;"
            [routerLink]="['./', 'report', dbServer.Subsystem]"
            [queryParams]="composeQueryParamsForGrid(row.Id)" routerLinkActive="grid-table__row--active"

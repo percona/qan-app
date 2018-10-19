@@ -1,30 +1,42 @@
-.app-theme-dark .grid-table {
-  --row-link-color: rgb(39,178,229);
-  --row-active: rgb(35,70,130);
-  --row-first-seen: rgb(13,35,59);
-}
-
 .grid-table {
   --row-height: 40px;
   --row-cells-indent: 0.5rem;
+  --row-background: var(--page-background);
 }
+
 
 .grid-table {
   display: grid;
   grid-template-rows: var(--row-height);
   grid-auto-rows: var(--row-height);
-  margin-bottom: 15px;
   color: var(--main-text-color);
   border: 1px solid var(--main-border-color);
 }
 
+.grid-table > *:not(:last-child) {
+  border-bottom: 1px solid var(--main-border-color);
+}
+
+.grid-table--parent {
+  grid-auto-rows: auto;
+}
+
+.grid-table--no-frame {
+  --row-background: var(--accordion-background);
+  border: none;
+}
+
+
 .grid-table__row {
   display: grid;
-  grid-template-columns: 40px 9fr 7fr 10fr 9fr;
   align-items: center;
-  cursor: pointer;
-  background-color: var(--page-background);
+  background-color: var(--row-background, transparent);
+  outline: none;
 }
+
+//.grid-table__row:not(:last-child) {
+//  border-bottom: 1px solid var(--main-border-color);
+//}
 
 .grid-table__row > * {
   display: flex;
@@ -37,13 +49,42 @@
   border-right: 1px solid var(--main-border-color);
 }
 
-.grid-table__row:not(:last-child) {
-  border-bottom: 1px solid var(--main-border-color);
+.grid-table__row--cursor {
+  cursor: pointer;
 }
 
 .grid-table__row--title {
   font-size: 0.8rem;
-  cursor: auto;
+}
+
+.grid-table__row--main {
+  grid-template-columns: 40px 9fr 7fr 10fr 9fr;
+}
+
+.grid-table__row--metrics {
+  grid-template-columns: repeat(2, 2fr) 3fr 2fr;
+}
+
+.grid-table__row--status {
+  grid-template-columns: repeat(2, 1fr);
+}
+
+.grid-table__row--indexes {
+  grid-template-columns: repeat(2, 1fr) repeat(2, .5fr) repeat(3, 1fr) .5fr 1fr;
+}
+
+//AWS Credentials
+.grid-table__row--instances {
+  grid-template-columns: 1.5fr 1fr 6fr 2fr 1fr;
+}
+
+.grid-table__row--connect-instances {
+  grid-template-columns: 2.5fr 6fr 3fr;
+}
+//
+
+.grid-table__row--highlight {
+  --row-background: rgb(51,51,51);
 }
 
 .grid-table__row--active,
@@ -55,11 +96,13 @@
   background: var(--row-first-seen);
 }
 
+
 .row__link,
 .row__link:hover {
   display: inline-block;
   color: var(--row-link-color);
 }
+
 
 .row__cells {
   justify-content: space-between;
@@ -73,3 +116,30 @@
   width: 30%;
 }
 
+.not-summary-info {
+  color: var(--row-link-color);
+}
+
+.app-theme-dark .grid-table {
+  --row-link-color: rgb(39,178,229);
+  --row-active: rgb(35,70,130);
+  --row-first-seen: rgb(13,35,59);
+}
+
+// Rewrite when `display: contents` will have good browser support https://caniuse.com/#search=display%3Acontents
+.grid-table--no-grid {
+  display: table;
+  border-collapse: collapse;
+  width: 100%;
+}
+
+.grid-table__row--no-grid {
+  display: table-row;
+}
+
+.grid-table__row--no-grid > * {
+  display: table-cell;
+  height: 100%;
+  padding: 5px;
+  vertical-align: middle;
+}
