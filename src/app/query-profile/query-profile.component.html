@@ -31,6 +31,15 @@
             seen
           </button>
         </div>
+        <label class="switcher">
+          <input type="checkbox"
+                 (change)="isFirsSeenChecked = !isFirsSeenChecked; switch(isFirsSeenChecked);"
+                 [disabled]="!isQuerySwitching && !isLoading && totalAmountOfQueries === 0 && !isFirsSeenChecked && !isSearchQuery">
+          <span class="slider">
+  	        <span class="switcher__option">All queries</span>
+            <span class="switcher__option">First seen</span>
+          </span>
+        </label>
       </div>
       <form class="search-input" (submit)="search()">
         <input class="form-control" [(ngModel)]="searchValue" name="searchValue"
