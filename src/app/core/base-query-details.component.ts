@@ -46,6 +46,12 @@ export abstract class BaseQueryDetailsComponent extends CoreComponent {
     visual: false,
     create: false,
   };
+  accordionIds = {
+    serverSummary: ['metrics-table'],
+    querySection: ['query-fingerprint'],
+    explainSection: ['classic-explain'],
+    tableSection: ['table-create'],
+  };
 
   event = new Event('showSuccessNotification');
 
@@ -63,6 +69,12 @@ export abstract class BaseQueryDetailsComponent extends CoreComponent {
     } else {
       this.isSummary = false;
       this.getQueryDetails(this.dbServer.UUID, this.queryParams.queryID, this.fromUTCDate, this.toUTCDate);
+      this.accordionIds = {
+        serverSummary: ['metrics-table'],
+        querySection: ['query-fingerprint'],
+        explainSection: ['classic-explain'],
+        tableSection: ['table-create'],
+      };
     }
   }
 

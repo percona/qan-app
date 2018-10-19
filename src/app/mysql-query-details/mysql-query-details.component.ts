@@ -26,12 +26,6 @@ export class MySQLQueryDetailsComponent extends BaseQueryDetailsComponent implem
   public dbTblNames: string;
   protected newDBTblNames: string;
   isTableInfoLoading: boolean;
-  accordionIds = {
-    serverSummary: 'metrics-table',
-    querySection: 'query-fingerprint',
-    explainSection: 'classic-explain',
-    tableSection: 'table-create',
-  };
 
   createTableError: string;
   statusTableError: string;
