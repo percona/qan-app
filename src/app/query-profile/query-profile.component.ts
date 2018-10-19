@@ -138,4 +138,13 @@ export class QueryProfileComponent extends CoreComponent {
       this.isQuerySwitching = false;
 
     }
+
+  // switch(isFirsSeenChecked) {
+  //   if (isFirsSeenChecked) {
+  //     this.getFirstSeen(true);
+  //   } else {
+  //     this.getFirstSeen();
+  //   }
+  //   // this.isFirsSeenChecked = !this.isFirsSeenChecked;
+  // }
 }

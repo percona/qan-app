@@ -19,23 +19,24 @@
       </div>
       <div class="display-options">
         <span>Display</span>
-        <div class="option-container">
-          <button class="button button--big"
-                  [class.button--dark]="isFirsSeenChecked === false"
-                  (click)="getFirstSeen()">All queries
-          </button>
-          <button class="btn-switcher btn-switcher-first-seen"
-                  [class.button--dark]="isFirsSeenChecked === true"
-                  (click)="getFirstSeen(true)"
-                  [disabled]="!isQuerySwitching && !isLoading && totalAmountOfQueries === 0 && !isFirsSeenChecked && !isSearchQuery">First
-            seen
-          </button>
-        </div>
+        <!--<div class="option-container">-->
+          <!--<button class="button button&#45;&#45;big"-->
+                  <!--[class.button&#45;&#45;dark]="isFirsSeenChecked === false"-->
+                  <!--(click)="getFirstSeen()">All queries-->
+          <!--</button>-->
+          <!--<button class="btn-switcher btn-switcher-first-seen"-->
+                  <!--[class.button&#45;&#45;dark]="isFirsSeenChecked === true"-->
+                  <!--(click)="getFirstSeen(true)"-->
+                  <!--[disabled]="!isQuerySwitching && !isLoading && totalAmountOfQueries === 0 && !isFirsSeenChecked && !isSearchQuery">First-->
+            <!--seen-->
+          <!--</button>-->
+        <!--</div>-->
         <label class="switcher">
           <input type="checkbox"
-                 (change)="isFirsSeenChecked = !isFirsSeenChecked; switch(isFirsSeenChecked);"
+                 class="switcher__checkbox"
+                 (change)="isFirsSeenChecked = !isFirsSeenChecked; getFirstSeen(isFirsSeenChecked);"
                  [disabled]="!isQuerySwitching && !isLoading && totalAmountOfQueries === 0 && !isFirsSeenChecked && !isSearchQuery">
-          <span class="slider">
+          <span class="switcher__slider">
   	        <span class="switcher__option">All queries</span>
             <span class="switcher__option">First seen</span>
           </span>
