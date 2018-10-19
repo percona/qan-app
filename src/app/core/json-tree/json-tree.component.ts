@@ -19,11 +19,16 @@ export class JSONTreeComponent implements OnChanges {
   }
 
   ngOnChanges() {
-    this.element.nativeElement.querySelector('#json-viewer').appendChild(renderjson(this.json));
+    this.isCollapsed = true;
+    this.resetJson();
   }
 
   public toggleAll() {
     this.isCollapsed = !this.isCollapsed;
+    this.resetJson();
+  }
+
+  public resetJson() {
     renderjson.set_show_to_level(this.isCollapsed ? '' : 'all');
 
     this.element.nativeElement.querySelector('#json-viewer').innerHTML = '';
