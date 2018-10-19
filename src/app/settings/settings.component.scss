@@ -1,73 +1,73 @@
-p {
-  margin-bottom: 0;
-  width: 100%;
-}
-#settings_apply_button {
-  cursor: pointer;
-}
-
-.accordion-head-second button {
-  cursor: pointer;
-}
-
-.button-block {
-  display: flex;
-  align-items: center;
-}
-
-.button-block .success-message,
-.button-block .error-message {
-  margin-bottom: 0;
-  margin-left: 15px;
-  opacity: 0;
-  transition: .5s ease-in-out all;
-}
-
-.button-block .success-message {
-  color: green;
-}
-
-.button-block .error-message {
-  color: red;
-}
-
-.show {
-  opacity: 1 !important;
-}
-
-.accordion-head-second.text-primary {
-  display: flex;
-  align-items: baseline;
-}
-
-#refreshStatusLink,
-#refreshLogLink {
-  color: inherit;
-  margin-left: 5px;
-}
-
-#update-group {
-  margin: 0 5px;
-}
-
-.pl-20 {
-  padding-left: 20px;
-}
-
-.button-block {
-  height: 40px;
-}
-
-.pmm-button {
-  width: 95px;
-  opacity: 1 !important;
-
-  &:disabled {
-    cursor: not-allowed !important;
-    opacity: .65;
-  }
-}
-
-.btn-copied {
-  opacity: 1 !important;
-}
+//p {
+//  margin-bottom: 0;
+//  width: 100%;
+//}
+//#settings_apply_button {
+//  cursor: pointer;
+//}
+//
+//.accordion-head-second button {
+//  cursor: pointer;
+//}
+//
+//.button-block {
+//  display: flex;
+//  align-items: center;
+//}
+//
+//.button-block .success-message,
+//.button-block .error-message {
+//  margin-bottom: 0;
+//  margin-left: 15px;
+//  opacity: 0;
+//  transition: .5s ease-in-out all;
+//}
+//
+//.button-block .success-message {
+//  color: green;
+//}
+//
+//.button-block .error-message {
+//  color: red;
+//}
+//
+//.show {
+//  opacity: 1 !important;
+//}
+//
+//.accordion-head-second.text-primary {
+//  display: flex;
+//  align-items: baseline;
+//}
+//
+//#refreshStatusLink,
+//#refreshLogLink {
+//  color: inherit;
+//  margin-left: 5px;
+//}
+//
+//#update-group {
+//  margin: 0 5px;
+//}
+//
+//.pl-20 {
+//  padding-left: 20px;
+//}
+//
+//.button-block {
+//  height: 40px;
+//}
+//
+//.pmm-button {
+//  width: 95px;
+//  opacity: 1 !important;
+//
+//  &:disabled {
+//    cursor: not-allowed !important;
+//    opacity: .65;
+//  }
+//}
+//
+//.btn-copied {
+//  opacity: 1 !important;
+//}

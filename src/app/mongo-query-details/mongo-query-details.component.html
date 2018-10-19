@@ -186,8 +186,8 @@
         </ng-template>
         <ng-template ngbPanelContent>
           <i *ngIf="isLoading" class="fa fa-spinner fa-pulse fa-3x fa-fw loading"></i>
-          <div *ngIf="!isLoading" class="data-output">
-            <pre><code [innerHTML]="fingerprint"></code></pre>
+          <div *ngIf="!isLoading" class="card-body__content">
+            <pre class="content__text"><code [innerHTML]="fingerprint"></code></pre>
             <button class="pmm-button"
                     id="copyFingerprint"
                     ngxClipboard
@@ -206,8 +206,8 @@
         </ng-template>
         <ng-template ngbPanelContent>
           <i *ngIf="isLoading" class="fa fa-spinner fa-pulse fa-3x fa-fw loading"></i>
-          <div class="data-output" *ngIf="!isLoading">
-            <pre><code [innerHTML]="queryExample"></code></pre>
+          <div class="card-body__content" *ngIf="!isLoading">
+            <pre class="content__text"><code [innerHTML]="queryExample"></code></pre>
             <button class="pmm-button"
                     id="copyQueryExample"
                     ngxClipboard
@@ -246,7 +246,7 @@
         </ng-template>
         <ng-template ngbPanelContent>
           <i *ngIf="isExplainLoading" class="fa fa-spinner fa-pulse fa-3x fa-fw loading"></i>
-          <div class="data-output" *ngIf="!isExplainLoading && !explainError">
+          <div class="card-body__content" *ngIf="!isExplainLoading && !explainError">
             <app-json-tree [json]="explainJson"></app-json-tree>
             <button class="pmm-button"
                     id="copyJson"

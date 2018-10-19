@@ -1,28 +1,15 @@
-.data-output {
-  position: relative;
-  overflow-y: scroll;
-}
-
-.pmm-button {
-  position: fixed;
-  right: 15px;
-}
-
-section.explain {
-  display: flex;
-  flex-direction: column;
-}
-
-.metrics-table {
-  .grid-container {
-    grid-template-columns: 2fr 2fr 3fr 2fr;
-
-    .cell-overlay {
-      height: 100%;
-    }
-  }
-
-  .grid-container:not(:last-child) {
-    height: 100%;
-  }
-}
+//.card-body__content {
+//  position: relative;
+//  overflow-y: scroll;
+//}
+//
+//.pmm-button {
+//  position: fixed;
+//  right: 15px;
+//}
+//
+//section.explain {
+//  display: flex;
+//  flex-direction: column;
+//}
+//

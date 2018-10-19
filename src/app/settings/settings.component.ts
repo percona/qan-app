@@ -4,7 +4,7 @@ import {Instance, InstanceService} from '../core/instance.service';
 import {CoreComponent} from '../core/core.component';
 import {environment} from '../environment';
 import * as moment from 'moment';
-import {Observable} from 'rxjs/Observable';
+import {Observable} from 'rxjs/Rx';
 import 'rxjs/add/observable/interval';
 import 'rxjs/add/operator/map';
 import {SettingsService} from './settings.service';

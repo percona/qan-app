@@ -692,8 +692,8 @@
         </ng-template>
         <ng-template ngbPanelContent>
           <i *ngIf="isLoading" class="fa fa-spinner fa-pulse fa-3x fa-fw loading"></i>
-          <div class="data-output" *ngIf="!isLoading">
-            <pre><code [innerHTML]="fingerprint"></code></pre>
+          <div class="card-body__content" *ngIf="!isLoading">
+            <pre class="content__text"><code [innerHTML]="fingerprint"></code></pre>
             <button class="pmm-button"
                     id="copyFingerprint"
                     ngxClipboard
@@ -712,8 +712,8 @@
         </ng-template>
         <ng-template ngbPanelContent>
           <i *ngIf="isLoading" class="fa fa-spinner fa-pulse fa-3x fa-fw loading"></i>
-          <div class="data-output" *ngIf="!isLoading">
-            <pre><code [innerHTML]="queryExample"></code></pre>
+          <div class="card-body__content" *ngIf="!isLoading">
+            <pre class="content__text"><code [innerHTML]="queryExample"></code></pre>
             <button class="pmm-button"
                     id="copyQueryExample"
                     ngxClipboard
@@ -796,7 +796,7 @@
         </ng-template>
         <ng-template ngbPanelContent>
           <i *ngIf="isExplainLoading" class="fa fa-spinner fa-pulse fa-3x fa-fw loading"></i>
-          <div class="data-output" *ngIf="!isExplainLoading && !explainError">
+          <div *ngIf="!isExplainLoading && !explainError" class="card-body__content" >
             <app-json-tree [json]="explainJson"></app-json-tree>
             <button class="pmm-button"
                     id="copyJson"
@@ -822,8 +822,8 @@
         </ng-template>
         <ng-template ngbPanelContent>
           <i *ngIf="isExplainLoading" class="fa fa-spinner fa-pulse fa-3x fa-fw loading"></i>
-          <div *ngIf="!isExplainLoading && !explainError" class="data-output">
-            <pre>{{ explainVisual }}</pre>
+          <div *ngIf="!isExplainLoading && !explainError" class="card-body__content">
+            <pre class="content__text">{{ explainVisual }}</pre>
             <button class="pmm-button"
                     id="copyVisualExplain"
                     ngxClipboard
@@ -879,15 +879,15 @@
         </ng-template>
         <ng-template ngbPanelContent>
           <i *ngIf="isTableInfoLoading" class="fa fa-spinner fa-pulse fa-3x fa-fw loading"></i>
-          <div class="data-output" *ngIf="!isTableInfoLoading && createTableError">
+          <div class="card-body__content" *ngIf="!isTableInfoLoading && createTableError">
             <div class="alert alert-warning w-75 mx-auto m-2"
                  role="alert">
               <i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
               {{ createTableError }}
             </div>
           </div>
-          <div class="data-output" *ngIf="!isTableInfoLoading && !createTableError">
-            <pre><code [innerHTML]="createTable"></code></pre>
+          <div class="card-body__content" *ngIf="!isTableInfoLoading && !createTableError">
+            <pre class="content__text"><code [innerHTML]="createTable"></code></pre>
             <button class="pmm-button"
                     id="copyCreateTable"
                     ngxClipboard

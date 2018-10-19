@@ -26,6 +26,10 @@
   border: none;
 }
 
+.grid-table--auto-row-height {
+  grid-auto-rows: minmax(40px, auto);
+}
+
 
 .grid-table__row {
   display: grid;
@@ -33,10 +37,6 @@
   background-color: var(--row-background, transparent);
   outline: none;
 }
-
-//.grid-table__row:not(:last-child) {
-//  border-bottom: 1px solid var(--main-border-color);
-//}
 
 .grid-table__row > * {
   display: flex;
@@ -73,6 +73,14 @@
   grid-template-columns: repeat(2, 1fr) repeat(2, .5fr) repeat(3, 1fr) .5fr 1fr;
 }
 
+.grid-table__row--status--log {
+  grid-template-columns: 2fr 7fr;
+}
+
+.grid-table__row--log {
+  grid-template-columns: 3fr 2.5fr minmax(80px,1fr) 7fr;
+}
+
 //AWS Credentials
 .grid-table__row--instances {
   grid-template-columns: 1.5fr 1fr 6fr 2fr 1fr;
@@ -100,7 +108,7 @@
 .row__link,
 .row__link:hover {
   display: inline-block;
-  color: var(--row-link-color);
+  color: var(--link-color);
 }
 
 
@@ -117,11 +125,10 @@
 }
 
 .not-summary-info {
-  color: var(--row-link-color);
+  color: var(--link-color);
 }
 
 .app-theme-dark .grid-table {
-  --row-link-color: rgb(39,178,229);
   --row-active: rgb(35,70,130);
   --row-first-seen: rgb(13,35,59);
 }
