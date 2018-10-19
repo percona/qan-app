@@ -6,6 +6,7 @@
 @import "app/global-styles/accordion";
 @import "app/global-styles/grid-table";
 @import "app/global-styles/overlay";
+@import "app/global-styles/buttons";
 
 * {
   margin: 0;
@@ -164,12 +165,6 @@ legend {
   font-size: 14px;
 }
 
-table.metrics td span.sum {
-  min-width: 20%;
-  display: inline-block;
-  text-align: right;
-}
-
 .position-static {
   position: static !important;
 
@@ -213,14 +208,6 @@ table.metrics td span.sum {
   }
 }
 
-.table-header-row {
-  font-weight: bold;
-}
-
-.table-body.grid-container:last-child {
-  border-bottom: none;
-}
-
 .sections-wrapper > section,
 .server-summary {
   margin-bottom: 20px;
@@ -231,45 +218,6 @@ table.metrics td span.sum {
   &:focus,
   &:active {
     box-shadow: none !important;
-  }
-}
-//
-//  .card-body__content {
-//    min-height: 36px;
-//    margin: 15px;
-//    display: flex;
-//    justify-content: space-between;
-//
-//    pre {
-//      margin-bottom: 0;
-//    }
-//  }
-//
-//  pre.renderjson {
-//    margin-bottom: 0;
-//  }
-//
-//  table {
-//    width: 100%;
-//  }
-//}
-
-#metrics-table-header a,
-#statusTab-header a,
-#logTitle-header a {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-.section-title {
-  display: flex !important;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 20px;
-
-  h3 {
-    margin-bottom: 0 !important;
   }
 }
 
@@ -367,10 +315,6 @@ table.metrics td span.sum {
   .pmm-button:last-child {
     margin-left: 25px;
   }
-}
-
-.table-bordered {
-  border: none !important;
 }
 
 .pmm-button-group {

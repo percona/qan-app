@@ -20,12 +20,12 @@
       <div class="display-options">
         <span>Display</span>
         <div class="option-container">
-          <button class="btn-switcher"
-                  [class.checked]="isFirsSeenChecked === false"
+          <button class="button button--big"
+                  [class.button--dark]="isFirsSeenChecked === false"
                   (click)="getFirstSeen()">All queries
           </button>
           <button class="btn-switcher btn-switcher-first-seen"
-                  [class.checked]="isFirsSeenChecked === true"
+                  [class.button--dark]="isFirsSeenChecked === true"
                   (click)="getFirstSeen(true)"
                   [disabled]="!isQuerySwitching && !isLoading && totalAmountOfQueries === 0 && !isFirsSeenChecked && !isSearchQuery">First
             seen

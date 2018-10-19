@@ -1,0 +1,32 @@
+.button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: var(--button-height, auto);
+  padding: 0 .5rem;
+  border: 1px solid var(--main-border-color);
+}
+
+.button--dark {
+  background-color: var(--button-dark);
+}
+
+.button--page-color {
+  background-color: var(--page-background);
+}
+
+.button--highlight {
+  background-color: var(--highlight-background);
+}
+
+.button--big {
+  --button-height: 40px;
+}
+
+.button--small {
+  --button-height: 35px;
+}
+
+.app-theme-dark .button {
+  --button-dark: rgb(33,35,39);
+}

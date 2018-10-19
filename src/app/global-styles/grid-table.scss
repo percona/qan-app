@@ -92,7 +92,7 @@
 //
 
 .grid-table__row--highlight {
-  --row-background: rgb(51,51,51);
+  --row-background: var(--highlight-background);
 }
 
 .grid-table__row--active,
