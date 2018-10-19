@@ -1,0 +1,32 @@
+.add-remote-instance {
+  .header p {
+    font-size: 1.3rem;
+    font-color: var(--white);
+  }
+
+  .tab-pane {
+    background-color: #1f1d1d
+  }
+
+  input.custom-form-input {
+    height: 38px;
+    color: var(--white);
+    font-weight: 300;
+    border-radius: 0;
+    border: 1px solid #2a2a2a;
+    background-color: #141414 !important;
+  }
+
+  form.content {
+    padding: 58px 0;
+  }
+
+  input[type=text] {
+    margin-bottom: 10px;
+    border-radius: 3px;
+  }
+
+  .not-checked-button {
+    padding: .375rem .75rem;
+  }
+}

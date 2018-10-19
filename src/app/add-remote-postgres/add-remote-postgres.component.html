@@ -1,0 +1,85 @@
+<div class="d-flex justify-content-center add-remote-instance">
+  <div class="col-md-5 list-group tab-pane" title="Quick ranges">
+    <form class="content">
+      <div class="row">
+        <div class="col-xl-8 col-10 offset-xl-2 offset-1 input-wrapper">
+          <div class="row header">
+            <div class="col-12">
+              <p>Add remote PostgreSQL Instance</p>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-12">
+              <input type="text" class="custom-form-input form-control" placeholder="Hostname"
+                     name="Hostname"
+                     [(ngModel)]="postgresCredentials.address"
+                     #hostname="ngModel"
+                     required>
+            </div>
+          </div>
+          <div class="row">
+            <div *ngIf="hostname?.errors && submitted"
+                 class="col-xl-9 col-12 error-text">
+              <div *ngIf="hostname?.errors?.required">*Field is required</div>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-12">
+              <input type="text" class="custom-form-input form-control" placeholder="Port"
+                     name="Port"
+                     [(ngModel)]="postgresCredentials.port"
+                     #port="ngModel"
+                     required>
+            </div>
+          </div>
+          <div class="row">
+            <div *ngIf="port?.errors && submitted"
+                 class="col-xl-9 col-12 error-text">
+              <div *ngIf="port?.errors?.required">*Field is required</div>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-12">
+              <input type="text" class="custom-form-input form-control" placeholder="Username"
+                     name="Username"
+                     [(ngModel)]="postgresCredentials.username"
+                     #username="ngModel"
+                     required>
+            </div>
+          </div>
+          <div class="row">
+            <div *ngIf="username?.errors && submitted"
+                 class="col-xl-9 col-12 error-text">
+              <div *ngIf="username?.errors?.required">*Field is required</div>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-12">
+              <input type="text" class="custom-form-input form-control" placeholder="Password"
+                     name="Password"
+                     [(ngModel)]="postgresCredentials.password"
+                     #password="ngModel"
+                     required>
+            </div>
+          </div>
+          <div class="row">
+            <div *ngIf="password?.errors && submitted"
+                 class="col-xl-9 col-12 error-text">
+              <div *ngIf="password?.errors?.required">*Field is required</div>
+            </div>
+            <div *ngIf="errorMessage && submitted" class="error-text col-xl-9 col-xs-12">*{{ errorMessage }}</div>
+          </div>
+
+          <div class="row">
+            <div class="col-12 button-row">
+              <button type="submit" [disabled]="isDemo"  class="not-checked-button" (click)="onSubmit()">Add instance</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
