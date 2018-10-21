@@ -10,27 +10,15 @@
   <a href="https://www.percona.com/doc/percona-monitoring-and-management/pmm-admin.html#adding-monitoring-services"
      target="blank">PMM documentation.</a>
 </div>
-<div *ngIf="dbServer !== null && dbServer !== undefined" class="content-container">
-  <div *ngIf="!noQueryError" class="table-wrapper">
-    <section class="table-header">
-      <div class="table-title">
-        Top {{ totalAmountOfQueries ? (queryProfile?.length - 1) : 0 }} of {{ totalAmountOfQueries }}
-        Queries by % Grand Total Time (%GTT)
-      </div>
-      <div class="display-options">
+<div *ngIf="dbServer !== null && dbServer !== undefined" class="content-wrapper">
+  <div *ngIf="!noQueryError" class="queries-viewer">
+    <section class="configuration-panel">
+      <p class="configuration-panel__title">
+        Top {{ totalAmountOfQueries ? (queryProfile?.length - 1) : 0 }} of {{ totalAmountOfQueries }} Queries by % Grand Total Time (%GTT)
+      </p>
+
+      <div class="configuration-panel__options center-children">
         <span>Display</span>
-        <!--<div class="option-container">-->
-          <!--<button class="button button&#45;&#45;big"-->
-                  <!--[class.button&#45;&#45;dark]="isFirsSeenChecked === false"-->
-                  <!--(click)="getFirstSeen()">All queries-->
-          <!--</button>-->
-          <!--<button class="btn-switcher btn-switcher-first-seen"-->
-                  <!--[class.button&#45;&#45;dark]="isFirsSeenChecked === true"-->
-                  <!--(click)="getFirstSeen(true)"-->
-                  <!--[disabled]="!isQuerySwitching && !isLoading && totalAmountOfQueries === 0 && !isFirsSeenChecked && !isSearchQuery">First-->
-            <!--seen-->
-          <!--</button>-->
-        <!--</div>-->
         <label class="switcher">
           <input type="checkbox"
                  class="switcher__checkbox"
@@ -42,17 +30,18 @@
           </span>
         </label>
       </div>
+
       <form class="search-input" (submit)="search()">
         <input class="form-control" [(ngModel)]="searchValue" name="searchValue"
                type="text" placeholder="Search by query abstract, fingerprint or ID"
                [disabled]="!isQuerySwitching && !isLoading && totalAmountOfQueries === 0 && !isSearchQuery" id="search-input">
-        <button class="search-button" (submit)="search()" type="submit">
+        <button (submit)="search()" class="search-button" type="submit">
           <i class="fa fa-search"></i>
         </button>
       </form>
     </section>
 
-    <section class="grid-table">
+    <section class="grid-table queries-viewer__table">
       <header class="grid-table__row grid-table__row--main grid-table__row--title">
         <span>#</span>
         <span>Query Abstract</span>
@@ -110,22 +99,24 @@
         </div>
       </div>
     </section>
-    <div class="loader-wrapper" *ngIf="isQuerySwitching">
-      <i class="fa fa-spinner fa-pulse fa-3x fa-fw loading-on-switch"></i>
-    </div>
-    <div *ngIf="totalAmountOfQueries" class="load-more-wrapper">
-      <button class="total-queries-amount"
-              (click)="loadMoreQueries()" [disabled]="leftInDbQueries === 0 || isLoading">
-        <span *ngIf="leftInDbQueries > 0" class="load-next">Load next {{ leftInDbQueries > 10 ? 10 : leftInDbQueries }} queries</span>
-        <span *ngIf="leftInDbQueries === 0" class="load-next">No more queries for selected time range</span>
+
+    <div class="center-children">
+      <button *ngIf="totalAmountOfQueries && !isLoading"
+              (click)="loadMoreQueries()"
+              [disabled]="leftInDbQueries === 0"
+              class="button button--dark button--big">
+        {{quantityDbQueriesMessage}}
       </button>
-      <i *ngIf="isLoading" class="fa fa-spinner fa-pulse fa-fw loading-in-front"></i>
+      <span *ngIf="isLoading || isQuerySwitching" class="fa fa-spinner fa-pulse fa-fw loading-in-front"></span>
     </div>
-    <router-outlet></router-outlet>
   </div>
+
+  <router-outlet></router-outlet>
+
   <div *ngIf="!!noQueryError" class="text-center alert alert-danger w-75 mx-auto wrong-configuration-message" role="alert">
     {{ noQueryError }}
   </div>
+
   <div *ngIf="!isQuerySwitching && !isLoading && totalAmountOfQueries === 0" class="text-center">
     <div *ngIf="dbServer.Subsystem === 'mongo' && !isFirsSeenChecked && !isSearchQuery"
          class="alert alert-warning w-75 mx-auto wrap no-mongo-queries">

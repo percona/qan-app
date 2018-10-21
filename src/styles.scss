@@ -28,6 +28,22 @@ main {
   padding-top: 10px;
 }
 
+.center-children {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: auto;
+  height: min-content;
+}
+
+app-json-tree {
+  width: 100%;
+}
+
+pre {
+  margin-bottom: 0;
+}
+
 .logo-img-mobile {
   display: block;
   position: absolute;
@@ -242,53 +258,6 @@ legend {
   }
 }
 
-.btn-switcher,
-.total-queries-amount,
-.btn-tables,
-.pmm-button-big {
-  height: 100%;
-  margin-top: 0;
-  cursor: pointer;
-  box-sizing: border-box;
-  border-radius: 0;
-  font-size: 1rem;
-  font-weight: 500;
-  width: 115px;
-  border: none;
-  outline: none;
-
-  &:focus,
-  &:active {
-    box-shadow: none;
-    outline: none !important;
-  }
-  &:disabled {
-    cursor: not-allowed !important;
-    opacity: .65;
-  }
-}
-
-.not-checked-button:focus,
-.not-checked-button:active {
-  box-shadow: none;
-  outline: none !important;
-}
-
-.not-checked-button:disabled {
-  cursor: not-allowed !important;
-  opacity: .65;
-}
-
-.pmm-button-big {
-  width: 230px !important;
-  height: 40px;
-  margin-bottom: 15px !important;
-}
-
-.btn-switcher-first-seen.btn-switcher:disabled {
-  background-color: transparent;
-}
-
 .btn-tables {
   width: auto;
   height: 40px;
@@ -305,68 +274,6 @@ legend {
   margin-right: 0;
   border: none;
   z-index: 99;
-}
-
-.tools-wrapper {
-  display: flex;
-  justify-content: flex-end;
-  align-items: center;
-  width: 100%;
-
-  .pmm-button:last-child {
-    margin-left: 25px;
-  }
-}
-
-.pmm-button-group {
-  display: flex;
-  justify-content: start;
-  align-items: center;
-  flex-wrap: wrap;
-
-  .pmm-button:not(:last-child) {
-    border-right: none;
-  }
-}
-
-.pmm-button {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  max-width: 135px;
-  width: 100%;
-  height: 35px;
-  font-size: 0.9rem !important;
-  color: white;
-  cursor: pointer;
-  box-sizing: border-box;
-  line-height: 0 !important;
-  padding: 0 !important;
-}
-
-.pmm-button-sm {
-  width: 55px !important;
-}
-
-.pmm-button:focus,
-.pmm-button:active,
-.pmm-button:active,
-.pmm-button:focus {
-  outline: none !important;
-  box-shadow: none !important;
-}
-
-.pmm-button.btn-copied,
-.pmm-button.btn-copied:active,
-.pmm-button.btn-copied:focus,
-.pmm-button.btn-expanded,
-.pmm-button.btn-expanded:active,
-.pmm-button.btn-expanded:focus,
-.pmm-button.pmm-button-success,
-.pmm-button.pmm-button-success:active,
-.pmm-button.pmm-button-success:focus {
-  border: none;
-  outline: none !important;
 }
 
 .form-control,

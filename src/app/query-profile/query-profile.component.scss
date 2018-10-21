@@ -18,3 +18,26 @@
 //  opacity: .65;
 //  z-index: 100;
 //}
+
+.queries-viewer {
+  margin-bottom: 20px;
+}
+
+.queries-viewer__table {
+  margin-bottom: 15px;
+}
+
+.configuration-panel {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 15px;
+}
+
+.configuration-panel__title {
+  margin-bottom: 0;
+}
+
+.configuration-panel__options > *:first-child {
+  margin-right: 10px;
+}

@@ -23,6 +23,7 @@ export class QueryProfileComponent extends CoreComponent {
     public searchValue: string;
     public fromDate: string;
     public toDate: string;
+    public quantityDbQueriesMessage: string;
     public isLoading: boolean;
     public isQuerySwitching: boolean;
     public noQueryError: string;
@@ -77,7 +78,7 @@ export class QueryProfileComponent extends CoreComponent {
             this.totalAmountOfQueries = data['TotalQueries'];
             if (this.totalAmountOfQueries > 0) {
                 this.queryProfile = data['Query'];
-                this.leftInDbQueries = this.totalAmountOfQueries - (this.queryProfile.length - 1);
+                this.countDbQueries();
                 this.profileTotal = this.queryProfile[0];
             }
         } catch (err) {
@@ -89,8 +90,8 @@ export class QueryProfileComponent extends CoreComponent {
 
     public async loadMoreQueries() {
         this.isLoading = true;
-        const dbServerUUID = this.dbServer.UUID;
         this.offset = this.offset + 10;
+        const dbServerUUID = this.dbServer.UUID;
         const search =
           this.queryParams.search === 'null' &&
           this.searchValue !== 'NULL' && this.searchValue !== 'null' ? '' : this.queryParams.search;
@@ -102,8 +103,16 @@ export class QueryProfileComponent extends CoreComponent {
         for (const q of data['Query']) {
             this.queryProfile.push(q);
         }
-        this.leftInDbQueries = this.totalAmountOfQueries - (this.queryProfile.length - 1);
+        // this.leftInDbQueries = this.totalAmountOfQueries - (this.queryProfile.length - 1);
+        this.countDbQueries();
         this.isLoading = false;
+    }
+
+    countDbQueries() {
+      this.leftInDbQueries = this.totalAmountOfQueries - (this.queryProfile.length - 1);
+      this.quantityDbQueriesMessage = this.leftInDbQueries > 0 ?
+        `Load next ${this.leftInDbQueries > 10 ? 10 : this.leftInDbQueries} queries` :
+        'No more queries for selected time range';
     }
 
     composeQueryParamsForGrid(queryID: string | null): QueryParams {
@@ -138,13 +147,4 @@ export class QueryProfileComponent extends CoreComponent {
       this.isQuerySwitching = false;
 
     }
-
-  // switch(isFirsSeenChecked) {
-  //   if (isFirsSeenChecked) {
-  //     this.getFirstSeen(true);
-  //   } else {
-  //     this.getFirstSeen();
-  //   }
-  //   // this.isFirsSeenChecked = !this.isFirsSeenChecked;
-  // }
 }

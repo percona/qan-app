@@ -37,7 +37,7 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 15px;
+  padding: var(--accordion-inner-indent);
   font-size: 1.25rem;
   color: white;
 }
@@ -67,7 +67,8 @@
   position: relative;
   overflow-y: scroll;
   display: flex;
-  margin: 15px;
+  justify-content: space-between;
+  margin: var(--accordion-inner-indent);
 }
 
 .card-body__content > * {

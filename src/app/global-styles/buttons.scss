@@ -1,22 +1,51 @@
 .button {
+  --inside-width: 140px;
+  --inside-height: 35px;
+}
+
+.button {
+  cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
   height: var(--button-height, auto);
   padding: 0 .5rem;
+  color: inherit;
   border: 1px solid var(--main-border-color);
+  outline: none;
+}
+
+.button:active,
+.button:focus {
+  outline: none;
 }
 
 .button--dark {
   background-color: var(--button-dark);
 }
 
-.button--page-color {
+.button--inside {
+  max-width: var(--inside-width);
+  width: 100%;
+  height: var(--inside-height);
+  font-size: .9rem;
   background-color: var(--page-background);
 }
 
-.button--highlight {
+.button--inside-active {
   background-color: var(--highlight-background);
+}
+
+.button--fixed {
+  position: fixed;
+}
+
+.button--copy {
+  right: var(--accordion-inner-indent);
+}
+
+.button--expand {
+  right: calc(var(--inside-width) + calc(var(--accordion-inner-indent) * 2));
 }
 
 .button--big {

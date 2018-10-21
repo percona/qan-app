@@ -31,8 +31,8 @@ export class JSONTreeComponent implements OnChanges {
   public resetJson() {
     renderjson.set_show_to_level(this.isCollapsed ? '' : 'all');
 
-    this.element.nativeElement.querySelector('#json-viewer').innerHTML = '';
-    this.element.nativeElement.querySelector('#json-viewer').appendChild(renderjson(this.json));
+    this.element.nativeElement.querySelector('#json-tree__viewer').innerHTML = '';
+    this.element.nativeElement.querySelector('#json-tree__viewer').appendChild(renderjson(this.json));
   }
 }
 
