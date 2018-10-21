@@ -71,7 +71,7 @@
           <span>{{ row.Percentage | humanize : 'percent' }}</span>
         </div>
         <div class="row__cells">
-          <span class="unit unit-qps">{{row.QPS | humanize : 'number'}}</span>
+          <span class="unit unit--qps">{{row.QPS | humanize : 'number'}}</span>
           <div class="scaling-svg-container app-tooltip"
                [appLoadSparklines]="row.Log"
                data-tooltip="Loading..."
@@ -79,7 +79,7 @@
                measurement="number">
           </div>
           <span>{{row.Stats.Cnt | humanize : 'number'}}</span>
-          <span class="unit unit-percent">{{ (row.Stats.Cnt / profileTotal?.Stats.Cnt * 100).toFixed(2) }}</span>
+          <span class="unit unit--percent">{{ (row.Stats.Cnt / profileTotal?.Stats.Cnt * 100).toFixed(2) }}</span>
         </div>
         <div class="row__cells">
           <div class="scaling-svg-container app-tooltip"
@@ -89,7 +89,7 @@
                measurement="time">
           </div>
           <div class="overlay-container row__cells--w-30">
-            <span class="unit unit-avg overlay-container__item">{{ row.Stats.Avg | humanize }}</span>
+            <span class="unit unit--avg overlay-container__item">{{ row.Stats.Avg | humanize }}</span>
           </div>
           <div class="scaling-svg-container app-tooltip"
                data-tooltip="Loading..."
