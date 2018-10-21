@@ -1,12 +1,12 @@
-<header class="section-title" *ngIf="!isSummary">
-  <h3 class="d-flex justify-content-between w-100">
+<header *ngIf="!isSummary" class="configuration-panel">
+  <h3 class="configuration-panel__title">
     <span class="query-abstract">{{ queryDetails?.Query?.Abstract }}</span>
     <span class="query-id">{{ queryDetails?.Query?.Id }}</span>
   </h3>
 </header>
-<section class="server-summary" *ngIf="!!isSummary || !!queryDetails?.Metrics2">
-  <header class="server-summary-title section-title" *ngIf="!!isSummary">
-    <h3 class="d-inline">
+<section *ngIf="!!isSummary || !!queryDetails?.Metrics2">
+  <header *ngIf="!!isSummary" class="configuration-panel">
+    <h3 class="configuration-panel__title">
       Server Summary
     </h3>
   </header>
@@ -680,8 +680,8 @@
 <!--- additional info for query only-->
 <div class="sections-wrapper" *ngIf="!isSummary">
   <section class="query" *ngIf="!!fingerprint || !!queryExample">
-    <header class="section-title">
-      <h3 class="d-flex">QUERY</h3>
+    <header class="configuration-panel">
+      <h3 class="configuration-panel__title">QUERY</h3>
     </header>
     <ngb-accordion [activeIds]="accordionIds.querySection" #queryAcc="ngbAccordion">
       <ngb-panel *ngIf="!!fingerprint" id="query-fingerprint">
@@ -727,11 +727,10 @@
     </ngb-accordion>
   </section>
 
-  <section class="explain"
-           *ngIf="!!queryExample || !!explainError || !!explainJson || !!explainVisual || !!explainClassic">
-    <header class="section-title">
-      <h3>EXPLAIN</h3>
-      <form class="search-input explain-search-input">
+  <section *ngIf="!!queryExample || !!explainError || !!explainJson || !!explainVisual || !!explainClassic">
+    <header class="configuration-panel">
+      <h3 class="configuration-panel__title">EXPLAIN</h3>
+      <form class="configuration-panel__options center-children">
         <i class="fa fa-database" aria-hidden="true"></i>
         <input type="text" class="form-control"
                [(ngModel)]="dbName" [ngModelOptions]="{standalone: true}"
@@ -796,7 +795,7 @@
         </ng-template>
         <ng-template ngbPanelContent>
           <i *ngIf="isExplainLoading" class="fa fa-spinner fa-pulse fa-3x fa-fw loading"></i>
-          <div *ngIf="!isExplainLoading && !explainError" class="card-body__content" >
+          <div *ngIf="!isExplainLoading && !explainError" class="card-body__content">
             <app-json-tree [json]="explainJson"></app-json-tree>
             <button class="button button--inside button--fixed button--copy"
                     id="copyJson"
@@ -843,11 +842,10 @@
     </ngb-accordion>
   </section>
 
-  <section class="tables"
-           *ngIf="!!createTable || !!createTableError || !!statusTable || !!statusTableError || !!indexTable || !!indexTableError">
-    <header class="section-title">
-      <h3>TABLES</h3>
-      <form class="search-input tables-input" (submit)="addDBTable();">
+  <section *ngIf="!!createTable || !!createTableError || !!statusTable || !!statusTableError || !!indexTable || !!indexTableError">
+    <header class="configuration-panel">
+      <h3 class="configuration-panel__title">TABLES</h3>
+      <form class="configuration-panel__options center-children" (submit)="addDBTable();">
         <label for="dbTblNamesInput">DB and table</label>
         <input type="text" size="50" class="form-control"
                id="dbTblNamesInput" [(ngModel)]="newDBTblNames"
@@ -859,18 +857,18 @@
         </button>
       </form>
     </header>
-    <section class="table-buttons-wrapper">
-      <div *ngFor="let item of queryDetails?.Query?.Tables" class="btn-group" role="group" aria-label="Tables">
-        <button type="button" class="button" (click)="selectTableInfo(item.Db, item.Table);"
-                [ngClass]="isSelectedDbTbl(item) ? 'checked' : ''">
-          `{{ item.Db }}`.`{{ item.Table }}`
-        </button>
-        <button type="button" class="btn-tables btn-tables-remove" (click)="removeDBTable(item);">
-          <i class="fa fa-times" aria-hidden="true"></i>
-        </button>
-      </div>
-    </section>
-    <ngb-accordion [activeIds]="accordionIds.tableSection">
+
+    <div *ngFor="let item of queryDetails?.Query?.Tables" class="button-group" role="group" aria-label="Tables">
+      <button type="button"
+              class="button"
+              (click)="selectTableInfo(item.Db, item.Table);"
+              [ngClass]="isSelectedDbTbl(item) ? 'button--dark' : ''">
+        `{{ item.Db }}`.`{{ item.Table }}`
+        <span class="fa fa-times button__remove" aria-hidden="true" (click)="removeDBTable(item)"></span>
+      </button>
+    </div>
+
+    <ngb-accordion [activeIds]=" accordionIds.tableSection">
       <ngb-panel id="table-create" *ngIf="!!createTable || !!createTableError">
         <ng-template ngbPanelTitle>
           <header class="card-header__content">
@@ -879,12 +877,9 @@
         </ng-template>
         <ng-template ngbPanelContent>
           <i *ngIf="isTableInfoLoading" class="fa fa-spinner fa-pulse fa-3x fa-fw loading"></i>
-          <div class="card-body__content" *ngIf="!isTableInfoLoading && createTableError">
-            <div class="alert alert-warning w-75 mx-auto m-2"
-                 role="alert">
-              <i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
-              {{ createTableError }}
-            </div>
+          <div *ngIf="!isTableInfoLoading && createTableError" class="alert alert-warning w-75 mx-auto m-2" role="alert">
+            <i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
+            {{ createTableError }}
           </div>
           <div class="card-body__content" *ngIf="!isTableInfoLoading && !createTableError">
             <pre class="content__text"><code [innerHTML]="createTable"></code></pre>

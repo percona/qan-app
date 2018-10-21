@@ -1,10 +1,11 @@
 /* You can add global styles to this file, and also import other style files */
 
 @import "app/global-styles/variables";
-@import "app/global-styles/theme-dark";
-@import "app/global-styles/theme-light";
+@import "app/global-styles/themes/theme-dark";
+@import "app/global-styles/themes/theme-light";
 @import "app/global-styles/accordion";
-@import "app/global-styles/grid-table";
+@import "app/global-styles/configuration-panel";
+@import "app/global-styles/grid-tables";
 @import "app/global-styles/overlay";
 @import "app/global-styles/buttons";
 @import "app/global-styles/switcher";
@@ -40,7 +41,8 @@ app-json-tree {
   width: 100%;
 }
 
-pre {
+pre,
+label {
   margin-bottom: 0;
 }
 
@@ -223,11 +225,6 @@ legend {
     cursor: pointer;
     border: none;
   }
-}
-
-.sections-wrapper > section,
-.server-summary {
-  margin-bottom: 20px;
 }
 
 .form-control {
@@ -615,4 +612,3 @@ footer {
   filter: invert(100%);
   -webkit-filter: invert(100%);
 }
-

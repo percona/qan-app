@@ -188,12 +188,13 @@
           <i *ngIf="isLoading" class="fa fa-spinner fa-pulse fa-3x fa-fw loading"></i>
           <div *ngIf="!isLoading" class="card-body__content">
             <pre class="content__text"><code [innerHTML]="fingerprint"></code></pre>
-            <button class="pmm-button"
+            <button class="button button--inside button--fixed button--copy"
                     id="copyFingerprint"
                     ngxClipboard
                     [cbContent]="fingerprint"
                     (cbOnSuccess)="showSuccessNotification('fingerprint')"
-                    [class.btn-copied]="isCopied.fingerprint">Copy to clipboard
+                    [class.button--inside-active]="isCopied.fingerprint">
+              Copy to clipboard
             </button>
           </div>
         </ng-template>
@@ -208,12 +209,13 @@
           <i *ngIf="isLoading" class="fa fa-spinner fa-pulse fa-3x fa-fw loading"></i>
           <div class="card-body__content" *ngIf="!isLoading">
             <pre class="content__text"><code [innerHTML]="queryExample"></code></pre>
-            <button class="pmm-button"
+            <button class="button button--inside button--fixed button--copy"
                     id="copyQueryExample"
                     ngxClipboard
                     [cbContent]="queryDetails.Example.Query"
                     (cbOnSuccess)="showSuccessNotification('queryExample')"
-                    [class.btn-copied]="isCopied.queryExample">Copy to clipboard
+                    [class.button--inside-active]="isCopied.queryExample">
+              Copy to clipboard
             </button>
           </div>
         </ng-template>
@@ -248,12 +250,13 @@
           <i *ngIf="isExplainLoading" class="fa fa-spinner fa-pulse fa-3x fa-fw loading"></i>
           <div class="card-body__content" *ngIf="!isExplainLoading && !explainError">
             <app-json-tree [json]="explainJson"></app-json-tree>
-            <button class="pmm-button"
+            <button class="button button--inside button--fixed button--copy"
                     id="copyJson"
                     ngxClipboard
                     [cbContent]="jsonExplainString"
                     (cbOnSuccess)="showSuccessNotification('jsonExplain')"
-                    [class.btn-copied]="isCopied.jsonExplain">Copy to clipboard
+                    [class.button--inside-active]="isCopied.jsonExplain">
+              Copy to clipboard
             </button>
           </div>
           <div *ngIf="!isExplainLoading && explainError"

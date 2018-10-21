@@ -1,6 +1,9 @@
 .button {
   --inside-width: 140px;
-  --inside-height: 35px;
+}
+
+.button-group > *:not(:last-child) {
+  margin-right: 15px;
 }
 
 .button {
@@ -8,10 +11,11 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  height: var(--button-height, auto);
+  height: var(--button-height, 40px);
   padding: 0 .5rem;
   color: inherit;
   border: 1px solid var(--main-border-color);
+  background-color: var(--page-background, transparent);
   outline: none;
 }
 
@@ -24,20 +28,20 @@
   background-color: var(--button-dark);
 }
 
+.button--fixed {
+  position: fixed;
+}
+
 .button--inside {
+  --button-height: 35px;
+
   max-width: var(--inside-width);
   width: 100%;
-  height: var(--inside-height);
   font-size: .9rem;
-  background-color: var(--page-background);
 }
 
 .button--inside-active {
   background-color: var(--highlight-background);
-}
-
-.button--fixed {
-  position: fixed;
 }
 
 .button--copy {
@@ -48,14 +52,10 @@
   right: calc(var(--inside-width) + calc(var(--accordion-inner-indent) * 2));
 }
 
-.button--big {
-  --button-height: 40px;
-}
-
-.button--small {
-  --button-height: 35px;
+.button__remove {
+  margin-left: 10px;
 }
 
 .app-theme-dark .button {
-  --button-dark: rgb(33,35,39);
+  --button-dark: rgb(33, 35, 39);
 }

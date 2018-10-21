@@ -10,8 +10,8 @@
   background-color: var(--accordion-background);
 }
 
-.accordion .card:not(:last-child) {
-  margin-bottom: 20px;
+.accordion .card {
+  margin-bottom: var(--main-bottom-indent);
 }
 
 // Reset card-header default styles
@@ -68,6 +68,7 @@
   overflow-y: scroll;
   display: flex;
   justify-content: space-between;
+  height: calc(20px + var(--accordion-inner-indent));
   margin: var(--accordion-inner-indent);
 }
 
