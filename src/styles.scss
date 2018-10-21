@@ -4,11 +4,12 @@
 @import "app/global-styles/themes/theme-dark";
 @import "app/global-styles/themes/theme-light";
 @import "app/global-styles/accordion";
-@import "app/global-styles/configuration-panel";
 @import "app/global-styles/grid-tables";
-@import "app/global-styles/overlay";
 @import "app/global-styles/buttons";
+@import "app/global-styles/inputs";
+@import "app/global-styles/configuration-panel";
 @import "app/global-styles/switcher";
+@import "app/global-styles/overlay";
 @import "app/global-styles/units";
 @import "app/global-styles/spinner";
 
@@ -169,74 +170,75 @@ legend {
   font-size: 14px;
 }
 
-.search-input {
-  max-width: 370px;
-  width: 100%;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
+//.search-input {
+//  max-width: 370px;
+//  width: 100%;
+//  display: flex;
+//  justify-content: space-between;
+//  align-items: center;
+//
+//  label {
+//    margin-bottom: 0 !important;
+//    text-align: left;
+//  }
+//
+//  .form-control {
+//    width: 100%;
+//    padding: 10px 30px 10px 10px;
+//    box-sizing: border-box;
+//    border-radius: unset;
+//    background-color: transparent;
+//
+//    &::placeholder {
+//      font-style: italic;
+//    }
+//  }
+//
+//  .search-button {
+//    position: absolute;
+//    right: 10px;
+//    z-index: 99;
+//    width: auto;
+//    padding: 0;
+//    cursor: pointer;
+//    border: none;
+//  }
+//}
 
-  label {
-    margin-bottom: 0 !important;
-    text-align: left;
-  }
+//.form-control {
+//  box-shadow: none !important;
+//  &:focus,
+//  &:active {
+//    box-shadow: none !important;
+//  }
+//}
 
-  .form-control {
-    width: 100%;
-    padding: 10px 30px 10px 10px;
-    box-sizing: border-box;
-    border-radius: unset;
-    background-color: transparent;
+//.explain-search-input {
+//  position: relative;
+//
+//  i {
+//    position: absolute;
+//    left: 10px;
+//  }
+//
+//  .form-control {
+//    padding: 10px 85px 10px 30px !important;
+//  }
+//
+//  .search-button:hover {
+//    &:active,
+//    &:focus {
+//      border: none;
+//    }
+//  }
+//}
 
-    &::placeholder {
-      font-style: italic;
-    }
-  }
+//.form-control,
+//.search-button {
+//  background-color: transparent !important;
+//}
 
-  .search-button {
-    position: absolute;
-    right: 10px;
-    z-index: 99;
-    width: auto;
-    padding: 0;
-    cursor: pointer;
-    border: none;
-  }
-}
-
-.form-control {
-  box-shadow: none !important;
-  &:focus,
-  &:active {
-    box-shadow: none !important;
-  }
-}
-
-.explain-search-input {
-  position: relative;
-
-  i {
-    position: absolute;
-    left: 10px;
-  }
-
-  .form-control {
-    padding: 10px 85px 10px 30px !important;
-  }
-
-  .search-button:hover {
-    &:active,
-    &:focus {
-      border: none;
-    }
-  }
-}
-
-.form-control,
-.search-button {
-  background-color: transparent !important;
-}
-
+//???????????
 .pull-right {
   float: right;
 }

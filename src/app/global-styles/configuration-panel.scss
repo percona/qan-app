@@ -9,6 +9,12 @@
   margin-bottom: 0;
 }
 
+.configuration-panel__title--between {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+}
+
 .configuration-panel__options > *:first-child {
   margin-right: 10px;
 }

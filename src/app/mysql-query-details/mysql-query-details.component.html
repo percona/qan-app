@@ -1,13 +1,11 @@
-<header *ngIf="!isSummary" class="configuration-panel">
-  <h3 class="configuration-panel__title">
-    <span class="query-abstract">{{ queryDetails?.Query?.Abstract }}</span>
-    <span class="query-id">{{ queryDetails?.Query?.Id }}</span>
-  </h3>
-</header>
 <section *ngIf="!!isSummary || !!queryDetails?.Metrics2">
-  <header *ngIf="!!isSummary" class="configuration-panel">
-    <h3 class="configuration-panel__title">
+  <header class="configuration-panel">
+    <h3 *ngIf="!!isSummary" class="configuration-panel__title">
       Server Summary
+    </h3>
+    <h3 *ngIf="!isSummary" class="configuration-panel__title configuration-panel__title--between">
+      <span>{{ queryDetails?.Query?.Abstract }}</span>
+      <span>{{ queryDetails?.Query?.Id }}</span>
     </h3>
   </header>
   <ngb-accordion [activeIds]="accordionIds.serverSummary">
@@ -858,9 +856,10 @@
       </form>
     </header>
 
-    <div *ngFor="let item of queryDetails?.Query?.Tables" class="button-group" role="group" aria-label="Tables">
+    <div class="button-group" role="group" aria-label="Tables">
       <button type="button"
               class="button"
+              *ngFor="let item of queryDetails?.Query?.Tables"
               (click)="selectTableInfo(item.Db, item.Table);"
               [ngClass]="isSelectedDbTbl(item) ? 'button--dark' : ''">
         `{{ item.Db }}`.`{{ item.Table }}`
