@@ -1,12 +1,12 @@
-<header class="section-title" *ngIf="!isSummary">
-  <h3 class="d-flex justify-content-between w-100">
-    <span class="query-abstract">{{ queryDetails?.Query?.Abstract }}</span>
-    <span class="query-id">{{ queryDetails?.Query?.Id }}</span>
-  </h3>
-</header>
-<section class="server-summary" *ngIf="!!isSummary || !!queryDetails?.Metrics2">
-  <header class="section-title" *ngIf="isSummary">
-    <h3 class="d-inline summary-header">Server Summary</h3>
+<section *ngIf="!!isSummary || !!queryDetails?.Metrics2">
+  <header class="configuration-panel">
+    <h3 *ngIf="!!isSummary" class="configuration-panel__title">
+      Server Summary
+    </h3>
+    <h3 *ngIf="!isSummary" class="configuration-panel__title configuration-panel__title--between">
+      <span>{{ queryDetails?.Query?.Abstract }}</span>
+      <span>{{ queryDetails?.Query?.Id }}</span>
+    </h3>
   </header>
   <ngb-accordion activeIds="accordionIds.serverSummary">
     <ngb-panel id="metrics-table" class="accordion-inner-table">

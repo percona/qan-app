@@ -36,7 +36,6 @@ main {
   display: flex;
   align-items: center;
   justify-content: center;
-  width: auto;
   height: min-content;
 }
 
@@ -55,6 +54,11 @@ label {
 
 label:not(.form-check-label):after {
   content: ":";
+}
+
+button:active,
+button:focus {
+  outline: none;
 }
 
 footer {

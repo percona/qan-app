@@ -31,12 +31,14 @@
         </label>
       </div>
 
-      <form class="search-input" (submit)="search()">
-        <input class="form-control" [(ngModel)]="searchValue" name="searchValue"
+      <form (submit)="search()" class="configuration-form configuration-form--clicked">
+        <input [(ngModel)]="searchValue" name="searchValue"
+               [disabled]="!isQuerySwitching && !isLoading && totalAmountOfQueries === 0 && !isSearchQuery"
+               class="configuration-form__input"
                type="text" placeholder="Search by query abstract, fingerprint or ID"
-               [disabled]="!isQuerySwitching && !isLoading && totalAmountOfQueries === 0 && !isSearchQuery" id="search-input">
-        <button (submit)="search()" class="search-button" type="submit">
-          <i class="fa fa-search"></i>
+               id="search-input">
+        <button (submit)="search()" class="configuration-form__button" type="submit">
+          <span class="fa fa-search"></span>
         </button>
       </form>
     </section>

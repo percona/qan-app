@@ -1,0 +1,48 @@
+.configuration-form {
+  --input-width: 370px;
+  --input-top-indent: .375rem;
+  --input-right-indent: 0.75rem;
+}
+
+.configuration-form {
+  position: relative;
+  display: flex;
+}
+
+.configuration-form__input {
+  padding: var(--input-top-indent) var(--input-right-indent);
+  width: var(--input-width);
+  color: inherit;
+  border: 1px solid var(--main-border-color);
+  background-color: transparent;
+}
+
+.configuration-form__input:active,
+.configuration-form__input:focus {
+  outline: none;
+}
+
+.configuration-form__input::placeholder {
+  font-style: italic;
+  color: rgb(145, 145, 145);
+}
+
+.configuration-form__input--small {
+  --input-width: 300px;
+}
+
+.configuration-form__button {
+  cursor: pointer;
+  padding: var(--input-top-indent) var(--input-right-indent) var(--input-top-indent) 0;
+  color: inherit;
+  border: 1px solid var(--main-border-color);
+  background-color: transparent;
+}
+
+.configuration-form--clicked .configuration-form__input {
+  border-right: none;
+}
+
+.configuration-form--clicked .configuration-form__button {
+  border-left: none;
+}

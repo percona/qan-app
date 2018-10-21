@@ -728,12 +728,12 @@
   <section *ngIf="!!queryExample || !!explainError || !!explainJson || !!explainVisual || !!explainClassic">
     <header class="configuration-panel">
       <h3 class="configuration-panel__title">EXPLAIN</h3>
-      <form class="configuration-panel__options center-children">
-        <i class="fa fa-database" aria-hidden="true"></i>
-        <input type="text" class="form-control"
-               [(ngModel)]="dbName" [ngModelOptions]="{standalone: true}"
+      <form class="configuration-panel__options center-children configuration-form configuration-form--clicked">
+        <span class="fa fa-database" aria-hidden="true"></span>
+        <input [(ngModel)]="dbName" [ngModelOptions]="{standalone: true}"
+               type="text" class="configuration-form__input configuration-form__input--small"
                id="databaseInput" placeholder="`database-name`">
-        <button class="search-button" [disabled]="!dbName" (click)="getExplain();" type="submit">
+        <button (click)="getExplain()" [disabled]="!dbName" class="configuration-form__button" type="submit">
           EXPLAIN
         </button>
       </form>
@@ -843,14 +843,13 @@
   <section *ngIf="!!createTable || !!createTableError || !!statusTable || !!statusTableError || !!indexTable || !!indexTableError">
     <header class="configuration-panel">
       <h3 class="configuration-panel__title">TABLES</h3>
-      <form class="configuration-panel__options center-children" (submit)="addDBTable();">
+      <form class="configuration-panel__options center-children configuration-form configuration-form--clicked" (submit)="addDBTable()">
         <label for="dbTblNamesInput">DB and table</label>
-        <input type="text" size="50" class="form-control"
+        <input type="text" size="50" class="configuration-form__input configuration-form__input--small"
                id="dbTblNamesInput" [(ngModel)]="newDBTblNames"
                [ngModelOptions]="{standalone: true}"
                placeholder="`database-name`.`table-name`">
-        <button [disabled]="isDemo || !newDBTblNames" (click)="addDBTable();"
-                class="search-button" type="submit">
+        <button (click)="addDBTable();" [disabled]="isDemo || !newDBTblNames" class="configuration-form__button" type="submit">
           ADD
         </button>
       </form>
