@@ -25,7 +25,7 @@ import { SummaryService } from '../summary/summary.service';
 import { SettingsComponent } from '../settings/settings.component';
 import { SettingsService } from '../settings/settings.service';
 import { AddAwsService } from '../add-aws/add-aws.service';
-import { AddRemotePostgresService } from '../add-remote-postgres/add-remote-postgres.service';
+import { AddRemoteInstanceService } from '../add-remote-postgres/add-remote-instance.service';
 import { ClipboardModule } from 'ngx-clipboard';
 
 @NgModule({
@@ -37,7 +37,7 @@ import { ClipboardModule } from 'ngx-clipboard';
         MySQLQueryDetailsComponent, MongoQueryDetailsComponent,
         SummaryComponent, SettingsComponent, JSONTreeComponent],
     providers: [InstanceService, QueryProfileService, MySQLQueryDetailsService,
-        MongoQueryDetailsService, SummaryService, SettingsService, AddAwsService, AddRemotePostgresService]
+        MongoQueryDetailsService, SummaryService, SettingsService, AddAwsService, AddRemoteInstanceService]
 })
 export class CoreModule {
 

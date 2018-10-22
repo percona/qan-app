@@ -1,18 +1,18 @@
 <div class="d-flex justify-content-center add-remote-instance">
-  <div class="col-md-5 list-group tab-pane" title="Quick ranges">
+  <div class="col-md-8 list-group tab-pane" title="Quick ranges">
     <form class="content">
       <div class="row">
         <div class="col-xl-8 col-10 offset-xl-2 offset-1 input-wrapper">
           <div class="row header">
             <div class="col-12">
-              <p>Add remote PostgreSQL Instance</p>
+              <p>Add remote {{instanceType}} Instance</p>
             </div>
           </div>
           <div class="row">
             <div class="col-12">
               <input type="text" class="custom-form-input form-control" placeholder="Hostname"
                      name="Hostname"
-                     [(ngModel)]="postgresCredentials.address"
+                     [(ngModel)]="remoteInstanceCredentials.address"
                      #hostname="ngModel"
                      required>
             </div>
@@ -28,7 +28,7 @@
             <div class="col-12">
               <input type="text" class="custom-form-input form-control" placeholder="Port"
                      name="Port"
-                     [(ngModel)]="postgresCredentials.port"
+                     [(ngModel)]="remoteInstanceCredentials.port"
                      #port="ngModel"
                      required>
             </div>
@@ -44,7 +44,7 @@
             <div class="col-12">
               <input type="text" class="custom-form-input form-control" placeholder="Username"
                      name="Username"
-                     [(ngModel)]="postgresCredentials.username"
+                     [(ngModel)]="remoteInstanceCredentials.username"
                      #username="ngModel"
                      required>
             </div>
@@ -60,7 +60,7 @@
             <div class="col-12">
               <input type="text" class="custom-form-input form-control" placeholder="Password"
                      name="Password"
-                     [(ngModel)]="postgresCredentials.password"
+                     [(ngModel)]="remoteInstanceCredentials.password"
                      #password="ngModel"
                      required>
             </div>
@@ -75,7 +75,7 @@
 
           <div class="row">
             <div class="col-12 button-row">
-              <button type="submit" [disabled]="isDemo"  class="not-checked-button" (click)="onSubmit()">Add instance</button>
+              <button type="submit" [disabled]="isDemo" class="not-checked-button" (click)="onSubmit()">Add instance</button>
             </div>
           </div>
         </div>

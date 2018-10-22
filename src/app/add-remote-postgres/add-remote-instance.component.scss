@@ -1,7 +1,7 @@
 .add-remote-instance {
   .header p {
     font-size: 1.3rem;
-    font-color: var(--white);
+    color: var(--white);
   }
 
   .tab-pane {
@@ -26,7 +26,12 @@
     border-radius: 3px;
   }
 
+  input::placeholder {
+    font-style: italic;
+  }
+
   .not-checked-button {
     padding: .375rem .75rem;
+    cursor: pointer;
   }
 }
