@@ -1,81 +1,109 @@
 <div class="d-flex justify-content-center add-remote-instance">
-  <div class="col-md-8 list-group tab-pane" title="Quick ranges">
+  <div class="col-md-8 list-group tab-pane">
     <form class="content">
       <div class="row">
-        <div class="col-xl-8 col-10 offset-xl-2 offset-1 input-wrapper">
+        <div class="col-xl-10 offset-xl-2 input-wrapper">
           <div class="row header">
             <div class="col-12">
               <p>Add remote {{instanceType}} Instance</p>
             </div>
           </div>
-          <div class="row">
-            <div class="col-12">
-              <input type="text" class="custom-form-input form-control" placeholder="Hostname"
-                     name="Hostname"
-                     [(ngModel)]="remoteInstanceCredentials.address"
-                     #hostname="ngModel"
-                     required>
+          <div class="input-wrapper">
+            <div class="row d-flex align-items-center">
+              <div class="col-9">
+                <input type="text" class="custom-form-input form-control" placeholder="Hostname"
+                       name="Hostname"
+                       [(ngModel)]="remoteInstanceCredentials.address"
+                       #hostname="ngModel"
+                       [class.custom-form-input--not-valid]="hostname?.errors && isSubmitted"
+                       required>
+              </div>
+              <div class="app-tooltip-wrapper">
+                <div class="app-tooltip app-tooltip--remote-instance">
+                  <i class="fa fa-info-circle" aria-hidden="true"></i>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div *ngIf="hostname?.errors && isSubmitted" class="col-12 error-text">
+                <div *ngIf="hostname?.errors?.required">*Field is required</div>
+              </div>
             </div>
           </div>
-          <div class="row">
-            <div *ngIf="hostname?.errors && submitted"
-                 class="col-xl-9 col-12 error-text">
-              <div *ngIf="hostname?.errors?.required">*Field is required</div>
+
+          <div class="input-wrapper">
+            <div class="row d-flex align-items-center">
+              <div class="col-9">
+                <input type="text" class="custom-form-input form-control" placeholder="Port"
+                       name="Port"
+                       [(ngModel)]="remoteInstanceCredentials.port"
+                       #port="ngModel"
+                       [class.custom-form-input--not-valid]="port?.errors && isSubmitted"
+                       required>
+              </div>
+              <div class="app-tooltip-wrapper">
+                <div class="app-tooltip app-tooltip--remote-instance">
+                  <i class="fa fa-info-circle" aria-hidden="true"></i>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div *ngIf="port?.errors && isSubmitted" class="col-12 error-text">
+                <div *ngIf="port?.errors?.required">*Field is required</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="input-wrapper">
+            <div class="row d-flex align-items-center">
+              <div class="col-9">
+                <input type="text" class="custom-form-input form-control" placeholder="Username"
+                       name="Username"
+                       [(ngModel)]="remoteInstanceCredentials.username"
+                       #username="ngModel"
+                       [class.custom-form-input--not-valid]="username?.errors && isSubmitted"
+                       required>
+              </div>
+              <div class="app-tooltip-wrapper">
+                <div class="app-tooltip app-tooltip--remote-instance">
+                  <i class="fa fa-info-circle" aria-hidden="true"></i>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div *ngIf="username?.errors && isSubmitted" class="col-12 error-text">
+                <div *ngIf="username?.errors?.required">*Field is required</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="input-wrapper">
+            <div class="row d-flex align-items-center">
+              <div class="col-9">
+                <input type="text" class="custom-form-input form-control" placeholder="Password"
+                       name="Password"
+                       [(ngModel)]="remoteInstanceCredentials.password"
+                       #password="ngModel"
+                       [class.custom-form-input--not-valid]="password?.errors && isSubmitted"
+                       required>
+              </div>
+              <div class="app-tooltip-wrapper">
+                <div class="app-tooltip app-tooltip--remote-instance">
+                  <i class="fa fa-info-circle" aria-hidden="true"></i>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div *ngIf="password?.errors && isSubmitted" class="col-9 error-text">
+                <div *ngIf="password?.errors?.required">*Field is required</div>
+              </div>
             </div>
           </div>
 
           <div class="row">
-            <div class="col-12">
-              <input type="text" class="custom-form-input form-control" placeholder="Port"
-                     name="Port"
-                     [(ngModel)]="remoteInstanceCredentials.port"
-                     #port="ngModel"
-                     required>
-            </div>
-          </div>
-          <div class="row">
-            <div *ngIf="port?.errors && submitted"
-                 class="col-xl-9 col-12 error-text">
-              <div *ngIf="port?.errors?.required">*Field is required</div>
-            </div>
-          </div>
-
-          <div class="row">
-            <div class="col-12">
-              <input type="text" class="custom-form-input form-control" placeholder="Username"
-                     name="Username"
-                     [(ngModel)]="remoteInstanceCredentials.username"
-                     #username="ngModel"
-                     required>
-            </div>
-          </div>
-          <div class="row">
-            <div *ngIf="username?.errors && submitted"
-                 class="col-xl-9 col-12 error-text">
-              <div *ngIf="username?.errors?.required">*Field is required</div>
-            </div>
-          </div>
-
-          <div class="row">
-            <div class="col-12">
-              <input type="text" class="custom-form-input form-control" placeholder="Password"
-                     name="Password"
-                     [(ngModel)]="remoteInstanceCredentials.password"
-                     #password="ngModel"
-                     required>
-            </div>
-          </div>
-          <div class="row">
-            <div *ngIf="password?.errors && submitted"
-                 class="col-xl-9 col-12 error-text">
-              <div *ngIf="password?.errors?.required">*Field is required</div>
-            </div>
-            <div *ngIf="errorMessage && submitted" class="error-text col-xl-9 col-xs-12">*{{ errorMessage }}</div>
-          </div>
-
-          <div class="row">
-            <div class="col-12 button-row">
+            <div class="col-9 d-flex align-items-center">
               <button type="submit" [disabled]="isDemo" class="not-checked-button" (click)="onSubmit()">Add instance</button>
+              <div *ngIf="errorMessage && isSubmitted">*{{ errorMessage }}</div>
             </div>
           </div>
         </div>

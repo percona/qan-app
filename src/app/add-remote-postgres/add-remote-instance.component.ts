@@ -19,7 +19,7 @@ export class AddRemoteInstanceComponent implements OnInit {
   isLoading: boolean;
   errorMessage: string;
   isDemo = false;
-  submitted = false;
+  isSubmitted = false;
   instanceType: string;
   currentUrl: string;
 
@@ -31,7 +31,7 @@ export class AddRemoteInstanceComponent implements OnInit {
   async onSubmit() {
     this.errorMessage = '';
     this.isLoading = true;
-    this.submitted = true;
+    this.isSubmitted = true;
 
     try {
       const res = await this.addRemoteInstanceService.enable(this.remoteInstanceCredentials, this.currentUrl);

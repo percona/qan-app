@@ -8,6 +8,10 @@
     background-color: #1f1d1d
   }
 
+  .input-wrapper {
+    min-height: 75px;
+  }
+
   input.custom-form-input {
     height: 38px;
     color: var(--white);
@@ -17,12 +21,16 @@
     background-color: #141414 !important;
   }
 
+  .custom-form-input--not-valid {
+    border-color: red !important;
+  }
+
   form.content {
-    padding: 58px 0;
+    padding: 40px 0;
   }
 
   input[type=text] {
-    margin-bottom: 10px;
+    margin-bottom: 5px;
     border-radius: 3px;
   }
 
@@ -33,5 +41,29 @@
   .not-checked-button {
     padding: .375rem .75rem;
     cursor: pointer;
+  }
+
+  .not-checked-button + div {
+    margin-left: 20px;
+  }
+
+  .fa-info-circle {
+    font-size: 20px;
+  }
+
+  .app-tooltip-wrapper {
+    position: relative;
+  }
+
+  div.app-tooltip--remote-instance {
+    cursor: pointer;
+  }
+
+  div.app-tooltip--remote-instance::before {
+    content: 'Information';
+    left: 25px;
+    top: 0;
+    white-space: normal;
+    padding: 5px;
   }
 }
