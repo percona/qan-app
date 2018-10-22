@@ -25,7 +25,7 @@ import { SummaryService } from '../summary/summary.service';
 import { SettingsComponent } from '../settings/settings.component';
 import { SettingsService } from '../settings/settings.service';
 import { AddAwsService } from '../add-aws/add-aws.service';
-import { AddRemoteInstanceService } from '../add-remote-postgres/add-remote-instance.service';
+import { AddRemoteInstanceService } from '../add-remote-instances/add-remote-instance.service';
 import { ClipboardModule } from 'ngx-clipboard';
 
 @NgModule({

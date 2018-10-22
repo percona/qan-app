@@ -1,0 +1,25 @@
+.grid-table {
+  display: grid;
+  grid-template-rows: 25px;
+  grid-auto-rows: 40px;
+  border: 1px solid #292929;
+}
+
+.grid-table > *:not(:last-child) {
+  border-bottom: 1px solid #292929;
+}
+
+.grid-table__row {
+  display: grid;
+  grid-template-columns: 2.5fr 6fr 1.5fr 2fr 100px;
+}
+
+.grid-table__row > *:not(:last-child) {
+  border-right: 1px solid #292929;
+}
+
+.grid-table__row > * {
+  display: flex;
+  align-items: center;
+  padding: 0 10px;
+}

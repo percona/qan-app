@@ -78,6 +78,6 @@ export class AddRemoteInstanceService {
    * @param currentUrl current page url
    */
   checkInstanceType(currentUrl) {
-    return currentUrl === '/add-remote-postgres' ? 'postgresql' : 'mysql';
+    return currentUrl === '/add-remote-instances' ? 'postgresql' : 'mysql';
   }
 }
