@@ -30,18 +30,16 @@ export class AddRemoteInstanceComponent implements OnInit {
 
   async onSubmit() {
     this.errorMessage = '';
-    this.isLoading = true;
     this.isSubmitted = true;
 
     try {
-      const res = await this.addRemoteInstanceService.enable(this.remoteInstanceCredentials, this.currentUrl);
-      // TODO: do something
+      const res = await this.addRemoteInstanceService.enable(this.remoteInstanceCredentials, this.currentUrl)
+        .then(() => {this.router.navigate(['/remote-instances-list'])});
     } catch (err) {
       this.errorMessage = err.json().error;
       return;
     } finally {
       this.remoteInstance = {} as RemoteInstance;
-      this.isLoading = false;
     }
   }
 

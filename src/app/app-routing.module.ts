@@ -42,7 +42,7 @@ const routes: Routes = [
     { path: 'settings', component: SettingsComponent, pathMatch: 'full', canActivate: [RegisteredInstanceGuard] },
     { path: 'add-instance', component: AddInstanceComponent, pathMatch: 'full' },
     { path: 'add-aws', component: AddAwsComponent, pathMatch: 'full' },
-    { path: 'add-remote-instances', component: AddRemoteInstanceComponent, pathMatch: 'full' },
+    { path: 'add-remote-postgres', component: AddRemoteInstanceComponent, pathMatch: 'full' },
     { path: 'add-remote-mysql', component: AddRemoteInstanceComponent, pathMatch: 'full' },
     { path: 'remote-instances-list', component: RemoteInstancesListComponent, pathMatch: 'full' },
     { path: '**', component: PageNotFoundComponent }
