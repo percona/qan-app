@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import {RemoteInstancesListService} from './remote-instances-list.service';
 
 @Component({
   selector: 'app-remote-instances-list',
@@ -7,9 +8,11 @@ import { Component, OnInit } from '@angular/core';
 })
 export class RemoteInstancesListComponent implements OnInit {
 
-  constructor() { }
+  constructor(private remoteInstancesListService: RemoteInstancesListService) { }
 
   ngOnInit() {
+    const allRDSInstances = this.remoteInstancesListService.getList();
+    console.log('allRDSInstances - ', allRDSInstances);
   }
 
 }

@@ -37,6 +37,7 @@ export class AddRemoteInstanceComponent implements OnInit {
         .then(() => {this.router.navigate(['/remote-instances-list'])});
     } catch (err) {
       this.errorMessage = err.json().error;
+      console.log('err - ', err);
       return;
     } finally {
       this.remoteInstance = {} as RemoteInstance;

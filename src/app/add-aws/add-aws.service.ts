@@ -74,6 +74,7 @@ export class AddAwsService {
     const response = await this.http
         .get(url, { headers: this.headers })
         .toPromise();
+    console.log('response getReg - ', response);
     return response.json().instances as RDSInstance[];
   }
 }

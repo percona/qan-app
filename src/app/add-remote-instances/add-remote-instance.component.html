@@ -101,7 +101,7 @@
           </div>
 
           <div class="row">
-            <div class="col-9 d-flex align-items-center">
+            <div class="col-12 d-flex align-items-center">
               <button type="submit" [disabled]="isDemo" class="not-checked-button" (click)="onSubmit()">Add instance</button>
               <div *ngIf="errorMessage && isSubmitted">*{{ errorMessage }}</div>
             </div>

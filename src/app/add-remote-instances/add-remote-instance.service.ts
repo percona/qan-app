@@ -63,15 +63,15 @@ export class AddRemoteInstanceService {
     return response.json();
   }
 
-  async getRegistered(currentUrl): Promise<RemoteInstance[]> {
-    this.instanceUrlPart = this.checkInstanceType(currentUrl);
-
-    const url = `/managed/v0/${this.instanceUrlPart}`;
-    const response = await this.http
-      .get(url, {headers: this.headers})
-      .toPromise();
-    return response.json().instances as RemoteInstance[];
-  }
+  // async getRegistered(currentUrl): Promise<RemoteInstance[]> {
+  //   this.instanceUrlPart = this.checkInstanceType(currentUrl);
+  //
+  //   const url = `/managed/v0/${this.instanceUrlPart}`;
+  //   const response = await this.http
+  //     .get(url, {headers: this.headers})
+  //     .toPromise();
+  //   return response.json().instances as RemoteInstance[];
+  // }
 
   /**
    * Returns type of remote instance
