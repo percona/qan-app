@@ -1,3 +1,4 @@
+<h3>RDS and remote instances</h3>
 <section class="grid-table">
   <header class="grid-table__row">
     <span>Name</span>
@@ -6,13 +7,13 @@
     <span>Engine</span>
     <span>Remove</span>
   </header>
-  <div class="grid-table__row">
-    <span>rds-aurora-1</span>
-    <span>rds-aurora-1.Lorem ipsum dolor sit amet</span>
-    <span>us-east-1</span>
-    <span>rds-aurora-1 v5.6.12</span>
+  <div *ngFor="let instance of allInstances" class="grid-table__row">
+    <span>{{ instance.node.name }}</span>
+    <span>{{ instance.service.address }}:{{ instance.service.port }}</span>
+    <span>{{ instance.node.region }}</span>
+    <span>{{ instance.service.engine }}</span>
     <span>
-      <i class="fa fa-trash-o"></i>
+      <span class="fa fa-trash-o" (click)="disableInstance(instance.node, instance.service)"></span>
     </span>
   </div>
 </section>

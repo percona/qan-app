@@ -1,7 +1,6 @@
 import {Injectable} from '@angular/core';
 import {Headers, Http} from '@angular/http';
 
-
 export interface RemoteInstanceCredentials {
   name: string
   address: string;
@@ -13,9 +12,11 @@ export interface RemoteInstanceCredentials {
 export interface RemoteInstanceNode {
   id: number
   name: string
+  region: string
 }
 
 export interface RemoteInstanceService {
+  type: string;
   address: string;
   port: number;
   engine: string;
@@ -52,26 +53,6 @@ export class AddRemoteInstanceService {
       .toPromise();
     return response.json();
   }
-
-  async disable(node: RemoteInstanceNode, currentUrl): Promise<{}> {
-    this.instanceUrlPart = this.checkInstanceType(currentUrl);
-
-    const url = `/managed/v0/${this.instanceUrlPart}/${node.id}`;
-    const response = await this.http
-      .delete(url, {headers: this.headers})
-      .toPromise();
-    return response.json();
-  }
-
-  // async getRegistered(currentUrl): Promise<RemoteInstance[]> {
-  //   this.instanceUrlPart = this.checkInstanceType(currentUrl);
-  //
-  //   const url = `/managed/v0/${this.instanceUrlPart}`;
-  //   const response = await this.http
-  //     .get(url, {headers: this.headers})
-  //     .toPromise();
-  //   return response.json().instances as RemoteInstance[];
-  // }
 
   /**
    * Returns type of remote instance

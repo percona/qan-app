@@ -9,9 +9,15 @@
   border-bottom: 1px solid #292929;
 }
 
+.grid-table__row > *:last-child {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
 .grid-table__row {
   display: grid;
-  grid-template-columns: 2.5fr 6fr 1.5fr 2fr 100px;
+  grid-template-columns: 2.5fr 6fr 1.5fr 2fr 80px;
 }
 
 .grid-table__row > *:not(:last-child) {
@@ -22,4 +28,10 @@
   display: flex;
   align-items: center;
   padding: 0 10px;
+}
+
+.fa.fa-trash-o {
+  cursor: pointer;
+  color: #444444;
+  font-size: 1.2rem;
 }
