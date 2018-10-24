@@ -30,7 +30,6 @@ export class AddAwsComponent implements OnInit {
     this.submitted = true;
     try {
       this.allRDSInstances = await this.addAwsService.discover(this.rdsCredentials);
-      console.log('this.allRDSInstances - ', this.allRDSInstances);
       await this.getRegistered();
       this.errorMessage = '';
     } catch (err) {
