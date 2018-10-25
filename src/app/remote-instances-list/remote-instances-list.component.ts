@@ -46,14 +46,13 @@ export class RemoteInstancesListComponent implements OnInit {
       try {
         const res = await this.remoteInstancesListService.disable(node, service);
         this.allInstances = await this.remoteInstancesListService.getList();
-        if (!this.allInstances) {
-          this.allInstances = []
-        }
       } catch (err) {
         this.errorMessage = err.json().error;
         this.isLoading = false;
         return;
       }
+      this.errorMessage = this.allInstances === undefined ? 'The list of instances is empty' : '';
+      this.isLoading = false;
     }
   }
 
