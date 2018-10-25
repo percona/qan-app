@@ -24,15 +24,18 @@ h3 {
   grid-template-columns: 2.5fr 6fr 1.5fr 2fr 80px;
 }
 
-.grid-table__row > *:not(:last-child),
-.grid-table__row > *:not(.row__cell--highlight) {
-  border-right: 1px solid #292929;
-}
-
 .grid-table__row > * {
   display: flex;
   align-items: center;
   padding: 0 10px;
+}
+
+.grid-table__row > *:not(.row__cell--highlight) {
+  border-right: 1px solid #292929;
+}
+
+.grid-table__row > *:last-child {
+  border-right: none;
 }
 
 .row__cell--highlight {
