@@ -44,7 +44,7 @@ const routes: Routes = [
     { path: 'add-aws', component: AddAwsComponent, pathMatch: 'full' },
     { path: 'add-remote-postgres', component: AddRemoteInstanceComponent, pathMatch: 'full' },
     { path: 'add-remote-mysql', component: AddRemoteInstanceComponent, pathMatch: 'full' },
-    { path: 'remote-instances-list', component: RemoteInstancesListComponent, pathMatch: 'full' },
+    { path: 'pmm-list', component: RemoteInstancesListComponent, pathMatch: 'full' },
     { path: '**', component: PageNotFoundComponent }
 ];
 

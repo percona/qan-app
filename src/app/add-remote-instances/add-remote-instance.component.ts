@@ -1,9 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {
-  AddRemoteInstanceService,
-  RemoteInstanceCredentials,
-  RemoteInstance,
-} from './add-remote-instance.service'
+import {AddRemoteInstanceService, RemoteInstanceCredentials} from './add-remote-instance.service'
 import {environment} from '../environment';
 import {Router} from '@angular/router';
 
@@ -34,6 +30,11 @@ export class AddRemoteInstanceComponent implements OnInit {
   }
 
   async onSubmit(form) {
+    const currentParrentUrl = `${window.parent.location}`;
+    const neededPart = '_pmm-rds-and-remote-instances';
+    const currentPart = '_pmm-add-instance';
+    const newParentUrl = currentParrentUrl.replace(currentPart, neededPart);
+
     this.errorMessage = '';
     this.isSubmitted = true;
     if (!form.valid) { return; }
@@ -49,8 +50,9 @@ export class AddRemoteInstanceComponent implements OnInit {
     try {
       const res = await this.addRemoteInstanceService.enable(this.remoteInstanceCredentials, this.currentUrl)
         .then(() => {
-          this.router.navigate(['/remote-instances-list'])
+          window.parent.location.replace(newParentUrl);
         });
+
     } catch (err) {
       this.errorMessage = err.json().error;
     }

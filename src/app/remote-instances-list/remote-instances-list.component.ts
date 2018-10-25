@@ -6,7 +6,7 @@ import {environment} from '../environment';
 @Component({
   selector: 'app-remote-instances-list',
   templateUrl: './remote-instances-list.component.html',
-  styleUrls: ['./remote-instances-list.component.css']
+  styleUrls: ['./remote-instances-list.component.scss']
 })
 export class RemoteInstancesListComponent implements OnInit {
   public allInstances: RemoteInstance[] = [];
