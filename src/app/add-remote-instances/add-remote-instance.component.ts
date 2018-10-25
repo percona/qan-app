@@ -30,10 +30,8 @@ export class AddRemoteInstanceComponent implements OnInit {
   }
 
   async onSubmit(form) {
-    const currentParrentUrl = `${window.parent.location}`;
-    const neededPart = '_pmm-rds-and-remote-instances';
-    const currentPart = '_pmm-add-instance';
-    const newParentUrl = currentParrentUrl.replace(currentPart, neededPart);
+    const currentUrl = `${window.parent.location}`;
+    const newURL = currentUrl.split('/graph/d/').shift() + '/graph/d/pmm-list/';
 
     this.errorMessage = '';
     this.isSubmitted = true;
@@ -50,7 +48,7 @@ export class AddRemoteInstanceComponent implements OnInit {
     try {
       const res = await this.addRemoteInstanceService.enable(this.remoteInstanceCredentials, this.currentUrl)
         .then(() => {
-          window.parent.location.replace(newParentUrl);
+          window.parent.location.assign(newURL);
         });
 
     } catch (err) {
