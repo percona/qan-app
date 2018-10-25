@@ -25,12 +25,4 @@ export class RemoteInstancesListService {
       .toPromise();
     return response.json();
   }
-
-  async getRegistered(service: RemoteInstanceService): Promise<RemoteInstance[]> {
-    const url = `/managed/v0/${service.type}`;
-    const response = await this.http
-      .get(url, {headers: this.headers})
-      .toPromise();
-    return response.json().instances as RemoteInstance[];
-  }
 }

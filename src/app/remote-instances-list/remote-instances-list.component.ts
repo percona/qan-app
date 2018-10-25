@@ -10,8 +10,6 @@ import {environment} from '../environment';
 })
 export class RemoteInstancesListComponent implements OnInit {
   public allInstances: RemoteInstance[] = [];
-  public remoteInstances: RemoteInstance[] = [];
-  public registeredInstances: string[] = [];
   public path: string[] = ['instance']; // same variable as for the loop that generates the table rows
   order = 1;
   isSorted = false;
@@ -45,26 +43,11 @@ export class RemoteInstancesListComponent implements OnInit {
     if (confirm(text)) {
       try {
         const res = await this.remoteInstancesListService.disable(node, service);
-        await this.getRegistered(service);
+        this.allInstances = await this.remoteInstancesListService.getList();
       } catch (err) {
         this.errorMessage = err.json().error;
+        return;
       }
-    }
-  }
-
-  async getRegistered(service: RemoteInstanceService) {
-    this.errorMessage = '';
-    try {
-      this.allInstances = await this.remoteInstancesListService.getRegistered(service);
-    } catch (err) {
-      this.errorMessage = err.json().error;
-    }
-    this.errorMessage = this.allInstances.length === 0 ? 'The list of instances is empty' : '';
-    this.registeredInstances = [];
-    if (this.remoteInstances !== undefined) {
-      this.remoteInstances.forEach(element => {
-        this.registeredInstances.push(element.node.name + ':' + element.node.region);
-      });
     }
   }
 

@@ -95,7 +95,6 @@ export class AddAwsComponent implements OnInit {
     this.errorMessage = '';
     try {
       this.registeredRDSInstances = await this.addAwsService.getRegistered();
-      console.log('registeredRDSInstances - ', this.registeredRDSInstances);
     } catch (err) {
       this.errorMessage = err.json().error;
     }
