@@ -2,8 +2,8 @@ import {Injectable} from '@angular/core';
 import {Headers, Http} from '@angular/http';
 
 export interface RemoteInstanceCredentials {
-  name: string
   address: string;
+  name: string;
   port: number;
   username: string;
   password: string;
@@ -42,8 +42,8 @@ export class AddRemoteInstanceService {
 
     const url = `/managed/v0/${this.instanceUrlPart}`;
     const data = {
-      name: remoteInstanceCredentials.name,
       address: remoteInstanceCredentials.address,
+      name: remoteInstanceCredentials.name,
       port: remoteInstanceCredentials.port,
       password: remoteInstanceCredentials.password,
       username: remoteInstanceCredentials.username

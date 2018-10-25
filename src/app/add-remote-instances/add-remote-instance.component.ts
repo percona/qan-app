@@ -1,10 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {
   AddRemoteInstanceService,
   RemoteInstanceCredentials,
   RemoteInstance,
 } from './add-remote-instance.service'
-import { environment } from '../environment';
+import {environment} from '../environment';
 import {Router} from '@angular/router';
 
 @Component({
@@ -15,7 +15,6 @@ import {Router} from '@angular/router';
 export class AddRemoteInstanceComponent implements OnInit {
 
   remoteInstanceCredentials = {} as RemoteInstanceCredentials;
-  remoteInstance = {} as RemoteInstance;
   isLoading: boolean;
   errorMessage: string;
   isDemo = false;
@@ -28,25 +27,32 @@ export class AddRemoteInstanceComponent implements OnInit {
     this.currentUrl = this.router.url;
   }
 
-  async onSubmit() {
-    this.errorMessage = '';
-    this.isSubmitted = true;
-
-    try {
-      const res = await this.addRemoteInstanceService.enable(this.remoteInstanceCredentials, this.currentUrl)
-        .then(() => {this.router.navigate(['/remote-instances-list'])});
-    } catch (err) {
-      this.errorMessage = err.json().error;
-      console.log('err - ', err);
-      return;
-    } finally {
-      this.remoteInstance = {} as RemoteInstance;
-    }
-  }
-
   async ngOnInit() {
     this.errorMessage = '';
     this.instanceType =
       this.addRemoteInstanceService.checkInstanceType(this.currentUrl) === 'postgresql' ? 'PostgreSQL' : 'MySQL';
+  }
+
+  async onSubmit(form) {
+    this.errorMessage = '';
+    this.isSubmitted = true;
+    if (!form.valid) { return; }
+
+    if (this.remoteInstanceCredentials.name === undefined) {
+      this.remoteInstanceCredentials.name = this.remoteInstanceCredentials.address; // set default value for name (like address)
+    }
+
+    if (this.remoteInstanceCredentials.port === undefined) {
+      this.remoteInstanceCredentials.port = this.instanceType === 'PostgreSQL' ? 5432 : 3306; // set default value for port
+    }
+
+    try {
+      const res = await this.addRemoteInstanceService.enable(this.remoteInstanceCredentials, this.currentUrl)
+        .then(() => {
+          this.router.navigate(['/remote-instances-list'])
+        });
+    } catch (err) {
+      this.errorMessage = err.json().error;
+    }
   }
 }

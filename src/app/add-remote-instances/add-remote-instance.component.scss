@@ -62,8 +62,27 @@
   div.app-tooltip--remote-instance::before {
     content: 'Information';
     left: 25px;
-    top: 0;
-    white-space: normal;
+    top: -3px;
     padding: 5px;
+  }
+
+  div.app-tooltip--hostname::before {
+    content: 'Public DNS hostname of your instance';
+  }
+
+  div.app-tooltip--name::before {
+    content: 'Instance name to use';
+  }
+
+  div.app-tooltip--port::before {
+    content: 'Port your instance is listening on';
+  }
+
+  div.app-tooltip--username::before {
+    content: 'Your database user name';
+  }
+
+  div.app-tooltip--password::before {
+    content: 'Your database password';
   }
 }
