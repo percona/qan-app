@@ -1,0 +1,36 @@
+<h3>RDS and remote instances</h3>
+<section class="grid-table">
+  <header class="grid-table__row">
+    <span>Name</span>
+    <span>Endpoint</span>
+    <div class="pointer" (click)="sortInstances('node.region')">
+      Region
+      <span *ngIf="!isSorted || !isRegion" class="fa fa-sort sort-icon" aria-hidden="true"></span>
+      <span *ngIf="isSorted && isRegion" [ngClass]="(order === 1) ? 'fa-sort-asc' : 'fa-sort-desc'" class="fa sort-icon"  aria-hidden="true"></span>
+    </div>
+    <div class="pointer" (click)="sortInstances('service.engine')">
+      Engine
+      <span *ngIf="!isSorted || isRegion" class="fa fa-sort sort-icon" aria-hidden="true"></span>
+      <span *ngIf="isSorted && !isRegion" [ngClass]="(order === 1) ? 'fa-sort-asc' : 'fa-sort-desc'" class="fa sort-icon"  aria-hidden="true"></span>
+    </div>
+    <span>Remove</span>
+  </header>
+  <div *ngFor="let instance of allInstances | sortingTable:path:order" class="grid-table__row">
+    <span>{{ instance.node.name }}</span>
+    <span>{{ instance.service.address }}:{{ instance.service.port }}</span>
+    <span>{{ instance.node.region }}</span>
+    <span class="row__cell--highlight">{{ instance.service.engine }}</span>
+    <span>
+      <span class="fa fa-trash-o" (click)="disableInstance(instance.node, instance.service)"></span>
+    </span>
+  </div>
+</section>
+<div class="row justify-content-md-center" *ngIf="isLoading">
+  <div>
+    <i class="fa fa-spinner fa-pulse fa-3x fa-fw loading"></i>
+  </div>
+</div>
+<div *ngIf="errorMessage" class="alert alert-warning w-75 mx-auto m-2" role="alert">
+  <i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
+  {{ errorMessage }}
+</div>
