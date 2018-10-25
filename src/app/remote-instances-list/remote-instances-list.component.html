@@ -1,9 +1,4 @@
 <h3>RDS and remote instances</h3>
-<!--<div class="row justify-content-md-center" *ngIf="isLoading">-->
-  <!--<div>-->
-    <!--<i class="fa fa-spinner fa-pulse fa-3x fa-fw loading"></i>-->
-  <!--</div>-->
-<!--</div>-->
 <section class="grid-table">
   <header class="grid-table__row">
     <span>Name</span>
@@ -30,6 +25,11 @@
     </span>
   </div>
 </section>
+<div class="row justify-content-md-center" *ngIf="isLoading">
+  <div>
+    <i class="fa fa-spinner fa-pulse fa-3x fa-fw loading"></i>
+  </div>
+</div>
 <div *ngIf="errorMessage" class="alert alert-warning w-75 mx-auto m-2" role="alert">
   <i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
   {{ errorMessage }}
