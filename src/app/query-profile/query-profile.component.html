@@ -34,7 +34,7 @@
       <form (submit)="search()" class="configuration-form configuration-form--clicked">
         <input [(ngModel)]="searchValue" name="searchValue"
                [disabled]="!isQuerySwitching && !isLoading && totalAmountOfQueries === 0 && !isSearchQuery"
-               class="configuration-form__input"
+               class="input-field configuration-form__input"
                type="text" placeholder="Search by query abstract, fingerprint or ID"
                id="search-input">
         <button (submit)="search()" class="configuration-form__button" type="submit">

@@ -2,25 +2,18 @@
   <div class="row justify-content-md-center">
     <h3>AWS Credentials</h3>
   </div>
-  <form (ngSubmit)="onSubmit()">
-    <div class="row justify-content-center">
-      <div class="col-5">
-        <div class="form-group">
-          <input type="text" [(ngModel)]="rdsCredentials.aws_access_key_id" name="aws_access_key_id" class="form-control"
-                 id="aws_access_key_id"
-                 placeholder="AWS_ACCESS_KEY_ID">
-        </div>
-      </div>
-      <div class="col-5">
-        <div class="form-group">
-          <input type="password" class="form-control" [(ngModel)]="rdsCredentials.aws_secret_access_key" name="aws_secret_access_key"
-                 id="aws_secret_access_key" aria-describedby="aws_secret_access_key" placeholder="AWS_SECRET_ACCESS_KEY">
-        </div>
-      </div>
-      <div class="col">
-        <button type="submit" class="not-checked-button">Discover</button>
-      </div>
-    </div>
+  <form (ngSubmit)="onSubmit()" class="center-children credentials">
+    <input [(ngModel)]="rdsCredentials.aws_access_key_id"
+           name="aws_access_key_id" type="text"
+           class="input-field"
+           id="aws_access_key_id"
+           placeholder="AWS_ACCESS_KEY_ID">
+    <input [(ngModel)]="rdsCredentials.aws_secret_access_key"
+           name="aws_secret_access_key" type="password"
+           class="input-field"
+           id="aws_secret_access_key" aria-describedby="aws_secret_access_key"
+           placeholder="AWS_SECRET_ACCESS_KEY">
+    <button type="submit" class="button button--dark">Discover</button>
   </form>
   <div class="row justify-content-end">
     <a
@@ -68,14 +61,14 @@
       </div>
       <div *ngIf="showConnect(instance.node)" class="grid-table__row grid-table__row--connect-instances">
         <div>
-          <input type="text" [(ngModel)]="mysqlCredentials.username" name="username" class="form-control" placeholder="MySQL username">
+          <input type="text" [(ngModel)]="mysqlCredentials.username" name="username" class="input-field" placeholder="MySQL username">
         </div>
         <div>
-          <input type="password" [(ngModel)]="mysqlCredentials.password" name="password" class="form-control" placeholder="MySQL Password">
+          <input type="password" [(ngModel)]="mysqlCredentials.password" name="password" class="input-field" placeholder="MySQL Password">
         </div>
         <div>
-          <button type="submit" [disabled]="isDemo" class="not-checked-button">Connect</button>
-          <button type="cancel" (click)="cancel()" class="not-checked-button">Cancel</button>
+          <button type="submit" [disabled]="isDemo" class="button button--dark">Connect</button>
+          <button type="cancel" (click)="cancel()" class="button button--dark">Cancel</button>
         </div>
       </div>
     </ng-template>

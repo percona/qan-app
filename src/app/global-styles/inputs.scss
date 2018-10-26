@@ -1,3 +1,23 @@
+.input-field {
+  --default-left-right-indent: 1rem;
+
+  width: 100%;
+  padding: 0 var(--default-left-right-indent);
+  color: inherit;
+  border: 1px solid var(--main-border-color);
+  background-color: transparent;
+}
+
+.input-field::placeholder {
+  font-style: italic;
+  color: rgb(145, 145, 145);
+}
+
+.input-field:active,
+.input-field:focus {
+  outline: none;
+}
+
 .configuration-form {
   --input-width: 370px;
   --input-top-indent: .375rem;
@@ -10,21 +30,8 @@
 }
 
 .configuration-form__input {
-  padding: var(--input-top-indent) var(--input-right-indent);
-  width: var(--input-width);
-  color: inherit;
-  border: 1px solid var(--main-border-color);
-  background-color: transparent;
-}
-
-.configuration-form__input:active,
-.configuration-form__input:focus {
-  outline: none;
-}
-
-.configuration-form__input::placeholder {
-  font-style: italic;
-  color: rgb(145, 145, 145);
+  padding: var(--input-top-indent, 0) var(--input-right-indent, var(--default-left-right-indent));
+  max-width: var(--input-width);
 }
 
 .configuration-form__input--small {
