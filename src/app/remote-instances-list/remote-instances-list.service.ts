@@ -15,7 +15,6 @@ export class RemoteInstancesListService {
     const response = await this.http
       .get(url, { headers: this.headers })
       .toPromise();
-    console.log('response.json().instances - ', response.json().instances);
     return response.json().instances as RemoteInstance[];
   }
 
