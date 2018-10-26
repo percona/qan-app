@@ -2,6 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {RemoteInstancesListService} from './remote-instances-list.service';
 import {RemoteInstance, RemoteInstanceNode, RemoteInstanceService} from '../add-remote-instances/add-remote-instance.service';
 import {environment} from '../environment';
+import {AddAwsService} from '../add-aws/add-aws.service';
 
 @Component({
   selector: 'app-remote-instances-list',
@@ -18,7 +19,7 @@ export class RemoteInstancesListComponent implements OnInit {
   isLoading: boolean;
   errorMessage: string;
 
-  constructor(private remoteInstancesListService: RemoteInstancesListService) {
+  constructor(private remoteInstancesListService: RemoteInstancesListService, private awsService: AddAwsService) {
     this.isDemo = environment.demoHosts.includes(location.hostname);
   }
 
@@ -44,7 +45,11 @@ export class RemoteInstancesListComponent implements OnInit {
     const text = `Are you sure you want to delete? ${node.name}`;
     if (confirm(text)) {
       try {
-        const res = await this.remoteInstancesListService.disable(node, service);
+        if (service.type !== 'rds') {
+          const res = await this.remoteInstancesListService.disable(node, service);
+        } else {
+          const res = await this.awsService.disable(node);
+        }
         this.allInstances = await this.remoteInstancesListService.getList();
       } catch (err) {
         this.errorMessage = err.json().error;
