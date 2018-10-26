@@ -5,3 +5,7 @@
 .input-field {
   height: 40px;
 }
+
+.grid-table__row--connect-instances > * .button:not(:last-child) {
+  margin-right: 15px;
+}

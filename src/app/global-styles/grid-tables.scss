@@ -8,7 +8,7 @@
 .grid-table {
   display: grid;
   grid-template-rows: var(--row-height);
-  grid-auto-rows: var(--row-height);
+  grid-auto-rows: minmax(var(--row-height), auto);
   color: var(--main-text-color);
   border: 1px solid var(--main-border-color);
 }
@@ -88,6 +88,10 @@
 
 .grid-table__row--connect-instances {
   grid-template-columns: 2.5fr 6fr 3fr;
+}
+
+.grid-table__row--connect-instances > * {
+  padding: 10px;
 }
 //
 
