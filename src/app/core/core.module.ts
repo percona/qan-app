@@ -25,18 +25,21 @@ import { SummaryService } from '../summary/summary.service';
 import { SettingsComponent } from '../settings/settings.component';
 import { SettingsService } from '../settings/settings.service';
 import { AddAwsService } from '../add-aws/add-aws.service';
+import { AddRemoteInstanceService } from '../add-remote-instances/add-remote-instance.service';
+import { RemoteInstancesListService } from '../remote-instances-list/remote-instances-list.service';
 import { ClipboardModule } from 'ngx-clipboard';
+import {RemoteInstancesListComponent} from '../remote-instances-list/remote-instances-list.component';
 
 @NgModule({
     imports: [CommonModule, SharedModule, ClipboardModule],
     declarations: [NavComponent, PageNotFoundComponent, QueryProfileComponent,
         MySQLQueryDetailsComponent, MongoQueryDetailsComponent,
-        SummaryComponent, SettingsComponent, JSONTreeComponent],
+        SummaryComponent, SettingsComponent, JSONTreeComponent, RemoteInstancesListComponent],
     exports: [NavComponent, PageNotFoundComponent, QueryProfileComponent,
         MySQLQueryDetailsComponent, MongoQueryDetailsComponent,
         SummaryComponent, SettingsComponent, JSONTreeComponent],
     providers: [InstanceService, QueryProfileService, MySQLQueryDetailsService,
-        MongoQueryDetailsService, SummaryService, SettingsService, AddAwsService]
+        MongoQueryDetailsService, SummaryService, SettingsService, AddAwsService, AddRemoteInstanceService, RemoteInstancesListService]
 })
 export class CoreModule {
 

@@ -1,0 +1,88 @@
+.add-remote-instance {
+  .header p {
+    font-size: 1.3rem;
+    color: var(--white);
+  }
+
+  .tab-pane {
+    background-color: #1f1d1d
+  }
+
+  .input-wrapper {
+    min-height: 75px;
+  }
+
+  input.custom-form-input {
+    height: 38px;
+    color: var(--white);
+    font-weight: 300;
+    border-radius: 0;
+    border: 1px solid #2a2a2a;
+    background-color: #141414 !important;
+  }
+
+  .custom-form-input--not-valid {
+    border-color: red !important;
+  }
+
+  form.content {
+    padding: 40px 0;
+  }
+
+  input[type=text] {
+    margin-bottom: 5px;
+    border-radius: 3px;
+  }
+
+  input::placeholder {
+    font-style: italic;
+  }
+
+  .not-checked-button {
+    padding: .375rem .75rem;
+    cursor: pointer;
+  }
+
+  .not-checked-button + div {
+    margin-left: 20px;
+  }
+
+  .fa-info-circle {
+    font-size: 20px;
+  }
+
+  .app-tooltip-wrapper {
+    position: relative;
+  }
+
+  div.app-tooltip--remote-instance {
+    cursor: pointer;
+  }
+
+  div.app-tooltip--remote-instance::before {
+    content: 'Information';
+    left: 25px;
+    top: -3px;
+    padding: 5px;
+  }
+
+  div.app-tooltip--hostname::before {
+    content: 'Public DNS hostname of your instance';
+  }
+
+  div.app-tooltip--name::before {
+    content: 'Instance name to use';
+  }
+
+  div.app-tooltip--port::before {
+    content: 'Port your instance is listening on';
+  }
+
+  div.app-tooltip--username::before {
+    content: 'Your database user name';
+  }
+
+  div.app-tooltip--password::before {
+    content: 'Your database password';
+  }
+}

@@ -12,7 +12,9 @@ import { SharedModule } from './shared/shared.module';
 
 import { InstanceService } from './core/instance.service';
 import { AddAwsComponent } from './add-aws/add-aws.component';
+import { AddRemoteInstanceComponent } from './add-remote-instances/add-remote-instance.component';
 import { AddInstanceComponent } from './add-instance/add-instance.component';
+import { RemoteInstancesListComponent } from './remote-instances-list/remote-instances-list.component';
 import {BaseQueryDetailsService} from './core/base-query-details.service';
 export function getInstances(instanceService: InstanceService) {
   return function () { return instanceService.getDBServers(); };
@@ -22,7 +24,8 @@ export function getInstances(instanceService: InstanceService) {
   declarations: [
     AppComponent,
     AddAwsComponent,
-    AddInstanceComponent
+    AddRemoteInstanceComponent,
+    AddInstanceComponent,
   ],
   imports: [
     AppRoutingModule,
