@@ -5,7 +5,7 @@ h3 {
 .grid-table {
   display: grid;
   grid-template-rows: 25px;
-  grid-auto-rows: 40px;
+  grid-auto-rows: minmax(40px, auto);
   border: 1px solid #292929;
 }
 
@@ -28,6 +28,7 @@ h3 {
   display: flex;
   align-items: center;
   padding: 0 10px;
+  word-break: break-all;
 }
 
 .grid-table__row > *:not(.row__cell--highlight) {
