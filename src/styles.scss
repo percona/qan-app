@@ -13,7 +13,9 @@
 @import "app/global-styles/units";
 @import "app/global-styles/spinner";
 
-* {
+*,
+*:after,
+*:before {
   margin: 0;
   padding: 0;
   box-sizing: border-box;

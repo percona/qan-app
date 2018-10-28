@@ -43,6 +43,7 @@ export class SummaryComponent extends CoreComponent {
      * @param agentUUID agent UUID that is installed on same host as MySQL.
      */
     getServerSummary(agentUUID: string): void {
+      if (this.isAllSelected || this.isNotExistSelected) { return; }
         this.summaryService
             .getServer(agentUUID, this.dbServer.ParentUUID)
             .then(data => this.serverSummary = data)
@@ -55,7 +56,8 @@ export class SummaryComponent extends CoreComponent {
      * @param agentUUID agent UUID that is monitoring MySQL Server.
      */
     getMySQLSummary(agentUUID: string): void {
-        this.summaryService
+      if (this.dbServer.Subsystem !== 'mysql' || this.isAllSelected || this.isNotExistSelected) { return; }
+      this.summaryService
             .getMySQL(agentUUID, this.dbServer.UUID)
             .then(data => this.mysqlSummary = data)
             .catch(err => this.mysqlSummaryError = err.message)
@@ -67,6 +69,7 @@ export class SummaryComponent extends CoreComponent {
      * @param agentUUID agent UUID that is monitoring MongoDB Server.
      */
     getMongoSummary(agentUUID: string): void {
+      if (this.dbServer.Subsystem !== 'mongo' || this.isAllSelected || this.isNotExistSelected) { return; }
         this.summaryService
             .getMongo(agentUUID, this.dbServer.UUID)
             .then(data => this.mongoSummary = data)
@@ -99,15 +102,16 @@ export class SummaryComponent extends CoreComponent {
      * @param params - URL query parameters
      */
     onChangeParams(params) {
+        if (this.isAllSelected || this.isNotExistSelected) { return; }
         // to initalise loader when host was changed
-        this.mysqlSummary = '',
-        this.mongoSummary = '',
-        this.serverSummary = '',
-        this.mysqlSummaryError = '',
-        this.mongoSummaryError = '',
+        this.mysqlSummary = '';
+        this.mongoSummary = '';
+        this.serverSummary = '';
+        this.mysqlSummaryError = '';
+        this.mongoSummaryError = '';
         this.serverSummaryError = '';
-        this.mysqlSummaryLoader = true,
-        this.mongoSummaryLoader = true,
+        this.mysqlSummaryLoader = true;
+        this.mongoSummaryLoader = true;
         this.serverSummaryLoader = true;
 
         this.getServerSummary(this.agent.UUID);

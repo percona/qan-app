@@ -1,6 +1,8 @@
-<div class="row justify-content-md-center">
-  <button *ngIf="!(mysqlSummaryLoader && mongoSummaryLoader)  && !serverSummaryLoader"
-          (click)="downloadSummary()" class="pmm-button-big checked">
+<div class="button-group button-group--center-children">
+  <button *ngIf="!(isAllSelected || isNotExistSelected) || !!serverSummaryError || !!mysqlSummaryError || !!mongoSummaryError"
+          [disabled]="(mysqlSummaryLoader && mongoSummaryLoader) || serverSummaryLoader"
+          (click)="downloadSummary()"
+          class="button button--dark">
     <i class="fa fa-file-archive-o" aria-hidden="true"></i>
     Download Summary
   </button>
@@ -20,7 +22,7 @@
 <div class="row">
   <div class="col-md-12">
     <ngb-accordion activeIds="system-summary-panel,mysql-summary-panel">
-      <ngb-panel id="system-summary-panel">
+      <ngb-panel *ngIf="!!this.dbServer" id="system-summary-panel">
         <ng-template ngbPanelTitle>
           <header class="card-header__content">
             <h5 class="card-header__title">System Summary</h5>
@@ -37,7 +39,7 @@
           </div>
         </ng-template>
       </ngb-panel>
-      <ngb-panel *ngIf="dbServer.Subsystem === 'mysql'" id="mysql-summary-panel">
+      <ngb-panel *ngIf="!!dbServer && dbServer.Subsystem === 'mysql'" id="mysql-summary-panel">
         <ng-template ngbPanelTitle>
           <header class="card-header__content">
             <h5 class="card-header__title">MySQL Summary</h5>
@@ -54,7 +56,7 @@
           </div>
         </ng-template>
       </ngb-panel>
-      <ngb-panel *ngIf="dbServer.Subsystem === 'mongo'" id="mongo-summary-panel">
+      <ngb-panel *ngIf="!!dbServer && dbServer.Subsystem === 'mongo'" id="mongo-summary-panel">
         <ng-template ngbPanelTitle>
           <header class="card-header__content">
             <h5 class="card-header__title">MongoDB Summary</h5>
