@@ -37,12 +37,12 @@ export class AddRemoteInstanceComponent implements OnInit {
     this.isSubmitted = true;
     if (!form.valid) { return; }
 
-    if (this.remoteInstanceCredentials.name === undefined) {
+    if (this.remoteInstanceCredentials.name === undefined || this.remoteInstanceCredentials.name === '') {
       this.remoteInstanceCredentials.name = this.remoteInstanceCredentials.address; // set default value for name (like address)
     }
 
-    if (this.remoteInstanceCredentials.port === undefined) {
-      this.remoteInstanceCredentials.port = this.instanceType === 'PostgreSQL' ? 5432 : 3306; // set default value for port
+    if (this.remoteInstanceCredentials.port === undefined || this.remoteInstanceCredentials.port === '') {
+      this.remoteInstanceCredentials.port = this.instanceType === 'PostgreSQL' ? '5432' : '3306'; // set default value for port
     }
 
     try {
