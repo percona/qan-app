@@ -11,9 +11,9 @@ import {Router} from '@angular/router';
 export class AddRemoteInstanceComponent implements OnInit {
 
   remoteInstanceCredentials = {} as RemoteInstanceCredentials;
-  isLoading: boolean;
   errorMessage: string;
   isDemo = false;
+  isLoading = false;
   isSubmitted = false;
   instanceType: string;
   currentUrl: string;
@@ -25,6 +25,7 @@ export class AddRemoteInstanceComponent implements OnInit {
 
   async ngOnInit() {
     this.errorMessage = '';
+    this.isLoading = false;
     this.instanceType =
       this.addRemoteInstanceService.checkInstanceType(this.currentUrl) === 'postgresql' ? 'PostgreSQL' : 'MySQL';
   }
@@ -36,6 +37,7 @@ export class AddRemoteInstanceComponent implements OnInit {
     this.errorMessage = '';
     this.isSubmitted = true;
     if (!form.valid) { return; }
+    this.isLoading = true;
 
     if (this.remoteInstanceCredentials.name === undefined || this.remoteInstanceCredentials.name === '') {
       this.remoteInstanceCredentials.name = this.remoteInstanceCredentials.address; // set default value for name (like address)
@@ -54,5 +56,6 @@ export class AddRemoteInstanceComponent implements OnInit {
     } catch (err) {
       this.errorMessage = err.json().error;
     }
+    this.isLoading = false;
   }
 }

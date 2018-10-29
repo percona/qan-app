@@ -100,6 +100,9 @@
               <button type="submit" [disabled]="isDemo" class="not-checked-button">Add instance</button>
               <div *ngIf="errorMessage && isSubmitted && addInstanceForm.valid">*{{ errorMessage }}</div>
               <div *ngIf="isSubmitted && !addInstanceForm.valid">Fields marked with an asterisk (*) are required</div>
+              <div *ngIf="isLoading">
+                <i class="fa fa-spinner fa-pulse fa-2x fa-fw"></i>
+              </div>
             </div>
           </div>
         </div>
