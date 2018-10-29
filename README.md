@@ -1,6 +1,7 @@
 # QanApp
 
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/dda40c1517c749b989e26b2ad0cc4d63)](https://www.codacy.com/app/Percona/qan-app?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=percona/qan-app&amp;utm_campaign=Badge_Grade)
+[![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2Fpercona%2Fqan-app.svg?type=shield)](https://app.fossa.io/projects/git%2Bgithub.com%2Fpercona%2Fqan-app?ref=badge_shield)
 
 This project was generated with [angular-cli](https://github.com/angular/angular-cli) version 1.0.0-beta.25.5.
 
@@ -31,3 +32,7 @@ Run `ng github-pages:deploy` to deploy to GitHub Pages.
 ## Further help
 
 To get more help on the `angular-cli` use `ng help` or go check out the [Angular-CLI README](https://github.com/angular/angular-cli/blob/master/README.md).
+
+
+## License
+[![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2Fpercona%2Fqan-app.svg?type=large)](https://app.fossa.io/projects/git%2Bgithub.com%2Fpercona%2Fqan-app?ref=badge_large)
