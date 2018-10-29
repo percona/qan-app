@@ -8,7 +8,7 @@
       <span>{{ queryDetails?.Query?.Id }}</span>
     </h3>
   </header>
-  <ngb-accordion activeIds="accordionIds.serverSummary">
+  <ngb-accordion [activeIds]="accordionIds.serverSummary">
     <ngb-panel id="metrics-table" class="accordion-inner-table">
       <ng-template ngbPanelTitle>
         <div class="card-header__content">
@@ -177,7 +177,7 @@
     <header class="section-title">
       <h3 class="d-flex">QUERY</h3>
     </header>
-    <ngb-accordion activeIds="accordionIds.querySection">
+    <ngb-accordion [activeIds]="accordionIds.querySection">
       <ngb-panel *ngIf="!!fingerprint" id="query-fingerprint">
         <ng-template ngbPanelTitle>
           <header class="card-header__content">
@@ -239,8 +239,8 @@
         </button>
       </form>
     </header>
-    <ngb-accordion *ngIf="!!queryExample" activeIds="accordionIds.explainSection" class="accordion-inner-table">
-      <ngb-panel *ngIf="!!jsonExplain || !!errExplain" id="json-explain">
+    <ngb-accordion [activeIds]="accordionIds.explainSection" *ngIf="!!queryExample" class="accordion-inner-table">
+      <ngb-panel id="json-explain" *ngIf="!!jsonExplain || !!errExplain">
         <ng-template ngbPanelTitle>
           <div class="accordion-title">
             <h5>JSON</h5>
