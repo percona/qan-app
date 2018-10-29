@@ -20,22 +20,21 @@
 
 .configuration-form {
   --input-width: 370px;
+  --input-width-smal: 300px;
   --input-top-indent: .375rem;
   --input-right-indent: 0.75rem;
-}
 
-.configuration-form {
   position: relative;
   display: flex;
 }
 
 .configuration-form__input {
+  width: var(--input-width);
   padding: var(--input-top-indent, 0) var(--input-right-indent, var(--default-left-right-indent));
-  max-width: var(--input-width);
 }
 
 .configuration-form__input--small {
-  --input-width: 300px;
+  width: var(--input-width-smal);
 }
 
 .configuration-form__button {

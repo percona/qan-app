@@ -738,6 +738,7 @@
         </button>
       </form>
     </header>
+
     <ngb-accordion [activeIds]="accordionIds.explainSection" class="accordion-inner-table">
       <ngb-panel id="classic-explain">
         <ng-template ngbPanelTitle>
@@ -843,12 +844,11 @@
   <section *ngIf="!!createTable || !!createTableError || !!statusTable || !!statusTableError || !!indexTable || !!indexTableError">
     <header class="configuration-panel">
       <h3 class="configuration-panel__title">TABLES</h3>
-      <form class="configuration-panel__options center-children configuration-form configuration-form--clicked" (submit)="addDBTable()">
+      <form (submit)="addDBTable()" class="configuration-panel__options center-children configuration-form configuration-form--clicked">
         <label for="dbTblNamesInput">DB and table</label>
-        <input type="text" size="50" class="input-field configuration-form__input configuration-form__input--small"
-               id="dbTblNamesInput" [(ngModel)]="newDBTblNames"
-               [ngModelOptions]="{standalone: true}"
-               placeholder="`database-name`.`table-name`">
+        <input [(ngModel)]="newDBTblNames" [ngModelOptions]="{standalone: true}"
+               type="text"  class="input-field configuration-form__input configuration-form__input--small"
+               id="dbTblNamesInput" placeholder="`database-name`.`table-name`">
         <button (click)="addDBTable();" [disabled]="isDemo || !newDBTblNames" class="configuration-form__button" type="submit">
           ADD
         </button>
