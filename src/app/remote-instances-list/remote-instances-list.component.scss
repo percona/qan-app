@@ -4,7 +4,7 @@ h3 {
 
 .grid-table {
   display: grid;
-  grid-template-rows: 25px;
+  grid-template-rows: minmax(25px, auto);
   grid-auto-rows: minmax(40px, auto);
   border: 1px solid #292929;
 }
