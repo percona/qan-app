@@ -4,7 +4,7 @@ import {Headers, Http} from '@angular/http';
 export interface RemoteInstanceCredentials {
   address: string;
   name: string;
-  port: number;
+  port: string;
   username: string;
   password: string;
 }
