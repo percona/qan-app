@@ -33,7 +33,7 @@ export class MongoQueryDetailsComponent extends CoreComponent implements OnInit 
   accordionIds = {
     serverSummary: ['metrics-table'],
     querySection: ['query-fingerprint'],
-    explainSection: ['classic-explain'],
+    explainSection: ['json-explain'],
   };
   isSummary: boolean;
   isLoading: boolean;
@@ -71,7 +71,7 @@ export class MongoQueryDetailsComponent extends CoreComponent implements OnInit 
       this.accordionIds = {
         serverSummary: ['metrics-table'],
         querySection: ['query-fingerprint'],
-        explainSection: ['classic-explain'],
+        explainSection: ['json-explain'],
       };
     }
   }
