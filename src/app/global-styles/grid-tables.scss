@@ -2,10 +2,7 @@
   --row-height: 40px;
   --row-cells-indent: 0.5rem;
   --row-background: var(--page-background);
-}
 
-
-.grid-table {
   display: grid;
   grid-template-rows: var(--row-height);
   grid-auto-rows: minmax(var(--row-height), auto);
