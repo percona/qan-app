@@ -77,6 +77,8 @@ export class SettingsComponent extends CoreComponent {
    *  - Collect from: 'slowlog' or 'perfschema'.
    */
   public async getAgentDefaults() {
+    if (!this.agent || !this.dbServer || this.isAllSelected || this.isNotExistSelected) { return }
+
     const res = await this.settingsService.getAgentDefaults(this.agent.UUID, this.dbServer.UUID);
     try {
       this.agentConf = res;
@@ -127,6 +129,8 @@ export class SettingsComponent extends CoreComponent {
    * Get slice of exported variables of agent.
    */
   getAgentStatus() {
+    if (!this.agent || this.isAllSelected || this.isNotExistSelected) { return }
+
     this.agentStatus = this.settingsService.getAgentStatus(this.agent.UUID);
     const updated: any = moment();
     this.statusUpdatedFromNow$ = Observable.interval(60000).map(n => updated.fromNow());
@@ -136,6 +140,8 @@ export class SettingsComponent extends CoreComponent {
    * get agent log for some period.
    */
   getAgentLog() {
+    if (!this.agent || this.isAllSelected || this.isNotExistSelected) { return }
+
     const begin = moment.utc().subtract(this.logPeriod, 'h').format('YYYY-MM-DDTHH:mm:ss');
     const end = moment.utc().format('YYYY-MM-DDTHH:mm:ss');
     this.agentLog = this.settingsService.getAgentLog(this.agent.UUID, begin, end);
