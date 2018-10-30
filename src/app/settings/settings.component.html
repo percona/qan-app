@@ -101,7 +101,7 @@
         <h5 class="card-header__title">STATUS</h5>
         <span class="highlight-content">
           (<i>Updated {{ (statusUpdatedFromNow$ | async) || 'a few seconds ago' }}</i>) |
-            <span (click)="getAgentStatus()"
+            <span (click)="getAgentStatus(); $event.stopPropagation(); $event.preventDefault();"
                   class="fa fa-refresh" id="refreshStatusLink" title="Refresh status">
             </span>
         </span>
@@ -124,40 +124,45 @@
     <ng-template ngbPanelTitle>
       <header class="card-header__content">
         <h5 class="card-header__title">LOG</h5>
-        <span class="accordion-head-second text-primary">
-             (<i>Updated {{ (logUpdatedFromNow$ | async) || 'a few seconds ago' }}</i>)
-            <div class="pmm-button-group" role="group" aria-label="Log period" id="update-group">
-                <button type="button" id="logPeriod1h"
-                        (click)="setLogPeriod(1); $event.stopPropagation(); $event.preventDefault();"
-                        [ngClass]="{'pmm-button-success': logPeriod === 1 }" value="1"
-                        class="pmm-button pmm-button-sm">1 h</button>
-                <button type="button" id="logPeriod2h"
-                        (click)="setLogPeriod(2); $event.preventDefault(); $event.stopPropagation();"
-                        [ngClass]="{'pmm-button-success': logPeriod === 2 }" value="2"
-                        class="pmm-button pmm-button-sm">2 h</button>
-                <button type="button" id="logPeriod6h"
-                        (click)="setLogPeriod(6); $event.preventDefault(); $event.stopPropagation();"
-                        [ngClass]="{'pmm-button-success': logPeriod === 6 }" value="6"
-                        class="pmm-button pmm-button-sm">6 h</button>
-                <button href="javascript:void(0);" type="button" id="logPeriod12h"
-                        (click)="setLogPeriod(12); $event.preventDefault(); $event.stopPropagation();"
-                        [ngClass]="{'pmm-button-success': logPeriod === 12 }" value="12"
-                        class="pmm-button pmm-button-sm">12 h</button>
-                <button href="javascript:void(0);" type="button" id="logPeriod1d"
-                        (click)="setLogPeriod(24); $event.preventDefault(); $event.stopPropagation();"
-                        [ngClass]="{'pmm-button-success': logPeriod === 24 }" value="24"
-                        class="pmm-button pmm-button-sm">1 d</button>
-                <button href="javascript:void(0);" type="button" id="logPeriod5d"
-                        (click)="setLogPeriod(120); $event.preventDefault(); $event.stopPropagation();"
-                        [ngClass]="{'pmm-button-success': logPeriod === 120 }" value="120"
-                        class="pmm-button pmm-button-sm">5 d</button>
-            </div>
-            |
-            <a href="javascript:void(0);" id="refreshLogLink" title="Refresh log"
-               (click)="refreshAgentLog(); $event.preventDefault(); $event.stopPropagation();">
-                <i class="fa fa-refresh"></i>
-            </a>
-        </span>
+        <section class="center-children highlight-content">
+          (<i>Updated {{ (logUpdatedFromNow$ | async) || 'a few seconds ago' }}</i>)
+          <div class="center-children log-period" role="group" aria-label="Log period" id="update-group">
+            <button type="button" id="logPeriod1h"
+                    (click)="setLogPeriod(1); $event.stopPropagation(); $event.preventDefault();"
+                    [ngClass]="{'button--inside-active': logPeriod === 1 }" value="1"
+                    class="button button--inside">1 h
+            </button>
+            <button type="button" id="logPeriod2h"
+                    (click)="setLogPeriod(2); $event.preventDefault(); $event.stopPropagation();"
+                    [ngClass]="{'button--inside-active': logPeriod === 2 }" value="2"
+                    class="button button--inside">2 h
+            </button>
+            <button type="button" id="logPeriod6h"
+                    (click)="setLogPeriod(6); $event.preventDefault(); $event.stopPropagation();"
+                    [ngClass]="{'button--inside-active': logPeriod === 6 }" value="6"
+                    class="button button--inside">6 h
+            </button>
+            <button href="javascript:void(0);" type="button" id="logPeriod12h"
+                    (click)="setLogPeriod(12); $event.preventDefault(); $event.stopPropagation();"
+                    [ngClass]="{'button--inside-active': logPeriod === 12 }" value="12"
+                    class="button button--inside">12 h
+            </button>
+            <button href="javascript:void(0);" type="button" id="logPeriod1d"
+                    (click)="setLogPeriod(24); $event.preventDefault(); $event.stopPropagation();"
+                    [ngClass]="{'button--inside-active': logPeriod === 24 }" value="24"
+                    class="button button--inside">1 d
+            </button>
+            <button href="javascript:void(0);" type="button" id="logPeriod5d"
+                    (click)="setLogPeriod(120); $event.preventDefault(); $event.stopPropagation();"
+                    [ngClass]="{'button--inside-active': logPeriod === 120 }" value="120"
+                    class="button button--inside">5 d
+            </button>
+          </div>
+          <span id="refreshLogLink" title="Refresh log"
+             (click)="refreshAgentLog(); $event.preventDefault(); $event.stopPropagation();">
+            <i class="fa fa-refresh"></i>
+          </span>
+        </section>
       </header>
     </ng-template>
     <ng-template ngbPanelContent>

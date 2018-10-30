@@ -41,3 +41,11 @@
 .checkbox-wrapper input[type="checkbox"] {
   margin-right: 10px;
 }
+
+.log-period {
+  margin: 0 1rem;
+}
+
+.log-period > *:not(:last-child) {
+  border-right: none;
+}

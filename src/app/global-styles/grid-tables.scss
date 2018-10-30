@@ -27,7 +27,6 @@
   grid-auto-rows: minmax(40px, auto);
 }
 
-
 .grid-table__row {
   display: grid;
   align-items: center;
@@ -105,13 +104,11 @@
   background: var(--row-first-seen);
 }
 
-
 .row__link,
 .row__link:hover {
   display: inline-block;
   color: var(--main-highlight-color);
 }
-
 
 .row__cells {
   justify-content: space-between;
