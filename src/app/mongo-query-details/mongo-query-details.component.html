@@ -14,7 +14,7 @@
         <div class="card-header__content">
           <h5 class="card-header__title">Metrics</h5>
           <span *ngIf="!isSummary" class="first-seen-range">
-            Query first seen: <strong class="first-seen-time" [class.first-seen]="isFirstSeen">{{ firstSeen }}</strong>
+            Query first seen: <strong class="first-seen-time" [class.highlight-content]="isFirstSeen">{{ firstSeen }}</strong>
             Last seen: <strong>{{ lastSeen }}</strong>
           </span>
         </div>
@@ -125,7 +125,7 @@
                   <span *ngIf="!isSummary" class="text-primary">
                     {{ queryDetails?.Metrics2?.Bytes_sent_sum_of_total | humanize : 'percent' }} of total
                   </span>
-                  <span class="text-success" ng-if="queryDetails?.Metrics2?.Bytes_sent_sum_per_rows">
+                  <span class="text-success" *ngIf="queryDetails?.Metrics2?.Bytes_sent_sum_per_rows">
                     {{ queryDetails?.Metrics2?.Bytes_sent_sum_per_rows | humanize : 'size' }} bytes/row
                   </span>
                 </small>

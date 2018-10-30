@@ -112,7 +112,7 @@
 .row__link,
 .row__link:hover {
   display: inline-block;
-  color: var(--link-color);
+  color: var(--main-highlight-color);
 }
 
 
@@ -126,10 +126,6 @@
 
 .row__cells--w-30 {
   width: 30%;
-}
-
-.not-summary-info {
-  color: var(--link-color);
 }
 
 .app-theme-dark .grid-table {

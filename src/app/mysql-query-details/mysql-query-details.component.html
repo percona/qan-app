@@ -14,7 +14,7 @@
         <header class="card-header__content">
           <h5 class="card-header__title">Metrics</h5>
           <span class="card-header__info" *ngIf="!isSummary">
-            Query first seen: <strong class="first-seen-time" [class.first-seen]="isFirstSeen">{{ firstSeen }}</strong>
+            Query first seen: <strong [class.highlight-content]="isFirstSeen">{{ firstSeen }}</strong>
             Last seen: <strong>{{ lastSeen }}</strong>
           </span>
         </header>
@@ -38,7 +38,7 @@
             <div>
               <span>
                 {{ queryDetails?.Metrics2?.Query_count | humanize : 'number' }}
-                <small *ngIf="!isSummary" class="not-summary-info">
+                <small *ngIf="!isSummary" class="highlight-content">
                   {{ queryDetails?.Metrics2?.Query_count_of_total | humanize : 'percent' }} of total
                 </small>
               </span>
@@ -64,7 +64,7 @@
             <div>
               <span>
                 {{ queryDetails?.Metrics2?.Query_time_sum | humanize : 'time' }}
-                <small *ngIf="!isSummary" class=" not-summary-info">
+                <small *ngIf="!isSummary" class=" highlight-content">
                   {{ queryDetails?.Metrics2?.Query_time_sum_of_total | humanize : 'percent' }} of total
                 </small>
               </span>
@@ -93,7 +93,7 @@
                 <span>
                   {{ queryDetails?.Metrics2?.Lock_time_sum | humanize : 'time' }}
                   <small>
-                    <span *ngIf="!isSummary" class="not-summary-info">
+                    <span *ngIf="!isSummary" class="highlight-content">
                       {{ queryDetails?.Metrics2?.Lock_time_sum_of_total | humanize : 'percent'}} of total
                     </span>
                     <span class="text-success">
@@ -159,7 +159,7 @@
               <span>
                 {{ queryDetails?.Metrics2?.InnoDB_IO_r_wait_sum | humanize : 'time' }}
                 <small>
-                  <span *ngIf="!isSummary" class="not-summary-info">
+                  <span *ngIf="!isSummary" class="highlight-content">
                     {{ queryDetails?.Metrics2?.InnoDB_IO_r_wait_sum_of_total | humanize : 'percent' }} of total
                   </span>
                   <span class="text-success">
@@ -188,7 +188,7 @@
               <span>
                 {{ queryDetails?.Metrics2?.InnoDB_queue_wait_sum | humanize : 'time'}}
                 <small>
-                  <span *ngIf="!isSummary" class="not-summary-info">
+                  <span *ngIf="!isSummary" class="highlight-content">
                     {{ queryDetails?.Metrics2?.InnoDB_queue_wait_sum_of_total | humanize : 'percent' }} of total
                   </span>
                   <span class="text-success">
@@ -217,7 +217,7 @@
               <span>
                 {{ queryDetails?.Metrics2?.InnoDB_IO_r_ops_sum | humanize : 'number' }}
                 <small>
-                  <span *ngIf="!isSummary" class="not-summary-info">
+                  <span *ngIf="!isSummary" class="highlight-content">
                     {{ queryDetails?.Metrics2?.InnoDB_IO_r_ops_sum_of_total | humanize : 'percent' }} of total
                   </span>
                 </small>
@@ -242,7 +242,7 @@
             <div>
               <span>{{ queryDetails?.Metrics2?.InnoDB_IO_r_bytes_sum | humanize : 'size' }}
                 <small>
-                  <span *ngIf="!isSummary" class="not-summary-info">
+                  <span *ngIf="!isSummary" class="highlight-content">
                     {{ queryDetails?.Metrics2?.InnoDB_IO_r_bytes_sum_of_total | humanize : 'percent' }} of total
                   </span>
                   <span class="text-success">
@@ -283,7 +283,7 @@
               <span>
                 {{ queryDetails?.Metrics2?.QC_Hit_sum | humanize : 'number' }}
                 <small>
-                  <span *ngIf="!isSummary" class="not-summary-info">
+                  <span *ngIf="!isSummary" class="highlight-content">
                     {{ queryDetails?.Metrics2?.QC_Hit_sum_of_total | humanize : 'percent' }} of total
                   </span>
                   <span class="text-success">
@@ -305,7 +305,7 @@
             <div>
               <span>{{ queryDetails?.Metrics2?.Rows_sent_sum | humanize : 'number' }}
                 <small>
-                  <span *ngIf="!isSummary" class="not-summary-info">
+                  <span *ngIf="!isSummary" class="highlight-content">
                     {{ queryDetails?.Metrics2?.Rows_sent_sum_of_total | humanize : 'percent' }} of total
                   </span>
                 </small>
@@ -330,7 +330,7 @@
               <span>
                 {{ queryDetails?.Metrics2?.Bytes_sent_sum | humanize : 'size' }}
                 <small>
-                  <span *ngIf="!isSummary" class="not-summary-info">
+                  <span *ngIf="!isSummary" class="highlight-content">
                     {{ queryDetails?.Metrics2?.Bytes_sent_sum_of_total | humanize : 'percent' }} of total
                   </span>
                   <span class="text-success" ng-if="queryDetails?.Metrics2?.Bytes_sent_sum_per_rows">
@@ -357,7 +357,7 @@
             <div>
               <span>{{ queryDetails?.Metrics2?.Rows_examined_sum | humanize : 'number' }}
                 <small>
-                  <span *ngIf="!isSummary" class="not-summary-info">
+                  <span *ngIf="!isSummary" class="highlight-content">
                     {{ queryDetails?.Metrics2?.Rows_examined_sum_of_total | humanize : 'percent' }} of total
                   </span>
                   <span class="text-success">
@@ -383,7 +383,7 @@
             </div>
             <div>
               <span>{{ queryDetails?.Metrics2?.Rows_affected_sum | humanize : 'number'}}
-                <small *ngIf="!isSummary" class="not-summary-info">
+                <small *ngIf="!isSummary" class="highlight-content">
                   {{ queryDetails?.Metrics2?.Rows_affected_sum_of_total | humanize : 'percent' }} of total
                 </small>
               </span>
@@ -407,7 +407,7 @@
             <div>
               <span>{{ queryDetails?.Metrics2?.Filesort_sum | humanize : 'number' }}
                 <small>
-                  <span *ngIf="!isSummary" class="not-summary-info">
+                  <span *ngIf="!isSummary" class="highlight-content">
                     {{ queryDetails?.Metrics2?.Filesort_sum_of_total | humanize : 'percent' }} of total
                   </span>
                   <span class="text-success">
@@ -434,7 +434,7 @@
             <div>
               <span>{{ queryDetails?.Metrics2?.Filesort_on_disk_sum | humanize : 'number' }}
                 <small>
-                  <span *ngIf="!isSummary" class="not-summary-info">
+                  <span *ngIf="!isSummary" class="highlight-content">
                     {{ queryDetails?.Metrics2?.Filesort_on_disk_sum_of_total | humanize : 'percent' }} of total
                   </span>
                   <span class="text-success">
@@ -460,7 +460,7 @@
             <div>
               <span>{{ queryDetails?.Metrics2?.Merge_passes_sum | humanize : 'number' }}
                 <small>
-                  <span *ngIf="!isSummary" class="not-summary-info">
+                  <span *ngIf="!isSummary" class="highlight-content">
                     {{ queryDetails?.Metrics2?.Merge_passes_sum_of_total | humanize : 'percent' }} of total
                   </span>
                   <span class="text-success">
@@ -491,7 +491,7 @@
             <div>
               <span>{{ queryDetails?.Metrics2?.Full_join_sum | humanize : 'number' }}
                 <small>
-                  <span *ngIf="!isSummary" class="not-summary-info">
+                  <span *ngIf="!isSummary" class="highlight-content">
                     {{ queryDetails?.Metrics2?.Full_join_sum_of_total | humanize : 'percent' }} of total
                   </span>
                   <span class="text-success">
@@ -516,7 +516,7 @@
               <span>
                 {{ queryDetails?.Metrics2?.Full_scan_sum | humanize : 'number' }}
                 <small>
-                  <span *ngIf="!isSummary" class="not-summary-info">
+                  <span *ngIf="!isSummary" class="highlight-content">
                     {{ queryDetails?.Metrics2?.Full_scan_sum_of_total | humanize : 'percent' }} of total
                   </span>
                   <span class="text-success">
@@ -541,7 +541,7 @@
               <span>
                 {{ queryDetails?.Metrics2?.Tmp_table_sum | humanize : 'number' }}
                 <small>
-                  <span *ngIf="!isSummary" class="not-summary-info">
+                  <span *ngIf="!isSummary" class="highlight-content">
                     {{ queryDetails?.Metrics2?.Tmp_table_sum_of_total | humanize : 'percent' }} of total
                   </span>
                   <span class="text-success">
@@ -566,7 +566,7 @@
               <span>
                 {{ queryDetails?.Metrics2?.Tmp_tables_sum | humanize : 'number' }}
                 <small>
-                  <span *ngIf="!isSummary" class="not-summary-info">
+                  <span *ngIf="!isSummary" class="highlight-content">
                     {{ queryDetails?.Metrics2?.Tmp_tables_sum_of_total | humanize : 'percent' }} of total
                   </span>
                   <span class="text-success">
@@ -597,7 +597,7 @@
               <span>
                 {{ queryDetails?.Metrics2?.Tmp_table_on_disk_sum | humanize : 'number' }}
                 <small>
-                  <span *ngIf="!isSummary" class="not-summary-info">
+                  <span *ngIf="!isSummary" class="highlight-content">
                     {{ queryDetails?.Metrics2?.Tmp_table_on_disk_sum_of_total | humanize : 'percent' }} of total
                   </span>
                   <span class="text-success">
@@ -622,7 +622,7 @@
             <div>
               <span>{{ queryDetails?.Metrics2?.Tmp_disk_tables_sum | humanize : 'number' }}
                 <small>
-                  <span *ngIf="!isSummary" class="not-summary-info">
+                  <span *ngIf="!isSummary" class="highlight-content">
                     {{ queryDetails?.Metrics2?.Tmp_disk_tables_sum_of_total | humanize : 'percent' }} of total
                   </span>
                   <span class="text-success">
@@ -654,7 +654,7 @@
               <span>
                 {{ queryDetails?.Metrics2?.Tmp_table_sizes_sum | humanize : 'size' }}
                 <small>
-                  <span *ngIf="!isSummary" class="not-summary-info">
+                  <span *ngIf="!isSummary" class="highlight-content">
                     {{ queryDetails?.Metrics2?.Tmp_table_sizes_sum_of_total | humanize : 'percent' }} of total
                   </span>
                   <span class="text-success">
