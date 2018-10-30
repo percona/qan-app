@@ -1,22 +1,33 @@
 .card-body__content > * {
+  --row-gap: 1.5rem;
+
   width: 50%;
 }
 
-.settings-form {
+.settings-title {
+  margin-bottom: var(--row-gap);
+  text-align: center;
+}
+
+.settings-content {
   display: grid;
   grid-template-columns: .8fr 1fr;
   grid-template-rows: auto;
-  grid-row-gap: 1.5rem;
+  grid-row-gap: var(--row-gap);
   grid-column-gap: 1rem;
   align-items: baseline;
   word-break: break-word;
 }
 
-.settings-form > *:nth-child(odd) {
+.settings-content > *:nth-child(odd) {
   text-align: right;
 }
 
-.settings-form__button {
+.settings-content + .settings-content {
+  margin-top: var(--row-gap);
+}
+
+.settings-content__button {
   grid-column-start: 2;
   grid-column-end: 3;
 }

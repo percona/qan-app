@@ -68,6 +68,7 @@
   overflow-y: scroll;
   display: flex;
   justify-content: space-between;
+  align-items: flex-start;
   min-height: calc(20px + var(--accordion-inner-indent));
   margin: var(--accordion-inner-indent);
 }

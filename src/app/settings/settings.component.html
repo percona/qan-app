@@ -20,138 +20,78 @@
     </ng-template>
     <ng-template ngbPanelContent>
       <div class="card-body__content">
-          <fieldset>
-            <legend>Slow Log Configuration</legend>
-
-            <div class="form-group row d-flex align-items-center">
-              <label for="inputLongQueryTime" class="col-sm-5 col-form-label">Long query time</label>
-              <div class="col-sm-3 p-0">
-                <p class="form-control-static">{{ agentConf?.qan?.LongQueryTime }}</p>
-              </div>
-              <div class="col-sm-2">
-                <span id="longQueryTimeHelpBlock" class="help-block"><small>second(s)</small></span>
-              </div>
-            </div>
-
-            <div class="form-group row d-flex align-items-center">
-              <label for="inputMaxSlowLogSize" class="col-sm-5 col-form-label">Max slow log size</label>
-              <div class="col-sm-3 p-0">
-                <p class="form-control-static">{{ agentConf?.qan?.MaxSlowLogSize | humanize : 'size' }}</p>
-              </div>
-              <div class="col-sm-2">
-                <span id="maxSlowLogSizeHelpBlock" class="help-block"><small>0 = no max</small></span>
-              </div>
-            </div>
-
-            <div class="form-group row d-flex align-items-center">
-              <label for="SlowLogRotation" class="col-sm-5 col-form-label">Slow logs rotation</label>
-              <div class="col-sm-3 p-0">
-                <p class="form-control-static" id="SlowLogRotation">
-                  {{ agentConf?.qan?.SlowLogRotation ? 'ON' : 'OFF' }}
-                </p>
-              </div>
-            </div>
-
-            <div class="form-group row d-flex align-items-center">
-              <label for="RetainSlowLogs" class="col-sm-5 col-form-label">Slow logs to retain on disk</label>
-              <div class="col-sm-3 p-0">
-                <p class="form-control-static" id="RetainSlowLogs">
-                  {{ agentConf.qan.RetainSlowLogs ? agentConf.qan.RetainSlowLogs : 'N/A' }}
-                </p>
-              </div>
-            </div>
-
-            <!-- Additional settings -->
-            <!--*ngIf="dbServer.Distro.toLowerCase().indexOf('percona') === -1 && dbServer.Version.startsWith('5.5')"-->
-            <div class="alert alert-warning" role="alert">
-              Upgrade to <a href="https://www.percona.com/software/mysql-database/percona-server">Percona Server</a>
-              to enable more options.
-            </div>
-            <!--*ngIf="dbServer.Distro.toLowerCase().indexOf('percona') !== -1 || !dbServer.Version.startsWith('5.5')"-->
+        <form (ngSubmit)="setAgentDefaults()" class="settings-content">
+          <span>DSN:</span>
+          <span>{{ dbServer.DSN.split('/?')[0] }}</span>
+          <span>Version:</span>
+          <span>{{ dbServer.Version }} {{ dbServer.Distro }}</span>
+          <span>Collect interval:</span>
+          <div>
             <div>
-              <div class="form-group row">
-                <label for="inputLogSlowVerbosity" class="col-sm-5 col-form-label">Slow log verbosity</label>
-                <div class="col-sm-3 pl-0">
-                  <p class="form-control-static">{{ agentConf?.qan?.LogSlowVerbosity }}</p>
-                </div>
-              </div>
-
-              <div class="form-group row d-flex align-items-center">
-                <label for="inputLogSlowRateLimit" class="col-sm-5 col-form-label">Rate limit</label>
-                <div class="col-sm-3 pl-0">
-                  <p class="form-control-static">{{ agentConf?.qan?.LogSlowRateLimit }}</p>
-                </div>
-                <div class="col-sm-3">
-                  <span id="rateLimitHelpBlock" class="help-block"><small>0 and 1 = disabled</small></span>
-                </div>
-              </div>
-
-              <div class="form-group row d-flex align-items-center">
-                <label for="LogSlowAdminStatements" class="col-sm-5 col-form-label">Log slow admin statements</label>
-                <div class="col-sm-3 pl-0">
-                  <p class="form-control-static">{{ agentConf?.qan?.LogSlowAdminStatements ? 'ON' : 'OFF' }}</p>
-                </div>
-              </div>
+              <input class="input-field input-field--interval" type="number" min="1" max="60" id="inputInterval" name="interval"
+                     aria-describedby="intervalHelpBlock"
+                     #inputInterval="ngModel"
+                     [(ngModel)]="interval"
+                     [ngModelOptions]="{standalone: true}"
+                     (keyup)="validateValue($event.target.value)"
+                     (paste)="validateValue($event.target.value)"
+                     (blur)="validateValue($event.target.value)">
+              <small>minutes (from 1 to 60)</small>
             </div>
-          </fieldset>
-
-          <form (ngSubmit)="setAgentDefaults()" class="settings-form">
-            <span>DSN:</span>
-            <span>{{ dbServer.DSN.split('/?')[0] }}</span>
-            <span>Version:</span>
-            <span>{{ dbServer.Version }} {{ dbServer.Distro }}</span>
-            <span>Collect interval:</span>
-            <div>
-              <div>
-                <input class="input-field input-field--interval" type="number" min="1" max="60" id="inputInterval" name="interval"
-                       aria-describedby="intervalHelpBlock"
-                       #inputInterval="ngModel"
-                       [(ngModel)]="interval"
-                       [ngModelOptions]="{standalone: true}"
-                       (keyup)="validateValue($event.target.value)"
-                       (paste)="validateValue($event.target.value)"
-                       (blur)="validateValue($event.target.value)">
-                <small>minutes (from 1 to 60)</small>
-              </div>
-              <label class="checkbox-wrapper">
-                <input type="checkbox" [(ngModel)]="exampleQueries" [ngModelOptions]="{standalone: true}"
-                       class="">
-                Send real query examples
-              </label>
-            </div>
-            <span *ngIf="dbServer.Subsystem === 'mysql'">Collect from:</span>
-            <select *ngIf="dbServer.Subsystem === 'mysql'"
-                    [(ngModel)]="collectFrom"
-                    [ngModelOptions]="{standalone: true}"
-                    class="input-field input-field--select"
-                    id="inputSource" name="source">
-              <option *ngFor="let source of [{key: 'slowlog', name: 'Slow log'}, {key: 'perfschema', name: 'Performance Schema'}]"
-                      [value]="source.key">
-                {{ source.name }}
-              </option>
-            </select>
-            <button [class.button--inside-active]="isSuccess || isError" [disabled]="isDemo || interval === ''"
-                    id="settings_apply_button" class="button button--inside settings-form__button"
-                    type="submit">
-              <i class="fa fa-check"></i>
-              Apply
-            </button>
-            <!--Add toast notif-->
-          </form>
-          <!--<section *ngIf="dbServer.Subsystem === 'mysql' && agentConf?.qan?.CollectFrom === 'slowlog'">-->
-            <!--<h3>Slow Log Configuration</h3>-->
-            <!--<div>-->
-              <!--<span>Long query time:</span>-->
-              <!--<span>{{ agentConf?.qan?.LongQueryTime }} <small>second(s)</small></span>-->
-              <!--<span>Max slow log size:</span>-->
-              <!--<span>{{ agentConf?.qan?.MaxSlowLogSize | humanize : 'size' }} <small>0 = no max</small></span>-->
-              <!--<span>Slow logs rotation:</span>-->
-              <!--<span>{{ agentConf?.qan?.SlowLogRotation ? 'ON' : 'OFF' }}</span>-->
-              <!--<span>Slow logs to retain on disk:</span>-->
-              <!--<span>{{ agentConf.qan.RetainSlowLogs ? agentConf.qan.RetainSlowLogs : 'N/A' }}</span>-->
-            <!--</div>-->
-          <!--</section>-->
-        </div>
+            <label class="checkbox-wrapper">
+              <input type="checkbox" [(ngModel)]="exampleQueries" [ngModelOptions]="{standalone: true}"
+                     class="">
+              Send real query examples
+            </label>
+          </div>
+          <span *ngIf="dbServer.Subsystem === 'mysql'">Collect from:</span>
+          <select *ngIf="dbServer.Subsystem === 'mysql'"
+                  [(ngModel)]="collectFrom"
+                  [ngModelOptions]="{standalone: true}"
+                  class="input-field input-field--select"
+                  id="inputSource" name="source">
+            <option *ngFor="let source of [{key: 'slowlog', name: 'Slow log'}, {key: 'perfschema', name: 'Performance Schema'}]"
+                    [value]="source.key">
+              {{ source.name }}
+            </option>
+          </select>
+          <button [class.button--inside-active]="isSuccess || isError" [disabled]="isDemo || interval === ''"
+                  id="settings_apply_button" class="button button--inside settings-content__button"
+                  type="submit">
+            <i class="fa fa-check"></i>
+            Apply
+          </button>
+          <!--todo: Add toast notification-->
+        </form>
+        <section *ngIf="dbServer.Subsystem === 'mysql' && agentConf?.qan?.CollectFrom === 'slowlog'">
+          <h3 class="settings-title">Slow Log Configuration</h3>
+          <div class="settings-content">
+            <span>Long query time:</span>
+            <span>{{ agentConf?.qan?.LongQueryTime }} <small>second(s)</small></span>
+            <span>Max slow log size:</span>
+            <span>{{ agentConf?.qan?.MaxSlowLogSize | humanize : 'size' }} <small>0 = no max</small></span>
+            <span>Slow logs rotation:</span>
+            <span>{{ agentConf?.qan?.SlowLogRotation ? 'ON' : 'OFF' }}</span>
+            <span>Slow logs to retain on disk:</span>
+            <span>{{ agentConf.qan.RetainSlowLogs ? agentConf.qan.RetainSlowLogs : 'N/A' }}</span>
+          </div>
+          <div *ngIf="dbServer.Distro.toLowerCase().indexOf('percona') === -1 && dbServer.Version.startsWith('5.5')"
+               class="alert alert-warning" role="alert">
+            Upgrade to <a href="https://www.percona.com/software/mysql-database/percona-server" target="_blank">
+            Percona Server</a>
+            to enable more options.
+          </div>
+          <div *ngIf="dbServer.Distro.toLowerCase().indexOf('percona') !== -1 || !dbServer.Version.startsWith('5.5')"
+               class="settings-content">
+            <span>Slow log verbosity:</span>
+            <span>{{ agentConf?.qan?.LogSlowVerbosity }}</span>
+            <span>Rate limit:</span>
+            <span>{{ agentConf?.qan?.LogSlowRateLimit }} <small>0 and 1 = disabled</small></span>
+            <span>Log slow admin statements:</span>
+            <span>{{ agentConf?.qan?.LogSlowAdminStatements ? 'ON' : 'OFF' }}</span>
+          </div>
+        </section>
+      </div>
     </ng-template>
   </ngb-panel>
 
