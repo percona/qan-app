@@ -907,11 +907,11 @@
             {{ statusTableError }}
           </div>
           <section *ngIf="!isTableInfoLoading && !statusTableError" class="grid-table grid-table--no-frame">
-            <header class="grid-table__row grid-table__row--status grid-table__row--highlight">
+            <header class="grid-table__row grid-table__row--two-columns grid-table__row--highlight">
               <span>Name</span>
               <span>Value</span>
             </header>
-            <div class="grid-table__row grid-table__row--status" *ngFor="let item of tableInfo?.Status | mapToIterable">
+            <div class="grid-table__row grid-table__row--two-columns" *ngFor="let item of tableInfo?.Status | mapToIterable">
               <span>{{ item.key }}</span>
               <div *ngIf="['AvgRowLength', 'DataLength', 'IndexLength', 'DataFree', 'MaxDataLength'].indexOf(item.key) > -1">
                 {{ item.val | humanize : 'size' }}

@@ -11,7 +11,7 @@
     PMM documentation.
   </a>
 </div>
-<ngb-accordion activeIds="settingsTab" #acSettings="ngbAccordion" *ngIf="!isNotExistSelected && !isAllSelected">
+<ngb-accordion *ngIf="!isNotExistSelected && !isAllSelected" activeIds="settingsTab" #acSettings="ngbAccordion">
   <ngb-panel id="settingsTab">
     <ng-template ngbPanelTitle>
       <header class="card-header__content">
@@ -19,79 +19,8 @@
       </header>
     </ng-template>
     <ng-template ngbPanelContent>
-      <div class="row card-body__content">
-        <div class="col-md-5 offset-md-1">
-            <form>
-              <div class="form-group row d-flex align-items-start">
-                <label class="col-sm-4 col-form-label pt-0 pb-0">DSN</label>
-                <div class="col-sm-8 pl-0 ">
-                  <p class="form-control-static">{{ dbServer.DSN.split('/?')[0] }}</p>
-                </div>
-              </div>
-
-              <div class="form-group row d-flex align-items-center">
-                <label class="col-sm-4 col-form-label">Version</label>
-                <div class="col-sm-8 pl-0">
-                  <p class="form-control-static">{{ dbServer.Version }} {{ dbServer.Distro }}</p>
-                </div>
-              </div>
-
-              <div class="form-group row">
-                <label for="inputInterval" class="col-sm-4 col-form-label">Collect interval</label>
-                <div class="col-sm-2 p-0">
-                  <input class="form-control" type="number" min="1" max="60" id="inputInterval" name="interval"
-                         aria-describedby="intervalHelpBlock"
-                         #inputInterval="ngModel"
-                         [(ngModel)]="interval"
-                         [ngModelOptions]="{standalone: true}"
-                         (keyup)="validateValue($event.target.value)"
-                         (paste)="validateValue($event.target.value)"
-                         (blur)="validateValue($event.target.value)">
-                </div>
-                <div class="col-sm-5">
-                  <span id="intervalHelpBlock" class="form-text"><small>minutes (from 1 to 60)</small></span>
-                </div>
-              </div>
-
-              <div class="form-group row">
-                <div class="offset-sm-4 col-sm-8 pr-0 pl-20">
-                  <label class="form-check-label">
-                    <input type="checkbox" [(ngModel)]="exampleQueries" [ngModelOptions]="{standalone: true}"
-                           class="form-check-input">
-                    Send real query examples
-                  </label>
-                </div>
-              </div>
-
-              <div *ngIf="dbServer.Subsystem === 'mysql'" class="form-group row">
-                <label for="inputSource" class="col-sm-4 col-form-label">Collect from</label>
-                <div class="col-sm-4 p-0">
-                  <select class="form-control" id="inputSource" name="source" [(ngModel)]="collectFrom"
-                          [ngModelOptions]="{standalone: true}">
-                    <option
-                      *ngFor="let source of [{key: 'slowlog', name: 'Slow log'}, {key: 'perfschema', name: 'Performance Schema'}]"
-                      [value]="source.key">
-                      {{ source.name }}
-                    </option>
-                  </select>
-                </div>
-              </div>
-
-              <div class="form-group row">
-                <div class="offset-sm-4 col-sm-8 p-0 button-block">
-                  <button id="settings_apply_button" [class.btn-copied]="isSuccess || isError" [disabled]="isDemo || interval === ''" type="submit" (click)="setAgentDefaults()"
-                          class="pmm-button">
-                    <i class="fa fa-check"></i>Apply
-                  </button>
-                  <p class="success-message text-right w-auto" [class.show]="isSuccess" *ngIf="isSuccess">Your settings have been applied</p>
-                  <p class="error-message text-right" [class.show]="isError" *ngIf="isError">Error message</p>
-                </div>
-              </div>
-
-            </form>
-        </div>
-        <div *ngIf="dbServer.Subsystem === 'mysql'" class="col-md-6">
-          <fieldset *ngIf="agentConf?.qan?.CollectFrom === 'slowlog'">
+      <div class="card-body__content">
+          <fieldset>
             <legend>Slow Log Configuration</legend>
 
             <div class="form-group row d-flex align-items-center">
@@ -133,12 +62,13 @@
             </div>
 
             <!-- Additional settings -->
-            <div *ngIf="dbServer.Distro.toLowerCase().indexOf('percona') === -1 && dbServer.Version.startsWith('5.5')"
-                 class="alert alert-warning" role="alert">
+            <!--*ngIf="dbServer.Distro.toLowerCase().indexOf('percona') === -1 && dbServer.Version.startsWith('5.5')"-->
+            <div class="alert alert-warning" role="alert">
               Upgrade to <a href="https://www.percona.com/software/mysql-database/percona-server">Percona Server</a>
               to enable more options.
             </div>
-            <div *ngIf="dbServer.Distro.toLowerCase().indexOf('percona') !== -1 || !dbServer.Version.startsWith('5.5')">
+            <!--*ngIf="dbServer.Distro.toLowerCase().indexOf('percona') !== -1 || !dbServer.Version.startsWith('5.5')"-->
+            <div>
               <div class="form-group row">
                 <label for="inputLogSlowVerbosity" class="col-sm-5 col-form-label">Slow log verbosity</label>
                 <div class="col-sm-3 pl-0">
@@ -162,29 +92,78 @@
                   <p class="form-control-static">{{ agentConf?.qan?.LogSlowAdminStatements ? 'ON' : 'OFF' }}</p>
                 </div>
               </div>
-
-              <div class="form-group row d-flex align-items-center">
-                <label for="LogSlowSlaveStatements" class="col-sm-5 col-form-label">Log slow slave statements</label>
-                <div class="col-sm-3 pl-0">
-                  <p class="form-control-static">{{ agentConf?.qan?.LogSlowSlaveStatements ? 'ON' : 'OFF' }}</p>
-                </div>
-              </div>
             </div>
           </fieldset>
+
+          <form (ngSubmit)="setAgentDefaults()" class="settings-form">
+            <span>DSN:</span>
+            <span>{{ dbServer.DSN.split('/?')[0] }}</span>
+            <span>Version:</span>
+            <span>{{ dbServer.Version }} {{ dbServer.Distro }}</span>
+            <span>Collect interval:</span>
+            <div>
+              <div>
+                <input class="input-field input-field--interval" type="number" min="1" max="60" id="inputInterval" name="interval"
+                       aria-describedby="intervalHelpBlock"
+                       #inputInterval="ngModel"
+                       [(ngModel)]="interval"
+                       [ngModelOptions]="{standalone: true}"
+                       (keyup)="validateValue($event.target.value)"
+                       (paste)="validateValue($event.target.value)"
+                       (blur)="validateValue($event.target.value)">
+                <small>minutes (from 1 to 60)</small>
+              </div>
+              <label class="checkbox-wrapper">
+                <input type="checkbox" [(ngModel)]="exampleQueries" [ngModelOptions]="{standalone: true}"
+                       class="">
+                Send real query examples
+              </label>
+            </div>
+            <span *ngIf="dbServer.Subsystem === 'mysql'">Collect from:</span>
+            <select *ngIf="dbServer.Subsystem === 'mysql'"
+                    [(ngModel)]="collectFrom"
+                    [ngModelOptions]="{standalone: true}"
+                    class="input-field input-field--select"
+                    id="inputSource" name="source">
+              <option *ngFor="let source of [{key: 'slowlog', name: 'Slow log'}, {key: 'perfschema', name: 'Performance Schema'}]"
+                      [value]="source.key">
+                {{ source.name }}
+              </option>
+            </select>
+            <button [class.button--inside-active]="isSuccess || isError" [disabled]="isDemo || interval === ''"
+                    id="settings_apply_button" class="button button--inside settings-form__button"
+                    type="submit">
+              <i class="fa fa-check"></i>
+              Apply
+            </button>
+            <!--Add toast notif-->
+          </form>
+          <!--<section *ngIf="dbServer.Subsystem === 'mysql' && agentConf?.qan?.CollectFrom === 'slowlog'">-->
+            <!--<h3>Slow Log Configuration</h3>-->
+            <!--<div>-->
+              <!--<span>Long query time:</span>-->
+              <!--<span>{{ agentConf?.qan?.LongQueryTime }} <small>second(s)</small></span>-->
+              <!--<span>Max slow log size:</span>-->
+              <!--<span>{{ agentConf?.qan?.MaxSlowLogSize | humanize : 'size' }} <small>0 = no max</small></span>-->
+              <!--<span>Slow logs rotation:</span>-->
+              <!--<span>{{ agentConf?.qan?.SlowLogRotation ? 'ON' : 'OFF' }}</span>-->
+              <!--<span>Slow logs to retain on disk:</span>-->
+              <!--<span>{{ agentConf.qan.RetainSlowLogs ? agentConf.qan.RetainSlowLogs : 'N/A' }}</span>-->
+            <!--</div>-->
+          <!--</section>-->
         </div>
-      </div>
     </ng-template>
   </ngb-panel>
+
   <ngb-panel id="statusTab">
     <ng-template ngbPanelTitle>
       <header class="card-header__content">
         <h5 class="card-header__title">STATUS</h5>
-        <span class="accordion-head-second">
+        <span class="highlight-content">
           (<i>Updated {{ (statusUpdatedFromNow$ | async) || 'a few seconds ago' }}</i>) |
-          <a href="javascript:void(0);" id="refreshStatusLink" title="Refresh status"
-             (click)="getAgentStatus(); $event.stopPropagation();">
-            <i class="fa fa-refresh"></i>
-          </a>
+            <span (click)="getAgentStatus()"
+                  class="fa fa-refresh" id="refreshStatusLink" title="Refresh status">
+            </span>
         </span>
       </header>
     </ng-template>
@@ -242,7 +221,8 @@
       </header>
     </ng-template>
     <ng-template ngbPanelContent>
-      <section *ngIf="agentLog | async as aLog; else loading" class="grid-table grid-table--auto-row-height grid-table--no-frame" id="logTable">
+      <section *ngIf="agentLog | async as aLog; else loading" class="grid-table grid-table--auto-row-height grid-table--no-frame"
+               id="logTable">
         <header class="grid-table__row grid-table__row--log grid-table__row--highlight">
           <span>Timestamp</span>
           <span>Service</span>

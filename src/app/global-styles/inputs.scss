@@ -18,6 +18,20 @@
   outline: none;
 }
 
+.input-field--interval,
+.input-field--select {
+  height: 40px;
+  padding: var(--default-left-right-indent);
+}
+
+.input-field--interval {
+  width: 80px;
+}
+
+.input-field--select {
+  width: 200px;
+}
+
 .configuration-form {
   --input-width: 370px;
   --input-width-smal: 300px;
