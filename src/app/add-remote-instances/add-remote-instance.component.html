@@ -16,6 +16,7 @@
                        [(ngModel)]="remoteInstanceCredentials.address"
                        #hostname="ngModel"
                        [class.custom-form-input--not-valid]="hostname?.errors && isSubmitted"
+                       id="hostname"
                        required>
               </div>
               <div class="app-tooltip-wrapper">
@@ -32,6 +33,7 @@
                 <input type="text" class="custom-form-input form-control" placeholder="Name (default: Hostname)"
                        name="Name"
                        [(ngModel)]="remoteInstanceCredentials.name"
+                       id="name"
                        #name="ngModel">
               </div>
               <div class="app-tooltip-wrapper">
@@ -49,6 +51,7 @@
                        [placeholder] = "this.instanceType === 'PostgreSQL' ? 'Port (default: 5432)' : '(default: 3306)'"
                        name="Port"
                        [(ngModel)]="remoteInstanceCredentials.port"
+                       id="port"
                        #port="ngModel">
               </div>
               <div class="app-tooltip-wrapper">
@@ -67,6 +70,7 @@
                        [(ngModel)]="remoteInstanceCredentials.username"
                        #username="ngModel"
                        [class.custom-form-input--not-valid]="username?.errors && isSubmitted"
+                       id="username"
                        required>
               </div>
               <div class="app-tooltip-wrapper">
@@ -85,6 +89,7 @@
                        [(ngModel)]="remoteInstanceCredentials.password"
                        #password="ngModel"
                        [class.custom-form-input--not-valid]="password?.errors && isSubmitted"
+                       id="password"
                        required>
               </div>
               <div class="app-tooltip-wrapper">
@@ -97,7 +102,7 @@
 
           <div class="row">
             <div class="col-12 d-flex align-items-center">
-              <button type="submit" [disabled]="isDemo" class="not-checked-button">Add instance</button>
+              <button type="submit" [disabled]="isDemo" class="not-checked-button" id="addInstance">Add instance</button>
               <div *ngIf="errorMessage && isSubmitted && addInstanceForm.valid">*{{ errorMessage }}</div>
               <div *ngIf="isSubmitted && !addInstanceForm.valid">Fields marked with an asterisk (*) are required</div>
               <div *ngIf="isLoading">
