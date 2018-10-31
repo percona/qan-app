@@ -1,6 +1,6 @@
-import { Component, OnInit } from '@angular/core';
-import { RDSCredentials, MySQLCredentials, RDSInstance, RDSNode, AddAwsService } from './add-aws.service'
-import { environment } from '../environment';
+import {Component, OnInit} from '@angular/core';
+import {AddAwsService, MySQLCredentials, RDSCredentials, RDSInstance, RDSNode} from './add-aws.service'
+import {environment} from '../environment';
 
 @Component({
   selector: 'app-add-aws',
@@ -19,9 +19,46 @@ export class AddAwsComponent implements OnInit {
   errorMessage: string;
   isDemo = false;
   submitted = false;
+  isChecked: boolean;
 
   constructor(public addAwsService: AddAwsService) {
     this.isDemo = environment.demoHosts.includes(location.hostname);
+  }
+
+  async ngOnInit() {
+    this.errorMessage = '';
+    try {
+      const allRDSInstances = await this.addAwsService.discover(this.rdsCredentials);
+      if (this.submitted) { // ignore results if user submitted form with creds.
+        return;
+      }
+      await this.getRegistered();
+      this.allRDSInstances = allRDSInstances;
+      this.errorMessage = '';
+
+    } catch (err) {
+      if (this.submitted) { // ignore results if user submitted form with creds.
+        return;
+      }
+      let msg = err.json().error;
+      if (msg.startsWith('NoCredentialProviders')) {
+        msg = 'Cannot automatically discover instances - please provide AWS access credentials';
+      }
+      this.errorMessage = msg;
+    }
+  }
+
+  onCheckboxChange(event, isChecked, node, instance) {
+    console.log('isChecked - ', isChecked);
+    console.log('event - ', event);
+    const isEnable = this.isEnabled(instance);
+    console.log('event.target.checked - ', event.target.checked);
+    if (isEnable) {
+      this.disableInstanceMonitoring(node)
+    } else {
+      this.enableInstanceMonitoring(node);
+    }
+    // return event.target.checked ? this.enableInstanceMonitoring(node) : this.disableInstanceMonitoring(node);
   }
 
   async onSubmit() {
@@ -88,7 +125,8 @@ export class AddAwsComponent implements OnInit {
   }
 
   isEnabled(rdsInstance: RDSInstance): boolean {
-    return this.registeredNames.indexOf(rdsInstance.node.name + ':' + rdsInstance.node.region) > -1;
+    this.isChecked = this.registeredNames.indexOf(rdsInstance.node.name + ':' + rdsInstance.node.region) > -1;
+    return this.isChecked;
   }
 
   async getRegistered() {
@@ -103,29 +141,6 @@ export class AddAwsComponent implements OnInit {
       this.registeredRDSInstances.forEach(element => {
         this.registeredNames.push(element.node.name + ':' + element.node.region);
       });
-    }
-  }
-
-  async ngOnInit() {
-    this.errorMessage = '';
-    try {
-      const allRDSInstances = await this.addAwsService.discover(this.rdsCredentials);
-      if (this.submitted) { // ignore results if user submitted form with creds.
-        return;
-      }
-      await this.getRegistered();
-      this.allRDSInstances = allRDSInstances;
-      this.errorMessage = '';
-
-    } catch (err) {
-      if (this.submitted) { // ignore results if user submitted form with creds.
-        return;
-      }
-      let msg = err.json().error;
-      if (msg.startsWith('NoCredentialProviders')) {
-        msg = 'Cannot automatically discover instances - please provide AWS access credentials';
-      }
-      this.errorMessage = msg;
     }
   }
 }

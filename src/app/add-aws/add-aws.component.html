@@ -1,8 +1,6 @@
-<div class="container">
-  <div class="row justify-content-md-center">
-    <h3>AWS Credentials</h3>
-  </div>
-  <form (ngSubmit)="onSubmit()" class="center-children credentials">
+<section class="content-wrapper">
+  <h3 class="content-wrapper__title">AWS Credentials</h3>
+  <form (ngSubmit)="onSubmit()" class="center-children content-wrapper__credentials">
     <input [(ngModel)]="rdsCredentials.aws_access_key_id"
            name="aws_access_key_id" type="text"
            class="input-field"
@@ -15,63 +13,63 @@
            placeholder="AWS_SECRET_ACCESS_KEY">
     <button type="submit" class="button button--dark">Discover</button>
   </form>
-  <div class="row justify-content-end">
-    <a href="https://www.percona.com/doc/percona-monitoring-and-management/amazon-rds.html#pmm-amazon-rds-permission-access-db-instance-iam-user-creating"
-       target="_blank">
-      Where do I get the security credentials for my Amazon RDS DB instance?
-    </a>
+  <a class="content-wrapper__link highlight-content"
+     href="https://www.percona.com/doc/percona-monitoring-and-management/amazon-rds.html#pmm-amazon-rds-permission-access-db-instance-iam-user-creating"
+     target="_blank">
+    Where do I get the security credentials for my Amazon RDS DB instance?
+  </a>
+  <div *ngIf="isLoading && !allRDSInstances?.length" class="center-children">
+    <i class="fa fa-spinner fa-pulse fa-3x fa-fw"></i>
   </div>
-  <div class="row justify-content-md-center" *ngIf="isLoading && !allRDSInstances?.length">
-    <div>
-      <i class="fa fa-spinner fa-pulse fa-3x fa-fw loading"></i>
-    </div>
+
+  <div *ngIf="errorMessage" class="alert alert-warning w-75 mx-auto m-2" role="alert">
+    <i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
+    {{ errorMessage }}
   </div>
-  <div class="row justify-content-md-center" *ngIf="allRDSInstances?.length">
+  <section *ngIf="allRDSInstances?.length" class="content-wrapper__rds-instances">
     <h3>RDS Instances</h3>
-  </div>
-</div>
-
-<div *ngIf="errorMessage" class="alert alert-warning w-75 mx-auto m-2" role="alert">
-  <i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
-  {{ errorMessage }}
-</div>
-
-<form *ngIf="allRDSInstances?.length" (ngSubmit)="onConnect()">
-  <section class="grid-table">
-    <header class="grid-table__row grid-table__row--instances">
-      <span>Name</span>
-      <span>Region</span>
-      <span>Endpoint</span>
-      <span>Engine</span>
-      <span>Enabled</span>
-    </header>
-    <ng-template ngFor let-instance [ngForOf]="allRDSInstances" let-i="index" let-odd="odd">
-      <div [ngClass]="{'active': showConnect(instance.node)}" class="grid-table__row grid-table__row--instances">
-        <span>{{ instance.node.name }}</span>
-        <span>{{ instance.node.region }}</span>
-        <span>{{ instance.service.address }}:{{ instance.service.port }}</span>
-        <span>{{ instance.service.engine }} v{{ instance.service.engine_version }}</span>
-        <div>
-          <a *ngIf="isEnabled(instance)" href="javascript:void(0)" title="Enabled" (click)="disableInstanceMonitoring(instance.node);">
-            <i class="fa fa-toggle-on fa-lg" aria-hidden="true"></i>
-          </a>
-          <a *ngIf="!isEnabled(instance)" href="javascript:void(0)" title="Disabled" (click)="enableInstanceMonitoring(instance.node);">
-            <i class="fa fa-toggle-off fa-lg" aria-hidden="true"></i>
-          </a>
-        </div>
-      </div>
-      <div *ngIf="showConnect(instance.node)" class="grid-table__row grid-table__row--connect-instances">
-        <div>
-          <input type="text" [(ngModel)]="mysqlCredentials.username" name="username" class="input-field" placeholder="MySQL username">
-        </div>
-        <div>
-          <input type="password" [(ngModel)]="mysqlCredentials.password" name="password" class="input-field" placeholder="MySQL Password">
-        </div>
-        <div>
-          <button type="submit" [disabled]="isDemo" class="button button--dark">Connect</button>
-          <button type="cancel" (click)="cancel()" class="button button--dark">Cancel</button>
-        </div>
-      </div>
-    </ng-template>
+    <form (ngSubmit)="onConnect()">
+      <section class="grid-table">
+        <header class="grid-table__row grid-table__row--instances">
+          <span>Name</span>
+          <span>Region</span>
+          <span>Endpoint</span>
+          <span>Engine</span>
+          <span>Enabled</span>
+        </header>
+        <ng-template ngFor let-instance [ngForOf]="allRDSInstances" let-i="index" let-odd="odd">
+          <div [ngClass]="{'active': showConnect(instance.node)}" class="grid-table__row grid-table__row--instances">
+            <span>{{ instance.node.name }}</span>
+            <span>{{ instance.node.region }}</span>
+            <span>{{ instance.service.address }}:{{ instance.service.port }}</span>
+            <span>{{ instance.service.engine }} v{{ instance.service.engine_version }}</span>
+            <div>
+              <label class="switcher">
+                <input type="checkbox"
+                       class="switcher__checkbox"
+                       [checked]="isChecked"
+                       (click)="$event.preventDefault(); onCheckboxChange($event, isChecked, instance.node, instance);">
+                <span class="switcher__slider">
+                </span>
+              </label>
+            </div>
+          </div>
+          <div *ngIf="showConnect(instance.node)" class="grid-table__row grid-table__row--connect-instances">
+            <div>
+              <input type="text" [(ngModel)]="mysqlCredentials.username"
+                     name="username" class="input-field" placeholder="MySQL username">
+            </div>
+            <div>
+              <input type="password" [(ngModel)]="mysqlCredentials.password"
+                     name="password" class="input-field" placeholder="MySQL Password">
+            </div>
+            <div>
+              <button type="submit" [disabled]="isDemo" class="button button--dark">Connect</button>
+              <button type="cancel" (click)="cancel()" class="button button--dark">Cancel</button>
+            </div>
+          </div>
+        </ng-template>
+      </section>
+    </form>
   </section>
-</form>
+</section>
