@@ -16,6 +16,9 @@ export class AddAwsComponent implements OnInit {
   registeredRDSInstances: RDSInstance[] = [];
   registeredNames: string[] = [];
   isLoading: boolean;
+  isConnectLoading: boolean;
+  isDisabling: boolean;
+  currentInputId: string;
   errorMessage: string;
   isDemo = false;
   submitted = false;
@@ -47,8 +50,9 @@ export class AddAwsComponent implements OnInit {
     }
   }
 
-  onCheckboxChange(node, instance) {
+  onCheckboxChange(node, instance, input) {
     const isEnable = this.isEnabled(instance);
+    this.currentInputId = input.id;
     return isEnable ? this.disableInstanceMonitoring(node) : this.enableInstanceMonitoring(node);
   }
 
@@ -88,14 +92,17 @@ export class AddAwsComponent implements OnInit {
 
   async onConnect() {
     this.errorMessage = '';
+    this.isConnectLoading = true;
     try {
       const res = await this.addAwsService.enable(this.rdsCredentials, this.rdsNode, this.mysqlCredentials);
     } catch (err) {
+      this.isConnectLoading = false;
       this.errorMessage = err.json().error;
       return;
     }
     this.rdsNode = {} as RDSNode;
     this.cancel();
+    this.isConnectLoading = false;
     await this.getRegistered();
   }
 
@@ -104,6 +111,7 @@ export class AddAwsComponent implements OnInit {
       return false;
     }
     this.errorMessage = '';
+    this.isDisabling = true;
     const text = `Are you sure want to disable monitoring of '${node.name}:${node.region}' node?`;
     if (confirm(text)) {
       try {
@@ -113,6 +121,7 @@ export class AddAwsComponent implements OnInit {
         this.errorMessage = err.json().error;
       }
     }
+    this.isDisabling = false;
   }
 
   isEnabled(rdsInstance: RDSInstance): boolean {

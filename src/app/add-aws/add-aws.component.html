@@ -48,10 +48,14 @@
                 <input type="checkbox"
                        class="switcher__checkbox"
                        [checked]="isEnabled(instance)"
-                       (click)="$event.preventDefault(); onCheckboxChange(instance.node, instance);">
+                       (click)="$event.preventDefault(); !isConnectLoading && onCheckboxChange(instance.node, instance, currentInput);"
+                       id="{{i}}" #currentInput>
                 <span class="switcher__slider">
                 </span>
               </label>
+              <div *ngIf="isDisabling && currentInputId === currentInput.id" class="center-children">
+                <i class="fa fa-spinner fa-one-half fa-pulse fa-fw"></i>
+              </div>
             </div>
           </div>
           <div *ngIf="showConnect(instance.node)" class="grid-table__row grid-table__row--connect-instances">
@@ -65,7 +69,10 @@
             </div>
             <div>
               <button type="submit" [disabled]="isDemo" class="button button--dark">Connect</button>
-              <button type="cancel" (click)="cancel()" class="button button--dark">Cancel</button>
+              <button type="reset" (click)="cancel()" class="button button--dark">Cancel</button>
+              <div *ngIf="isConnectLoading" class="center-children">
+                <i class="fa fa-spinner fa-pulse fa-2x fa-fw"></i>
+              </div>
             </div>
           </div>
         </ng-template>
