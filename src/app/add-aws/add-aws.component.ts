@@ -19,7 +19,6 @@ export class AddAwsComponent implements OnInit {
   errorMessage: string;
   isDemo = false;
   submitted = false;
-  isChecked: boolean;
 
   constructor(public addAwsService: AddAwsService) {
     this.isDemo = environment.demoHosts.includes(location.hostname);
@@ -48,17 +47,9 @@ export class AddAwsComponent implements OnInit {
     }
   }
 
-  onCheckboxChange(event, isChecked, node, instance) {
-    console.log('isChecked - ', isChecked);
-    console.log('event - ', event);
+  onCheckboxChange(node, instance) {
     const isEnable = this.isEnabled(instance);
-    console.log('event.target.checked - ', event.target.checked);
-    if (isEnable) {
-      this.disableInstanceMonitoring(node)
-    } else {
-      this.enableInstanceMonitoring(node);
-    }
-    // return event.target.checked ? this.enableInstanceMonitoring(node) : this.disableInstanceMonitoring(node);
+    return isEnable ? this.disableInstanceMonitoring(node) : this.enableInstanceMonitoring(node);
   }
 
   async onSubmit() {
@@ -125,8 +116,7 @@ export class AddAwsComponent implements OnInit {
   }
 
   isEnabled(rdsInstance: RDSInstance): boolean {
-    this.isChecked = this.registeredNames.indexOf(rdsInstance.node.name + ':' + rdsInstance.node.region) > -1;
-    return this.isChecked;
+    return this.registeredNames.indexOf(rdsInstance.node.name + ':' + rdsInstance.node.region) > -1;
   }
 
   async getRegistered() {
