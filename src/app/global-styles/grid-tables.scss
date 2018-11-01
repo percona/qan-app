@@ -74,16 +74,16 @@
 }
 
 .grid-table__row--log {
-  grid-template-columns: 3fr 2.5fr minmax(80px,1fr) 7fr;
+  grid-template-columns: 3fr 2.5fr minmax(80px, 1fr) 7fr;
 }
 
 //AWS Credentials
 .grid-table__row--instances {
-  grid-template-columns: 1.5fr 1fr 6fr 2fr 1fr;
+  grid-template-columns: 1.5fr 1fr 6fr 2fr .85fr;
 }
 
 .grid-table__row--connect-instances {
-  grid-template-columns: 2.5fr 6fr 3fr;
+  grid-template-columns: 2.5fr 6fr 2.85fr;
 }
 
 .grid-table__row--connect-instances > * {
@@ -123,8 +123,8 @@
 }
 
 .app-theme-dark .grid-table {
-  --row-active: rgb(35,70,130);
-  --row-first-seen: rgb(13,35,59);
+  --row-active: rgb(35, 70, 130);
+  --row-first-seen: rgb(13, 35, 59);
 }
 
 // Rewrite when `display: contents` will have good browser support https://caniuse.com/#search=display%3Acontents

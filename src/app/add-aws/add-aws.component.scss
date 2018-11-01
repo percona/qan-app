@@ -62,7 +62,7 @@
   --poiner-size: calc((var(--switcher-width) / 2));
 
   top: -1px;
-  left: 0;
+  left: -1px;
   width: var(--poiner-size);
   height: var(--poiner-size);
 
@@ -77,5 +77,6 @@
 }
 
 .switcher__checkbox:checked + .switcher__slider:before {
+  left: -2px;
   background-color: var(--page-background);
 }

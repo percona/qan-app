@@ -47,7 +47,7 @@
               <label class="switcher">
                 <input type="checkbox"
                        class="switcher__checkbox"
-                       [checked]="isChecked"
+                       [checked]="isEnabled(instance)"
                        (click)="$event.preventDefault(); onCheckboxChange($event, isChecked, instance.node, instance);">
                 <span class="switcher__slider">
                 </span>
