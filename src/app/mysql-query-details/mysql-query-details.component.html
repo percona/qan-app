@@ -13,7 +13,7 @@
       <ng-template ngbPanelTitle>
         <header class="card-header__content">
           <h5 class="card-header__title">Metrics</h5>
-          <span class="card-header__info" *ngIf="!isSummary">
+          <span *ngIf="!isSummary" class="card-header__info">
             Query first seen: <strong [class.highlight-content]="isFirstSeen">{{ firstSeen }}</strong>
             Last seen: <strong>{{ lastSeen }}</strong>
           </span>
@@ -31,7 +31,7 @@
             <span>Query Count</span>
             <div class="row__cells">
               <span class="unit unit--per-sec">{{ queryDetails?.Metrics2?.Query_count_per_sec | humanize : 'number' }}</span>
-              <div class="scaling-svg-container app-tooltip" [appLoadSparklines]="queryDetails?.Sparks2"
+              <div [appLoadSparklines]="queryDetails?.Sparks2"class="scaling-svg-container app-tooltip"
                    data-tooltip="Loading..." xkey="Ts" ykey="Query_count_per_sec" measurement="number">
               </div>
             </div>
@@ -675,9 +675,10 @@
     </ngb-panel>
   </ngb-accordion>
 </section>
+
 <!--- additional info for query only-->
-<div class="sections-wrapper" *ngIf="!isSummary">
-  <section class="query" *ngIf="!!fingerprint || !!queryExample">
+<div *ngIf="!isSummary">
+  <section *ngIf="!!fingerprint || !!queryExample">
     <header class="configuration-panel">
       <h3 class="configuration-panel__title">QUERY</h3>
     </header>
@@ -689,7 +690,7 @@
           </header>
         </ng-template>
         <ng-template ngbPanelContent>
-          <i *ngIf="isLoading" class="fa fa-spinner fa-pulse fa-3x fa-fw loading"></i>
+          <span *ngIf="isLoading" class="fa fa-spinner fa-pulse fa-3x fa-fw loading"></span>
           <div class="card-body__content" *ngIf="!isLoading">
             <pre class="content__text"><code [innerHTML]="fingerprint"></code></pre>
             <button class="button button--inside button--fixed button--copy"
@@ -697,27 +698,29 @@
                     ngxClipboard
                     [cbContent]="queryDetails.Query.Fingerprint"
                     (cbOnSuccess)="showSuccessNotification('fingerprint')"
-                    [class.button--inside-active]="isCopied.fingerprint">Copy to clipboard
+                    [class.button--inside-active]="isCopied.fingerprint">
+              Copy to clipboard
             </button>
           </div>
         </ng-template>
       </ngb-panel>
-      <ngb-panel *ngIf="!!queryExample" class="query-example query-panel" id="query-example">
-        <ng-template ngbPanelTitle class="ngb-panel-title">
+      <ngb-panel *ngIf="!!queryExample" id="query-example">
+        <ng-template ngbPanelTitle>
           <header class="card-header__content">
             <h5 class="card-header__title">Example</h5>
           </header>
         </ng-template>
         <ng-template ngbPanelContent>
-          <i *ngIf="isLoading" class="fa fa-spinner fa-pulse fa-3x fa-fw loading"></i>
-          <div class="card-body__content" *ngIf="!isLoading">
+          <span *ngIf="isLoading" class="fa fa-spinner fa-pulse fa-3x fa-fw loading"></span>
+          <div *ngIf="!isLoading" class="card-body__content" >
             <pre class="content__text"><code [innerHTML]="queryExample"></code></pre>
             <button class="button button--inside button--fixed button--copy"
                     id="copyQueryExample"
                     ngxClipboard
                     [cbContent]="queryDetails.Example.Query"
                     (cbOnSuccess)="showSuccessNotification('example')"
-                    [class.button--inside-active]="isCopied.example">Copy to clipboard
+                    [class.button--inside-active]="isCopied.example">
+              Copy to clipboard
             </button>
           </div>
         </ng-template>
@@ -739,7 +742,7 @@
       </form>
     </header>
 
-    <ngb-accordion [activeIds]="accordionIds.explainSection" class="accordion-inner-table">
+    <ngb-accordion [activeIds]="accordionIds.explainSection">
       <ngb-panel id="classic-explain">
         <ng-template ngbPanelTitle>
           <header class="card-header__content">
@@ -786,7 +789,7 @@
         </ng-template>
       </ngb-panel>
 
-      <ngb-panel id="json-explain" *ngIf="!!explainJson || !!explainError">
+      <ngb-panel *ngIf="!!explainJson || !!explainError" id="json-explain" >
         <ng-template ngbPanelTitle>
           <header class="card-header__content">
             <h5 class="card-header__title">JSON</h5>
@@ -806,20 +809,20 @@
             </button>
           </div>
           <div *ngIf="!isExplainLoading && explainError" class="alert alert-warning w-75 mx-auto m-2" role="alert">
-            <i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
+            <span class="fa fa-exclamation-triangle" aria-hidden="true"></span>
             {{ explainError }}
           </div>
         </ng-template>
       </ngb-panel>
 
-      <ngb-panel id="visual-explain" *ngIf="!!explainVisual || !!explainError">
+      <ngb-panel *ngIf="!!explainVisual || !!explainError" id="visual-explain">
         <ng-template ngbPanelTitle>
           <header class="card-header__content">
             <h5 class="card-header__title">VISUAL</h5>
           </header>
         </ng-template>
         <ng-template ngbPanelContent>
-          <i *ngIf="isExplainLoading" class="fa fa-spinner fa-pulse fa-3x fa-fw loading"></i>
+          <span *ngIf="isExplainLoading" class="fa fa-spinner fa-pulse fa-3x fa-fw loading"></span>
           <div *ngIf="!isExplainLoading && !explainError" class="card-body__content">
             <pre class="content__text">{{ explainVisual }}</pre>
             <button class="button button--inside button--fixed button--copy"
@@ -874,12 +877,12 @@
           </header>
         </ng-template>
         <ng-template ngbPanelContent>
-          <i *ngIf="isTableInfoLoading" class="fa fa-spinner fa-pulse fa-3x fa-fw loading"></i>
+          <span *ngIf="isTableInfoLoading" class="fa fa-spinner fa-pulse fa-3x fa-fw loading"></span>
           <div *ngIf="!isTableInfoLoading && createTableError" class="alert alert-warning w-75 mx-auto m-2" role="alert">
             <i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
             {{ createTableError }}
           </div>
-          <div class="card-body__content" *ngIf="!isTableInfoLoading && !createTableError">
+          <div *ngIf="!isTableInfoLoading && !createTableError" class="card-body__content" >
             <pre class="content__text"><code [innerHTML]="createTable"></code></pre>
             <button class="button button--inside button--fixed button--copy"
                     id="copyCreateTable"
@@ -893,17 +896,16 @@
         </ng-template>
       </ngb-panel>
 
-      <ngb-panel id="table-status" class="accordion-inner-table" *ngIf="!!statusTable || !!statusTableError">
+      <ngb-panel *ngIf="!!statusTable || !!statusTableError" id="table-status">
         <ng-template ngbPanelTitle>
           <header class="card-header__content">
             <h5 class="card-header__title">STATUS</h5>
           </header>
         </ng-template>
-        <ng-template ngbPanelContent class="accordion-inner-table">
-          <i *ngIf="isTableInfoLoading" class="fa fa-spinner fa-pulse fa-3x fa-fw loading"></i>
-          <div *ngIf="!isTableInfoLoading && !!statusTableError" class="alert alert-warning w-75 mx-auto m-2"
-               role="alert">
-            <i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
+        <ng-template ngbPanelContent>
+          <span *ngIf="isTableInfoLoading" class="fa fa-spinner fa-pulse fa-3x fa-fw loading"></span>
+          <div *ngIf="!isTableInfoLoading && !!statusTableError" class="alert alert-warning w-75 mx-auto m-2" role="alert">
+            <span class="fa fa-exclamation-triangle" aria-hidden="true"></span>
             {{ statusTableError }}
           </div>
           <section *ngIf="!isTableInfoLoading && !statusTableError" class="grid-table grid-table--no-frame">
@@ -928,21 +930,21 @@
         </ng-template>
       </ngb-panel>
 
-      <ngb-panel id="table-indexes" *ngIf="!!indexTable || !!indexTableError">
+      <ngb-panel *ngIf="!!indexTable || !!indexTableError" id="table-indexes" >
         <ng-template ngbPanelTitle>
           <header class="card-header__content">
             <h5 class="card-header__title">INDEXES</h5>
           </header>
         </ng-template>
-        <ng-template ngbPanelContent class="accordion-inner-table">
-          <i *ngIf="isTableInfoLoading" class="fa fa-spinner fa-pulse fa-3x fa-fw loading table-spinner"></i>
+        <ng-template ngbPanelContent>
+          <span *ngIf="isTableInfoLoading" class="fa fa-spinner fa-pulse fa-3x fa-fw loading table-spinner"></span>
           <div *ngIf="!isTableInfoLoading && !!indexTableError"
                class="alert alert-warning w-75 mx-auto m-2 index-table-error"
                role="alert">
             <i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
             {{ indexTableError }}
           </div>
-          <section class="grid-table grid-table--parent grid-table--no-frame" *ngIf="!isTableInfoLoading && !indexTableError">
+          <section *ngIf="!isTableInfoLoading && !indexTableError"  class="grid-table grid-table--parent grid-table--no-frame">
             <header class="grid-table__row grid-table__row--indexes grid-table__row--highlight">
               <span>KeyName</span>
               <span>Type</span>
@@ -954,7 +956,7 @@
               <span>Null</span>
               <span>Comment</span>
             </header>
-            <div class="grid-table grid-table--no-frame" *ngFor="let ind of tableInfo?.Index | mapToIterable">
+            <div *ngFor="let ind of tableInfo?.Index | mapToIterable" class="grid-table grid-table--no-frame">
               <div *ngFor="let row of ind.val; let isFirst = first" class="grid-table__row grid-table__row--indexes">
                 <div>
                   <span *ngIf="isFirst">{{ row.KeyName }}</span>

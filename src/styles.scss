@@ -80,37 +80,6 @@ footer {
   cursor: pointer;
 }
 
-.logo-img-mobile {
-  display: block;
-  position: absolute;
-  width: 105px;
-  height: 32px;
-  background-size: 100px;
-  background: url(assets/footer-logo.png) no-repeat;
-}
-
-.logo-text-mobile {
-  font-size: 7pt;
-  position: absolute;
-  bottom: 0;
-  left: 35px;
-}
-
-.logo-img {
-  display: block;
-  width: 105px;
-  height: 32px;
-  background-size: 100px;
-  background: url(assets/footer-logo.png) no-repeat;
-}
-
-.logo-text {
-  font-size: 7pt;
-  position: absolute;
-  bottom: 14px;
-  left: 50px;
-}
-
 //??????????
 .query_link:hover {
   position: fixed;
@@ -122,16 +91,6 @@ footer {
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-}
-
-//??????????
-.padding-free {
-  padding: 0;
-}
-
-//??????????
-div.magrin-def-tl {
-  margin: 15px;
 }
 
 div[hljs] > pre {
@@ -160,28 +119,6 @@ div[hljs] > pre {
 //??????????
 div.popover {
   max-width: 600px;
-}
-
-//??????????
-.text-bigger {
-  font-size: 15px;
-}
-
-fieldset {
-  border: 1px solid #eee;
-  padding: 4px;
-  margin: 5px;
-  -webkit-border-radius: 4px;
-  -moz-border-radius: 4px;
-  border-radius: 4px;
-}
-
-legend {
-  width: initial; /* Or auto */
-  padding: 0 10px; /* To give a bit of padding on the left and right */
-  border-bottom: none;
-  color: grey;
-  font-size: 14px;
 }
 
 //???????????
@@ -408,6 +345,7 @@ div.app-tooltip:hover::before {
   display: inline-block;
 }
 
+// ????????
 .loading {
   position: relative;
   top: 50%;
@@ -417,18 +355,11 @@ div.app-tooltip:hover::before {
   margin: 10px;
 }
 
+// ????????
 .loading-in-front {
   //@extend .loading;
   //position: absolute;
   font-size: 40px;
-}
-
-.loading-on-switch {
-  margin: 0 auto;
-}
-
-.loader-wrapper {
-  display: flex;
 }
 
 .smart-query-abstract {
@@ -442,15 +373,6 @@ div.app-tooltip:hover::before {
 
 .smart-latency-time {
   width: 3em;
-}
-
-.hosts-list-menu {
-  margin: 0;
-  padding: 0;
-  min-width: 600px;
-  max-width: 900px;
-  max-height: 70vh;
-  overflow: scroll;
 }
 
 @media print {

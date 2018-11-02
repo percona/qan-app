@@ -166,8 +166,7 @@
       </header>
     </ng-template>
     <ng-template ngbPanelContent>
-      <section *ngIf="agentLog | async as aLog; else loading" class="grid-table  grid-table--no-frame"
-               id="logTable">
+      <section *ngIf="agentLog | async as aLog; else loading" class="grid-table  grid-table--no-frame" id="logTable">
         <header class="grid-table__row grid-table__row--log grid-table__row--highlight">
           <span>Timestamp</span>
           <span>Service</span>

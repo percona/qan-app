@@ -13,9 +13,6 @@ export class QanError {
 export class QanErrorHandler extends ErrorHandler {
 
     handleError(error: any): void {
-        // console.dir(error);
-        // console.log(`QanErrorHandler: `, error.rejection.originalError.message);
-
         try {
             super.handleError(error);
         } catch (err) {

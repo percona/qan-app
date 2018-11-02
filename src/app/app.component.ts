@@ -51,7 +51,7 @@ export class AppComponent implements OnInit {
 
   ngOnInit() {
     let res: any;
-    res = this.getJsonFromUrl()
+    res = this.getJsonFromUrl();
     const theme = res.theme || '';
     if (theme === '') {
       this.theme = this.getCookie('theme');

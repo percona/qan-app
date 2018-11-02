@@ -9,12 +9,12 @@
     </h3>
   </header>
   <ngb-accordion [activeIds]="accordionIds.serverSummary">
-    <ngb-panel id="metrics-table" class="accordion-inner-table">
+    <ngb-panel id="metrics-table">
       <ng-template ngbPanelTitle>
         <div class="card-header__content">
           <h5 class="card-header__title">Metrics</h5>
-          <span *ngIf="!isSummary" class="first-seen-range">
-            Query first seen: <strong class="first-seen-time" [class.highlight-content]="isFirstSeen">{{ firstSeen }}</strong>
+          <span *ngIf="!isSummary" class="card-header__info" >
+            Query first seen: <strong [class.highlight-content]="isFirstSeen">{{ firstSeen }}</strong>
             Last seen: <strong>{{ lastSeen }}</strong>
           </span>
         </div>
@@ -31,7 +31,7 @@
             <span>Query Count</span>
             <div class="row__cells">
               <span class="unit unit--per-sec">{{ queryDetails?.Metrics2?.Query_count_per_sec | humanize : 'number' }}</span>
-              <div class="scaling-svg-container app-tooltip" [appLoadSparklines]="queryDetails?.Sparks2"
+              <div [appLoadSparklines]="queryDetails?.Sparks2" class="scaling-svg-container app-tooltip"
                    data-tooltip="Loading..." xkey="Ts" ykey="Query_count_per_sec" measurement="number">
               </div>
             </div>
@@ -172,10 +172,10 @@
 </section>
 
 <!--- additional info for query only-->
-<div class="sections-wrapper" *ngIf="!isSummary">
-  <section class="query" *ngIf="!!fingerprint || !!queryExample">
-    <header class="section-title">
-      <h3 class="d-flex">QUERY</h3>
+<div *ngIf="!isSummary">
+  <section *ngIf="!!fingerprint || !!queryExample">
+    <header class="configuration-panel">
+      <h3 class="configuration-panel__title">QUERY</h3>
     </header>
     <ngb-accordion [activeIds]="accordionIds.querySection">
       <ngb-panel *ngIf="!!fingerprint" id="query-fingerprint">
@@ -185,7 +185,7 @@
           </header>
         </ng-template>
         <ng-template ngbPanelContent>
-          <i *ngIf="isLoading" class="fa fa-spinner fa-pulse fa-3x fa-fw loading"></i>
+          <span *ngIf="isLoading" class="fa fa-spinner fa-pulse fa-3x fa-fw loading"></span>
           <div *ngIf="!isLoading" class="card-body__content">
             <pre class="content__text"><code [innerHTML]="fingerprint"></code></pre>
             <button class="button button--inside button--fixed button--copy"
@@ -199,15 +199,15 @@
           </div>
         </ng-template>
       </ngb-panel>
-      <ngb-panel *ngIf="!!queryExample" class="query-example query-panel">
-        <ng-template ngbPanelTitle class="ngb-panel-title">
+      <ngb-panel *ngIf="!!queryExample">
+        <ng-template ngbPanelTitle>
           <header class="card-header__content">
             <h5 class="card-header__title">Example</h5>
           </header>
         </ng-template>
         <ng-template ngbPanelContent>
-          <i *ngIf="isLoading" class="fa fa-spinner fa-pulse fa-3x fa-fw loading"></i>
-          <div class="card-body__content" *ngIf="!isLoading">
+          <span *ngIf="isLoading" class="fa fa-spinner fa-pulse fa-3x fa-fw loading"></span>
+          <div *ngIf="!isLoading" class="card-body__content" >
             <pre class="content__text"><code [innerHTML]="queryExample"></code></pre>
             <button class="button button--inside button--fixed button--copy"
                     id="copyQueryExample"
@@ -222,46 +222,44 @@
       </ngb-panel>
     </ngb-accordion>
   </section>
-  <section *ngIf="!!queryExample || !!jsonExplain || !!explainError" class="explain">
+
+  <section *ngIf="!!queryExample || !!explainJson || !!explainError">
     <header class="card-header__content">
       <h3 class="card-header__title">EXPLAIN</h3>
       <form class="search-input explain-search-input">
         <i class="fa fa-database" aria-hidden="true"></i>
-        <input [(ngModel)]="dbName"
-               [ngModelOptions]="{standalone: true}"
+        <input [(ngModel)]="dbName" [ngModelOptions]="{standalone: true}"
                type="text" class="input-field"
                id="databaseInput" placeholder="`database-name`">
-        <button
-          [disabled]="!dbName"
-          (click)="getExplain();"
-          type="submit" class="search-button">
+        <button (click)="getExplain();" [disabled]="!dbName" type="submit" class="search-button">
           EXPLAIN
         </button>
       </form>
     </header>
-    <ngb-accordion [activeIds]="accordionIds.explainSection" *ngIf="!!queryExample" class="accordion-inner-table">
-      <ngb-panel id="json-explain" *ngIf="!!jsonExplain || !!errExplain">
+
+    <ngb-accordion [activeIds]="accordionIds.explainSection" *ngIf="!!queryExample">
+      <ngb-panel *ngIf="!!explainJson || !!explainError" id="json-explain" >
         <ng-template ngbPanelTitle>
-          <div class="accordion-title">
-            <h5>JSON</h5>
-          </div>
+          <header class="card-header__content">
+            <h5 class="card-header__title">JSON</h5>
+          </header>
         </ng-template>
         <ng-template ngbPanelContent>
           <i *ngIf="isExplainLoading" class="fa fa-spinner fa-pulse fa-3x fa-fw loading"></i>
-          <div class="card-body__content" *ngIf="!isExplainLoading && !explainError">
+          <div *ngIf="!isExplainLoading && !explainError" class="card-body__content" >
             <app-json-tree [json]="explainJson"></app-json-tree>
             <button class="button button--inside button--fixed button--copy"
                     id="copyJson"
                     ngxClipboard
-                    [cbContent]="jsonExplainString"
+                    [cbContent]="explainJsonString"
                     (cbOnSuccess)="showSuccessNotification('jsonExplain')"
-                    [class.button--inside-active]="isCopied.jsonExplain">
+                    [class.button--inside-active]="isCopied.json">
               Copy to clipboard
             </button>
           </div>
           <div *ngIf="!isExplainLoading && explainError"
                class="alert alert-warning w-75 mx-auto m-2" role="alert">
-            <i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
+            <span class="fa fa-exclamation-triangle" aria-hidden="true"></span>
             {{ explainError }}
           </div>
         </ng-template>
