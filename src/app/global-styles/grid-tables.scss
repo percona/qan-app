@@ -82,6 +82,10 @@
   grid-template-columns: 1.5fr 1fr 6fr 2fr .85fr;
 }
 
+.grid-table__row--instances > *:last-child {
+  justify-content: space-between;
+}
+
 .grid-table__row--connect-instances {
   grid-template-columns: 2.5fr 6fr 2.85fr;
 }
