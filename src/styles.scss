@@ -72,8 +72,16 @@ footer {
   -webkit-filter: invert(100%);
 }
 
+.btn {
+  border: none;
+}
+
 .highlight-content {
   color: var(--main-highlight-color);
+}
+
+.highlight-content--success {
+  color: var(--success-highlight-color);
 }
 
 .cursor-pointer {

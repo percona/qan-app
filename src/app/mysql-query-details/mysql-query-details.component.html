@@ -96,7 +96,7 @@
                     <span *ngIf="!isSummary" class="highlight-content">
                       {{ queryDetails?.Metrics2?.Lock_time_sum_of_total | humanize : 'percent'}} of total
                     </span>
-                    <span class="text-success">
+                    <span class="highlight-content--success">
                       {{ queryDetails?.Metrics2?.Lock_time_avg_per_query_time | humanize : 'percent' }} of query time
                     </span>
                   </small>
@@ -128,10 +128,10 @@
                 <span>
                   {{ queryDetails?.Metrics2?.InnoDB_rec_lock_wait_sum | humanize : 'time' }}
                   <small>
-                    <span *ngIf="queryDetails?.Metrics2?.InnoDB_rec_lock_wait_sum_of_total" class="text-primary">
+                    <span *ngIf="queryDetails?.Metrics2?.InnoDB_rec_lock_wait_sum_of_total" class="highlight-content">
                       {{ queryDetails?.Metrics2?.InnoDB_rec_lock_wait_sum_of_total | humanize : 'percent' }} of total
                     </span>
-                    <span class="text-success">
+                    <span class="highlight-content--success">
                       {{ queryDetails?.Metrics2?.InnoDB_rec_lock_wait_avg_per_query_time | humanize : 'percent' }} of query time
                     </span>
                   </small>
@@ -162,7 +162,7 @@
                   <span *ngIf="!isSummary" class="highlight-content">
                     {{ queryDetails?.Metrics2?.InnoDB_IO_r_wait_sum_of_total | humanize : 'percent' }} of total
                   </span>
-                  <span class="text-success">
+                  <span class="highlight-content--success">
                     {{ queryDetails?.Metrics2?.InnoDB_IO_r_wait_avg_per_query_time | humanize : 'percent' }} of query time
                   </span>
                 </small>
@@ -191,7 +191,7 @@
                   <span *ngIf="!isSummary" class="highlight-content">
                     {{ queryDetails?.Metrics2?.InnoDB_queue_wait_sum_of_total | humanize : 'percent' }} of total
                   </span>
-                  <span class="text-success">
+                  <span class="highlight-content--success">
                     {{ queryDetails?.Metrics2?.innodbQueueWait?.InnoDB_queue_wait_avg_per_query_time | humanize : 'percent' }} of query time
                   </span>
                 </small>
@@ -245,7 +245,7 @@
                   <span *ngIf="!isSummary" class="highlight-content">
                     {{ queryDetails?.Metrics2?.InnoDB_IO_r_bytes_sum_of_total | humanize : 'percent' }} of total
                   </span>
-                  <span class="text-success">
+                  <span class="highlight-content--success">
                     <span class="unit unit--avg">
                       {{ queryDetails?.Metrics2?.InnoDB_IO_r_bytes_sum_per_io | humanize : 'size' }}
                     </span> io size
@@ -286,7 +286,7 @@
                   <span *ngIf="!isSummary" class="highlight-content">
                     {{ queryDetails?.Metrics2?.QC_Hit_sum_of_total | humanize : 'percent' }} of total
                   </span>
-                  <span class="text-success">
+                  <span class="highlight-content--success">
                     {{ queryDetails?.Metrics2?.QC_Hit_sum_per_query | humanize : 'percent'}} QC hit ratio
                   </span>
                 </small>
@@ -333,7 +333,7 @@
                   <span *ngIf="!isSummary" class="highlight-content">
                     {{ queryDetails?.Metrics2?.Bytes_sent_sum_of_total | humanize : 'percent' }} of total
                   </span>
-                  <span class="text-success" ng-if="queryDetails?.Metrics2?.Bytes_sent_sum_per_rows">
+                  <span class="highlight-content--success" *ngIf="queryDetails?.Metrics2?.Bytes_sent_sum_per_rows">
                     {{ queryDetails?.Metrics2?.Bytes_sent_sum_per_rows | humanize : 'size' }} bytes/row
                   </span>
                 </small>
@@ -360,7 +360,7 @@
                   <span *ngIf="!isSummary" class="highlight-content">
                     {{ queryDetails?.Metrics2?.Rows_examined_sum_of_total | humanize : 'percent' }} of total
                   </span>
-                  <span class="text-success">
+                  <span class="highlight-content--success">
                     {{ queryDetails?.Metrics2?.Rows_examined_sum_per_rows | humanize : 'number' }} per row sent
                   </span>
                 </small>
@@ -410,7 +410,7 @@
                   <span *ngIf="!isSummary" class="highlight-content">
                     {{ queryDetails?.Metrics2?.Filesort_sum_of_total | humanize : 'percent' }} of total
                   </span>
-                  <span class="text-success">
+                  <span class="highlight-content--success">
                     {{ queryDetails?.Metrics2?.Filesort_sum_per_query | humanize : 'percent' }} of queries
                   </span>
                 </small>
@@ -437,7 +437,7 @@
                   <span *ngIf="!isSummary" class="highlight-content">
                     {{ queryDetails?.Metrics2?.Filesort_on_disk_sum_of_total | humanize : 'percent' }} of total
                   </span>
-                  <span class="text-success">
+                  <span class="highlight-content--success">
                       {{ queryDetails?.Metrics2?.Filesort_on_disk_sum_per_query | humanize : 'percent' }} of queries
                   </span>
                 </small>
@@ -463,7 +463,7 @@
                   <span *ngIf="!isSummary" class="highlight-content">
                     {{ queryDetails?.Metrics2?.Merge_passes_sum_of_total | humanize : 'percent' }} of total
                   </span>
-                  <span class="text-success">
+                  <span class="highlight-content--success">
                     {{ queryDetails?.Metrics2?.Merge_passes_sum_per_external_sort | humanize : 'percent' }} per external sort
                   </span>
                 </small>
@@ -494,7 +494,7 @@
                   <span *ngIf="!isSummary" class="highlight-content">
                     {{ queryDetails?.Metrics2?.Full_join_sum_of_total | humanize : 'percent' }} of total
                   </span>
-                  <span class="text-success">
+                  <span class="highlight-content--success">
                     {{ queryDetails?.Metrics2?.Full_join_sum_per_query | humanize : 'percent' }} of queries
                   </span>
                 </small>
@@ -519,7 +519,7 @@
                   <span *ngIf="!isSummary" class="highlight-content">
                     {{ queryDetails?.Metrics2?.Full_scan_sum_of_total | humanize : 'percent' }} of total
                   </span>
-                  <span class="text-success">
+                  <span class="highlight-content--success">
                     {{ queryDetails?.Metrics2?.Full_scan_sum_per_query | humanize : 'percent' }} of queries
                   </span>
                 </small>
@@ -544,7 +544,7 @@
                   <span *ngIf="!isSummary" class="highlight-content">
                     {{ queryDetails?.Metrics2?.Tmp_table_sum_of_total | humanize : 'percent' }} of total
                   </span>
-                  <span class="text-success">
+                  <span class="highlight-content--success">
                     {{ queryDetails?.Metrics2?.Tmp_table_sum_per_query | humanize : 'percent' }} of queries
                   </span>
                 </small>
@@ -569,7 +569,7 @@
                   <span *ngIf="!isSummary" class="highlight-content">
                     {{ queryDetails?.Metrics2?.Tmp_tables_sum_of_total | humanize : 'percent' }} of total
                   </span>
-                  <span class="text-success">
+                  <span class="highlight-content--success">
                     {{ queryDetails?.Metrics2?.Tmp_tables_sum_per_query_with_tmp_table | humanize : 'number'}} per query with tmp table
                   </span>
                 </small>
@@ -600,7 +600,7 @@
                   <span *ngIf="!isSummary" class="highlight-content">
                     {{ queryDetails?.Metrics2?.Tmp_table_on_disk_sum_of_total | humanize : 'percent' }} of total
                   </span>
-                  <span class="text-success">
+                  <span class="highlight-content--success">
                     {{ queryDetails?.Metrics2?.Tmp_table_on_disk_sum_per_query | humanize : 'percent' }} of queries
                   </span>
                 </small>
@@ -625,7 +625,7 @@
                   <span *ngIf="!isSummary" class="highlight-content">
                     {{ queryDetails?.Metrics2?.Tmp_disk_tables_sum_of_total | humanize : 'percent' }} of total
                   </span>
-                  <span class="text-success">
+                  <span class="highlight-content--success">
                     {{ queryDetails?.Metrics2?.Tmp_disk_tables_sum_per_query_with_tmp_table | humanize : 'number' }}
                     per query with disk tmp table
                   </span>
@@ -657,7 +657,7 @@
                   <span *ngIf="!isSummary" class="highlight-content">
                     {{ queryDetails?.Metrics2?.Tmp_table_sizes_sum_of_total | humanize : 'percent' }} of total
                   </span>
-                  <span class="text-success">
+                  <span class="highlight-content--success">
                     {{ queryDetails?.Metrics2?.Tmp_table_sizes_sum_per_query_with_any_tmp_table | humanize : 'size' }} per query
                   </span>
                 </small>

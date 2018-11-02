@@ -127,6 +127,7 @@
 
 .row__cells {
   justify-content: space-between;
+  background-color: inherit;
 }
 
 .row__cells > *:not(:last-child) {

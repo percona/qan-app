@@ -37,7 +37,7 @@
             </div>
             <div>
               <span>{{ queryDetails?.Metrics2?.Query_count | humanize : 'number' }}
-                <small *ngIf="!isSummary" class="text-primary">
+                <small *ngIf="!isSummary" class="highlight-content">
                   {{ queryDetails?.Metrics2?.Query_count_of_total | humanize : 'percent' }} of total
                 </small>
               </span>
@@ -67,7 +67,7 @@
             </div>
             <div>
               <span>{{ queryDetails?.Metrics2?.Query_time_sum | humanize : 'time' }}
-                <small *ngIf="!isSummary" class="text-primary">
+                <small *ngIf="!isSummary" class="highlight-content">
                   {{ queryDetails?.Metrics2?.Query_time_sum_of_total | humanize : 'percent' }} of total
                 </small>
               </span>
@@ -98,7 +98,7 @@
               <span>
                 {{ queryDetails?.Metrics2?.Rows_sent_sum | humanize : 'number' }}
                 <small>
-                  <span *ngIf="!isSummary" class="text-primary">
+                  <span *ngIf="!isSummary" class="highlight-content">
                     {{ queryDetails?.Metrics2?.Rows_sent_sum_of_total | humanize : 'percent' }}of total
                   </span>
                 </small>
@@ -122,10 +122,10 @@
             <div>
               <span>{{ queryDetails?.Metrics2?.Bytes_sent_sum | humanize : 'size' }}
                 <small>
-                  <span *ngIf="!isSummary" class="text-primary">
+                  <span *ngIf="!isSummary" class="highlight-content">
                     {{ queryDetails?.Metrics2?.Bytes_sent_sum_of_total | humanize : 'percent' }} of total
                   </span>
-                  <span class="text-success" *ngIf="queryDetails?.Metrics2?.Bytes_sent_sum_per_rows">
+                  <span class="highlight-content--success" *ngIf="queryDetails?.Metrics2?.Bytes_sent_sum_per_rows">
                     {{ queryDetails?.Metrics2?.Bytes_sent_sum_per_rows | humanize : 'size' }} bytes/row
                   </span>
                 </small>
@@ -149,10 +149,10 @@
             <div>
               <span>{{ queryDetails?.Metrics2?.Rows_examined_sum | humanize : 'number' }}
                 <small>
-                  <span *ngIf="!isSummary" class="text-primary">
+                  <span *ngIf="!isSummary" class="highlight-content">
                     {{ queryDetails?.Metrics2?.Rows_examined_sum_of_total | humanize : 'percent' }} of total
                   </span>
-                  <span class="text-success">
+                  <span class="highlight-content--success">
                     {{ queryDetails?.Metrics2?.Rows_examined_sum_per_rows | humanize : 'number' }} per row sent
                   </span>
                 </small>
@@ -224,14 +224,14 @@
   </section>
 
   <section *ngIf="!!queryExample || !!explainJson || !!explainError">
-    <header class="card-header__content">
-      <h3 class="card-header__title">EXPLAIN</h3>
-      <form class="search-input explain-search-input">
+    <header class="configuration-panel">
+      <h3 class="configuration-panel__title">EXPLAIN</h3>
+      <form class="configuration-panel__options center-children configuration-form configuration-form--clicked">
         <i class="fa fa-database" aria-hidden="true"></i>
         <input [(ngModel)]="dbName" [ngModelOptions]="{standalone: true}"
-               type="text" class="input-field"
+               type="text" class="input-field configuration-form__input configuration-form__input--small"
                id="databaseInput" placeholder="`database-name`">
-        <button (click)="getExplain();" [disabled]="!dbName" type="submit" class="search-button">
+        <button (click)="getExplain();" [disabled]="!dbName" type="submit" class="configuration-form__button">
           EXPLAIN
         </button>
       </form>
