@@ -7,7 +7,7 @@
 .accordion .card:not(:first-of-type):not(:last-of-type) {
   border-radius: 0;
   border: 1px solid var(--border-color);
-  background-color: var(--accordion-background);
+  background-color: var(--element-background);
 }
 
 .accordion .card {

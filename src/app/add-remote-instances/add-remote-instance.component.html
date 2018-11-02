@@ -1,112 +1,51 @@
-<div class="d-flex justify-content-center add-remote-instance">
-  <div class="col-8 list-group tab-pane">
-    <form class="content" #addInstanceForm="ngForm" (ngSubmit)="onSubmit(addInstanceForm)">
-      <div class="row">
-        <div class="col-10 offset-2 input-wrapper">
-          <div class="row header">
-            <div class="col-12">
-              <p>Add remote {{instanceType}} Instance</p>
-            </div>
-          </div>
-          <div class="input-wrapper">
-            <div class="row d-flex align-items-center">
-              <div class="col-9">
-                <input type="text" class="custom-form-input form-control" placeholder="*Hostname"
-                       name="Hostname"
-                       [(ngModel)]="remoteInstanceCredentials.address"
-                       #hostname="ngModel"
-                       [class.custom-form-input--not-valid]="hostname?.errors && isSubmitted"
-                       required>
-              </div>
-              <div class="app-tooltip-wrapper">
-                <div class="app-tooltip app-tooltip--remote-instance app-tooltip--hostname">
-                  <i class="fa fa-info-circle" aria-hidden="true"></i>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div class="input-wrapper">
-            <div class="row d-flex align-items-center">
-              <div class="col-9">
-                <input type="text" class="custom-form-input form-control" placeholder="Name (default: Hostname)"
-                       name="Name"
-                       [(ngModel)]="remoteInstanceCredentials.name"
-                       #name="ngModel">
-              </div>
-              <div class="app-tooltip-wrapper">
-                <div class="app-tooltip app-tooltip--remote-instance app-tooltip--name">
-                  <i class="fa fa-info-circle" aria-hidden="true"></i>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div class="input-wrapper">
-            <div class="row d-flex align-items-center">
-              <div class="col-9">
-                <input type="text" class="custom-form-input form-control" placeholder="Port"
-                       [placeholder] = "this.instanceType === 'PostgreSQL' ? 'Port (default: 5432)' : '(default: 3306)'"
-                       name="Port"
-                       [(ngModel)]="remoteInstanceCredentials.port"
-                       #port="ngModel">
-              </div>
-              <div class="app-tooltip-wrapper">
-                <div class="app-tooltip app-tooltip--remote-instance app-tooltip--port">
-                  <i class="fa fa-info-circle" aria-hidden="true"></i>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div class="input-wrapper">
-            <div class="row d-flex align-items-center">
-              <div class="col-9">
-                <input type="text" class="custom-form-input form-control" placeholder="*Username"
-                       name="Username"
-                       [(ngModel)]="remoteInstanceCredentials.username"
-                       #username="ngModel"
-                       [class.custom-form-input--not-valid]="username?.errors && isSubmitted"
-                       required>
-              </div>
-              <div class="app-tooltip-wrapper">
-                <div class="app-tooltip app-tooltip--remote-instance app-tooltip--username">
-                  <i class="fa fa-info-circle" aria-hidden="true"></i>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div class="input-wrapper">
-            <div class="row d-flex align-items-center">
-              <div class="col-9">
-                <input type="password" class="custom-form-input form-control" placeholder="*Password"
-                       name="Password"
-                       [(ngModel)]="remoteInstanceCredentials.password"
-                       #password="ngModel"
-                       [class.custom-form-input--not-valid]="password?.errors && isSubmitted"
-                       required>
-              </div>
-              <div class="app-tooltip-wrapper">
-                <div class="app-tooltip app-tooltip--remote-instance app-tooltip--password">
-                  <i class="fa fa-info-circle" aria-hidden="true"></i>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div class="row">
-            <div class="col-12 d-flex align-items-center">
-              <button type="submit" [disabled]="isDemo" class="not-checked-button">Add instance</button>
-              <div *ngIf="errorMessage && isSubmitted && addInstanceForm.valid">*{{ errorMessage }}</div>
-              <div *ngIf="isSubmitted && !addInstanceForm.valid">Fields marked with an asterisk (*) are required</div>
-              <div *ngIf="isLoading">
-                <i class="fa fa-spinner fa-pulse fa-2x fa-fw"></i>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </form>
+<form #addInstanceForm="ngForm" (ngSubmit)="onSubmit(addInstanceForm)" class="add-instance-form">
+  <h5 class="add-instance-form__title">Add remote {{instanceType}} Instance</h5>
+  <input [(ngModel)]="remoteInstanceCredentials.address"
+         [class.input--invalid]="hostname?.errors && isSubmitted"
+         #hostname="ngModel"
+         type="text" class="input-field input-field--dark"
+         placeholder="*Hostname" name="Hostname" required>
+  <div class="app-tooltip app-tooltip--port cursor-pointer">
+    <span class="fa fa-info-circle" aria-hidden="true"></span>
   </div>
-</div>
+
+  <input [(ngModel)]="remoteInstanceCredentials.name" #name="ngModel"
+         type="text" class="input-field input-field--dark"
+         placeholder="Name (default: Hostname)" name="Name">
+  <div class="app-tooltip app-tooltip--port cursor-pointer">
+    <span class="fa fa-info-circle" aria-hidden="true"></span>
+  </div>
+
+  <input [(ngModel)]="remoteInstanceCredentials.port" #port="ngModel"
+         type="text" class="input-field input-field--dark" placeholder="Port"
+         [placeholder]="instanceType === 'PostgreSQL' ? 'Port (default: 5432)' : '(default: 3306)'"
+         name="Port">
+  <div class="app-tooltip app-tooltip--port cursor-pointer">
+    <span class="fa fa-info-circle" aria-hidden="true"></span>
+  </div>
+
+  <input [(ngModel)]="remoteInstanceCredentials.username"
+         [class.input--invalid]="username?.errors && isSubmitted"
+         #username="ngModel"
+         type="text" class="input-field input-field--dark"
+         placeholder="*Username" name="Username" required>
+  <div class="app-tooltip app-tooltip--username cursor-pointer">
+    <span class="fa fa-info-circle" aria-hidden="true"></span>
+  </div>
+
+  <input [(ngModel)]="remoteInstanceCredentials.password"
+         [class.input--invalid]="password?.errors && isSubmitted"
+         #password="ngModel"
+         type="password" class="input-field input-field--dark"
+         placeholder="*Password" name="Password" required>
+  <div class="app-tooltip app-tooltip--password cursor-pointer">
+    <span class="fa fa-info-circle" aria-hidden="true"></span>
+  </div>
+
+  <div class="add-instance-form__submit-block">
+    <button type="submit" [disabled]="isDemo" class="button button--dark">Add instance</button>
+    <div *ngIf="errorMessage && isSubmitted && addInstanceForm.valid">*{{ errorMessage }}</div>
+    <div *ngIf="isSubmitted && !addInstanceForm.valid">Fields marked with an asterisk (*) are required</div>
+    <span *ngIf="isLoading" class="fa fa-spinner fa-pulse fa-2x fa-fw"></span>
+  </div>
+</form>

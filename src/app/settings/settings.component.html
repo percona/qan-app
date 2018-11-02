@@ -100,7 +100,7 @@
       <header class="card-header__content">
         <h5 class="card-header__title">STATUS</h5>
         <span class="highlight-content">
-          (<i>Updated {{ (statusUpdatedFromNow$ | async) || 'a few seconds ago' }}</i>) |
+          (<span>Updated {{ (statusUpdatedFromNow$ | async) || 'a few seconds ago' }}</span>) |
             <span (click)="getAgentStatus(); $event.stopPropagation(); $event.preventDefault();"
                   class="fa fa-refresh" id="refreshStatusLink" title="Refresh status">
             </span>
@@ -125,7 +125,7 @@
       <header class="card-header__content">
         <h5 class="card-header__title">LOG</h5>
         <section class="center-children highlight-content">
-          (<i>Updated {{ (logUpdatedFromNow$ | async) || 'a few seconds ago' }}</i>)
+          (<span>Updated {{ (logUpdatedFromNow$ | async) || 'a few seconds ago' }}</span>)
           <div class="center-children log-period" role="group" aria-label="Log period" id="update-group">
             <button type="button" id="logPeriod1h"
                     (click)="setLogPeriod(1); $event.stopPropagation(); $event.preventDefault();"

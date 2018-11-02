@@ -18,6 +18,14 @@
   outline: none;
 }
 
+.input-field--dark {
+  background-color: var(--page-background);
+}
+
+.input--invalid {
+  border-color: rgb(255, 0, 0);
+}
+
 .input-field--interval,
 .input-field--select {
   height: 40px;
