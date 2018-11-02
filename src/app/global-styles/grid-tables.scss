@@ -4,7 +4,7 @@
   --row-background: var(--page-background);
 
   display: grid;
-  grid-template-rows: var(--row-height);
+  grid-template-rows: minmax(var(--row-height), auto);
   grid-auto-rows: minmax(var(--row-height), auto);
   color: var(--main-text-color);
   border: 1px solid var(--main-border-color);
@@ -23,15 +23,12 @@
   border: none;
 }
 
-.grid-table--auto-row-height {
-  grid-auto-rows: minmax(40px, auto);
-}
-
 .grid-table__row {
   display: grid;
   align-items: center;
   background-color: var(--row-background, transparent);
   outline: none;
+  word-break: break-all;
 }
 
 .grid-table__row > * {
@@ -53,48 +50,6 @@
   font-size: 0.8rem;
 }
 
-.grid-table__row--main {
-  grid-template-columns: 40px 9fr 7fr 10fr 9fr;
-}
-
-.grid-table__row--metrics {
-  grid-template-columns: repeat(2, 2fr) 3fr 2fr;
-}
-
-.grid-table__row--two-columns {
-  grid-template-columns: repeat(2, 1fr);
-}
-
-.grid-table__row--indexes {
-  grid-template-columns: repeat(2, 1fr) repeat(2, .5fr) repeat(3, 1fr) .5fr 1fr;
-}
-
-.grid-table__row--status--log {
-  grid-template-columns: 2fr 7fr;
-}
-
-.grid-table__row--log {
-  grid-template-columns: 3fr 2.5fr minmax(80px, 1fr) 7fr;
-}
-
-//AWS Credentials
-.grid-table__row--instances {
-  grid-template-columns: 1.5fr 1fr 6fr 2fr .85fr;
-}
-
-.grid-table__row--instances > *:last-child {
-  justify-content: space-between;
-}
-
-.grid-table__row--connect-instances {
-  grid-template-columns: 2.5fr 6fr 2.85fr;
-}
-
-.grid-table__row--connect-instances > * {
-  padding: 10px;
-}
-//
-
 .grid-table__row--highlight {
   --row-background: var(--highlight-background);
 }
@@ -106,6 +61,62 @@
 
 .grid-table__row--first-seen {
   background: var(--row-first-seen);
+}
+
+//QAN queries table
+.grid-table__row--main {
+  grid-template-columns: 40px 9fr 7fr 10fr 9fr;
+}
+
+//MySQL and Mongo query details metrics table
+.grid-table__row--metrics {
+  grid-template-columns: repeat(2, 2fr) 3fr 2fr;
+}
+
+.grid-table__row--two-columns {
+  grid-template-columns: repeat(2, 1fr);
+}
+
+//MySQL query details indexes table
+.grid-table__row--indexes {
+  grid-template-columns: repeat(2, 1fr) repeat(2, .5fr) repeat(3, 1fr) .5fr 1fr;
+}
+
+//Settings status table
+.grid-table__row--status--log {
+  grid-template-columns: 2fr 7fr;
+}
+
+//Settings log table
+.grid-table__row--log {
+  grid-template-columns: 3fr 2.5fr minmax(80px, 1fr) 7fr;
+}
+
+//RDS remote instances tables
+.grid-table__row--remote-instances {
+  grid-template-columns: 2.5fr 6fr 1.5fr 2fr 80px;
+}
+
+.grid-table__row--remote-instances > *:last-child {
+  justify-content: center;
+}
+
+//AWS Credentials instances table
+.grid-table__row--instances {
+  grid-template-columns: 1.5fr 1fr 6fr 2fr .85fr;
+}
+
+.grid-table__row--instances > *:last-child {
+  justify-content: space-between;
+}
+
+//AWS Credentials sub table for connect instance
+.grid-table__row--connect-instances {
+  grid-template-columns: 2.5fr 6fr 2.85fr;
+}
+
+.grid-table__row--connect-instances > * {
+  padding: 10px;
 }
 
 .row__link,
