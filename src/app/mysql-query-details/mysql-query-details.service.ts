@@ -1,17 +1,15 @@
 import { Injectable } from '@angular/core';
-import { Http, Headers } from '@angular/http';
 import 'rxjs/add/operator/toPromise';
+import {HttpClient} from '@angular/common/http';
 
 @Injectable()
 export class MySQLQueryDetailsService {
 
-    private headers = new Headers({ 'Content-Type': 'application/json' });
-
-    constructor(private http: Http) { }
+    constructor(private httpClient: HttpClient) { }
 
     updateTables(queryID: string, dbTables: Array<{}>) {
         const url = `/qan-api/queries/${queryID}/tables`;
-        return this.http
+        return this.httpClient
             .put(url, dbTables)
             .toPromise()
             .then(resp => console.log(resp));

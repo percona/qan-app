@@ -1,6 +1,6 @@
 import {Component} from '@angular/core';
 import {Router, ActivatedRoute} from '@angular/router';
-import {Instance, InstanceService} from '../core/instance.service';
+import {InstanceService} from '../core/instance.service';
 import {CoreComponent} from '../core/core.component';
 import {environment} from '../environment';
 import * as moment from 'moment';

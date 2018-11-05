@@ -3,7 +3,7 @@ import { Router, ActivatedRoute, Params } from '@angular/router';
 
 import { CoreComponent } from '../core/core.component';
 import { SummaryService } from './summary.service';
-import { Instance, InstanceService } from '../core/instance.service';
+import { InstanceService } from '../core/instance.service';
 import * as JSZip from 'jszip';
 import saveAs from 'jszip/vendor/FileSaver';
 import * as moment from 'moment';

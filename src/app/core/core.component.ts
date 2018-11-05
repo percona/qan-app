@@ -1,6 +1,6 @@
 import 'rxjs/add/operator/filter';
-import { Instance, InstanceService } from '../core/instance.service';
-import { OnInit, OnDestroy, Output, EventEmitter } from '@angular/core';
+import { Instance, InstanceService } from './instance.service';
+import { OnDestroy } from '@angular/core';
 import { ParseQueryParamDatePipe } from '../shared/parse-query-param-date.pipe';
 import { Event, Router, ActivatedRoute, NavigationEnd } from '@angular/router';
 import { Subscription } from 'rxjs/Subscription';

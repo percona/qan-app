@@ -1,5 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Http, Headers, URLSearchParams } from '@angular/http';
+import {HttpClient, HttpHeaders} from '@angular/common/http';
+
 
 export class RDSCredentials {
   constructor(public aws_access_key_id = '', public aws_secret_access_key = '') {}
@@ -29,9 +31,9 @@ export interface RDSInstance {
 @Injectable()
 export class AddAwsService {
 
-  private headers = new Headers({ 'Content-Type': 'application/json' });
+  private httpHeaders = new HttpHeaders({ 'Content-Type': 'application/json' });
 
-  constructor(private http: Http) { }
+  constructor(private httpClient: HttpClient) { }
 
   async discover(rdsCredentials: RDSCredentials): Promise<RDSInstance[]> {
     const url = `/managed/v0/rds/discover`;
@@ -39,10 +41,11 @@ export class AddAwsService {
       aws_access_key_id: rdsCredentials.aws_access_key_id,
       aws_secret_access_key: rdsCredentials.aws_secret_access_key
     };
-    const response = await this.http
-        .post(url, data, { headers: this.headers })
+    const response: any = await this.httpClient
+        .post(url, data, { headers: this.httpHeaders })
         .toPromise();
-    return response.json().instances as RDSInstance[];
+    console.log('response disc - ', response.instances);
+    return response.instances as RDSInstance[];
   }
 
   async enable(rdsCredentials: RDSCredentials, node: RDSNode, mysqlCredentials: MySQLCredentials): Promise<{}> {
@@ -54,26 +57,25 @@ export class AddAwsService {
       password: mysqlCredentials.password,
       username: mysqlCredentials.username
     };
-    const response = await this.http
-        .post(url, data, { headers: this.headers })
+    return await this.httpClient
+        .post(url, data, { headers: this.httpHeaders })
         .toPromise();
-    return response.json();
   }
 
   async disable(node: RDSNode): Promise<{}> {
     const url = `/managed/v0/rds`;
     const body = {id: {name: node.name, region: node.region}};
-    const response = await this.http
-        .delete(url, { headers: this.headers, body: body })
+    const response = await this.httpClient.request('delete', url, { headers: this.httpHeaders, body: body })
         .toPromise();
-    return response.json();
+    console.log('response dis - ', response);
+    return response;
   }
 
   async getRegistered(): Promise<RDSInstance[]> {
     const url = `/managed/v0/rds`;
-    const response = await this.http
-        .get(url, { headers: this.headers })
+    const response = await this.httpClient.request('get', url, { headers: this.httpHeaders  })
         .toPromise();
-    return response.json().instances as RDSInstance[];
+    console.log('response get reg - ', response);
+    return response as RDSInstance[];
   }
 }

@@ -1,6 +1,6 @@
 import { CoreComponent, QueryParams, QanError } from '../core/core.component';
 import { Component } from '@angular/core';
-import { Instance, InstanceService } from '../core/instance.service';
+import { InstanceService } from '../core/instance.service';
 import { QueryProfileService } from './query-profile.service';
 import { Router, ActivatedRoute } from '@angular/router';
 import * as moment from 'moment';

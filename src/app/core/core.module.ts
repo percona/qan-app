@@ -4,16 +4,11 @@ import {
 } from '@angular/core';
 
 import { CommonModule } from '@angular/common';
-import { ErrorHandler } from '@angular/core';
-
 import { SharedModule } from '../shared/shared.module';
 import { NavComponent } from './nav/nav.component';
 import { JSONTreeComponent } from './json-tree/json-tree.component';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
-// import { QanErrorHandler } from './qan-error.handler';
 import { InstanceService } from './instance.service';
-import { CoreComponent } from './core.component';
-
 import { QueryProfileComponent } from '../query-profile/query-profile.component';
 import { QueryProfileService } from '../query-profile/query-profile.service';
 import { MySQLQueryDetailsComponent } from '../mysql-query-details/mysql-query-details.component';
@@ -28,7 +23,8 @@ import { AddAwsService } from '../add-aws/add-aws.service';
 import { AddRemoteInstanceService } from '../add-remote-instances/add-remote-instance.service';
 import { RemoteInstancesListService } from '../remote-instances-list/remote-instances-list.service';
 import { ClipboardModule } from 'ngx-clipboard';
-import {RemoteInstancesListComponent} from '../remote-instances-list/remote-instances-list.component';
+import { RemoteInstancesListComponent } from '../remote-instances-list/remote-instances-list.component';
+import { BaseQueryDetailsService } from './base-query-details.service';
 
 @NgModule({
     imports: [CommonModule, SharedModule, ClipboardModule],
@@ -39,7 +35,8 @@ import {RemoteInstancesListComponent} from '../remote-instances-list/remote-inst
         MySQLQueryDetailsComponent, MongoQueryDetailsComponent,
         SummaryComponent, SettingsComponent, JSONTreeComponent],
     providers: [InstanceService, QueryProfileService, MySQLQueryDetailsService,
-        MongoQueryDetailsService, SummaryService, SettingsService, AddAwsService, AddRemoteInstanceService, RemoteInstancesListService]
+        MongoQueryDetailsService, SummaryService, SettingsService, AddAwsService, AddRemoteInstanceService, BaseQueryDetailsService,
+      RemoteInstancesListService]
 })
 export class CoreModule {
 
