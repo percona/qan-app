@@ -21,14 +21,20 @@
   border-bottom: none;
 }
 
+.accordion .card .card-body {
+  background-color: inherit;
+}
+
 .accordion .card .btn.btn-link {
   width: 100%;
   padding: 0;
+  color: inherit;
 
   &:hover,
   &:active,
   &:focus,
   &:visited {
+    color: inherit;
     text-decoration: none !important;
   }
 }
@@ -39,7 +45,8 @@
   align-items: center;
   padding: var(--accordion-inner-indent);
   font-size: 1rem;
-  color: white;
+  color: inherit;
+  background-color: inherit;
 }
 
 .card-header__title {

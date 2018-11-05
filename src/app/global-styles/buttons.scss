@@ -32,7 +32,7 @@
 }
 
 .button--dark {
-  background-color: var(--button-bg);
+  background-color: var(--main-button-background);
 }
 
 .button--fixed {
@@ -61,12 +61,4 @@
 
 .button__remove {
   margin-left: 10px;
-}
-
-.app-theme-dark .button {
-  --button-bg: rgb(33, 35, 39);
-}
-
-.app-theme-dark .button {
-  --button-bg: rgb(33, 35, 39);
 }

@@ -42,6 +42,10 @@
   border-right: 1px solid var(--main-border-color);
 }
 
+.grid-table__row > *:first-child {
+  word-break: unset;
+}
+
 .grid-table__row--cursor {
   cursor: pointer;
 }
