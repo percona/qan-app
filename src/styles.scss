@@ -23,8 +23,8 @@
 }
 
 body {
-  color: var(--main-text-color);
-  background-color: transparent;
+  color: var(--main-text-color, rgb(211, 211, 211));
+  background-color: var(--page-background, transparent);
 }
 
 main {
@@ -61,12 +61,16 @@ button:focus {
 }
 
 footer {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  margin-top: 20px;
+  color: var(--main-text-color, rgb(211, 211, 211));
+}
+
+.pmm-logo {
+  width: 30px;
   height: 30px;
-  background: url(assets/pmm-logo.svg) no-repeat;
-  background-position-x: 97%;
-  background-size: 2%;
-  filter: invert(100%);
-  -webkit-filter: invert(100%);
 }
 
 .btn {
@@ -88,21 +92,6 @@ footer {
 div[hljs] > pre {
   background: white;
   border: none;
-}
-
-//!!!!!
-.pull-right {
-  float: right;
-}
-
-//!!!!!
-.loading {
-  position: relative;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  z-index: 999;
-  margin: 10px;
 }
 
 @media print {

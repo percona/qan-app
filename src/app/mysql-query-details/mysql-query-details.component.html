@@ -31,7 +31,7 @@
             <span>Query Count</span>
             <div class="row__cells">
               <span class="unit unit--per-sec">{{ queryDetails?.Metrics2?.Query_count_per_sec | humanize : 'number' }}</span>
-              <div [appLoadSparklines]="queryDetails?.Sparks2"class="scaling-svg-container app-tooltip"
+              <div [appLoadSparklines]="queryDetails?.Sparks2" class="scaling-svg-container app-tooltip"
                    data-tooltip="Loading..." xkey="Ts" ykey="Query_count_per_sec" measurement="number">
               </div>
             </div>
@@ -690,7 +690,9 @@
           </header>
         </ng-template>
         <ng-template ngbPanelContent>
-          <span *ngIf="isLoading" class="fa fa-spinner fa-pulse fa-3x fa-fw loading"></span>
+          <div *ngIf="isLoading" class="spinner-wrapper">
+            <i class="fa fa-spinner fa-pulse fa-3x fa-fw"></i>
+          </div>
           <div class="card-body__content" *ngIf="!isLoading">
             <pre class="content__text"><code [innerHTML]="fingerprint"></code></pre>
             <button class="button button--inside button--fixed button--copy"
@@ -711,8 +713,10 @@
           </header>
         </ng-template>
         <ng-template ngbPanelContent>
-          <span *ngIf="isLoading" class="fa fa-spinner fa-pulse fa-3x fa-fw loading"></span>
-          <div *ngIf="!isLoading" class="card-body__content" >
+          <div *ngIf="isLoading" class="spinner-wrapper">
+            <i class="fa fa-spinner fa-pulse fa-3x fa-fw"></i>
+          </div>
+          <div *ngIf="!isLoading" class="card-body__content">
             <pre class="content__text"><code [innerHTML]="queryExample"></code></pre>
             <button class="button button--inside button--fixed button--copy"
                     id="copyQueryExample"
@@ -750,7 +754,9 @@
           </header>
         </ng-template>
         <ng-template ngbPanelContent>
-          <i *ngIf="isExplainLoading" class="fa fa-spinner fa-pulse fa-3x fa-fw loading"></i>
+          <div *ngIf="isExplainLoading" class="spinner-wrapper">
+            <i class="fa fa-spinner fa-pulse fa-3x fa-fw"></i>
+          </div>
           <div *ngIf="!isExplainLoading && explainError" class="alert alert-warning w-75 mx-auto m-2"
                role="alert">
             <i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
@@ -789,14 +795,16 @@
         </ng-template>
       </ngb-panel>
 
-      <ngb-panel *ngIf="!!explainJson || !!explainError" id="json-explain" >
+      <ngb-panel *ngIf="!!explainJson || !!explainError" id="json-explain">
         <ng-template ngbPanelTitle>
           <header class="card-header__content">
             <h5 class="card-header__title">JSON</h5>
           </header>
         </ng-template>
         <ng-template ngbPanelContent>
-          <i *ngIf="isExplainLoading" class="fa fa-spinner fa-pulse fa-3x fa-fw loading"></i>
+          <div *ngIf="isExplainLoading" class="spinner-wrapper">
+            <i class="fa fa-spinner fa-pulse fa-3x fa-fw"></i>
+          </div>
           <div *ngIf="!isExplainLoading && !explainError" class="card-body__content">
             <app-json-tree [json]="explainJson"></app-json-tree>
             <button class="button button--inside button--fixed button--copy"
@@ -822,7 +830,9 @@
           </header>
         </ng-template>
         <ng-template ngbPanelContent>
-          <span *ngIf="isExplainLoading" class="fa fa-spinner fa-pulse fa-3x fa-fw loading"></span>
+          <div *ngIf="isExplainLoading" class="spinner-wrapper">
+            <i class="fa fa-spinner fa-pulse fa-3x fa-fw"></i>
+          </div>
           <div *ngIf="!isExplainLoading && !explainError" class="card-body__content">
             <pre class="content__text">{{ explainVisual }}</pre>
             <button class="button button--inside button--fixed button--copy"
@@ -850,7 +860,7 @@
       <form (submit)="addDBTable()" class="configuration-panel__options center-children configuration-form configuration-form--clicked">
         <label for="dbTblNamesInput">DB and table</label>
         <input [(ngModel)]="newDBTblNames" [ngModelOptions]="{standalone: true}"
-               type="text"  class="input-field configuration-form__input configuration-form__input--small"
+               type="text" class="input-field configuration-form__input configuration-form__input--small"
                id="dbTblNamesInput" placeholder="`database-name`.`table-name`">
         <button (click)="addDBTable();" [disabled]="isDemo || !newDBTblNames" class="configuration-form__button" type="submit">
           ADD
@@ -877,12 +887,14 @@
           </header>
         </ng-template>
         <ng-template ngbPanelContent>
-          <span *ngIf="isTableInfoLoading" class="fa fa-spinner fa-pulse fa-3x fa-fw loading"></span>
+          <div *ngIf="isTableInfoLoading" class="spinner-wrapper">
+            <i class="fa fa-spinner fa-pulse fa-3x fa-fw"></i>
+          </div>
           <div *ngIf="!isTableInfoLoading && createTableError" class="alert alert-warning w-75 mx-auto m-2" role="alert">
             <i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
             {{ createTableError }}
           </div>
-          <div *ngIf="!isTableInfoLoading && !createTableError" class="card-body__content" >
+          <div *ngIf="!isTableInfoLoading && !createTableError" class="card-body__content">
             <pre class="content__text"><code [innerHTML]="createTable"></code></pre>
             <button class="button button--inside button--fixed button--copy"
                     id="copyCreateTable"
@@ -903,7 +915,9 @@
           </header>
         </ng-template>
         <ng-template ngbPanelContent>
-          <span *ngIf="isTableInfoLoading" class="fa fa-spinner fa-pulse fa-3x fa-fw loading"></span>
+          <div *ngIf="isTableInfoLoading" class="spinner-wrapper">
+            <i class="fa fa-spinner fa-pulse fa-3x fa-fw"></i>
+          </div>
           <div *ngIf="!isTableInfoLoading && !!statusTableError" class="alert alert-warning w-75 mx-auto m-2" role="alert">
             <span class="fa fa-exclamation-triangle" aria-hidden="true"></span>
             {{ statusTableError }}
@@ -930,21 +944,23 @@
         </ng-template>
       </ngb-panel>
 
-      <ngb-panel *ngIf="!!indexTable || !!indexTableError" id="table-indexes" >
+      <ngb-panel *ngIf="!!indexTable || !!indexTableError" id="table-indexes">
         <ng-template ngbPanelTitle>
           <header class="card-header__content">
             <h5 class="card-header__title">INDEXES</h5>
           </header>
         </ng-template>
         <ng-template ngbPanelContent>
-          <span *ngIf="isTableInfoLoading" class="fa fa-spinner fa-pulse fa-3x fa-fw loading table-spinner"></span>
+          <div *ngIf="isTableInfoLoading" class="spinner-wrapper">
+            <i class="fa fa-spinner fa-pulse fa-3x fa-fw"></i>
+          </div>
           <div *ngIf="!isTableInfoLoading && !!indexTableError"
                class="alert alert-warning w-75 mx-auto m-2 index-table-error"
                role="alert">
             <i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
             {{ indexTableError }}
           </div>
-          <section *ngIf="!isTableInfoLoading && !indexTableError"  class="grid-table grid-table--parent grid-table--no-frame">
+          <section *ngIf="!isTableInfoLoading && !indexTableError" class="grid-table grid-table--parent grid-table--no-frame">
             <header class="grid-table__row grid-table__row--indexes grid-table__row--highlight">
               <span>KeyName</span>
               <span>Type</span>

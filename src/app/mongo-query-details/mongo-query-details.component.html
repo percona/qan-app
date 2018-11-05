@@ -13,7 +13,7 @@
       <ng-template ngbPanelTitle>
         <div class="card-header__content">
           <h5 class="card-header__title">Metrics</h5>
-          <span *ngIf="!isSummary" class="card-header__info" >
+          <span *ngIf="!isSummary" class="card-header__info">
             Query first seen: <strong [class.highlight-content]="isFirstSeen">{{ firstSeen }}</strong>
             Last seen: <strong>{{ lastSeen }}</strong>
           </span>
@@ -185,7 +185,9 @@
           </header>
         </ng-template>
         <ng-template ngbPanelContent>
-          <span *ngIf="isLoading" class="fa fa-spinner fa-pulse fa-3x fa-fw loading"></span>
+          <div *ngIf="isLoading" class="spinner-wrapper">
+            <i class="fa fa-spinner fa-pulse fa-3x fa-fw"></i>
+          </div>
           <div *ngIf="!isLoading" class="card-body__content">
             <pre class="content__text"><code [innerHTML]="fingerprint"></code></pre>
             <button class="button button--inside button--fixed button--copy"
@@ -206,8 +208,10 @@
           </header>
         </ng-template>
         <ng-template ngbPanelContent>
-          <span *ngIf="isLoading" class="fa fa-spinner fa-pulse fa-3x fa-fw loading"></span>
-          <div *ngIf="!isLoading" class="card-body__content" >
+          <div *ngIf="isLoading" class="spinner-wrapper">
+            <i class="fa fa-spinner fa-pulse fa-3x fa-fw"></i>
+          </div>
+          <div *ngIf="!isLoading" class="card-body__content">
             <pre class="content__text"><code [innerHTML]="queryExample"></code></pre>
             <button class="button button--inside button--fixed button--copy"
                     id="copyQueryExample"
@@ -238,15 +242,17 @@
     </header>
 
     <ngb-accordion [activeIds]="accordionIds.explainSection" *ngIf="!!queryExample">
-      <ngb-panel *ngIf="!!explainJson || !!explainError" id="json-explain" >
+      <ngb-panel *ngIf="!!explainJson || !!explainError" id="json-explain">
         <ng-template ngbPanelTitle>
           <header class="card-header__content">
             <h5 class="card-header__title">JSON</h5>
           </header>
         </ng-template>
         <ng-template ngbPanelContent>
-          <i *ngIf="isExplainLoading" class="fa fa-spinner fa-pulse fa-3x fa-fw loading"></i>
-          <div *ngIf="!isExplainLoading && !explainError" class="card-body__content" >
+          <div *ngIf="isExplainLoading" class="spinner-wrapper">
+            <i class="fa fa-spinner fa-pulse fa-3x fa-fw"></i>
+          </div>
+          <div *ngIf="!isExplainLoading && !explainError" class="card-body__content">
             <app-json-tree [json]="explainJson"></app-json-tree>
             <button class="button button--inside button--fixed button--copy"
                     id="copyJson"

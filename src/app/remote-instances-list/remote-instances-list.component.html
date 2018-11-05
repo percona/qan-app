@@ -5,15 +5,15 @@
     <span>Endpoint</span>
     <div class="cursor-pointer" (click)="sortInstances('node.region')">
       Region
-      <span *ngIf="!isSorted || !isRegion" class="fa fa-sort sort-icon" aria-hidden="true"></span>
-      <span *ngIf="isSorted && isRegion" [ngClass]="(order === 1) ? 'fa-sort-asc' : 'fa-sort-desc'" class="fa sort-icon"
-            aria-hidden="true"></span>
+      <i *ngIf="!isSorted || !isRegion" class="fa fa-sort sort-icon" aria-hidden="true"></i>
+      <i *ngIf="isSorted && isRegion" [ngClass]="(order === 1) ? 'fa-sort-asc' : 'fa-sort-desc'" class="fa sort-icon"
+            aria-hidden="true"></i>
     </div>
     <div class="cursor-pointer" (click)="sortInstances('service.engine')">
       Engine
-      <span *ngIf="!isSorted || isRegion" class="fa fa-sort sort-icon" aria-hidden="true"></span>
-      <span *ngIf="isSorted && !isRegion" [ngClass]="(order === 1) ? 'fa-sort-asc' : 'fa-sort-desc'" class="fa sort-icon"
-            aria-hidden="true"></span>
+      <i *ngIf="!isSorted || isRegion" class="fa fa-sort sort-icon" aria-hidden="true"></i>
+      <i *ngIf="isSorted && !isRegion" [ngClass]="(order === 1) ? 'fa-sort-asc' : 'fa-sort-desc'" class="fa sort-icon"
+            aria-hidden="true"></i>
     </div>
     <span>Remove</span>
   </header>
@@ -23,11 +23,11 @@
     <span>{{ instance.node.region }}</span>
     <span>{{ instance.service.engine }} {{ instance.service.engine_version }}</span>
     <span>
-      <span class="fa fa-trash-o" (click)="disableInstance(instance.node, instance.service)"></span>
+      <i class="fa fa-trash-o" (click)="disableInstance(instance.node, instance.service)"></i>
     </span>
   </div>
 </section>
 <div *ngIf="errorMessage" class="alert alert-warning w-75 mx-auto m-2" role="alert">
-  <span class="fa fa-exclamation-triangle" aria-hidden="true"></span>
+  <i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
   {{ errorMessage }}
 </div>

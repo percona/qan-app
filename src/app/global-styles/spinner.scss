@@ -1,9 +1,11 @@
+//Not used
 .glyphicon-spin {
   font-size: 4em;
   -webkit-animation: spin 1000ms infinite linear;
   animation: spin 1000ms infinite linear;
 }
 
+//Not used
 @-webkit-keyframes spin {
   0% {
     -webkit-transform: rotate(0deg);
@@ -15,6 +17,7 @@
   }
 }
 
+//Not used
 @keyframes spin {
   0% {
     -webkit-transform: rotate(0deg);
@@ -24,6 +27,18 @@
     -webkit-transform: rotate(359deg);
     transform: rotate(359deg);
   }
+}
+
+.spinner-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: min-content;
+  margin: 0 auto;
+}
+
+.fa-spinner {
+  color: var(--main-text-color, rgb(211,211,211));
 }
 
 .fa-one-half {

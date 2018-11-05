@@ -109,7 +109,10 @@
               class="button button--dark button--big">
         {{quantityDbQueriesMessage}}
       </button>
-      <span *ngIf="isLoading || isQuerySwitching" class="fa fa-spinner fa-pulse fa-fw fa-40"></span>
+      <!--<i *ngIf="isLoading || isQuerySwitching" class="fa fa-spinner fa-pulse fa-fw fa-40"></i>-->
+      <div *ngIf="isLoading || isQuerySwitching" class="spinner-wrapper">
+        <i class="fa fa-spinner fa-pulse fa-fw fa-40"></i>
+      </div>
     </div>
   </div>
 

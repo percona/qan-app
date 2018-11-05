@@ -18,7 +18,7 @@
      target="_blank">
     Where do I get the security credentials for my Amazon RDS DB instance?
   </a>
-  <div *ngIf="isLoading && !allRDSInstances?.length" class="center-children">
+  <div *ngIf="isLoading && !allRDSInstances?.length" class="spinner-wrapper">
     <i class="fa fa-spinner fa-pulse fa-3x fa-fw"></i>
   </div>
   <div *ngIf="errorMessage" class="alert alert-warning w-75 mx-auto m-2" role="alert">
@@ -52,7 +52,7 @@
                 <span class="switcher__slider">
                 </span>
               </label>
-              <div *ngIf="isDisabling && currentInputId === currentInput.id" class="center-children">
+              <div *ngIf="isDisabling && currentInputId === currentInput.id" class="spinner-wrapper">
                 <i class="fa fa-spinner fa-one-half fa-pulse fa-fw"></i>
               </div>
             </div>
@@ -69,8 +69,8 @@
             <div>
               <button type="submit" [disabled]="isDemo" class="button button--dark">Connect</button>
               <button type="reset" (click)="cancel()" class="button button--dark">Cancel</button>
-              <div *ngIf="isConnectLoading" class="center-children">
-                <span class="fa fa-spinner fa-pulse fa-2x fa-fw"></span>
+              <div *ngIf="isConnectLoading" class="spinner-wrapper">
+                <i class="fa fa-spinner fa-pulse fa-2x fa-fw"></i>
               </div>
             </div>
           </div>

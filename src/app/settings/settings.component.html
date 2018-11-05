@@ -116,7 +116,9 @@
         </div>
       </section>
       <ng-template #loading>
-        <i class="fa fa-spinner fa-pulse fa-3x fa-fw loading"></i>
+        <div class="spinner-wrapper">
+          <i class="fa fa-spinner fa-pulse fa-3x fa-fw"></i>
+        </div>
       </ng-template>
     </ng-template>
   </ngb-panel>
@@ -159,7 +161,7 @@
             </button>
           </div>
           <span id="refreshLogLink" title="Refresh log"
-             (click)="refreshAgentLog(); $event.preventDefault(); $event.stopPropagation();">
+                (click)="refreshAgentLog(); $event.preventDefault(); $event.stopPropagation();">
             <i class="fa fa-refresh"></i>
           </span>
         </section>
@@ -181,7 +183,9 @@
         </div>
       </section>
       <ng-template #loading>
-        <i class="fa fa-spinner fa-pulse fa-3x fa-fw loading"></i>
+        <div class="spinner-wrapper">
+          <i class="fa fa-spinner fa-pulse fa-3x fa-fw"></i>
+        </div>
       </ng-template>
     </ng-template>
   </ngb-panel>
