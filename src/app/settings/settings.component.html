@@ -55,13 +55,12 @@
               {{ source.name }}
             </option>
           </select>
-          <button [class.button--inside-active]="isSuccess || isError" [disabled]="isDemo || interval === ''"
+          <button [class.button--inside-active]="isApplied" [disabled]="isDemo || interval === ''"
                   id="settings_apply_button" class="button button--inside settings-content__button"
                   type="submit">
             <i class="fa fa-check"></i>
             Apply
           </button>
-          <!--todo: Add toast notification-->
         </form>
         <section *ngIf="dbServer.Subsystem === 'mysql' && agentConf?.qan?.CollectFrom === 'slowlog'">
           <h3 class="settings-title">Slow Log Configuration</h3>

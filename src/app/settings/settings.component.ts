@@ -34,7 +34,8 @@ export class SettingsComponent extends CoreComponent {
 
   public logPeriod = 12;
   public isDemo = false;
-  isSuccess = false;
+  event = new Event('showSuccessNotification');
+  isApplied = false;
   isError = false;
 
   constructor(protected route: ActivatedRoute, protected router: Router,
@@ -104,23 +105,16 @@ export class SettingsComponent extends CoreComponent {
       this.exampleQueries,
       this.collectFrom
     );
-    const visibleMessageTime = 5000;
+    const visibleMessageTime = 3000;
     try {
       // this.agentConf = res; // diffrent responce than GetDefaults.
-      this.isSuccess = true;
-      this.isError = false;
+      this.isApplied = true;
+      window.parent.document.dispatchEvent(this.event);
       setTimeout(() => {
-        this.isSuccess = false;
-        this.isError = false;
-      }, visibleMessageTime); // add const
+        this.isApplied = false;
+      }, visibleMessageTime);
       this.getAgentDefaults();
     } catch (err) {
-      this.isSuccess = false;
-      this.isError = true;
-      setTimeout(() => {
-        this.isSuccess = false;
-        this.isError = false;
-      }, visibleMessageTime);
       console.error(err);
     }
   }
