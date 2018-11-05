@@ -1,5 +1,13 @@
 .app-theme-light {
-
+  --main-border-color: rgba(0, 0, 0, 0.15); //light
+  --main-text-color: rgb(82, 84, 92); //light
+  --main-highlight-color: rgb(39, 178, 229);
+  --success-highlight-color: rgb(40, 167, 69);
+  --main-button-background: rgb(33, 35, 39);
+  --page-background: rgb(247, 247, 249); //light
+  --element-background: rgb(31, 29, 29);
+  --highlight-background: rgb(230, 230, 250); //light
+  --navigation-link-hover: rgb(85, 85, 85);
 }
 
 //.app-theme-light {

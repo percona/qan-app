@@ -32,7 +32,7 @@
 }
 
 .button--dark {
-  background-color: var(--button-dark);
+  background-color: var(--button-bg);
 }
 
 .button--fixed {
@@ -64,5 +64,9 @@
 }
 
 .app-theme-dark .button {
-  --button-dark: rgb(33, 35, 39);
+  --button-bg: rgb(33, 35, 39);
+}
+
+.app-theme-dark .button {
+  --button-bg: rgb(33, 35, 39);
 }

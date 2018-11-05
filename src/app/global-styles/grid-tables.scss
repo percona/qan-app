@@ -146,6 +146,11 @@
   --row-first-seen: rgb(13, 35, 59);
 }
 
+.app-theme-light .grid-table {
+  --row-active: rgb(255, 228, 225);
+  --row-first-seen: rgb(221, 228, 237);
+}
+
 // Rewrite when `display: contents` will have good browser support https://caniuse.com/#search=display%3Acontents
 .grid-table--no-grid {
   display: table;
