@@ -9,15 +9,20 @@ export class SortingTablePipe implements PipeTransform {
       return instance;
     }
 
-    return instance.sort((a: any, b: any) => {
+    return instance.sort((a: string, b: string) => {
       // We go for each property followed by path
       path.forEach(property => {
+        if (!a[property] || !b[property]) {
+          return
+        }
+
         a = a[property];
         b = b[property];
       });
 
-      // Order * (-1): We change our order
-      return a > b ? order : order * (-1);
+      if (typeof a === 'string' && typeof b === 'string') {
+        return a.toLowerCase() > b.toLowerCase() ? order : order * (-1); // Order * (-1): We change our order
+      }
     })
   }
 

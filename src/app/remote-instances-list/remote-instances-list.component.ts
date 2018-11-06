@@ -11,7 +11,7 @@ import {AddAwsService} from '../add-aws/add-aws.service';
 })
 export class RemoteInstancesListComponent implements OnInit {
   public allInstances: RemoteInstance[] = [];
-  public path: string[] = ['instance']; // same variable as for the loop that generates the table rows
+  path: string[] = ['instance']; // same variable as for the loop that generates the table rows
   order = 1;
   isSorted = false;
   isRegion = false;
