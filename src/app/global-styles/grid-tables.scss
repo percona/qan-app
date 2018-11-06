@@ -43,7 +43,7 @@
 }
 
 .grid-table__row > *:first-child {
-  word-break: unset;
+  word-break: keep-all;
 }
 
 .grid-table__row--cursor {
