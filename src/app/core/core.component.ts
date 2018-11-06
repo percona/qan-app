@@ -92,9 +92,7 @@ export abstract class CoreComponent implements OnDestroy {
         this.from = this.parseQueryParamDatePipe.transform(this.queryParams.from, 'from');
         this.to = this.parseQueryParamDatePipe.transform(this.queryParams.to, 'to');
         this.fromUTCDate = this.from.utc().format('YYYY-MM-DDTHH:mm:ss');
-        console.log('fromU - ', this.fromUTCDate);
         this.toUTCDate = this.to.utc().format('YYYY-MM-DDTHH:mm:ss');
-      console.log('toUTCDate - ', this.toUTCDate);
     }
 
     /**
