@@ -690,7 +690,7 @@
           </header>
         </ng-template>
         <ng-template ngbPanelContent>
-          <div *ngIf="isLoading" class="spinner-wrapper">
+          <div *ngIf="isLoading" class="spinner-wrapper spinner-wrapper--centered">
             <i class="fa fa-spinner fa-pulse fa-3x fa-fw"></i>
           </div>
           <div class="card-body__content" *ngIf="!isLoading">
@@ -713,7 +713,7 @@
           </header>
         </ng-template>
         <ng-template ngbPanelContent>
-          <div *ngIf="isLoading" class="spinner-wrapper">
+          <div *ngIf="isLoading" class="spinner-wrapper spinner-wrapper--centered">
             <i class="fa fa-spinner fa-pulse fa-3x fa-fw"></i>
           </div>
           <div *ngIf="!isLoading" class="card-body__content">
@@ -754,7 +754,7 @@
           </header>
         </ng-template>
         <ng-template ngbPanelContent>
-          <div *ngIf="isExplainLoading" class="spinner-wrapper">
+          <div *ngIf="isExplainLoading" class="spinner-wrapper spinner-wrapper--centered">
             <i class="fa fa-spinner fa-pulse fa-3x fa-fw"></i>
           </div>
           <div *ngIf="!isExplainLoading && explainError" class="alert alert-warning w-75 mx-auto m-2"
@@ -802,7 +802,7 @@
           </header>
         </ng-template>
         <ng-template ngbPanelContent>
-          <div *ngIf="isExplainLoading" class="spinner-wrapper">
+          <div *ngIf="isExplainLoading" class="spinner-wrapper spinner-wrapper--centered">
             <i class="fa fa-spinner fa-pulse fa-3x fa-fw"></i>
           </div>
           <div *ngIf="!isExplainLoading && !explainError" class="card-body__content">
@@ -830,7 +830,7 @@
           </header>
         </ng-template>
         <ng-template ngbPanelContent>
-          <div *ngIf="isExplainLoading" class="spinner-wrapper">
+          <div *ngIf="isExplainLoading" class="spinner-wrapper spinner-wrapper--centered">
             <i class="fa fa-spinner fa-pulse fa-3x fa-fw"></i>
           </div>
           <div *ngIf="!isExplainLoading && !explainError" class="card-body__content">
@@ -887,7 +887,7 @@
           </header>
         </ng-template>
         <ng-template ngbPanelContent>
-          <div *ngIf="isTableInfoLoading" class="spinner-wrapper">
+          <div *ngIf="isTableInfoLoading" class="spinner-wrapper spinner-wrapper--centered">
             <i class="fa fa-spinner fa-pulse fa-3x fa-fw"></i>
           </div>
           <div *ngIf="!isTableInfoLoading && createTableError" class="alert alert-warning w-75 mx-auto m-2" role="alert">
@@ -915,7 +915,7 @@
           </header>
         </ng-template>
         <ng-template ngbPanelContent>
-          <div *ngIf="isTableInfoLoading" class="spinner-wrapper">
+          <div *ngIf="isTableInfoLoading" class="spinner-wrapper spinner-wrapper--centered">
             <i class="fa fa-spinner fa-pulse fa-3x fa-fw"></i>
           </div>
           <div *ngIf="!isTableInfoLoading && !!statusTableError" class="alert alert-warning w-75 mx-auto m-2" role="alert">
@@ -951,7 +951,7 @@
           </header>
         </ng-template>
         <ng-template ngbPanelContent>
-          <div *ngIf="isTableInfoLoading" class="spinner-wrapper">
+          <div *ngIf="isTableInfoLoading" class="spinner-wrapper spinner-wrapper--centered">
             <i class="fa fa-spinner fa-pulse fa-3x fa-fw"></i>
           </div>
           <div *ngIf="!isTableInfoLoading && !!indexTableError"

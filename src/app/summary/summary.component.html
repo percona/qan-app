@@ -29,7 +29,7 @@
     <ng-template ngbPanelContent>
       <div class="card-body__content">
         <pre *ngIf="!serverSummaryLoader && serverSummary">{{ serverSummary }}</pre>
-        <div *ngIf="serverSummaryLoader" class="spinner-wrapper">
+        <div *ngIf="serverSummaryLoader" class="spinner-wrapper spinner-wrapper--centered">
           <i class="fa fa-spinner fa-pulse fa-3x fa-fw"></i>
         </div>
         <div *ngIf="!serverSummaryLoader && serverSummaryError" class="alert alert-warning w-75 mx-auto m-2" role="alert">
@@ -48,7 +48,7 @@
     <ng-template ngbPanelContent>
       <div class="card-body__content">
         <pre *ngIf="!mysqlSummaryLoader && mysqlSummary">{{ mysqlSummary }}</pre>
-        <div *ngIf="mysqlSummaryLoader" class="spinner-wrapper">
+        <div *ngIf="mysqlSummaryLoader" class="spinner-wrapper spinner-wrapper--centered">
           <i class="fa fa-spinner fa-pulse fa-3x fa-fw"></i>
         </div>
         <div *ngIf="!mysqlSummaryLoader && mysqlSummaryError" class="alert alert-warning w-75 mx-auto m-2" role="alert">
@@ -67,7 +67,7 @@
     <ng-template ngbPanelContent>
       <div class="card-body__content">
         <pre *ngIf="!mongoSummaryLoader && mongoSummary">{{ mongoSummary }}</pre>
-        <div *ngIf="mongoSummaryLoader" class="spinner-wrapper">
+        <div *ngIf="mongoSummaryLoader" class="spinner-wrapper spinner-wrapper--centered">
           <i class="fa fa-spinner fa-pulse fa-3x fa-fw"></i>
         </div>
         <div *ngIf="!mongoSummaryLoader && mongoSummaryError" class="alert alert-warning w-75 mx-auto m-2" role="alert">
