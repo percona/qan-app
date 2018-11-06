@@ -3,6 +3,46 @@
     height: 16px;
 }
 
+.logo-img-mobile {
+  display: block;
+  position: absolute;
+  width: 105px;
+  height: 32px;
+  background-size: 100px;
+  background: url(assets/footer-logo.png) no-repeat;
+}
+
+.logo-text-mobile {
+  font-size: 7pt;
+  position: absolute;
+  bottom: 0;
+  left: 35px;
+}
+
+.logo-img {
+  display: block;
+  width: 105px;
+  height: 32px;
+  background-size: 100px;
+  background: url(assets/footer-logo.png) no-repeat;
+}
+
+.logo-text {
+  font-size: 7pt;
+  position: absolute;
+  bottom: 14px;
+  left: 50px;
+}
+
+.hosts-list-menu {
+  margin: 0;
+  padding: 0;
+  min-width: 600px;
+  max-width: 900px;
+  max-height: 70vh;
+  overflow: scroll;
+}
+
 @media screen {
     .scrollable-list {
         margin: 0;

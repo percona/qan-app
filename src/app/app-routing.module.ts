@@ -11,7 +11,7 @@ import { AddInstanceComponent } from './add-instance/add-instance.component';
 import { AddAwsComponent } from './add-aws/add-aws.component';
 import { InstanceService } from './core/instance.service';
 import { AddRemoteInstanceComponent } from './add-remote-instances/add-remote-instance.component';
-import {RemoteInstancesListComponent} from './remote-instances-list/remote-instances-list.component';
+import { RemoteInstancesListComponent } from './remote-instances-list/remote-instances-list.component';
 
 @Injectable()
 export class RegisteredInstanceGuard implements CanActivate {

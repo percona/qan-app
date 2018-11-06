@@ -1,0 +1,20 @@
+.configuration-panel {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: var(--main-bottom-indent);
+}
+
+.configuration-panel__title {
+  margin-bottom: 0;
+}
+
+.configuration-panel__title--between {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.configuration-panel__options > *:first-child {
+  margin-right: 10px;
+}

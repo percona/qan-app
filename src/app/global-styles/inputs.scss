@@ -1,0 +1,76 @@
+.input-field {
+  --default-left-right-indent: 1rem;
+
+  width: 100%;
+  padding: 0 var(--default-left-right-indent);
+  color: inherit;
+  border: 1px solid var(--main-border-color);
+  background-color: transparent;
+}
+
+.input-field::placeholder {
+  font-style: italic;
+  color: rgb(145, 145, 145);
+}
+
+.input-field:active,
+.input-field:focus {
+  outline: none;
+}
+
+.input-field--dark {
+  background-color: var(--page-background);
+}
+
+.input--invalid {
+  border-color: rgb(255, 0, 0);
+}
+
+.input-field--interval,
+.input-field--select {
+  height: 40px;
+  padding: var(--default-left-right-indent);
+}
+
+.input-field--interval {
+  width: 80px;
+}
+
+.input-field--select {
+  width: 200px;
+}
+
+.configuration-form {
+  --input-width: 370px;
+  --input-width-smal: 300px;
+  --input-top-indent: .375rem;
+  --input-right-indent: 0.75rem;
+
+  position: relative;
+  display: flex;
+}
+
+.configuration-form__input {
+  width: var(--input-width);
+  padding: var(--input-top-indent, 0) var(--input-right-indent, var(--default-left-right-indent));
+}
+
+.configuration-form__input--small {
+  width: var(--input-width-smal);
+}
+
+.configuration-form__button {
+  cursor: pointer;
+  padding: var(--input-top-indent) var(--input-right-indent) var(--input-top-indent) 0;
+  color: inherit;
+  border: 1px solid var(--main-border-color);
+  background-color: transparent;
+}
+
+.configuration-form--clicked .configuration-form__input {
+  border-right: none;
+}
+
+.configuration-form--clicked .configuration-form__button {
+  border-left: none;
+}

@@ -1,14 +1,14 @@
 import { Injectable } from '@angular/core';
-import { Http, Headers } from '@angular/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 
 import 'rxjs/add/operator/toPromise';
 
 @Injectable()
 export class SummaryService {
 
-    private headers = new Headers({ 'Content-Type': 'application/json' });
+    private httpHeaders = new HttpHeaders({ 'Content-Type': 'application/json' });
 
-    constructor(private http: Http) { }
+    constructor(private httpClient: HttpClient) { }
 
     public getServer(agentUUID: string, serverUUID: string) {
         const url = `/qan-api/agents/${agentUUID}/cmd`;
@@ -22,11 +22,10 @@ export class SummaryService {
             Data: btoa(JSON.stringify(data))
         };
 
-        return this.http
-            .put(url, params, { headers: this.headers })
+        return this.httpClient
+            .put(url, params, { headers: this.httpHeaders })
             .toPromise()
-            .then(response => response.json())
-            .then(resp => {
+            .then((resp: any) => {
                 // if not error - continue
                 if (!resp.Error) {
                     return resp;
@@ -58,11 +57,10 @@ export class SummaryService {
             Data: btoa(JSON.stringify(data))
         };
 
-        return this.http
-            .put(url, params, { headers: this.headers })
+        return this.httpClient
+            .put(url, params, { headers: this.httpHeaders })
             .toPromise()
-            .then(response => response.json())
-            .then(resp => {
+            .then((resp: any) => {
                 // if not error - continue
                 if (!resp.Error) {
                     return resp;
@@ -95,11 +93,10 @@ export class SummaryService {
             Data: btoa(JSON.stringify(data))
         };
 
-        return this.http
-            .put(url, params, { headers: this.headers })
+        return this.httpClient
+            .put(url, params, { headers: this.httpHeaders })
             .toPromise()
-            .then(response => response.json())
-            .then(resp => {
+            .then((resp: any) => {
                 // if not error - continue
                 if (!resp.Error) {
                     return resp;

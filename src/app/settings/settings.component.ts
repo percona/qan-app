@@ -1,10 +1,10 @@
 import {Component} from '@angular/core';
 import {Router, ActivatedRoute} from '@angular/router';
-import {Instance, InstanceService} from '../core/instance.service';
+import {InstanceService} from '../core/instance.service';
 import {CoreComponent} from '../core/core.component';
 import {environment} from '../environment';
 import * as moment from 'moment';
-import {Observable} from 'rxjs/Observable';
+import {Observable} from 'rxjs/Rx';
 import 'rxjs/add/observable/interval';
 import 'rxjs/add/operator/map';
 import {SettingsService} from './settings.service';
@@ -34,7 +34,8 @@ export class SettingsComponent extends CoreComponent {
 
   public logPeriod = 12;
   public isDemo = false;
-  isSuccess = false;
+  event = new Event('showSuccessNotification');
+  isApplied = false;
   isError = false;
 
   constructor(protected route: ActivatedRoute, protected router: Router,
@@ -77,6 +78,8 @@ export class SettingsComponent extends CoreComponent {
    *  - Collect from: 'slowlog' or 'perfschema'.
    */
   public async getAgentDefaults() {
+    if (!this.agent || !this.dbServer || this.isAllSelected || this.isNotExistSelected) { return }
+
     const res = await this.settingsService.getAgentDefaults(this.agent.UUID, this.dbServer.UUID);
     try {
       this.agentConf = res;
@@ -102,23 +105,16 @@ export class SettingsComponent extends CoreComponent {
       this.exampleQueries,
       this.collectFrom
     );
-    const visibleMessageTime = 5000;
+    const visibleMessageTime = 3000;
     try {
       // this.agentConf = res; // diffrent responce than GetDefaults.
-      this.isSuccess = true;
-      this.isError = false;
+      this.isApplied = true;
+      window.parent.document.dispatchEvent(this.event);
       setTimeout(() => {
-        this.isSuccess = false;
-        this.isError = false;
-      }, visibleMessageTime); // add const
+        this.isApplied = false;
+      }, visibleMessageTime);
       this.getAgentDefaults();
     } catch (err) {
-      this.isSuccess = false;
-      this.isError = true;
-      setTimeout(() => {
-        this.isSuccess = false;
-        this.isError = false;
-      }, visibleMessageTime);
       console.error(err);
     }
   }
@@ -127,6 +123,8 @@ export class SettingsComponent extends CoreComponent {
    * Get slice of exported variables of agent.
    */
   getAgentStatus() {
+    if (!this.agent || this.isAllSelected || this.isNotExistSelected) { return }
+
     this.agentStatus = this.settingsService.getAgentStatus(this.agent.UUID);
     const updated: any = moment();
     this.statusUpdatedFromNow$ = Observable.interval(60000).map(n => updated.fromNow());
@@ -136,6 +134,8 @@ export class SettingsComponent extends CoreComponent {
    * get agent log for some period.
    */
   getAgentLog() {
+    if (!this.agent || this.isAllSelected || this.isNotExistSelected) { return }
+
     const begin = moment.utc().subtract(this.logPeriod, 'h').format('YYYY-MM-DDTHH:mm:ss');
     const end = moment.utc().format('YYYY-MM-DDTHH:mm:ss');
     this.agentLog = this.settingsService.getAgentLog(this.agent.UUID, begin, end);
