@@ -3,7 +3,7 @@ import { Router, ActivatedRoute, Params } from '@angular/router';
 
 import { CoreComponent } from '../core/core.component';
 import { SummaryService } from './summary.service';
-import { Instance, InstanceService } from '../core/instance.service';
+import { InstanceService } from '../core/instance.service';
 import * as JSZip from 'jszip';
 import saveAs from 'jszip/vendor/FileSaver';
 import * as moment from 'moment';
@@ -44,7 +44,7 @@ export class SummaryComponent extends CoreComponent {
      * @param agentUUID agent UUID that is installed on same host as MySQL.
      */
     getServerSummary(agentUUID: string): void {
-        if (!this.dbServer || ! this.dbServer.ParentUUID) { return; }
+      if (this.isAllSelected || this.isNotExistSelected) { return; }
         this.summaryService
             .getServer(agentUUID, this.dbServer.ParentUUID)
             .then(data => this.serverSummary = data)
@@ -57,8 +57,8 @@ export class SummaryComponent extends CoreComponent {
      * @param agentUUID agent UUID that is monitoring MySQL Server.
      */
     getMySQLSummary(agentUUID: string): void {
-        if (!this.dbServer || !this.dbServer.UUID) { return; }
-        this.summaryService
+      if (this.dbServer.Subsystem !== 'mysql' || this.isAllSelected || this.isNotExistSelected) { return; }
+      this.summaryService
             .getMySQL(agentUUID, this.dbServer.UUID)
             .then(data => this.mysqlSummary = data)
             .catch(err => this.mysqlSummaryError = err.message)
@@ -70,7 +70,7 @@ export class SummaryComponent extends CoreComponent {
      * @param agentUUID agent UUID that is monitoring MongoDB Server.
      */
     getMongoSummary(agentUUID: string): void {
-        if (!this.dbServer || !this.dbServer.UUID) { return; }
+      if (this.dbServer.Subsystem !== 'mongo' || this.isAllSelected || this.isNotExistSelected) { return; }
         this.summaryService
             .getMongo(agentUUID, this.dbServer.UUID)
             .then(data => this.mongoSummary = data)
@@ -79,7 +79,6 @@ export class SummaryComponent extends CoreComponent {
     }
 
     downloadSummary() {
-        if (!this.dbServer || !this.dbServer.Subsystem || !this.dbServer.Name) { return; }
         const momentFormatPipe = new MomentFormatPipe();
         const date = momentFormatPipe.transform(moment.utc(), 'YYYY-MM-DDTHH:mm:ss');
         const filename = `pmm-${this.dbServer.Name}-${date}-summary.zip`;
@@ -106,7 +105,7 @@ export class SummaryComponent extends CoreComponent {
      * @param params - URL query parameters
      */
     onChangeParams(params) {
-        if (!this.dbServer || !this.dbServer.Subsystem || !this.agent || !this.agent.UUID) { return; }
+        if (this.isAllSelected || this.isNotExistSelected) { return; }
         // to initalise loader when host was changed
         this.mysqlSummary = '';
         this.mongoSummary = '';

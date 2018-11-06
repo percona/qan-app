@@ -1,12 +1,17 @@
-<div class="row justify-content-md-center">
-    <button *ngIf="!(mysqlSummaryLoader && mongoSummaryLoader)  && !serverSummaryLoader"
-            (click)="downloadSummary()" class="pmm-button-big checked">
-        <i class="fa fa-file-archive-o" aria-hidden="true"></i>
-        Download Summary
-    </button>
+<div class="button-group button-group--center-children">
+  <button *ngIf="!(isAllSelected || isNotExistSelected) || !!serverSummaryError || !!mysqlSummaryError || !!mongoSummaryError"
+          [disabled]="(mysqlSummaryLoader && mongoSummaryLoader) || serverSummaryLoader"
+          (click)="downloadSummary()"
+          class="button button--dark">
+    <i class="fa fa-file-archive-o" aria-hidden="true"></i>
+    Download Summary
+  </button>
 </div>
-<div *ngIf="isAllSelected" class="alert alert-warning w-75 mx-auto text-center wrap" role="alert">Host name of All is not valid, please click the Host dropdown and select a valid host.</div>
-<div *ngIf="isNotExistSelected" class="alert alert-warning w-75 mx-auto text-center wrap" role="alert">Host name is not valid, please click the Host dropdown and select a valid host. If the Host list is empty, use
+<div *ngIf="isAllSelected" class="alert alert-warning w-75 mx-auto text-center wrap" role="alert">Host name of All is not valid, please
+  click the Host dropdown and select a valid host.
+</div>
+<div *ngIf="isNotExistSelected" class="alert alert-warning w-75 mx-auto text-center wrap" role="alert">Host name is not valid, please click
+  the Host dropdown and select a valid host. If the Host list is empty, use
   <code>pmm-admin add</code> to add a monitoring service and check again. For more information on how to add a monitoring service,
   consult
   <a href="https://www.percona.com/doc/percona-monitoring-and-management/pmm-admin.html#adding-monitoring-services"
@@ -14,54 +19,62 @@
     PMM documentation.
   </a>
 </div>
-<div class="row">
-    <div class="col-md-12">
-        <ngb-accordion activeIds="system-summary-panel,mysql-summary-panel">
-            <ngb-panel id="system-summary-panel">
-                <ng-template ngbPanelTitle>
-                  <div class="accordion-title">
-                    <h5>System Summary</h5>
-                  </div>
-                </ng-template>
-                <ng-template ngbPanelContent>
-                    <pre *ngIf="!serverSummaryLoader && serverSummary" style="margin: 1rem">{{ serverSummary }}</pre>
-                    <i *ngIf="serverSummaryLoader" class="fa fa-spinner fa-pulse fa-3x fa-fw loading"></i>
-                    <div *ngIf="!serverSummaryLoader && serverSummaryError" class="alert alert-warning w-75 mx-auto m-2" role="alert">
-                        <i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
-                        {{ serverSummaryError }}
-                    </div>
-                </ng-template>
-            </ngb-panel>
-            <ngb-panel *ngIf="dbServer && (dbServer.Subsystem === 'mysql')" id="mysql-summary-panel">
-                <ng-template ngbPanelTitle>
-                  <div class="accordion-title">
-                    <h5>MySQL Summary</h5>
-                  </div>
-                </ng-template>
-                <ng-template ngbPanelContent>
-                    <pre *ngIf="!mysqlSummaryLoader && mysqlSummary" style="margin: 1rem">{{ mysqlSummary }}</pre>
-                    <i *ngIf="mysqlSummaryLoader" class="fa fa-spinner fa-pulse fa-3x fa-fw loading"></i>
-                    <div *ngIf="!mysqlSummaryLoader && mysqlSummaryError" class="alert alert-warning w-75 mx-auto m-2" role="alert">
-                        <i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
-                        {{ mysqlSummaryError }}
-                    </div>
-                </ng-template>
-            </ngb-panel>
-            <ngb-panel *ngIf="dbServer && (dbServer.Subsystem === 'mongo')" id="mongo-summary-panel">
-                <ng-template ngbPanelTitle>
-                  <div class="accordion-title">
-                    <h5>MongoDB Summary</h5>
-                  </div>
-                </ng-template>
-                <ng-template ngbPanelContent>
-                    <pre *ngIf="!mongoSummaryLoader && mongoSummary" style="margin: 1rem">{{ mongoSummary }}</pre>
-                    <i *ngIf="mongoSummaryLoader" class="fa fa-spinner fa-pulse fa-3x fa-fw loading"></i>
-                    <div *ngIf="!mongoSummaryLoader && mongoSummaryError" class="alert alert-warning w-75 mx-auto m-2" role="alert">
-                        <i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
-                        {{ mongoSummaryError }}
-                    </div>
-                </ng-template>
-            </ngb-panel>
-        </ngb-accordion>
-    </div>
-</div>
+<ngb-accordion activeIds="system-summary-panel, mysql-summary-panel">
+  <ngb-panel *ngIf="!!dbServer" id="system-summary-panel">
+    <ng-template ngbPanelTitle>
+      <header class="card-header__content">
+        <h5 class="card-header__title">System Summary</h5>
+      </header>
+    </ng-template>
+    <ng-template ngbPanelContent>
+      <div class="card-body__content">
+        <pre *ngIf="!serverSummaryLoader && serverSummary">{{ serverSummary }}</pre>
+        <div *ngIf="serverSummaryLoader" class="spinner-wrapper spinner-wrapper--centered">
+          <i class="fa fa-spinner fa-pulse fa-3x fa-fw"></i>
+        </div>
+        <div *ngIf="!serverSummaryLoader && serverSummaryError" class="alert alert-warning w-75 mx-auto m-2" role="alert">
+          <i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
+          {{ serverSummaryError }}
+        </div>
+      </div>
+    </ng-template>
+  </ngb-panel>
+  <ngb-panel *ngIf="!!dbServer && dbServer.Subsystem === 'mysql'" id="mysql-summary-panel">
+    <ng-template ngbPanelTitle>
+      <header class="card-header__content">
+        <h5 class="card-header__title">MySQL Summary</h5>
+      </header>
+    </ng-template>
+    <ng-template ngbPanelContent>
+      <div class="card-body__content">
+        <pre *ngIf="!mysqlSummaryLoader && mysqlSummary">{{ mysqlSummary }}</pre>
+        <div *ngIf="mysqlSummaryLoader" class="spinner-wrapper spinner-wrapper--centered">
+          <i class="fa fa-spinner fa-pulse fa-3x fa-fw"></i>
+        </div>
+        <div *ngIf="!mysqlSummaryLoader && mysqlSummaryError" class="alert alert-warning w-75 mx-auto m-2" role="alert">
+          <i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
+          {{ mysqlSummaryError }}
+        </div>
+      </div>
+    </ng-template>
+  </ngb-panel>
+  <ngb-panel *ngIf="!!dbServer && dbServer.Subsystem === 'mongo'" id="mongo-summary-panel">
+    <ng-template ngbPanelTitle>
+      <header class="card-header__content">
+        <h5 class="card-header__title">MongoDB Summary</h5>
+      </header>
+    </ng-template>
+    <ng-template ngbPanelContent>
+      <div class="card-body__content">
+        <pre *ngIf="!mongoSummaryLoader && mongoSummary">{{ mongoSummary }}</pre>
+        <div *ngIf="mongoSummaryLoader" class="spinner-wrapper spinner-wrapper--centered">
+          <i class="fa fa-spinner fa-pulse fa-3x fa-fw"></i>
+        </div>
+        <div *ngIf="!mongoSummaryLoader && mongoSummaryError" class="alert alert-warning w-75 mx-auto m-2" role="alert">
+          <i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
+          {{ mongoSummaryError }}
+        </div>
+      </div>
+    </ng-template>
+  </ngb-panel>
+</ngb-accordion>

@@ -1,11 +1,9 @@
 import 'rxjs/add/operator/filter';
 import { Component, OnDestroy } from '@angular/core';
-import { Location } from '@angular/common';
-import { Instance, InstanceService } from '../../core/instance.service';
-import { ParseQueryParamDatePipe } from '../../shared/parse-query-param-date.pipe';
+import { InstanceService } from '../instance.service';
 import { MomentFormatPipe } from '../../shared/moment-format.pipe';
 import { QueryParams, CoreComponent } from '../core.component';
-import { Router, ActivatedRoute, NavigationEnd } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs/Subscription';
 import * as moment from 'moment';
 

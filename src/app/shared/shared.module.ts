@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { HttpModule } from '@angular/http';
+import { HttpClientModule } from '@angular/common/http';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { RouterModule } from '@angular/router';
 import { HumanizePipe } from './humanize.pipe';
@@ -21,7 +21,7 @@ import { SortingTablePipe } from './sorting-table.pipe';
      MapToIterablePipe, MomentFormatPipe, TruncateRootPipe, ParseQueryParamDatePipe, SortingTablePipe],
   exports: [MapToIterablePipe, MomentFormatPipe, TruncateRootPipe, HumanizePipe,
     LatencyChartDirective, LoadSparklinesDirective, SortingTablePipe,
-    CommonModule, FormsModule, HttpModule, NgbModule, RouterModule]
+    CommonModule, FormsModule, HttpClientModule, NgbModule, RouterModule]
 })
 export class SharedModule {
   static forRoot() {

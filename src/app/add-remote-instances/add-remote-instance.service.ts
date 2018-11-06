@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-import {Headers, Http} from '@angular/http';
+import {HttpClient, HttpHeaders} from '@angular/common/http';
 
 export interface RemoteInstanceCredentials {
   address: string;
@@ -31,10 +31,10 @@ export interface RemoteInstance {
 @Injectable()
 export class AddRemoteInstanceService {
 
-  private headers = new Headers({'Content-Type': 'application/json'});
+  private httpHeaders = new HttpHeaders({'Content-Type': 'application/json'});
   instanceUrlPart: string;
 
-  constructor(private http: Http) {
+  constructor(private httpClient: HttpClient) {
   }
 
   async enable(remoteInstanceCredentials: RemoteInstanceCredentials, currentUrl): Promise<{}> {
@@ -48,10 +48,9 @@ export class AddRemoteInstanceService {
       password: remoteInstanceCredentials.password,
       username: remoteInstanceCredentials.username
     };
-    const response = await this.http
-      .post(url, data, {headers: this.headers})
-      .toPromise();
-    return response.json();
+    return await this.httpClient
+      .post(url, data, {headers: this.httpHeaders})
+      .toPromise()
   }
 
   /**

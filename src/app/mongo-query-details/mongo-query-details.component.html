@@ -1,281 +1,272 @@
-<header class="section-title" *ngIf="!isSummary">
-  <h3 class="d-flex justify-content-between w-100">
-    <span class="query-abstract">{{ queryDetails?.Query?.Abstract }}</span>
-    <span class="query-id">{{ queryDetails?.Query?.Id }}</span>
-  </h3>
-</header>
-<section class="server-summary" *ngIf="!!isSummary || !!queryDetails?.Metrics2">
-  <header class="section-title" *ngIf="isSummary">
-    <h3 class="d-inline summary-header">Server Summary</h3>
+<section *ngIf="!!isSummary || !!queryDetails?.Metrics2">
+  <header class="configuration-panel">
+    <h3 *ngIf="!!isSummary" class="configuration-panel__title">
+      Server Summary
+    </h3>
+    <h3 *ngIf="!isSummary" class="configuration-panel__title configuration-panel__title--between">
+      <span>{{ queryDetails?.Query?.Abstract }}</span>
+      <span>{{ queryDetails?.Query?.Id }}</span>
+    </h3>
   </header>
   <ngb-accordion [activeIds]="accordionIds.serverSummary">
-    <ngb-panel id="metrics-table" class="accordion-inner-table">
+    <ngb-panel id="metrics-table">
       <ng-template ngbPanelTitle>
-        <div class="accordion-title">
-          <h5>Metrics</h5>
-          <span *ngIf="!isSummary" class="first-seen-range">
-            Query first seen: <strong class="first-seen-time" [class.first-seen]="isFirstSeen">{{ firstSeen }}</strong>
+        <div class="card-header__content">
+          <h5 class="card-header__title">Metrics</h5>
+          <span *ngIf="!isSummary" class="card-header__info">
+            Query first seen: <strong [class.highlight-content]="isFirstSeen">{{ firstSeen }}</strong>
             Last seen: <strong>{{ lastSeen }}</strong>
           </span>
         </div>
       </ng-template>
       <ng-template ngbPanelContent>
-        <div class="table-wrapper metrics-table" *ngIf="!isLoading">
-          <div class="table-header grid-container table-header-row">
-            <div>Metrics</div>
-            <div>Rate/Sec</div>
-            <div>Sum</div>
-            <div>Per Query Stats</div>
-          </div>
-          <div class="table-body">
-            <div class="table-body-row grid-container">
-              <div><span>Query Count</span></div>
-              <div class="flex-container">
-                <div class="justify-content-start">
-                  <span class="unit unit-per-sec">{{ queryDetails?.Metrics2?.Query_count_per_sec | humanize : 'number' }}</span>
-                </div>
-                <div class="scaling-svg-container app-tooltip" [appLoadSparklines]="queryDetails?.Sparks2"
-                     data-tooltip="Loading..." xkey="Ts" ykey="Query_count_per_sec" measurement="number">
-                </div>
-              </div>
-              <div>
-                <span>{{ queryDetails?.Metrics2?.Query_count | humanize : 'number' }}
-                  <small>
-                    <span *ngIf="!isSummary" class="text-primary">
-                      <span>{{ queryDetails?.Metrics2?.Query_count_of_total | humanize : 'percent' }}</span> of total
-                    </span>
-                  </small>
-                </span>
-              </div>
-              <div class="flex-container">
-                <div class="justify-content-start">
-                  <span class="unit unit-avg">{{ queryDetails?.Metrics2?.Query_time_avg | humanize : 'time' }}</span>
-                </div>
-                <div class="scaling-svg-container app-tooltip"
-                     data-tooltip="Loading..."
-                     [appLatencyChart]="queryDetails?.Metrics2"
-                     measurement="time"
-                     metricPrefix="Query_time">
-                </div>
+        <section *ngIf="!isLoading" class="grid-table grid-table--no-frame">
+          <header class="grid-table__row grid-table__row--metrics grid-table__row--highlight">
+            <span>Metrics</span>
+            <span>Rate/Sec</span>
+            <span>Sum</span>
+            <span>Per Query Stats</span>
+          </header>
+          <div class="grid-table__row grid-table__row--metrics">
+            <span>Query Count</span>
+            <div class="row__cells">
+              <span class="unit unit--per-sec">{{ queryDetails?.Metrics2?.Query_count_per_sec | humanize : 'number' }}</span>
+              <div [appLoadSparklines]="queryDetails?.Sparks2" class="scaling-svg-container app-tooltip"
+                   data-tooltip="Loading..." xkey="Ts" ykey="Query_count_per_sec" measurement="number">
               </div>
             </div>
-            <div class="table-body-row grid-container">
-              <div><span>Query Time</span></div>
-              <div class="flex-container">
-                <div class="cell-overlay justify-content-start">
-                  <span>{{ queryDetails?.Metrics2?.Query_time_sum_per_sec | humanize : 'number' }} load
-                    (<span>{{ queryDetails?.Metrics2?.Query_time_sum_of_total | humanize : 'percent' }}</span>)
+            <div>
+              <span>{{ queryDetails?.Metrics2?.Query_count | humanize : 'number' }}
+                <small *ngIf="!isSummary" class="highlight-content">
+                  {{ queryDetails?.Metrics2?.Query_count_of_total | humanize : 'percent' }} of total
+                </small>
+              </span>
+            </div>
+            <div class="row__cells">
+              <span class="unit unit--avg">{{ queryDetails?.Metrics2?.Query_time_avg | humanize : 'time' }}</span>
+              <div class="scaling-svg-container app-tooltip"
+                   data-tooltip="Loading..."
+                   [appLatencyChart]="queryDetails?.Metrics2"
+                   measurement="time"
+                   metricPrefix="Query_time">
+              </div>
+            </div>
+          </div>
+          <div class="grid-table__row grid-table__row--metrics">
+            <span>Query Time</span>
+            <div class="row__cells">
+              <div class="overlay-container">
+                <span class="overlay-container__item">
+                  {{ queryDetails?.Metrics2?.Query_time_sum_per_sec | humanize : 'number' }} load
+                  (<span>{{ queryDetails?.Metrics2?.Query_time_sum_of_total | humanize : 'percent' }}</span>)
+                </span>
+              </div>
+              <div class="scaling-svg-container app-tooltip" [appLoadSparklines]="queryDetails?.Sparks2"
+                   data-tooltip="Loading..." xkey="Ts" ykey="Query_time_sum_per_sec" measurement="number">
+              </div>
+            </div>
+            <div>
+              <span>{{ queryDetails?.Metrics2?.Query_time_sum | humanize : 'time' }}
+                <small *ngIf="!isSummary" class="highlight-content">
+                  {{ queryDetails?.Metrics2?.Query_time_sum_of_total | humanize : 'percent' }} of total
+                </small>
+              </span>
+            </div>
+            <div class="row__cells">
+              <span class="unit unit--avg">{{ queryDetails?.Metrics2?.Query_time_avg | humanize : 'time' }}</span>
+              <div class="scaling-svg-container app-tooltip"
+                   data-tooltip="Loading..."
+                   [appLatencyChart]="queryDetails?.Metrics2"
+                   measurement="time"
+                   metricPrefix="Query_time">
+              </div>
+            </div>
+          </div>
+          <div *ngIf="queryDetails?.Metrics2?.Rows_sent_sum" class="grid-table__row grid-table__row--metrics">
+            <span>Docs Returned</span>
+            <div class="row__cells">
+              <div class="overlay-container">
+                <span class="unit unit--per-sec overlay-container__item">
+                  {{ queryDetails?.Metrics2?.Rows_sent_sum_per_sec | humanize : 'number' }}
+                </span>
+              </div>
+              <div class="scaling-svg-container app-tooltip" [appLoadSparklines]="queryDetails?.Sparks2"
+                   data-tooltip="Loading..." xkey="Ts" ykey="Rows_sent_sum_per_sec" measurement="number">
+              </div>
+            </div>
+            <div>
+              <span>
+                {{ queryDetails?.Metrics2?.Rows_sent_sum | humanize : 'number' }}
+                <small>
+                  <span *ngIf="!isSummary" class="highlight-content">
+                    {{ queryDetails?.Metrics2?.Rows_sent_sum_of_total | humanize : 'percent' }}of total
                   </span>
-                </div>
-                <div class="scaling-svg-container app-tooltip" [appLoadSparklines]="queryDetails?.Sparks2"
-                     data-tooltip="Loading..." xkey="Ts" ykey="Query_time_sum_per_sec" measurement="number">
-                </div>
-              </div>
-              <div>
-                <span class="sum text-left">{{ queryDetails?.Metrics2?.Query_time_sum | humanize : 'time' }}
-                  <small>
-                    <span *ngIf="!isSummary" class="text-primary">
-                      <span>{{ queryDetails?.Metrics2?.Query_time_sum_of_total | humanize : 'percent' }}</span> of total
-                    </span>
-                  </small>
-                </span>
-              </div>
-              <div class="flex-container">
-                <div class="justify-content-start">
-                  <span class="unit unit-avg">{{ queryDetails?.Metrics2?.Query_time_avg | humanize : 'time' }}</span>
-                </div>
-                <div class="scaling-svg-container app-tooltip"
-                     data-tooltip="Loading..."
-                     [appLatencyChart]="queryDetails?.Metrics2"
-                     measurement="time"
-                     metricPrefix="Query_time">
-                </div>
-              </div>
+                </small>
+              </span>
             </div>
-            <div *ngIf="queryDetails?.Metrics2?.Rows_sent_sum" class="table-body-row grid-container">
-              <div><span>Docs Returned</span></div>
-              <div class="flex-container">
-                <div class="cell-overlay justify-content-start">
-                  <span class="unit unit-per-sec">{{ queryDetails?.Metrics2?.Rows_sent_sum_per_sec | humanize : 'number' }}</span>
-                </div>
-                <div class="scaling-svg-container app-tooltip" [appLoadSparklines]="queryDetails?.Sparks2"
-                     data-tooltip="Loading..." xkey="Ts" ykey="Rows_sent_sum_per_sec" measurement="number">
-                </div>
-              </div>
-              <div>
-                <span class="sum text-left">{{ queryDetails?.Metrics2?.Rows_sent_sum | humanize : 'number' }}
-                  <small>
-                    <span *ngIf="!isSummary" class="text-primary">
-                      <span>{{ queryDetails?.Metrics2?.Rows_sent_sum_of_total | humanize : 'percent' }}</span> of total
-                    </span>
-                  </small>
-                </span>
-              </div>
-              <div class="flex-container">
-                <div class="justify-content-start">
-                  <span
-                    class="unit unit unit-avg">{{ queryDetails?.Metrics2?.Rows_sent_avg | humanize : 'number' }}</span>
-                </div>
-                <div class="scaling-svg-container app-tooltip" data-tooltip="Loading..." measurement="number"
-                     [appLatencyChart]="queryDetails?.Metrics2" metricPrefix="Rows_sent">
-                </div>
-              </div>
-            </div>
-            <div *ngIf="queryDetails?.Metrics2?.Bytes_sent_sum" class="table-body-row grid-container">
-              <div><span>Response Length</span></div>
-              <div class="flex-container">
-                <div class="justify-content-start">
-                  <span class="unit unit-per-sec">{{ queryDetails?.Metrics2?.Bytes_sent_sum_per_sec | humanize : 'size' }}</span>
-                </div>
-                <div class="scaling-svg-container app-tooltip" [appLoadSparklines]="queryDetails?.Sparks2"
-                     data-tooltip="Loading..." xkey="Ts" ykey="Bytes_sent_sum_per_sec" measurement="size">
-                </div>
-              </div>
-              <div>
-                <span class="sum text-left">{{ queryDetails?.Metrics2?.Bytes_sent_sum | humanize : 'size' }}
-                  <small>
-                    <span *ngIf="!isSummary" class="text-primary">
-                      <span>{{ queryDetails?.Metrics2?.Bytes_sent_sum_of_total | humanize : 'percent' }}</span> of total
-                    </span>
-                    <span class="text-success" ng-if="queryDetails?.Metrics2?.Bytes_sent_sum_per_rows">
-                      {{ queryDetails?.Metrics2?.Bytes_sent_sum_per_rows | humanize : 'size' }} bytes/row
-                    </span>
-                  </small>
-                </span>
-              </div>
-              <div class="flex-container">
-                <div class=" justify-content-start">
-                  <span class="unit unit-avg">{{ queryDetails?.Metrics2?.Bytes_sent_avg | humanize : 'size' }}</span>
-                </div>
-                <div class="scaling-svg-container app-tooltip" data-tooltip="Loading..." measurement="size"
-                     [appLatencyChart]="queryDetails?.Metrics2" metricPrefix="Bytes_sent">
-                </div>
-              </div>
-            </div>
-            <div *ngIf="queryDetails?.Metrics2?.Rows_examined_sum" class="table-body-row grid-container">
-              <div class=""><span>Docs Scanned</span></div>
-              <div class="flex-container">
-                <div class=" justify-content-start">
-                  <span class="unit unit-per-sec">{{ queryDetails?.Metrics2?.Rows_examined_sum_per_sec | humanize : 'number' }}</span>
-                </div>
-                <div class="scaling-svg-container app-tooltip" [appLoadSparklines]="queryDetails?.Sparks2"
-                     data-tooltip="Loading..." xkey="Ts" ykey="Rows_examined_sum_per_sec" measurement="number">
-                </div>
-              </div>
-              <div>
-                <span class="sum text-left">{{ queryDetails?.Metrics2?.Rows_examined_sum | humanize : 'number' }}
-                  <small>
-                    <span *ngIf="!isSummary" class="text-primary">
-                      <span>{{ queryDetails?.Metrics2?.Rows_examined_sum_of_total | humanize : 'percent' }}</span> of total
-                    </span>
-                    <span class="text-success">
-                      {{ queryDetails?.Metrics2?.Rows_examined_sum_per_rows | humanize : 'number' }} per row sent
-                    </span>
-                  </small>
-                </span>
-              </div>
-              <div class="flex-container">
-                <div class=" justify-content-start">
-                  <span
-                    class="unit unit-avg">{{ queryDetails?.Metrics2?.Rows_examined_avg | humanize : 'number' }}</span>
-                </div>
-                <div class="scaling-svg-container app-tooltip" data-tooltip="Loading..." measurement="number"
-                     [appLatencyChart]="queryDetails?.Metrics2" metricPrefix="Rows_examined">
-                </div>
+            <div class="row__cells">
+              <span class="unit unit unit--avg">{{ queryDetails?.Metrics2?.Rows_sent_avg | humanize : 'number' }}</span>
+              <div class="scaling-svg-container app-tooltip" data-tooltip="Loading..." measurement="number"
+                   [appLatencyChart]="queryDetails?.Metrics2" metricPrefix="Rows_sent">
               </div>
             </div>
           </div>
-        </div>
+          <div *ngIf="queryDetails?.Metrics2?.Bytes_sent_sum" class="grid-table__row grid-table__row--metrics">
+            <span>Response Length</span>
+            <div class="row__cells">
+              <span class="unit unit--per-sec">{{ queryDetails?.Metrics2?.Bytes_sent_sum_per_sec | humanize : 'size' }}</span>
+              <div class="scaling-svg-container app-tooltip" [appLoadSparklines]="queryDetails?.Sparks2"
+                   data-tooltip="Loading..." xkey="Ts" ykey="Bytes_sent_sum_per_sec" measurement="size">
+              </div>
+            </div>
+            <div>
+              <span>{{ queryDetails?.Metrics2?.Bytes_sent_sum | humanize : 'size' }}
+                <small>
+                  <span *ngIf="!isSummary" class="highlight-content">
+                    {{ queryDetails?.Metrics2?.Bytes_sent_sum_of_total | humanize : 'percent' }} of total
+                  </span>
+                  <span class="highlight-content--success" *ngIf="queryDetails?.Metrics2?.Bytes_sent_sum_per_rows">
+                    {{ queryDetails?.Metrics2?.Bytes_sent_sum_per_rows | humanize : 'size' }} bytes/row
+                  </span>
+                </small>
+              </span>
+            </div>
+            <div class="row__cells">
+              <span class="unit unit--avg">{{ queryDetails?.Metrics2?.Bytes_sent_avg | humanize : 'size' }}</span>
+              <div class="scaling-svg-container app-tooltip" data-tooltip="Loading..." measurement="size"
+                   [appLatencyChart]="queryDetails?.Metrics2" metricPrefix="Bytes_sent">
+              </div>
+            </div>
+          </div>
+          <div *ngIf="queryDetails?.Metrics2?.Rows_examined_sum" class="grid-table__row grid-table__row--metrics">
+            <span>Docs Scanned</span>
+            <div class="row__cells">
+              <span class="unit unit--per-sec">{{ queryDetails?.Metrics2?.Rows_examined_sum_per_sec | humanize : 'number' }}</span>
+              <div class="scaling-svg-container app-tooltip" [appLoadSparklines]="queryDetails?.Sparks2"
+                   data-tooltip="Loading..." xkey="Ts" ykey="Rows_examined_sum_per_sec" measurement="number">
+              </div>
+            </div>
+            <div>
+              <span>{{ queryDetails?.Metrics2?.Rows_examined_sum | humanize : 'number' }}
+                <small>
+                  <span *ngIf="!isSummary" class="highlight-content">
+                    {{ queryDetails?.Metrics2?.Rows_examined_sum_of_total | humanize : 'percent' }} of total
+                  </span>
+                  <span class="highlight-content--success">
+                    {{ queryDetails?.Metrics2?.Rows_examined_sum_per_rows | humanize : 'number' }} per row sent
+                  </span>
+                </small>
+              </span>
+            </div>
+            <div class="row__cells">
+              <span class="unit unit--avg">{{ queryDetails?.Metrics2?.Rows_examined_avg | humanize : 'number' }}</span>
+              <div class="scaling-svg-container app-tooltip" data-tooltip="Loading..." measurement="number"
+                   [appLatencyChart]="queryDetails?.Metrics2" metricPrefix="Rows_examined">
+              </div>
+            </div>
+          </div>
+        </section>
       </ng-template>
     </ngb-panel>
   </ngb-accordion>
 </section>
 
 <!--- additional info for query only-->
-<div class="sections-wrapper" *ngIf="!isSummary">
-  <section class="query" *ngIf="!!fingerprint || !!queryExample">
-    <header class="section-title">
-      <h3 class="d-flex">QUERY</h3>
+<div *ngIf="!isSummary">
+  <section *ngIf="!!fingerprint || !!queryExample">
+    <header class="configuration-panel">
+      <h3 class="configuration-panel__title">QUERY</h3>
     </header>
     <ngb-accordion [activeIds]="accordionIds.querySection">
       <ngb-panel *ngIf="!!fingerprint" id="query-fingerprint">
         <ng-template ngbPanelTitle>
-          <div class="accordion-title">
-            <h5>Fingerprint</h5>
-          </div>
+          <header class="card-header__content">
+            <h5 class="card-header__title">Fingerprint</h5>
+          </header>
         </ng-template>
         <ng-template ngbPanelContent>
-            <i *ngIf="isLoading" class="fa fa-spinner fa-pulse fa-3x fa-fw loading"></i>
-          <div *ngIf="!isLoading" class="data-output">
-            <pre><code [innerHTML]="fingerprint"></code></pre>
-            <button class="pmm-button"
+          <div *ngIf="isLoading" class="spinner-wrapper spinner-wrapper--centered">
+            <i class="fa fa-spinner fa-pulse fa-3x fa-fw"></i>
+          </div>
+          <div *ngIf="!isLoading" class="card-body__content">
+            <pre class="content__text"><code [innerHTML]="fingerprint"></code></pre>
+            <button class="button button--inside button--fixed button--copy"
                     id="copyFingerprint"
                     ngxClipboard
                     [cbContent]="fingerprint"
                     (cbOnSuccess)="showSuccessNotification('fingerprint')"
-                    [class.btn-copied]="isCopied.fingerprint">Copy to clipboard
+                    [class.button--inside-active]="isCopied.fingerprint">
+              Copy to clipboard
             </button>
           </div>
         </ng-template>
       </ngb-panel>
-      <ngb-panel *ngIf="!!queryExample" class="query-example query-panel">
-        <ng-template ngbPanelTitle class="ngb-panel-title">
-          <div class="accordion-title">
-            <h5 class="title">Example</h5>
-          </div>
+      <ngb-panel *ngIf="!!queryExample">
+        <ng-template ngbPanelTitle>
+          <header class="card-header__content">
+            <h5 class="card-header__title">Example</h5>
+          </header>
         </ng-template>
         <ng-template ngbPanelContent>
-            <i *ngIf="isLoading" class="fa fa-spinner fa-pulse fa-3x fa-fw loading"></i>
-          <div class="data-output" *ngIf="!isLoading">
-            <pre><code [innerHTML]="queryExample"></code></pre>
-            <button class="pmm-button"
+          <div *ngIf="isLoading" class="spinner-wrapper spinner-wrapper--centered">
+            <i class="fa fa-spinner fa-pulse fa-3x fa-fw"></i>
+          </div>
+          <div *ngIf="!isLoading" class="card-body__content">
+            <pre class="content__text"><code [innerHTML]="queryExample"></code></pre>
+            <button class="button button--inside button--fixed button--copy"
                     id="copyQueryExample"
                     ngxClipboard
                     [cbContent]="queryDetails.Example.Query"
                     (cbOnSuccess)="showSuccessNotification('queryExample')"
-                    [class.btn-copied]="isCopied.queryExample">Copy to clipboard
+                    [class.button--inside-active]="isCopied.queryExample">
+              Copy to clipboard
             </button>
           </div>
         </ng-template>
       </ngb-panel>
     </ngb-accordion>
   </section>
-  <section class="explain"
-           *ngIf="!!queryExample || !!jsonExplain || !!errExplain">
-    <header class="section-title">
-      <h3>EXPLAIN</h3>
-      <form class="search-input explain-search-input">
+
+  <section *ngIf="!!queryExample || !!explainJson || !!explainError">
+    <header class="configuration-panel">
+      <h3 class="configuration-panel__title">EXPLAIN</h3>
+      <form class="configuration-panel__options center-children configuration-form configuration-form--clicked">
         <i class="fa fa-database" aria-hidden="true"></i>
-        <input type="text" class="form-control"
-               [(ngModel)]="dbName" [ngModelOptions]="{standalone: true}"
+        <input [(ngModel)]="dbName" [ngModelOptions]="{standalone: true}"
+               type="text" class="input-field configuration-form__input configuration-form__input--small"
                id="databaseInput" placeholder="`database-name`">
-        <button class="search-button" [disabled]="!dbName" (click)="getExplain();" type="submit">
+        <button (click)="getExplain();" [disabled]="!dbName" type="submit" class="configuration-form__button">
           EXPLAIN
         </button>
       </form>
     </header>
-    <ngb-accordion [activeIds]="accordionIds.explainSection" *ngIf="!!queryExample" class="accordion-inner-table">
-      <ngb-panel id="json-explain" *ngIf="!!jsonExplain || !!errExplain">
+
+    <ngb-accordion [activeIds]="accordionIds.explainSection" *ngIf="!!queryExample">
+      <ngb-panel *ngIf="!!explainJson || !!explainError" id="json-explain">
         <ng-template ngbPanelTitle>
-          <div class="accordion-title">
-            <h5>JSON</h5>
-          </div>
+          <header class="card-header__content">
+            <h5 class="card-header__title">JSON</h5>
+          </header>
         </ng-template>
         <ng-template ngbPanelContent>
-          <i *ngIf="isExplainLoading" class="fa fa-spinner fa-pulse fa-3x fa-fw loading"></i>
-          <div class="data-output"  *ngIf="!isExplainLoading && !errExplain">
-            <app-json-tree [json]="jsonExplain"></app-json-tree>
-            <button class="pmm-button"
+          <div *ngIf="isExplainLoading" class="spinner-wrapper spinner-wrapper--centered">
+            <i class="fa fa-spinner fa-pulse fa-3x fa-fw"></i>
+          </div>
+          <div *ngIf="!isExplainLoading && !explainError" class="card-body__content">
+            <app-json-tree [json]="explainJson"></app-json-tree>
+            <button class="button button--inside button--fixed button--copy"
                     id="copyJson"
                     ngxClipboard
-                    [cbContent]="jsonExplainString"
+                    [cbContent]="explainJsonString"
                     (cbOnSuccess)="showSuccessNotification('jsonExplain')"
-                    [class.btn-copied]="isCopied.jsonExplain">Copy to clipboard
+                    [class.button--inside-active]="isCopied.json">
+              Copy to clipboard
             </button>
           </div>
-          <div *ngIf="!isExplainLoading && errExplain" class="alert alert-warning w-75 mx-auto m-2" role="alert">
-            <i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
-            {{ errExplain }}
+          <div *ngIf="!isExplainLoading && explainError"
+               class="alert alert-warning w-75 mx-auto m-2" role="alert">
+            <span class="fa fa-exclamation-triangle" aria-hidden="true"></span>
+            {{ explainError }}
           </div>
         </ng-template>
       </ngb-panel>

@@ -1,5 +1,5 @@
 import { Component, Inject, OnInit } from '@angular/core';
-import { DOCUMENT } from '@angular/platform-browser';
+import { DOCUMENT } from '@angular/common';
 
 import { InstanceService } from './core/instance.service';
 import { environment } from './environment';
