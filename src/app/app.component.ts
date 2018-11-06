@@ -24,12 +24,6 @@ export class AppComponent implements OnInit {
     this.hideNav = this.inIframe() || instanceService.dbServers.length === 0;
   }
 
-  toggleTheme() {
-    this.theme = this.theme === 'app-theme-light' ? 'app-theme-dark' : 'app-theme-light';
-    this.setCookie('theme', this.theme)
-    this.document.body.className = this.theme;
-  }
-
   /**
    * inIframe is used to show/hide navbar.
    */
