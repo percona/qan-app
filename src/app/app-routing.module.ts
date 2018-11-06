@@ -10,6 +10,8 @@ import { SettingsComponent } from './settings/settings.component';
 import { AddInstanceComponent } from './add-instance/add-instance.component';
 import { AddAwsComponent } from './add-aws/add-aws.component';
 import { InstanceService } from './core/instance.service';
+import { AddRemoteInstanceComponent } from './add-remote-instances/add-remote-instance.component';
+import {RemoteInstancesListComponent} from './remote-instances-list/remote-instances-list.component';
 
 @Injectable()
 export class RegisteredInstanceGuard implements CanActivate {
@@ -40,6 +42,9 @@ const routes: Routes = [
     { path: 'settings', component: SettingsComponent, pathMatch: 'full', canActivate: [RegisteredInstanceGuard] },
     { path: 'add-instance', component: AddInstanceComponent, pathMatch: 'full' },
     { path: 'add-aws', component: AddAwsComponent, pathMatch: 'full' },
+    { path: 'add-remote-postgres', component: AddRemoteInstanceComponent, pathMatch: 'full' },
+    { path: 'add-remote-mysql', component: AddRemoteInstanceComponent, pathMatch: 'full' },
+    { path: 'pmm-list', component: RemoteInstancesListComponent, pathMatch: 'full' },
     { path: '**', component: PageNotFoundComponent }
 ];
 

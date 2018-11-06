@@ -6,6 +6,7 @@ import { MySQLQueryDetailsService, QueryDetails, ServerSummary } from './mysql-q
 import * as hljs from 'highlight.js';
 import * as vkbeautify from 'vkbeautify';
 import * as moment from 'moment';
+import {NgbAccordion, NgbAccordionConfig, NgbPanelChangeEvent} from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   moduleId: module.id,
@@ -47,10 +48,10 @@ export class MySQLQueryDetailsComponent extends CoreComponent implements OnInit 
   firstSeen: string;
   lastSeen: string;
   accordionIds = {
-    serverSummary: 'metrics-table',
-    querySection: 'query-fingerprint',
-    explainSection: 'classic-explain',
-    tableSection: 'table-create',
+    serverSummary: ['metrics-table'],
+    querySection: ['query-fingerprint'],
+    explainSection: ['classic-explain'],
+    tableSection: ['table-create'],
   };
 
   createTableError: string;
@@ -62,8 +63,10 @@ export class MySQLQueryDetailsComponent extends CoreComponent implements OnInit 
   maxExampleBytes = 10240;
   event = new Event('showSuccessNotification');
 
-  constructor(protected route: ActivatedRoute, protected router: Router,
-              protected instanceService: InstanceService, public queryDetailsService: MySQLQueryDetailsService) {
+  constructor(protected route: ActivatedRoute,
+              protected router: Router,
+              protected instanceService: InstanceService,
+              public queryDetailsService: MySQLQueryDetailsService) {
     super(route, router, instanceService);
   }
 
@@ -86,6 +89,12 @@ export class MySQLQueryDetailsComponent extends CoreComponent implements OnInit 
       this.getServerSummary(this.dbServer.UUID, this.fromUTCDate, this.toUTCDate);
     } else {
       this.isSummary = false;
+      this.accordionIds = {
+        serverSummary: ['metrics-table'],
+        querySection: ['query-fingerprint'],
+        explainSection: ['classic-explain'],
+        tableSection: ['table-create'],
+      };
       this.getQueryDetails(this.dbServer.UUID, this.queryParams.queryID, this.fromUTCDate, this.toUTCDate);
     }
   }
