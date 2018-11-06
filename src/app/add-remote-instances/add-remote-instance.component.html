@@ -4,14 +4,14 @@
          [class.input--invalid]="hostname?.errors && isSubmitted"
          #hostname="ngModel"
          type="text" class="input-field input-field--dark"
-         placeholder="*Hostname" name="Hostname" required>
+         placeholder="*Hostname" name="Hostname" id="hostname" required>
   <div class="app-tooltip app-tooltip--port cursor-pointer">
     <i class="fa fa-info-circle" aria-hidden="true"></i>
   </div>
 
   <input [(ngModel)]="remoteInstanceCredentials.name" #name="ngModel"
          type="text" class="input-field input-field--dark"
-         placeholder="Name (default: Hostname)" name="Name">
+         placeholder="Name (default: Hostname)" id="name" name="Name">
   <div class="app-tooltip app-tooltip--port cursor-pointer">
     <i class="fa fa-info-circle" aria-hidden="true"></i>
   </div>
@@ -19,7 +19,7 @@
   <input [(ngModel)]="remoteInstanceCredentials.port" #port="ngModel"
          type="text" class="input-field input-field--dark" placeholder="Port"
          [placeholder]="instanceType === 'PostgreSQL' ? 'Port (default: 5432)' : '(default: 3306)'"
-         name="Port">
+         id="port" name="Port">
   <div class="app-tooltip app-tooltip--port cursor-pointer">
     <i class="fa fa-info-circle" aria-hidden="true"></i>
   </div>
@@ -28,7 +28,7 @@
          [class.input--invalid]="username?.errors && isSubmitted"
          #username="ngModel"
          type="text" class="input-field input-field--dark"
-         placeholder="*Username" name="Username" required>
+         placeholder="*Username" name="Username" id="username" required>
   <div class="app-tooltip app-tooltip--username cursor-pointer">
     <i class="fa fa-info-circle" aria-hidden="true"></i>
   </div>
@@ -37,13 +37,13 @@
          [class.input--invalid]="password?.errors && isSubmitted"
          #password="ngModel"
          type="password" class="input-field input-field--dark"
-         placeholder="*Password" name="Password" required>
+         placeholder="*Password" name="Password" id="password" required>
   <div class="app-tooltip app-tooltip--password cursor-pointer">
     <i class="fa fa-info-circle" aria-hidden="true"></i>
   </div>
 
   <div class="add-instance-form__submit-block">
-    <button type="submit" [disabled]="isDemo" class="button button--dark">Add instance</button>
+    <button type="submit" [disabled]="isDemo" class="button button--dark" id="addInstance">Add instance</button>
     <div *ngIf="errorMessage && isSubmitted && addInstanceForm.valid">*{{ errorMessage }}</div>
     <div *ngIf="isSubmitted && !addInstanceForm.valid">Fields marked with an asterisk (*) are required</div>
     <div *ngIf="isLoading" class="spinner-wrapper">

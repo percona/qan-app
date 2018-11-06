@@ -23,7 +23,7 @@
     <span>{{ instance.node.region }}</span>
     <span>{{ instance.service.engine }} {{ instance.service.engine_version }}</span>
     <span>
-      <i class="fa fa-trash-o" (click)="disableInstance(instance.node, instance.service)"></i>
+      <i class="fa fa-trash-o" (click)="disableInstance(instance.node, instance.service)" id="removeInstance"></i>
     </span>
   </div>
 </section>
