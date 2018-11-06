@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
 import 'rxjs/add/operator/toPromise';
-import {HttpClient} from '@angular/common/http';
 
 @Injectable()
 export class MySQLQueryDetailsService {
