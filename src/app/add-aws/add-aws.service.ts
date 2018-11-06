@@ -1,5 +1,4 @@
-import { Injectable } from '@angular/core';
-import { Http, Headers, URLSearchParams } from '@angular/http';
+import {Injectable} from '@angular/core';
 import {HttpClient, HttpHeaders} from '@angular/common/http';
 
 
@@ -41,10 +40,10 @@ export class AddAwsService {
       aws_access_key_id: rdsCredentials.aws_access_key_id,
       aws_secret_access_key: rdsCredentials.aws_secret_access_key
     };
+
     const response: any = await this.httpClient
         .post(url, data, { headers: this.httpHeaders })
         .toPromise();
-    console.log('response disc - ', response.instances);
     return response.instances as RDSInstance[];
   }
 
@@ -57,25 +56,24 @@ export class AddAwsService {
       password: mysqlCredentials.password,
       username: mysqlCredentials.username
     };
+
     return await this.httpClient
-        .post(url, data, { headers: this.httpHeaders })
-        .toPromise();
+      .post(url, data, {headers: this.httpHeaders})
+      .toPromise()
   }
 
   async disable(node: RDSNode): Promise<{}> {
     const url = `/managed/v0/rds`;
     const body = {id: {name: node.name, region: node.region}};
-    const response = await this.httpClient.request('delete', url, { headers: this.httpHeaders, body: body })
-        .toPromise();
-    console.log('response dis - ', response);
-    return response;
+
+    return await this.httpClient.request('delete', url, {headers: this.httpHeaders, body: body})
+      .toPromise();
   }
 
   async getRegistered(): Promise<RDSInstance[]> {
     const url = `/managed/v0/rds`;
-    const response = await this.httpClient.request('get', url, { headers: this.httpHeaders  })
+    const response: any = await this.httpClient.request('get', url, { headers: this.httpHeaders })
         .toPromise();
-    console.log('response get reg - ', response);
-    return response as RDSInstance[];
+    return response.instances as RDSInstance[];
   }
 }

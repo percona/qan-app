@@ -1,6 +1,5 @@
-import { Injectable } from '@angular/core';
-import { Http, Headers, URLSearchParams } from '@angular/http';
-import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
+import {Injectable} from '@angular/core';
+import {HttpClient, HttpHeaders, HttpParams} from '@angular/common/http';
 
 import 'rxjs/add/operator/toPromise';
 
@@ -45,34 +44,32 @@ export interface ServerSummary {
 @Injectable()
 export class BaseQueryDetailsService {
 
-  private headers = new Headers({'Content-Type': 'application/json'});
+  private httpHeaders = new HttpHeaders({'Content-Type': 'application/json'});
 
-  constructor(private http: Http) {
+  constructor(private httpClient: HttpClient) {
   }
 
   public async getQueryDetails(dbServerUUID, queryUUID, begin, end: string): Promise<QueryDetails> {
     const url = `/qan-api/qan/report/${dbServerUUID}/query/${queryUUID}`;
-    const params = new URLSearchParams();
-    params.set('begin', begin);
-    params.set('end', end);
 
-    const response = await this.http
-      .get(url, { headers: this.headers, search: params })
+    let httpParams = new HttpParams();
+    httpParams = httpParams.append('begin', begin);
+    httpParams = httpParams.append('end', end);
+    const response = await this.httpClient.get(url, {headers: this.httpHeaders, params: httpParams})
       .toPromise();
-    return response.json() as QueryDetails;
+    return response as QueryDetails;
   }
 
   public async getSummary(dbServerUUID: string, begin: string, end: string): Promise<ServerSummary> {
     const url = `/qan-api/qan/report/${dbServerUUID}/server-summary`;
 
-    const params = new URLSearchParams();
-    params.set('begin', begin);
-    params.set('end', end);
+    let httpParams = new HttpParams();
+    httpParams = httpParams.append('begin', begin);
+    httpParams = httpParams.append('end', end);
 
-    const response = await this.http
-      .get(url, { headers: this.headers, search: params })
+    const response = await this.httpClient.request('get', url, {headers: this.httpHeaders, params: httpParams})
       .toPromise();
-    return response.json() as ServerSummary;
+    return response as ServerSummary;
   }
 
   getTableInfo(agentUUID: string, dbServerUUID: string, dbName: string, tblName: string) {
@@ -101,10 +98,10 @@ export class BaseQueryDetailsService {
       Data: btoa(JSON.stringify(data))
     };
 
-    return this.http
+    return this.httpClient
       .put(url, params)
       .toPromise()
-      .then(response => JSON.parse(atob(response.json().Data)));
+      .then((response: any) => JSON.parse(atob(response.Data)));
   }
 
   async getExplain(agentUUID: string, dbServerUUID: string, dbName: string, query: string) {
@@ -123,11 +120,9 @@ export class BaseQueryDetailsService {
       Data: btoa(JSON.stringify(data))
     };
 
-    const response = await this.http
+    return await this.httpClient
       .put(url, params)
-      .toPromise();
-
-    return response.json()
+      .toPromise()
   }
 
 }
