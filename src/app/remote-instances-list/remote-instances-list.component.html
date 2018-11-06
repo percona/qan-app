@@ -1,35 +1,32 @@
 <h3>RDS and remote instances</h3>
 <section class="grid-table">
-  <header class="grid-table__row">
+  <header class="grid-table__row grid-table__row--remote-instances">
     <span>Name</span>
     <span>Endpoint</span>
-    <div class="pointer" (click)="sortInstances('node.region')">
+    <div class="cursor-pointer" (click)="sortInstances('node.region')">
       Region
-      <span *ngIf="!isSorted || !isRegion" class="fa fa-sort sort-icon" aria-hidden="true"></span>
-      <span *ngIf="isSorted && isRegion" [ngClass]="(order === 1) ? 'fa-sort-asc' : 'fa-sort-desc'" class="fa sort-icon"  aria-hidden="true"></span>
+      <i *ngIf="!isSorted || !isRegion" class="fa fa-sort sort-icon" aria-hidden="true"></i>
+      <i *ngIf="isSorted && isRegion" [ngClass]="(order === 1) ? 'fa-sort-asc' : 'fa-sort-desc'" class="fa sort-icon"
+            aria-hidden="true"></i>
     </div>
-    <div class="pointer" (click)="sortInstances('service.engine')">
+    <div class="cursor-pointer" (click)="sortInstances('service.engine')">
       Engine
-      <span *ngIf="!isSorted || isRegion" class="fa fa-sort sort-icon" aria-hidden="true"></span>
-      <span *ngIf="isSorted && !isRegion" [ngClass]="(order === 1) ? 'fa-sort-asc' : 'fa-sort-desc'" class="fa sort-icon"  aria-hidden="true"></span>
+      <i *ngIf="!isSorted || isRegion" class="fa fa-sort sort-icon" aria-hidden="true"></i>
+      <i *ngIf="isSorted && !isRegion" [ngClass]="(order === 1) ? 'fa-sort-asc' : 'fa-sort-desc'" class="fa sort-icon"
+            aria-hidden="true"></i>
     </div>
     <span>Remove</span>
   </header>
-  <div *ngFor="let instance of allInstances | sortingTable:path:order" class="grid-table__row">
+  <div *ngFor="let instance of allInstances | sortingTable:path:order" class="grid-table__row grid-table__row--remote-instances">
     <span>{{ instance.node.name }}</span>
     <span>{{ instance.service.address }}:{{ instance.service.port }}</span>
     <span>{{ instance.node.region }}</span>
     <span>{{ instance.service.engine }} {{ instance.service.engine_version }}</span>
     <span>
-      <span class="fa fa-trash-o" (click)="disableInstance(instance.node, instance.service)" id="removeInstance"></span>
+      <i class="fa fa-trash-o" (click)="disableInstance(instance.node, instance.service)" id="removeInstance"></i>
     </span>
   </div>
 </section>
-<div class="row justify-content-md-center" *ngIf="isLoading">
-  <div>
-    <i class="fa fa-spinner fa-pulse fa-3x fa-fw loading"></i>
-  </div>
-</div>
 <div *ngIf="errorMessage" class="alert alert-warning w-75 mx-auto m-2" role="alert">
   <i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
   {{ errorMessage }}

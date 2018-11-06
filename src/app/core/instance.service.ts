@@ -1,9 +1,7 @@
 import { Injectable } from '@angular/core';
-import { Http } from '@angular/http';
+import { HttpClient } from '@angular/common/http';
 
 import 'rxjs/add/operator/toPromise';
-import { Subject } from 'rxjs/Subject';
-import * as moment from 'moment';
 
 export interface Instance {
   Created: string;
@@ -24,17 +22,17 @@ export class InstanceService {
   private instancesUrl = '/qan-api/instances?deleted=no';
   public dbServers: Array<Instance> = [];
   public dbServerMap: { [key: string]: Instance } = {};
-  constructor(private http: Http) { }
+  constructor(private httpClient: HttpClient) { }
 
   public getDBServers(): Promise<void | Instance[]> {
-    return this.http.get(this.instancesUrl)
+    return this.httpClient.get(this.instancesUrl)
       .toPromise()
-      .then(response => {
-        const agents = response.json().filter(
+      .then((response: any) => {
+        const agents = response.filter(
           (i: Instance) => i.Subsystem === 'agent'
         ) as Instance[];
 
-        this.dbServers = (response.json().filter(
+        this.dbServers = (response.filter(
           (i: Instance) => i.Subsystem === 'mysql' || i.Subsystem === 'mongo'
         ) as Instance[]);
 

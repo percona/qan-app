@@ -1,5 +1,5 @@
 import { Component, Inject, OnInit } from '@angular/core';
-import { DOCUMENT } from '@angular/platform-browser';
+import { DOCUMENT } from '@angular/common';
 
 import { InstanceService } from './core/instance.service';
 import { environment } from './environment';
@@ -51,7 +51,7 @@ export class AppComponent implements OnInit {
 
   ngOnInit() {
     let res: any;
-    res = this.getJsonFromUrl()
+    res = this.getJsonFromUrl();
     const theme = res.theme || '';
     if (theme === '') {
       this.theme = this.getCookie('theme');

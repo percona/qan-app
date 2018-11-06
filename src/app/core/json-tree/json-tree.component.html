@@ -1,7 +1,7 @@
-<div class="json-tree-wrapper">
-  <div id="json-viewer"></div>
-  <button class="pmm-button"
-          [class.btn-expanded]="!isCollapsed"
+<div class="json-tree">
+  <div id="json-tree__viewer"></div>
+  <button class="button button--inside button--fixed button--expand"
+          [class.button--inside-active]="!isCollapsed"
           (click)="toggleAll()">{{isCollapsed ? 'Expand All' : 'Collapse All'}}
   </button>
 </div>
