@@ -29,18 +29,23 @@ export class QueryProfileComponent extends CoreComponent {
     public noQueryError: string;
     public isFirstSeen: boolean;
     public isFirsSeenChecked = false;
+    public testingVariable: boolean;
     public isSearchQuery = false;
 
     constructor(protected route: ActivatedRoute, protected router: Router,
-        protected instanceService: InstanceService, protected queryProfileService: QueryProfileService) {
+        protected instanceService: InstanceService, public queryProfileService: QueryProfileService) {
         super(route, router, instanceService);
     }
 
     onChangeParams(params) {
         // checks changing tz
-        const momentFormatPipe = new MomentFormatPipe();
-        this.fromDate = momentFormatPipe.transform(this.from, 'llll');
-        this.toDate = momentFormatPipe.transform(this.to, 'llll');
+        // const momentFormatPipe = new MomentFormatPipe();
+        // this.fromDate = momentFormatPipe.transform(this.from, 'llll');
+        // this.toDate = momentFormatPipe.transform(this.to, 'llll');
+
+        this.fromDate = moment(this.from).format('llll');
+        this.toDate = moment(this.to).format('llll');
+
         // only if host, from and to are diffrent from prev router - load queries.
         if (!this.previousQueryParams ||
             this.previousQueryParams['var-host'] !== this.queryParams['var-host'] ||
@@ -73,6 +78,7 @@ export class QueryProfileComponent extends CoreComponent {
             const data = await this.queryProfileService
                 .getQueryProfile(this.dbServer.UUID, this.fromUTCDate, this.toUTCDate, this.offset, search, firstSeen);
             if (data.hasOwnProperty('Error') && data['Error'] !== '') {
+                this.testingVariable = true;
                 throw new QanError('Queries are not available.');
             }
             this.totalAmountOfQueries = data['TotalQueries'];
@@ -126,7 +132,9 @@ export class QueryProfileComponent extends CoreComponent {
         const params: QueryParams = Object.assign({}, this.queryParams);
         if (!!this.searchValue) {
             params.search = this.searchValue === 'null' ? 'NULL' : this.searchValue;
+            this.testingVariable = true;
         } else {
+            this.testingVariable = false;
             delete params.search;
         }
         delete params.queryID;
@@ -138,13 +146,14 @@ export class QueryProfileComponent extends CoreComponent {
       this.isFirsSeenChecked = isFirsSeenChecked;
       const params: QueryParams = Object.assign({}, this.queryParams);
       if (isFirsSeenChecked) {
+        this.testingVariable = true;
         params.first_seen = this.isFirsSeenChecked;
       } else {
+        this.testingVariable = false;
         delete params.first_seen;
       }
       delete params.queryID;
       this.router.navigate(['profile'], { queryParams: params });
       this.isQuerySwitching = false;
-
     }
 }

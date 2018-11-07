@@ -2,10 +2,12 @@ import {Injectable} from '@angular/core';
 import {HttpClient, HttpHeaders} from '@angular/common/http';
 
 
+/* istanbul ignore next */
 export class RDSCredentials {
   constructor(public aws_access_key_id = '', public aws_secret_access_key = '') {}
 }
 
+/* istanbul ignore next */
 export class MySQLCredentials {
   constructor(public username = '', public password = '') {}
 }

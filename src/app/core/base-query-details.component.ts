@@ -56,7 +56,7 @@ export abstract class BaseQueryDetailsComponent extends CoreComponent {
   event = new Event('showSuccessNotification');
 
   constructor(protected route: ActivatedRoute, protected router: Router,
-              protected instanceService: InstanceService, protected queryDetailsService: BaseQueryDetailsService) {
+              public instanceService: InstanceService, public queryDetailsService: BaseQueryDetailsService) {
     super(route, router, instanceService);
   }
 

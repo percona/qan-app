@@ -43,11 +43,7 @@ export class AddAwsComponent implements OnInit {
         return;
       }
 
-      let msg = err.error.message;
-      if (msg.startsWith('NoCredentialProviders')) {
-        msg = 'Cannot automatically discover instances - please provide AWS access credentials';
-      }
-      this.errorMessage = msg;
+      this.checkErrorMessage(err);
     }
   }
 
@@ -55,6 +51,21 @@ export class AddAwsComponent implements OnInit {
     const isEnable = this.isEnabled(instance);
     this.currentInputId = input.id;
     return isEnable ? this.disableInstanceMonitoring(node) : this.enableInstanceMonitoring(node);
+  }
+
+  checkErrorMessage(err) {
+    const msg = this.isJsonError(err) ? err.error : 'Bad response';
+    this.errorMessage = msg.startsWith('NoCredentialProviders') ?
+      'Cannot automatically discover instances - please provide AWS access credentials' : msg;
+    return this.errorMessage;
+  }
+
+  isJsonError(err) {
+    try {
+      return err.json().error;
+    } catch {
+      return false;
+    }
   }
 
   async onSubmit() {
@@ -67,11 +78,7 @@ export class AddAwsComponent implements OnInit {
       this.errorMessage = '';
     } catch (err) {
       this.allRDSInstances = [];
-      let msg = err.error.message;
-      if (msg.startsWith('NoCredentialProviders')) {
-        msg = 'Cannot discover instances - please provide AWS access credentials';
-      }
-      this.errorMessage = msg;
+      this.checkErrorMessage(err);
     } finally {
       this.isLoading = false;
     }
@@ -79,7 +86,7 @@ export class AddAwsComponent implements OnInit {
 
   enableInstanceMonitoring(node: RDSNode) {
     this.mysqlCredentials = new MySQLCredentials();
-    this.rdsNode = { name: node.name, region: node.region } as RDSNode;
+    this.rdsNode = {name: node.name, region: node.region} as RDSNode;
   }
 
   showConnect(node: RDSNode): boolean {
@@ -98,7 +105,7 @@ export class AddAwsComponent implements OnInit {
       const res = await this.addAwsService.enable(this.rdsCredentials, this.rdsNode, this.mysqlCredentials);
     } catch (err) {
       this.isConnectLoading = false;
-      this.errorMessage = err.error;
+      this.errorMessage = this.isJsonError(err) ? err.error : 'Bad response';
       return;
     }
     this.rdsNode = {} as RDSNode;
@@ -107,6 +114,7 @@ export class AddAwsComponent implements OnInit {
     await this.getRegistered();
   }
 
+  /* istanbul ignore next */
   async disableInstanceMonitoring(node: RDSNode) {
     if (this.isDemo) {
       return false;
@@ -119,7 +127,7 @@ export class AddAwsComponent implements OnInit {
         const res = await this.addAwsService.disable(node);
         await this.getRegistered();
       } catch (err) {
-        this.errorMessage = err.error;
+        this.errorMessage = this.isJsonError(err) ? err.error : 'Bad response';
       }
     }
     this.isDisabling = false;
@@ -134,12 +142,12 @@ export class AddAwsComponent implements OnInit {
     try {
       this.registeredRDSInstances = await this.addAwsService.getRegistered();
     } catch (err) {
-      this.errorMessage = err.error;
+      this.errorMessage = this.isJsonError(err) ? err.error : 'Bad response';
     }
     this.registeredNames = [];
     if (this.registeredRDSInstances !== undefined) {
       this.registeredRDSInstances.forEach(element => {
-        this.registeredNames.push(element.node.name + ':' + element.node.region);
+        this.registeredNames.push(`${element.node.name}:${element.node.region}`);
       });
     }
   }

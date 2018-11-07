@@ -16,9 +16,9 @@ import { MomentFormatPipe } from './moment-format.pipe';
 @Directive({ selector: '[appLoadSparklines]' })
 export class LoadSparklinesDirective {
 
-    protected _xkey: string;
-    protected _ykey: string;
-    protected _measurement: string;
+    public _xkey: string;
+    public _ykey: string;
+    public _measurement: string;
 
     humanize = new HumanizePipe();
     dateFormat = new MomentFormatPipe();

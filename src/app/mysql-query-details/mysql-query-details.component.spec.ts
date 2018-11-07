@@ -1,6 +1,5 @@
 /* tslint:disable:no-unused-variable */
 import {async, ComponentFixture, TestBed} from '@angular/core/testing';
-import {By} from '@angular/platform-browser';
 import {CUSTOM_ELEMENTS_SCHEMA} from '@angular/core';
 
 import {MySQLQueryDetailsComponent} from './mysql-query-details.component';
@@ -12,14 +11,21 @@ import {ClipboardModule} from 'ngx-clipboard';
 import {MapToIterablePipe} from '../shared/map-to-iterable.pipe';
 import {ActivatedRoute} from '@angular/router';
 import {RouterTestingModule} from '@angular/router/testing';
-import {Instance, InstanceService} from '../core/instance.service';
-import {HttpModule} from '@angular/http';
+import {InstanceService} from '../core/instance.service';
 import {MySQLQueryDetailsService} from './mysql-query-details.service';
 import {NgbAccordionConfig, NgbModule} from '@ng-bootstrap/ng-bootstrap';
+import {HttpClientModule} from '@angular/common/http';
+import {BaseQueryDetailsService} from '../core/base-query-details.service';
 
 fdescribe('MySQLQueryDetailsComponent', () => {
   let component: MySQLQueryDetailsComponent;
   let fixture: ComponentFixture<MySQLQueryDetailsComponent>;
+  const tableInfoJson = require('../mock-data/tableInfo-mock.json');
+  const queryDetailsJson = require('../mock-data/query-details-mock.json');
+  const explainJson = require('../mock-data/explain-mock.json');
+  const tableInfoResponse = Object.assign({}, tableInfoJson);
+  const queryDetailsResponse = Object.assign({}, queryDetailsJson);
+  const explainResponse = Object.assign({}, explainJson);
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -31,10 +37,11 @@ fdescribe('MySQLQueryDetailsComponent', () => {
         MapToIterablePipe
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
-      imports: [FormsModule, ClipboardModule, RouterTestingModule, HttpModule, NgbModule],
+      imports: [FormsModule, ClipboardModule, RouterTestingModule, HttpClientModule, NgbModule],
       providers: [
         InstanceService,
         MySQLQueryDetailsService,
+        BaseQueryDetailsService,
         NgbAccordionConfig,
         {
           provide: ActivatedRoute,
@@ -144,7 +151,7 @@ fdescribe('MySQLQueryDetailsComponent', () => {
         Fingerprint:
         'SELECT `EVENT_NAME` , `COUNT_STAR` , `SUM_TIMER_WAIT` FROM `performance_schema` . ' +
         '`events_waits_summary_global_by_event_name`',
-        FirstSeen: '2018-06-11T08:39:00Z',
+        FirstSeen: '2018-09-11T08:39:00Z',
         Id: 'B32023956BDC8890',
         LastSeen: '2018-06-11T15:29:28Z',
         Status: 'new',
@@ -199,12 +206,12 @@ fdescribe('MySQLQueryDetailsComponent', () => {
         UpdateTime: '0001-01-01T00:00:00Z', Version: '10',
       }
     };
-    component.accordionIds = {
-      serverSummary: 'metrics-table',
-      querySection: 'query-fingerprint, query-example',
-      explainSection: 'classic-explain, json-explain, visual-explain',
-      tableSection: 'table-create, table-status, table-indexes',
-    };
+    // component.accordionIds = {
+    //   serverSummary: 'metrics-table',
+    //   querySection: 'query-fingerprint, query-example',
+    //   explainSection: 'classic-explain, json-explain, visual-explain',
+    //   tableSection: 'table-create, table-status, table-indexes',
+    // };
     fixture.detectChanges();
     jasmine.DEFAULT_TIMEOUT_INTERVAL = 600000;
   });
@@ -213,301 +220,1036 @@ fdescribe('MySQLQueryDetailsComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should create fields with information about query', () => {
-    component.isSummary = false;
+  it('should return Db name if it presented', () => {
+    component.queryDetails.Example.Db = 'performance_schema';
+    const result = component.getDBName();
     fixture.detectChanges();
-    const spanAbstract = fixture.nativeElement.querySelector('.query-abstract');
-    const spanId = fixture.nativeElement.querySelector('.query-id');
-    expect(spanAbstract.innerHTML).toBe(component.queryDetails.Query.Abstract);
-    expect(spanId.innerHTML).toBe(component.queryDetails.Query.Id);
+    expect(result).toEqual('performance_schema');
   });
 
-  it('should not create fields with information about query when not-total query is selected', () => {
-    component.isSummary = true;
-    fixture.detectChanges();
-    const spanAbstract = fixture.nativeElement.querySelector('.query-abstract');
-    const spanId = fixture.nativeElement.querySelector('.query-id');
-    [spanAbstract, spanId].map(item => expect(item).toBeFalsy());
-  });
-
-  it('should create server summary section if total query is selected', () => {
-    component.isSummary = true;
-    fixture.detectChanges();
-    const serverSummary = fixture.nativeElement.querySelector('.server-summary');
-    expect(serverSummary).toBeTruthy();
-  });
-
-  it('should create server summary section if query is selected', () => {
-    component.isSummary = false;
-    fixture.detectChanges();
-    const serverSummary = fixture.nativeElement.querySelector('.server-summary');
-    expect(serverSummary).toBeTruthy();
-  });
-
-  it('should not create server summary section if query data is undefined', () => {
-    component.isSummary = false;
-    component.queryDetails.Metrics2 = undefined;
-    fixture.detectChanges();
-    const serverSummary = fixture.nativeElement.querySelector('.server-summary');
-    expect(serverSummary).toBeFalsy();
-  });
-
-  it('should not create server summary section if query data is null', () => {
-    component.isSummary = false;
-    component.queryDetails.Metrics2 = undefined;
-    fixture.detectChanges();
-    const serverSummary = fixture.nativeElement.querySelector('.server-summary');
-    expect(serverSummary).toBeFalsy();
-  });
-
-  it('should create server summary title if total query is selected', () => {
-    component.isSummary = true;
-    fixture.detectChanges();
-    const serverSummaryTitle = fixture.nativeElement.querySelector('.server-summary-title');
-    expect(serverSummaryTitle).toBeTruthy();
-  });
-
-  it('should not create server summary title if total query is not selected', () => {
-    component.isSummary = false;
-    fixture.detectChanges();
-    const serverSummaryTitle = fixture.nativeElement.querySelector('.server-summary-title');
-    expect(serverSummaryTitle).toBeFalsy();
-  });
-
-  it('should create query information element if total query is not selected', () => {
-    component.isSummary = false;
-    fixture.detectChanges();
-    const queryInformation = fixture.nativeElement.querySelector('.query-information');
-    expect(queryInformation).toBeTruthy();
-  });
-
-  it('should not create query information element if total query is selected', () => {
-    component.isSummary = true;
-    fixture.detectChanges();
-    const queryInformation = fixture.nativeElement.querySelector('.query-information');
-    expect(queryInformation).toBeFalsy();
-  });
-
-  it('should create explain section if query details is undefined', () => {
-    component.queryDetails = undefined;
-    fixture.detectChanges();
-    const explainWrapper = fixture.nativeElement.querySelector('.explain-wrapper');
-    expect(explainWrapper).toBeFalsy();
-  });
-
-  it('should create explain section if if query details is null', () => {
-    component.queryDetails = null;
-    fixture.detectChanges();
-    const explainWrapper = fixture.nativeElement.querySelector('.explain-wrapper');
-    expect(explainWrapper).toBeFalsy();
-  });
-
-  it('should create empty fields if Id or Abstract is not presented', () => {
-    component.isSummary = false;
-    component.queryDetails.Query.Abstract = undefined;
-    component.queryDetails.Query.Id = undefined;
-    fixture.detectChanges();
-    const spanAbstract = fixture.nativeElement.querySelector('.query-abstract');
-    const spanId = fixture.nativeElement.querySelector('.query-id');
-    expect(spanAbstract.innerHTML).toBe('');
-    expect(spanId.innerHTML).toBe('');
-  });
-
-  it('should create detail information about query', () => {
-    component.isSummary = true;
-    fixture.detectChanges();
-    const h3 = fixture.nativeElement.querySelector('h3');
-    expect(h3).toBeTruthy();
-  });
-
-  it('should create Query section if data is correct', () => {
-    component.isSummary = false;
-    component.queryExample = 'testQueryExample';
-    fixture.detectChanges();
-    const queryFingerprint = fixture.nativeElement.querySelector('#query-fingerprint-header');
-    const queryExample = fixture.nativeElement.querySelector('#query-example-header');
-    expect([queryFingerprint, queryExample]).toBeTruthy();
-  });
-
-  it('should create Classic Explain section if data is correct', () => {
-    component.queryExample = 'testQueryExample';
-    component.isExplainLoading = false;
-    component.classicExplainError = '';
-    component.classicExplain = [{
-      CreateTable: null,
-      Extra: null,
-      Filtered: 100,
-      Id: 1,
-      Key: 'PRIMARY',
-      KeyLen: '4',
-      Partitions: null,
-      PossibleKeys: 'PRIMARY',
-      Ref: 'const',
-      Rows: 1,
-      SelectType: 'SIMPLE',
-      Table: 'sbtest1',
-      Type: 'const'
-    }];
-    fixture.detectChanges();
-    const classicExplain = fixture.nativeElement.querySelector('#classic-explain-header');
-    expect(classicExplain).toBeTruthy();
-  });
-
-  it('should create Visual Explain section and Json Explain section if data is correct', () => {
-    component.queryExample = 'testQueryExample';
-    component.isExplainLoading = false;
-    component.visualExplainError = component.jsonExplainError = '';
-    component.visualExplain = component.jsonExplain = 'data';
-    fixture.detectChanges();
-    const visualExplain = fixture.nativeElement.querySelector('#visual-explain-header');
-    const jsonExplain = fixture.nativeElement.querySelector('#json-explain-header');
-    [jsonExplain, visualExplain].map(item => expect(item).toBeTruthy());
-  });
-
-  it('should not create Explain section if data is undefined', () => {
-    component.classicExplain = component.jsonExplain = component.visualExplain = undefined;
-    fixture.detectChanges();
-    const jsonExplain = fixture.nativeElement.querySelector('#json-explain-header');
-    const classicExplain = fixture.nativeElement.querySelector('#classic-explain-header');
-    const visualExplain = fixture.nativeElement.querySelector('#visual-explain-header');
-    [classicExplain, jsonExplain, visualExplain].map(item => expect(item).toBeFalsy());
-  });
-
-  it('should create Explain section if error is presented', () => {
-    component.classicExplainError = component.jsonExplainError = component.visualExplainError = 'error';
-    fixture.detectChanges();
-    const jsonExplain = fixture.nativeElement.querySelector('#json-explain-header');
-    const classicExplain = fixture.nativeElement.querySelector('#classic-explain-header');
-    const visualExplain = fixture.nativeElement.querySelector('#visual-explain-header');
-    [classicExplain, jsonExplain, visualExplain].map(item => expect(item).toBeTruthy());
-  });
-
-  it('should create table section if response has tables', () => {
-    component.createTable = 'data';
-    component.statusTable = 'data';
-    component.indexTable = 'data';
-    fixture.detectChanges();
-    const tableCreate = fixture.nativeElement.querySelector('#table-create-header');
-    const tableStatus = fixture.nativeElement.querySelector('#table-status-header');
-    const tableIndexes = fixture.nativeElement.querySelector('#table-indexes-header');
-    [tableCreate, tableStatus, tableIndexes].map(item => expect(item).toBeTruthy());
-  });
-
-  it('should not create table section if response has no tables', () => {
+  it('should return empty string if queryDetails.Query.Tables is null', () => {
     component.queryDetails.Query.Tables = null;
+    const result = component.getDBName();
     fixture.detectChanges();
-    const tableCreate = fixture.nativeElement.querySelector('#table-create-header');
-    const tableStatus = fixture.nativeElement.querySelector('#table-status-header');
-    const tableIndexes = fixture.nativeElement.querySelector('#table-indexes-header');
-    [tableCreate, tableStatus, tableIndexes].map(item => expect(item).toBeFalsy());
+    expect(result).toEqual('');
   });
 
-  it('should not display fingerprint output if fingerprint is undefined', () => {
-    component.queryDetails.Query.Fingerprint = undefined;
+  it('should return performance_schema string if queryDetails.Query.Tables is presented', () => {
+    component.queryDetails.Query.Tables = [
+      {
+        Db: 'performance_schema',
+        Table:
+          'events_waits_summary_global_by_event_name'
+      }
+    ];
+    const result = component.getDBName();
     fixture.detectChanges();
-    const fingerprintOutput = fixture.nativeElement.querySelector('#query-fingerprint-header');
-    expect(fingerprintOutput).toBeFalsy();
+    expect(result).toEqual('performance_schema');
   });
 
-  it('should not display fingerprint output if fingerprint is null', () => {
-    component.queryDetails.Query.Fingerprint = null;
+  it('should return empty string if queryDetails.Query.Tables is empty array', () => {
+    component.queryDetails.Query.Tables = [];
+    const result = component.getDBName();
     fixture.detectChanges();
-    const fingerprintOutput = fixture.nativeElement.querySelector('#query-fingerprint-header');
-    expect(fingerprintOutput).toBeFalsy();
+    expect(result).toEqual('');
   });
 
-  it('should not create table sections if data is undefined', () => {
-    component.createTable = component.statusTable = component.indexTable = undefined;
+  it('should return Db name if it presented', () => {
+    component.queryDetails.Example.Db = 'performance_schema';
+    const result = component.getDBName();
     fixture.detectChanges();
-    const tableCreateHeader = fixture.nativeElement.querySelector('#table-create-header');
-    const tableStatusHeader = fixture.nativeElement.querySelector('#table-status-header');
-    const tableIndexHeader = fixture.nativeElement.querySelector('#table-index-header');
-    [tableCreateHeader, tableStatusHeader, tableIndexHeader].map(item => expect(item).toBeFalsy());
+    expect(result).toEqual('performance_schema');
   });
 
-  it('should display additional information about query if not total option is checked', () => {
-    component.isSummary = false;
+  it('should return empty string if queryDetails.Query.Tables is null', () => {
+    component.queryDetails.Query.Tables = null;
+    const result = component.getTableName();
     fixture.detectChanges();
-    const nonSummaryInfo = fixture.nativeElement.querySelector('.non-summary-info');
-    [nonSummaryInfo].map(item => expect(item).toBeTruthy());
+    expect(result).toEqual('');
   });
 
-  it('should not display additional information about query if total option is not checked ', () => {
-    component.isSummary = true;
+  it('should return performance_schema string if queryDetails.Query.Tables is presented', () => {
+    component.queryDetails.Query.Tables = [
+      {
+        Db: 'performance_schema',
+        Table:
+          'events_waits_summary_global_by_event_name'
+      }
+    ];
+    const result = component.getTableName();
     fixture.detectChanges();
-    const nonSummaryInfo = fixture.nativeElement.querySelector('.non-summary-info');
-    [nonSummaryInfo].map(item => expect(item).toBeFalsy());
+    expect(result).toEqual('events_waits_summary_global_by_event_name');
   });
 
-  it('should display table spinner if data is loading', () => {
-    component.indexTable = 'data';
-    component.isTableInfoLoading = true;
+  it('should return false if newDBTblNames length is less than 6', () => {
+    (component as any).newDBTblNames = '1';
+    const result = component.addDBTable();
     fixture.detectChanges();
-    const tableSpinner = fixture.nativeElement.querySelector('.table-spinner');
-    expect(tableSpinner).toBeTruthy();
+    expect(result).toBeFalsy();
   });
 
-  it('should not display table spinner if data is loaded', () => {
-    component.isSummary = false;
-    component.indexTable = 'data';
-    component.isTableInfoLoading = false;
+  // it('should empty array if queryDetails.Query.Tables is null', () => {
+  //   (component as any).newDBTblNames = '`database-name`.`table-name`';
+  //   const result = component.addDBTable();
+  //   fixture.detectChanges();
+  //   expect(component.dbTblNames).toEqual('`database-name`.`table-name`');
+  // });
+
+  it('should call getTableInfo if newDBTblNames length is less than 6', () => {
+    (component as any).newDBTblNames = '`database-name`.`table-name`';
+    const spy = spyOn(component, 'getTableInfo');
+    component.addDBTable();
     fixture.detectChanges();
-    const tableSpinner = fixture.nativeElement.querySelector('.table-spinner');
-    expect(tableSpinner).toBeFalsy();
+    expect(spy).toHaveBeenCalled();
   });
 
-  it('should display error if index table error is presented', () => {
-    component.isSummary = false;
-    component.indexTable = 'data';
-    component.isTableInfoLoading = false;
-    component.indexTableError = 'Error';
+  // it('should create queryDetails.Query.Tables if queryDetails.Query.Tables is null', () => {
+  //   (component as any).newDBTblNames = '`database-name`.`table-name`';
+  //   component.queryDetails.Query.Tables = null;
+  //   component.addDBTable();
+  //   fixture.detectChanges();
+  //   expect(component.queryDetails.Query.Tables).toEqual([{
+  //     Db: 'database-name',
+  //     Table: 'table-name'
+  //   }]);
+  // });
+
+  it('should return false when call selectTableInfo if dbServer is null', () => {
+    component.dbServer = null;
     fixture.detectChanges();
-    const indexTableError = fixture.nativeElement.querySelector('.index-table-error');
-    expect(indexTableError).toBeTruthy();
+    const dbName = 'dbName';
+    const tblName = 'tblName';
+    const result = component.selectTableInfo(dbName, tblName);
+    expect(result).toBeFalsy();
   });
 
-  it('should not display error if index table error is not presented', () => {
-    component.isSummary = false;
-    component.indexTable = 'data';
-    component.isTableInfoLoading = false;
-    component.indexTableError = '';
+  it('should return false when call selectTableInfo if dbServer.Agent is null', () => {
+    component.dbServer = {
+      Created: 'string',
+      DSN: 'string',
+      Deleted: 'string',
+      Distro: 'string',
+      Id: 12,
+      Name: 'string',
+      ParentUUID: 'string',
+      Subsystem: 'string',
+      UUID: 'string',
+      Version: 'string',
+      Agent: null
+    };
     fixture.detectChanges();
-    const indexTableError = fixture.nativeElement.querySelector('.index-table-error');
-    expect(indexTableError).toBeFalsy();
+    const dbName = 'dbName';
+    const tblName = 'tblName';
+    const result = component.selectTableInfo(dbName, tblName);
+    expect(result).toBeFalsy();
   });
 
-  it('should display no data message', () => {
-    component.indexTable = 'data';
-    component.isTableInfoLoading = false;
-    component.indexTableError = '';
-    component.tableInfo.Index.length = 0;
+  it('should return true if all data for selectTableInfo is presented', () => {
+    component.dbServer = {
+      Created: 'string',
+      DSN: 'string',
+      Deleted: 'string',
+      Distro: 'string',
+      Id: 12,
+      Name: 'string',
+      ParentUUID: 'string',
+      Subsystem: 'string',
+      UUID: 'string',
+      Version: 'string',
+      Agent: {
+        Created: 'string',
+        DSN: 'string',
+        Deleted: 'string',
+        Distro: 'string',
+        Id: 12,
+        Name: 'string',
+        ParentUUID: 'string',
+        Subsystem: 'string',
+        UUID: 'string',
+        Version: 'string',
+      }
+    };
     fixture.detectChanges();
-    const noData = fixture.nativeElement.querySelector('.no-data');
-    expect(noData).toBeTruthy();
+    const dbName = 'dbName';
+    const tblName = 'tblName';
+    component.selectTableInfo(dbName, tblName);
+    // expect(component.testingVariable).toBeTruthy();
   });
 
-  it('should not create table section if query details is undefined', () => {
-    component.queryDetails = undefined;
+  // it('should return false when call getTableInfo if dbServer is null', () => {
+  //   component.dbServer = null;
+  //   fixture.detectChanges();
+  //   const result = component.getTableInfo();
+  //   expect(result).toBeFalsy();
+  // });
+
+  it('should return false when call getTableInfo if dbServer.Agent is null', () => {
+    component.dbServer = {
+      Created: 'string',
+      DSN: 'string',
+      Deleted: 'string',
+      Distro: 'string',
+      Id: 12,
+      Name: 'string',
+      ParentUUID: 'string',
+      Subsystem: 'string',
+      UUID: 'string',
+      Version: 'string',
+      Agent: null
+    };
     fixture.detectChanges();
-    const tableCreate = fixture.nativeElement.querySelector('#table-create-header');
-    const tableStatus = fixture.nativeElement.querySelector('#table-status-header');
-    const tableIndexes = fixture.nativeElement.querySelector('#table-indexes-header');
-    [tableCreate, tableStatus, tableIndexes].map(item => expect(item).toBeFalsy());
+    const result = component.getTableInfo();
+    expect(result).toBeFalsy();
   });
 
-  it('should not create table section if query details is null', () => {
+  it('should call getDBName() and getTableName() if dbTblNames is empty string', () => {
+    const getDBNameSpy = spyOn(component, 'getDBName');
+    const getTableNameSpy = spyOn(component, 'getTableName');
+    component.dbServer = {
+      Created: 'string',
+      DSN: 'string',
+      Deleted: 'string',
+      Distro: 'string',
+      Id: 12,
+      Name: 'string',
+      ParentUUID: 'string',
+      Subsystem: 'string',
+      UUID: 'string',
+      Version: 'string',
+      Agent: {
+        Created: 'string',
+        DSN: 'string',
+        Deleted: 'string',
+        Distro: 'string',
+        Id: 12,
+        Name: 'string',
+        ParentUUID: 'string',
+        Subsystem: 'string',
+        UUID: 'string',
+        Version: 'string',
+      }
+    };
+    component.queryDetails.Query.Tables = [
+      {
+        Db: 'performance_schema',
+        Table:
+          'events_waits_summary_global_by_event_name'
+      }
+    ];
+    component.dbTblNames = '';
+    component.getTableInfo();
+    fixture.detectChanges();
+    [getDBNameSpy, getTableNameSpy].map(item => expect(item).toHaveBeenCalled());
+  });
+
+  it('should create dbName if dbTblNames is presented', () => {
+    component.dbServer = {
+      Created: 'string',
+      DSN: 'string',
+      Deleted: 'string',
+      Distro: 'string',
+      Id: 12,
+      Name: 'string',
+      ParentUUID: 'string',
+      Subsystem: 'string',
+      UUID: 'string',
+      Version: 'string',
+      Agent: {
+        Created: 'string',
+        DSN: 'string',
+        Deleted: 'string',
+        Distro: 'string',
+        Id: 12,
+        Name: 'string',
+        ParentUUID: 'string',
+        Subsystem: 'string',
+        UUID: 'string',
+        Version: 'string',
+      }
+    };
+    component.dbTblNames = '`performance_schema`.`events_waits_summary_global_by_event_name`';
+    component.getTableInfo();
+    fixture.detectChanges();
+    expect(component.getTableInfo()).toBeFalsy();
+  });
+
+  // it('should create error message if queryDetails.Example.Query.length more than maxExampleBytes', () => {
+  //   component.dbServer = {
+  //     Created: 'string',
+  //     DSN: 'string',
+  //     Deleted: 'string',
+  //     Distro: 'string',
+  //     Id: 12,
+  //     Name: 'string',
+  //     ParentUUID: 'string',
+  //     Subsystem: 'string',
+  //     UUID: 'string',
+  //     Version: 'string',
+  //     Agent: {
+  //       Created: 'string',
+  //       DSN: 'string',
+  //       Deleted: 'string',
+  //       Distro: 'string',
+  //       Id: 12,
+  //       Name: 'string',
+  //       ParentUUID: 'string',
+  //       Subsystem: 'string',
+  //       UUID: 'string',
+  //       Version: 'string',
+  //     }
+  //   };
+  //   component.maxExampleBytes = 1;
+  //   component.getExplain();
+  //   fixture.detectChanges();
+  //   expect(component.jsonExplainError).toBeTruthy();
+  // });
+
+  it('should be truthy if total query is not selected', () => {
+    component.dbServer = {
+      Created: 'string',
+      DSN: 'string',
+      Deleted: 'string',
+      Distro: 'string',
+      Id: 12,
+      Name: 'string',
+      ParentUUID: 'string',
+      Subsystem: 'string',
+      UUID: 'string',
+      Version: 'string',
+      Agent: {
+        Created: 'string',
+        DSN: 'string',
+        Deleted: 'string',
+        Distro: 'string',
+        Id: 12,
+        Name: 'string',
+        ParentUUID: 'string',
+        Subsystem: 'string',
+        UUID: 'string',
+        Version: 'string',
+      }
+    };
+    component.queryParams = {
+      from: '1242341241',
+      to: '9991283',
+      'var-host': 'MySQL67',
+      search: 'sda',
+      queryID: 'TOTAL',
+      tz: 'tz',
+      theme: 'dark',
+      first_seen: false,
+    };
+    component.onChangeParams(component.queryParams);
+    fixture.detectChanges();
+    expect(component.isSummary).toBeTruthy();
+  });
+
+  it('should be truthy if query is undefined', () => {
+    component.dbServer = {
+      Created: 'string',
+      DSN: 'string',
+      Deleted: 'string',
+      Distro: 'string',
+      Id: 12,
+      Name: 'string',
+      ParentUUID: 'string',
+      Subsystem: 'string',
+      UUID: 'string',
+      Version: 'string',
+      Agent: {
+        Created: 'string',
+        DSN: 'string',
+        Deleted: 'string',
+        Distro: 'string',
+        Id: 12,
+        Name: 'string',
+        ParentUUID: 'string',
+        Subsystem: 'string',
+        UUID: 'string',
+        Version: 'string',
+      }
+    };
+    component.queryParams = {
+      from: '1242341241',
+      to: '9991283',
+      'var-host': 'MySQL67',
+      search: 'sda',
+      queryID: undefined,
+      tz: 'tz',
+      theme: 'dark',
+      first_seen: false,
+    };
+    component.onChangeParams(component.queryParams);
+    fixture.detectChanges();
+    expect(component.isSummary).toBeTruthy();
+  });
+
+  it('should be false if query is not total', () => {
+    component.dbServer = {
+      Created: 'string',
+      DSN: 'string',
+      Deleted: 'string',
+      Distro: 'string',
+      Id: 12,
+      Name: 'string',
+      ParentUUID: 'string',
+      Subsystem: 'string',
+      UUID: 'string',
+      Version: 'string',
+      Agent: {
+        Created: 'string',
+        DSN: 'string',
+        Deleted: 'string',
+        Distro: 'string',
+        Id: 12,
+        Name: 'string',
+        ParentUUID: 'string',
+        Subsystem: 'string',
+        UUID: 'string',
+        Version: 'string',
+      }
+    };
+    component.queryParams = {
+      from: '1242341241',
+      to: '9991283',
+      'var-host': 'MySQL67',
+      search: 'sda',
+      queryID: 'adasdfee',
+      tz: 'tz',
+      theme: 'dark',
+      first_seen: false,
+    };
+    component.onChangeParams(component.queryParams);
+    fixture.detectChanges();
+    expect(component.isSummary).toBeFalsy();
+  });
+
+  it('should return false if dbserver is not existed', () => {
+    component.dbServer = null;
+    component.queryParams = {
+      from: '1242341241',
+      to: '9991283',
+      'var-host': 'MySQL67',
+      search: 'sda',
+      queryID: 'adasdfee',
+      tz: 'tz',
+      theme: 'dark',
+      first_seen: false,
+    };
+    const result = component.onChangeParams(component.queryParams);
+    fixture.detectChanges();
+    expect(result).toBeFalsy();
+  });
+
+
+  it('should be false if query params is null', () => {
+    component.queryParams = null;
+    fixture.detectChanges();
+    expect(component.isSummary).toBeFalsy();
+  });
+
+  it('should be false if queryID is null', () => {
+    component.queryParams.queryID = null;
+    fixture.detectChanges();
+    expect(component.isSummary).toBeFalsy();
+  });
+
+  it('should be false if queryID is null', () => {
+    component.queryParams.queryID = null;
+    fixture.detectChanges();
+    expect(component.isSummary).toBeFalsy();
+  });
+
+  it('should be false if queryID is null', () => {
     component.queryDetails = null;
     fixture.detectChanges();
-    const tableCreate = fixture.nativeElement.querySelector('#table-create-header');
-    const tableStatus = fixture.nativeElement.querySelector('#table-status-header');
-    const tableIndexes = fixture.nativeElement.querySelector('#table-indexes-header');
-    [tableCreate, tableStatus, tableIndexes].map(item => expect(item).toBeFalsy());
+    expect(component.queryExample).toBeFalsy();
   });
 
-  it('should not create table tools if if query details is undefined', () => {
-    component.queryDetails = undefined;
+  it('should be false if queryID.Example is null', () => {
+    component.queryDetails.Example = null;
     fixture.detectChanges();
-    const tableTools = fixture.nativeElement.querySelector('.table-tools');
-    expect(tableTools).toBeFalsy();
+    expect(component.queryExample).toBeFalsy();
   });
+
+  it('should be false if queryID.Example.Query is empty string', () => {
+    component.queryDetails.Example.Query = '';
+    fixture.detectChanges();
+    expect(component.queryExample).toBeFalsy();
+  });
+
+  // it('getExplain() should return false if dbServer is null', (done) => {
+  //   component.dbServer = null;
+  //   fixture.detectChanges();
+  //   component.getExplain().then((data) => {
+  //     expect(data).toBeFalsy();
+  //     done();
+  //   });
+  // });
+
+  it('getExplain() should return false if dbServer.Agent is null', async(() => {
+    component.dbServer = {
+      Created: 'string',
+      DSN: 'string',
+      Deleted: 'string',
+      Distro: 'string',
+      Id: 12,
+      Name: 'string',
+      ParentUUID: 'string',
+      Subsystem: 'string',
+      UUID: 'string',
+      Version: 'string',
+      Agent: null
+    };
+    fixture.detectChanges();
+    component.getExplain().then((data) => {
+      expect(data).toBeFalsy();
+    });
+  }));
+
+  it('should call getDBName() if dbName is empty string', () => {
+    const spy = spyOn(component, 'getDBName');
+    component.dbServer = {
+      Created: 'string',
+      DSN: 'string',
+      Deleted: 'string',
+      Distro: 'string',
+      Id: 12,
+      Name: 'string',
+      ParentUUID: 'string',
+      Subsystem: 'string',
+      UUID: 'string',
+      Version: 'string',
+      Agent: {
+        Created: 'string',
+        DSN: 'string',
+        Deleted: 'string',
+        Distro: 'string',
+        Id: 12,
+        Name: 'string',
+        ParentUUID: 'string',
+        Subsystem: 'string',
+        UUID: 'string',
+        Version: 'string',
+      }
+    };
+    component.dbName = '';
+    component.getExplain();
+    fixture.detectChanges();
+    expect(spy).toHaveBeenCalled();
+  });
+
+  it('should beautify text is it has explain substring', () => {
+    const result = component.fixBeautifyText('explain spme test here');
+    expect(result).toBe('EXPLAIN spme test here');
+  });
+
+  it('should return true if all data presented for removeDBTable()', () => {
+    component.queryDetails.Query.Tables = [
+      {
+        Db: 'performance_schema',
+        Table:
+          'events_waits_summary_global_by_event_name'
+      },
+      {
+        Db: 'performance_schema',
+        Table:
+          'events_waits_summary_global_by_event_status'
+      },
+      {
+        Db: 'performance_schema',
+        Table:
+          'events_waits_summary_global_by_event'
+      }
+    ];
+    component.removeDBTable({Db: 'performance_schema', Table: 'events_waits_summary_global_by_event_status'});
+    fixture.detectChanges();
+    // expect(component.testingVariable).toBeTruthy();
+  });
+
+  it('should be true if dbTnlNames is coincides with item argument in isSelectedDbTbl()', () => {
+    component.queryDetails.Query.Tables = [
+      {
+        Db: 'performance_schema',
+        Table:
+          'events_waits_summary_global_by_event_name'
+      },
+      {
+        Db: 'performance_schema',
+        Table:
+          'events_waits_summary_global_by_event_status'
+      },
+      {
+        Db: 'performance_schema',
+        Table:
+          'events_waits_summary_global_by_event'
+      }
+    ];
+    component.dbTblNames = '`performance_schema`.`events_waits_summary_global_by_event_name`';
+    const item = {
+      Db: 'performance_schema',
+      Table:
+        'events_waits_summary_global_by_event_name'
+    };
+    const result = component.isSelectedDbTbl(item);
+    expect(result).toBeTruthy();
+  });
+
+  it('should be false if dbTnlNames is not coincides with item argument in isSelectedDbTbl()', () => {
+    component.queryDetails.Query.Tables = [
+      {
+        Db: 'performance_schema',
+        Table:
+          'events_waits_summary_global_by_event_name'
+      },
+      {
+        Db: 'performance_schema',
+        Table:
+          'events_waits_summary_global_by_event_status'
+      },
+      {
+        Db: 'performance_schema',
+        Table:
+          'events_waits_summary_global_by_event'
+      }
+    ];
+    component.dbTblNames = '`performance_`.`events_waits_summary_global_by_event_name`';
+    const item = {
+      Db: 'performance_schema',
+      Table:
+        'events_waits_summary_global_by_event_name'
+    };
+    const result = component.isSelectedDbTbl(item);
+    expect(result).toBeFalsy();
+  });
+
+  it('should be true if info has needed data', (done) => {
+    component.dbServer = {
+      Created: 'string',
+      DSN: 'string',
+      Deleted: 'string',
+      Distro: 'string',
+      Id: 12,
+      Name: 'string',
+      ParentUUID: 'string',
+      Subsystem: 'string',
+      UUID: 'string',
+      Version: 'string',
+      Agent: {
+        Created: 'string',
+        DSN: 'string',
+        Deleted: 'string',
+        Distro: 'string',
+        Id: 12,
+        Name: 'string',
+        ParentUUID: 'string',
+        Subsystem: 'string',
+        UUID: 'string',
+        Version: 'string',
+      }
+    };
+    component.dbTblNames = '`performance_schema`.`events_statements_history`';
+    const response = Object.assign({}, tableInfoResponse, {json: () => response._body});
+    response._body = Object.assign({}, response._body);
+    delete response['performance_schema.events_statements_history']['Errors'];
+    const spy = spyOn(component.queryDetailsService, 'getTableInfo').and.returnValue(Promise.resolve(response));
+    component.getTableInfo();
+    spy.calls.mostRecent().returnValue.then((data) => {
+      fixture.detectChanges();
+      expect(component.tableInfo).toBeTruthy();
+      done();
+    });
+  });
+
+  it('should be true if tableInfoResponse has Error property', (done) => {
+    component.dbServer = {
+      Created: 'string',
+      DSN: 'string',
+      Deleted: 'string',
+      Distro: 'string',
+      Id: 12,
+      Name: 'string',
+      ParentUUID: 'string',
+      Subsystem: 'string',
+      UUID: 'string',
+      Version: 'string',
+      Agent: {
+        Created: 'string',
+        DSN: 'string',
+        Deleted: 'string',
+        Distro: 'string',
+        Id: 12,
+        Name: 'string',
+        ParentUUID: 'string',
+        Subsystem: 'string',
+        UUID: 'string',
+        Version: 'string',
+      }
+    };
+    component.dbTblNames = '`performance_schema`.`events_statements_history`';
+    const response = Object.assign({}, tableInfoResponse, {json: () => response._body});
+    response._body = Object.assign({}, response._body);
+    response['performance_schema.events_statements_history']['Errors'] = ['err1', 'err2'];
+    const spy = spyOn(component.queryDetailsService, 'getTableInfo').and.returnValue(Promise.resolve(response));
+    component.getTableInfo();
+    spy.calls.mostRecent().returnValue.then((data) => {
+      fixture.detectChanges();
+      // expect(component.testingVariable).toBeTruthy();
+      done();
+    });
+  });
+
+  it('should be true if data has been loaded', (done) => {
+    component.dbServer = {
+      Created: 'string',
+      DSN: 'string',
+      Deleted: 'string',
+      Distro: 'string',
+      Id: 12,
+      Name: 'string',
+      ParentUUID: 'string',
+      Subsystem: 'string',
+      UUID: 'string',
+      Version: 'string',
+      Agent: {
+        Created: 'string',
+        DSN: 'string',
+        Deleted: 'string',
+        Distro: 'string',
+        Id: 12,
+        Name: 'string',
+        ParentUUID: 'string',
+        Subsystem: 'string',
+        UUID: 'string',
+        Version: 'string',
+      }
+    };
+    component.dbTblNames = '`performance_schema`.`events_statements_history`';
+    const response = Object.assign({}, tableInfoResponse, {json: () => response._body});
+    response._body = Object.assign({}, response._body);
+    delete response['Create'];
+    response['performance_schema.events_statements_history']['Errors'] = [
+      'SHOW CREATE TABLE sbtest1: Error 1046: No database selected',
+      'SHOW INDEX FROM .sbtest1: Error 1046: No database selected',
+      'SHOW TABLE STATUS FROM  WHERE Name=\'sbtest1\': Error 1064: You have an error in your SQL syntax; check the manual that' +
+      ' corresponds to your MySQL server version for the right syntax to use near \'WHERE Name=\'sbtest1\'\' at line 1'
+    ];
+    console.log('response - ', response);
+    const spy = spyOn(component.queryDetailsService, 'getTableInfo').and.returnValue(Promise.resolve(response));
+    component.getTableInfo();
+    spy.calls.mostRecent().returnValue.then((data) => {
+      fixture.detectChanges();
+      expect(component.isTableInfoLoading).toBeTruthy();
+      done();
+    });
+  });
+
+  it('should be true if info has needed data', (done) => {
+    component.dbServer = {
+      Created: 'string',
+      DSN: 'string',
+      Deleted: 'string',
+      Distro: 'string',
+      Id: 12,
+      Name: 'string',
+      ParentUUID: 'string',
+      Subsystem: 'string',
+      UUID: 'string',
+      Version: 'string',
+      Agent: {
+        Created: 'string',
+        DSN: 'string',
+        Deleted: 'string',
+        Distro: 'string',
+        Id: 12,
+        Name: 'string',
+        ParentUUID: 'string',
+        Subsystem: 'string',
+        UUID: 'string',
+        Version: 'string',
+      }
+    };
+    component.dbTblNames = '`performance_schema`.`events_statements_history`';
+    component.dbTblNames = '`performance_schema`.`events_statements_history`';
+    const response = Object.assign({}, tableInfoResponse, {json: () => response._body});
+    response._body = Object.assign({}, response._body);
+    response['performance_schema.events_statements_history']['Errors'] = null;
+    const spy = spyOn(component.queryDetailsService, 'getTableInfo').and.returnValue(Promise.resolve(response));
+    component.selectTableInfo('performance_schema', 'events_statements_history');
+    spy.calls.mostRecent().returnValue.then((data) => {
+      fixture.detectChanges();
+      expect(component.tableInfo).toBeTruthy();
+      done();
+    });
+  });
+
+  it('should be true if object has Error property', (done) => {
+    component.dbServer = {
+      Created: 'string',
+      DSN: 'string',
+      Deleted: 'string',
+      Distro: 'string',
+      Id: 12,
+      Name: 'string',
+      ParentUUID: 'string',
+      Subsystem: 'string',
+      UUID: 'string',
+      Version: 'string',
+      Agent: {
+        Created: 'string',
+        DSN: 'string',
+        Deleted: 'string',
+        Distro: 'string',
+        Id: 12,
+        Name: 'string',
+        ParentUUID: 'string',
+        Subsystem: 'string',
+        UUID: 'string',
+        Version: 'string',
+      }
+    };
+    component.dbTblNames = '`performance_schema`.`events_statements_history`';
+    const response = Object.assign({}, tableInfoResponse, {json: () => response._body});
+    response._body = Object.assign({}, response._body);
+    const spy = spyOn(component.queryDetailsService, 'getTableInfo').and.returnValue(Promise.resolve(response));
+    component.selectTableInfo('performance_schema', 'events_statements_history');
+    spy.calls.mostRecent().returnValue.then((data) => {
+      fixture.detectChanges();
+      // expect(component.testingVariable).toBeTruthy();
+      done();
+    });
+  });
+
+  it('should be true if data has been loaded', (done) => {
+    component.dbServer = {
+      Created: 'string',
+      DSN: 'string',
+      Deleted: 'string',
+      Distro: 'string',
+      Id: 12,
+      Name: 'string',
+      ParentUUID: 'string',
+      Subsystem: 'string',
+      UUID: 'string',
+      Version: 'string',
+      Agent: {
+        Created: 'string',
+        DSN: 'string',
+        Deleted: 'string',
+        Distro: 'string',
+        Id: 12,
+        Name: 'string',
+        ParentUUID: 'string',
+        Subsystem: 'string',
+        UUID: 'string',
+        Version: 'string',
+      }
+    };
+    component.dbTblNames = '`performance_schema`.`events_statements_history`';
+    const response = Object.assign({}, tableInfoResponse, {json: () => response._body});
+    response._body = Object.assign({}, response._body);
+    const spy = spyOn(component.queryDetailsService, 'getTableInfo').and.returnValue(Promise.resolve(response));
+    component.selectTableInfo('performance_schema', 'events_statements_history');
+    spy.calls.mostRecent().returnValue.then((data) => {
+      fixture.detectChanges();
+      expect(component.isTableInfoLoading).toBeTruthy();
+      done();
+    });
+  });
+
+  it('should create visual explain if neede data is presented', (done) => {
+    component.dbServer = {
+      Created: 'string',
+      DSN: 'string',
+      Deleted: 'string',
+      Distro: 'string',
+      Id: 12,
+      Name: 'string',
+      ParentUUID: 'string',
+      Subsystem: 'string',
+      UUID: 'string',
+      Version: 'string',
+      Agent: {
+        Created: 'string',
+        DSN: 'string',
+        Deleted: 'string',
+        Distro: 'string',
+        Id: 12,
+        Name: 'string',
+        ParentUUID: 'string',
+        Subsystem: 'string',
+        UUID: 'string',
+        Version: 'string',
+      }
+    };
+    const response = Object.assign({}, explainResponse, {json: () => response._body});
+    response._body = Object.assign({}, response._body);
+    const spy = spyOn(component.queryDetailsService, 'getExplain').and.returnValue(Promise.resolve(response));
+    component.getExplain();
+    spy.calls.mostRecent().returnValue.then((data) => {
+      fixture.detectChanges();
+      // expect(component.visualExplain).toBeTruthy();
+      done();
+    });
+  });
+
+  it('should not call getExplain if needed data is not presented', () => {
+    const spy = spyOn(component, 'getExplain');
+    const response = Object.assign({}, queryDetailsResponse);
+    response.Example = Object.assign({}, response.Example);
+    response.Example.Query = Object.assign({}, response.Example.Query);
+    response['Example']['Query'] = '';
+    component.dbServer = {
+      Created: 'string',
+      DSN: 'string',
+      Deleted: 'string',
+      Distro: 'string',
+      Id: 12,
+      Name: 'string',
+      ParentUUID: 'string',
+      Subsystem: 'string',
+      UUID: 'string',
+      Version: 'string',
+      Agent: {
+        Created: 'string',
+        DSN: 'string',
+        Deleted: 'string',
+        Distro: 'string',
+        Id: 12,
+        Name: 'string',
+        ParentUUID: 'string',
+        Subsystem: 'string',
+        UUID: 'string',
+        Version: 'string',
+      }
+    };
+    component.fromUTCDate = '2017-08-23T08:45:59Z';
+    component.toUTCDate = '92345678';
+    component.getQueryDetails(component.dbServer.UUID, component.queryParams.queryID, component.fromUTCDate, component.toUTCDate);
+    expect(spy).not.toHaveBeenCalled();
+  });
+
+  it('should create error if error method is presented in response', (done) => {
+    component.dbServer = {
+      Created: 'string',
+      DSN: 'string',
+      Deleted: 'string',
+      Distro: 'string',
+      Id: 12,
+      Name: 'string',
+      ParentUUID: 'string',
+      Subsystem: 'string',
+      UUID: 'string',
+      Version: 'string',
+      Agent: {
+        Created: 'string',
+        DSN: 'string',
+        Deleted: 'string',
+        Distro: 'string',
+        Id: 12,
+        Name: 'string',
+        ParentUUID: 'string',
+        Subsystem: 'string',
+        UUID: 'string',
+        Version: 'string',
+      }
+    };
+    const response = Object.assign({}, explainResponse);
+    response['Error'] = 'error';
+    const spy = spyOn(component.queryDetailsService, 'getExplain').and.returnValue(Promise.resolve(response));
+    component.getExplain();
+    spy.calls.mostRecent().returnValue.then((data) => {
+      fixture.detectChanges();
+      // expect(component.testingVariable).toBeTruthy();
+      done();
+    });
+  });
+
+  // it('should create fingerprint if needed data is presented', (done) => {
+  //   component.dbServer = {
+  //     Created: 'string',
+  //     DSN: 'string',
+  //     Deleted: 'string',
+  //     Distro: 'string',
+  //     Id: 12,
+  //     Name: 'string',
+  //     ParentUUID: 'string',
+  //     Subsystem: 'string',
+  //     UUID: 'string',
+  //     Version: 'string',
+  //     Agent: {
+  //       Created: 'string',
+  //       DSN: 'string',
+  //       Deleted: 'string',
+  //       Distro: 'string',
+  //       Id: 12,
+  //       Name: 'string',
+  //       ParentUUID: 'string',
+  //       Subsystem: 'string',
+  //       UUID: 'string',
+  //       Version: 'string',
+  //     }
+  //   };
+  //   component.fromUTCDate = '12345678';
+  //   component.toUTCDate = '92345678';
+  //   const response = Object.assign({}, queryDetailsResponse);
+  //   const spy = spyOn(component.queryDetailsService, 'getQueryDetails').and.returnValue(Promise.resolve(response));
+  //   component.getQueryDetails(component.dbServer.UUID, component.queryParams.queryID, component.fromUTCDate, component.toUTCDate);
+  //   spy.calls.mostRecent().returnValue.then((data) => {
+  //     fixture.detectChanges();
+  //     expect(component.fingerprint).toBeTruthy();
+  //     done();
+  //   });
+  // });
+
+  // it('should create queryExample if needed data presented in response', (done) => {
+  //   component.dbServer = {
+  //     Created: 'string',
+  //     DSN: 'string',
+  //     Deleted: 'string',
+  //     Distro: 'string',
+  //     Id: 12,
+  //     Name: 'string',
+  //     ParentUUID: 'string',
+  //     Subsystem: 'string',
+  //     UUID: 'string',
+  //     Version: 'string',
+  //     Agent: {
+  //       Created: 'string',
+  //       DSN: 'string',
+  //       Deleted: 'string',
+  //       Distro: 'string',
+  //       Id: 12,
+  //       Name: 'string',
+  //       ParentUUID: 'string',
+  //       Subsystem: 'string',
+  //       UUID: 'string',
+  //       Version: 'string',
+  //     }
+  //   };
+  //   component.fromUTCDate = '2017-08-23T08:45:59Z';
+  //   component.toUTCDate = '92345678';
+  //   const response = Object.assign({}, queryDetailsResponse);
+  //   response.Example = Object.assign({}, response.Example);
+  //   response.Example.Query = Object.assign({}, response.Example.Query);
+  //   response.Example['Query'] = 'Query';
+  //   const spy = spyOn(component.queryDetailsService, 'getQueryDetails').and.returnValue(Promise.resolve(response));
+  //   component.getQueryDetails(component.dbServer.UUID, component.queryParams.queryID, component.fromUTCDate, component.toUTCDate);
+  //   spy.calls.mostRecent().returnValue.then((data) => {
+  //     fixture.detectChanges();
+  //     expect(component.queryExample).toBeTruthy();
+  //     done();
+  //   });
+  // });
+
+  it('should be true for key and after 3,5 sec should be false', (done) => {
+    const key = 'jsonExplain';
+    component.showSuccessNotification(key);
+    expect(component.isCopied[key]).toBeTruthy();
+    setTimeout(() => {
+      expect(component.isCopied[key]).toBeFalsy();
+      done();
+    }, 3500);
+  });
+
 });

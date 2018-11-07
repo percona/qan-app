@@ -33,9 +33,9 @@ export class MySQLQueryDetailsComponent extends BaseQueryDetailsComponent implem
 
   constructor(protected route: ActivatedRoute,
               protected router: Router,
-              protected instanceService: InstanceService,
-              protected mysqlQueryDetailsService: MySQLQueryDetailsService,
-              protected baseQueryDetailsService: BaseQueryDetailsService) {
+              public instanceService: InstanceService,
+              public mysqlQueryDetailsService: MySQLQueryDetailsService,
+              public baseQueryDetailsService: BaseQueryDetailsService) {
     super(route, router, instanceService, baseQueryDetailsService);
   }
 

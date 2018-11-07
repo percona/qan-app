@@ -42,10 +42,6 @@
   border-right: 1px solid var(--main-border-color);
 }
 
-.grid-table__row > *:first-child {
-  word-break: keep-all;
-}
-
 .grid-table__row--cursor {
   cursor: pointer;
 }
@@ -72,7 +68,7 @@
   grid-template-columns: 40px 9fr 7fr 10fr 9fr;
 }
 .grid-table__row--main > *:first-child {
-  word-break: unset;
+  word-break: keep-all;
 }
 
 //MySQL and Mongo query details metrics table

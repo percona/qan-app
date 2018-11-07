@@ -1,10 +1,10 @@
-import { Pipe, PipeTransform } from '@angular/core';
+import {Pipe, PipeTransform} from '@angular/core';
 
 
 @Pipe({
   name: 'mapToIterable'
 })
-export class MapToIterablePipe implements PipeTransform  {
+export class MapToIterablePipe implements PipeTransform {
   transform(dict: Object): Array<{}> {
     if (dict === null) {
       return null;

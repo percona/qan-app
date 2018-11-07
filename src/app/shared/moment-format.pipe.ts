@@ -1,4 +1,5 @@
 import { Pipe, PipeTransform } from '@angular/core';
+import * as moment from 'moment';
 
 @Pipe({ name: 'dateFormat' })
 export class MomentFormatPipe implements PipeTransform {
@@ -21,9 +22,9 @@ export class MomentFormatPipe implements PipeTransform {
     }
 
     if (this.timezone === 'browser') {
-      return value.local().format(format);
+      return moment(value).local().format(format);
     } else {
-      return value.format(format);
+      return moment(value).format(format);
     }
   }
 }

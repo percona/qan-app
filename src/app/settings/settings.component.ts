@@ -39,7 +39,7 @@ export class SettingsComponent extends CoreComponent {
   isError = false;
 
   constructor(protected route: ActivatedRoute, protected router: Router,
-              protected settingsService: SettingsService,
+              public settingsService: SettingsService,
               protected instanceService: InstanceService) {
     super(route, router, instanceService);
     this.isDemo = environment.demoHosts.includes(location.hostname);
@@ -87,7 +87,7 @@ export class SettingsComponent extends CoreComponent {
       this.collectFrom = this.agentConf.qan.CollectFrom;
       this.exampleQueries = this.agentConf.qan.ExampleQueries;
     } catch (err) {
-      console.error(err)
+      console.error(err);
     }
   }
 
