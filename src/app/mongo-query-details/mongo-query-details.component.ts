@@ -20,7 +20,7 @@ export class MongoQueryDetailsComponent extends BaseQueryDetailsComponent implem
 
   constructor(protected route: ActivatedRoute,
               protected router: Router,
-              protected instanceService: InstanceService,
+              public instanceService: InstanceService,
               protected mongoQueryDetailsService: MongoQueryDetailsService,
               protected baseQueryDetailsService: BaseQueryDetailsService) {
     super(route, router, instanceService, baseQueryDetailsService);

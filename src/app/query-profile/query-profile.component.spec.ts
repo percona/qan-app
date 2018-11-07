@@ -6,7 +6,6 @@ import {CUSTOM_ELEMENTS_SCHEMA, DebugElement, PipeTransform} from '@angular/core
 import {QueryProfileComponent} from './query-profile.component';
 import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 import {FormsModule} from '@angular/forms';
-import {HttpModule} from '@angular/http';
 import {RouterTestingModule} from '@angular/router/testing';
 import {ClipboardModule} from 'ngx-clipboard';
 import {InstanceService} from '../core/instance.service';
@@ -16,11 +15,10 @@ import {HumanizePipe} from '../shared/humanize.pipe';
 import {LatencyChartDirective} from '../shared/latency-chart.directive';
 import {MomentFormatPipe} from '../shared/moment-format.pipe';
 import {ParseQueryParamDatePipe} from '../shared/parse-query-param-date.pipe';
-import {CoreComponent} from '../core/core.component';
-import {CoreModule} from '../core/core.module';
 import {ActivatedRoute} from '@angular/router';
+import {HttpClientModule} from '@angular/common/http';
 
-describe('QueryProfileComponent', () => {
+fdescribe('QueryProfileComponent', () => {
   let component: QueryProfileComponent;
   let fixture: ComponentFixture<QueryProfileComponent>;
   const queryProfileJson = require('../mock-data/queryProfile-mock.json');
@@ -41,7 +39,7 @@ describe('QueryProfileComponent', () => {
         FormsModule,
         ClipboardModule,
         RouterTestingModule,
-        HttpModule,
+        HttpClientModule,
         NgbModule
       ],
       providers: [

@@ -44,7 +44,7 @@ export class SummaryComponent extends CoreComponent {
      * @param agentUUID agent UUID that is installed on same host as MySQL.
      */
     getServerSummary(agentUUID: string): void {
-      if (this.isAllSelected || this.isNotExistSelected) { return; }
+      if (!this.dbServer || this.isAllSelected || this.isNotExistSelected) { return; }
         this.summaryService
             .getServer(agentUUID, this.dbServer.ParentUUID)
             .then(data => this.serverSummary = data)
@@ -57,7 +57,7 @@ export class SummaryComponent extends CoreComponent {
      * @param agentUUID agent UUID that is monitoring MySQL Server.
      */
     getMySQLSummary(agentUUID: string): void {
-      if (this.dbServer.Subsystem !== 'mysql' || this.isAllSelected || this.isNotExistSelected) { return; }
+      if (!this.dbServer || this.dbServer.Subsystem !== 'mysql' || this.isAllSelected || this.isNotExistSelected) { return; }
       this.summaryService
             .getMySQL(agentUUID, this.dbServer.UUID)
             .then(data => this.mysqlSummary = data)
@@ -70,7 +70,7 @@ export class SummaryComponent extends CoreComponent {
      * @param agentUUID agent UUID that is monitoring MongoDB Server.
      */
     getMongoSummary(agentUUID: string): void {
-      if (this.dbServer.Subsystem !== 'mongo' || this.isAllSelected || this.isNotExistSelected) { return; }
+      if (!this.dbServer || this.dbServer.Subsystem !== 'mongo' || this.isAllSelected || this.isNotExistSelected) { return; }
         this.summaryService
             .getMongo(agentUUID, this.dbServer.UUID)
             .then(data => this.mongoSummary = data)
@@ -79,6 +79,8 @@ export class SummaryComponent extends CoreComponent {
     }
 
     downloadSummary() {
+        if (!this.dbServer) { return; }
+
         const momentFormatPipe = new MomentFormatPipe();
         const date = momentFormatPipe.transform(moment.utc(), 'YYYY-MM-DDTHH:mm:ss');
         const filename = `pmm-${this.dbServer.Name}-${date}-summary.zip`;
@@ -105,7 +107,7 @@ export class SummaryComponent extends CoreComponent {
      * @param params - URL query parameters
      */
     onChangeParams(params) {
-        if (this.isAllSelected || this.isNotExistSelected) { return; }
+        if (!this.dbServer || !this.agent || !this.dbServer.Subsystem || this.isAllSelected || this.isNotExistSelected) { return; }
         // to initalise loader when host was changed
         this.mysqlSummary = '';
         this.mongoSummary = '';

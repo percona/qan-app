@@ -10,8 +10,9 @@ import {FormsModule} from '@angular/forms';
 import {HttpModule} from '@angular/http';
 import {SummaryService} from './summary.service';
 import {InstanceService} from '../core/instance.service';
+import {HttpClientModule} from '@angular/common/http';
 
-describe('SummaryComponent', () => {
+fdescribe('SummaryComponent', () => {
   let component: SummaryComponent;
   let fixture: ComponentFixture<SummaryComponent>;
 
@@ -19,7 +20,7 @@ describe('SummaryComponent', () => {
     TestBed.configureTestingModule({
       declarations: [SummaryComponent],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
-      imports: [FormsModule, RouterTestingModule, HttpModule, NgbModule],
+      imports: [FormsModule, RouterTestingModule, HttpClientModule, NgbModule],
       providers: [SummaryService, InstanceService, NgbAccordionConfig, JSZip,
         {
           provide: InstanceService,
@@ -197,7 +198,7 @@ describe('SummaryComponent', () => {
 
   it('should not call getServerSummary() if agent.UUID is null', () => {
     const spy = spyOn(component, 'getServerSummary');
-    component.agent.UUID = null;
+    component.isAllSelected = true;
     component.onChangeParams(component.queryParams);
     expect(spy).not.toHaveBeenCalled();
   });
@@ -229,9 +230,9 @@ describe('SummaryComponent', () => {
     };
     const val = '# Percona Toolkit System Summary Report ######################';
     const spy = spyOn(component.summaryService, 'getServer').and.returnValue(Promise.resolve(val));
+    fixture.detectChanges();
     component.getServerSummary(component.agent.UUID);
     spy.calls.mostRecent().returnValue.then((data) => {
-      fixture.detectChanges();
       expect(component.serverSummary).toBeTruthy();
       done();
     });
@@ -264,6 +265,7 @@ describe('SummaryComponent', () => {
     };
     const val = '# Percona Toolkit System Mysql Summary Report ######################';
     const spy = spyOn(component.summaryService, 'getMySQL').and.returnValue(Promise.resolve(val));
+    component.dbServer.Subsystem = 'mysql';
     component.getMySQLSummary(component.agent.UUID);
     spy.calls.mostRecent().returnValue.then((data) => {
       fixture.detectChanges();
@@ -298,6 +300,7 @@ describe('SummaryComponent', () => {
       }
     };
     const spy = spyOn(component.summaryService, 'getMySQL').and.returnValue(Promise.reject({message: 'Error message'}));
+    component.dbServer.Subsystem = 'mysql';
     component.getMySQLSummary(component.agent.UUID);
     spy.calls.mostRecent().returnValue.then().catch((err) => {
       fixture.detectChanges();
@@ -333,6 +336,7 @@ describe('SummaryComponent', () => {
     };
     const val = '# Percona Toolkit System Mongo Summary Report ######################';
     const spy = spyOn(component.summaryService, 'getMongo').and.returnValue(Promise.resolve(val));
+    component.dbServer.Subsystem = 'mongo';
     component.getMongoSummary(component.agent.UUID);
     spy.calls.mostRecent().returnValue.then((data) => {
       fixture.detectChanges();
@@ -366,6 +370,7 @@ describe('SummaryComponent', () => {
         Version: 'string',
       }
     };
+    component.dbServer.Subsystem = 'mongo';
     const spy = spyOn(component.summaryService, 'getMongo').and.returnValue(Promise.reject({message: 'Error message'}));
     component.getMongoSummary(component.agent.UUID);
     spy.calls.mostRecent().returnValue.then().catch((err) => {
