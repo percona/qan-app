@@ -44,17 +44,11 @@
     </section>
 
     <section class="configuration-panel">
-      <input class="input-field" type="text" name="city" list="columnlist">
-      <datalist id="columnlist">
-        <option selected value="Avg Latency">
-        <option value="Count">
-        <option value="Load">
-      </datalist>
-      <select [(ngModel)]="selectedOption" name="cellType">
-        <option *ngFor="let o of options">
-          {{o.name}}
-        </option>
-      </select>
+      <ng-select [items]="options"
+                 [(ngModel)]="selectedOption"
+                 (change)="onChange()"
+                 class="pmm-select">
+      </ng-select>
     </section>
 
     <section class="grid-table queries-viewer__table">

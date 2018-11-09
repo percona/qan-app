@@ -1,0 +1,13 @@
+@import "~@ng-select/ng-select/themes/default.theme.css";
+
+.ng-select.pmm-select {
+  border: 0;
+  min-height: 0;
+  min-width: 150px;
+  border-radius: 0;
+}
+
+.ng-select.pmm-select .ng-select-container {
+  min-height: 0;
+  border-radius: 0;
+}

@@ -5,7 +5,7 @@ import {Component, Input, OnChanges, OnInit} from '@angular/core';
   templateUrl: './query-profile-cell.component.html',
   styleUrls: ['./query-profile-cell.component.scss']
 })
-export class QueryProfileCellComponent implements OnInit, OnChanges {
+export class QueryProfileCellComponent implements OnInit {
 
   @Input() type: string;
   @Input() row: any;
@@ -14,8 +14,5 @@ export class QueryProfileCellComponent implements OnInit, OnChanges {
   }
 
   ngOnInit() {
-  }
-
-  ngOnChanges() {
   }
 }

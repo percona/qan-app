@@ -27,9 +27,10 @@ import { ClipboardModule } from 'ngx-clipboard';
 import { RemoteInstancesListComponent } from '../remote-instances-list/remote-instances-list.component';
 import { BaseQueryDetailsService } from './base-query-details.service';
 import {QueryProfileCellComponent} from '../query-profile-cell/query-profile-cell.component';
+import { NgSelectModule } from '@ng-select/ng-select';
 
 @NgModule({
-    imports: [CommonModule, SharedModule, ClipboardModule],
+    imports: [CommonModule, SharedModule, ClipboardModule, NgSelectModule],
     declarations: [NavComponent, PageNotFoundComponent, QueryProfileComponent, QueryProfileCellComponent,
         MySQLQueryDetailsComponent, MongoQueryDetailsComponent,
         SummaryComponent, SettingsComponent, JSONTreeComponent, RemoteInstancesListComponent],

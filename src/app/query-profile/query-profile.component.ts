@@ -31,13 +31,10 @@ export class QueryProfileComponent extends CoreComponent {
     public isFirsSeenChecked = false;
     public testingVariable: boolean;
     public isSearchQuery = false;
-    options = [
-      { name: 'Avg Latency', value: 1 },
-      { name: 'Count', value: 2 },
-      { name: 'Load', value: 3 }
-    ];
-    // selectedOption: string;
-    selectedOption: string = this.options[0].name;
+    options = ['Avg Latency', 'Count', 'Load'];
+
+    // selectedOption: string = this.options[0];
+    selectedOption: string = this.options[0];
 
     constructor(protected route: ActivatedRoute, protected router: Router,
         protected instanceService: InstanceService, public queryProfileService: QueryProfileService) {
@@ -63,6 +60,10 @@ export class QueryProfileComponent extends CoreComponent {
             this.previousQueryParams.tz !== this.queryParams.tz) {
             this.loadQueries();
         }
+    }
+
+    onChange() {
+      this.selectedOption = this.selectedOption === null ? this.options[0] : this.selectedOption;
     }
 
     checkFirstSeen(currentQuery) {
