@@ -5,30 +5,3 @@
 .queries-viewer__table {
   margin-bottom: var(--main-bottom-indent);
 }
-
-.grid-table__row--main-ref {
-  grid-template-columns: 40px 6fr 5fr 5fr;
-}
-
-.grid-table__row--main-ref {
-  grid-template-columns: 40px 6fr 5fr 5fr;
-}
-
-.row__cells {
-  display: grid;
-  grid-template-columns: 1.81fr 1fr;
-  padding: 0;
-}
-
-.row__cells > * {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  height: 100%;
-  margin: 0;
-  padding: 0 10px;
-}
-
-.row__cells > *:not(:last-child) {
-  border-right: 1px solid var(--main-border-color);
-}

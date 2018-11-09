@@ -52,16 +52,16 @@
     </section>
 
     <section class="grid-table queries-viewer__table">
-      <header class="grid-table__row grid-table__row--main grid-table__row--main-ref grid-table__row--title">
+      <header class="grid-table__row grid-table__row--main grid-table__row--title">
         <span>#</span>
         <span>Query Abstract</span>
-        <div class="row__cells--grid">
+        <div class="row__sub-table">
           <span>{{ selectedOption }}</span>
           <span>Rows Scanned</span>
         </div>
         <span>Schemas</span>
       </header>
-      <div class="grid-table__row grid-table__row--main-ref grid-table__row--main grid-table__row--cursor"
+      <div class="grid-table__row grid-table__row--main grid-table__row--cursor"
            *ngFor="let row of queryProfile; let i = index; let first = first;"
            [routerLink]="['./', 'report', dbServer.Subsystem]"
            [queryParams]="composeQueryParamsForGrid(row.Id)" routerLinkActive="grid-table__row--active"
@@ -72,7 +72,7 @@
             {{ row.Rank ? (row.Abstract || 'Low Ranking Queries') : 'TOTAL' }}
           </a>
         </div>
-        <app-query-profile-cell [type]="selectedOption" [row]="row" class="row__cells--grid"></app-query-profile-cell>
+        <app-query-profile-cell [type]="selectedOption" [row]="row" class="row__sub-table"></app-query-profile-cell>
         <div>------------</div>
       </div>
     </section>

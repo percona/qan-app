@@ -65,7 +65,7 @@
 
 //QAN queries table
 .grid-table__row--main {
-  grid-template-columns: 40px 9fr 7fr 10fr 9fr;
+  grid-template-columns: 40px 9fr 8fr 7fr;
 }
 .grid-table__row--main > *:first-child {
   word-break: keep-all;
@@ -141,6 +141,24 @@
   width: 30%;
 }
 
+.row__sub-table {
+  display: grid;
+  grid-template-columns: 2.5fr 1.5fr;
+  padding: 0;
+}
+
+.row__sub-table > *:not(:last-child) {
+  height: 100%;
+  border-right: 1px solid var(--main-border-color);
+}
+
+.row__sub-table > * {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 10px;
+}
+
 .app-theme-dark .grid-table {
   --row-active: rgb(35, 70, 130);
   --row-first-seen: rgb(13, 35, 59);
@@ -169,20 +187,3 @@
   vertical-align: middle;
 }
 
-
-.row__cells--grid {
-  display: grid;
-  grid-template-columns: 2fr 1fr;
-}
-
-.row__cells--grid > *:not(:last-child) {
-  height: 100%;
-  border-right: 1px solid var(--main-border-color);
-}
-
-.row__cells--grid > * {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 0 10px;
-}
