@@ -50,8 +50,8 @@
         <option value="Count">
         <option value="Load">
       </datalist>
-      <select [(ngModel)]="selectedOption" name="first">
-        <option *ngFor="let o of options; let i = index" [attr.selected]="i === 0 ? true : null">
+      <select [(ngModel)]="selectedOption" name="cellType">
+        <option *ngFor="let o of options">
           {{o.name}}
         </option>
       </select>

@@ -36,8 +36,8 @@ export class QueryProfileComponent extends CoreComponent {
       { name: 'Count', value: 2 },
       { name: 'Load', value: 3 }
     ];
-    selectedOption: string;
-    // selectedOption: string = this.options[0].name;
+    // selectedOption: string;
+    selectedOption: string = this.options[0].name;
 
     constructor(protected route: ActivatedRoute, protected router: Router,
         protected instanceService: InstanceService, public queryProfileService: QueryProfileService) {
