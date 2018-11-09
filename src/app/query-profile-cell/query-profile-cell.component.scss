@@ -1,17 +1,10 @@
-.queries-viewer {
-  margin-bottom: var(--main-bottom-indent);
+
+.grid-table__row--main--header-ref {
+  grid-template-columns: 40px 14fr 9fr 5fr 10fr;
 }
 
-.queries-viewer__table {
-  margin-bottom: var(--main-bottom-indent);
-}
-
-.grid-table__row--main-ref {
-  grid-template-columns: 40px 6fr 5fr 5fr;
-}
-
-.grid-table__row--main-ref {
-  grid-template-columns: 40px 6fr 5fr 5fr;
+.grid-table__row--main--ref {
+  grid-template-columns: 40px 14fr 14fr 10fr;
 }
 
 .row__cells {

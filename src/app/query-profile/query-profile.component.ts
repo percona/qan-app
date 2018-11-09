@@ -31,6 +31,13 @@ export class QueryProfileComponent extends CoreComponent {
     public isFirsSeenChecked = false;
     public testingVariable: boolean;
     public isSearchQuery = false;
+    options = [
+      { name: 'Avg Latency', value: 1 },
+      { name: 'Count', value: 2 },
+      { name: 'Load', value: 3 }
+    ];
+    selectedOption: string;
+    // selectedOption: string = this.options[0].name;
 
     constructor(protected route: ActivatedRoute, protected router: Router,
         protected instanceService: InstanceService, public queryProfileService: QueryProfileService) {
@@ -84,6 +91,7 @@ export class QueryProfileComponent extends CoreComponent {
             this.totalAmountOfQueries = data['TotalQueries'];
             if (this.totalAmountOfQueries > 0) {
                 this.queryProfile = data['Query'];
+                console.log('list - ', this.queryProfile);
                 this.countDbQueries();
                 this.profileTotal = this.queryProfile[0];
             }

@@ -43,15 +43,31 @@
       </form>
     </section>
 
+    <section class="configuration-panel">
+      <input class="input-field" type="text" name="city" list="columnlist">
+      <datalist id="columnlist">
+        <option selected value="Avg Latency">
+        <option value="Count">
+        <option value="Load">
+      </datalist>
+      <select [(ngModel)]="selectedOption" name="first">
+        <option *ngFor="let o of options; let i = index" [attr.selected]="i === 0 ? true : null">
+          {{o.name}}
+        </option>
+      </select>
+    </section>
+
     <section class="grid-table queries-viewer__table">
-      <header class="grid-table__row grid-table__row--main grid-table__row--title">
+      <header class="grid-table__row grid-table__row--main grid-table__row--main-ref grid-table__row--title">
         <span>#</span>
         <span>Query Abstract</span>
-        <span>Load</span>
-        <span>Count</span>
-        <span>Latency</span>
+        <div class="row__cells--grid">
+          <span>{{ selectedOption }}</span>
+          <span>Rows Scanned</span>
+        </div>
+        <span>Schemas</span>
       </header>
-      <div class="grid-table__row grid-table__row--main grid-table__row--cursor"
+      <div class="grid-table__row grid-table__row--main-ref grid-table__row--main grid-table__row--cursor"
            *ngFor="let row of queryProfile; let i = index; let first = first;"
            [routerLink]="['./', 'report', dbServer.Subsystem]"
            [queryParams]="composeQueryParamsForGrid(row.Id)" routerLinkActive="grid-table__row--active"
@@ -62,43 +78,8 @@
             {{ row.Rank ? (row.Abstract || 'Low Ranking Queries') : 'TOTAL' }}
           </a>
         </div>
-        <div class="row__cells">
-          <div class="scaling-svg-container app-tooltip"
-               [appLoadSparklines]="row.Log"
-               data-tooltip="Loading..."
-               xkey="Start_ts" ykey="Query_load"
-               measurement="number">
-          </div>
-          <span>{{ row.Load | humanize : 'number' }}</span>
-          <span>{{ row.Percentage | humanize : 'percent' }}</span>
-        </div>
-        <div class="row__cells">
-          <span class="unit unit--qps">{{row.QPS | humanize : 'number'}}</span>
-          <div class="scaling-svg-container app-tooltip"
-               [appLoadSparklines]="row.Log"
-               data-tooltip="Loading..."
-               xkey="Start_ts" ykey="Query_count"
-               measurement="number">
-          </div>
-          <span>{{row.Stats.Cnt | humanize : 'number'}}</span>
-          <span class="unit unit--percent">{{ (row.Stats.Cnt / profileTotal?.Stats.Cnt * 100).toFixed(2) }}</span>
-        </div>
-        <div class="row__cells">
-          <div class="scaling-svg-container app-tooltip"
-               [appLoadSparklines]="row.Log"
-               data-tooltip="Loading..."
-               xkey="Start_ts" ykey="Query_time_avg"
-               measurement="time">
-          </div>
-          <div class="overlay-container row__cells--w-30">
-            <span class="unit unit--avg overlay-container__item">{{ row.Stats.Avg | humanize }}</span>
-          </div>
-          <div class="scaling-svg-container app-tooltip"
-               data-tooltip="Loading..."
-               measurement="time"
-               [appLatencyChart]="row.Stats">
-          </div>
-        </div>
+        <app-query-profile-cell [type]="selectedOption" [row]="row" class="row__cells--grid"></app-query-profile-cell>
+        <div>------------</div>
       </div>
     </section>
 
