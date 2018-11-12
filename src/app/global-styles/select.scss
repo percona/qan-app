@@ -1,4 +1,4 @@
-@import "~@ng-select/ng-select/themes/default.theme.css";
+@import '~@ng-select/ng-select/themes/default.theme.css';
 
 .ng-select.pmm-select {
   border: 0;
@@ -9,9 +9,54 @@
 
 .ng-select.pmm-select .ng-select-container {
   min-height: 0;
-  border-radius: 0;
+  border: 1px solid var(--main-border-color);
+  background-color: transparent;
+  color: inherit;
+  border-radius: 4px;
+}
+
+.ng-select.pmm-select.ng-select-focused .ng-select-container {
+  border-color: var(--main-border-color);
+  box-shadow: none;
+}
+
+.ng-select.pmm-select .ng-select-container .ng-input input {
+  color: inherit;
 }
 
 .ng-select.pmm-select .ng-select-container .ng-clear-wrapper {
   display: none;
 }
+
+.ng-dropdown-panel.pmm-select {
+  border: none;
+  background-color: transparent;
+}
+
+.ng-select.pmm-select .ng-select-container .ng-arrow-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: 5px;
+}
+
+.ng-select.pmm-select .ng-select-container .ng-arrow-wrapper .ng-arrow {
+  margin-top: 5px;
+  border: none;
+  width: 18px;
+  height: 18px;
+}
+
+.ng-select.pmm-select.ng-select-opened .ng-select-container .ng-arrow-wrapper .ng-arrow {
+  background: url(/assets/search.svg) bottom center / 100% no-repeat;
+}
+
+.ng-dropdown-panel.pmm-select .ng-dropdown-panel-items .ng-option {
+  color: inherit;
+  background-color: var(--highlight-background);
+}
+
+.ng-dropdown-panel.pmm-select .ng-dropdown-panel-items .ng-option.ng-option-marked {
+  background-color: rgb(35,35,35);
+}
+
