@@ -73,7 +73,7 @@
             {{ row.Rank ? (row.Abstract || 'Low Ranking Queries') : 'TOTAL' }}
           </a>
         </div>
-        <app-query-profile-cell [type]="selectedOption" [row]="row" class="row__sub-table"></app-query-profile-cell>
+        <app-query-profile-cell [type]="selectedOption" [row]="row" [profileTotal]="profileTotal" class="row__sub-table"></app-query-profile-cell>
         <div>------------</div>
       </div>
     </section>

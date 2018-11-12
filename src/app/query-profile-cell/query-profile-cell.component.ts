@@ -9,6 +9,7 @@ export class QueryProfileCellComponent implements OnInit {
 
   @Input() type: string;
   @Input() row: any;
+  @Input() profileTotal: any;
 
   constructor() {
   }
