@@ -5,3 +5,16 @@
 .queries-viewer__table {
   margin-bottom: var(--main-bottom-indent);
 }
+
+.overlay-container__item {
+  color: inherit;
+}
+
+.overlay-container:hover .overlay-container__item--inner-code {
+  display: block;
+  line-height: 39px;
+}
+
+.grid-table > *:last-child .overlay-container:hover .overlay-container__item--inner-code {
+  line-height: 40px;
+}

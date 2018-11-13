@@ -5,6 +5,8 @@ import { QueryProfileService } from './query-profile.service';
 import { Router, ActivatedRoute } from '@angular/router';
 import * as moment from 'moment';
 import { MomentFormatPipe } from '../shared/moment-format.pipe';
+import * as hljs from 'highlight.js';
+import * as vkbeautify from 'vkbeautify';
 
 const queryProfileError = 'No data. Please check pmm-client and database configurations on selected instance.';
 
@@ -94,6 +96,10 @@ export class QueryProfileComponent extends CoreComponent {
         }
     }
 
+    highlightRow(row) {
+      return row.Rank ? (hljs.highlight('sql', row.Abstract).value || 'Low Ranking Queries') : 'TOTAL'
+    }
+
     public async loadMoreQueries() {
         this.isLoading = true;
         this.offset = this.offset + 10;
@@ -109,7 +115,6 @@ export class QueryProfileComponent extends CoreComponent {
         for (const q of data['Query']) {
             this.queryProfile.push(q);
         }
-        // this.leftInDbQueries = this.totalAmountOfQueries - (this.queryProfile.length - 1);
         this.countDbQueries();
         this.isLoading = false;
     }

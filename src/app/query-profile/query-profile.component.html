@@ -58,9 +58,8 @@
            [class.grid-table__row--first-seen]="checkFirstSeen(row)">
         <span>{{ i || '' }}</span>
         <div class="overlay-container">
-          <a href="javascript:;" class="row__link overlay-container__item" title="{{ row.Fingerprint }}">
-            {{ row.Rank ? (row.Abstract || 'Low Ranking Queries') : 'TOTAL' }}
-          </a>
+          <code [innerHTML]="highlightRow(row)" class="overlay-container__item overlay-container__item--inner-code"
+                title="{{ row.Fingerprint }}"></code>
         </div>
         <div class="row__cells">
           <div class="scaling-svg-container app-tooltip"
