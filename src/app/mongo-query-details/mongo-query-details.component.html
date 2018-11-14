@@ -230,12 +230,12 @@
   <section *ngIf="!!queryExample || !!explainJson || !!explainError">
     <header class="configuration-panel">
       <h3 class="configuration-panel__title">EXPLAIN</h3>
-      <form class="configuration-panel__options center-children configuration-form configuration-form--clicked">
+      <form class="configuration-panel__options center-children query-search query-search--clicked">
         <i class="fa fa-database" aria-hidden="true"></i>
         <input [(ngModel)]="dbName" [ngModelOptions]="{standalone: true}"
-               type="text" class="input-field configuration-form__input configuration-form__input--small"
+               type="text" class="input-field query-search__input query-search__input--small"
                id="databaseInput" placeholder="`database-name`">
-        <button (click)="getExplain();" [disabled]="!dbName" type="submit" class="configuration-form__button">
+        <button (click)="getExplain();" [disabled]="!dbName" type="submit" class="query-search__button">
           EXPLAIN
         </button>
       </form>

@@ -31,6 +31,7 @@ export class QueryProfileComponent extends CoreComponent {
     public isFirsSeenChecked = false;
     public testingVariable: boolean;
     public isSearchQuery = false;
+    public isConfigurationMenu = false;
 
     constructor(protected route: ActivatedRoute, protected router: Router,
         protected instanceService: InstanceService, public queryProfileService: QueryProfileService) {
@@ -156,4 +157,9 @@ export class QueryProfileComponent extends CoreComponent {
       this.router.navigate(['profile'], { queryParams: params });
       this.isQuerySwitching = false;
     }
+    //
+    // toggleConfigurationMenu() {
+    //   this.isConfigurationMenu = this.isConfigurationMenu;
+    //   console.log('menu state - ', this.isConfigurationMenu);
+    // }
 }

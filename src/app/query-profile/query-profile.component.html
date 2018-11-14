@@ -31,16 +31,42 @@
         </label>
       </div>
 
-      <form (submit)="search()" class="configuration-form configuration-form--clicked">
+      <form (submit)="search()" class="query-search query-search--clicked">
         <input [(ngModel)]="searchValue" name="searchValue"
                [disabled]="!isQuerySwitching && !isLoading && totalAmountOfQueries === 0 && !isSearchQuery"
-               class="input-field configuration-form__input"
+               class="input-field query-search__input"
                type="text" placeholder="Search by query abstract, fingerprint or ID"
                id="search-input">
-        <button (submit)="search()" class="configuration-form__button" type="submit">
+        <button class="query-search__button" type="submit">
           <span class="fa fa-search"></span>
         </button>
       </form>
+    </section>
+
+    <section class="configuration-panel">
+      <div class="column-configuration">
+        <button (click)="isConfigurationMenu = !isConfigurationMenu" class="button column-configuration__toggle-button">
+          <i class="fa fa-cog" aria-hidden="true"></i>
+          Edit columns
+        </button>
+        <div *ngIf="isConfigurationMenu" class="column-configuration__menu">
+          <span class="triangle"></span>
+
+          <form class="query-search query-search--clicked column-configuration__search">
+            <input [(ngModel)]="searchValue" name="searchValue"
+                   [disabled]="!isQuerySwitching && !isLoading && totalAmountOfQueries === 0 && !isSearchQuery"
+                   class="input-field query-search__input column-configuration__input"
+                   type="text" placeholder="Type to search">
+            <button class="query-search__button column-configuration__button" type="submit">
+              <i class="fa fa-search"></i>
+            </button>
+          </form>
+
+          <div class="column-configuration__menu-options">
+
+          </div>
+        </div>
+      </div>
     </section>
 
     <section class="grid-table queries-viewer__table">
