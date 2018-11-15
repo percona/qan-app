@@ -27,7 +27,7 @@ export interface RDSInstance {
 }
 
 @Injectable()
-export class AddAwsService {
+export class AddAmazonRDSService {
 
   private headers = new Headers({ 'Content-Type': 'application/json' });
 

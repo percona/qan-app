@@ -24,7 +24,7 @@ import { SummaryComponent } from '../summary/summary.component';
 import { SummaryService } from '../summary/summary.service';
 import { SettingsComponent } from '../settings/settings.component';
 import { SettingsService } from '../settings/settings.service';
-import { AddAwsService } from '../add-aws/add-aws.service';
+import { AddAmazonRDSService } from '../add-amazon-rds/add-amazon-rds.service';
 import { AddRemoteInstanceService } from '../add-remote-instances/add-remote-instance.service';
 import { RemoteInstancesListService } from '../remote-instances-list/remote-instances-list.service';
 import { ClipboardModule } from 'ngx-clipboard';
@@ -39,7 +39,8 @@ import {RemoteInstancesListComponent} from '../remote-instances-list/remote-inst
         MySQLQueryDetailsComponent, MongoQueryDetailsComponent,
         SummaryComponent, SettingsComponent, JSONTreeComponent],
     providers: [InstanceService, QueryProfileService, MySQLQueryDetailsService,
-        MongoQueryDetailsService, SummaryService, SettingsService, AddAwsService, AddRemoteInstanceService, RemoteInstancesListService]
+        MongoQueryDetailsService, SummaryService, SettingsService,
+      AddAmazonRDSService, AddRemoteInstanceService, RemoteInstancesListService]
 })
 export class CoreModule {
 

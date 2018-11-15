@@ -1,8 +1,8 @@
-import { sortingInstancesPipe } from './sorting-table.pipe';
+import { SortingTablePipe } from './sorting-table.pipe';
 
 describe('sortingInstancesPipe', () => {
   it('create an instance', () => {
-    const pipe = new sortingInstancesPipe();
+    const pipe = new SortingTablePipe();
     expect(pipe).toBeTruthy();
   });
 });
