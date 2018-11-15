@@ -20,7 +20,7 @@ export class AddAmazonRDSComponent implements OnInit {
   isDemo = false;
   submitted = false;
 
-  constructor(public AddAmazonRDSService: AddAmazonRDSService) {
+  constructor(public addAmazonRDSService: AddAmazonRDSService) {
     this.isDemo = environment.demoHosts.includes(location.hostname);
   }
 
@@ -29,7 +29,7 @@ export class AddAmazonRDSComponent implements OnInit {
     this.isLoading = true;
     this.submitted = true;
     try {
-      this.allRDSInstances = await this.AddAmazonRDSService.discover(this.rdsCredentials);
+      this.allRDSInstances = await this.addAmazonRDSService.discover(this.rdsCredentials);
       await this.getRegistered();
       this.errorMessage = '';
     } catch (err) {
@@ -61,7 +61,7 @@ export class AddAmazonRDSComponent implements OnInit {
   async onConnect() {
     this.errorMessage = '';
     try {
-      const res = await this.AddAmazonRDSService.enable(this.rdsCredentials, this.rdsNode, this.mysqlCredentials);
+      const res = await this.addAmazonRDSService.enable(this.rdsCredentials, this.rdsNode, this.mysqlCredentials);
     } catch (err) {
       this.errorMessage = err.json().error;
       return;
@@ -79,7 +79,7 @@ export class AddAmazonRDSComponent implements OnInit {
     const text = `Are you sure want to disable monitoring of '${node.name}:${node.region}' node?`;
     if (confirm(text)) {
       try {
-        const res = await this.AddAmazonRDSService.disable(node);
+        const res = await this.addAmazonRDSService.disable(node);
         await this.getRegistered();
       } catch (err) {
         this.errorMessage = err.json().error;
@@ -94,7 +94,7 @@ export class AddAmazonRDSComponent implements OnInit {
   async getRegistered() {
     this.errorMessage = '';
     try {
-      this.registeredRDSInstances = await this.AddAmazonRDSService.getRegistered();
+      this.registeredRDSInstances = await this.addAmazonRDSService.getRegistered();
     } catch (err) {
       this.errorMessage = err.json().error;
     }
@@ -109,7 +109,7 @@ export class AddAmazonRDSComponent implements OnInit {
   async ngOnInit() {
     this.errorMessage = '';
     try {
-      const allRDSInstances = await this.AddAmazonRDSService.discover(this.rdsCredentials);
+      const allRDSInstances = await this.addAmazonRDSService.discover(this.rdsCredentials);
       if (this.submitted) { // ignore results if user submitted form with creds.
         return;
       }
