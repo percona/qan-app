@@ -5,3 +5,25 @@
 .queries-viewer__table {
   margin-bottom: var(--main-bottom-indent);
 }
+
+.column-configuration__menu-options {
+  font-size: 14px;
+}
+
+.column-configuration__menu-options > * {
+  display: grid;
+  grid-template-columns: 10em repeat(auto-fit, minmax(1px, max-content));
+  grid-column-gap: 1em;
+  align-items: center;
+
+  font-size: 1em;
+  border-bottom: 0.1em solid var(--page-background);
+}
+
+.checkbox-container:first-of-type {
+  font-weight: 700;
+}
+
+.checkbox-container:not(:last-of-type) {
+  padding: 15px 0;
+}

@@ -12,10 +12,18 @@
   width: 650px;
   height: 450px;
   margin-top: 10px;
-  padding: 25px;
+  padding: 20px;
 
   border-radius: 8px;
   background-color: var(--main-border-color);
+}
+
+.column-configuration__menu-options > * {
+  border-bottom: 0.1em solid var(--page-background);
+}
+
+.column-configuration__search {
+  margin-bottom: var(--main-bottom-indent);
 }
 
 .column-configuration__input,
