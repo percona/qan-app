@@ -1,0 +1,45 @@
+<div *ngIf="type === 'Load'" class="">
+  <div class="scaling-svg-container app-tooltip"
+       [appLoadSparklines]="row.Log"
+       data-tooltip="Loading..."
+       xkey="Start_ts" ykey="Query_load"
+       measurement="number">
+  </div>
+  <span>{{ row.Load | humanize : 'number' }}</span>
+</div>
+<div *ngIf="type === 'Load'">
+  <span>{{ row.Percentage | humanize : 'percent' }}</span>
+</div>
+
+<div *ngIf="type === 'Count'">
+  <div class="scaling-svg-container app-tooltip"
+       [appLoadSparklines]="row.Log"
+       data-tooltip="Loading..."
+       xkey="Start_ts" ykey="Query_count"
+       measurement="number">
+  </div>
+  <span class="unit unit--qps">{{row.QPS | humanize : 'number'}}</span>
+</div>
+<div *ngIf="type === 'Count'">
+  <span>{{row.Stats.Cnt | humanize : 'number'}}</span>
+  <span class="unit unit--percent">{{ (row.Stats.Cnt / profileTotal?.Stats.Cnt * 100).toFixed(2) }}</span>
+</div>
+
+<div *ngIf="type === 'Avg Latency'">
+  <div class="scaling-svg-container app-tooltip"
+       [appLoadSparklines]="row.Log"
+       data-tooltip="Loading..."
+       xkey="Start_ts" ykey="Query_time_avg"
+       measurement="time">
+  </div>
+  <div>
+    <span class="unit unit--avg">{{ row.Stats.Avg | humanize }}</span>
+  </div>
+</div>
+<div *ngIf="type === 'Avg Latency'">
+  <div class="scaling-svg-container scaling-svg-container--full-width app-tooltip"
+       data-tooltip="Loading..."
+       measurement="time"
+       [appLatencyChart]="row.Stats">
+  </div>
+</div>

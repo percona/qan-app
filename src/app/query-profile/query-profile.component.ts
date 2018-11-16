@@ -32,6 +32,10 @@ export class QueryProfileComponent extends CoreComponent {
     public testingVariable: boolean;
     public isSearchQuery = false;
     public isConfigurationMenu = false;
+    options = ['Avg Latency', 'Count', 'Load'];
+
+    // selectedOption: string = this.options[0];
+    selectedOption: string = this.options[0];
 
     constructor(protected route: ActivatedRoute, protected router: Router,
         protected instanceService: InstanceService, public queryProfileService: QueryProfileService) {
@@ -57,6 +61,10 @@ export class QueryProfileComponent extends CoreComponent {
             this.previousQueryParams.tz !== this.queryParams.tz) {
             this.loadQueries();
         }
+    }
+
+    onChange() {
+      this.selectedOption = this.selectedOption === null ? this.options[0] : this.selectedOption;
     }
 
     checkFirstSeen(currentQuery) {
@@ -157,9 +165,4 @@ export class QueryProfileComponent extends CoreComponent {
       this.router.navigate(['profile'], { queryParams: params });
       this.isQuerySwitching = false;
     }
-    //
-    // toggleConfigurationMenu() {
-    //   this.isConfigurationMenu = this.isConfigurationMenu;
-    //   console.log('menu state - ', this.isConfigurationMenu);
-    // }
 }
