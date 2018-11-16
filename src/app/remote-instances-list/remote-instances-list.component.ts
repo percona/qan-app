@@ -2,7 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {RemoteInstancesListService} from './remote-instances-list.service';
 import {RemoteInstance, RemoteInstanceNode, RemoteInstanceService} from '../add-remote-instances/add-remote-instance.service';
 import {environment} from '../environment';
-import {AddAwsService} from '../add-aws/add-aws.service';
+import {AddAmazonRDSService} from '../add-amazon-rds/add-amazon-rds.service';
 
 @Component({
   selector: 'app-remote-instances-list',
@@ -19,7 +19,7 @@ export class RemoteInstancesListComponent implements OnInit {
   isLoading: boolean;
   errorMessage: string;
 
-  constructor(private remoteInstancesListService: RemoteInstancesListService, private awsService: AddAwsService) {
+  constructor(private remoteInstancesListService: RemoteInstancesListService, private awsService: AddAmazonRDSService) {
     this.isDemo = environment.demoHosts.includes(location.hostname);
   }
 

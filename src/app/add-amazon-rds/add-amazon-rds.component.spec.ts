@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { AddAwsComponent } from './add-aws.component';
+import { AddAmazonRDSComponent } from './add-amazon-rds.component';
 
-describe('AddAwsComponent', () => {
-  let component: AddAwsComponent;
-  let fixture: ComponentFixture<AddAwsComponent>;
+describe('AddAmazonRDSComponent', () => {
+  let component: AddAmazonRDSComponent;
+  let fixture: ComponentFixture<AddAmazonRDSComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ AddAwsComponent ]
+      declarations: [ AddAmazonRDSComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(AddAwsComponent);
+    fixture = TestBed.createComponent(AddAmazonRDSComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

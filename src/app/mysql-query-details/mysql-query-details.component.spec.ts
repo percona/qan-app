@@ -200,10 +200,10 @@ fdescribe('MySQLQueryDetailsComponent', () => {
       }
     };
     component.accordionIds = {
-      serverSummary: 'metrics-table',
-      querySection: 'query-fingerprint, query-example',
-      explainSection: 'classic-explain, json-explain, visual-explain',
-      tableSection: 'table-create, table-status, table-indexes',
+      serverSummary: ['metrics-table'],
+      querySection: ['query-fingerprint, query-example'],
+      explainSection: ['classic-explain, json-explain, visual-explain'],
+      tableSection: ['table-create, table-status, table-indexes'],
     };
     fixture.detectChanges();
     jasmine.DEFAULT_TIMEOUT_INTERVAL = 600000;
