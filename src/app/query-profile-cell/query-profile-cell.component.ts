@@ -1,4 +1,4 @@
-import {Component, Input, OnChanges, OnInit} from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
 
 @Component({
   selector: 'app-query-profile-cell',
@@ -7,7 +7,8 @@ import {Component, Input, OnChanges, OnInit} from '@angular/core';
 })
 export class QueryProfileCellComponent implements OnInit {
 
-  @Input() type: string;
+  @Input() cellName: string;
+  @Input() cellConfiguration: any;
   @Input() row: any;
   @Input() profileTotal: any;
 
