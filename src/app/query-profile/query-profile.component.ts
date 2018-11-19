@@ -30,40 +30,21 @@ export class QueryProfileComponent extends CoreComponent {
   public isFirsSeenChecked = false;
   public testingVariable: boolean;
   public isSearchQuery = false;
-  public isConfigurationMenu = false;
-  public cellConfiguration = [
-    {
-      name: 'Load',
-      id: 'load',
-      checked: true,
-      sparkline: true,
-      value: true,
-      percentage: true
-    },
-    {
-      name: 'Count',
-      id: 'count',
-      checked: true,
-      queriesPerSecond: true,
-      sparkline: true,
-      value: true,
-      percentage: true
-    },
-    {
-      name: 'Avg Latency',
-      id: 'latency',
-      checked: true,
-      sparkline: true,
-      value: true,
-      distribution: true
-    }
-  ];
-
-  selectedCell: string = this.cellConfiguration[0].name;
+  public selectedCell: string;
+  public cellStates: any;
 
   constructor(protected route: ActivatedRoute, protected router: Router,
               protected instanceService: InstanceService, public queryProfileService: QueryProfileService) {
     super(route, router, instanceService);
+  }
+
+  checkConfiguration(cellConfiguration: any) {
+    this.cellStates = cellConfiguration;
+    this.selectedCell = cellConfiguration[0].name;
+  }
+
+  onChange() {
+    this.selectedCell = this.selectedCell === null ? this.cellStates[0].name : this.selectedCell;
   }
 
   onChangeParams(params) {
@@ -85,10 +66,6 @@ export class QueryProfileComponent extends CoreComponent {
       this.previousQueryParams.tz !== this.queryParams.tz) {
       this.loadQueries();
     }
-  }
-
-  onChange() {
-    this.selectedCell = this.selectedCell === null ? this.cellConfiguration[0].name : this.selectedCell;
   }
 
   checkFirstSeen(currentQuery) {

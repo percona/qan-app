@@ -1,0 +1,121 @@
+<div class="column-configuration">
+  <button (click)="isConfigurationMenu = !isConfigurationMenu" class="button column-configuration__toggle-button">
+    <i class="fa fa-cog" aria-hidden="true"></i>
+    Edit columns
+  </button>
+  <div *ngIf="isConfigurationMenu" class="column-configuration__menu">
+    <span class="triangle"></span>
+
+    <form class="query-search query-search--clicked column-configuration__search">
+      <input [(ngModel)]="searchValue" name="searchValue"
+             [disabled]="!isQuerySwitching && !isLoading && totalAmountOfQueries === 0 && !isSearchQuery"
+             class="input-field query-search__input column-configuration__input"
+             type="text" placeholder="Type to search">
+      <button class="query-search__button column-configuration__button" type="submit">
+        <i class="fa fa-search"></i>
+      </button>
+    </form>
+
+    <div class="column-configuration__menu-options">
+      <div>
+        <label class="checkbox-container">
+          <input type="checkbox"
+                 (change)="cellConfiguration[0].checked = !cellConfiguration[0].checked"
+                 [checked]="cellConfiguration[0].checked">
+          <span class="checkbox-container__checkmark"></span>
+          Load
+        </label>
+        <label class="checkbox-container">
+          <input type="checkbox"
+                 (change)="cellConfiguration[0].sparkline = !cellConfiguration[0].sparkline"
+                 [checked]="cellConfiguration[0].sparkline">
+          <span class="checkbox-container__checkmark"></span>
+          Sparkline
+        </label>
+        <label class="checkbox-container">
+          <input type="checkbox"
+                 (change)="cellConfiguration[0].value = !cellConfiguration[0].value"
+                 [checked]="cellConfiguration[0].value">
+          <span class="checkbox-container__checkmark"></span>
+          Value
+        </label>
+        <label class="checkbox-container">
+          <input type="checkbox"
+                 (change)="cellConfiguration[0].percentage = !cellConfiguration[0].percentage"
+                 [checked]="cellConfiguration[0].percentage">
+          <span class="checkbox-container__checkmark"></span>
+          Percentage
+        </label>
+      </div>
+
+      <div>
+        <label class="checkbox-container">
+          <input type="checkbox"
+                 (change)="cellConfiguration[1].checked = !cellConfiguration[1].checked"
+                 [checked]="cellConfiguration[1].checked">
+          <span class="checkbox-container__checkmark"></span>
+          Count
+        </label>
+        <label class="checkbox-container">
+          <input type="checkbox"
+                 (change)="cellConfiguration[1].queriesPerSecond = !cellConfiguration[1].queriesPerSecond"
+                 [checked]="cellConfiguration[1].queriesPerSecond">
+          <span class="checkbox-container__checkmark"></span>
+          Queries per second
+        </label>
+        <label class="checkbox-container">
+          <input type="checkbox"
+                 (change)="cellConfiguration[1].sparkline = !cellConfiguration[1].sparkline"
+                 [checked]="cellConfiguration[1].sparkline">
+          <span class="checkbox-container__checkmark"></span>
+          Sparkline
+        </label>
+        <label class="checkbox-container">
+          <input type="checkbox"
+                 (change)="cellConfiguration[1].value = !cellConfiguration[1].value"
+                 [checked]="cellConfiguration[1].value">
+          <span class="checkbox-container__checkmark"></span>
+          Value
+        </label>
+        <label class="checkbox-container">
+          <input type="checkbox"
+                 (change)="cellConfiguration[1].percentage = !cellConfiguration[1].percentage"
+                 [checked]="cellConfiguration[1].percentage">
+          <span class="checkbox-container__checkmark"></span>
+          Percentage
+        </label>
+      </div>
+
+      <div>
+        <label class="checkbox-container">
+          <input type="checkbox"
+                 (change)="cellConfiguration[2].checked = !cellConfiguration[2].checked"
+                 [checked]="cellConfiguration[2].checked">
+          <span class="checkbox-container__checkmark"></span>
+          Latency
+        </label>
+        <label class="checkbox-container">
+          <input type="checkbox"
+                 (change)="cellConfiguration[2].sparkline = !cellConfiguration[2].sparkline"
+                 [checked]="cellConfiguration[2].sparkline">
+          <span class="checkbox-container__checkmark"></span>
+          Sparkline
+        </label>
+        <label class="checkbox-container">
+          <input type="checkbox"
+                 (change)="cellConfiguration[2].value = !cellConfiguration[2].value"
+                 [checked]="cellConfiguration[2].value">
+          <span class="checkbox-container__checkmark"></span>
+          Value
+        </label>
+        <label class="checkbox-container">
+          <input type="checkbox"
+                 (change)="cellConfiguration[2].distribution = !cellConfiguration[2].distribution"
+                 [checked]="cellConfiguration[2].distribution">
+          <span class="checkbox-container__checkmark"></span>
+          Distribution
+        </label>
+      </div>
+    </div>
+  </div>
+</div>
