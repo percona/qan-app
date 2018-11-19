@@ -7,12 +7,12 @@ import {Component, Input, OnChanges, OnInit} from '@angular/core';
 })
 export class QueryProfileCellComponent implements OnInit, OnChanges {
 
-  @Input() cellName: string;
-  @Input() cellConfiguration: any;
+  @Input() columnName: string;
+  @Input() columnsConfiguration: any;
   @Input() row: any;
   @Input() profileTotal: any;
 
-  public currentCell: any;
+  public currentColumn: any;
 
   constructor() {
   }
@@ -20,10 +20,10 @@ export class QueryProfileCellComponent implements OnInit, OnChanges {
   ngOnInit() {
   }
 
-  checkCell(cellConfiguration) {
-    cellConfiguration.forEach(item => {
-      if (this.cellName === item.name) {
-        return this.currentCell = item;
+  checkCell(columnsConfiguration) {
+    columnsConfiguration.forEach(item => {
+      if (this.columnName === item.name) {
+        return this.currentColumn = item;
       } else {
         return false;
       }
@@ -31,6 +31,6 @@ export class QueryProfileCellComponent implements OnInit, OnChanges {
   }
 
   ngOnChanges() {
-    this.checkCell(this.cellConfiguration);
+    this.checkCell(this.columnsConfiguration);
   }
 }

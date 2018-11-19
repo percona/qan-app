@@ -1,34 +1,34 @@
-<div *ngIf="cellName === 'Load'" class="">
-  <div *ngIf="currentCell?.sparkline"
+<div *ngIf="columnName === 'Load'" class="">
+  <div *ngIf="currentColumn?.sparkline"
        class="scaling-svg-container app-tooltip"
        [appLoadSparklines]="row.Log"
        data-tooltip="Loading..."
        xkey="Start_ts" ykey="Query_load"
        measurement="number">
   </div>
-  <span *ngIf="currentCell?.value">{{ row.Load | humanize : 'number' }}</span>
+  <span *ngIf="currentColumn?.value">{{ row.Load | humanize : 'number' }}</span>
 </div>
-<div *ngIf="cellName === 'Load' && currentCell?.percentage">
+<div *ngIf="columnName === 'Load' && currentColumn?.percentage">
   <span>{{ row.Percentage | humanize : 'percent' }}</span>
 </div>
 
-<div *ngIf="cellName === 'Count'">
-  <div *ngIf="currentCell?.sparkline"
+<div *ngIf="columnName === 'Count'">
+  <div *ngIf="currentColumn?.sparkline"
        class="scaling-svg-container app-tooltip"
        [appLoadSparklines]="row.Log"
        data-tooltip="Loading..."
        xkey="Start_ts" ykey="Query_count"
        measurement="number">
   </div>
-  <span *ngIf="currentCell?.queriesPerSecond" class="unit unit--qps">{{row.QPS | humanize : 'number'}}</span>
+  <span *ngIf="currentColumn?.queriesPerSecond" class="unit unit--qps">{{row.QPS | humanize : 'number'}}</span>
 </div>
-<div *ngIf="cellName === 'Count'">
-  <span *ngIf="currentCell?.value">{{row.Stats.Cnt | humanize : 'number'}}</span>
-  <span *ngIf="currentCell?.percentage" class="unit unit--percent">{{ (row.Stats.Cnt / profileTotal?.Stats.Cnt * 100).toFixed(2) }}</span>
+<div *ngIf="columnName === 'Count'">
+  <span *ngIf="currentColumn?.value">{{row.Stats.Cnt | humanize : 'number'}}</span>
+  <span *ngIf="currentColumn?.percentage" class="unit unit--percent">{{ (row.Stats.Cnt / profileTotal?.Stats.Cnt * 100).toFixed(2) }}</span>
 </div>
 
-<div *ngIf="cellName === 'Avg Latency'">
-  <div *ngIf="currentCell?.sparkline"
+<div *ngIf="columnName === 'Avg Latency'">
+  <div *ngIf="currentColumn?.sparkline"
        class="scaling-svg-container app-tooltip"
        [appLoadSparklines]="row.Log"
        data-tooltip="Loading..."
@@ -36,11 +36,11 @@
        measurement="time">
   </div>
   <div>
-    <span *ngIf="currentCell?.value" class="unit unit--avg">{{ row.Stats.Avg | humanize }}</span>
+    <span *ngIf="currentColumn?.value" class="unit unit--avg">{{ row.Stats.Avg | humanize }}</span>
   </div>
 </div>
-<div *ngIf="cellName === 'Avg Latency'">
-  <div *ngIf="currentCell?.distribution"
+<div *ngIf="columnName === 'Avg Latency'">
+  <div *ngIf="currentColumn?.distribution"
        class="scaling-svg-container scaling-svg-container--full-width app-tooltip"
        data-tooltip="Loading..."
        measurement="time"

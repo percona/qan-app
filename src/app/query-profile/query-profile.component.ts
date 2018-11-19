@@ -30,29 +30,25 @@ export class QueryProfileComponent extends CoreComponent {
   public isFirsSeenChecked = false;
   public testingVariable: boolean;
   public isSearchQuery = false;
-  public selectedCell: string;
-  public cellStates: any;
+  public selectedOption: string;
+  public columns: any;
 
   constructor(protected route: ActivatedRoute, protected router: Router,
               protected instanceService: InstanceService, public queryProfileService: QueryProfileService) {
     super(route, router, instanceService);
   }
 
-  checkConfiguration(cellConfiguration: any) {
-    this.cellStates = cellConfiguration;
-    this.selectedCell = cellConfiguration[0].name;
+  checkCellsConfiguration(columnParameters: any) {
+    this.columns = columnParameters;
+    this.selectedOption = columnParameters[0].name;
   }
 
-  onChange() {
-    this.selectedCell = this.selectedCell === null ? this.cellStates[0].name : this.selectedCell;
+  onSelectChange() {
+    this.selectedOption = this.selectedOption === null ? this.columns[0].name : this.selectedOption;
   }
 
   onChangeParams(params) {
     // checks changing tz
-    // const momentFormatPipe = new MomentFormatPipe();
-    // this.fromDate = momentFormatPipe.transform(this.from, 'llll');
-    // this.toDate = momentFormatPipe.transform(this.to, 'llll');
-
     this.fromDate = moment(this.from).format('llll');
     this.toDate = moment(this.to).format('llll');
 
@@ -119,7 +115,6 @@ export class QueryProfileComponent extends CoreComponent {
     for (const q of data['Query']) {
       this.queryProfile.push(q);
     }
-    // this.leftInDbQueries = this.totalAmountOfQueries - (this.queryProfile.length - 1);
     this.countDbQueries();
     this.isLoading = false;
   }
