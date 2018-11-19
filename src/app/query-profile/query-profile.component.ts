@@ -55,7 +55,7 @@ export class QueryProfileComponent extends CoreComponent {
       checked: true,
       sparkline: true,
       value: true,
-      percentage: true
+      distribution: true
     }
   ];
 
@@ -89,15 +89,6 @@ export class QueryProfileComponent extends CoreComponent {
 
   onChange() {
     this.selectedCell = this.selectedCell === null ? this.cellConfiguration[0].name : this.selectedCell;
-  }
-
-  onInputChange(event) {
-    this.cellConfiguration.forEach(item => {
-      if (event.target.id === item.id) {
-        item.checked = !item.checked;
-      }
-    });
-    console.log('cellConf - ', this.cellConfiguration);
   }
 
   checkFirstSeen(currentQuery) {

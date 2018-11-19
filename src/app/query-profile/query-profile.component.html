@@ -73,22 +73,30 @@
           <div class="column-configuration__menu-options">
             <div>
               <label class="checkbox-container">
-                <input type="checkbox" (change)="onInputChange($event)" [checked]="cellConfiguration[0].checked" id="load">
+                <input type="checkbox"
+                       (change)="cellConfiguration[0].checked = !cellConfiguration[0].checked"
+                       [checked]="cellConfiguration[0].checked">
                 <span class="checkbox-container__checkmark"></span>
                 Load
               </label>
               <label class="checkbox-container">
-                <input type="checkbox" checked>
+                <input type="checkbox"
+                       (change)="cellConfiguration[0].sparkline = !cellConfiguration[0].sparkline"
+                       [checked]="cellConfiguration[0].sparkline">
                 <span class="checkbox-container__checkmark"></span>
                 Sparkline
               </label>
               <label class="checkbox-container">
-                <input type="checkbox" checked>
+                <input type="checkbox"
+                       (change)="cellConfiguration[0].value = !cellConfiguration[0].value"
+                       [checked]="cellConfiguration[0].value">
                 <span class="checkbox-container__checkmark"></span>
                 Value
               </label>
               <label class="checkbox-container">
-                <input type="checkbox" checked>
+                <input type="checkbox"
+                       (change)="cellConfiguration[0].percentage = !cellConfiguration[0].percentage"
+                       [checked]="cellConfiguration[0].percentage">
                 <span class="checkbox-container__checkmark"></span>
                 Percentage
               </label>
@@ -96,27 +104,37 @@
 
             <div>
               <label class="checkbox-container">
-                <input type="checkbox" (change)="onInputChange($event)" [checked]="cellConfiguration[1].checked" id="count">
+                <input type="checkbox"
+                       (change)="cellConfiguration[1].checked = !cellConfiguration[1].checked"
+                       [checked]="cellConfiguration[1].checked">
                 <span class="checkbox-container__checkmark"></span>
                 Count
               </label>
               <label class="checkbox-container">
-                <input type="checkbox">
+                <input type="checkbox"
+                       (change)="cellConfiguration[1].queriesPerSecond = !cellConfiguration[1].queriesPerSecond"
+                       [checked]="cellConfiguration[1].queriesPerSecond">
                 <span class="checkbox-container__checkmark"></span>
                 Queries per second
               </label>
               <label class="checkbox-container">
-                <input type="checkbox">
+                <input type="checkbox"
+                       (change)="cellConfiguration[1].sparkline = !cellConfiguration[1].sparkline"
+                       [checked]="cellConfiguration[1].sparkline">
                 <span class="checkbox-container__checkmark"></span>
                 Sparkline
               </label>
               <label class="checkbox-container">
-                <input type="checkbox">
+                <input type="checkbox"
+                       (change)="cellConfiguration[1].value = !cellConfiguration[1].value"
+                       [checked]="cellConfiguration[1].value">
                 <span class="checkbox-container__checkmark"></span>
                 Value
               </label>
               <label class="checkbox-container">
-                <input type="checkbox">
+                <input type="checkbox"
+                       (change)="cellConfiguration[1].percentage = !cellConfiguration[1].percentage"
+                       [checked]="cellConfiguration[1].percentage">
                 <span class="checkbox-container__checkmark"></span>
                 Percentage
               </label>
@@ -124,22 +142,30 @@
 
             <div>
               <label class="checkbox-container">
-                <input type="checkbox" (change)="onInputChange($event)" [checked]="cellConfiguration[2].checked" id="latency">
+                <input type="checkbox"
+                       (change)="cellConfiguration[2].checked = !cellConfiguration[2].checked"
+                       [checked]="cellConfiguration[2].checked">
                 <span class="checkbox-container__checkmark"></span>
                 Latency
               </label>
               <label class="checkbox-container">
-                <input type="checkbox">
+                <input type="checkbox"
+                       (change)="cellConfiguration[2].sparkline = !cellConfiguration[2].sparkline"
+                       [checked]="cellConfiguration[2].sparkline">
                 <span class="checkbox-container__checkmark"></span>
                 Sparkline
               </label>
               <label class="checkbox-container">
-                <input type="checkbox">
+                <input type="checkbox"
+                       (change)="cellConfiguration[2].value = !cellConfiguration[2].value"
+                       [checked]="cellConfiguration[2].value">
                 <span class="checkbox-container__checkmark"></span>
                 Value
               </label>
               <label class="checkbox-container">
-                <input type="checkbox">
+                <input type="checkbox"
+                       (change)="cellConfiguration[2].distribution = !cellConfiguration[2].distribution"
+                       [checked]="cellConfiguration[2].distribution">
                 <span class="checkbox-container__checkmark"></span>
                 Distribution
               </label>
@@ -170,7 +196,10 @@
             {{ row.Rank ? (row.Abstract || 'Low Ranking Queries') : 'TOTAL' }}
           </a>
         </div>
-        <app-query-profile-cell [cellName]="selectedCell" [row]="row" [profileTotal]="profileTotal"
+        <app-query-profile-cell [cellName]="selectedCell"
+                                [row]="row"
+                                [profileTotal]="profileTotal"
+                                [cellConfiguration]="cellConfiguration"
                                 class="row__sub-table"></app-query-profile-cell>
         <div>------------</div>
       </div>
