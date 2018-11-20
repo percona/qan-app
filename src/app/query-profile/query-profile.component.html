@@ -50,7 +50,7 @@
                  (change)="onSelectChange()"
                  class="pmm-select"
                  role="combobox">
-        <div *ngFor="let column of columns">
+        <div *ngFor="let column of columns" #selectOptionsWrapper>
           <ng-option *ngIf="column.checked" [value]="column.name">{{ column.name }}</ng-option>
         </div>
       </ng-select>

@@ -13,6 +13,9 @@ export class QueryProfileCellComponent implements OnInit, OnChanges {
   @Input() profileTotal: any;
 
   public currentColumn: any;
+  public isLoad: boolean;
+  public isCount: boolean;
+  public isLatency: boolean;
 
   constructor() {
   }
@@ -32,5 +35,8 @@ export class QueryProfileCellComponent implements OnInit, OnChanges {
 
   ngOnChanges() {
     this.checkCell(this.columnsConfiguration);
+    this.isLoad = this.columnName === 'Load';
+    this.isCount = this.columnName === 'Count';
+    this.isLatency = this.columnName === 'Avg Latency';
   }
 }

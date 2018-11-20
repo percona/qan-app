@@ -1,5 +1,5 @@
 import {CoreComponent, QueryParams, QanError} from '../core/core.component';
-import {Component} from '@angular/core';
+import {AfterViewChecked, Component, ElementRef, ViewChild} from '@angular/core';
 import {InstanceService} from '../core/instance.service';
 import {QueryProfileService} from './query-profile.service';
 import {Router, ActivatedRoute} from '@angular/router';
@@ -12,7 +12,9 @@ const queryProfileError = 'No data. Please check pmm-client and database configu
   templateUrl: 'query-profile.component.html',
   styleUrls: ['./query-profile.component.scss'],
 })
-export class QueryProfileComponent extends CoreComponent {
+export class QueryProfileComponent extends CoreComponent implements AfterViewChecked {
+
+  @ViewChild('selectOptionsWrapper') optionsWrapper: ElementRef;
 
   public queryProfile: Array<{}>;
   public profileTotal;
@@ -33,9 +35,16 @@ export class QueryProfileComponent extends CoreComponent {
   public selectedOption: string;
   public columns: any;
 
-  constructor(protected route: ActivatedRoute, protected router: Router,
-              protected instanceService: InstanceService, public queryProfileService: QueryProfileService) {
+  constructor(protected route: ActivatedRoute,
+              protected router: Router,
+              protected instanceService: InstanceService,
+              public queryProfileService: QueryProfileService,
+              private elementRef: ElementRef) {
     super(route, router, instanceService);
+  }
+
+  ngAfterViewChecked() {
+    console.log('change columsn - ', this.columns);
   }
 
   checkCellsConfiguration(columnParameters: any) {
@@ -45,6 +54,7 @@ export class QueryProfileComponent extends CoreComponent {
 
   onSelectChange() {
     this.selectedOption = this.selectedOption === null ? this.columns[0].name : this.selectedOption;
+    console.log('this.selectedOption - ', this.selectedOption);
   }
 
   onChangeParams(params) {
