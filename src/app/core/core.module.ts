@@ -29,6 +29,7 @@ import { BaseQueryDetailsService } from './base-query-details.service';
 import { QanEditColumnComponent } from '../qan-edit-column/qan-edit-column.component';
 import { QueryProfileCellComponent } from '../query-profile-cell/query-profile-cell.component';
 import { NgSelectModule } from '@ng-select/ng-select';
+import { QueryTableConfigurationService } from '../query-profile/query-table-configuration.service';
 
 @NgModule({
     imports: [CommonModule, SharedModule, ClipboardModule, NgSelectModule],
@@ -40,7 +41,7 @@ import { NgSelectModule } from '@ng-select/ng-select';
         SummaryComponent, SettingsComponent, JSONTreeComponent],
     providers: [InstanceService, QueryProfileService, MySQLQueryDetailsService,
         MongoQueryDetailsService, SummaryService, SettingsService, AddAwsService, AddRemoteInstanceService, BaseQueryDetailsService,
-      RemoteInstancesListService]
+      RemoteInstancesListService, QueryTableConfigurationService]
 })
 export class CoreModule {
 

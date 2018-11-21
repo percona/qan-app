@@ -1,49 +1,25 @@
-import {Component, EventEmitter, OnInit, Output} from '@angular/core';
+import {Component, OnDestroy } from '@angular/core';
+import {QueryTableConfigurationService} from '../query-profile/query-table-configuration.service';
 
 @Component({
   selector: 'app-qan-edit-column',
   templateUrl: './qan-edit-column.component.html',
   styleUrls: ['./qan-edit-column.component.scss']
 })
-export class QanEditColumnComponent implements OnInit {
-
-  @Output() configuration: EventEmitter<any> = new EventEmitter();
+export class QanEditColumnComponent implements OnDestroy {
 
   public isConfigurationMenu = false;
-  public cellConfiguration = [
-    {
-      name: 'Load',
-      id: 'load',
-      checked: true,
-      sparkline: true,
-      value: true,
-      percentage: true
-    },
-    {
-      name: 'Count',
-      id: 'count',
-      checked: true,
-      queriesPerSecond: true,
-      sparkline: true,
-      value: true,
-      percentage: true
-    },
-    {
-      name: 'Avg Latency',
-      id: 'latency',
-      checked: true,
-      sparkline: true,
-      value: true,
-      distribution: true
-    }
-  ];
+  public columns: any;
+  private subscription: any;
 
-
-  constructor() {
+  constructor(public configService: QueryTableConfigurationService) {
+    this.subscription = this.configService.source.subscribe(item => {
+      this.columns = item;
+    });
   }
 
-  ngOnInit() {
-    this.configuration.emit(this.cellConfiguration);
+  ngOnDestroy() {
+    this.subscription.unsubscribe();
   }
 
 }

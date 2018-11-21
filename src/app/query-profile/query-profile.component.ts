@@ -1,9 +1,11 @@
 import {CoreComponent, QueryParams, QanError} from '../core/core.component';
-import {AfterViewChecked, Component, ElementRef, ViewChild} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {InstanceService} from '../core/instance.service';
 import {QueryProfileService} from './query-profile.service';
 import {Router, ActivatedRoute} from '@angular/router';
 import * as moment from 'moment';
+import {QueryTableConfigurationService} from './query-table-configuration.service';
+import {filter} from 'rxjs/operators';
 
 const queryProfileError = 'No data. Please check pmm-client and database configurations on selected instance.';
 
@@ -12,9 +14,7 @@ const queryProfileError = 'No data. Please check pmm-client and database configu
   templateUrl: 'query-profile.component.html',
   styleUrls: ['./query-profile.component.scss'],
 })
-export class QueryProfileComponent extends CoreComponent implements AfterViewChecked {
-
-  @ViewChild('selectOptionsWrapper') optionsWrapper: ElementRef;
+export class QueryProfileComponent extends CoreComponent implements OnInit {
 
   public queryProfile: Array<{}>;
   public profileTotal;
@@ -32,29 +32,24 @@ export class QueryProfileComponent extends CoreComponent implements AfterViewChe
   public isFirsSeenChecked = false;
   public testingVariable: boolean;
   public isSearchQuery = false;
-  public selectedOption: string;
-  public columns: any;
+  public selectedOption: any;
+  public checkedColumns: any;
 
   constructor(protected route: ActivatedRoute,
               protected router: Router,
               protected instanceService: InstanceService,
               public queryProfileService: QueryProfileService,
-              private elementRef: ElementRef) {
+              private configService: QueryTableConfigurationService) {
     super(route, router, instanceService);
   }
 
-  ngAfterViewChecked() {
-    console.log('change columsn - ', this.columns);
-  }
+  ngOnInit() {
+    this.configService.source.subscribe(items => {
+      this.checkedColumns = items.filter((config: any) => !!config.checked);
 
-  checkCellsConfiguration(columnParameters: any) {
-    this.columns = columnParameters;
-    this.selectedOption = columnParameters[0].name;
-  }
-
-  onSelectChange() {
-    this.selectedOption = this.selectedOption === null ? this.columns[0].name : this.selectedOption;
-    console.log('this.selectedOption - ', this.selectedOption);
+      this.selectedOption = (!this.selectedOption || !this.checkedColumns.find(item => item.id === this.selectedOption.id)) ?
+        this.checkedColumns[0] : this.selectedOption;
+    });
   }
 
   onChangeParams(params) {
@@ -62,7 +57,7 @@ export class QueryProfileComponent extends CoreComponent implements AfterViewChe
     this.fromDate = moment(this.from).format('llll');
     this.toDate = moment(this.to).format('llll');
 
-    // only if host, from and to are diffrent from prev router - load queries.
+    // only if host, from and to are different from prev router - load queries.
     if (!this.previousQueryParams ||
       this.previousQueryParams['var-host'] !== this.queryParams['var-host'] ||
       this.previousQueryParams.from !== this.queryParams.from ||
