@@ -20,8 +20,11 @@ export class QueryProfileCellComponent implements OnChanges {
   }
 
   ngOnChanges() {
-    this.isLoad = this.selectedColumn.id === this.configService.source.value[0].id;
-    this.isCount = this.selectedColumn.id === this.configService.source.value[1].id;
-    this.isLatency = this.selectedColumn.id === this.configService.source.value[2].id;
+    const isEmptyColumn = !Object.keys(this.selectedColumn).length;
+
+    this.isLoad = !isEmptyColumn && this.selectedColumn.id === this.configService.source.value[0].id;
+    this.isCount = !isEmptyColumn && this.selectedColumn.id === this.configService.source.value[1].id;
+    this.isLatency = !isEmptyColumn && this.selectedColumn.id === this.configService.source.value[2].id;
   }
+
 }

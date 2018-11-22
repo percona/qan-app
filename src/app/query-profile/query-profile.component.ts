@@ -46,9 +46,12 @@ export class QueryProfileComponent extends CoreComponent implements OnInit {
   ngOnInit() {
     this.configService.source.subscribe(items => {
       this.checkedColumns = items.filter((config: any) => !!config.checked);
-
-      this.selectedOption = (!this.selectedOption || !this.checkedColumns.find(item => item.id === this.selectedOption.id)) ?
-        this.checkedColumns[0] : this.selectedOption;
+      if (!!this.checkedColumns.length) {
+        this.selectedOption = (!this.selectedOption || !this.checkedColumns.find(item => {return item.id === this.selectedOption.id})) ?
+          this.checkedColumns[0] : this.selectedOption;
+      } else {
+        this.selectedOption = '';
+      }
     });
   }
 
