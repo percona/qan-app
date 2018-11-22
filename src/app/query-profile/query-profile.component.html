@@ -55,7 +55,7 @@
     </section>
 
     <section class="grid-table queries-viewer__table">
-      <header class="grid-table__row grid-table__row--main grid-table__row--title">
+      <header [class.grid-table__row--3-col]="!selectedOption" class="grid-table__row grid-table__row--main grid-table__row--title">
         <span>#</span>
         <span>Query Abstract</span>
         <div *ngIf="!!selectedOption" class="row__sub-table">
@@ -64,7 +64,8 @@
         </div>
         <span>Schemas</span>
       </header>
-      <div class="grid-table__row grid-table__row--main grid-table__row--cursor"
+      <div [class.grid-table__row--3-col]="!selectedOption"
+           class="grid-table__row grid-table__row--main grid-table__row--cursor"
            *ngFor="let row of queryProfile; let i = index; let first = first;"
            [routerLink]="['./', 'report', dbServer.Subsystem]"
            [queryParams]="composeQueryParamsForGrid(row.Id)" routerLinkActive="grid-table__row--active"

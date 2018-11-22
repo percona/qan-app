@@ -5,3 +5,7 @@
 .queries-viewer__table {
   margin-bottom: var(--main-bottom-indent);
 }
+
+.grid-table__row--3-col {
+  grid-template-columns: 40px 17fr 7fr;
+}
