@@ -10,6 +10,7 @@ import { JSONTreeComponent } from './json-tree/json-tree.component';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 import { InstanceService } from './instance.service';
 import { QueryProfileComponent } from '../query-profile/query-profile.component';
+
 import { QueryProfileService } from '../query-profile/query-profile.service';
 import { MySQLQueryDetailsComponent } from '../mysql-query-details/mysql-query-details.component';
 import { MySQLQueryDetailsService } from '../mysql-query-details/mysql-query-details.service';
@@ -25,10 +26,12 @@ import { RemoteInstancesListService } from '../remote-instances-list/remote-inst
 import { ClipboardModule } from 'ngx-clipboard';
 import { RemoteInstancesListComponent } from '../remote-instances-list/remote-instances-list.component';
 import { BaseQueryDetailsService } from './base-query-details.service';
+import {QueryProfileCellComponent} from '../query-profile-cell/query-profile-cell.component';
+import { NgSelectModule } from '@ng-select/ng-select';
 
 @NgModule({
-    imports: [CommonModule, SharedModule, ClipboardModule],
-    declarations: [NavComponent, PageNotFoundComponent, QueryProfileComponent,
+    imports: [CommonModule, SharedModule, ClipboardModule, NgSelectModule],
+    declarations: [NavComponent, PageNotFoundComponent, QueryProfileComponent, QueryProfileCellComponent,
         MySQLQueryDetailsComponent, MongoQueryDetailsComponent,
         SummaryComponent, SettingsComponent, JSONTreeComponent, RemoteInstancesListComponent],
     exports: [NavComponent, PageNotFoundComponent, QueryProfileComponent,
