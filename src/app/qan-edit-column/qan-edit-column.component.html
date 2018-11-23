@@ -29,7 +29,7 @@
         </label>
         <label class="checkbox-container">
           <input type="checkbox"
-                 (change)="configService.toggleConfig('load', 'sparkline')"
+                 (change)="checkMain('load', 'sparkline')"
                  [checked]="columns[0].sparkline"
                  [disabled]="!columns[0].checked">
           <span class="checkbox-container__checkmark"></span>
@@ -37,7 +37,7 @@
         </label>
         <label class="checkbox-container">
           <input type="checkbox"
-                 (change)="configService.toggleConfig('load', 'value')"
+                 (change)="checkMain('load', 'value')"
                  [checked]="columns[0].value"
                  [disabled]="!columns[0].checked">
           <span class="checkbox-container__checkmark"></span>
@@ -45,7 +45,7 @@
         </label>
         <label class="checkbox-container">
           <input type="checkbox"
-                 (change)="configService.toggleConfig('load', 'percentage')"
+                 (change)="checkMain('load', 'percentage')"
                  [checked]="columns[0].percentage"
                  [disabled]="!columns[0].checked">
           <span class="checkbox-container__checkmark"></span>
@@ -65,7 +65,7 @@
         </label>
         <label class="checkbox-container">
           <input type="checkbox"
-                 (change)="configService.toggleConfig('count', 'sparkline')"
+                 (change)="checkMain('count', 'sparkline')"
                  [checked]="columns[1].sparkline"
                  [disabled]="!columns[1].checked">
           <span class="checkbox-container__checkmark"></span>
@@ -73,7 +73,7 @@
         </label>
         <label class="checkbox-container">
           <input type="checkbox"
-                 (change)="configService.toggleConfig('count', 'queriesPerSecond')"
+                 (change)="checkMain('count', 'queriesPerSecond')"
                  [checked]="columns[1].queriesPerSecond"
                  [disabled]="!columns[1].checked">
           <span class="checkbox-container__checkmark"></span>
@@ -81,7 +81,7 @@
         </label>
         <label class="checkbox-container">
           <input type="checkbox"
-                 (change)="configService.toggleConfig('count', 'value')"
+                 (change)="checkMain('count', 'value')"
                  [checked]="columns[1].value"
                  [disabled]="!columns[1].checked">
           <span class="checkbox-container__checkmark"></span>
@@ -89,7 +89,7 @@
         </label>
         <label class="checkbox-container">
           <input type="checkbox"
-                 (change)="configService.toggleConfig('count', 'percentage')"
+                 (change)="checkMain('count', 'percentage')"
                  [checked]="columns[1].percentage"
                  [disabled]="!columns[1].checked">
           <span class="checkbox-container__checkmark"></span>
@@ -109,7 +109,7 @@
         </label>
         <label class="checkbox-container">
           <input type="checkbox"
-                 (change)="configService.toggleConfig('latency', 'sparkline')"
+                 (change)="checkMain('latency', 'sparkline')"
                  [checked]="columns[2].sparkline"
                  [disabled]="!columns[2].checked">
           <span class="checkbox-container__checkmark"></span>
@@ -117,7 +117,7 @@
         </label>
         <label class="checkbox-container">
           <input type="checkbox"
-                 (change)="configService.toggleConfig('latency', 'value')"
+                 (change)="checkMain('latency', 'value')"
                  [checked]="columns[2].value"
                  [disabled]="!columns[2].checked">
           <span class="checkbox-container__checkmark"></span>
@@ -125,7 +125,7 @@
         </label>
         <label class="checkbox-container">
           <input type="checkbox"
-                 (change)="configService.toggleConfig('latency', 'distribution')"
+                 (change)="checkMain('latency', 'distribution')"
                  [checked]="columns[2].distribution"
                  [disabled]="!columns[2].checked">
           <span class="checkbox-container__checkmark"></span>
