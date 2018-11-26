@@ -1,11 +1,10 @@
 import {CoreComponent, QueryParams, QanError} from '../core/core.component';
-import {Component, OnInit} from '@angular/core';
+import {Component, OnChanges, OnInit} from '@angular/core';
 import {InstanceService} from '../core/instance.service';
 import {QueryProfileService} from './query-profile.service';
 import {Router, ActivatedRoute} from '@angular/router';
 import * as moment from 'moment';
 import {QueryTableConfigurationService} from './query-table-configuration.service';
-import {filter} from 'rxjs/operators';
 
 const queryProfileError = 'No data. Please check pmm-client and database configurations on selected instance.';
 
@@ -14,7 +13,7 @@ const queryProfileError = 'No data. Please check pmm-client and database configu
   templateUrl: 'query-profile.component.html',
   styleUrls: ['./query-profile.component.scss'],
 })
-export class QueryProfileComponent extends CoreComponent implements OnInit {
+export class QueryProfileComponent extends CoreComponent {
 
   public queryProfile: Array<{}>;
   public profileTotal;
@@ -34,6 +33,14 @@ export class QueryProfileComponent extends CoreComponent implements OnInit {
   public isSearchQuery = false;
   public selectedOption: any;
   public checkedColumns: any;
+  public isMainColumn: boolean;
+  public isRowsScanned: boolean;
+  public isLoad = false;
+  public isCount = false;
+  public isLatency = false;
+  public isLoadColumn: boolean;
+  public isCountColumn: boolean;
+  public isLatencyColumn: boolean;
 
   constructor(protected route: ActivatedRoute,
               protected router: Router,
@@ -41,18 +48,50 @@ export class QueryProfileComponent extends CoreComponent implements OnInit {
               public queryProfileService: QueryProfileService,
               private configService: QueryTableConfigurationService) {
     super(route, router, instanceService);
-  }
-
-  ngOnInit() {
     this.configService.source.subscribe(items => {
       this.checkedColumns = items.filter((config: any) => !!config.checked);
       if (!!this.checkedColumns.length) {
         this.selectedOption = (!this.selectedOption || !this.checkedColumns.find(item => {return item.id === this.selectedOption.id})) ?
           this.checkedColumns[0] : this.selectedOption;
+        this.checkEmptyColumn(this.selectedOption);
       } else {
         this.selectedOption = '';
       }
     });
+  }
+
+  checkEmptyColumn(selected) {
+    const isEmptyColumn = !Object.keys(selected).length;
+
+    switch (selected.id) {
+      case 'load':
+        this.isLoad = true;
+        this.isMainColumn = selected.sparkline || selected.value;
+        this.isRowsScanned = selected.percentage;
+        this.isLoadColumn = !isEmptyColumn;
+        this.isCountColumn = false;
+        this.isLatencyColumn = false;
+        break;
+      case 'count':
+        this.isCount = true;
+        this.isMainColumn = selected.sparkline || selected.queriesPerSecond;
+        this.isRowsScanned = selected.value || selected.percentage;
+        this.isCountColumn = !isEmptyColumn;
+        this.isLoadColumn = false;
+        this.isLatencyColumn = false;
+        break;
+      case 'latency':
+        this.isLatency = true;
+        this.isMainColumn = selected.sparkline || selected.value;
+        this.isRowsScanned = selected.distribution;
+        this.isLatencyColumn = !isEmptyColumn;
+        this.isLoadColumn = false;
+        this.isLatencyColumn = false;
+        break;
+    }
+    console.log('this.isLoadColumn - ', this.isLoadColumn);
+    console.log('this.isCountColumn - ', this.isCountColumn);
+    console.log('this.isLatencyColumn - ', this.isLatencyColumn);
   }
 
   onChangeParams(params) {

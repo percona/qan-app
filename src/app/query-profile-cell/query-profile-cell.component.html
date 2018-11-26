@@ -1,52 +1,142 @@
-<!--Load-->
-<div *ngIf=isLoad>
-  <div *ngIf="selectedColumn?.sparkline"
-       class="scaling-svg-container app-tooltip"
-       [appLoadSparklines]="row.Log"
-       data-tooltip="Loading..."
-       xkey="Start_ts" ykey="Query_load"
-       measurement="number">
-  </div>
-  <span *ngIf="selectedColumn?.value">{{ row.Load | humanize : 'number' }}</span>
-</div>
-<div *ngIf="isLoad && selectedColumn?.percentage">
-  <span>{{ row.Percentage | humanize : 'percent' }}</span>
-</div>
+<!--&lt;!&ndash;Load&ndash;&gt;-->
+<!--<div *ngIf="isLoad && (selectedColumn?.sparkline || selectedColumn?.value)" class="column-sparkline">-->
+  <!--<div *ngIf="selectedColumn?.sparkline"-->
+       <!--class="scaling-svg-container app-tooltip"-->
+       <!--[appLoadSparklines]="row.Log"-->
+       <!--data-tooltip="Loading..."-->
+       <!--xkey="Start_ts" ykey="Query_load"-->
+       <!--measurement="number">-->
+  <!--</div>-->
+  <!--<span *ngIf="selectedColumn?.value">{{ row.Load | humanize : 'number' }}</span>-->
+<!--</div>-->
+<!--<div *ngIf="isLoad && selectedColumn?.percentage" class="column-rows-scanned">-->
+  <!--<span>{{ row.Percentage | humanize : 'percent' }}</span>-->
+<!--</div>-->
+<!--&lt;!&ndash;end of Load&ndash;&gt;-->
 
-<!--Count-->
-<div *ngIf="isCount">
-  <div *ngIf="selectedColumn?.sparkline"
-       class="scaling-svg-container app-tooltip"
-       [appLoadSparklines]="row.Log"
-       data-tooltip="Loading..."
-       xkey="Start_ts" ykey="Query_count"
-       measurement="number">
-  </div>
-  <span *ngIf="selectedColumn?.queriesPerSecond" class="unit unit--qps">{{row.QPS | humanize : 'number'}}</span>
-</div>
-<div *ngIf="isCount">
-  <span *ngIf="selectedColumn?.value">{{row.Stats.Cnt | humanize : 'number'}}</span>
-  <span *ngIf="selectedColumn?.percentage" class="unit unit--percent">{{ (row.Stats.Cnt / profileTotal?.Stats.Cnt * 100).toFixed(2) }}</span>
-</div>
+<!--&lt;!&ndash;Count&ndash;&gt;-->
+<!--<div *ngIf="isCount && (selectedColumn?.sparkline || selectedColumn?.queriesPerSecond)" class="column-sparkline">-->
+  <!--<div *ngIf="selectedColumn?.sparkline"-->
+       <!--class="scaling-svg-container app-tooltip"-->
+       <!--[appLoadSparklines]="row.Log"-->
+       <!--data-tooltip="Loading..."-->
+       <!--xkey="Start_ts" ykey="Query_count"-->
+       <!--measurement="number">-->
+  <!--</div>-->
+  <!--<span *ngIf="selectedColumn?.queriesPerSecond" class="unit unit&#45;&#45;qps">{{row.QPS | humanize : 'number'}}</span>-->
+<!--</div>-->
+<!--<div *ngIf="isCount && (selectedColumn?.value || selectedColumn?.percentage)" class="column-rows-scanned">-->
+  <!--<span *ngIf="selectedColumn?.value">{{row.Stats.Cnt | humanize : 'number'}}</span>-->
+  <!--<span *ngIf="selectedColumn?.percentage" class="unit unit&#45;&#45;percent">{{ (row.Stats.Cnt / profileTotal?.Stats.Cnt * 100).toFixed(2) }}</span>-->
+<!--</div>-->
+<!--&lt;!&ndash;end of Count&ndash;&gt;-->
 
-<!--Avg Latency-->
-<div *ngIf="isLatency">
-  <div *ngIf="selectedColumn?.sparkline"
-       class="scaling-svg-container app-tooltip"
-       [appLoadSparklines]="row.Log"
-       data-tooltip="Loading..."
-       xkey="Start_ts" ykey="Query_time_avg"
-       measurement="time">
+<!--&lt;!&ndash;Avg Latency&ndash;&gt;-->
+<!--<div *ngIf="isLatency" class="column-sparkline">-->
+  <!--<div *ngIf="selectedColumn?.sparkline"-->
+       <!--class="scaling-svg-container app-tooltip"-->
+       <!--[appLoadSparklines]="row.Log"-->
+       <!--data-tooltip="Loading..."-->
+       <!--xkey="Start_ts" ykey="Query_time_avg"-->
+       <!--measurement="time">-->
+  <!--</div>-->
+  <!--<div>-->
+    <!--&lt;!&ndash;<span *ngIf="selectedColumn?.value" class="unit unit&#45;&#45;avg">{{ row.Stats.Avg | humanize }}</span>&ndash;&gt;-->
+    <!--<span *ngIf="selectedColumn?.value">{{ row.Stats.Avg | humanize }}</span>-->
+  <!--</div>-->
+<!--</div>-->
+<!--<div *ngIf="isLatency && selectedColumn?.distribution" class="column-rows-scanned">-->
+  <!--<div *ngIf="selectedColumn?.distribution"-->
+       <!--class="scaling-svg-container scaling-svg-container&#45;&#45;full-width app-tooltip"-->
+       <!--data-tooltip="Loading..."-->
+       <!--measurement="time"-->
+       <!--[appLatencyChart]="row.Stats">-->
+  <!--</div>-->
+<!--</div>-->
+<!--&lt;!&ndash;end of Avg Latency&ndash;&gt;-->
+
+
+<section class="grid-table queries-viewer__table">
+  <div *ngFor="let row of queryProfile; let i = index; let first = first;"
+       [routerLink]="['./', 'report', dbServer.Subsystem]"
+       [queryParams]="composeQueryParamsForGrid(row.Id)" routerLinkActive="grid-table__row--active"
+       [class.grid-table__row--3-col]="!selectedOption"
+       [class.grid-table__row--4-col]="(!isRowsScanned || !isMainColumn) && selectedOption"
+       [class.grid-table__row--load]="isLoad"
+       [class.grid-table__row--count]="isCount"
+       [class.grid-table__row--latency]="isLatency"
+       [class.grid-table__row--first-seen]="checkFirstSeen(row)"
+       class="grid-table__row grid-table__row--main grid-table__row--cursor body-ref">
+    <span *ngIf="first">#</span>
+    <span *ngIf="first">Query Abstract</span>
+    <!--<div *ngIf="!!selectedOption" class="row__sub-table">-->
+      <div *ngIf="!!selectedOption && isMainColumn && first"><span>{{ selectedOption.name }}</span></div>
+      <div *ngIf="!!selectedOption && isRowsScanned && first"><span>Rows Scanned</span> <span></span></div>
+    <!--</div>-->
+    <span *ngIf="first">Schemas</span>
+
+    <span>{{ i || '' }}</span>
+    <div class="overlay-container">
+      <a href="javascript:;" class="row__link overlay-container__item" title="{{ row.Fingerprint }}">
+        {{ row.Rank ? (row.Abstract || 'Low Ranking Queries') : 'TOTAL' }}
+      </a>
+    </div>
+    <!--Load-->
+    <div *ngIf="isLoadColumn && (selectedOption?.sparkline || selectedOption?.value)" class="column-sparkline">
+      <div *ngIf="selectedOption?.sparkline"
+           class="scaling-svg-container app-tooltip"
+           [appLoadSparklines]="row.Log"
+           data-tooltip="Loading..."
+           xkey="Start_ts" ykey="Query_load"
+           measurement="number">
+      </div>
+      <span *ngIf="selectedOption?.value">{{ row.Load | humanize : 'number' }}</span>
+    </div>
+    <div *ngIf="isLoadColumn && selectedOption?.percentage" class="column-rows-scanned">
+      <span>{{ row.Percentage | humanize : 'percent' }}</span>
+    </div>
+    <!--end of Load-->
+
+    <!--Count-->
+    <div *ngIf="isCountColumn && (selectedOption?.sparkline || selectedOption?.queriesPerSecond)" class="column-sparkline">
+      <div *ngIf="selectedOption?.sparkline"
+           class="scaling-svg-container app-tooltip"
+           [appLoadSparklines]="row.Log"
+           data-tooltip="Loading..."
+           xkey="Start_ts" ykey="Query_count"
+           measurement="number">
+      </div>
+      <span *ngIf="selectedOption?.queriesPerSecond" class="unit unit--qps">{{row.QPS | humanize : 'number'}}</span>
+    </div>
+    <div *ngIf="isCountColumn && (selectedOption?.value || selectedOption?.percentage)" class="column-rows-scanned">
+      <span *ngIf="selectedOption?.value">{{row.Stats.Cnt | humanize : 'number'}}</span>
+      <span *ngIf="selectedOption?.percentage" class="unit unit--percent">{{ (row.Stats.Cnt / profileTotal?.Stats.Cnt * 100).toFixed(2) }}</span>
+    </div>
+    <!--end of Count-->
+
+    <!--Avg Latency-->
+    <div *ngIf="isLatencyColumn" class="column-sparkline">
+      <div *ngIf="selectedOption?.sparkline"
+           class="scaling-svg-container app-tooltip"
+           [appLoadSparklines]="row.Log"
+           data-tooltip="Loading..."
+           xkey="Start_ts" ykey="Query_time_avg"
+           measurement="time">
+      </div>
+      <div>
+        <!--<span *ngIf="selectedColumn?.value" class="unit unit--avg">{{ row.Stats.Avg | humanize }}</span>-->
+        <span *ngIf="selectedOption?.value">{{ row.Stats.Avg | humanize }}</span>
+      </div>
+    </div>
+    <div *ngIf="isLatencyColumn && selectedOption?.distribution" class="column-rows-scanned">
+      <div *ngIf="selectedOption?.distribution"
+           class="scaling-svg-container scaling-svg-container--full-width app-tooltip"
+           data-tooltip="Loading..."
+           measurement="time"
+           [appLatencyChart]="row.Stats">
+      </div>
+    </div>
+    <!--end of Avg Latency-->
+    <div>------------</div>
   </div>
-  <div>
-    <span *ngIf="selectedColumn?.value" class="unit unit--avg">{{ row.Stats.Avg | humanize }}</span>
-  </div>
-</div>
-<div *ngIf="isLatency">
-  <div *ngIf="selectedColumn?.distribution"
-       class="scaling-svg-container scaling-svg-container--full-width app-tooltip"
-       data-tooltip="Loading..."
-       measurement="time"
-       [appLatencyChart]="row.Stats">
-  </div>
-</div>
+</section>

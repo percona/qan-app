@@ -1,3 +1,30 @@
 .scaling-svg-container {
   background-color: rgb(31, 29, 29);
 }
+
+.scaling-svg-container {
+  width: 130px;
+  //margin-right: 1em;
+}
+
+//.column-sparkline {
+//  min-width: 220px;
+//}
+
+.column-rows-scanned {
+  min-width: 110px;
+}
+
+.column-sparkline > .scaling-svg-container {
+  width: 130px;
+}
+
+.column-sparkline > span {
+  width: 65px;
+}
+
+.column-sparkline > .scaling-svg-container + span {
+  width: 80px;
+  text-align: right;
+}
+
