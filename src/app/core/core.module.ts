@@ -27,13 +27,12 @@ import { ClipboardModule } from 'ngx-clipboard';
 import { RemoteInstancesListComponent } from '../remote-instances-list/remote-instances-list.component';
 import { BaseQueryDetailsService } from './base-query-details.service';
 import { QanEditColumnComponent } from '../qan-edit-column/qan-edit-column.component';
-import { QueryProfileCellComponent } from '../query-profile-cell/query-profile-cell.component';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { QueryTableConfigurationService } from '../query-profile/query-table-configuration.service';
 
 @NgModule({
     imports: [CommonModule, SharedModule, ClipboardModule, NgSelectModule],
-    declarations: [NavComponent, PageNotFoundComponent, QueryProfileComponent, QueryProfileCellComponent,
+    declarations: [NavComponent, PageNotFoundComponent, QueryProfileComponent,
         MySQLQueryDetailsComponent, MongoQueryDetailsComponent,
         SummaryComponent, SettingsComponent, JSONTreeComponent, RemoteInstancesListComponent, QanEditColumnComponent],
     exports: [NavComponent, PageNotFoundComponent, QueryProfileComponent,

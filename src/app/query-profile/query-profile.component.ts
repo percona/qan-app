@@ -65,33 +65,30 @@ export class QueryProfileComponent extends CoreComponent {
 
     switch (selected.id) {
       case 'load':
-        this.isLoad = true;
         this.isMainColumn = selected.sparkline || selected.value;
         this.isRowsScanned = selected.percentage;
-        this.isLoadColumn = !isEmptyColumn;
-        this.isCountColumn = false;
-        this.isLatencyColumn = false;
+        this.isLoad = !isEmptyColumn;
+        this.isCount = false;
+        this.isLatency = false;
         break;
       case 'count':
-        this.isCount = true;
         this.isMainColumn = selected.sparkline || selected.queriesPerSecond;
         this.isRowsScanned = selected.value || selected.percentage;
-        this.isCountColumn = !isEmptyColumn;
-        this.isLoadColumn = false;
-        this.isLatencyColumn = false;
+        this.isCount = !isEmptyColumn;
+        this.isLoad = false;
+        this.isLatency = false;
         break;
       case 'latency':
-        this.isLatency = true;
         this.isMainColumn = selected.sparkline || selected.value;
         this.isRowsScanned = selected.distribution;
-        this.isLatencyColumn = !isEmptyColumn;
-        this.isLoadColumn = false;
-        this.isLatencyColumn = false;
+        this.isLatency = !isEmptyColumn;
+        this.isLoad = false;
+        this.isCount = false;
         break;
     }
-    console.log('this.isLoadColumn - ', this.isLoadColumn);
-    console.log('this.isCountColumn - ', this.isCountColumn);
-    console.log('this.isLatencyColumn - ', this.isLatencyColumn);
+    console.log('this.isLoadColumn - ', this.isLoad);
+    console.log('this.isCountColumn - ', this.isCount);
+    console.log('this.isLatencyColumn - ', this.isLatency);
   }
 
   onChangeParams(params) {

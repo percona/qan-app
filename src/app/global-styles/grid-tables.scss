@@ -65,8 +65,10 @@
 
 //QAN queries table
 .grid-table__row--main {
-  grid-template-columns: 40px 9fr 8fr 375px;
+  grid-template-columns: 40px minmax(515px, 1fr) minmax(0, auto) minmax(0, auto) 375px;
+  grid-auto-rows: minmax(var(--row-height), auto);
 }
+
 .grid-table__row--main > *:first-child {
   word-break: keep-all;
 }
