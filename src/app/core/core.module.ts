@@ -10,7 +10,6 @@ import { JSONTreeComponent } from './json-tree/json-tree.component';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 import { InstanceService } from './instance.service';
 import { QueryProfileComponent } from '../query-profile/query-profile.component';
-
 import { QueryProfileService } from '../query-profile/query-profile.service';
 import { MySQLQueryDetailsComponent } from '../mysql-query-details/mysql-query-details.component';
 import { MySQLQueryDetailsService } from '../mysql-query-details/mysql-query-details.service';

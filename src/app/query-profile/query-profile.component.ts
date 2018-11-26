@@ -86,9 +86,6 @@ export class QueryProfileComponent extends CoreComponent {
         this.isCount = false;
         break;
     }
-    console.log('this.isLoadColumn - ', this.isLoad);
-    console.log('this.isCountColumn - ', this.isCount);
-    console.log('this.isLatencyColumn - ', this.isLatency);
   }
 
   onChangeParams(params) {
