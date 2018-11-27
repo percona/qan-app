@@ -55,7 +55,7 @@
       <app-qan-edit-column></app-qan-edit-column>
     </section>
 
-    <section class="grid-table queries-viewer__table">
+    <section *ngIf="!isQuerySwitching" class="grid-table queries-viewer__table">
       <div *ngFor="let row of queryProfile; let i = index; let first = first;"
            [routerLink]="['./', 'report', dbServer.Subsystem]"
            [queryParams]="composeQueryParamsForGrid(row.Id)" routerLinkActive="grid-table__row--active"
