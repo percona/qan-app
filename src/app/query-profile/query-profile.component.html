@@ -43,9 +43,7 @@
       </form>
     </section>
 
-    <section class="configuration-panel configuration-panel--reverse">
-      <app-qan-edit-column></app-qan-edit-column>
-
+    <section class="configuration-panel">
       <ng-select [(ngModel)]="selectedOption"
                  [items]="checkedColumns"
                  (change)="checkEmptyColumn(selectedOption)"
@@ -53,6 +51,8 @@
                  bindLabel="name"
                  role="combobox">
       </ng-select>
+
+      <app-qan-edit-column></app-qan-edit-column>
     </section>
 
     <section class="grid-table queries-viewer__table">

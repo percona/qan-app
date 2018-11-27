@@ -11,8 +11,9 @@ export class QanEditColumnComponent implements OnDestroy {
   public isConfigurationMenu = false;
   public columns: any;
   private subscription: any;
-  public isMainChecked: any;
-  public isSubMain: any;
+  public isMainChecked: boolean;
+  public isSubMain: boolean;
+  public isAllUnchecked: boolean;
 
   constructor(public configService: QueryTableConfigurationService) {
     this.subscription = this.configService.source.subscribe(items => {
@@ -20,8 +21,42 @@ export class QanEditColumnComponent implements OnDestroy {
     });
   }
 
-  checkMain(id, currentKey) {
-    this.configService.toggleConfig(id, currentKey);
+  undisableOptions(id, key) {
+    this.configService.toggleConfig(id, key);
+    switch (id) {
+      case 'load':
+        const loadOptions = ['sparkline', 'value', 'percentage'];
+        this.isAllUnchecked = this.columns[0].sparkline || this.columns[0].value || this.columns[0].percentage;
+        if (!this.isAllUnchecked) {
+          loadOptions.forEach(item => {
+            this.configService.toggleConfig(id, item);
+          })
+        }
+        break;
+      case 'count':
+        const countOptions = ['sparkline', 'value', 'percentage', 'queriesPerSecond'];
+        this.isAllUnchecked =
+          this.columns[1].sparkline || this.columns[1].value || this.columns[1].percentage || this.columns[1].queriesPerSecond;
+        if (!this.isAllUnchecked) {
+          countOptions.forEach(item => {
+            this.configService.toggleConfig(id, item);
+          })
+        }
+        break;
+      case 'latency':
+        const latencyOptions = ['sparkline', 'value', 'distribution'];
+        this.isAllUnchecked = this.columns[2].sparkline || this.columns[2].value || this.columns[2].distribution;
+        if (!this.isAllUnchecked) {
+          latencyOptions.forEach(item => {
+            this.configService.toggleConfig(id, item);
+          })
+        }
+        break;
+    }
+  }
+
+  checkConfigurations(id, key) {
+    this.configService.toggleConfig(id, key);
 
     switch (id) {
       case 'load':

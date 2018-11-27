@@ -38,9 +38,6 @@ export class QueryProfileComponent extends CoreComponent {
   public isLoad = false;
   public isCount = false;
   public isLatency = false;
-  public isLoadColumn: boolean;
-  public isCountColumn: boolean;
-  public isLatencyColumn: boolean;
 
   constructor(protected route: ActivatedRoute,
               protected router: Router,

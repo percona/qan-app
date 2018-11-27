@@ -21,7 +21,7 @@
       <div>
         <label class="checkbox-container">
           <input type="checkbox"
-                 (change)="configService.toggleConfig('load', 'checked')"
+                 (change)="undisableOptions('load', 'checked')"
                  [checked]="columns[0].checked"
                  class="checkbox-container__main-input">
           <span class="checkbox-container__checkmark"></span>
@@ -29,7 +29,7 @@
         </label>
         <label class="checkbox-container">
           <input type="checkbox"
-                 (change)="checkMain('load', 'sparkline')"
+                 (change)="checkConfigurations('load', 'sparkline')"
                  [checked]="columns[0].sparkline"
                  [disabled]="!columns[0].checked">
           <span class="checkbox-container__checkmark"></span>
@@ -37,7 +37,7 @@
         </label>
         <label class="checkbox-container">
           <input type="checkbox"
-                 (change)="checkMain('load', 'value')"
+                 (change)="checkConfigurations('load', 'value')"
                  [checked]="columns[0].value"
                  [disabled]="!columns[0].checked">
           <span class="checkbox-container__checkmark"></span>
@@ -45,7 +45,7 @@
         </label>
         <label class="checkbox-container">
           <input type="checkbox"
-                 (change)="checkMain('load', 'percentage')"
+                 (change)="checkConfigurations('load', 'percentage')"
                  [checked]="columns[0].percentage"
                  [disabled]="!columns[0].checked">
           <span class="checkbox-container__checkmark"></span>
@@ -57,7 +57,7 @@
       <div>
         <label class="checkbox-container">
           <input type="checkbox"
-                 (change)="configService.toggleConfig('count', 'checked')"
+                 (change)="undisableOptions('count', 'checked')"
                  [checked]="columns[1].checked"
                  class="checkbox-container__main-input">
           <span class="checkbox-container__checkmark"></span>
@@ -65,7 +65,7 @@
         </label>
         <label class="checkbox-container">
           <input type="checkbox"
-                 (change)="checkMain('count', 'sparkline')"
+                 (change)="checkConfigurations('count', 'sparkline')"
                  [checked]="columns[1].sparkline"
                  [disabled]="!columns[1].checked">
           <span class="checkbox-container__checkmark"></span>
@@ -73,7 +73,7 @@
         </label>
         <label class="checkbox-container">
           <input type="checkbox"
-                 (change)="checkMain('count', 'queriesPerSecond')"
+                 (change)="checkConfigurations('count', 'queriesPerSecond')"
                  [checked]="columns[1].queriesPerSecond"
                  [disabled]="!columns[1].checked">
           <span class="checkbox-container__checkmark"></span>
@@ -81,7 +81,7 @@
         </label>
         <label class="checkbox-container">
           <input type="checkbox"
-                 (change)="checkMain('count', 'value')"
+                 (change)="checkConfigurations('count', 'value')"
                  [checked]="columns[1].value"
                  [disabled]="!columns[1].checked">
           <span class="checkbox-container__checkmark"></span>
@@ -89,7 +89,7 @@
         </label>
         <label class="checkbox-container">
           <input type="checkbox"
-                 (change)="checkMain('count', 'percentage')"
+                 (change)="checkConfigurations('count', 'percentage')"
                  [checked]="columns[1].percentage"
                  [disabled]="!columns[1].checked">
           <span class="checkbox-container__checkmark"></span>
@@ -101,7 +101,7 @@
       <div>
         <label class="checkbox-container">
           <input type="checkbox"
-                 (change)="configService.toggleConfig('latency', 'checked')"
+                 (change)="undisableOptions('latency', 'checked')"
                  [checked]="columns[2].checked"
                  class="checkbox-container__main-input">
           <span class="checkbox-container__checkmark"></span>
@@ -109,7 +109,7 @@
         </label>
         <label class="checkbox-container">
           <input type="checkbox"
-                 (change)="checkMain('latency', 'sparkline')"
+                 (change)="checkConfigurations('latency', 'sparkline')"
                  [checked]="columns[2].sparkline"
                  [disabled]="!columns[2].checked">
           <span class="checkbox-container__checkmark"></span>
@@ -117,7 +117,7 @@
         </label>
         <label class="checkbox-container">
           <input type="checkbox"
-                 (change)="checkMain('latency', 'value')"
+                 (change)="checkConfigurations('latency', 'value')"
                  [checked]="columns[2].value"
                  [disabled]="!columns[2].checked">
           <span class="checkbox-container__checkmark"></span>
@@ -125,7 +125,7 @@
         </label>
         <label class="checkbox-container">
           <input type="checkbox"
-                 (change)="checkMain('latency', 'distribution')"
+                 (change)="checkConfigurations('latency', 'distribution')"
                  [checked]="columns[2].distribution"
                  [disabled]="!columns[2].checked">
           <span class="checkbox-container__checkmark"></span>
