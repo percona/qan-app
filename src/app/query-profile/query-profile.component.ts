@@ -59,28 +59,25 @@ export class QueryProfileComponent extends CoreComponent {
 
   checkEmptyColumn(selected) {
     const isEmptyColumn = !Object.keys(selected).length;
+    this.isLoad = false;
+    this.isCount = false;
+    this.isLatency = false;
 
     switch (selected.id) {
       case 'load':
         this.isMainColumn = selected.sparkline || selected.value;
         this.isRowsScanned = selected.percentage;
         this.isLoad = !isEmptyColumn;
-        this.isCount = false;
-        this.isLatency = false;
         break;
       case 'count':
         this.isMainColumn = selected.sparkline || selected.queriesPerSecond;
         this.isRowsScanned = selected.value || selected.percentage;
         this.isCount = !isEmptyColumn;
-        this.isLoad = false;
-        this.isLatency = false;
         break;
       case 'latency':
         this.isMainColumn = selected.sparkline || selected.value;
         this.isRowsScanned = selected.distribution;
         this.isLatency = !isEmptyColumn;
-        this.isLoad = false;
-        this.isCount = false;
         break;
     }
   }
