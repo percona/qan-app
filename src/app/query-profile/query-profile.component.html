@@ -31,50 +31,123 @@
         </label>
       </div>
 
-      <form (submit)="search()" class="configuration-form configuration-form--clicked">
+      <form (submit)="search()" class="query-search query-search--clicked">
         <input [(ngModel)]="searchValue" name="searchValue"
                [disabled]="!isQuerySwitching && !isLoading && totalAmountOfQueries === 0 && !isSearchQuery"
-               class="input-field configuration-form__input"
+               class="input-field query-search__input"
                type="text" placeholder="Search by query abstract, fingerprint or ID"
                id="search-input">
-        <button (submit)="search()" class="configuration-form__button" type="submit">
+        <button class="query-search__button" type="submit">
           <span class="fa fa-search"></span>
         </button>
       </form>
     </section>
 
     <section class="configuration-panel">
-      <ng-select [items]="options"
-                 [(ngModel)]="selectedOption"
-                 (change)="onChange()"
+      <ng-select [(ngModel)]="selectedOption"
+                 [items]="checkedColumns"
+                 (change)="checkEmptyColumn(selectedOption)"
                  class="pmm-select"
+                 bindLabel="name"
                  role="combobox">
       </ng-select>
+
+      <app-qan-edit-column></app-qan-edit-column>
     </section>
 
-    <section class="grid-table queries-viewer__table">
-      <header class="grid-table__row grid-table__row--main grid-table__row--title">
-        <span>#</span>
-        <span>Query Abstract</span>
-        <div class="row__sub-table">
-          <span>{{ selectedOption }}</span>
-          <span>Rows Scanned</span>
-        </div>
-        <span>Schemas</span>
-      </header>
-      <div class="grid-table__row grid-table__row--main grid-table__row--cursor"
-           *ngFor="let row of queryProfile; let i = index; let first = first;"
+    <section *ngIf="!isQuerySwitching" class="grid-table queries-viewer__table" id="qanTable">
+      <div *ngFor="let row of queryProfile; let i = index; let first = first;"
            [routerLink]="['./', 'report', dbServer.Subsystem]"
            [queryParams]="composeQueryParamsForGrid(row.Id)" routerLinkActive="grid-table__row--active"
-           [class.grid-table__row--first-seen]="checkFirstSeen(row)">
+           [class.grid-table__row--load]="isLoad"
+           [class.grid-table__row--count]="isCount"
+           [class.grid-table__row--latency]="isLatency"
+           [class.grid-table__row--first-seen]="checkFirstSeen(row)"
+           class="grid-table__row grid-table__row--main grid-table__row--cursor">
+        <span *ngIf="first" class="table-border-bottom">#</span>
+        <span *ngIf="first" class="table-border-bottom">Query Abstract</span>
+        <div *ngIf="!!selectedOption && isMainColumn && first" class="table-border-bottom"
+             id="sparklineColumn">{{ selectedOption.name }}</div>
+        <div *ngIf="!!selectedOption && isRowsScanned && first" class="table-border-bottom" id="rowsScannedColumn">Rows Scanned</div>
+        <span *ngIf="first" class="schemas-column table-border-bottom">Schemas</span>
+
         <span>{{ i || '' }}</span>
         <div class="overlay-container">
-          <a href="javascript:;" class="row__link overlay-container__item" title="{{ row.Fingerprint }}">
+          <a href="javascript:;" class="row__link overlay-container__item" title="{{ row.Fingerprint }}" id="fingerprint">
             {{ row.Rank ? (row.Abstract || 'Low Ranking Queries') : 'TOTAL' }}
           </a>
         </div>
-        <app-query-profile-cell [type]="selectedOption" [row]="row" [profileTotal]="profileTotal" class="row__sub-table"></app-query-profile-cell>
-        <div>------------</div>
+
+        <!--Load-->
+        <div *ngIf="isLoad && isMainColumn" class="column-sparkline" id="loadSparklineColumn">
+          <div *ngIf="selectedOption?.sparkline"
+               class="scaling-svg-container app-tooltip"
+               [appLoadSparklines]="row.Log"
+               data-tooltip="Loading..."
+               xkey="Start_ts" ykey="Query_load"
+               measurement="number"
+               id="loadSparkline">
+          </div>
+          <span *ngIf="selectedOption?.value" id="loadValue">
+            {{ row.Load | humanize : 'number' }}
+          </span>
+        </div>
+        <div *ngIf="isLoad && isRowsScanned" class="column-rows-scanned" id="loadRowsScannedColumn">
+          <span id="loadPercentage">
+            {{ row.Percentage | humanize : 'percent' }}
+          </span>
+        </div>
+        <!--end of Load-->
+
+        <!--Count-->
+        <div *ngIf="isCount && isMainColumn" class="column-sparkline" id="countSparklineColumn">
+          <div *ngIf="selectedOption?.sparkline"
+               class="scaling-svg-container app-tooltip"
+               [appLoadSparklines]="row.Log"
+               data-tooltip="Loading..."
+               xkey="Start_ts" ykey="Query_count"
+               measurement="number"
+               id="countSparkline">
+          </div>
+          <span *ngIf="selectedOption?.queriesPerSecond" class="unit unit--qps" id="countQueriesPerSecond">
+            {{row.QPS | humanize : 'number'}}
+          </span>
+        </div>
+        <div *ngIf="isCount && isRowsScanned" class="column-rows-scanned" id="countRowsScannedColumn">
+          <span *ngIf="selectedOption?.value" id="countValue">
+            {{row.Stats.Cnt | humanize : 'number'}}
+          </span>
+          <span *ngIf="selectedOption?.percentage" class="unit unit--percent" id="countPercentage">
+            {{ (row.Stats.Cnt / profileTotal?.Stats.Cnt * 100).toFixed(2) }}
+          </span>
+        </div>
+        <!--end of Count-->
+
+        <!--Avg Latency-->
+        <div *ngIf="isLatency && isMainColumn" class="column-sparkline" id="latencySparklineColumn">
+          <div *ngIf="selectedOption?.sparkline"
+               class="scaling-svg-container app-tooltip"
+               [appLoadSparklines]="row.Log"
+               data-tooltip="Loading..."
+               xkey="Start_ts" ykey="Query_time_avg"
+               measurement="time"
+               id="latencySparkline">
+          </div>
+          <span *ngIf="selectedOption?.value" id="latencyValue">
+            {{ row.Stats.Avg | humanize }}
+          </span>
+        </div>
+        <div *ngIf="isLatency && isRowsScanned" class="column-rows-scanned" id="latencyRowsScannedColumn">
+          <div *ngIf="selectedOption?.distribution"
+               class="scaling-svg-container scaling-svg-container--full-width app-tooltip"
+               data-tooltip="Loading..."
+               measurement="time"
+               [appLatencyChart]="row.Stats"
+               id="latencyDistribution">
+          </div>
+        </div>
+        <!--end of Avg Latency-->
+        <div class="schemas-column" id="schemas">------------</div>
       </div>
     </section>
 
