@@ -1,5 +1,5 @@
 import {CoreComponent, QueryParams, QanError} from '../core/core.component';
-import {Component, OnChanges, OnInit} from '@angular/core';
+import {Component, Input, OnChanges, OnInit} from '@angular/core';
 import {InstanceService} from '../core/instance.service';
 import {QueryProfileService} from './query-profile.service';
 import {Router, ActivatedRoute} from '@angular/router';
@@ -15,7 +15,7 @@ const queryProfileError = 'No data. Please check pmm-client and database configu
 })
 export class QueryProfileComponent extends CoreComponent {
 
-  public queryProfile: Array<{}>;
+  @Input('data') queryProfile: Array<{}>;
   public profileTotal;
   public offset: number;
   public totalAmountOfQueries: number;
@@ -38,6 +38,11 @@ export class QueryProfileComponent extends CoreComponent {
   public isLoad = false;
   public isCount = false;
   public isLatency = false;
+  public page = 1;
+  public paginationConfig = {
+    itemsPerPage: 4,
+    currentPage: 1
+  };
 
   constructor(protected route: ActivatedRoute,
               protected router: Router,
@@ -48,7 +53,9 @@ export class QueryProfileComponent extends CoreComponent {
     this.configService.source.subscribe(items => {
       this.checkedColumns = items.filter((config: any) => !!config.checked);
       if (!!this.checkedColumns.length) {
-        this.selectedOption = (!this.selectedOption || !this.checkedColumns.find(item => {return item.id === this.selectedOption.id})) ?
+        this.selectedOption = (!this.selectedOption || !this.checkedColumns.find(item => {
+          return item.id === this.selectedOption.id
+        })) ?
           this.checkedColumns[0] : this.selectedOption;
         this.checkEmptyColumn(this.selectedOption);
       } else {

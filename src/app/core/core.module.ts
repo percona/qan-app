@@ -28,9 +28,10 @@ import { BaseQueryDetailsService } from './base-query-details.service';
 import { QanEditColumnComponent } from '../qan-edit-column/qan-edit-column.component';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { QueryTableConfigurationService } from '../query-profile/query-table-configuration.service';
+import { NgxPaginationModule } from 'ngx-pagination';
 
 @NgModule({
-    imports: [CommonModule, SharedModule, ClipboardModule, NgSelectModule],
+    imports: [CommonModule, SharedModule, ClipboardModule, NgSelectModule, NgxPaginationModule],
     declarations: [NavComponent, PageNotFoundComponent, QueryProfileComponent,
         MySQLQueryDetailsComponent, MongoQueryDetailsComponent,
         SummaryComponent, SettingsComponent, JSONTreeComponent, RemoteInstancesListComponent, QanEditColumnComponent],

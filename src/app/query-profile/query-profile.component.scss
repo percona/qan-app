@@ -36,8 +36,9 @@
   text-align: right;
 }
 
-.table-border-bottom {
+.table-header-item {
   border-bottom: 1px solid var(--main-border-color);
+  background-color: var(--page-background);
 }
 
 // Load styles
