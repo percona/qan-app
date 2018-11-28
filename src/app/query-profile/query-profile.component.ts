@@ -32,6 +32,7 @@ export class QueryProfileComponent extends CoreComponent {
   public testingVariable: boolean;
   public isSearchQuery = false;
   public selectedOption: any;
+  public selectedPaginationOption: any = '10';
   public checkedColumns: any;
   public isMainColumn: boolean;
   public isRowsScanned: boolean;
@@ -39,9 +40,11 @@ export class QueryProfileComponent extends CoreComponent {
   public isCount = false;
   public isLatency = false;
   public page = 1;
+  public selectPaginationConfig = ['10', '50', '100'];
   public paginationConfig = {
-    itemsPerPage: 4,
-    currentPage: 1
+    itemsPerPage: +this.selectedPaginationOption + 1,
+    currentPage: 1,
+    totalItems: this.totalAmountOfQueries
   };
 
   constructor(protected route: ActivatedRoute,
@@ -116,7 +119,6 @@ export class QueryProfileComponent extends CoreComponent {
 
     // clear after error
     this.noQueryError = '';
-    this.totalAmountOfQueries = this.leftInDbQueries = 0;
     this.queryProfile = [];
     this.searchValue = this.queryParams.search === 'null' ? '' : this.queryParams.search;
     const search = this.queryParams.search === 'null' && this.searchValue !== 'NULL' ? '' : this.queryParams.search;
@@ -130,6 +132,9 @@ export class QueryProfileComponent extends CoreComponent {
         throw new QanError('Queries are not available.');
       }
       this.totalAmountOfQueries = data['TotalQueries'];
+
+      this.paginationConfig.totalItems = this.totalAmountOfQueries;
+
       if (this.totalAmountOfQueries > 0) {
         this.queryProfile = data['Query'];
         this.countDbQueries();
@@ -140,6 +145,18 @@ export class QueryProfileComponent extends CoreComponent {
     } finally {
       this.isQuerySwitching = false;
     }
+  }
+
+  public async getPage(page: number) {
+    console.log('page - ', page);
+    const search = this.queryParams.search === 'null' && this.searchValue !== 'NULL' ? '' : this.queryParams.search;
+    const firstSeen = this.queryParams.first_seen;
+    this.offset = page * 10 - 10;
+    const data = await this.queryProfileService
+      .getQueryProfile(this.dbServer.UUID, this.fromUTCDate, this.toUTCDate, this.offset, search, firstSeen);
+    this.queryProfile = data['Query'];
+    this.paginationConfig.currentPage = page;
+    console.log('this.queryProfile - ', this.queryProfile);
   }
 
   public async loadMoreQueries() {

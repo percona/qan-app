@@ -44,6 +44,13 @@
     </section>
 
     <section class="configuration-panel">
+      <ng-select [(ngModel)]="selectedPaginationOption"
+                 [items]="selectPaginationConfig"
+                 [searchable]="false"
+                 class="pmm-select"
+                 role="combobox">
+      </ng-select>
+
       <ng-select [(ngModel)]="selectedOption"
                  [items]="checkedColumns"
                  (change)="checkEmptyColumn(selectedOption)"
@@ -64,6 +71,7 @@
            [class.grid-table__row--latency]="isLatency"
            [class.grid-table__row--first-seen]="checkFirstSeen(row)"
            class="grid-table__row grid-table__row--main grid-table__row--cursor">
+
         <!--Table header (displays only once)-->
         <span *ngIf="first" class="table-header-item">#</span>
         <span *ngIf="first" class="table-header-item">Query Abstract</span>
@@ -156,7 +164,7 @@
       </div>
     </section>
 
-    <pagination-controls (pageChange)="paginationConfig.currentPage = $event"></pagination-controls>
+    <pagination-controls (pageChange)="getPage($event)" [maxSize]="5"></pagination-controls>
 
     <div class="center-children">
       <button *ngIf="totalAmountOfQueries && !isLoading"
