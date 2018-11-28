@@ -37,7 +37,7 @@ export class QueryTableConfigurationService {
 
   toggleConfig(id, key) {
     this.cellConfigurationSource.next([...(this.cellConfigurationSource.value.map(item => {
-      if (item.id !== id) return item;
+      if (item.id !== id) { return item }
 
       item[key] = !item[key];
       localStorage.setItem(`${id}-${key}`, item[key] ? 'true' : '');
