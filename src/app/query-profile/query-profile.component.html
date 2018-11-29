@@ -48,9 +48,8 @@
         <span>Top</span>
         <ng-select [(ngModel)]="selectedPaginationOption"
                    [items]="selectPaginationConfig"
-                   (change)="rowsPerTable(selectedPaginationOption)"
                    [searchable]="isSearchable"
-                   class="pmm-select"
+                   class="pmm-select pmm-select--pagination"
                    role="combobox">
         </ng-select>
         <span>by</span>
@@ -86,7 +85,7 @@
         <!--End of Table header-->
 
         <!--Table body-->
-        <span>{{ (paginationConfig.currentPage - 1) * paginationConfig.itemsPerPage + i || '' }}</span>
+        <span class="row__number">{{ (paginationConfig.currentPage - 1) * paginationConfig.itemsPerPage + i || '' }}</span>
         <div class="overlay-container">
           <a href="javascript:;" class="row__link overlay-container__item" title="{{ row.Fingerprint }}" id="fingerprint">
             {{ row.Rank ? (row.Abstract || 'Low Ranking Queries') : 'TOTAL' }}
@@ -168,7 +167,13 @@
       </div>
     </section>
 
-    <pagination-controls (pageChange)="getPage($event)" [maxSize]="5"></pagination-controls>
+    <pagination-controls
+      [autoHide]="paginationControlsConfig.isAutoHide"
+      [previousLabel]="paginationControlsConfig.previousLabel"
+      [nextLabel]="paginationControlsConfig.nextLabel"
+      [maxSize]="5"
+      (pageChange)="getPage($event)"
+      class="pmm-pagination"></pagination-controls>
 
     <!--<div class="center-children">-->
     <!--<button *ngIf="totalAmountOfQueries && !isLoading"-->

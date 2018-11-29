@@ -45,6 +45,11 @@ export class QueryProfileComponent extends CoreComponent {
     currentPage: 1,
     totalItems: 0
   };
+  public paginationControlsConfig = {
+    isAutoHide: true,
+    previousLabel: '',
+    nextLabel: ''
+  };
 
   constructor(protected route: ActivatedRoute,
               protected router: Router,
@@ -104,7 +109,7 @@ export class QueryProfileComponent extends CoreComponent {
       this.previousQueryParams.search !== this.queryParams.search ||
       this.previousQueryParams.first_seen !== this.queryParams.first_seen ||
       this.previousQueryParams.tz !== this.queryParams.tz) {
-      this.getPage(this.paginationConfig.currentPage);
+      this.getPage(this.paginationConfig.currentPage, this.selectedPaginationOption);
     }
   }
 
@@ -145,13 +150,14 @@ export class QueryProfileComponent extends CoreComponent {
   //   }
   // }
 
-  public async getPage(page: number, selectOption?: number) {
+  public async getPage(page: number, selectOption: number) {
     this.noQueryError = '';
     this.searchValue = this.queryParams.search === 'null' ? '' : this.queryParams.search;
     this.offset = page * 10 - 10;
 
     const search = this.queryParams.search === 'null' && this.searchValue !== 'NULL' ? '' : this.queryParams.search;
     const firstSeen = this.queryParams.first_seen;
+    const option = selectOption - 10;
 
     try {
       const data = await this.queryProfileService
@@ -162,23 +168,40 @@ export class QueryProfileComponent extends CoreComponent {
       this.paginationConfig.totalItems = data['TotalQueries'];
       if (this.paginationConfig.totalItems > 0) {
         this.paginationConfig.currentPage = page;
-        // this.queryProfile = !selectOption ? data['Query'] : [...this.queryProfile, ...data['Query']]; // ?????????
+        this.profileTotal = page === 1 ? data['Query'][0] : data['Query'].shift();
+        // [...this.queryProfile, ...data['Query']]; // ?????????
         this.queryProfile = data['Query']; // ?????????
-        this.profileTotal = page === 1 ? this.queryProfile[0] : data['Query'].shift();
+        console.log('this.queryProfile - ', this.queryProfile);
+        // console.log('this.queryProfile after - ', this.queryProfile);
       }
     } catch (err) {
       this.noQueryError = err.name === QanError.errType ? err.message : queryProfileError;
     }
   }
 
-  public rowsPerTable(selectOption) {
-    this.queryProfile = [];
-    this.paginationConfig.itemsPerPage = this.selectedPaginationOption;
+  // async getRows(page) {
+  //   const data = await this.queryProfileService
+  //     .getQueryProfile(this.dbServer.UUID, this.fromUTCDate, this.toUTCDate, this.offset, search, firstSeen);
+  //   if (data.hasOwnProperty('Error') && data['Error'] !== '') {
+  //     throw new QanError('Queries are not available.');
+  //   }
+  //   this.paginationConfig.totalItems = data['TotalQueries'];
+  //   if (this.paginationConfig.totalItems > 0) {
+  //     this.paginationConfig.currentPage = page;
+  //     // this.queryProfile = !selectOption ? data['Query'] : [...this.queryProfile, ...data['Query']]; // ?????????
+  //     this.queryProfile = data['Query']; // ?????????
+  //     this.profileTotal = page === 1 ? this.queryProfile[0] : data['Query'].shift();
+  //   }
+  // }
+
+  // public rowsPerTable(selectOption) {
+  //   this.queryProfile = [];
+  //   this.paginationConfig.itemsPerPage = this.selectedPaginationOption;
     // for (let count = 0; count < selectOption; count += 10) {
     //   this.pushNewRow(count); // 0, 10, 20, 30, 40
     // }
-    Promise.all([this.getPage(1, 0), this.getPage(1, 10), this.getPage(1, 20), this.getPage(1, 30), this.getPage(1, 40)]);
-  }
+  //   Promise.all([this.getPage(1, 0), this.getPage(1, 10), this.getPage(1, 20), this.getPage(1, 30), this.getPage(1, 40)]);
+  // }
 
   // public async loadMoreQueries() {
   //   this.isLoading = true;

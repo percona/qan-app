@@ -69,8 +69,9 @@
   grid-auto-rows: minmax(var(--row-height), auto);
 }
 
-.grid-table__row--main > *:first-child {
+.grid-table__row--main > .row__number {
   word-break: keep-all;
+  padding-right: 0;
 }
 
 //MySQL and Mongo query details metrics table
