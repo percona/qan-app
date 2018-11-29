@@ -15,15 +15,13 @@ const queryProfileError = 'No data. Please check pmm-client and database configu
 })
 export class QueryProfileComponent extends CoreComponent {
 
-  @Input('data') queryProfile: Array<{}>;
+  @Input('data') queryProfile: Array<{}> = [];
   public profileTotal;
-  public offset: number;
   public totalAmountOfQueries: number;
-  public leftInDbQueries: number;
   public searchValue: string;
+  public offset: any;
   public fromDate: string;
   public toDate: string;
-  public quantityDbQueriesMessage: string;
   public isLoading: boolean;
   public isQuerySwitching: boolean;
   public noQueryError: string;
@@ -32,19 +30,20 @@ export class QueryProfileComponent extends CoreComponent {
   public testingVariable: boolean;
   public isSearchQuery = false;
   public selectedOption: any;
-  public selectedPaginationOption: any = '10';
+  public selectedPaginationOption: any = 10;
   public checkedColumns: any;
   public isMainColumn: boolean;
   public isRowsScanned: boolean;
   public isLoad = false;
   public isCount = false;
   public isLatency = false;
+  public isSearchable = false;
   public page = 1;
-  public selectPaginationConfig = ['10', '50', '100'];
+  public selectPaginationConfig = [10, 50, 100];
   public paginationConfig = {
-    itemsPerPage: +this.selectedPaginationOption + 1,
+    itemsPerPage: this.selectedPaginationOption,
     currentPage: 1,
-    totalItems: this.totalAmountOfQueries
+    totalItems: 0
   };
 
   constructor(protected route: ActivatedRoute,
@@ -105,7 +104,7 @@ export class QueryProfileComponent extends CoreComponent {
       this.previousQueryParams.search !== this.queryParams.search ||
       this.previousQueryParams.first_seen !== this.queryParams.first_seen ||
       this.previousQueryParams.tz !== this.queryParams.tz) {
-      this.loadQueries();
+      this.getPage(this.paginationConfig.currentPage);
     }
   }
 
@@ -114,75 +113,110 @@ export class QueryProfileComponent extends CoreComponent {
     return this.isFirstSeen;
   }
 
-  public async loadQueries() {
-    this.isQuerySwitching = true;
+  // public async loadQueries() {
+  //   this.isQuerySwitching = true;
+  //
+  //   // clear after error
+  //   this.noQueryError = '';
+  //   this.queryProfile = [];
+  //   this.searchValue = this.queryParams.search === 'null' ? '' : this.queryParams.search;
+  //   const search = this.queryParams.search === 'null' && this.searchValue !== 'NULL' ? '' : this.queryParams.search;
+  //   const firstSeen = this.queryParams.first_seen;
+  //   this.offset = 0;
+  //   try {
+  //     const data = await this.queryProfileService
+  //       .getQueryProfile(this.dbServer.UUID, this.fromUTCDate, this.toUTCDate, this.offset, search, firstSeen);
+  //     if (data.hasOwnProperty('Error') && data['Error'] !== '') {
+  //       this.testingVariable = true;
+  //       throw new QanError('Queries are not available.');
+  //     }
+  //     this.totalAmountOfQueries = data['TotalQueries'];
+  //     this.paginationConfig.totalItems = this.totalAmountOfQueries;
+  //
+  //     if (this.totalAmountOfQueries > 0) {
+  //       this.queryProfile = data['Query'];
+  //       // this.countDbQueries();
+  //       this.profileTotal = this.queryProfile[0];
+  //     }
+  //   } catch (err) {
+  //     this.noQueryError = err.name === QanError.errType ? err.message : queryProfileError;
+  //   } finally {
+  //     this.isQuerySwitching = false;
+  //   }
+  // }
 
-    // clear after error
+  public async getPage(page: number) {
     this.noQueryError = '';
-    this.queryProfile = [];
     this.searchValue = this.queryParams.search === 'null' ? '' : this.queryParams.search;
+    this.offset = page * 10 - 10;
+
     const search = this.queryParams.search === 'null' && this.searchValue !== 'NULL' ? '' : this.queryParams.search;
     const firstSeen = this.queryParams.first_seen;
-    this.offset = 0;
+
     try {
       const data = await this.queryProfileService
         .getQueryProfile(this.dbServer.UUID, this.fromUTCDate, this.toUTCDate, this.offset, search, firstSeen);
       if (data.hasOwnProperty('Error') && data['Error'] !== '') {
-        this.testingVariable = true;
         throw new QanError('Queries are not available.');
       }
-      this.totalAmountOfQueries = data['TotalQueries'];
-
-      this.paginationConfig.totalItems = this.totalAmountOfQueries;
-
-      if (this.totalAmountOfQueries > 0) {
+      this.paginationConfig.totalItems = data['TotalQueries'];
+      if (this.paginationConfig.totalItems > 0) {
+        this.paginationConfig.currentPage = page;
+        const _ = page === 1 ? 0 : data['Query'].shift();
         this.queryProfile = data['Query'];
-        this.countDbQueries();
-        this.profileTotal = this.queryProfile[0];
+        this.profileTotal = page === 1 ? this.queryProfile[0] : this.profileTotal;
       }
     } catch (err) {
       this.noQueryError = err.name === QanError.errType ? err.message : queryProfileError;
-    } finally {
-      this.isQuerySwitching = false;
     }
   }
 
-  public async getPage(page: number) {
-    console.log('page - ', page);
+  public rowsPerTable(selectOption) { //50
+    console.log('selected - ', selectOption);
+    this.queryProfile = [];
+    this.paginationConfig.itemsPerPage = this.selectedPaginationOption;
+    console.log('this.paginationConfig.totalItems - ', this.paginationConfig.totalItems);
+    console.log('this.paginationConfig - ', this.paginationConfig);
+    // for (let count = 0; count < selectOption; count += 10) {
+    //   this.pushNewRow(count); // 0, 10, 20, 30, 40
+    // }
+    Promise.all([this.pushNewRow(0), this.pushNewRow(10), this.pushNewRow(20), this.pushNewRow(30), this.pushNewRow(40)]);
+  }
+
+  async pushNewRow(count) {
+    console.log('count - ', count);
+    this.noQueryError = '';
+    this.searchValue = this.queryParams.search === 'null' ? '' : this.queryParams.search;
+    this.offset = count;
+
     const search = this.queryParams.search === 'null' && this.searchValue !== 'NULL' ? '' : this.queryParams.search;
     const firstSeen = this.queryParams.first_seen;
-    this.offset = page * 10 - 10;
+
     const data = await this.queryProfileService
       .getQueryProfile(this.dbServer.UUID, this.fromUTCDate, this.toUTCDate, this.offset, search, firstSeen);
-    this.queryProfile = data['Query'];
-    this.paginationConfig.currentPage = page;
-    console.log('this.queryProfile - ', this.queryProfile);
-  }
+    const _ = count === 0 ? 0 : data['Query'].shift();
+    this.paginationConfig.totalItems = data['TotalQueries'];
+    this.queryProfile = [...this.queryProfile, ...data['Query']];
 
-  public async loadMoreQueries() {
-    this.isLoading = true;
-    this.offset = this.offset + 10;
-    const dbServerUUID = this.dbServer.UUID;
-    const search =
-      this.queryParams.search === 'null' &&
-      this.searchValue !== 'NULL' && this.searchValue !== 'null' ? '' : this.queryParams.search;
-    const firstSeen = this.queryParams.first_seen;
-    const data = await this.queryProfileService
-      .getQueryProfile(dbServerUUID, this.fromUTCDate, this.toUTCDate, this.offset, search, firstSeen);
+    console.log('this.queryProfile.push(q) - ', this.queryProfile);
 
-    const _ = data['Query'].shift();
-    for (const q of data['Query']) {
-      this.queryProfile.push(q);
-    }
-    this.countDbQueries();
-    this.isLoading = false;
-  }
-
-  countDbQueries() {
-    this.leftInDbQueries = this.totalAmountOfQueries - (this.queryProfile.length - 1);
-    this.quantityDbQueriesMessage = this.leftInDbQueries > 0 ?
-      `Load next ${this.leftInDbQueries > 10 ? 10 : this.leftInDbQueries} queries` :
-      'No more queries for selected time range';
+    // public async loadMoreQueries() {
+    //   this.isLoading = true;
+    //   this.offset = this.offset + 10;
+    //   const dbServerUUID = this.dbServer.UUID;
+    //   const search =
+    //     this.queryParams.search === 'null' &&
+    //     this.searchValue !== 'NULL' && this.searchValue !== 'null' ? '' : this.queryParams.search;
+    //   const firstSeen = this.queryParams.first_seen;
+    //   const data = await this.queryProfileService
+    //     .getQueryProfile(dbServerUUID, this.fromUTCDate, this.toUTCDate, this.offset, search, firstSeen);
+    //
+    //   const _ = data['Query'].shift();
+    //   for (const q of data['Query']) {
+    //     this.queryProfile.push(q);
+    //   }
+    //   this.countDbQueries();
+    //   this.isLoading = false;
   }
 
   composeQueryParamsForGrid(queryID: string | null): QueryParams {

@@ -13,9 +13,9 @@
 <div *ngIf="dbServer !== null && dbServer !== undefined" class="content-wrapper">
   <div *ngIf="!noQueryError" class="queries-viewer">
     <section class="configuration-panel">
-      <p class="configuration-panel__title">
-        Top {{ totalAmountOfQueries ? (queryProfile?.length - 1) : 0 }} of {{ totalAmountOfQueries }} Queries by % Grand Total Time (%GTT)
-      </p>
+      <!--<p class="configuration-panel__title">-->
+      <!--Top {{ totalAmountOfQueries ? (queryProfile?.length - 1) : 0 }} of {{ totalAmountOfQueries }} Queries by % Grand Total Time (%GTT)-->
+      <!--</p>-->
 
       <div class="configuration-panel__options center-children">
         <span>Display</span>
@@ -44,20 +44,24 @@
     </section>
 
     <section class="configuration-panel">
-      <ng-select [(ngModel)]="selectedPaginationOption"
-                 [items]="selectPaginationConfig"
-                 [searchable]="false"
-                 class="pmm-select"
-                 role="combobox">
-      </ng-select>
-
-      <ng-select [(ngModel)]="selectedOption"
-                 [items]="checkedColumns"
-                 (change)="checkEmptyColumn(selectedOption)"
-                 class="pmm-select"
-                 bindLabel="name"
-                 role="combobox">
-      </ng-select>
+      <div class="configuration-panel__selects">
+        <span>Top</span>
+        <ng-select [(ngModel)]="selectedPaginationOption"
+                   [items]="selectPaginationConfig"
+                   (change)="rowsPerTable(selectedPaginationOption)"
+                   [searchable]="isSearchable"
+                   class="pmm-select"
+                   role="combobox">
+        </ng-select>
+        <span>by</span>
+        <ng-select [(ngModel)]="selectedOption"
+                   [items]="checkedColumns"
+                   (change)="checkEmptyColumn(selectedOption)"
+                   class="pmm-select"
+                   bindLabel="name"
+                   role="combobox">
+        </ng-select>
+      </div>
 
       <app-qan-edit-column></app-qan-edit-column>
     </section>
@@ -166,17 +170,17 @@
 
     <pagination-controls (pageChange)="getPage($event)" [maxSize]="5"></pagination-controls>
 
-    <div class="center-children">
-      <button *ngIf="totalAmountOfQueries && !isLoading"
-              (click)="loadMoreQueries()"
-              [disabled]="leftInDbQueries === 0"
-              class="button button--dark button--big">
-        {{quantityDbQueriesMessage}}
-      </button>
-      <div *ngIf="isLoading || isQuerySwitching" class="spinner-wrapper">
-        <i class="fa fa-spinner fa-pulse fa-fw fa-40"></i>
-      </div>
-    </div>
+    <!--<div class="center-children">-->
+    <!--<button *ngIf="totalAmountOfQueries && !isLoading"-->
+    <!--(click)="loadMoreQueries()"-->
+    <!--[disabled]="leftInDbQueries === 0"-->
+    <!--class="button button&#45;&#45;dark button&#45;&#45;big">-->
+    <!--{{quantityDbQueriesMessage}}-->
+    <!--</button>-->
+    <!--<div *ngIf="isLoading || isQuerySwitching" class="spinner-wrapper">-->
+    <!--<i class="fa fa-spinner fa-pulse fa-fw fa-40"></i>-->
+    <!--</div>-->
+    <!--</div>-->
   </div>
 
   <router-outlet></router-outlet>
