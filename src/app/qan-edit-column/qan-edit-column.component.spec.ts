@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { QueryProfileCellComponent } from './query-profile-cell.component';
+import { QanEditColumnComponent } from './qan-edit-column.component';
 
-describe('QueryProfileCellComponent', () => {
-  let component: QueryProfileCellComponent;
-  let fixture: ComponentFixture<QueryProfileCellComponent>;
+describe('QanEditColumnComponent', () => {
+  let component: QanEditColumnComponent;
+  let fixture: ComponentFixture<QanEditColumnComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ QueryProfileCellComponent ]
+      declarations: [ QanEditColumnComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(QueryProfileCellComponent);
+    fixture = TestBed.createComponent(QanEditColumnComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

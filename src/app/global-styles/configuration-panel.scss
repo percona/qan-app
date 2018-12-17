@@ -5,6 +5,10 @@
   margin-bottom: var(--main-bottom-indent);
 }
 
+.configuration-panel--reverse {
+  flex-direction: row-reverse;
+}
+
 .configuration-panel__title {
   margin-bottom: 0;
 }
