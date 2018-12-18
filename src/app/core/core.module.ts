@@ -28,14 +28,15 @@ import { BaseQueryDetailsService } from './base-query-details.service';
 import { QanEditColumnComponent } from '../qan-edit-column/qan-edit-column.component';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { QueryTableConfigurationService } from '../query-profile/query-table-configuration.service';
+import { QanFilterComponent } from '../qan-filter/qan-filter.component';
 
 @NgModule({
     imports: [CommonModule, SharedModule, ClipboardModule, NgSelectModule],
     declarations: [NavComponent, PageNotFoundComponent, QueryProfileComponent,
-        MySQLQueryDetailsComponent, MongoQueryDetailsComponent,
+        MySQLQueryDetailsComponent, MongoQueryDetailsComponent, QanFilterComponent,
         SummaryComponent, SettingsComponent, JSONTreeComponent, RemoteInstancesListComponent, QanEditColumnComponent],
     exports: [NavComponent, PageNotFoundComponent, QueryProfileComponent,
-        MySQLQueryDetailsComponent, MongoQueryDetailsComponent,
+        MySQLQueryDetailsComponent, MongoQueryDetailsComponent, QanFilterComponent,
         SummaryComponent, SettingsComponent, JSONTreeComponent],
     providers: [InstanceService, QueryProfileService, MySQLQueryDetailsService,
         MongoQueryDetailsService, SummaryService, SettingsService, AddAwsService, AddRemoteInstanceService, BaseQueryDetailsService,

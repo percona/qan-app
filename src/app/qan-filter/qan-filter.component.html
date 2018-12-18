@@ -1,0 +1,186 @@
+<aside [class.filter-menu--open]="isToggleMenu" class="filter-menu">
+  <div class="filter-menu__header">
+    <button (click)="isToggleMenu = !isToggleMenu" class="hamburger-button">
+      <i class="fa fa-list" aria-hidden="true"></i>
+    </button>
+    <div *ngIf="isToggleMenu" class="filter-menu__title">
+      <span>Filter by</span>
+      <button (click)="isToggleMenu = !isToggleMenu" class="filter-menu__close">
+        <i class="fa fa-times" aria-hidden="true"></i>
+      </button>
+    </div>
+  </div>
+  <section *ngIf="isToggleMenu" class="filter-menu__body">
+
+    <div *ngFor="let category of filterMenuCategories" class="filter-menu__category-item">
+      <div class="category-item__title">
+        <span>{{category.name}}:</span>
+        <button class="see-all">see all</button>
+      </div>
+      <div *ngFor="let parameter of category.parameters" class="category-item__parameters">
+        <label class="checkbox-container">
+          <input type="checkbox"
+                 class="checkbox-container__main-input">
+          <span class="checkbox-container__checkmark"></span>
+          <span class="checkbox-container__label-text">{{parameter}}</span>
+        </label>
+      </div>
+    </div>
+
+    <!--<div class="filter-menu__category-item">-->
+      <!--<div class="category-item__title">-->
+        <!--<span>Schemas:</span>-->
+        <!--<button class="see-all">see all</button>-->
+      <!--</div>-->
+      <!--<div class="category-item__parameters">-->
+        <!--<label class="checkbox-container">-->
+          <!--<input type="checkbox"-->
+                 <!--class="checkbox-container__main-input">-->
+          <!--<span class="checkbox-container__checkmark"></span>-->
+          <!--<span class="checkbox-container__label-text">performance_schema</span>-->
+        <!--</label>-->
+
+        <!--<label class="checkbox-container">-->
+          <!--<input type="checkbox"-->
+                 <!--class="checkbox-container__main-input">-->
+          <!--<span class="checkbox-container__checkmark"></span>-->
+          <!--<span class="checkbox-container__label-text">wordpress</span>-->
+        <!--</label>-->
+
+        <!--<label class="checkbox-container">-->
+          <!--<input type="checkbox"-->
+                 <!--class="checkbox-container__main-input">-->
+          <!--<span class="checkbox-container__checkmark"></span>-->
+          <!--<span class="checkbox-container__label-text">performance_schema</span>-->
+        <!--</label>-->
+
+        <!--<label class="checkbox-container">-->
+          <!--<input type="checkbox"-->
+                 <!--class="checkbox-container__main-input">-->
+          <!--<span class="checkbox-container__checkmark"></span>-->
+          <!--<span class="checkbox-container__label-text">performance_schema</span>-->
+        <!--</label>-->
+
+        <!--<label class="checkbox-container">-->
+          <!--<input type="checkbox"-->
+                 <!--class="checkbox-container__main-input">-->
+          <!--<span class="checkbox-container__checkmark"></span>-->
+          <!--<span class="checkbox-container__label-text">performance_schema</span>-->
+        <!--</label>-->
+      <!--</div>-->
+    <!--</div>-->
+    <!--<div class="filter-menu__category-item">-->
+      <!--<div class="category-item__title">-->
+        <!--<span>Servers:</span>-->
+        <!--<button class="see-all">see all</button>-->
+      <!--</div>-->
+      <!--<div class="category-item__parameters">-->
+        <!--<label class="checkbox-container">-->
+          <!--<input type="checkbox"-->
+                 <!--class="checkbox-container__main-input">-->
+          <!--<span class="checkbox-container__checkmark"></span>-->
+          <!--<span class="checkbox-container__label-text">performance_schema</span>-->
+        <!--</label>-->
+
+        <!--<label class="checkbox-container">-->
+          <!--<input type="checkbox"-->
+                 <!--class="checkbox-container__main-input">-->
+          <!--<span class="checkbox-container__checkmark"></span>-->
+          <!--<span class="checkbox-container__label-text">wordpress</span>-->
+        <!--</label>-->
+
+        <!--<label class="checkbox-container">-->
+          <!--<input type="checkbox"-->
+                 <!--class="checkbox-container__main-input">-->
+          <!--<span class="checkbox-container__checkmark"></span>-->
+          <!--<span class="checkbox-container__label-text">performance_schema</span>-->
+        <!--</label>-->
+
+        <!--<label class="checkbox-container">-->
+          <!--<input type="checkbox"-->
+                 <!--class="checkbox-container__main-input">-->
+          <!--<span class="checkbox-container__checkmark"></span>-->
+          <!--<span class="checkbox-container__label-text">performance_schema</span>-->
+        <!--</label>-->
+
+        <!--<label class="checkbox-container">-->
+          <!--<input type="checkbox"-->
+                 <!--class="checkbox-container__main-input">-->
+          <!--<span class="checkbox-container__checkmark"></span>-->
+          <!--<span class="checkbox-container__label-text">performance_schema</span>-->
+        <!--</label>-->
+      <!--</div>-->
+    <!--</div>-->
+    <!--<div class="filter-menu__category-item">-->
+      <!--<div class="category-item__title">-->
+        <!--<span>Users:</span>-->
+        <!--<button class="see-all">see all</button>-->
+      <!--</div>-->
+      <!--<div class="category-item__parameters">-->
+        <!--<label class="checkbox-container">-->
+          <!--<input type="checkbox"-->
+                 <!--class="checkbox-container__main-input">-->
+          <!--<span class="checkbox-container__checkmark"></span>-->
+          <!--<span class="checkbox-container__label-text">performance_schema</span>-->
+        <!--</label>-->
+
+        <!--<label class="checkbox-container">-->
+          <!--<input type="checkbox"-->
+                 <!--class="checkbox-container__main-input">-->
+          <!--<span class="checkbox-container__checkmark"></span>-->
+          <!--<span class="checkbox-container__label-text">wordpress</span>-->
+        <!--</label>-->
+
+        <!--<label class="checkbox-container">-->
+          <!--<input type="checkbox"-->
+                 <!--class="checkbox-container__main-input">-->
+          <!--<span class="checkbox-container__checkmark"></span>-->
+          <!--<span class="checkbox-container__label-text">performance_schema</span>-->
+        <!--</label>-->
+
+        <!--<label class="checkbox-container">-->
+          <!--<input type="checkbox"-->
+                 <!--class="checkbox-container__main-input">-->
+          <!--<span class="checkbox-container__checkmark"></span>-->
+          <!--<span class="checkbox-container__label-text">performance_schema</span>-->
+        <!--</label>-->
+
+        <!--<label class="checkbox-container">-->
+          <!--<input type="checkbox"-->
+                 <!--class="checkbox-container__main-input">-->
+          <!--<span class="checkbox-container__checkmark"></span>-->
+          <!--<span class="checkbox-container__label-text">performance_schema</span>-->
+        <!--</label>-->
+      <!--</div>-->
+    <!--</div>-->
+    <!--<div class="filter-menu__category-item">-->
+      <!--<div class="category-item__title">-->
+        <!--<span>Hosts:</span>-->
+        <!--<button class="see-all">see all</button>-->
+      <!--</div>-->
+      <!--<div class="category-item__parameters">-->
+        <!--<label class="checkbox-container">-->
+          <!--<input type="checkbox"-->
+                 <!--class="checkbox-container__main-input">-->
+          <!--<span class="checkbox-container__checkmark"></span>-->
+          <!--<span class="checkbox-container__label-text">127.0.0.1</span>-->
+        <!--</label>-->
+
+        <!--<label class="checkbox-container">-->
+          <!--<input type="checkbox"-->
+                 <!--class="checkbox-container__main-input">-->
+          <!--<span class="checkbox-container__checkmark"></span>-->
+          <!--<span class="checkbox-container__label-text">192.168.1.1</span>-->
+        <!--</label>-->
+
+        <!--<label class="checkbox-container">-->
+          <!--<input type="checkbox"-->
+                 <!--class="checkbox-container__main-input">-->
+          <!--<span class="checkbox-container__checkmark"></span>-->
+          <!--<span class="checkbox-container__label-text">172.6.33.5</span>-->
+        <!--</label>-->
+      <!--</div>-->
+    <!--</div>-->
+  </section>
+</aside>
+

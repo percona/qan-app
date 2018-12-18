@@ -12,6 +12,7 @@
 </div>
 <div *ngIf="dbServer !== null && dbServer !== undefined" class="content-wrapper">
   <div *ngIf="!noQueryError" class="queries-viewer">
+    <app-qan-filter></app-qan-filter>
     <section class="configuration-panel">
       <p class="configuration-panel__title">
         Top {{ totalAmountOfQueries ? (queryProfile?.length - 1) : 0 }} of {{ totalAmountOfQueries }} Queries by % Grand Total Time (%GTT)
