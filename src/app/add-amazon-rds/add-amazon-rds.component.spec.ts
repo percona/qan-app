@@ -1,15 +1,15 @@
+import { AddAmazonRDSComponent } from './add-amazon-rds.component';
 import {async, ComponentFixture, TestBed} from '@angular/core/testing';
-import {AddAwsComponent} from './add-aws.component';
 import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 import {CUSTOM_ELEMENTS_SCHEMA} from '@angular/core';
 import {RouterTestingModule} from '@angular/router/testing';
 import {FormsModule} from '@angular/forms';
 import {HttpClientModule} from '@angular/common/http';
-import {AddAwsService, MySQLCredentials, RDSCredentials} from './add-aws.service';
+import {AddAmazonRDSService, MySQLCredentials, RDSCredentials} from './add-amazon-rds.service';
 
-fdescribe('AddAwsComponent', () => {
-  let component: AddAwsComponent;
-  let fixture: ComponentFixture<AddAwsComponent>;
+fdescribe('AddAmazonRDSComponent', () => {
+  let component: AddAmazonRDSComponent;
+  let fixture: ComponentFixture<AddAmazonRDSComponent>;
   const promiseData = [
     {
       'node': {'region': 'us-east-1', 'name': 'rds-aurora1'},
@@ -60,25 +60,25 @@ fdescribe('AddAwsComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [AddAwsComponent],
+      declarations: [ AddAmazonRDSComponent ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
       imports: [FormsModule, RouterTestingModule, HttpClientModule, NgbModule],
       providers: [
-        AddAwsService, RDSCredentials, MySQLCredentials,
+        AddAmazonRDSService, RDSCredentials, MySQLCredentials,
       ]
     })
       .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(AddAwsComponent);
+    fixture = TestBed.createComponent(AddAmazonRDSComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
 
   it('should create component user was submitted changes and promise data is correct ', (done) => {
     component.submitted = true;
-    const spy = spyOn(component.addAwsService, 'discover').and.returnValue(Promise.resolve(promiseData));
+    const spy = spyOn(component.addAmazonRDSService, 'discover').and.returnValue(Promise.resolve(promiseData));
     component.ngOnInit();
     spy.calls.mostRecent().returnValue.then((data) => {
       fixture.detectChanges();
@@ -97,7 +97,7 @@ fdescribe('AddAwsComponent', () => {
         'engine_version': '5.6.10a'
       }
     }];
-    const spy = spyOn(component.addAwsService, 'discover').and.returnValue(Promise.resolve(promiseData));
+    const spy = spyOn(component.addAmazonRDSService, 'discover').and.returnValue(Promise.resolve(promiseData));
     spyOn(component, 'getRegistered').and.returnValue(Promise.resolve(regData));
     component.submitted = false;
     component.ngOnInit();
@@ -109,7 +109,7 @@ fdescribe('AddAwsComponent', () => {
   });
 
   it('should be Bad response if promise returns undefined', (done) => {
-    const spy = spyOn(component.addAwsService, 'discover').and.returnValue(Promise.reject(undefined));
+    const spy = spyOn(component.addAmazonRDSService, 'discover').and.returnValue(Promise.reject(undefined));
     component.submitted = false;
     component.ngOnInit();
     spy.calls.mostRecent().returnValue.then().catch(() => {
@@ -120,7 +120,7 @@ fdescribe('AddAwsComponent', () => {
   });
 
   it('should not create error if response data is valid', (done) => {
-    const spy = spyOn(component.addAwsService, 'discover').and.returnValue(Promise.resolve(promiseData));
+    const spy = spyOn(component.addAmazonRDSService, 'discover').and.returnValue(Promise.resolve(promiseData));
     component.onSubmit();
     spy.calls.mostRecent().returnValue.then((data) => {
       fixture.detectChanges();
@@ -130,7 +130,7 @@ fdescribe('AddAwsComponent', () => {
   });
 
   it('should not create error if response data is valid', (done) => {
-    const spy = spyOn(component.addAwsService, 'discover').and.returnValue(Promise.resolve(promiseData));
+    const spy = spyOn(component.addAmazonRDSService, 'discover').and.returnValue(Promise.resolve(promiseData));
     component.onSubmit();
     spy.calls.mostRecent().returnValue.then((data) => {
       fixture.detectChanges();
@@ -140,7 +140,7 @@ fdescribe('AddAwsComponent', () => {
   });
 
   it('should create Bad response error if promise returns undefined', (done) => {
-    const spy = spyOn(component.addAwsService, 'discover').and.returnValue(Promise.reject(undefined));
+    const spy = spyOn(component.addAmazonRDSService, 'discover').and.returnValue(Promise.reject(undefined));
     component.onSubmit();
     spy.calls.mostRecent().returnValue.then().catch(() => {
       fixture.detectChanges();
@@ -172,7 +172,7 @@ fdescribe('AddAwsComponent', () => {
   });
 
   it('should not create error if all promise data is valid', (done) => {
-    const spy = spyOn(component.addAwsService, 'enable').and.returnValue(Promise.resolve(promiseData));
+    const spy = spyOn(component.addAmazonRDSService, 'enable').and.returnValue(Promise.resolve(promiseData));
     component.onConnect();
     spy.calls.mostRecent().returnValue.then((data) => {
       fixture.detectChanges();
@@ -182,7 +182,7 @@ fdescribe('AddAwsComponent', () => {
   });
 
   it('should create Bad response error if promise returns undefined', (done) => {
-    const spy = spyOn(component.addAwsService, 'enable').and.returnValue(Promise.reject(undefined));
+    const spy = spyOn(component.addAmazonRDSService, 'enable').and.returnValue(Promise.reject(undefined));
     component.onConnect();
     spy.calls.mostRecent().returnValue.then().catch(() => {
       fixture.detectChanges();
@@ -230,7 +230,7 @@ fdescribe('AddAwsComponent', () => {
         }
       }
     ];
-    const spy = spyOn(component.addAwsService, 'getRegistered').and.returnValue(Promise.resolve(promise));
+    const spy = spyOn(component.addAmazonRDSService, 'getRegistered').and.returnValue(Promise.resolve(promise));
     component.getRegistered();
     spy.calls.mostRecent().returnValue.then((data) => {
       fixture.detectChanges();

@@ -1,13 +1,13 @@
-import {Component, OnInit} from '@angular/core';
-import {AddAwsService, MySQLCredentials, RDSCredentials, RDSInstance, RDSNode} from './add-aws.service'
-import {environment} from '../environment';
+import { Component, OnInit } from '@angular/core';
+import { RDSCredentials, MySQLCredentials, RDSInstance, RDSNode, AddAmazonRDSService } from './add-amazon-rds.service'
+import { environment } from '../environment';
 
 @Component({
   selector: 'app-add-aws',
-  templateUrl: './add-aws.component.html',
-  styleUrls: ['./add-aws.component.scss']
+  templateUrl: './add-amazon-rds.component.html',
+  styleUrls: ['./add-amazon-rds.component.scss']
 })
-export class AddAwsComponent implements OnInit {
+export class AddAmazonRDSComponent implements OnInit {
 
   rdsCredentials = new RDSCredentials();
   mysqlCredentials = new MySQLCredentials();
@@ -23,14 +23,14 @@ export class AddAwsComponent implements OnInit {
   isDemo = false;
   submitted = false;
 
-  constructor(public addAwsService: AddAwsService) {
+  constructor(public addAmazonRDSService: AddAmazonRDSService) {
     this.isDemo = environment.demoHosts.includes(location.hostname);
   }
 
   async ngOnInit() {
     this.errorMessage = '';
     try {
-      const allRDSInstances = await this.addAwsService.discover(this.rdsCredentials);
+      const allRDSInstances = await this.addAmazonRDSService.discover(this.rdsCredentials);
       if (this.submitted) { // ignore results if user submitted form with creds.
         return;
       }
@@ -73,7 +73,7 @@ export class AddAwsComponent implements OnInit {
     this.isLoading = true;
     this.submitted = true;
     try {
-      this.allRDSInstances = await this.addAwsService.discover(this.rdsCredentials);
+      this.allRDSInstances = await this.addAmazonRDSService.discover(this.rdsCredentials);
       await this.getRegistered();
       this.errorMessage = '';
     } catch (err) {
@@ -102,7 +102,7 @@ export class AddAwsComponent implements OnInit {
     this.errorMessage = '';
     this.isConnectLoading = true;
     try {
-      const res = await this.addAwsService.enable(this.rdsCredentials, this.rdsNode, this.mysqlCredentials);
+      const res = await this.addAmazonRDSService.enable(this.rdsCredentials, this.rdsNode, this.mysqlCredentials);
     } catch (err) {
       this.isConnectLoading = false;
       this.errorMessage = this.isJsonError(err) ? err.error : 'Bad response';
@@ -124,7 +124,7 @@ export class AddAwsComponent implements OnInit {
     const text = `Are you sure want to disable monitoring of '${node.name}:${node.region}' node?`;
     if (confirm(text)) {
       try {
-        const res = await this.addAwsService.disable(node);
+        const res = await this.addAmazonRDSService.disable(node);
         await this.getRegistered();
       } catch (err) {
         this.errorMessage = this.isJsonError(err) ? err.error : 'Bad response';
@@ -140,7 +140,7 @@ export class AddAwsComponent implements OnInit {
   async getRegistered() {
     this.errorMessage = '';
     try {
-      this.registeredRDSInstances = await this.addAwsService.getRegistered();
+      this.registeredRDSInstances = await this.addAmazonRDSService.getRegistered();
     } catch (err) {
       this.errorMessage = this.isJsonError(err) ? err.error : 'Bad response';
     }
