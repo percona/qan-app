@@ -11,7 +11,7 @@ import { CoreModule } from './core/core.module';
 import { SharedModule } from './shared/shared.module';
 
 import { InstanceService } from './core/instance.service';
-import { AddAwsComponent } from './add-aws/add-aws.component';
+import { AddAmazonRDSComponent } from './add-amazon-rds/add-amazon-rds.component';
 import { AddRemoteInstanceComponent } from './add-remote-instances/add-remote-instance.component';
 import { AddInstanceComponent } from './add-instance/add-instance.component';
 import { HttpModule } from '@angular/http';
@@ -23,7 +23,7 @@ export function getInstances(instanceService: InstanceService) {
 @NgModule({
   declarations: [
     AppComponent,
-    AddAwsComponent,
+    AddAmazonRDSComponent,
     AddRemoteInstanceComponent,
     AddInstanceComponent,
   ],

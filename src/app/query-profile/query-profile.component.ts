@@ -26,7 +26,7 @@ export class QueryProfileComponent extends CoreComponent {
   public isQuerySwitching: boolean;
   public noQueryError: string;
   public isFirstSeen: boolean;
-  public isFirsSeenChecked = false;
+  public isFirstSeenChecked = false;
   public testingVariable: boolean;
   public isSearchQuery = false;
   public selectedOption: any;
@@ -242,13 +242,13 @@ export class QueryProfileComponent extends CoreComponent {
     this.router.navigate(['profile'], {queryParams: params});
   }
 
-  getFirstSeen(isFirsSeenChecked = false) {
+  getFirstSeen(isFirstSeenChecked = false) {
     this.isQuerySwitching = true;
-    this.isFirsSeenChecked = isFirsSeenChecked;
+    this.isFirstSeenChecked = isFirstSeenChecked;
     const params: QueryParams = Object.assign({}, this.queryParams);
-    if (isFirsSeenChecked) {
+    if (isFirstSeenChecked) {
       this.testingVariable = true;
-      params.first_seen = this.isFirsSeenChecked;
+      params.first_seen = this.isFirstSeenChecked;
     } else {
       this.testingVariable = false;
       delete params.first_seen;

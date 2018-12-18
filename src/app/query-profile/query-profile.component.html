@@ -22,8 +22,8 @@
         <label class="switcher">
           <input type="checkbox"
                  class="switcher__checkbox"
-                 (change)="isFirsSeenChecked = !isFirsSeenChecked; getFirstSeen(isFirsSeenChecked);"
-                 [disabled]="!isQuerySwitching && !isLoading && totalAmountOfQueries === 0 && !isFirsSeenChecked && !isSearchQuery">
+                 (change)="isFirstSeenChecked = !isFirstSeenChecked; getFirstSeen(isFirstSeenChecked);"
+                 [disabled]="!isQuerySwitching && !isLoading && totalAmountOfQueries === 0 && !isFirstSeenChecked && !isSearchQuery">
           <span class="switcher__slider">
   	        <span class="switcher__option">All queries</span>
             <span class="switcher__option">First seen</span>
@@ -195,7 +195,7 @@
   </div>
 
   <div *ngIf="!isQuerySwitching && !isLoading && totalAmountOfQueries === 0" class="text-center">
-    <div *ngIf="dbServer.Subsystem === 'mongo' && !isFirsSeenChecked && !isSearchQuery"
+    <div *ngIf="dbServer.Subsystem === 'mongo' && !isFirstSeenChecked && !isSearchQuery"
          class="alert alert-warning w-75 mx-auto wrap no-mongo-queries">
       There is no query data because profiling is not enabled for the selected host. For information about how to
       enable profiling, see
@@ -203,7 +203,7 @@
         Configuring profiling in MongoDB
       </a>in PMM documentation.
     </div>
-    <div *ngIf="dbServer.Subsystem === 'mysql' && !isFirsSeenChecked && !isSearchQuery"
+    <div *ngIf="dbServer.Subsystem === 'mysql' && !isFirstSeenChecked && !isSearchQuery"
          class="alert alert-warning w-75 mx-auto wrap no-mysql-queries">
       There is no query data because the MySQL Server is not configured for monitoring. For details about the
       required configuration, see
@@ -211,7 +211,7 @@
         Configuring MySQL for Percona Monitoring and Management
       </a>in PMM documentation.
     </div>
-    <div *ngIf="isFirsSeenChecked && !isSearchQuery" class="alert alert-warning w-75 mx-auto wrap">
+    <div *ngIf="isFirstSeenChecked && !isSearchQuery" class="alert alert-warning w-75 mx-auto wrap">
       There are no queries First Seen during the selected time range, try widening your time range.
     </div>
     <div *ngIf="isSearchQuery" class="alert alert-warning w-75 mx-auto wrap">

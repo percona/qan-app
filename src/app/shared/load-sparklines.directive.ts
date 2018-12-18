@@ -44,7 +44,9 @@ export class LoadSparklinesDirective {
 
     @Input() set appLoadSparklines(data: Array<{}>) {
         if (data !== null) {
-            this.drawChart(data);
+            setTimeout(() => {
+                this.drawChart(data)
+            }, 1);
         }
     }
 

@@ -13,7 +13,7 @@ export class QanEditColumnComponent implements OnDestroy {
   private subscription: any;
   public isMainChecked: boolean;
   public isSubMain: boolean;
-  public isAllUnchecked: boolean;
+  public isAnyChecked: boolean;
   private ids = {
     load: 'load',
     count: 'count',
@@ -35,21 +35,21 @@ export class QanEditColumnComponent implements OnDestroy {
     this.configService.toggleConfig(id, key);
     switch (id) {
       case this.ids.load:
-        this.isAllUnchecked = this.columns[0].sparkline || this.columns[0].value || this.columns[0].percentage;
-        if (!this.isAllUnchecked) {
+        this.isAnyChecked = this.columns[0].sparkline || this.columns[0].value || this.columns[0].percentage;
+        if (!this.isAnyChecked) {
           this.toggleAll(id, key, 'loadOptions');
         }
         break;
       case this.ids.count:
-        this.isAllUnchecked =
+        this.isAnyChecked =
           this.columns[1].sparkline || this.columns[1].value || this.columns[1].percentage || this.columns[1].queriesPerSecond;
-        if (!this.isAllUnchecked) {
+        if (!this.isAnyChecked) {
           this.toggleAll(id, key, 'countOptions');
         }
         break;
       case this.ids.latency:
-        this.isAllUnchecked = this.columns[2].sparkline || this.columns[2].value || this.columns[2].distribution;
-        if (!this.isAllUnchecked) {
+        this.isAnyChecked = this.columns[2].sparkline || this.columns[2].value || this.columns[2].distribution;
+        if (!this.isAnyChecked) {
           this.toggleAll(id, key, 'latencyOptions');
         }
         break;
