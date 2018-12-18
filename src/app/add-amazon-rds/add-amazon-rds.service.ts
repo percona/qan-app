@@ -30,7 +30,7 @@ export interface RDSInstance {
 }
 
 @Injectable()
-export class AddAwsService {
+export class AddAmazonRDSService {
 
   private httpHeaders = new HttpHeaders({ 'Content-Type': 'application/json' });
 
