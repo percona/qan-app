@@ -1,5 +1,5 @@
 :host {
-  --filter-menu-padding: .5rem;
+  --menu-padding: 1rem;
   --parameters-bottom-indent: 5px;
 
   --hamburger-button-size: 28px;
@@ -13,7 +13,6 @@
   align-items: center;
 
   min-height: 50px;
-  padding: var(--filter-menu-padding) var(--filter-menu-padding) var(--filter-menu-padding) 0;
   margin-bottom: var(--main-bottom-indent);
 
   background-color: var(--main-border-color);
@@ -27,10 +26,9 @@ button {
 
 .filter-menu {
   position: absolute;
-  top: 50%;
+  top: 0;
   z-index: 2;
 
-  margin-top: calc(var(--hamburger-button-size) / -2);
   padding: 0 var(--filter-menu-padding);
   background-color: var(--main-border-color);
 }
@@ -44,6 +42,9 @@ button {
 .filter-menu__header {
   display: flex;
   align-items: center;
+
+  margin-top: calc(var(--hamburger-button-size) / 2);
+  padding-right: var(--menu-padding);
 }
 
 .filter-menu__title {
@@ -60,8 +61,7 @@ button {
 
 .filter-menu__body {
   width: 250px;
-  padding-top: 20px;
-  padding-bottom: 40px;
+  padding: 20px var(--menu-padding) 40px;
 }
 
 .filter-menu__category-item {
@@ -73,10 +73,10 @@ button {
 }
 
 .hamburger-button {
-  height: var(--hamburger-button-size);
   width: var(--hamburger-button-size);
+  height: var(--hamburger-button-size);
 
-  margin-left: 15px;
+  margin-left: 30px;
 
   color: var(--hamburger-button-color);
   line-height: 0;
