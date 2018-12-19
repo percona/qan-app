@@ -1,5 +1,6 @@
 :host {
   --menu-padding: 1em;
+  --close-aside-width: 55px;
   --parameters-bottom-indent: 5px;
   --filter-row-height: 50px;
   --hamburger-button-color: rgb(204, 204, 204);
@@ -18,6 +19,7 @@
 
   min-height: var(--filter-row-height);
   margin-bottom: var(--main-bottom-indent);
+  padding-right: 25px; // todo: add variable if need
 
   background-color: var(--main-border-color);
 }
@@ -31,8 +33,9 @@ button {
 .filter-menu {
   position: absolute;
   top: 0;
-  z-index: 2;
+  z-index: 1060;
 
+  width: var(--close-aside-width);
   height: 100%;
   padding: 0 var(--filter-menu-padding);
 
@@ -41,11 +44,12 @@ button {
 }
 
 .filter-menu--open {
+  width: auto;
   height: unset;
 
-  -webkit-box-shadow: 2px 3px 5px -1px rgba(0,0,0,0.75);
-  -moz-box-shadow: 2px 3px 5px -1px rgba(0,0,0,0.75);
-  box-shadow: 2px 3px 5px -1px rgba(0,0,0,0.75);
+  -webkit-box-shadow: 2px 3px 5px -1px rgba(0, 0, 0, 0.75);
+  -moz-box-shadow: 2px 3px 5px -1px rgba(0, 0, 0, 0.75);
+  box-shadow: 2px 3px 5px -1px rgba(0, 0, 0, 0.75);
 }
 
 .filter-menu__header {
@@ -114,3 +118,9 @@ button {
 .see-all {
   color: rgb(227, 132, 0);
 }
+
+.search-wrapper {
+  width: 100%;
+  margin-left: var(--close-aside-width);
+}
+

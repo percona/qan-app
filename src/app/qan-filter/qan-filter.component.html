@@ -30,4 +30,12 @@
     </div>
   </section>
 </aside>
-
+<section class="search-wrapper">
+  <ng-select [items]="filterMenuCategories"
+             groupBy="name"
+             [multiple]="true"
+             class="pmm-select pmm-select--filter"
+             bindLabel="parameters"
+             role="combobox">
+  </ng-select>
+</section>
