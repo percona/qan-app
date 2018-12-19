@@ -9,6 +9,8 @@ import {BehaviorSubject} from 'rxjs/Rx';
 export class QanFilterComponent implements OnInit {
 
   public isToggleMenu = false;
+  public limitParameters = 5;
+
   public filterMenuCategories: Array<{}> = [
     {
       name: 'Schemas',

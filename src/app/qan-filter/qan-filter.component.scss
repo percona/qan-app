@@ -1,9 +1,13 @@
 :host {
-  --menu-padding: 1rem;
+  --menu-padding: 1em;
   --parameters-bottom-indent: 5px;
-
-  --hamburger-button-size: 28px;
+  --filter-row-height: 50px;
   --hamburger-button-color: rgb(204, 204, 204);
+
+  --color-shemas: rgb(76, 163, 86);
+  --color-servers: rgb(111, 129, 204);
+  --color-users: rgb(55, 155, 229);
+  --color-hosts: rgb(158, 133, 125);
 }
 
 :host {
@@ -12,7 +16,7 @@
   display: flex;
   align-items: center;
 
-  min-height: 50px;
+  min-height: var(--filter-row-height);
   margin-bottom: var(--main-bottom-indent);
 
   background-color: var(--main-border-color);
@@ -29,11 +33,16 @@ button {
   top: 0;
   z-index: 2;
 
+  height: 100%;
   padding: 0 var(--filter-menu-padding);
+
+  font-size: 0.9em;
   background-color: var(--main-border-color);
 }
 
 .filter-menu--open {
+  height: unset;
+
   -webkit-box-shadow: 2px 3px 5px -1px rgba(0,0,0,0.75);
   -moz-box-shadow: 2px 3px 5px -1px rgba(0,0,0,0.75);
   box-shadow: 2px 3px 5px -1px rgba(0,0,0,0.75);
@@ -43,56 +52,62 @@ button {
   display: flex;
   align-items: center;
 
-  margin-top: calc(var(--hamburger-button-size) / 2);
+  height: var(--filter-row-height);
   padding-right: var(--menu-padding);
 }
 
 .filter-menu__title {
   display: flex;
   justify-content: space-between;
+  align-items: center;
 
   width: 100%;
   margin-left: 25px;
 }
 
 .filter-menu__close {
+  font-size: 1.2em;
   color: rgb(102, 102, 102);
 }
 
 .filter-menu__body {
   width: 250px;
-  padding: 20px var(--menu-padding) 40px;
+  padding: 0 var(--menu-padding) 40px;
 }
 
 .filter-menu__category-item {
-  display: grid;
-  grid-row-gap: var(--parameters-bottom-indent);
+  padding-bottom: 10px;
 
-  padding: var(--parameters-bottom-indent) 0;
   border-bottom: 1px solid rgb(0, 0, 0);
 }
 
-.hamburger-button {
-  width: var(--hamburger-button-size);
-  height: var(--hamburger-button-size);
+.title-text {
+  font-weight: 600;
+}
 
-  margin-left: 30px;
+.category-item__parameters {
+  display: grid;
+  grid-row-gap: var(--parameters-bottom-indent);
+}
+
+.hamburger-button {
+  margin-left: 25px;
 
   color: var(--hamburger-button-color);
   line-height: 0;
-  font-size: 1.7rem;
+  font-size: 1.2em;
 }
 
 .category-item__title {
   display: flex;
   justify-content: space-between;
-}
+  align-items: center;
 
-.category-item__parameters {
-  display: flex;
+  padding: 10px 0;
 }
 
 .checkbox-container__label-text {
+  font-size: 1em;
   font-weight: 100;
 }
 
