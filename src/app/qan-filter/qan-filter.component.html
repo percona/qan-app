@@ -32,10 +32,12 @@
 </aside>
 <section class="search-wrapper">
   <ng-select [items]="filterMenuCategories"
-             groupBy="name"
              [multiple]="true"
-             class="pmm-select pmm-select--filter"
+             clearAllText="Reset"
+             groupBy="name"
              bindLabel="parameters"
+             placeholder="Search by..."
+             class="pmm-select pmm-select--filter"
              role="combobox">
   </ng-select>
 </section>

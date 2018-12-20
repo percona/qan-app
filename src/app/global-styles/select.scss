@@ -57,7 +57,7 @@
 }
 
 .ng-dropdown-panel.pmm-select .ng-dropdown-panel-items .ng-option.ng-option-marked {
-  background-color: rgb(35,35,35);
+  background-color: rgb(35, 35, 35);
 }
 
 .pmm-select--filter.ng-select {
@@ -102,6 +102,15 @@
   top: 0;
 }
 
+.pmm-select--filter.ng-select.ng-select-multiple .ng-select-container .ng-value-container .ng-placeholder {
+  top: unset;
+  padding-bottom: 0;
+
+  font-style: italic;
+  font-weight: 100;
+  font-size: 0.9em;
+}
+
 .pmm-select--filter.ng-select.ng-select-multiple .ng-select-container .ng-value-container .ng-value {
   display: flex;
   flex-direction: row-reverse;
@@ -120,4 +129,21 @@
 
 .pmm-select--filter.ng-select.ng-select-multiple .ng-select-container .ng-value-container .ng-value .ng-value-icon:hover {
   background-color: transparent;
+}
+
+.ng-select.pmm-select--filter .ng-select-container .ng-clear-wrapper {
+  display: flex;
+  align-items: center;
+  width: auto;
+}
+
+.ng-select.pmm-select--filter .ng-select-container .ng-clear-wrapper:after {
+  content: 'Reset';
+  margin-right: 10px;
+  font-size: 0.7em;
+  font-weight: 100;
+}
+
+.ng-select.pmm-select--filter .ng-select-container .ng-clear-wrapper .ng-clear {
+  display: none;
 }
