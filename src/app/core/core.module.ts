@@ -29,6 +29,7 @@ import { QanEditColumnComponent } from '../qan-edit-column/qan-edit-column.compo
 import { NgSelectModule } from '@ng-select/ng-select';
 import { QueryTableConfigurationService } from '../query-profile/query-table-configuration.service';
 import { QanFilterComponent } from '../qan-filter/qan-filter.component';
+import { QanFilterService } from '../qan-filter/qan-filter.service';
 
 @NgModule({
     imports: [CommonModule, SharedModule, ClipboardModule, NgSelectModule],
@@ -40,7 +41,7 @@ import { QanFilterComponent } from '../qan-filter/qan-filter.component';
         SummaryComponent, SettingsComponent, JSONTreeComponent],
     providers: [InstanceService, QueryProfileService, MySQLQueryDetailsService,
         MongoQueryDetailsService, SummaryService, SettingsService, AddAmazonRDSService, AddRemoteInstanceService, BaseQueryDetailsService,
-      RemoteInstancesListService, QueryTableConfigurationService]
+      RemoteInstancesListService, QueryTableConfigurationService, QanFilterService, ]
 })
 export class CoreModule {
 

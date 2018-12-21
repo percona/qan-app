@@ -16,16 +16,16 @@
       <div class="category-item__title">
         <span class="title-text">{{category.name}}:</span>
         <button (click)="getAll(category)" class="see-all">
-          {{limitParameters[category.name] <= defaultLimit ? 'see all' : 'short list'}}
+          {{limitsForFilterItems[category.name] <= filterLimit ? 'see all' : 'short list'}}
         </button>
       </div>
       <div class="category-item__parameters">
-        <ng-container *ngFor="let parameter of category.parameters; let index = index">
-          <label *ngIf="index <= limitParameters[category.name]" class="checkbox-container">
+        <ng-container *ngFor="let state of category.states; let index = index">
+          <label *ngIf="index <= limitsForFilterItems[category.name]" class="checkbox-container">
             <input type="checkbox"
                    class="checkbox-container__main-input">
             <span class="checkbox-container__checkmark"></span>
-            <span class="checkbox-container__label-text">{{parameter}}</span>
+            <span class="checkbox-container__label-text">{{state.name}}</span>
           </label>
         </ng-container>
       </div>
