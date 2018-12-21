@@ -14,10 +14,12 @@
 
     <div *ngFor="let category of filterMenuCategories" class="filter-menu__category-item">
       <div class="category-item__title">
-        <span class="title-text">{{category.name}}:</span>
-        <button (click)="getAll(category)" class="see-all">
-          {{limitsForFilterItems[category.name] <= filterLimit ? 'see all' : 'short list'}}
-        </button>
+        <span class="title-text">{{category.name}}: ({{countChecked(category.states)}}/{{category.states.length}})</span>
+        <div *ngIf="category.states.length > filterLimit" class="see-all-wrapper">
+          <button (click)="getAll(category)" class="see-all">
+            {{limitsForFilterItems[category.name] <= filterLimit ? 'see all' : 'short list'}}
+          </button>
+        </div>
       </div>
       <div class="category-item__parameters">
         <ng-container *ngFor="let state of category.states; let index = index">

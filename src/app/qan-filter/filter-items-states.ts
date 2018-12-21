@@ -4,7 +4,6 @@ export class FilterItemsStates {
 
   constructor(params: any = {}, savedConfigurations: any = {}) {
     const configurations = JSON.parse(savedConfigurations);
-    console.log('currentState - ', configurations);
     this.name = params['name'];
     this.states = [];
     params['parameters'].forEach(param => {

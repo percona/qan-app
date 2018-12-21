@@ -1,6 +1,5 @@
 import {Component, OnInit} from '@angular/core';
 import {QanFilterService} from './qan-filter.service';
-import {st} from '@angular/core/src/render3';
 
 @Component({
   selector: 'app-qan-filter',
@@ -10,6 +9,8 @@ import {st} from '@angular/core/src/render3';
 export class QanFilterComponent implements OnInit {
 
   public isToggleMenu = false;
+  public isFilterChecked: boolean;
+  public checkedItems: Array<{}> = [];
   public limitsForFilterItems = {};
   public filterLimit = 4;
   public filterMenuCategories: Array<{}> = [];
@@ -28,7 +29,14 @@ export class QanFilterComponent implements OnInit {
 
   async getParameters() {
     this.filterMenuCategories = await this.qanFilterService.getItems();
-    this.filterMenuCategories.forEach(item => this.limitsForFilterItems[item['name']] = this.filterLimit)
+    this.filterMenuCategories.forEach(item => {
+      this.limitsForFilterItems[item['name']] = this.filterLimit;
+    });
+  }
+
+  countChecked(states) {
+    const checked = states.filter(state => state.value === true);
+    return checked.length;
   }
 
   saveConfiguration(state) {
