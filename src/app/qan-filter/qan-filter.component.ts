@@ -1,5 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {QanFilterService} from './qan-filter.service';
+import {st} from '@angular/core/src/render3';
 
 @Component({
   selector: 'app-qan-filter',
@@ -22,11 +23,15 @@ export class QanFilterComponent implements OnInit {
 
   getAll(currentCategory) {
     this.limitsForFilterItems[currentCategory.name] =
-      this.limitsForFilterItems[currentCategory.name] <= this.filterLimit ? currentCategory.states.length - 1 : this.filterLimit
+      this.limitsForFilterItems[currentCategory.name] <= this.filterLimit ? currentCategory.states.length - 1 : this.filterLimit;
   }
 
   async getParameters() {
     this.filterMenuCategories = await this.qanFilterService.getItems();
     this.filterMenuCategories.forEach(item => this.limitsForFilterItems[item['name']] = this.filterLimit)
+  }
+
+  saveConfiguration(state) {
+    localStorage.setItem(state.name, JSON.stringify(state));
   }
 }

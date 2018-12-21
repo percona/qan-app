@@ -8,7 +8,6 @@ export class QanFilterService {
   }
 
   getItems() {
-    // const currentState = localStorage.getItem('states');
     return [
         {
           name: 'Schemas',
@@ -28,6 +27,6 @@ export class QanFilterService {
           name: 'Hosts',
           parameters: ['127.0.0.1', '192.168.1.1', '172.56.33.5']
         },
-      ].map((states) => new FilterItemsStates(states));
+      ].map((items) => new FilterItemsStates(items, localStorage.getItem(items.name)));
   }
 }

@@ -22,7 +22,9 @@
       <div class="category-item__parameters">
         <ng-container *ngFor="let state of category.states; let index = index">
           <label *ngIf="index <= limitsForFilterItems[category.name]" class="checkbox-container">
-            <input type="checkbox"
+            <input (change)="saveConfiguration(category)"
+                   [(ngModel)]="state.value"
+                   type="checkbox"
                    class="checkbox-container__main-input">
             <span class="checkbox-container__checkmark"></span>
             <span class="checkbox-container__label-text">{{state.name}}</span>
