@@ -10,6 +10,7 @@ export class QanFilterComponent implements OnInit {
 
   public isToggleMenu = false;
   public isFilterChecked: boolean;
+  public categoriesStates: any;
   public checkedItems: Array<{}> = [];
   public limitsForFilterItems = {};
   public filterLimit = 4;
@@ -29,6 +30,12 @@ export class QanFilterComponent implements OnInit {
 
   async getParameters() {
     this.filterMenuCategories = await this.qanFilterService.getItems();
+    this.categoriesStates = [];
+    this.filterMenuCategories.forEach(category => {
+      category['states'].forEach(state => {
+        this.categoriesStates.push({name: category['name'], property: state['propertyName']});
+      });
+    });
     this.filterMenuCategories.forEach(item => {
       this.limitsForFilterItems[item['name']] = this.filterLimit;
     });
@@ -42,4 +49,5 @@ export class QanFilterComponent implements OnInit {
   saveConfiguration(state) {
     localStorage.setItem(state.name, JSON.stringify(state));
   }
+
 }

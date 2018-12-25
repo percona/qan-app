@@ -1,6 +1,8 @@
 @import '~@ng-select/ng-select/themes/default.theme.css';
 
 .ng-select.pmm-select {
+  --background-select: rgb(20, 20, 20);
+
   border: 0;
   min-height: 0;
   min-width: 150px;
@@ -62,12 +64,10 @@
 
 .pmm-select--filter.ng-select {
   border-radius: 5px;
-  background-color: rgb(20, 20, 20);
+  background-color: var(--background-select);
 }
 
 .ng-select.pmm-select--filter .ng-select-container {
-  padding: 2px 2px 2px 0;
-
   border-radius: 0;
   border: none;
 }
@@ -85,6 +85,7 @@
   padding: 5px 10px;
 
   border-radius: 5px;
+  border: 2px solid var(--background-select);
   background-color: var(--main-border-color);
 }
 
@@ -146,4 +147,8 @@
 
 .ng-select.pmm-select--filter .ng-select-container .ng-clear-wrapper .ng-clear {
   display: none;
+}
+
+.ng-dropdown-panel.pmm-select--filter {
+  background-color: var(--main-border-color);
 }

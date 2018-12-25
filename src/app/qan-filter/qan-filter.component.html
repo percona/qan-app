@@ -29,7 +29,7 @@
                    type="checkbox"
                    class="checkbox-container__main-input">
             <span class="checkbox-container__checkmark"></span>
-            <span class="checkbox-container__label-text">{{state.name}}</span>
+            <span class="checkbox-container__label-text">{{state.propertyName}}</span>
           </label>
         </ng-container>
       </div>
@@ -37,13 +37,16 @@
   </section>
 </aside>
 <section class="search-wrapper">
-  <ng-select [items]="filterMenuCategories"
+  <ng-select [items]="categoriesStates"
              [multiple]="true"
-             clearAllText="Reset"
+             bindLabel="property"
              groupBy="name"
-             bindLabel="parameters"
+             clearAllText="Reset"
              placeholder="Search by..."
              class="pmm-select pmm-select--filter"
              role="combobox">
+    <!--<ng-container *ngFor="let category of filterMenuCategories">-->
+    <!--<ng-option *ngFor="let state of category.states" [value]="state.propertyName">{{state.propertyName}}</ng-option>-->
+    <!--</ng-container>-->
   </ng-select>
 </section>

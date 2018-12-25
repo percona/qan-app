@@ -8,7 +8,7 @@ export class FilterItemsStates {
     this.states = [];
     params['parameters'].forEach(param => {
       const currentConfiguration = {
-        name: param,
+        propertyName: param,
         value: false
       };
       if (configurations !== null) {
