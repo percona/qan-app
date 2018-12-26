@@ -26,6 +26,7 @@ export class QanEditColumnComponent implements OnDestroy {
   };
 
   constructor(public configService: QueryTableConfigurationService) {
+    this.configService.getConfigurations();
     this.subscription = this.configService.source.subscribe(items => {
       this.columns = items;
     });

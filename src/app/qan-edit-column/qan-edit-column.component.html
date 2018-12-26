@@ -16,124 +16,25 @@
     </form>
 
     <div class="column-configuration__menu-options" id="configurationMenu">
-      <!--Load parameters-->
-      <div>
+      <div *ngFor="let column of columns">
         <label class="checkbox-container">
           <input type="checkbox"
-                 (change)="undisableOptions('load', 'checked')"
-                 [checked]="columns[0].checked"
-                 class="checkbox-container__main-input" id="loadCheckedOption">
+                 (change)="undisableOptions(column.id, 'checked')"
+                 [checked]="column.checked"
+                 class="checkbox-container__main-input">
           <span class="checkbox-container__checkmark"></span>
-          <span class="checkbox-container__label-text">Load</span>
+          <span class="checkbox-container__label-text">{{column.name}}</span>
         </label>
-        <label class="checkbox-container">
-          <input type="checkbox"
-                 (change)="checkConfigurations('load', 'sparkline')"
-                 [checked]="columns[0].sparkline"
-                 [disabled]="!columns[0].checked" id="loadSparklineOption">
-          <span class="checkbox-container__checkmark"></span>
-          <span class="checkbox-container__label-text">Sparkline</span>
-        </label>
-        <label class="checkbox-container">
-          <input type="checkbox"
-                 (change)="checkConfigurations('load', 'value')"
-                 [checked]="columns[0].value"
-                 [disabled]="!columns[0].checked" id="loadValueOption">
-          <span class="checkbox-container__checkmark"></span>
-          <span class="checkbox-container__label-text">Value</span>
-        </label>
-        <label class="checkbox-container">
-          <input type="checkbox"
-                 (change)="checkConfigurations('load', 'percentage')"
-                 [checked]="columns[0].percentage"
-                 [disabled]="!columns[0].checked" id="loadPercentageOption">
-          <span class="checkbox-container__checkmark"></span>
-          <span class="checkbox-container__label-text">Percentage</span>
-        </label>
-      </div>
-      <!--End of Load parameters-->
 
-      <!--Count parameters-->
-      <div>
-        <label class="checkbox-container">
+        <label *ngFor="let configuration of column.configurations" class="checkbox-container">
           <input type="checkbox"
-                 (change)="undisableOptions('count', 'checked')"
-                 [checked]="columns[1].checked"
-                 class="checkbox-container__main-input" id="countCheckedOption">
+                 (change)="checkConfigurations(column.id, configuration.name)"
+                 [checked]="configuration.value"
+                 [disabled]="!column.checked">
           <span class="checkbox-container__checkmark"></span>
-          <span class="checkbox-container__label-text">Count</span>
-        </label>
-        <label class="checkbox-container">
-          <input type="checkbox"
-                 (change)="checkConfigurations('count', 'sparkline')"
-                 [checked]="columns[1].sparkline"
-                 [disabled]="!columns[1].checked" id="countSparklineOption">
-          <span class="checkbox-container__checkmark"></span>
-          <span class="checkbox-container__label-text">Sparkline</span>
-        </label>
-        <label class="checkbox-container">
-          <input type="checkbox"
-                 (change)="checkConfigurations('count', 'queriesPerSecond')"
-                 [checked]="columns[1].queriesPerSecond"
-                 [disabled]="!columns[1].checked" id="countQueriesPerSecondOption">
-          <span class="checkbox-container__checkmark"></span>
-          <span class="checkbox-container__label-text">Queries per second</span>
-        </label>
-        <label class="checkbox-container">
-          <input type="checkbox"
-                 (change)="checkConfigurations('count', 'value')"
-                 [checked]="columns[1].value"
-                 [disabled]="!columns[1].checked" id="countValueOption">
-          <span class="checkbox-container__checkmark"></span>
-          <span class="checkbox-container__label-text">Value</span>
-        </label>
-        <label class="checkbox-container">
-          <input type="checkbox"
-                 (change)="checkConfigurations('count', 'percentage')"
-                 [checked]="columns[1].percentage"
-                 [disabled]="!columns[1].checked" id="countPercentageOption">
-          <span class="checkbox-container__checkmark"></span>
-          <span class="checkbox-container__label-text">Percentage</span>
+          <span class="checkbox-container__label-text">{{configuration.name}}</span>
         </label>
       </div>
-      <!--End of Count parameters-->
-
-      <!--Avg Latency parameters-->
-      <div>
-        <label class="checkbox-container">
-          <input type="checkbox"
-                 (change)="undisableOptions('latency', 'checked')"
-                 [checked]="columns[2].checked"
-                 class="checkbox-container__main-input" id="latencyCheckedOption">
-          <span class="checkbox-container__checkmark"></span>
-          <span class="checkbox-container__label-text">Latency</span>
-        </label>
-        <label class="checkbox-container">
-          <input type="checkbox"
-                 (change)="checkConfigurations('latency', 'sparkline')"
-                 [checked]="columns[2].sparkline"
-                 [disabled]="!columns[2].checked" id="latencySparklineOption">
-          <span class="checkbox-container__checkmark"></span>
-          <span class="checkbox-container__label-text">Sparkline</span>
-        </label>
-        <label class="checkbox-container">
-          <input type="checkbox"
-                 (change)="checkConfigurations('latency', 'value')"
-                 [checked]="columns[2].value"
-                 [disabled]="!columns[2].checked" id="latencyValueOption">
-          <span class="checkbox-container__checkmark"></span>
-          <span class="checkbox-container__label-text">Value</span>
-        </label>
-        <label class="checkbox-container">
-          <input type="checkbox"
-                 (change)="checkConfigurations('latency', 'distribution')"
-                 [checked]="columns[2].distribution"
-                 [disabled]="!columns[2].checked" id="latencyDistributionOption">
-          <span class="checkbox-container__checkmark"></span>
-          <span class="checkbox-container__label-text">Distribution</span>
-        </label>
-      </div>
-      <!--End of Avg Latency parameters-->
     </div>
   </div>
 </div>
