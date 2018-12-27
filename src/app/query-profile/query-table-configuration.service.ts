@@ -10,17 +10,18 @@ export class QueryTableConfigurationService {
   constructor() {
   }
 
-  toggleConfig(id, key) {
-    this.cellConfigurationSource.next([...(this.cellConfigurationSource.value.map(item => {
-      if (item.id !== id) {
-        return item
-      }
-
-      item[key] = !item[key];
-      localStorage.setItem(`${id}-${key}`, item[key] ? 'true' : '');
-      return item;
-    }))]);
-  }
+  // saveConfig(config) {
+  //   this.cellConfigurationSource.next([...(this.cellConfigurationSource.value.map(item => {
+  //     if (item.id !== config.id) {
+  //       return item
+  //     }
+  //
+  //     console.log('config service - ', config);
+  //     console.log('item service - ', item);
+  //     localStorage.setItem(config.name, JSON.stringify(config));
+  //     return item;
+  //   }))]);
+  // }
 
   getConfigurations() {
     this.cellConfigurationSource.next([
@@ -33,7 +34,7 @@ export class QueryTableConfigurationService {
       {
         name: 'Avg Latency', configurations: ['Sparkline', 'Value', 'Distribution']
       }
-    ].map(configuration => new EditColumnConfigurations(configuration, localStorage.getItem(configuration.name))))
+    ].map(configuration => new EditColumnConfigurations(configuration, JSON.parse(localStorage.getItem(configuration.name)))))
   }
 
   get source() {

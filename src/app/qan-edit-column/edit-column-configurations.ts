@@ -16,7 +16,7 @@ export class EditColumnConfigurations {
         const configurationState = {};
         configurationState['name'] = configName;
         savedConfig.configurations.forEach(savedConfigState => {
-          if (configName === savedConfig.name) {
+          if (configName === savedConfigState.name) {
             configurationState['value'] = savedConfigState.value;
           }
         });

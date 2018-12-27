@@ -19,8 +19,8 @@
       <div *ngFor="let column of columns">
         <label class="checkbox-container">
           <input type="checkbox"
-                 (change)="undisableOptions(column.id, 'checked')"
-                 [checked]="column.checked"
+                 (change)="saveConfig(column)"
+                 [(ngModel)]="column.checked"
                  class="checkbox-container__main-input">
           <span class="checkbox-container__checkmark"></span>
           <span class="checkbox-container__label-text">{{column.name}}</span>
@@ -28,8 +28,8 @@
 
         <label *ngFor="let configuration of column.configurations" class="checkbox-container">
           <input type="checkbox"
-                 (change)="checkConfigurations(column.id, configuration.name)"
-                 [checked]="configuration.value"
+                 (change)="saveConfig(column)"
+                 [(ngModel)]="configuration.value"
                  [disabled]="!column.checked">
           <span class="checkbox-container__checkmark"></span>
           <span class="checkbox-container__label-text">{{configuration.name}}</span>
