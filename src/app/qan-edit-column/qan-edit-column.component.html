@@ -28,7 +28,7 @@
 
         <label *ngFor="let column of config.columns" class="checkbox-container">
           <input type="checkbox"
-                 (change)="saveConfig(column)"
+                 (change)="saveConfig(config)"
                  [(ngModel)]="column.value"
                  [disabled]="!config.checked">
           <span class="checkbox-container__checkmark"></span>
