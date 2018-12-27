@@ -16,23 +16,23 @@
     </form>
 
     <div class="column-configuration__menu-options" id="configurationMenu">
-      <div *ngFor="let column of columns">
+      <div *ngFor="let config of configs">
         <label class="checkbox-container">
           <input type="checkbox"
-                 (change)="saveConfig(column)"
-                 [(ngModel)]="column.checked"
+                 (change)="saveConfig(config)"
+                 [(ngModel)]="config.checked"
                  class="checkbox-container__main-input">
           <span class="checkbox-container__checkmark"></span>
-          <span class="checkbox-container__label-text">{{column.name}}</span>
+          <span class="checkbox-container__label-text">{{config.name}}</span>
         </label>
 
-        <label *ngFor="let configuration of column.configurations" class="checkbox-container">
+        <label *ngFor="let column of config.columns" class="checkbox-container">
           <input type="checkbox"
                  (change)="saveConfig(column)"
-                 [(ngModel)]="configuration.value"
-                 [disabled]="!column.checked">
+                 [(ngModel)]="column.value"
+                 [disabled]="!config.checked">
           <span class="checkbox-container__checkmark"></span>
-          <span class="checkbox-container__label-text">{{configuration.name}}</span>
+          <span class="checkbox-container__label-text">{{column.name}}</span>
         </label>
       </div>
     </div>

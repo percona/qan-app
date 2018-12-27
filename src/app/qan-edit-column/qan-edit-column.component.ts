@@ -9,26 +9,16 @@ import {QueryTableConfigService} from '../core/services/query-table-config.servi
 export class QanEditColumnComponent implements OnDestroy {
 
   public isConfigurationMenu = false;
-  public columns: any;
+  public configs: any;
   private subscription: any;
   public isMainChecked: boolean;
   public isSubMain: boolean;
   public isAnyChecked: boolean;
-  // private ids = {
-  //   load: 'load',
-  //   count: 'count',
-  //   latency: 'latency'
-  // };
-  // private configurations = {
-  //   loadOptions: ['sparkline', 'value', 'percentage'],
-  //   countOptions: ['sparkline', 'value', 'percentage', 'queriesPerSecond'],
-  //   latencyOptions: ['sparkline', 'value', 'distribution']
-  // };
 
   constructor(public configService: QueryTableConfigService) {
     this.configService.getConfigurations();
     this.subscription = this.configService.source.subscribe(items => {
-      this.columns = items;
+      this.configs = items;
     });
   }
 
@@ -60,7 +50,7 @@ export class QanEditColumnComponent implements OnDestroy {
 
   saveConfig(configuration) {
     localStorage.setItem(configuration.name, JSON.stringify(configuration));
-    this.configService.setConfig(this.columns)
+    this.configService.setConfig(this.configs)
   }
 
   checkConfigurations(id, key) {
@@ -90,5 +80,4 @@ export class QanEditColumnComponent implements OnDestroy {
   ngOnDestroy() {
     this.subscription.unsubscribe();
   }
-
 }
