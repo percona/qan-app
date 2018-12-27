@@ -1,10 +1,10 @@
 import {CoreComponent, QueryParams, QanError} from '../core/core.component';
 import {Component, OnChanges, OnInit} from '@angular/core';
-import {InstanceService} from '../core/instance.service';
+import {InstanceService} from '../core/services/instance.service';
 import {QueryProfileService} from './query-profile.service';
 import {Router, ActivatedRoute} from '@angular/router';
 import * as moment from 'moment';
-import {QueryTableConfigurationService} from './query-table-configuration.service';
+import {QueryTableConfigService} from '../core/services/query-table-config.service';
 
 const queryProfileError = 'No data. Please check pmm-client and database configurations on selected instance.';
 
@@ -43,7 +43,7 @@ export class QueryProfileComponent extends CoreComponent {
               protected router: Router,
               protected instanceService: InstanceService,
               public queryProfileService: QueryProfileService,
-              private configService: QueryTableConfigurationService) {
+              private configService: QueryTableConfigService) {
     super(route, router, instanceService);
     this.configService.source.subscribe(items => {
       this.checkedColumns = items.filter((config: any) => !!config.checked);

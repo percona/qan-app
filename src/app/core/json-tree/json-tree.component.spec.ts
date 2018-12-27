@@ -5,7 +5,7 @@ import {CUSTOM_ELEMENTS_SCHEMA} from '@angular/core';
 import {RouterTestingModule} from '@angular/router/testing';
 import {FormsModule} from '@angular/forms';
 import {HttpModule} from '@angular/http';
-import {InstanceService} from '../instance.service';
+import {InstanceService} from '../services/instance.service';
 import {JSONTreeComponent} from './json-tree.component';
 import {ClipboardModule} from 'ngx-clipboard';
 

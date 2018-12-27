@@ -11,7 +11,7 @@ import {HttpClientModule} from '@angular/common/http';
 import {NgbAccordionConfig, NgbModule} from '@ng-bootstrap/ng-bootstrap';
 import {HumanizePipe} from '../shared/humanize.pipe';
 import {MapToIterablePipe} from '../shared/map-to-iterable.pipe';
-import {Instance, InstanceService} from '../core/instance.service';
+import {Instance, InstanceService} from '../core/services/instance.service';
 
 fdescribe('SettingsComponent', () => {
   let component: SettingsComponent;

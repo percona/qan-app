@@ -1,5 +1,5 @@
 import {Component, OnDestroy} from '@angular/core';
-import {QueryTableConfigurationService} from '../query-profile/query-table-configuration.service';
+import {QueryTableConfigService} from '../core/services/query-table-config.service';
 
 @Component({
   selector: 'app-qan-edit-column',
@@ -25,11 +25,10 @@ export class QanEditColumnComponent implements OnDestroy {
   //   latencyOptions: ['sparkline', 'value', 'distribution']
   // };
 
-  constructor(public configService: QueryTableConfigurationService) {
+  constructor(public configService: QueryTableConfigService) {
     this.configService.getConfigurations();
     this.subscription = this.configService.source.subscribe(items => {
       this.columns = items;
-      console.log('columns - ', this.columns);
     });
   }
 
@@ -61,6 +60,7 @@ export class QanEditColumnComponent implements OnDestroy {
 
   saveConfig(configuration) {
     localStorage.setItem(configuration.name, JSON.stringify(configuration));
+    this.configService.setConfig(this.columns)
   }
 
   checkConfigurations(id, key) {

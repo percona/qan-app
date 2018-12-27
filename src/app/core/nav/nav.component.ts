@@ -1,6 +1,6 @@
 import 'rxjs/add/operator/filter';
 import { Component, OnDestroy } from '@angular/core';
-import { InstanceService } from '../instance.service';
+import { InstanceService } from '../services/instance.service';
 import { MomentFormatPipe } from '../../shared/moment-format.pipe';
 import { QueryParams, CoreComponent } from '../core.component';
 import { Router, ActivatedRoute } from '@angular/router';

@@ -10,12 +10,12 @@ import {HumanizePipe} from '../shared/humanize.pipe';
 import {LatencyChartDirective} from '../shared/latency-chart.directive';
 import {ClipboardModule} from 'ngx-clipboard';
 import {FormsModule} from '@angular/forms';
-import {Instance, InstanceService} from '../core/instance.service';
+import {Instance, InstanceService} from '../core/services/instance.service';
 import {RouterTestingModule} from '@angular/router/testing';
 import {ActivatedRoute} from '@angular/router';
 import {MongoQueryDetailsService} from './mongo-query-details.service';
 import {HttpClientModule} from '@angular/common/http';
-import {BaseQueryDetailsService} from '../core/base-query-details.service';
+import {BaseQueryDetailsService} from '../core/services/base-query-details.service';
 
 fdescribe('MongoQueryDetailsComponent', () => {
     let component: MongoQueryDetailsComponent;
