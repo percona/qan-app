@@ -8,12 +8,10 @@ import {QueryTableConfigService} from '../core/services/query-table-config.servi
 })
 export class QanEditColumnComponent implements OnDestroy {
 
-  public isConfigurationMenu = false;
-  public configs: any;
   private subscription: any;
-  public isMainChecked: boolean;
-  public isSubMain: boolean;
-  public isAnyChecked: boolean;
+  public isConfigMenu = false;
+  public configs: any;
+  public mainCheckboxClass = 'checkbox-container__main-input';
 
   constructor(public configService: QueryTableConfigService) {
     this.configService.getConfigurations();
@@ -22,59 +20,17 @@ export class QanEditColumnComponent implements OnDestroy {
     });
   }
 
-  undisableOptions(config) {
-    // this.configService.toggleConfig(id, key);
-    // switch (id) {
-    //   case this.ids.load:
-    //     this.isAnyChecked = this.columns[0].sparkline || this.columns[0].value || this.columns[0].percentage;
-    //     if (!this.isAnyChecked) {
-    //       this.toggleAll(id, key, 'loadOptions');
-    //     }
-    //     break;
-    //   case this.ids.count:
-    //     this.isAnyChecked =
-    //       this.columns[1].sparkline || this.columns[1].value || this.columns[1].percentage || this.columns[1].queriesPerSecond;
-    //     if (!this.isAnyChecked) {
-    //       this.toggleAll(id, key, 'countOptions');
-    //     }
-    //     break;
-    //   case this.ids.latency:
-    //     this.isAnyChecked = this.columns[2].sparkline || this.columns[2].value || this.columns[2].distribution;
-    //     if (!this.isAnyChecked) {
-    //       this.toggleAll(id, key, 'latencyOptions');
-    //     }
-    //     break;
-    // }
-    console.log('config - ', config);
-  }
+  saveConfig(event, configuration) {
+    const isMainCheckbox = event.target.className.includes(this.mainCheckboxClass);
+    const isAllChecked = configuration.columns.some(column => column.value === true);
+    configuration.checked = !isMainCheckbox && !isAllChecked ? false : configuration.checked;
 
-  saveConfig(configuration) {
+     if (isMainCheckbox && !isAllChecked) {
+      configuration.columns.forEach(column => column.value = true);
+    }
+
     localStorage.setItem(configuration.name, JSON.stringify(configuration));
-    this.configService.setConfig(this.configs)
-  }
-
-  checkConfigurations(id, key) {
-    // this.configService.toggleConfig(id, key);
-    //
-    // switch (id) {
-    //   case this.ids.load:
-    //     this.isSubMain = this.columns[0].sparkline || this.columns[0].value || this.columns[0].percentage;
-    //     this.isMainChecked = this.columns[0].checked && this.isSubMain;
-    //     break;
-    //   case this.ids.count:
-    //     this.isSubMain =
-    //       this.columns[1].sparkline || this.columns[1].value || this.columns[1].percentage || this.columns[1].queriesPerSecond;
-    //     this.isMainChecked = this.columns[1].checked && this.isSubMain;
-    //     break;
-    //   case this.ids.latency:
-    //     this.isSubMain = this.columns[2].sparkline || this.columns[2].value || this.columns[2].distribution;
-    //     this.isMainChecked = this.columns[2].checked && this.isSubMain;
-    //     break;
-    // }
-    //
-    // if (!this.isMainChecked) {
-    //   this.configService.toggleConfig(id, 'checked');
-    // }
+    this.configService.setConfig(this.configs);
   }
 
   ngOnDestroy() {

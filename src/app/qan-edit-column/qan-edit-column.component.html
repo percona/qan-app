@@ -1,9 +1,9 @@
 <div class="column-configuration">
-  <button (click)="isConfigurationMenu = !isConfigurationMenu" class="button column-configuration__toggle-button">
+  <button (click)="isConfigMenu = !isConfigMenu" class="button column-configuration__toggle-button">
     <i class="fa fa-cog" aria-hidden="true"></i>
     Edit columns
   </button>
-  <div *ngIf="isConfigurationMenu" class="column-configuration__menu" id="configurationMenuWrapper">
+  <div *ngIf="isConfigMenu" class="column-configuration__menu" id="configurationMenuWrapper">
     <span class="triangle"></span>
 
     <form class="query-search query-search--clicked column-configuration__search">
@@ -19,16 +19,16 @@
       <div *ngFor="let config of configs">
         <label class="checkbox-container">
           <input type="checkbox"
-                 (change)="saveConfig(config)"
+                 (change)="saveConfig($event, config)"
                  [(ngModel)]="config.checked"
-                 class="checkbox-container__main-input">
+                 class="{{mainCheckboxClass}}">
           <span class="checkbox-container__checkmark"></span>
           <span class="checkbox-container__label-text">{{config.name}}</span>
         </label>
 
         <label *ngFor="let column of config.columns" class="checkbox-container">
           <input type="checkbox"
-                 (change)="saveConfig(config)"
+                 (change)="saveConfig($event, config)"
                  [(ngModel)]="column.value"
                  [disabled]="!config.checked">
           <span class="checkbox-container__checkmark"></span>
