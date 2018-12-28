@@ -1,5 +1,5 @@
 import {CoreComponent, QueryParams, QanError} from '../core/core.component';
-import {Component, OnChanges, OnInit} from '@angular/core';
+import {Component} from '@angular/core';
 import {InstanceService} from '../core/services/instance.service';
 import {QueryProfileService} from './query-profile.service';
 import {Router, ActivatedRoute} from '@angular/router';
@@ -31,8 +31,8 @@ export class QueryProfileComponent extends CoreComponent {
   public isFirstSeenChecked = false;
   public testingVariable: boolean;
   public isSearchQuery = false;
-  public selectedOption: any;
-  public checkedColumns: any;
+  public selected = { name: '' };
+  public configs: any;
   public isMainColumn: boolean;
   public isRowsScanned: boolean;
   public isLoad = false;
@@ -46,14 +46,10 @@ export class QueryProfileComponent extends CoreComponent {
               private configService: QueryTableConfigService) {
     super(route, router, instanceService);
     this.configService.source.subscribe(items => {
-      this.checkedColumns = items.filter((config: any) => !!config.checked);
-      if (!!this.checkedColumns.length) {
-        this.selectedOption = (!this.selectedOption || !this.checkedColumns.find(item => {return item.id === this.selectedOption.id})) ?
-          this.checkedColumns[0] : this.selectedOption;
-        this.checkEmptyColumn(this.selectedOption);
-      } else {
-        this.selectedOption = '';
-      }
+      if (!items.length) { return; }
+
+      this.configs = items.filter((config: any) => !!config.checked);
+      this.selected = this.configs.find(item => item.name === this.selected.name) ? this.selected : this.configs[0];
     });
   }
 
