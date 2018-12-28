@@ -6,8 +6,8 @@ export class ColumnConfigModel {
   constructor(config: any, localConfig: any) {
     this.name = config.name;
     this.checked = localConfig ? localConfig.checked : true;
-    this.columns = config.configurations
-      .map(name => localConfig ? localConfig.configurations.find(item => item.name === name) : {
+    this.columns = config.columns
+      .map(name => localConfig ? localConfig.columns.find(item => item.name === name) : {
         name,
         value: true
       })

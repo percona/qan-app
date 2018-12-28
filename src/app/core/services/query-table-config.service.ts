@@ -13,13 +13,13 @@ export class QueryTableConfigService {
   getConfigurations() {
     this.setConfig([
       {
-        name: 'Load', configurations: ['Sparkline', 'Value', 'Percentage']
+        name: 'Load', columns: ['Sparkline', 'Value', 'Percentage']
       },
       {
-        name: 'Count', configurations: ['Sparkline', 'Queries per second', 'Value', 'Percentage']
+        name: 'Count', columns: ['Sparkline', 'Queries per second', 'Value', 'Percentage']
       },
       {
-        name: 'Avg Latency', configurations: ['Sparkline', 'Value', 'Distribution']
+        name: 'Avg Latency', columns: ['Sparkline', 'Value', 'Distribution']
       }
     ].map(configuration => new ColumnConfigModel(configuration, JSON.parse(localStorage.getItem(configuration.name)))))
   }
