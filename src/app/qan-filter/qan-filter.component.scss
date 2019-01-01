@@ -125,18 +125,82 @@ button {
 }
 
 .schemas {
-  color: rgb(15, 179, 82);
+  color: var(--color-shemas);
 }
 
 .servers {
-  color: rgb(112, 122, 210);
+  color: var(--color-servers);
 }
 
 .users {
-  color: rgb(0, 151, 236);
+  color: var(--color-users);
 }
 
 .hosts {
-  color: rgb(145, 120, 112);
+  color: var(--color-hosts);
 }
 
+.selected {
+  display: flex;
+  align-items: center;
+
+  padding: 5px;
+  border: 1px solid;
+  border-radius: 3px;
+}
+
+.selected.schemas .close:before,
+.selected.schemas .close:after {
+  background-color: var(--color-shemas);
+}
+
+.selected.servers .close:before,
+.selected.servers .close:after {
+  background-color: var(--color-servers);
+}
+
+.selected.users .close:before,
+.selected.users .close:after {
+  background-color: var(--color-users);
+}
+
+.selected.hosts .close:before,
+.selected.hosts .close:after {
+  background-color: var(--color-hosts);
+}
+
+.ng-select.ng-select-multiple .ng-select-container .ng-value-container .ng-value .selected .ng-value-icon.right {
+  border-left: none;
+}
+
+.close {
+  --close-size: 18px;
+
+  position: relative;
+  cursor: pointer;
+  opacity: 0.3;
+
+  display: flex;
+  align-items: center;
+
+  width: var(--close-size);
+  height: var(--close-size);
+  margin-top: 2px;
+}
+
+.close:before,
+.close:after {
+  position: absolute;
+  top: 0;
+  left: calc(var(--close-size) / 2);
+  content: '';
+
+  width: 3px;
+  height: var(--close-size);
+}
+.close:before {
+  transform: rotate(45deg);
+}
+.close:after {
+  transform: rotate(-45deg);
+}

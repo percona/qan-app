@@ -41,11 +41,17 @@
 <section class="search-wrapper">
   <ng-select [items]="categoriesStates"
              [multiple]="true"
-             bindLabel="property"
-             groupBy="name"
+             bindLabel="propertyName"
+             groupBy="category"
              clearAllText="Reset"
              placeholder="Search by..."
              class="pmm-select pmm-select--filter"
              role="combobox">
+    <ng-template ng-label-tmp let-item="item" let-clear="clear">
+      <div class="selected {{item.category.toLowerCase()}}">
+        <span class="ng-value-label">{{item.category}}: {{item.propertyName}}</span>
+        <span class="close" (click)="clear(item)" aria-hidden="true"></span>
+      </div>
+    </ng-template>
   </ng-select>
 </section>

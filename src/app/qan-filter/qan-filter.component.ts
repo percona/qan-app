@@ -33,7 +33,7 @@ export class QanFilterComponent implements OnInit {
     this.categoriesStates = [];
     this.filterMenuCategories.forEach(category => {
       category['states'].forEach(state => {
-        this.categoriesStates.push({name: category['name'], property: state['propertyName']});
+        this.categoriesStates.push({category: category['name'], propertyName: state['propertyName']});
       });
     });
     this.filterMenuCategories.forEach(item => {
