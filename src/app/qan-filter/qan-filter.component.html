@@ -14,7 +14,9 @@
 
     <div *ngFor="let category of filterMenuCategories" class="filter-menu__category-item">
       <div class="category-item__title">
-        <span class="title-text">{{category.name}}: ({{countChecked(category.states)}}/{{category.states.length}})</span>
+        <span class="title-text {{category.name.toLowerCase()}}">
+          {{category.name}} ({{countChecked(category.states)}}/{{category.states.length}}):
+        </span>
         <div *ngIf="category.states.length > filterLimit" class="see-all-wrapper">
           <button (click)="getAll(category)" class="see-all">
             {{limitsForFilterItems[category.name] <= filterLimit ? 'see all' : 'short list'}}
@@ -45,8 +47,5 @@
              placeholder="Search by..."
              class="pmm-select pmm-select--filter"
              role="combobox">
-    <!--<ng-container *ngFor="let category of filterMenuCategories">-->
-    <!--<ng-option *ngFor="let state of category.states" [value]="state.propertyName">{{state.propertyName}}</ng-option>-->
-    <!--</ng-container>-->
   </ng-select>
 </section>
