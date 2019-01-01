@@ -40,7 +40,9 @@
 </aside>
 <section class="search-wrapper">
   <ng-select [items]="categoriesStates"
+             [(ngModel)]="selected"
              [multiple]="true"
+             (change)="groupSelected()"
              bindLabel="propertyName"
              groupBy="category"
              clearAllText="Reset"

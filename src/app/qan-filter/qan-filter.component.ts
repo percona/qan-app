@@ -11,6 +11,7 @@ export class QanFilterComponent implements OnInit {
   public isToggleMenu = false;
   public isFilterChecked: boolean;
   public categoriesStates: any;
+  public selected: any;
   public checkedItems: Array<{}> = [];
   public limitsForFilterItems = {};
   public filterLimit = 4;
@@ -21,6 +22,10 @@ export class QanFilterComponent implements OnInit {
 
   ngOnInit() {
     this.getParameters();
+  }
+
+  groupSelected() {
+    this.selected = [...this.selected.sort((a, b) => a.category.localeCompare(b.category))];
   }
 
   getAll(currentCategory) {
