@@ -54,28 +54,28 @@ export class QueryProfileComponent extends CoreComponent {
   }
 
   checkEmptyColumn(selected) {
-    const isEmptyColumn = !Object.keys(selected).length;
-    this.isLoad = false;
-    this.isCount = false;
-    this.isLatency = false;
+    // const isEmptyColumn = !Object.keys(selected).length;
+    this.isLoad = selected.name === 'Load';
+    this.isCount = selected.name === 'Count';
+    this.isLatency = selected.name === 'Avg Latency';
 
-    switch (selected.id) {
-      case 'load':
-        this.isMainColumn = selected.sparkline || selected.value;
-        this.isRowsScanned = selected.percentage;
-        this.isLoad = !isEmptyColumn;
-        break;
-      case 'count':
-        this.isMainColumn = selected.sparkline || selected.queriesPerSecond;
-        this.isRowsScanned = selected.value || selected.percentage;
-        this.isCount = !isEmptyColumn;
-        break;
-      case 'latency':
-        this.isMainColumn = selected.sparkline || selected.value;
-        this.isRowsScanned = selected.distribution;
-        this.isLatency = !isEmptyColumn;
-        break;
-    }
+    // switch (selected.id) {
+    //   case 'load':
+    //     this.isMainColumn = selected.sparkline || selected.value;
+    //     this.isRowsScanned = selected.percentage;
+    //     this.isLoad = !isEmptyColumn;
+    //     break;
+    //   case 'count':
+    //     this.isMainColumn = selected.sparkline || selected.queriesPerSecond;
+    //     this.isRowsScanned = selected.value || selected.percentage;
+    //     this.isCount = !isEmptyColumn;
+    //     break;
+    //   case 'latency':
+    //     this.isMainColumn = selected.sparkline || selected.value;
+    //     this.isRowsScanned = selected.distribution;
+    //     this.isLatency = !isEmptyColumn;
+    //     break;
+    // }
   }
 
   onChangeParams(params) {
