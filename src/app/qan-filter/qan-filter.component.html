@@ -55,5 +55,8 @@
         <span class="close" (click)="clear(item)" aria-hidden="true"></span>
       </div>
     </ng-template>
+    <ng-template ng-optgroup-tmp let-item="item">
+      <span class="{{item.category.toLowerCase()}}">{{item.category}}:</span>
+    </ng-template>
   </ng-select>
 </section>
