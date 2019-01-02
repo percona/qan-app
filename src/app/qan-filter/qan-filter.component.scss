@@ -79,17 +79,25 @@ button {
   padding: 0 var(--menu-padding) 40px;
 }
 
-.filter-menu__category-item {
+.filter-menu__filter-group {
   padding-bottom: 10px;
 
   border-bottom: 1px solid rgb(0, 0, 0);
+}
+
+.filter-group__title {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  padding: 10px 0;
 }
 
 .title-text {
   font-weight: 600;
 }
 
-.category-item__parameters {
+.filter-group__filters {
   display: grid;
   grid-row-gap: var(--parameters-bottom-indent);
 }
@@ -100,14 +108,6 @@ button {
   color: var(--hamburger-button-color);
   line-height: 0;
   font-size: 1.2em;
-}
-
-.category-item__title {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-
-  padding: 10px 0;
 }
 
 .checkbox-container__label-text {
