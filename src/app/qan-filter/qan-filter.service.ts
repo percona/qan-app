@@ -1,14 +1,18 @@
 import {Injectable} from '@angular/core';
 import {FilterItemsStates} from './filter-items-states';
+import {BehaviorSubject} from 'rxjs/Rx';
 
 @Injectable()
 export class QanFilterService {
 
+  private filtersConfigsSource = new BehaviorSubject([]);
+  private selectedConfigsSource = new BehaviorSubject([]);
+
   constructor() {
   }
 
-  getItems() {
-    return [
+  getFilterConfigs() {
+    this.setFilterConfigs([
         {
           name: 'Schemas',
           parameters:
@@ -27,6 +31,22 @@ export class QanFilterService {
           name: 'Hosts',
           parameters: ['127.0.0.1', '192.168.1.1', '172.56.33.5']
         },
-      ].map((items) => new FilterItemsStates(items, localStorage.getItem(items.name)));
+      ].map((items) => new FilterItemsStates(items, localStorage.getItem(items.name))));
+  }
+
+  setFilterConfigs(config: FilterItemsStates[]) {
+    this.filtersConfigsSource.next(config)
+  }
+
+  setSelectedValues(values: Array<{}>) {
+    this.selectedConfigsSource.next(values)
+  }
+
+  get filterSource() {
+    return this.filtersConfigsSource;
+  }
+
+  get selectedSource() {
+    return this.selectedConfigsSource;
   }
 }

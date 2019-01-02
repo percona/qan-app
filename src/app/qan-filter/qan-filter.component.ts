@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {QanFilterService} from './qan-filter.service';
 
 @Component({
@@ -6,53 +6,65 @@ import {QanFilterService} from './qan-filter.service';
   templateUrl: './qan-filter.component.html',
   styleUrls: ['./qan-filter.component.scss']
 })
-export class QanFilterComponent implements OnInit {
+export class QanFilterComponent implements OnInit, OnDestroy {
 
   public isToggleMenu = false;
-  public isFilterChecked: boolean;
-  public categoriesStates: any;
-  public selected: any;
-  public checkedItems: Array<{}> = [];
-  public limitsForFilterItems = {};
-  public filterLimit = 4;
-  public filterMenuCategories: Array<{}> = [];
+  public categoriesStates: Array<{}> = [];
+  public selected: Array<{}> = [];
+  public limits = {};
+  public mainLimit = 4;
+  public filterMenuCategories: any;
+  public checkedFilters: Array<{}>;
+  private filterSubscription: any;
+  private selectedSubscription: any;
 
   constructor(private qanFilterService: QanFilterService) {
+    this.qanFilterService.getFilterConfigs();
+    this.filterSubscription = this.qanFilterService.filterSource.subscribe(items => {
+      this.filterMenuCategories = items;
+      this.checkedFilters = [];
+      this.filterMenuCategories.forEach(category => {
+        this.checkedFilters = [...this.checkedFilters, ...category.states.filter((state: any) => state.value)];
+      });
+      this.qanFilterService.setSelectedValues(this.checkedFilters);
+    });
+
+    this.selectedSubscription = this.qanFilterService.selectedSource.subscribe(items => {
+      this.selected = items;
+    });
   }
 
   ngOnInit() {
     this.getParameters();
   }
 
+  ngOnDestroy() {
+    this.filterSubscription.unsubscribe();
+    this.selectedSubscription.unsubscribe();
+  }
+
   groupSelected() {
-    this.selected = [...this.selected.sort((a, b) => a.category.localeCompare(b.category))];
+    this.selected = [...this.selected.sort((a, b) => a['category'].localeCompare(b['category']))];
+    this.qanFilterService.setSelectedValues(this.selected);
   }
 
-  getAll(currentCategory) {
-    this.limitsForFilterItems[currentCategory.name] =
-      this.limitsForFilterItems[currentCategory.name] <= this.filterLimit ? currentCategory.states.length - 1 : this.filterLimit;
+  getAll(category) {
+    this.limits[category.name] = this.limits[category.name] <= this.mainLimit ? category.states.length - 1 : this.mainLimit;
   }
 
-  async getParameters() {
-    this.filterMenuCategories = await this.qanFilterService.getItems();
-    this.categoriesStates = [];
-    this.filterMenuCategories.forEach(category => {
-      category['states'].forEach(state => {
-        this.categoriesStates.push({category: category['name'], propertyName: state['propertyName']});
-      });
-    });
+  getParameters() {
     this.filterMenuCategories.forEach(item => {
-      this.limitsForFilterItems[item['name']] = this.filterLimit;
+      this.categoriesStates = [...this.categoriesStates, ...item['states'].slice()];
+      this.limits[item['name']] = this.mainLimit;
     });
   }
 
   countChecked(states) {
-    const checked = states.filter(state => state.value === true);
-    return checked.length;
+    return states.filter(state => state.value === true).length;
   }
 
-  saveConfiguration(state) {
-    localStorage.setItem(state.name, JSON.stringify(state));
+  saveConfiguration(category) {
+    localStorage.setItem(category.name, JSON.stringify(category));
+    this.qanFilterService.setFilterConfigs(this.filterMenuCategories);
   }
-
 }

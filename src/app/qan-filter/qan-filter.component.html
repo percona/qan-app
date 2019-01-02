@@ -17,16 +17,16 @@
         <span class="title-text {{category.name.toLowerCase()}}">
           {{category.name}} ({{countChecked(category.states)}}/{{category.states.length}}):
         </span>
-        <div *ngIf="category.states.length > filterLimit" class="see-all-wrapper">
+        <div *ngIf="category.states.length > mainLimit" class="see-all-wrapper">
           <button (click)="getAll(category)" class="see-all">
-            {{limitsForFilterItems[category.name] <= filterLimit ? 'see all' : 'short list'}}
+            {{limits[category.name] <= mainLimit ? 'see all' : 'short list'}}
           </button>
         </div>
       </div>
       <div class="category-item__parameters">
         <ng-container *ngFor="let state of category.states; let index = index">
-          <label *ngIf="index <= limitsForFilterItems[category.name]" class="checkbox-container">
-            <input (change)="saveConfiguration(category)"
+          <label *ngIf="index <= limits[category.name]" class="checkbox-container">
+            <input (change)="saveConfiguration(category, state)"
                    [(ngModel)]="state.value"
                    type="checkbox"
                    class="checkbox-container__main-input">

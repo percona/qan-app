@@ -9,12 +9,13 @@ export class FilterItemsStates {
     params['parameters'].forEach(param => {
       const currentConfiguration = {
         propertyName: param,
-        value: false
+        value: false,
+        category: this.name
       };
-      if (configurations !== null) {
+      if (configurations) {
         configurations['states'].forEach(state => {
-          if (param === state.name) {
-            currentConfiguration['value'] = state.value;
+          if (param === state.propertyName) {
+            currentConfiguration.value = state.value;
           }
         });
       }
