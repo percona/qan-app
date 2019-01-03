@@ -71,12 +71,17 @@
   background-color: var(--background-select);
 }
 
-.ng-select.pmm-select--filter .ng-select-container {
+.ng-select.pmm-select--filter.ng-select-multiple .ng-select-container {
+  display: grid;
+  grid-template-columns: 1fr auto auto;
+
   border-radius: 0;
   border: none;
 }
 
-.ng-select.pmm-select--filter .ng-select-container .ng-value-container {
+.ng-select.pmm-select--filter.ng-select-multiple .ng-select-container .ng-value-container {
+  overflow-y: scroll;
+  flex-wrap: nowrap;
   padding-top: 0;
 }
 

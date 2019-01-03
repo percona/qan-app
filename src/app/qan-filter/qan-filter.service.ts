@@ -1,12 +1,11 @@
 import {Injectable} from '@angular/core';
-import {QanFilterModel} from './qan-filter.model';
+import {QanFilterGroupsModel} from './qan-filter-groups.model';
 import {BehaviorSubject} from 'rxjs/Rx';
 
 @Injectable()
 export class QanFilterService {
 
   private filtersConfigsSource = new BehaviorSubject([]);
-  private selectedConfigsSource = new BehaviorSubject([]);
 
   constructor() {
   }
@@ -31,22 +30,14 @@ export class QanFilterService {
           name: 'Hosts',
           parameters: ['127.0.0.1', '192.168.1.1', '172.56.33.5']
         },
-      ].map((items) => new QanFilterModel(items, localStorage.getItem(items.name))));
+      ].map((items) => new QanFilterGroupsModel(items, localStorage.getItem(items.name))));
   }
 
-  setFilterConfigs(config: QanFilterModel[]) {
+  setFilterConfigs(config: QanFilterGroupsModel[]) {
     this.filtersConfigsSource.next(config)
-  }
-
-  setSelectedValues(values: Array<{}>) {
-    this.selectedConfigsSource.next(values)
   }
 
   get filterSource() {
     return this.filtersConfigsSource;
-  }
-
-  get selectedSource() {
-    return this.selectedConfigsSource;
   }
 }

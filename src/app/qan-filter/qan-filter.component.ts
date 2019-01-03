@@ -1,5 +1,6 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {QanFilterService} from './qan-filter.service';
+import {QanFilterModel} from './qan-fliter.model';
 
 @Component({
   selector: 'app-qan-filter',
@@ -14,23 +15,17 @@ export class QanFilterComponent implements OnInit, OnDestroy {
   public filters: any;
   public autocomplete: Array<{}> = [];
   public selected: Array<{}> = [];
-  public checkedFilters: Array<{}>;
   private filterSubscription: any;
-  private selectedSubscription: any;
 
   constructor(private qanFilterService: QanFilterService) {
     this.qanFilterService.getFilterConfigs();
     this.filterSubscription = this.qanFilterService.filterSource.subscribe(items => {
       this.filters = items;
-      this.checkedFilters = [];
+      this.selected = [];
       this.filters.forEach(group => {
-        this.checkedFilters = [...this.checkedFilters, ...group.values.filter((value: any) => value.state)];
+        this.selected = [...this.selected, ...group.values.filter((value: any) => value.state)];
       });
-      this.qanFilterService.setSelectedValues(this.checkedFilters);
-    });
-
-    this.selectedSubscription = this.qanFilterService.selectedSource.subscribe(items => {
-      this.selected = items;
+      this.groupSelected();
     });
   }
 
@@ -43,16 +38,21 @@ export class QanFilterComponent implements OnInit, OnDestroy {
 
   ngOnDestroy() {
     this.filterSubscription.unsubscribe();
-    this.selectedSubscription.unsubscribe();
   }
 
   groupSelected() {
     this.selected = [...this.selected.sort((a, b) => a['groupName'].localeCompare(b['groupName']))];
-    this.qanFilterService.setSelectedValues(this.selected);
   }
 
   getAll(group) {
     this.limits[group.name] = this.limits[group.name] <= this.mainLimit ? group.values.length - 1 : this.mainLimit;
+  }
+
+  changeFilterState(event = new QanFilterModel(), state = false) {
+    return event.groupName ?
+      this.filters.find(group => group.name === event.groupName)
+        .values.find(value => value.filterName === event.filterName).state = state :
+      this.filters.forEach(group => group.values.forEach(value => value.state = state));
   }
 
   countChecked(values) {
