@@ -56,24 +56,11 @@
         <ng-template ngbTabTitle><span>Checked</span></ng-template>
         <ng-template ngbTabContent>
           <div class="checked-content">
-            <!--<div  class="selected schemas">-->
-              <!--<span class="ng-value-label">{{selectedLabel.filterName}}</span>-->
-              <!--<span class="close"></span>-->
-            <!--</div>-->
-
-            <ng-template ng-label-tmp let-item="item" let-clear="clear">
-              <div class="selected {{item.groupName.toLowerCase()}}">
-                <span class="ng-value-label">{{item.filterName}}</span>
-                <span class="close" (click)="clear(item)" aria-hidden="true"></span>
-              </div>
-            </ng-template>
-
-            <ng-template ng-label-tmp let-clear="clear">
-              <div *ngFor="let selectedValue of selected" class="selected {{selectedValue.groupName.toLowerCase()}}">
-                <span class="ng-value-label">{{selectedValue.filterName}}</span>
-                <span class="close" (click)="clear(selectedValue)" aria-hidden="true"></span>
-              </div>
-            </ng-template>
+            <div *ngFor="let selectedLabel of selected"
+                 class="selected {{selectedLabel.groupName.toLowerCase()}}">
+              <span class="ng-value-label">{{selectedLabel.filterName}}</span>
+              <span (click)="changeFilterState(selectedLabel)" class="close"></span>
+            </div>
           </div>
         </ng-template>
       </ngb-tab>

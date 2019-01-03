@@ -52,10 +52,13 @@ export class QanFilterComponent implements OnInit, OnDestroy {
   }
 
   changeFilterState(event = new QanFilterModel(), state = false) {
-    return event.groupName ?
-      this.filters.find(group => group.name === event.groupName)
-        .values.find(value => value.filterName === event.filterName).state = state :
+    const filtersGroup = this.filters.find(group => group.name === event.groupName);
+    if (event.groupName) {
+      filtersGroup.values.find(value => value.filterName === event.filterName).state = state ;
+    } else {
       this.filters.forEach(group => group.values.forEach(value => value.state = state));
+    }
+    this.saveConfiguration(filtersGroup);
   }
 
   findFilters(searchValue) {
