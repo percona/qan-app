@@ -13,6 +13,8 @@ export class QanFilterComponent implements OnInit, OnDestroy {
   public mainLimit = 4;
   public limits = {};
   public filters: any;
+  public filterSearchValue = '';
+  public filtersSearchedValues = [];
   public autocomplete: Array<{}> = [];
   public selected: Array<{}> = [];
   private filterSubscription: any;
@@ -27,6 +29,7 @@ export class QanFilterComponent implements OnInit, OnDestroy {
       });
       this.groupSelected();
     });
+    this.filtersSearchedValues = this.filters;
   }
 
   ngOnInit() {
@@ -53,6 +56,14 @@ export class QanFilterComponent implements OnInit, OnDestroy {
       this.filters.find(group => group.name === event.groupName)
         .values.find(value => value.filterName === event.filterName).state = state :
       this.filters.forEach(group => group.values.forEach(value => value.state = state));
+  }
+
+  findFilters(searchValue) {
+    if (!searchValue) { this.filtersSearchedValues = this.filters; return; }
+
+    this.filtersSearchedValues = [];
+    this.filters.forEach(item => this.filtersSearchedValues
+      .push({name: item.name, values: item.values.filter(bv => bv.filterName.includes(searchValue))}));
   }
 
   countChecked(values) {

@@ -1,0 +1,40 @@
+.pmm-tabset {
+  --checked-tab-color: rgb(0, 108, 255);
+}
+
+.pmm-tabset .nav.nav-tabs {
+  display: flex;
+  justify-content: space-around !important;
+  border-bottom: 1px solid #000;
+}
+
+.pmm-tabset .nav.nav-tabs .nav-item {
+  width: 50%;
+  height: 35px;
+}
+
+.pmm-tabset .nav.nav-tabs .nav-item .nav-link {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  width: 100%;
+  height: 100%;
+  padding: 0;
+
+  color: inherit;
+  font-weight: 600;
+}
+
+.pmm-tabset .nav.nav-tabs .nav-item .nav-link:hover {
+  color: var(--checked-tab-color);
+  border: none;
+}
+
+.pmm-tabset .nav.nav-tabs .nav-item .nav-link.active {
+  color: var(--checked-tab-color);
+  border: none;
+  border-bottom:  1px solid var(--checked-tab-color);
+  background-color: transparent;
+  font-weight: 600;
+}

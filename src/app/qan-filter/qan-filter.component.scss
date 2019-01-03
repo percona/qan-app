@@ -24,7 +24,7 @@
   background-color: var(--main-border-color);
 }
 
-button {
+button:not([type="submit"]) {
   cursor: pointer;
   background-color: transparent;
   border: none;
@@ -75,7 +75,7 @@ button {
 }
 
 .filter-menu__body {
-  width: 250px;
+  width: 280px;
   padding: 0 var(--menu-padding) 40px;
 }
 
@@ -203,4 +203,16 @@ button {
 }
 .close:after {
   transform: rotate(-45deg);
+}
+
+.checked-content {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.checked-content > div {
+  margin-right: 10px;
+  margin-bottom: 10px;
+
+  width: max-content;
 }
