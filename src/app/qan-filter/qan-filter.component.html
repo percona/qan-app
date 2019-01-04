@@ -31,7 +31,7 @@
           <div *ngFor="let filterGroup of filtersSearchedValues" class="filter-menu__filter-group">
             <div *ngIf="filterGroup.values.length" class="filter-group__title">
               <span class="title-text {{filterGroup.name.toLowerCase()}}">
-                {{filterGroup.name}} ({{countChecked(filterGroup.values)}}/{{filterGroup.values.length}}):
+                {{filterGroup.name}} {{countFilters(filterGroup)}}:
               </span>
               <div *ngIf="filterGroup.values.length > mainLimit" class="see-all-wrapper">
                 <button (click)="getAll(filterGroup)" class="see-all">

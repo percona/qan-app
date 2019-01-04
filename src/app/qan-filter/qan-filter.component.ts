@@ -75,8 +75,10 @@ export class QanFilterComponent implements OnInit, OnDestroy {
       .push({name: item.name, values: item.values.filter(bv => bv.filterName.includes(searchValue))}));
   }
 
-  countChecked(values) {
-    return values.filter(value => value.state === true).length;
+  countFilters(item) {
+    const checkedFilters = item.values.filter(value => value.state === true).length;
+    const allFilters = this.filters.find(value => value.name === item.name).values.length;
+    return `(${checkedFilters}/${allFilters})`
   }
 
   setConfigs() {
