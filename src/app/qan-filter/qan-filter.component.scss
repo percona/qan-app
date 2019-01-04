@@ -79,12 +79,6 @@ button:not([type="submit"]) {
   padding: 0 var(--menu-padding) 40px;
 }
 
-.filter-menu__filter-group {
-  padding-bottom: 10px;
-
-  border-bottom: 1px solid rgb(0, 0, 0);
-}
-
 .filter-group__title {
   display: flex;
   justify-content: space-between;
@@ -100,6 +94,9 @@ button:not([type="submit"]) {
 .filter-group__filters {
   display: grid;
   grid-row-gap: var(--parameters-bottom-indent);
+
+  padding-bottom: 10px;
+  border-bottom: 1px solid rgb(0, 0, 0);
 }
 
 .hamburger-button {
@@ -207,12 +204,55 @@ button:not([type="submit"]) {
 
 .checked-content {
   display: flex;
-  flex-wrap: wrap;
+  flex-direction: column;
 }
 
-.checked-content > div {
-  margin-right: 10px;
+.selected-labels {
+  display: flex;
+  flex-wrap: wrap;
+
+  border-bottom: 1px solid black;
+}
+
+.selected-labels > div {
+  margin-right: 3px;
   margin-bottom: 10px;
 
   width: max-content;
+}
+
+.selected-labels .title-text {
+  width: 100%;
+  padding: 10px 0;
+}
+
+.selected-labels .title-text:not(:first-child) {
+  border-top: 1px solid black;
+}
+
+.checked-content .see-all {
+  width: max-content;
+  align-self: flex-end;
+}
+
+.checked-content__tools {
+  display: flex;
+  justify-content: flex-end;
+  padding-top: 10px;
+}
+
+.badge {
+  border-radius: 50%;
+  background-color: #e38400;
+  color: #fff;
+  padding: 5px;
+  width: 18px;
+  height: 18px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  line-height: 0;
+  margin-left: 1px;
+  margin-bottom: 15px;
+  font-size: 9px;
 }

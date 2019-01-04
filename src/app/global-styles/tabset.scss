@@ -26,6 +26,15 @@
   font-weight: 600;
 }
 
+.pmm-tabset .nav.nav-tabs .nav-item .nav-link.disabled {
+  opacity: 0.3;
+}
+
+.pmm-tabset .nav.nav-tabs .nav-item .nav-link.disabled:hover {
+  cursor: not-allowed;
+  color: inherit;
+}
+
 .pmm-tabset .nav.nav-tabs .nav-item .nav-link:hover {
   color: var(--checked-tab-color);
   border: none;

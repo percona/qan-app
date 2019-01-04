@@ -52,17 +52,24 @@ export class QanFilterComponent implements OnInit, OnDestroy {
   }
 
   changeFilterState(event = new QanFilterModel(), state = false) {
-    const filtersGroup = this.filters.find(group => group.name === event.groupName);
     if (event.groupName) {
-      filtersGroup.values.find(value => value.filterName === event.filterName).state = state ;
+      const filtersGroup = this.filters.find(group => group.name === event.groupName);
+
+      filtersGroup.values.find(value => value.filterName === event.filterName).state = state;
+      this.saveConfiguration(filtersGroup);
     } else {
-      this.filters.forEach(group => group.values.forEach(value => value.state = state));
+      this.filters.forEach(group => {
+        group.values.forEach(value => value.state = state);
+        this.saveConfiguration(group);
+      });
     }
-    this.saveConfiguration(filtersGroup);
   }
 
   findFilters(searchValue) {
-    if (!searchValue) { this.filtersSearchedValues = this.filters; return; }
+    if (!searchValue) {
+      this.filtersSearchedValues = this.filters;
+      return;
+    }
 
     this.filtersSearchedValues = [];
     this.filters.forEach(item => this.filtersSearchedValues
