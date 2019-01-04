@@ -25,6 +25,7 @@ export class QanFilterComponent implements OnInit, OnDestroy {
       this.filters = items;
       this.selected = [];
       this.filters.forEach(group => {
+        localStorage.setItem(group.name, JSON.stringify(group));
         this.selected = [...this.selected, ...group.values.filter((value: any) => value.state)];
       });
       this.groupSelected();
@@ -54,15 +55,13 @@ export class QanFilterComponent implements OnInit, OnDestroy {
   changeFilterState(event = new QanFilterModel(), state = false) {
     if (event.groupName) {
       const filtersGroup = this.filters.find(group => group.name === event.groupName);
-
       filtersGroup.values.find(value => value.filterName === event.filterName).state = state;
-      this.saveConfiguration(filtersGroup);
     } else {
       this.filters.forEach(group => {
         group.values.forEach(value => value.state = state);
-        this.saveConfiguration(group);
       });
     }
+    this.setConfigs();
   }
 
   findFilters(searchValue) {
@@ -80,8 +79,7 @@ export class QanFilterComponent implements OnInit, OnDestroy {
     return values.filter(value => value.state === true).length;
   }
 
-  saveConfiguration(group) {
-    localStorage.setItem(group.name, JSON.stringify(group));
+  setConfigs() {
     this.qanFilterService.setFilterConfigs(this.filters);
   }
 }

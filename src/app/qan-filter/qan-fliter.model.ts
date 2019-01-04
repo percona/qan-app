@@ -3,8 +3,10 @@ export class QanFilterModel {
   state: boolean;
   groupName: string;
 
-  constructor(configurations: any = [], groupName: string = '', filterName: string = '') {
-    const state = configurations.length ? configurations.find(value => filterName === value.filterName).state : false;
+  constructor(configs: any = [], groupName: string = '', filterName: string = '') {
+    const isFilterName = configs.find(value => filterName === value.filterName);
+    const state = configs.length && !!isFilterName ? isFilterName.state : false;
+
     this.filterName = filterName;
     this.state = state;
     this.groupName = groupName;

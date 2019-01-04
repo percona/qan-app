@@ -42,7 +42,7 @@
             <div *ngIf="filterGroup.values.length" class="filter-group__filters">
               <ng-container *ngFor="let value of filterGroup.values; let index = index">
                 <label *ngIf="index <= limits[filterGroup.name]" class="checkbox-container">
-                  <input (change)="saveConfiguration(filterGroup, value)"
+                  <input (change)="setConfigs()"
                          [(ngModel)]="value.state"
                          type="checkbox"
                          class="checkbox-container__main-input">
