@@ -11,23 +11,22 @@
     </div>
   </div>
   <section *ngIf="isToggleMenu" class="filter-menu__body">
-    <form class="query-search query-search--clicked column-configuration__search">
-      <input (keyup)="findFilters(filterSearchValue)"
-             [(ngModel)]="filterSearchValue"
-             name="searchValue"
-             class="input-field query-search__input column-configuration__input"
-             type="text" placeholder="Type to search">
-      <button class="query-search__button column-configuration__button" type="submit">
-        <i class="fa fa-search"></i>
-      </button>
-    </form>
-
     <ngb-tabset class="pmm-tabset">
       <ngb-tab class="pmm-tab">
         <ng-template ngbTabTitle class="pmm-tab-title">
           <span>Filters</span>
         </ng-template>
         <ng-template ngbTabContent class="pmm-tab-content">
+          <form class="query-search query-search--clicked column-configuration__search">
+            <input (keyup)="findFilters(filterSearchValue)"
+                   [(ngModel)]="filterSearchValue"
+                   name="searchValue"
+                   class="input-field query-search__input column-configuration__input"
+                   type="text" placeholder="Type to search">
+            <button class="query-search__button column-configuration__button" type="submit">
+              <i class="fa fa-search"></i>
+            </button>
+          </form>
           <div *ngFor="let filterGroup of filtersSearchedValues" class="filter-menu__filter-group">
             <div *ngIf="filterGroup.values.length" class="filter-group__title">
               <span class="title-text {{filterGroup.name.toLowerCase()}}">
@@ -52,6 +51,7 @@
               </ng-container>
             </div>
           </div>
+          <span *ngIf="isEmptySearch" class="empty-search">No items found...</span>
         </ng-template>
       </ngb-tab>
       <ngb-tab [disabled]="!selected.length">
@@ -66,7 +66,8 @@
             </div>
             <div class="selected-labels">
               <ng-container *ngFor="let selectedLabel of selected; let index = index">
-                <span *ngIf="!index || selectedLabel.groupName !== selected[index - 1].groupName" class="title-text {{selectedLabel.groupName.toLowerCase()}}">
+                <span *ngIf="!index || selectedLabel.groupName !== selected[index - 1].groupName"
+                      class="title-text {{selectedLabel.groupName.toLowerCase()}}">
                 {{selectedLabel.groupName}}:
                 </span>
                 <div class="selected {{selectedLabel.groupName.toLowerCase()}}">

@@ -76,6 +76,7 @@ button:not([type="submit"]) {
 
 .filter-menu__body {
   width: 280px;
+  height: 735px;
   padding: 0 var(--menu-padding) 40px;
 }
 
@@ -255,4 +256,14 @@ button:not([type="submit"]) {
   margin-left: 1px;
   margin-bottom: 15px;
   font-size: 9px;
+}
+
+.query-search {
+  margin-top: var(--main-bottom-indent);
+  margin-bottom: 0;
+}
+
+.empty-search {
+  display: flex;
+  margin: 10px 0;
 }

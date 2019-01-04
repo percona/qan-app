@@ -15,6 +15,7 @@ export class QanFilterComponent implements OnInit, OnDestroy {
   public filters: any;
   public filterSearchValue = '';
   public filtersSearchedValues = [];
+  public isEmptySearch = false;
   public autocomplete: Array<{}> = [];
   public selected: Array<{}> = [];
   private filterSubscription: any;
@@ -67,12 +68,14 @@ export class QanFilterComponent implements OnInit, OnDestroy {
   findFilters(searchValue) {
     if (!searchValue) {
       this.filtersSearchedValues = this.filters;
+      this.isEmptySearch = false;
       return;
     }
 
     this.filtersSearchedValues = [];
     this.filters.forEach(item => this.filtersSearchedValues
       .push({name: item.name, values: item.values.filter(bv => bv.filterName.includes(searchValue))}));
+    this.isEmptySearch = this.filtersSearchedValues.every(item => item.values.length === 0);
   }
 
   countFilters(item) {
