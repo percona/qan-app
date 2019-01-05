@@ -5,6 +5,7 @@
 .pmm-tabset .nav.nav-tabs {
   display: flex;
   justify-content: space-around !important;
+  margin-bottom: var(--main-bottom-indent);
   border-bottom: 1px solid #000;
 }
 

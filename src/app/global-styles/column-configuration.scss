@@ -22,19 +22,6 @@
   border-bottom: 0.1em solid var(--page-background);
 }
 
-.column-configuration__search {
-  margin-bottom: var(--main-bottom-indent);
-}
-
-.column-configuration__input,
-.column-configuration__button {
-  background-color: var(--page-background);
-}
-
-.column-configuration__input {
-  width: 100%;
-}
-
 //triangle
 .triangle {
   --trinagle-size: 7px;

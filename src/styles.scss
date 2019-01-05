@@ -12,7 +12,7 @@
 @import "app/global-styles/select.scss";
 @import "app/global-styles/checkbox";
 @import "app/global-styles/configuration-panel";
-@import "app/global-styles/query-search";
+@import "app/global-styles/search";
 @import "app/global-styles/column-configuration";
 @import "app/global-styles/switcher";
 @import "app/global-styles/overlay";
@@ -20,6 +20,8 @@
 @import "app/global-styles/spinner";
 @import "app/global-styles/charts";
 @import "app/global-styles/app-tooltip";
+@import "app/global-styles/close-icon";
+@import "app/global-styles/badge";
 @import "app/global-styles/not-used";
 
 *, *:after, *:before {

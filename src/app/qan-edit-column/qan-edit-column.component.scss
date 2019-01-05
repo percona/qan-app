@@ -36,3 +36,7 @@ input:disabled ~ .checkbox-container__checkmark,
 input:disabled ~ .checkbox-container__label-text {
   opacity: 0.6;
 }
+
+.search {
+  margin-bottom: var(--main-bottom-indent);
+}

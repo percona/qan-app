@@ -735,12 +735,12 @@
   <section *ngIf="!!queryExample || !!explainError || !!explainJson || !!explainVisual || !!explainClassic">
     <header class="configuration-panel">
       <h3 class="configuration-panel__title">EXPLAIN</h3>
-      <form class="configuration-panel__options center-children query-search query-search--clicked">
-        <span class="fa fa-database" aria-hidden="true"></span>
+      <label for="databaseInput"><i class="fa fa-database" aria-hidden="true"></i></label>
+      <form class="configuration-panel__options center-children search">
         <input [(ngModel)]="dbName" [ngModelOptions]="{standalone: true}"
-               type="text" class="input-field query-search__input query-search__input--small"
+               type="text" class="input-field search__input search__input--small"
                id="databaseInput" placeholder="`database-name`">
-        <button (click)="getExplain()" [disabled]="!dbName" class="query-search__button" type="submit">
+        <button (click)="getExplain()" [disabled]="!dbName" class="search__button" type="submit">
           EXPLAIN
         </button>
       </form>
@@ -857,12 +857,12 @@
   <section *ngIf="!!createTable || !!createTableError || !!statusTable || !!statusTableError || !!indexTable || !!indexTableError">
     <header class="configuration-panel">
       <h3 class="configuration-panel__title">TABLES</h3>
-      <form (submit)="addDBTable()" class="configuration-panel__options center-children query-search query-search--clicked">
-        <label for="dbTblNamesInput">DB and table</label>
+      <label for="dbTblNamesInput">DB and table</label>
+      <form (submit)="addDBTable()" class="configuration-panel__options center-children search">
         <input [(ngModel)]="newDBTblNames" [ngModelOptions]="{standalone: true}"
-               type="text" class="input-field query-search__input query-search__input--small"
+               type="text" class="input-field search__input search__input--small"
                id="dbTblNamesInput" placeholder="`database-name`.`table-name`">
-        <button (click)="addDBTable();" [disabled]="isDemo || !newDBTblNames" class="query-search__button" type="submit">
+        <button (click)="addDBTable();" [disabled]="isDemo || !newDBTblNames" class="search__button" type="submit">
           ADD
         </button>
       </form>
