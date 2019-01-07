@@ -11,50 +11,50 @@
     </div>
   </div>
   <section *ngIf="isToggleMenu" class="filter-menu__body">
-    <ngb-tabset class="pmm-tabset">
-      <ngb-tab title="Filters">
+    <ngb-tabset class="pmm-tabset" #tabs>
+      <ngb-tab title="Filters" id="filters-tab" >
         <ng-template ngbTabContent>
           <div class="filter-menu__body-content">
-            <div class="sticky-wrapper">
-              <form class="search search--no-border">
-                <input (keyup)="findFilters(filterSearchValue)"
-                       [(ngModel)]="filterSearchValue"
-                       name="searchValue"
-                       class="search__input input-field"
-                       type="text" placeholder="Type to search">
-                <button class="search__button" type="submit">
-                  <i class="fa fa-search"></i>
-                </button>
-              </form>
-            </div>
-            <div *ngFor="let filterGroup of filtersSearchedValues" class="filter-menu__filter-group">
-              <div *ngIf="filterGroup.values.length" class="filter-group__title sticky-wrapper">
+            <form class="search search--no-border">
+              <input (keyup)="findFilters(filterSearchValue)"
+                     [(ngModel)]="filterSearchValue"
+                     name="searchValue"
+                     class="search__input input-field"
+                     type="text" placeholder="Type to search">
+              <button class="search__button" type="submit">
+                <i class="fa fa-search"></i>
+              </button>
+            </form>
+            <div class="body-content__filters">
+              <div *ngFor="let filterGroup of filtersSearchedValues" class="filter-menu__filter-group">
+                <div *ngIf="filterGroup.values.length" class="filter-group__title">
               <span class="title-text {{filterGroup.name.toLowerCase()}}">
                 {{filterGroup.name}} {{countFilters(filterGroup)}}:
               </span>
-                <button *ngIf="filterGroup.values.length > mainLimit"
-                        (click)="getAll(filterGroup)" class="help-button">
-                  {{limits[filterGroup.name] <= mainLimit ? 'see all' : 'short list'}}
-                </button>
+                  <button *ngIf="filterGroup.values.length > mainLimit"
+                          (click)="getAll(filterGroup)" class="help-button">
+                    {{limits[filterGroup.name] <= mainLimit ? 'see all' : 'short list'}}
+                  </button>
+                </div>
+                <div *ngIf="filterGroup.values.length" class="filter-group__filters">
+                  <ng-container *ngFor="let value of filterGroup.values; let index = index">
+                    <label *ngIf="index <= limits[filterGroup.name]" class="checkbox-container">
+                      <input (change)="setConfigs()"
+                             [(ngModel)]="value.state"
+                             type="checkbox"
+                             class="checkbox-container__main-input">
+                      <span class="checkbox-container__checkmark"></span>
+                      <span class="checkbox-container__label-text">{{value.filterName}}</span>
+                    </label>
+                  </ng-container>
+                </div>
               </div>
-              <div *ngIf="filterGroup.values.length" class="filter-group__filters">
-                <ng-container *ngFor="let value of filterGroup.values; let index = index">
-                  <label *ngIf="index <= limits[filterGroup.name]" class="checkbox-container">
-                    <input (change)="setConfigs()"
-                           [(ngModel)]="value.state"
-                           type="checkbox"
-                           class="checkbox-container__main-input">
-                    <span class="checkbox-container__checkmark"></span>
-                    <span class="checkbox-container__label-text">{{value.filterName}}</span>
-                  </label>
-                </ng-container>
-              </div>
+              <span *ngIf="isEmptySearch" class="filter-menu__no-items">No items found...</span>
             </div>
-            <span *ngIf="isEmptySearch" class="filter-menu__no-items">No items found...</span>
           </div>
         </ng-template>
       </ngb-tab>
-      <ngb-tab [disabled]="!selected.length">
+      <ngb-tab [disabled]="!selected.length" id="checked-tab">
         <ng-template ngbTabTitle>
           <span>Checked</span>
           <span *ngIf="selected.length" class="badge">{{selected.length}}</span>
@@ -62,7 +62,7 @@
         <ng-template ngbTabContent>
           <div class="filter-menu__body-content">
             <div class="filter-group__title no-indents">
-              <button (click)="changeFilterState()" class="help-button">Reset all</button>
+              <button (click)="changeFilterState()"  class="help-button">Reset all</button>
             </div>
             <div class="checked-content__chips-list">
               <ng-container *ngFor="let selectedLabel of selected; let index = index">

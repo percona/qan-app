@@ -1,6 +1,7 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
+import {Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {QanFilterService} from './qan-filter.service';
 import {QanFilterModel} from './qan-fliter.model';
+import {NgbTabset} from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-qan-filter',
@@ -8,6 +9,9 @@ import {QanFilterModel} from './qan-fliter.model';
   styleUrls: ['./qan-filter.component.scss']
 })
 export class QanFilterComponent implements OnInit, OnDestroy {
+
+  @ViewChild('tabs')
+  private tabs: NgbTabset;
 
   public isToggleMenu = false;
   public mainLimit = 4;
@@ -61,6 +65,7 @@ export class QanFilterComponent implements OnInit, OnDestroy {
       this.filters.forEach(group => {
         group.values.forEach(value => value.state = state);
       });
+      this.tabs.select('filters-tab');
     }
     this.setConfigs();
   }

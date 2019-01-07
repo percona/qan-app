@@ -70,40 +70,17 @@ button:not([type="submit"]) {
 
 .filter-menu__body {
   width: 280px;
-  height: 735px;
-  overflow-y: scroll;
   padding: 0 var(--menu-padding) 40px;
 }
 
-.filter-menu__body-content {
-  position: relative;
-}
-
-.filter-menu__body-content > *:not(.sticky-wrapper) {
+.filter-menu__body-content > *,
+.body-content__filters > * {
   margin-bottom: var(--between-indent);
 }
 
 .filter-menu__body-content > .filter-group__title.no-indents {
   margin: 0;
   padding: 0;
-}
-
-.sticky-wrapper {
-  position: sticky;
-  top: 0;
-  z-index: 999;
-
-  height: max-content;
-  background-color: var(--main-border-color);
-}
-
-.sticky-wrapper > .search {
-  margin-bottom: var(--between-indent);
-}
-
-.sticky-wrapper.filter-group__title {
-  z-index: 998;
-  top: 43px;
 }
 
 .filter-group__title {
