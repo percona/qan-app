@@ -2,6 +2,7 @@ import {Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {QanFilterService} from './qan-filter.service';
 import {QanFilterModel} from './qan-fliter.model';
 import {NgbTabset} from '@ng-bootstrap/ng-bootstrap';
+import {PerfectScrollbarConfigInterface} from 'ngx-perfect-scrollbar';
 
 @Component({
   selector: 'app-qan-filter',
@@ -23,6 +24,9 @@ export class QanFilterComponent implements OnInit, OnDestroy {
   public autocomplete: Array<{}> = [];
   public selected: Array<{}> = [];
   private filterSubscription: any;
+  public scrollbarConfig: PerfectScrollbarConfigInterface = {
+
+  };
 
   constructor(private qanFilterService: QanFilterService) {
     this.qanFilterService.getFilterConfigs();

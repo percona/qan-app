@@ -37,6 +37,7 @@
     "jszip": "^3.1.5",
     "moment": "^2.22.2",
     "ngx-clipboard": "^11.1.9",
+    "ngx-perfect-scrollbar": "^7.1.0",
     "numeral": "2.0.6",
     "renderjson": "github:caldwell/renderjson",
     "rxjs": "^6.3.3",

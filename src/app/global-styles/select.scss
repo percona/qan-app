@@ -124,8 +124,7 @@
 }
 
 .pmm-select--filter.ng-select.ng-select-multiple .ng-select-container .ng-value-container .ng-value {
-  display: flex;
-  flex-direction: row-reverse;
+  display: inline-flex;
   align-items: center;
 
   margin-bottom: 0;
@@ -199,6 +198,10 @@
 
 .pmm-select--filter.ng-select.ng-select-multiple .ng-select-container .ng-value-container .ng-value .chips .ng-value-icon.right {
   border-left: none;
+}
+
+.pmm-select--filter.ng-select.ng-select-multiple .ng-select-container .ng-value-container .pmm-select__pmm-scrollbar .ps-content {
+  display: flex;
 }
 
 .chips {

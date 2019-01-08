@@ -30,9 +30,10 @@ import { NgSelectModule } from '@ng-select/ng-select';
 import { QueryTableConfigurationService } from '../query-profile/query-table-configuration.service';
 import { QanFilterComponent } from '../qan-filter/qan-filter.component';
 import { QanFilterService } from '../qan-filter/qan-filter.service';
+import { PerfectScrollbarModule } from 'ngx-perfect-scrollbar';
 
 @NgModule({
-    imports: [CommonModule, SharedModule, ClipboardModule, NgSelectModule],
+    imports: [CommonModule, SharedModule, ClipboardModule, NgSelectModule,  PerfectScrollbarModule],
     declarations: [NavComponent, PageNotFoundComponent, QueryProfileComponent,
         MySQLQueryDetailsComponent, MongoQueryDetailsComponent, QanFilterComponent,
         SummaryComponent, SettingsComponent, JSONTreeComponent, RemoteInstancesListComponent, QanEditColumnComponent],
@@ -41,7 +42,7 @@ import { QanFilterService } from '../qan-filter/qan-filter.service';
         SummaryComponent, SettingsComponent, JSONTreeComponent],
     providers: [InstanceService, QueryProfileService, MySQLQueryDetailsService,
         MongoQueryDetailsService, SummaryService, SettingsService, AddAmazonRDSService, AddRemoteInstanceService, BaseQueryDetailsService,
-      RemoteInstancesListService, QueryTableConfigurationService, QanFilterService, ]
+      RemoteInstancesListService, QueryTableConfigurationService, QanFilterService ]
 })
 export class CoreModule {
 
