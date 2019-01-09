@@ -24,9 +24,7 @@ export class QanFilterComponent implements OnInit, OnDestroy {
   public autocomplete: Array<{}> = [];
   public selected: Array<{}> = [];
   private filterSubscription: any;
-  public scrollbarConfig: PerfectScrollbarConfigInterface = {
-
-  };
+  public scrollbarConfig: PerfectScrollbarConfigInterface = {};
 
   constructor(private qanFilterService: QanFilterService) {
     this.qanFilterService.getFilterConfigs();
@@ -40,6 +38,12 @@ export class QanFilterComponent implements OnInit, OnDestroy {
       this.groupSelected();
     });
     this.filtersSearchedValues = this.filters;
+  }
+
+  setFilterHeight() {
+    const qanTable = document.getElementById('qanTable');
+    const filters = document.getElementsByClassName('filter-menu') as HTMLCollectionOf<HTMLElement>;
+    filters[0].style.setProperty('--filters-height', `${qanTable.offsetHeight}px`);
   }
 
   ngOnInit() {
@@ -69,9 +73,9 @@ export class QanFilterComponent implements OnInit, OnDestroy {
       this.filters.forEach(group => {
         group.values.forEach(value => value.state = state);
       });
-      this.tabs.select('filters-tab');
     }
     this.setConfigs();
+    if (!this.selected.length && this.isToggleMenu) this.tabs.select('filters-tab');
   }
 
   findFilters(searchValue) {

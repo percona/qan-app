@@ -1,5 +1,5 @@
 import {CoreComponent, QueryParams, QanError} from '../core/core.component';
-import {Component, OnChanges, OnInit} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {InstanceService} from '../core/instance.service';
 import {QueryProfileService} from './query-profile.service';
 import {Router, ActivatedRoute} from '@angular/router';
@@ -13,7 +13,7 @@ const queryProfileError = 'No data. Please check pmm-client and database configu
   templateUrl: 'query-profile.component.html',
   styleUrls: ['./query-profile.component.scss'],
 })
-export class QueryProfileComponent extends CoreComponent {
+export class QueryProfileComponent extends CoreComponent implements OnInit {
 
   public queryProfile: Array<{}>;
   public profileTotal;
@@ -55,6 +55,9 @@ export class QueryProfileComponent extends CoreComponent {
         this.selectedOption = '';
       }
     });
+  }
+
+  ngOnInit() {
   }
 
   checkEmptyColumn(selected) {

@@ -26,6 +26,7 @@ button:not([type="submit"]) {
   --toggle-color: rgb(204, 204, 204);
   --button-title-color: rgb(227, 132, 0);
   --filters-height: 525px;
+  --difference: 33px;
 
   position: absolute;
   top: 0;
@@ -74,12 +75,12 @@ button:not([type="submit"]) {
 
 .filter-menu__filters {
   position: relative;
-  height: var(--filters-height);
+  height: calc(var(--filters-height) + var(--difference));
 }
 
 .filter-menu__filters--chips {
   padding-right: var(--lr-menu-indent);
-  height: calc(var(--filters-height) + var(--search-height) + var(--tb-menu-indent));
+  height: calc(var(--filters-height) + var(--search-height) + var(--tb-menu-indent) + var(--difference));
 }
 
 .filters__filter-group {

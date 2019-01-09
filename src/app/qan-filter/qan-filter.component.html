@@ -1,6 +1,6 @@
 <aside [class.filter-menu--open]="isToggleMenu" class="filter-menu">
   <div class="filter-menu__header">
-    <button (click)="isToggleMenu = !isToggleMenu" class="filter-menu__toggle">
+    <button (click)="setFilterHeight(); isToggleMenu = !isToggleMenu" class="filter-menu__toggle">
       <i class="fa fa-list" aria-hidden="true"></i>
     </button>
     <div *ngIf="isToggleMenu" class="filter-menu__title">
@@ -66,7 +66,9 @@
             <perfect-scrollbar [config]="scrollbarConfig" class="pmm-scrollbar">
               <div class="filter-menu__filters filter-menu__filters--chips">
                 <div class="filter-group__title filter-group__title--no-padding">
-                  <button (click)="changeFilterState()" class="title__button">Reset all</button>
+                  <button (click)="changeFilterState()" class="title__button">
+                    Reset all <i class="fa fa-times" aria-hidden="true"></i>
+                  </button>
                 </div>
                 <div class="filters__chips-list">
                   <ng-container *ngFor="let selectedLabel of selected; let index = index">
@@ -99,7 +101,6 @@
              (clear)="changeFilterState()"
              (remove)="changeFilterState($event.value)"
              bindLabel="filterName"
-             groupBy="groupName"
              clearAllText="Reset"
              placeholder="Search by..."
              class="pmm-select pmm-select--filter"
@@ -120,8 +121,12 @@
         <span class="close" (click)="clear(item)" aria-hidden="true"></span>
       </div>
     </ng-template>
-    <ng-template ng-optgroup-tmp let-item="item">
-      <span class="{{item.groupName.toLowerCase()}}">{{item.groupName}}</span>
+    <!--Group template-->
+    <!--<ng-template ng-optgroup-tmp let-item="item">-->
+    <!--<span class="{{item.groupName.toLowerCase()}}">{{item.groupName}}</span>-->
+    <!--</ng-template>-->
+    <ng-template ng-option-tmp let-item="item" let-index="index" let-search="searchTerm">
+      <span class="pmm-select__option {{item.groupName.toLowerCase()}}">{{item.groupName}}: {{item.filterName}}</span>
     </ng-template>
   </ng-select>
 </section>
