@@ -1,11 +1,7 @@
 :host {
-  --menu-indent: 1em;
-  --close-aside-width: 55px;
+  --lr-search-indent: 25px;
   --filter-row-height: 50px;
-  --hamburger-button-color: rgb(204, 204, 204);
-  --search-lr-indent: 25px;
-  --help-color: rgb(227,132,0);
-  --between-indent: 10px;
+  --close-aside-width: 55px;
 
   position: relative;
   display: flex;
@@ -13,7 +9,7 @@
 
   min-height: var(--filter-row-height);
   margin-bottom: var(--main-bottom-indent);
-  padding-right: var(--search-lr-indent);
+  padding-right: var(--lr-search-indent);
   background-color: var(--main-border-color);
 }
 
@@ -24,19 +20,25 @@ button:not([type="submit"]) {
 }
 
 .filter-menu {
+  --lr-menu-indent: 1em;
+  --tb-menu-indent: 10px;
+  --search-height: 35px;
+  --toggle-color: rgb(204, 204, 204);
+  --button-title-color: rgb(227, 132, 0);
+  --filters-height: 525px;
+
   position: absolute;
   top: 0;
   z-index: 1060;
 
   width: var(--close-aside-width);
-  height: 100%;
+  height: auto;
   font-size: 0.9em;
   background-color: var(--main-border-color);
 }
 
 .filter-menu--open {
   width: auto;
-  height: unset;
 
   -webkit-box-shadow: 2px 3px 5px -1px rgba(0, 0, 0, 0.75);
   -moz-box-shadow: 2px 3px 5px -1px rgba(0, 0, 0, 0.75);
@@ -48,7 +50,7 @@ button:not([type="submit"]) {
   align-items: center;
 
   height: var(--filter-row-height);
-  padding-right: var(--menu-indent);
+  padding-right: var(--lr-menu-indent);
 }
 
 .filter-menu__title {
@@ -67,34 +69,28 @@ button:not([type="submit"]) {
 
 .filter-menu__body {
   width: 280px;
-  padding: 0 0 10px var(--menu-indent);
+  padding: 0 0 10px var(--lr-menu-indent);
 }
 
-.filter-menu__body-content > *,
-.body-content__filters > * {
-  margin-bottom: var(--between-indent);
-}
-
-.body-content--chips {
-  padding-right: var(--menu-indent);
-}
-
-.body-content__filters {
+.filter-menu__filters {
   position: relative;
-  height: 515px; // height by height of table
+  height: var(--filters-height);
 }
 
-.filter-menu__body-content > .filter-group__title.no-indents {
-  margin: 0;
-  padding: 0;
+.filter-menu__filters--chips {
+  padding-right: var(--lr-menu-indent);
+  height: calc(var(--filters-height) + var(--search-height) + var(--tb-menu-indent));
 }
 
-.filter-menu__filter-group {
-  margin-right: var(--menu-indent);
+.filters__filter-group {
+  margin-right: var(--lr-menu-indent);
+  margin-bottom: var(--tb-menu-indent);
 }
 
-.body-content__search {
-  margin-right: var(--menu-indent);
+.filter-menu__search {
+  height: var(--search-height);
+  margin-right: var(--lr-menu-indent);
+  margin-bottom: var(--tb-menu-indent);
 }
 
 .filter-group__title {
@@ -103,47 +99,51 @@ button:not([type="submit"]) {
   align-items: center;
 
   width: 100%;
-  padding-bottom: var(--between-indent);
+  padding-bottom: var(--tb-menu-indent);
 }
 
-.title-text {
+.filter-group__title--no-padding {
+  padding-bottom: 0;
+}
+
+.title__text {
   font-weight: 600;
 }
 
 .filter-group__filters {
   display: grid;
-  grid-row-gap: var(--between-indent);
+  grid-row-gap: var(--tb-menu-indent);
 
-  padding-bottom: var(--between-indent);
+  padding-bottom: var(--tb-menu-indent);
   border-bottom: 1px solid rgb(0, 0, 0);
 }
 
 .filter-menu__toggle {
-  margin-left: var(--search-lr-indent);
+  margin-left: var(--lr-search-indent);
 
-  color: var(--hamburger-button-color);
+  color: var(--toggle-color);
   line-height: 0;
   font-size: 1.2em;
 }
 
-.filter-menu__no-items {
+.filters__empty-text {
   display: flex;
-  margin: var(--between-indent) 0;
+  margin: var(--tb-menu-indent) 0;
 }
 
-.checked-content__chips-list {
+.filters__chips-list {
   display: flex;
   flex-wrap: wrap;
 
   border-bottom: 1px solid black;
 }
 
-.checked-content__chips-list > .chips {
+.filters__chips-list > .chips {
   margin-right: 3px;
-  margin-bottom: var(--between-indent);
+  margin-bottom: var(--tb-menu-indent);
 }
 
-.checked-content__chips-list .filter-group__title:not(:first-child) {
+.filters__chips-list .filter-group__title:not(:first-child) {
   padding-top: 10px;
   border-top: 1px solid black;
 }
@@ -153,9 +153,9 @@ button:not([type="submit"]) {
   font-weight: 100;
 }
 
-.help-button {
+.title__button {
   margin-left: auto;
-  color: var(--help-color);
+  color: var(--button-title-color);
 }
 
 .search-wrapper {
@@ -186,5 +186,5 @@ button:not([type="submit"]) {
 
 .badge {
   --color: var(--main-text-color);
-  --bg-color: var(--help-color);
+  --bg-color: var(--button-title-color);
 }

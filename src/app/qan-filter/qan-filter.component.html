@@ -4,7 +4,7 @@
       <i class="fa fa-list" aria-hidden="true"></i>
     </button>
     <div *ngIf="isToggleMenu" class="filter-menu__title">
-      <span class="title-text">Filter by</span>
+      <span class="title__text">Filter by</span>
       <button (click)="isToggleMenu = !isToggleMenu" class="filter-menu__close">
         <i class="fa fa-times" aria-hidden="true"></i>
       </button>
@@ -14,8 +14,8 @@
     <ngb-tabset class="pmm-tabset" #tabs>
       <ngb-tab title="Filters" id="filters-tab">
         <ng-template ngbTabContent>
-          <div class="filter-menu__body-content body-content--filters" id="body-content-filters">
-            <form class="search search--no-border body-content__search">
+          <div class="pmm-tabset__tab-content" id="body-content-filters">
+            <form class="filter-menu__search search search--no-border">
               <input (keyup)="findFilters(filterSearchValue)"
                      [(ngModel)]="filterSearchValue"
                      name="searchValue"
@@ -26,14 +26,14 @@
               </button>
             </form>
             <perfect-scrollbar [config]="scrollbarConfig" class="pmm-scrollbar">
-              <div class="body-content__filters">
-                <div *ngFor="let filterGroup of filtersSearchedValues" class="filter-menu__filter-group">
+              <div class="filter-menu__filters">
+                <div *ngFor="let filterGroup of filtersSearchedValues" class="filters__filter-group">
                   <div *ngIf="filterGroup.values.length" class="filter-group__title">
-                    <span class="title-text {{filterGroup.name.toLowerCase()}}">
+                    <span class="title__text {{filterGroup.name.toLowerCase()}}">
                       {{filterGroup.name}} {{countFilters(filterGroup)}}:
                     </span>
                     <button *ngIf="filterGroup.values.length > mainLimit"
-                            (click)="getAll(filterGroup)" class="help-button">
+                            (click)="getAll(filterGroup)" class="title__button">
                       <i class="fa fa-chevron-{{limits[filterGroup.name] <= mainLimit ? 'right' : 'down'}}" aria-hidden="true"></i>
                     </button>
                   </div>
@@ -50,7 +50,7 @@
                     </ng-container>
                   </div>
                 </div>
-                <span *ngIf="isEmptySearch" class="filter-menu__no-items">No items found...</span>
+                <span *ngIf="isEmptySearch" class="filters__empty-text">No items found...</span>
               </div>
             </perfect-scrollbar>
           </div>
@@ -62,24 +62,28 @@
           <span *ngIf="selected.length" class="badge">{{selected.length}}</span>
         </ng-template>
         <ng-template ngbTabContent>
-          <div class="filter-menu__body-content body-content--chips" id="body-content-chips">
-            <div class="filter-group__title no-indents">
-              <button (click)="changeFilterState()" class="help-button">Reset all</button>
-            </div>
-            <div class="checked-content__chips-list">
-              <ng-container *ngFor="let selectedLabel of selected; let index = index">
-                <div *ngIf="!index || selectedLabel.groupName !== selected[index - 1].groupName"
-                     class="filter-group__title">
-                  <span class="title-text {{selectedLabel.groupName.toLowerCase()}}">
+          <div class="pmm-tabset__tab-content" id="body-content-chips">
+            <perfect-scrollbar [config]="scrollbarConfig" class="pmm-scrollbar">
+              <div class="filter-menu__filters filter-menu__filters--chips">
+                <div class="filter-group__title filter-group__title--no-padding">
+                  <button (click)="changeFilterState()" class="title__button">Reset all</button>
+                </div>
+                <div class="filters__chips-list">
+                  <ng-container *ngFor="let selectedLabel of selected; let index = index">
+                    <div *ngIf="!index || selectedLabel.groupName !== selected[index - 1].groupName"
+                         class="filter-group__title">
+                  <span class="title__text {{selectedLabel.groupName.toLowerCase()}}">
                     {{selectedLabel.groupName}}:
                   </span>
+                    </div>
+                    <div class="chips {{selectedLabel.groupName.toLowerCase()}}">
+                      <span class="ng-value-label">{{selectedLabel.filterName}}</span>
+                      <span (click)="changeFilterState(selectedLabel)" class="close"></span>
+                    </div>
+                  </ng-container>
                 </div>
-                <div class="chips {{selectedLabel.groupName.toLowerCase()}}">
-                  <span class="ng-value-label">{{selectedLabel.filterName}}</span>
-                  <span (click)="changeFilterState(selectedLabel)" class="close"></span>
-                </div>
-              </ng-container>
-            </div>
+              </div>
+            </perfect-scrollbar>
           </div>
         </ng-template>
       </ngb-tab>
