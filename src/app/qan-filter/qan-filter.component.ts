@@ -75,7 +75,7 @@ export class QanFilterComponent implements OnInit, OnDestroy {
       });
     }
     this.setConfigs();
-    if (!this.selected.length && this.isToggleMenu) this.tabs.select('filters-tab');
+    if (!this.selected.length && this.isToggleMenu) { this.tabs.select('filters-tab') }
   }
 
   findFilters(searchValue) {
