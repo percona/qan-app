@@ -31,6 +31,8 @@ export class QueryProfileComponent extends CoreComponent {
   public isFirstSeenChecked = false;
   public testingVariable: boolean;
   public isSearchQuery = false;
+  public isQueryCol = true;
+  public isRowsScannedCol = true;
   public selected = {name: '', columns: []};
   public selectedConfig = {};
   public configs: any;
@@ -171,21 +173,27 @@ export class QueryProfileComponent extends CoreComponent {
 
   onConfigChanges(name) {
     this.selectedConfig = {};
-    this.currentColumn = name;
-    this.setCurrentSparkline(name);
     this.selected.columns.forEach(column =>
       this.selectedConfig[column.name.toLocaleLowerCase().replace(/\s+/g, '')] = column.value);
+    this.currentColumn = name;
+    this.setCurrentSparkline(name, this.selectedConfig);
   }
 
-  setCurrentSparkline(name) {
+  setCurrentSparkline(name, config) {
     switch (name) {
       case 'Load':
+        this.isQueryCol = config.sparkline || config.value;
+        this.isRowsScannedCol = config.percentage;
         this.yKey = 'Query_load';
         break;
       case 'Count':
+        this.isQueryCol = config.sparkline || config.queriespersecond;
+        this.isRowsScannedCol =  config.value || config.percentage;
         this.yKey = 'Query_count';
         break;
       case 'Avg Latency':
+        this.isQueryCol = config.sparkline || config.value;
+        this.isRowsScannedCol = config.distribution;
         this.yKey = 'Query_time_avg';
         break;
     }

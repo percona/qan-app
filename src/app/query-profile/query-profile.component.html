@@ -59,8 +59,10 @@
       <tr class="pmm-grid-table__row">
         <th class="pmm-grid-table__cell">#</th>
         <th class="pmm-grid-table__cell pmm-grid-table__cell--full">Query Abstract</th>
-        <th class="pmm-grid-table__cell">{{selected.name}}</th>
-        <th class="pmm-grid-table__cell">
+        <th *ngIf="isQueryCol" class="pmm-grid-table__cell">
+          <div class="cell__content--max">{{selected.name}}</div>
+        </th>
+        <th *ngIf="isRowsScannedCol" class="pmm-grid-table__cell">
           <div class="cell__content--max">Rows Scanned</div>
         </th>
       </tr>
@@ -79,7 +81,7 @@
             </button>
           </div>
         </td>
-        <td class="pmm-grid-table__cell">
+        <td *ngIf="isQueryCol" class="pmm-grid-table__cell">
           <div [ngSwitch]="currentColumn" class="pmm-grid-table__sub-table">
             <div *ngIf="selectedConfig?.sparkline" class="scaling-svg-container app-tooltip"
                  [appLoadSparklines]="row.Log"
@@ -104,17 +106,17 @@
             <ng-container *ngSwitchDefault></ng-container>
           </div>
         </td>
-        <td class="pmm-grid-table__cell">
-          <div [ngSwitch]="currentColumn" class="pmm-grid-table__sub-table">
-            <span *ngIf="currentColumn === 'Count' && selectedConfig?.value" id="countValue">
-                  {{row.Stats.Cnt | humanize : 'number'}}
-            </span>
-
+        <td *ngIf="isRowsScannedCol" class="pmm-grid-table__cell">
+          <div [ngSwitch]="currentColumn" class="pmm-grid-table__sub-table" id="rowsCanned">
             <ng-container *ngSwitchCase="'Load'">
               <span *ngIf="selectedConfig?.percentage">
                 {{row.Percentage | humanize : 'percent'}}
               </span>
             </ng-container>
+
+            <span *ngIf="currentColumn === 'Count' && selectedConfig?.value" id="countValue">
+                  {{row.Stats.Cnt | humanize : 'number'}}
+            </span>
 
             <ng-container *ngSwitchCase="'Count'" class="unit unit--percent" id="countPercentage">
               <span *ngIf="selectedConfig?.percentage">{{(row.Stats.Cnt / profileTotal?.Stats.Cnt * 100).toFixed(2)}}</span>
