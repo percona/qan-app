@@ -60,3 +60,18 @@
   border: none;
   background-color: transparent;
 }
+
+.pmm-grid-table__sub-table {
+  display: grid;
+  grid-template-columns: max-content max-content;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.pmm-grid-table__sub-table > * + * {
+  margin-left: 2.3em;
+}
+
+.cell__content--max {
+  width: max-content;
+}
