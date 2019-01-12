@@ -33,7 +33,8 @@ export class QueryProfileComponent extends CoreComponent {
   public isSearchQuery = false;
   public isQueryCol = true;
   public isRowsScannedCol = true;
-  public selected = {name: '', columns: []};
+  public defaultSelected = {name: '', columns: []};
+  public selected = this.defaultSelected;
   public selectedConfig = {};
   public configs: any;
 
@@ -50,9 +51,16 @@ export class QueryProfileComponent extends CoreComponent {
       if (!items.length) {
         return;
       }
+
       this.configs = items.filter((config: any) => !!config.checked);
-      this.selected = this.configs.find(item => item.name === this.selected.name) ? this.selected : this.configs[0];
-      this.onConfigChanges(this.selected.name);
+      const firstElement = this.configs.length ? this.configs[0] : this.defaultSelected;
+      this.selected = this.configs.find(item => item.name === this.selected.name) ? this.selected : firstElement;
+      if (this.selected && this.selected.name) {
+        this.onConfigChanges(this.selected.name);
+      } else {
+        this.isQueryCol = false;
+        this.isRowsScannedCol = false;
+      }
     });
   }
 
@@ -188,7 +196,7 @@ export class QueryProfileComponent extends CoreComponent {
         break;
       case 'Count':
         this.isQueryCol = config.sparkline || config.queriespersecond;
-        this.isRowsScannedCol =  config.value || config.percentage;
+        this.isRowsScannedCol = config.value || config.percentage;
         this.yKey = 'Query_count';
         break;
       case 'Avg Latency':
