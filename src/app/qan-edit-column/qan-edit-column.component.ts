@@ -14,7 +14,6 @@ export class QanEditColumnComponent implements OnInit, OnDestroy {
   public mainCheckboxClass = 'checkbox-container__main-input';
   public configSearchValue = '';
   public configSearchValues = [];
-  public isEmptySearch = false;
 
   constructor(public configService: QueryTableConfigService) {
     this.configService.getConfigurations();
@@ -48,14 +47,12 @@ export class QanEditColumnComponent implements OnInit, OnDestroy {
   findConfigs(searchValue) {
     if (!searchValue) {
       this.configSearchValues = this.configs;
-      this.isEmptySearch = false;
       return;
     }
 
+    searchValue = searchValue.toLowerCase().replace(' ', '');
     this.configSearchValues = [];
-    this.configs.forEach(item => this.configSearchValues
-      .push({name: item.name, checked: item.checked, columns: item.columns
-          .filter(column => column.name.toLocaleLowerCase().includes(searchValue.toLocaleLowerCase()))}));
-    this.isEmptySearch = this.configSearchValues.every(value => value.columns.length === 0);
+    this.configSearchValues = this.configs.filter(config =>
+      config.name.toLowerCase().replace(' ', '').includes(searchValue));
   }
 }

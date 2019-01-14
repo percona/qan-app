@@ -39,7 +39,7 @@
           </label>
         </div>
       </ng-container>
-      <span *ngIf="isEmptySearch" class="menu-options__no-items">No items found...</span>
+      <span *ngIf="!configSearchValues.length" class="menu-options__no-items">No items found...</span>
     </div>
   </div>
 </div>
