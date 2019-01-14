@@ -21,7 +21,7 @@ export class QueryTableConfigService {
       {
         name: 'Avg Latency', columns: ['Sparkline', 'Value', 'Distribution']
       }
-    ].map(configuration => new ColumnConfigModel(configuration, JSON.parse(localStorage.getItem(configuration.name)))))
+    ].map(config => new ColumnConfigModel(config, JSON.parse(localStorage.getItem(config.name)))))
   }
 
   setConfig(config: ColumnConfigModel[]) {
