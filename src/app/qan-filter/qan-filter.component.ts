@@ -75,7 +75,9 @@ export class QanFilterComponent implements OnInit, OnDestroy {
       });
     }
     this.setConfigs();
-    if (!this.selected.length && this.isToggleMenu) { this.tabs.select('filters-tab') }
+    if (!this.selected.length && this.isToggleMenu) {
+      this.tabs.select('filters-tab')
+    }
   }
 
   findFilters(searchValue) {
@@ -84,11 +86,16 @@ export class QanFilterComponent implements OnInit, OnDestroy {
       this.isEmptySearch = false;
       return;
     }
+    searchValue = searchValue.toLowerCase().replace(' ', '');
 
     this.filtersSearchedValues = [];
-    this.filters.forEach(item => this.filtersSearchedValues
-      .push({name: item.name, values: item.values.filter(bv => bv.filterName.includes(searchValue))}));
-    this.isEmptySearch = this.filtersSearchedValues.every(item => item.values.length === 0);
+    const searchByGroup = this.filters.filter(group => group.name.toLowerCase().replace(' ', '').includes(searchValue));
+    const searchByValues = this.filters.map(item => {
+      const values = item.values.filter(value => value.filterName.includes(searchValue));
+      return values.length ? {name: item.name, values: values} : false;
+    });
+    this.filtersSearchedValues =
+      (this.filtersSearchedValues = searchByGroup.length ? searchByGroup : searchByValues).filter(value => value);
   }
 
   countFilters(item) {

@@ -50,7 +50,7 @@
                     </ng-container>
                   </div>
                 </div>
-                <span *ngIf="isEmptySearch" class="filters__empty-text">No items found...</span>
+                <span *ngIf="!filtersSearchedValues.length" class="filters__empty-text">No items found...</span>
               </div>
             </perfect-scrollbar>
           </div>
