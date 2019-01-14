@@ -7,7 +7,9 @@
     <span class="triangle"></span>
 
     <form class="query-search query-search--clicked column-configuration__search">
-      <input name="searchValue"
+      <input (keyup)="findConfigs(configSearchValue)"
+             [(ngModel)]="configSearchValue"
+             name="searchValue"
              class="input-field query-search__input column-configuration__input"
              type="text" placeholder="Type to search">
       <button class="query-search__button column-configuration__button" type="submit">
@@ -16,25 +18,28 @@
     </form>
 
     <div class="column-configuration__menu-options" id="configurationMenu">
-      <div *ngFor="let config of configs">
-        <label class="checkbox-container">
-          <input type="checkbox"
-                 (change)="saveConfig($event, config)"
+      <ng-container *ngFor="let config of configSearchValues">
+        <label *ngIf="config.columns.length" class="checkbox-container checkbox-container--main">
+          <input (change)="setConfig($event, config)"
                  [(ngModel)]="config.checked"
-                 class="{{mainCheckboxClass}}">
+                 class="{{mainCheckboxClass}}"
+                 type="checkbox">
           <span class="checkbox-container__checkmark"></span>
           <span class="checkbox-container__label-text">{{config.name}}</span>
         </label>
 
-        <label *ngFor="let column of config.columns" class="checkbox-container">
-          <input type="checkbox"
-                 (change)="saveConfig($event, config)"
-                 [(ngModel)]="column.value"
-                 [disabled]="!config.checked">
-          <span class="checkbox-container__checkmark"></span>
-          <span class="checkbox-container__label-text">{{column.name}}</span>
-        </label>
-      </div>
+        <div *ngIf="config.columns.length" class="column-configs-wrapper">
+          <label *ngFor="let column of config.columns" class="checkbox-container">
+            <input (change)="setConfig($event, config)"
+                   [(ngModel)]="column.value"
+                   [disabled]="!config.checked"
+                   type="checkbox">
+            <span class="checkbox-container__checkmark"></span>
+            <span class="checkbox-container__label-text">{{column.name}}</span>
+          </label>
+        </div>
+      </ng-container>
+      <span *ngIf="isEmptySearch" class="menu-options__no-items">No items found...</span>
     </div>
   </div>
 </div>
