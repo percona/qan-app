@@ -1,6 +1,6 @@
 import {Injectable} from '@angular/core';
 import {BehaviorSubject} from 'rxjs';
-import {ColumnConfigModel} from '../../qan-edit-column/column-config.model';
+import {ColumnConfigModel} from '../models/column-config.model';
 import 'rxjs/add/operator/map';
 
 @Injectable()
