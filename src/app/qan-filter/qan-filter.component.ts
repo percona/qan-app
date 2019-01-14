@@ -100,4 +100,10 @@ export class QanFilterComponent implements OnInit, OnDestroy {
   setConfigs() {
     this.qanFilterService.setFilterConfigs(this.filters);
   }
+
+  autocompleteSearch(term: string, item: any) {
+    term = term.toLowerCase().replace(' ', '');
+    return item.filterName.toLowerCase().replace(' ', '').includes(term)
+      || item.groupName.toLowerCase().replace(' ', '').includes(term);
+  }
 }
