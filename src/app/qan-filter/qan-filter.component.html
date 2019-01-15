@@ -95,7 +95,7 @@
   <ng-select [items]="autocomplete"
              [(ngModel)]="selected"
              [multiple]="true"
-             [searchFn]="newAutocomplete"
+             [searchFn]="autocompleteSearch"
              (change)="groupSelected()"
              (add)="changeFilterState($event, true)"
              (clear)="changeFilterState()"

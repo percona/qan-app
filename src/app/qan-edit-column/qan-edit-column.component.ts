@@ -1,5 +1,6 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {QueryTableConfigService} from '../core/services/query-table-config.service';
+import {FilterSearchService} from '../core/services/filter-search.service';
 
 @Component({
   selector: 'app-qan-edit-column',
@@ -15,7 +16,7 @@ export class QanEditColumnComponent implements OnInit, OnDestroy {
   public configSearchValue = '';
   public configSearchValues = [];
 
-  constructor(public configService: QueryTableConfigService) {
+  constructor(private configService: QueryTableConfigService, private filterSearchService: FilterSearchService) {
     this.configService.getConfigurations();
     this.subscription = this.configService.source.subscribe(items => {
       this.configs = items;
@@ -50,9 +51,6 @@ export class QanEditColumnComponent implements OnInit, OnDestroy {
       return;
     }
 
-    searchValue = searchValue.toLowerCase().replace(' ', '');
-    this.configSearchValues = [];
-    this.configSearchValues = this.configs.filter(config =>
-      config.name.toLowerCase().replace(' ', '').includes(searchValue));
+    this.configSearchValues = this.configs.filter(config => this.filterSearchService.findBySearch(config.name, searchValue));
   }
 }

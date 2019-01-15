@@ -1,8 +1,4 @@
-import {
-    NgModule,
-    Optional, SkipSelf
-} from '@angular/core';
-
+import { NgModule, Optional, SkipSelf } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { SharedModule } from '../shared/shared.module';
 import { NavComponent } from './nav/nav.component';
@@ -31,6 +27,7 @@ import { QueryTableConfigService } from './services/query-table-config.service';
 import { QanFilterComponent } from '../qan-filter/qan-filter.component';
 import { QanFilterService } from '../qan-filter/qan-filter.service';
 import { PerfectScrollbarModule } from 'ngx-perfect-scrollbar';
+import { FilterSearchService } from './services/filter-search.service';
 
 @NgModule({
     imports: [CommonModule, SharedModule, ClipboardModule, NgSelectModule,  PerfectScrollbarModule],
@@ -42,7 +39,7 @@ import { PerfectScrollbarModule } from 'ngx-perfect-scrollbar';
         SummaryComponent, SettingsComponent, JSONTreeComponent],
     providers: [InstanceService, QueryProfileService, MySQLQueryDetailsService,
         MongoQueryDetailsService, SummaryService, SettingsService, AddAmazonRDSService, AddRemoteInstanceService, BaseQueryDetailsService,
-      RemoteInstancesListService, QueryTableConfigService, QanFilterService]
+      RemoteInstancesListService, QueryTableConfigService, QanFilterService, FilterSearchService]
 })
 export class CoreModule {
 

@@ -3,6 +3,7 @@ import {QanFilterService} from './qan-filter.service';
 import {QanFilterModel} from '../core/models/qan-fliter.model';
 import {NgbTabset} from '@ng-bootstrap/ng-bootstrap';
 import {PerfectScrollbarConfigInterface} from 'ngx-perfect-scrollbar';
+import {FilterSearchService} from '../core/services/filter-search.service';
 
 @Component({
   selector: 'app-qan-filter',
@@ -15,18 +16,18 @@ export class QanFilterComponent implements OnInit, OnDestroy {
   private tabs: NgbTabset;
 
   public isToggleMenu = false;
-  public defaultLimit = 4;
-  public limits = {};
-  public filters: any;
-  public filterSearchValue = '';
-  public filtersSearchedValues = [];
   public isEmptySearch = false;
+  public limits = {};
+  public filtersSearchedValues = [];
   public autocomplete: Array<{}> = [];
   public selected: Array<{}> = [];
+  public defaultLimit = 4;
+  public filterSearchValue = '';
   private filterSubscription: any;
+  public filters: any;
   public scrollbarConfig: PerfectScrollbarConfigInterface = {};
 
-  constructor(private qanFilterService: QanFilterService) {
+  constructor(private qanFilterService: QanFilterService, private filterSearchService: FilterSearchService) {
     this.qanFilterService.getFilterConfigs();
     this.filterSubscription = this.qanFilterService.filterSource.subscribe(items => {
       this.filters = items;
@@ -81,26 +82,21 @@ export class QanFilterComponent implements OnInit, OnDestroy {
   }
 
   findFilters(searchValue) {
+    this.resetToggleFilterMenuLimits();
     if (!searchValue) {
       this.filtersSearchedValues = this.filters;
       this.isEmptySearch = false;
-      this.resetToggleFilterMenuLimits();
       return;
     }
-    searchValue = searchValue.toLowerCase().replace(' ', '');
 
-    this.filtersSearchedValues = [];
-    const searchByGroup = this.filters.filter(group => this.findBySearch(group.name, searchValue));
+    const searchByGroup = this.filters.filter(group => this.filterSearchService.findBySearch(group.name, searchValue));
     const searchByValues = this.filters.map(item => {
-      const values = item.values.filter(value => this.findBySearch(value.filterName, searchValue));
+      const values = item.values.filter(value => this.filterSearchService.findBySearch(value.filterName, searchValue));
       return values.length ? {name: item.name, values: values} : false;
     });
-    this.filtersSearchedValues =
-      (this.filtersSearchedValues = searchByGroup.length ? searchByGroup : searchByValues).filter(value => value);
+    this.filtersSearchedValues = searchByGroup.length ? searchByGroup : searchByValues.filter(value => value);
     if (searchByGroup.length === 1) {
       searchByGroup.forEach(group => this.limits[group.name] = group.values.length);
-    } else {
-      this.resetToggleFilterMenuLimits();
     }
   }
 
@@ -118,16 +114,8 @@ export class QanFilterComponent implements OnInit, OnDestroy {
     this.qanFilterService.setFilterConfigs(this.filters);
   }
 
-  newAutocomplete = (term: string, item: any) => {
-    term = this.transformForSearch(term);
-    return this.findBySearch(item.filterName, term) || this.findBySearch(item.groupName, term);
+  autocompleteSearch = (term: string, item: any) => {
+    return this.filterSearchService.findBySearch(item.filterName, term)
+      || this.filterSearchService.findBySearch(item.groupName, term);
   };
-
-  findBySearch(where: string, what: string) {
-    return this.transformForSearch(where).includes(what);
-  }
-
-  transformForSearch(value: string) {
-    return value.toLowerCase().replace(' ', '')
-  }
 }
