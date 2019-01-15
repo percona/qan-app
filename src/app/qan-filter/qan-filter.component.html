@@ -42,8 +42,7 @@
                       <label *ngIf="index <= limits[filterGroup.name]" class="checkbox-container">
                         <input (change)="setConfigs()"
                                [(ngModel)]="value.state"
-                               type="checkbox"
-                               class="checkbox-container__main-input">
+                               type="checkbox">
                         <span class="checkbox-container__checkmark"></span>
                         <span class="checkbox-container__label-text">{{value.filterName}}</span>
                       </label>
