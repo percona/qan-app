@@ -15,7 +15,7 @@ export class QanFilterComponent implements OnInit, OnDestroy {
   private tabs: NgbTabset;
 
   public isToggleMenu = false;
-  public mainLimit = 4;
+  public defaultLimit = 4;
   public limits = {};
   public filters: any;
   public filterSearchValue = '';
@@ -40,16 +40,10 @@ export class QanFilterComponent implements OnInit, OnDestroy {
     this.filtersSearchedValues = this.filters;
   }
 
-  setFilterHeight() {
-    const qanTable = document.getElementById('qanTable');
-    const filters = document.getElementsByClassName('filter-menu') as HTMLCollectionOf<HTMLElement>;
-    filters[0].style.setProperty('--filters-height', `${qanTable.offsetHeight}px`);
-  }
-
   ngOnInit() {
     this.filters.forEach(group => {
       this.autocomplete = [...this.autocomplete, ...group['values'].slice()];
-      this.limits[group['name']] = this.mainLimit;
+      this.limits[group['name']] = this.defaultLimit;
     });
   }
 
@@ -57,12 +51,18 @@ export class QanFilterComponent implements OnInit, OnDestroy {
     this.filterSubscription.unsubscribe();
   }
 
+  setFilterHeight() {
+    const qanTable = document.getElementById('qanTable');
+    const filters = document.getElementsByClassName('filter-menu') as HTMLCollectionOf<HTMLElement>;
+    filters[0].style.setProperty('--filters-height', `${qanTable.offsetHeight}px`);
+  }
+
   groupSelected() {
     this.selected = [...this.selected.sort((a, b) => a['groupName'].localeCompare(b['groupName']))];
   }
 
   getAll(group) {
-    this.limits[group.name] = this.limits[group.name] <= this.mainLimit ? group.values.length - 1 : this.mainLimit;
+    this.limits[group.name] = this.limits[group.name] <= this.defaultLimit ? group.values.length - 1 : this.defaultLimit;
   }
 
   changeFilterState(event = new QanFilterModel(), state = false) {
@@ -96,6 +96,11 @@ export class QanFilterComponent implements OnInit, OnDestroy {
     });
     this.filtersSearchedValues =
       (this.filtersSearchedValues = searchByGroup.length ? searchByGroup : searchByValues).filter(value => value);
+    if (searchByGroup.length === 1) {
+      searchByGroup.forEach(group => this.limits[group.name] = group.values.length);
+    } else {
+      this.filtersSearchedValues.forEach(value => this.limits[value.name] = this.defaultLimit);
+    }
   }
 
   countFilters(item) {

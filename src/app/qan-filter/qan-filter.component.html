@@ -32,9 +32,9 @@
                     <span class="title__text {{filterGroup.name.toLowerCase()}}">
                       {{filterGroup.name}} {{countFilters(filterGroup)}}:
                     </span>
-                    <button *ngIf="filterGroup.values.length > mainLimit"
+                    <button *ngIf="filterGroup.values.length > defaultLimit"
                             (click)="getAll(filterGroup)" class="title__button">
-                      <i class="fa fa-chevron-{{limits[filterGroup.name] <= mainLimit ? 'right' : 'down'}}" aria-hidden="true"></i>
+                      <i class="fa fa-chevron-{{limits[filterGroup.name] <= defaultLimit ? 'right' : 'down'}}" aria-hidden="true"></i>
                     </button>
                   </div>
                   <div *ngIf="filterGroup.values.length" class="filter-group__filters">
