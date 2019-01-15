@@ -1,6 +1,6 @@
 import {Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {QanFilterService} from './qan-filter.service';
-import {QanFilterModel} from './qan-fliter.model';
+import {QanFilterModel} from '../core/models/qan-fliter.model';
 import {NgbTabset} from '@ng-bootstrap/ng-bootstrap';
 import {PerfectScrollbarConfigInterface} from 'ngx-perfect-scrollbar';
 
