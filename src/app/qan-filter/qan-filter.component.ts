@@ -84,14 +84,15 @@ export class QanFilterComponent implements OnInit, OnDestroy {
     if (!searchValue) {
       this.filtersSearchedValues = this.filters;
       this.isEmptySearch = false;
+      this.resetToggleFilterMenuLimits();
       return;
     }
     searchValue = searchValue.toLowerCase().replace(' ', '');
 
     this.filtersSearchedValues = [];
-    const searchByGroup = this.filters.filter(group => group.name.toLowerCase().replace(' ', '').includes(searchValue));
+    const searchByGroup = this.filters.filter(group => this.findBySearch(group.name, searchValue));
     const searchByValues = this.filters.map(item => {
-      const values = item.values.filter(value => value.filterName.includes(searchValue));
+      const values = item.values.filter(value => this.findBySearch(value.filterName, searchValue));
       return values.length ? {name: item.name, values: values} : false;
     });
     this.filtersSearchedValues =
@@ -99,8 +100,12 @@ export class QanFilterComponent implements OnInit, OnDestroy {
     if (searchByGroup.length === 1) {
       searchByGroup.forEach(group => this.limits[group.name] = group.values.length);
     } else {
-      this.filtersSearchedValues.forEach(value => this.limits[value.name] = this.defaultLimit);
+      this.resetToggleFilterMenuLimits();
     }
+  }
+
+  resetToggleFilterMenuLimits() {
+    this.filtersSearchedValues.forEach(value => this.limits[value.name] = this.defaultLimit);
   }
 
   countFilters(item) {
@@ -113,9 +118,16 @@ export class QanFilterComponent implements OnInit, OnDestroy {
     this.qanFilterService.setFilterConfigs(this.filters);
   }
 
-  autocompleteSearch(term: string, item: any) {
-    term = term.toLowerCase().replace(' ', '');
-    return item.filterName.toLowerCase().replace(' ', '').includes(term)
-      || item.groupName.toLowerCase().replace(' ', '').includes(term);
+  newAutocomplete = (term: string, item: any) => {
+    term = this.transformForSearch(term);
+    return this.findBySearch(item.filterName, term) || this.findBySearch(item.groupName, term);
+  };
+
+  findBySearch(where: string, what: string) {
+    return this.transformForSearch(where).includes(what);
+  }
+
+  transformForSearch(value: string) {
+    return value.toLowerCase().replace(' ', '')
   }
 }
