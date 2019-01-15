@@ -22,7 +22,7 @@
         <label *ngIf="config.columns.length" class="checkbox-container checkbox-container--main">
           <input (change)="setConfig($event, config)"
                  [(ngModel)]="config.checked"
-                 class="{{mainCheckboxClass}}"
+                 [ngClass]="mainCheckboxClass"
                  type="checkbox">
           <span class="checkbox-container__checkmark"></span>
           <span class="checkbox-container__label-text">{{config.name}}</span>
