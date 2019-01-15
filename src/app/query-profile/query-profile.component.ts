@@ -1,10 +1,10 @@
 import {CoreComponent, QueryParams, QanError} from '../core/core.component';
-import {Component, OnInit} from '@angular/core';
-import {InstanceService} from '../core/instance.service';
+import {Component} from '@angular/core';
+import {InstanceService} from '../core/services/instance.service';
 import {QueryProfileService} from './query-profile.service';
 import {Router, ActivatedRoute} from '@angular/router';
 import * as moment from 'moment';
-import {QueryTableConfigurationService} from './query-table-configuration.service';
+import {QueryTableConfigService} from '../core/services/query-table-config.service';
 
 const queryProfileError = 'No data. Please check pmm-client and database configurations on selected instance.';
 
@@ -13,7 +13,7 @@ const queryProfileError = 'No data. Please check pmm-client and database configu
   templateUrl: 'query-profile.component.html',
   styleUrls: ['./query-profile.component.scss'],
 })
-export class QueryProfileComponent extends CoreComponent implements OnInit {
+export class QueryProfileComponent extends CoreComponent {
 
   public queryProfile: Array<{}>;
   public profileTotal;
@@ -31,58 +31,37 @@ export class QueryProfileComponent extends CoreComponent implements OnInit {
   public isFirstSeenChecked = false;
   public testingVariable: boolean;
   public isSearchQuery = false;
-  public selectedOption: any;
-  public checkedColumns: any;
-  public isMainColumn: boolean;
-  public isRowsScanned: boolean;
-  public isLoad = false;
-  public isCount = false;
-  public isLatency = false;
+  public isQueryCol = true;
+  public isRowsScannedCol = true;
+  public defaultSelected = {name: '', columns: []};
+  public selected = this.defaultSelected;
+  public selectedConfig = {};
+  public configs: any;
+
+  public currentColumn: string;
+  public yKey: string;
 
   constructor(protected route: ActivatedRoute,
               protected router: Router,
               protected instanceService: InstanceService,
               public queryProfileService: QueryProfileService,
-              private configService: QueryTableConfigurationService) {
+              private configService: QueryTableConfigService) {
     super(route, router, instanceService);
     this.configService.source.subscribe(items => {
-      this.checkedColumns = items.filter((config: any) => !!config.checked);
-      if (!!this.checkedColumns.length) {
-        this.selectedOption = (!this.selectedOption || !this.checkedColumns.find(item => {return item.id === this.selectedOption.id})) ?
-          this.checkedColumns[0] : this.selectedOption;
-        this.checkEmptyColumn(this.selectedOption);
+      if (!items.length) {
+        return;
+      }
+
+      this.configs = items.filter((config: any) => !!config.checked);
+      const firstElement = this.configs.length ? this.configs[0] : this.defaultSelected;
+      this.selected = this.configs.find(item => item.name === this.selected.name) ? this.selected : firstElement;
+      if (this.selected && this.selected.name) {
+        this.onConfigChanges(this.selected.name);
       } else {
-        this.selectedOption = '';
+        this.isQueryCol = false;
+        this.isRowsScannedCol = false;
       }
     });
-  }
-
-  ngOnInit() {
-  }
-
-  checkEmptyColumn(selected) {
-    const isEmptyColumn = !Object.keys(selected).length;
-    this.isLoad = false;
-    this.isCount = false;
-    this.isLatency = false;
-
-    switch (selected.id) {
-      case 'load':
-        this.isMainColumn = selected.sparkline || selected.value;
-        this.isRowsScanned = selected.percentage;
-        this.isLoad = !isEmptyColumn;
-        break;
-      case 'count':
-        this.isMainColumn = selected.sparkline || selected.queriesPerSecond;
-        this.isRowsScanned = selected.value || selected.percentage;
-        this.isCount = !isEmptyColumn;
-        break;
-      case 'latency':
-        this.isMainColumn = selected.sparkline || selected.value;
-        this.isRowsScanned = selected.distribution;
-        this.isLatency = !isEmptyColumn;
-        break;
-    }
   }
 
   onChangeParams(params) {
@@ -198,5 +177,33 @@ export class QueryProfileComponent extends CoreComponent implements OnInit {
     delete params.queryID;
     this.router.navigate(['profile'], {queryParams: params});
     this.isQuerySwitching = false;
+  }
+
+  onConfigChanges(name) {
+    this.selectedConfig = {};
+    this.selected.columns.forEach(column =>
+      this.selectedConfig[column.name.toLocaleLowerCase().replace(/\s+/g, '')] = column.value);
+    this.currentColumn = name;
+    this.setCurrentSparkline(name, this.selectedConfig);
+  }
+
+  setCurrentSparkline(name, config) {
+    switch (name) {
+      case 'Load':
+        this.isQueryCol = config.sparkline || config.value;
+        this.isRowsScannedCol = config.percentage;
+        this.yKey = 'Query_load';
+        break;
+      case 'Count':
+        this.isQueryCol = config.sparkline || config.queriespersecond;
+        this.isRowsScannedCol = config.value || config.percentage;
+        this.yKey = 'Query_count';
+        break;
+      case 'Avg Latency':
+        this.isQueryCol = config.sparkline || config.value;
+        this.isRowsScannedCol = config.distribution;
+        this.yKey = 'Query_time_avg';
+        break;
+    }
   }
 }

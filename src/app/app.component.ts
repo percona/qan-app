@@ -1,7 +1,7 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { DOCUMENT } from '@angular/common';
 
-import { InstanceService } from './core/instance.service';
+import { InstanceService } from './core/services/instance.service';
 import { environment } from './environment';
 import * as moment from 'moment';
 

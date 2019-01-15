@@ -66,6 +66,11 @@
   background-color: rgb(35, 35, 35);
 }
 
+.ng-select.pmm-select.ng-select-disabled .ng-select-container,
+.ng-select.pmm-select.ng-select-disabled .ng-select-container .ng-arrow-wrapper,
+.ng-select.pmm-select.ng-select-disabled .ng-select-container .ng-value-container .ng-input input {
+  cursor: not-allowed;
+}
 
 // Filter select
 .pmm-select--filter.ng-select {

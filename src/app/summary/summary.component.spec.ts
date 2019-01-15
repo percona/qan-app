@@ -9,7 +9,7 @@ import {RouterTestingModule} from '@angular/router/testing';
 import {FormsModule} from '@angular/forms';
 import {HttpModule} from '@angular/http';
 import {SummaryService} from './summary.service';
-import {InstanceService} from '../core/instance.service';
+import {InstanceService} from '../core/services/instance.service';
 import {HttpClientModule} from '@angular/common/http';
 
 fdescribe('SummaryComponent', () => {

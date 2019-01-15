@@ -8,7 +8,7 @@ import { SharedModule } from '../shared/shared.module';
 import { NavComponent } from './nav/nav.component';
 import { JSONTreeComponent } from './json-tree/json-tree.component';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
-import { InstanceService } from './instance.service';
+import { InstanceService } from './services/instance.service';
 import { QueryProfileComponent } from '../query-profile/query-profile.component';
 import { QueryProfileService } from '../query-profile/query-profile.service';
 import { MySQLQueryDetailsComponent } from '../mysql-query-details/mysql-query-details.component';
@@ -24,10 +24,10 @@ import { AddRemoteInstanceService } from '../add-remote-instances/add-remote-ins
 import { RemoteInstancesListService } from '../remote-instances-list/remote-instances-list.service';
 import { ClipboardModule } from 'ngx-clipboard';
 import { RemoteInstancesListComponent } from '../remote-instances-list/remote-instances-list.component';
-import { BaseQueryDetailsService } from './base-query-details.service';
+import { BaseQueryDetailsService } from './services/base-query-details.service';
 import { QanEditColumnComponent } from '../qan-edit-column/qan-edit-column.component';
 import { NgSelectModule } from '@ng-select/ng-select';
-import { QueryTableConfigurationService } from '../query-profile/query-table-configuration.service';
+import { QueryTableConfigService } from './services/query-table-config.service';
 import { QanFilterComponent } from '../qan-filter/qan-filter.component';
 import { QanFilterService } from '../qan-filter/qan-filter.service';
 import { PerfectScrollbarModule } from 'ngx-perfect-scrollbar';
@@ -42,7 +42,7 @@ import { PerfectScrollbarModule } from 'ngx-perfect-scrollbar';
         SummaryComponent, SettingsComponent, JSONTreeComponent],
     providers: [InstanceService, QueryProfileService, MySQLQueryDetailsService,
         MongoQueryDetailsService, SummaryService, SettingsService, AddAmazonRDSService, AddRemoteInstanceService, BaseQueryDetailsService,
-      RemoteInstancesListService, QueryTableConfigurationService, QanFilterService ]
+      RemoteInstancesListService, QueryTableConfigService, QanFilterService]
 })
 export class CoreModule {
 

@@ -7,7 +7,7 @@ import { RouterTestingModule } from '@angular/router/testing';
 import {FormsModule} from '@angular/forms';
 import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 import {HttpModule} from '@angular/http';
-import {InstanceService} from './core/instance.service';
+import {InstanceService} from './core/services/instance.service';
 import {CoreModule} from './core/core.module';
 import {AddInstanceComponent} from './add-instance/add-instance.component';
 import {AddAwsComponent} from './add-aws/add-aws.component';

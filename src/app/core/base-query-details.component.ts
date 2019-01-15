@@ -2,10 +2,10 @@
  * Base class for query-details-pages.
  */
 import {CoreComponent} from './core.component';
-import {QueryDetails} from './base-query-details.service';
+import {QueryDetails} from './services/base-query-details.service';
 import {ActivatedRoute, Router} from '@angular/router';
-import {InstanceService} from './instance.service';
-import {BaseQueryDetailsService} from './base-query-details.service';
+import {InstanceService} from './services/instance.service';
+import {BaseQueryDetailsService} from './services/base-query-details.service';
 import * as moment from 'moment';
 import * as hljs from 'highlight.js';
 import * as vkbeautify from 'vkbeautify';
