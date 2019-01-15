@@ -8,7 +8,7 @@ import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 import {FormsModule} from '@angular/forms';
 import {RouterTestingModule} from '@angular/router/testing';
 import {ClipboardModule} from 'ngx-clipboard';
-import {InstanceService} from '../core/instance.service';
+import {InstanceService} from '../core/services/instance.service';
 import {QueryProfileService} from './query-profile.service';
 import {LoadSparklinesDirective} from '../shared/load-sparklines.directive';
 import {HumanizePipe} from '../shared/humanize.pipe';

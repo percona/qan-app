@@ -1,6 +1,6 @@
 import {TestBed, inject, fakeAsync, tick} from '@angular/core/testing';
 
-import {InstanceService} from './instance.service';
+import {InstanceService} from '../instance.service';
 import 'rxjs/add/operator/toPromise';
 import {NO_ERRORS_SCHEMA} from '@angular/core';
 import {BaseRequestOptions, Http, HttpModule, ResponseOptions} from '@angular/http';
@@ -9,7 +9,7 @@ import {MockBackend} from '@angular/http/testing';
 describe('InstanceService', () => {
   let service: InstanceService;
   let backend: MockBackend;
-  const dbServersJson = require('../mock-data/dbServers-mock.json');
+  const dbServersJson = require('../../../mock-data/dbServers-mock.json');
   const dbServerResponse = Object.assign({}, dbServersJson);
 
   beforeEach(() => {
