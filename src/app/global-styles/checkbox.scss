@@ -75,3 +75,19 @@ input:checked ~ .checkbox-container__checkmark:after {
   border: solid var(--main-text-color);
   border-width: 0 2px 2px 0;
 }
+
+/* Styles for main (first) checkbox when it is unchecked*/
+.checkbox-container__main-input ~ span {
+  opacity: 0.6;
+}
+
+/* Styles for main (first) checkbox when it is checked*/
+.checkbox-container__main-input:checked ~ span {
+  opacity: 1;
+}
+
+/* Disabled styles */
+input:disabled ~ .checkbox-container__checkmark,
+input:disabled ~ .checkbox-container__label-text {
+  opacity: 0.6;
+}
