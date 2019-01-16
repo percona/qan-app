@@ -1,5 +1,5 @@
 import {CoreComponent, QueryParams, QanError} from '../core/core.component';
-import {Component} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {InstanceService} from '../core/services/instance.service';
 import {QueryProfileService} from './query-profile.service';
 import {Router, ActivatedRoute} from '@angular/router';
@@ -13,7 +13,7 @@ const queryProfileError = 'No data. Please check pmm-client and database configu
   templateUrl: 'query-profile.component.html',
   styleUrls: ['./query-profile.component.scss'],
 })
-export class QueryProfileComponent extends CoreComponent {
+export class QueryProfileComponent extends CoreComponent implements OnInit {
 
   public queryProfile: Array<{}>;
   public profileTotal;
@@ -29,6 +29,7 @@ export class QueryProfileComponent extends CoreComponent {
   public noQueryError: string;
   public isFirstSeen: boolean;
   public isFirstSeenChecked = false;
+  public isQueryDetails = false;
   public testingVariable: boolean;
   public isSearchQuery = false;
   public isQueryCol = true;
@@ -62,6 +63,10 @@ export class QueryProfileComponent extends CoreComponent {
         this.isRowsScannedCol = false;
       }
     });
+  }
+
+  ngOnInit() {
+    this.toggleQueryDetails(!!this.queryParams.queryID)
   }
 
   onChangeParams(params) {
@@ -205,5 +210,9 @@ export class QueryProfileComponent extends CoreComponent {
         this.yKey = 'Query_time_avg';
         break;
     }
+  }
+
+  toggleQueryDetails(isQueryDetails = true) {
+    this.isQueryDetails = isQueryDetails;
   }
 }

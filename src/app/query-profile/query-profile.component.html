@@ -11,7 +11,7 @@
      target="blank">PMM documentation.</a>
 </div>
 <div *ngIf="dbServer !== null && dbServer !== undefined" class="content-wrapper">
-  <div *ngIf="!noQueryError" class="queries-viewer">
+  <section *ngIf="!noQueryError" class="queries-table-wrapper">
     <section class="configuration-panel">
       <p class="configuration-panel__title">
         Top {{ totalAmountOfQueries ? (queryProfile?.length - 1) : 0 }} of {{ totalAmountOfQueries }} Queries by % Grand Total Time (%GTT)
@@ -43,7 +43,7 @@
       </form>
     </section>
 
-    <section class="configuration-panel">
+    <section class="configuration-panel configuration-panel--outlet">
       <ng-select
         [(ngModel)]="selected"
         [items]="configs"
@@ -72,6 +72,7 @@
           [routerLink]="['./', 'report', dbServer.Subsystem]"
           [queryParams]="composeQueryParamsForGrid(row.Id)" routerLinkActive="pmm-grid-table__row--active"
           [class.pmm-grid-table__row--first-seen]="checkFirstSeen(row)"
+          (click)="toggleQueryDetails()"
           class="pmm-grid-table__row">
         <td class="pmm-grid-table__cell">
           {{i || ''}}
@@ -117,7 +118,7 @@
             </ng-container>
 
             <span *ngIf="currentColumn === 'Count' && selectedConfig?.value" id="countValue">
-                  {{row.Stats.Cnt | humanize : 'number'}}
+              {{row.Stats.Cnt | humanize : 'number'}}
             </span>
 
             <ng-container *ngSwitchCase="'Count'" class="unit unit--percent" id="countPercentage">
@@ -151,9 +152,13 @@
         <i class="fa fa-spinner fa-pulse fa-fw fa-40"></i>
       </div>
     </div>
-  </div>
+  </section>
 
-  <router-outlet></router-outlet>
+  <aside class="query-details-wrapper">
+    <div class="query-details-wrapper__outlet" *ngIf="isQueryDetails">
+      <router-outlet></router-outlet>
+    </div>
+  </aside>
 
   <div *ngIf="!!noQueryError" class="text-center alert alert-danger w-75 mx-auto wrong-configuration-message" role="alert">
     {{ noQueryError }}
