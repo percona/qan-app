@@ -1,16 +1,19 @@
 import {Injectable} from '@angular/core';
 import {BehaviorSubject} from 'rxjs';
-import {ColumnConfigModel} from '../models/column-config.model';
+import {ColumnConfigModel} from '../core/models/column-config.model';
 import 'rxjs/add/operator/map';
 
 @Injectable()
-export class QueryTableConfigService {
-  private cellConfigurationSource = new BehaviorSubject([]);
+export class QanEditColumnService {
+  private cellConfigSource = new BehaviorSubject([]);
 
   constructor() {
   }
 
-  getConfigurations() {
+  /**
+   * Get configuration from server and modify it by models
+   */
+  getConfigs() {
     this.setConfig([
       {
         name: 'Load', columns: ['Sparkline', 'Value', 'Percentage']
@@ -24,11 +27,18 @@ export class QueryTableConfigService {
     ].map(config => new ColumnConfigModel(config, JSON.parse(localStorage.getItem(config.name)))))
   }
 
+  /**
+   * Set current state of config
+   * @param config - collection of configs from server
+   */
   setConfig(config: ColumnConfigModel[]) {
-    this.cellConfigurationSource.next(config);
+    this.cellConfigSource.next(config);
   }
 
+  /**
+   * Provide access for private variable
+   */
   get source() {
-    return this.cellConfigurationSource;
+    return this.cellConfigSource;
   }
 }

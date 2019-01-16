@@ -23,7 +23,7 @@
         <label class="switcher">
           <input type="checkbox"
                  class="switcher__checkbox"
-                 (change)="isFirstSeenChecked = !isFirstSeenChecked; getFirstSeen(isFirstSeenChecked);"
+                 (change)="isFirstSeenChecked = !isFirstSeenChecked; toggleFirstSeen(isFirstSeenChecked);"
                  [disabled]="!isQuerySwitching && !isLoading && totalAmountOfQueries === 0 && !isFirstSeenChecked && !isSearchQuery">
           <span class="switcher__slider">
   	        <span class="switcher__option">All queries</span>

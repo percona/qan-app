@@ -10,6 +10,9 @@ export class QanFilterService {
   constructor() {
   }
 
+  /**
+   * Get configuration from server and modify it by models
+   */
   getFilterConfigs() {
     this.setFilterConfigs([
         {
@@ -33,10 +36,17 @@ export class QanFilterService {
       ].map((items) => new QanFilterGroupsModel(items, localStorage.getItem(items.name))));
   }
 
+  /**
+   * Set current state of filter config
+   * @param config - collection of filter config
+   */
   setFilterConfigs(config: QanFilterGroupsModel[]) {
     this.filtersConfigsSource.next(config)
   }
 
+  /**
+   * Provide access for private variable
+   */
   get filterSource() {
     return this.filtersConfigsSource;
   }

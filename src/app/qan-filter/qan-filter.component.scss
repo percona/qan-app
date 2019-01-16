@@ -180,11 +180,6 @@ button:not([type="submit"]) {
   color: var(--color-hosts);
 }
 
-.checked-content__tools {
-  display: flex;
-  justify-content: flex-end;
-}
-
 .badge {
   --color: var(--main-text-color);
   --bg-color: var(--button-title-color);
