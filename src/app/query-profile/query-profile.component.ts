@@ -30,6 +30,7 @@ export class QueryProfileComponent extends CoreComponent implements OnInit {
   public isFirstSeen: boolean;
   public isFirstSeenChecked = false;
   public isQueryDetails = false;
+  public isCropped = false;
   public testingVariable: boolean;
   public isSearchQuery = false;
   public isQueryCol = true;

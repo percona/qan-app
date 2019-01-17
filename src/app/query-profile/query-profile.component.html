@@ -57,6 +57,19 @@
       <app-qan-edit-column></app-qan-edit-column>
     </section>
 
+    <!--todo: Delete after one of proof of concept will be accepted-->
+    <div>
+      <label class="switcher">
+        <input (change)="isCropped = !isCropped"
+               type="checkbox"
+               class="switcher__checkbox">
+        <span class="switcher__slider">
+  	        <span class="switcher__option">Full</span>
+            <span class="switcher__option">Cropped</span>
+          </span>
+      </label>
+    </div>
+
     <table *ngIf="!isQuerySwitching" class="pmm-grid-table">
       <tr class="pmm-grid-table__row">
         <th class="pmm-grid-table__cell">#</th>
@@ -154,7 +167,8 @@
     </div>
   </section>
 
-  <aside class="query-details-wrapper">
+  <aside [class.query-details-wrapper--cropped]="isCropped && isQueryDetails"
+         class="query-details-wrapper">
     <div class="query-details-wrapper__outlet" *ngIf="isQueryDetails">
       <router-outlet></router-outlet>
     </div>

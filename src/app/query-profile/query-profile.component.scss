@@ -26,5 +26,15 @@
 .query-details-wrapper__outlet {
   z-index: 1;
   width: 100%;
+  padding: 20px 0 30px 20px;
   background-color: var(--page-background);
+}
+
+//todo: If this variant has been accepted - add grid-row height
+.query-details-wrapper--cropped {
+  overflow-y: scroll;
+  height: 600px;
+  -webkit-box-shadow: -4px 2px 5px 0 rgba(0,0,0,0.75);
+  -moz-box-shadow: -4px 2px 5px 0 rgba(0,0,0,0.75);
+  box-shadow: -4px 2px 5px 0 rgba(0,0,0,0.75);
 }
