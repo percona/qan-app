@@ -67,7 +67,7 @@ export class QueryProfileComponent extends CoreComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.toggleQueryDetails(!!this.queryParams.queryID)
+    this.toggleQueryDetails(this.queryParams.queryID !== 'null');
   }
 
   onChangeParams(params) {

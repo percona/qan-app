@@ -59,7 +59,7 @@
 
     <!--todo: Delete after one of proof of concept will be accepted-->
     <div>
-      <label class="switcher">
+      <label class="switcher switcher--temporary">
         <input (change)="isCropped = !isCropped"
                type="checkbox"
                class="switcher__checkbox">
@@ -168,6 +168,7 @@
   </section>
 
   <aside [class.query-details-wrapper--cropped]="isCropped && isQueryDetails"
+         [class.queries-table-wrapper--opened]="isQueryDetails"
          class="query-details-wrapper">
     <div class="query-details-wrapper__outlet" *ngIf="isQueryDetails">
       <router-outlet></router-outlet>

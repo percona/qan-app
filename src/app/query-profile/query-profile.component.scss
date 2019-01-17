@@ -1,9 +1,11 @@
 .content-wrapper {
+  position: relative;
   display: grid;
   grid-template-columns: 1fr 70%;
 }
 
 .queries-table-wrapper {
+  z-index: 1;
   grid-column: 1 / 3;
   grid-row: 1 / 2;
   margin-bottom: var(--main-bottom-indent);
@@ -11,6 +13,7 @@
 
 .query-details-wrapper {
   position: relative;
+  z-index: 0;
   grid-column: 2 / 3;
   grid-row: 1 / 2;
 }
@@ -32,9 +35,20 @@
 
 //todo: If this variant has been accepted - add grid-row height
 .query-details-wrapper--cropped {
+  overflow-x: hidden;
   overflow-y: scroll;
-  height: 600px;
+  height: 645px;
+}
+
+.queries-table-wrapper--opened {
+  z-index: 2;
   -webkit-box-shadow: -4px 2px 5px 0 rgba(0,0,0,0.75);
   -moz-box-shadow: -4px 2px 5px 0 rgba(0,0,0,0.75);
   box-shadow: -4px 2px 5px 0 rgba(0,0,0,0.75);
+  background-color: var(--page-background);
+}
+
+//todo: Delete after approving one of proof of concept
+.switcher--temporary {
+  --switcher-width: 145px;
 }
