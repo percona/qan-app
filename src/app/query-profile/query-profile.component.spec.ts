@@ -8,7 +8,7 @@ import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 import {FormsModule} from '@angular/forms';
 import {RouterTestingModule} from '@angular/router/testing';
 import {ClipboardModule} from 'ngx-clipboard';
-import {InstanceService} from '../core/instance.service';
+import {InstanceService} from '../core/services/instance.service';
 import {QueryProfileService} from './query-profile.service';
 import {LoadSparklinesDirective} from '../shared/load-sparklines.directive';
 import {HumanizePipe} from '../shared/humanize.pipe';
@@ -292,25 +292,25 @@ fdescribe('QueryProfileComponent', () => {
   });
 
   it('should be true if first seen is checked', () => {
-    component.getFirstSeen(true);
+    component.toggleFirstSeen(true);
     fixture.detectChanges();
     expect(component.testingVariable).toBeTruthy();
   });
 
   it('should be false if first seen not checked', () => {
-    component.getFirstSeen(false);
+    component.toggleFirstSeen(false);
     fixture.detectChanges();
     expect(component.testingVariable).toBeFalsy();
   });
 
   it('should be false if first seen is not presented', () => {
-    component.getFirstSeen();
+    component.toggleFirstSeen();
     fixture.detectChanges();
     expect(component.testingVariable).toBeFalsy();
   });
 
   it('should be false if first seen is not presented', () => {
-    component.getFirstSeen();
+    component.toggleFirstSeen();
     fixture.detectChanges();
     expect(component.testingVariable).toBeFalsy();
   });

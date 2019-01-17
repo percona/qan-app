@@ -1,0 +1,31 @@
+.close {
+  --close-size: 18px;
+
+  position: relative;
+  cursor: pointer;
+  opacity: 0.3;
+
+  display: flex;
+  align-items: center;
+
+  width: var(--close-size);
+  height: var(--close-size);
+  margin-top: 2px;
+}
+
+.close:before,
+.close:after {
+  position: absolute;
+  top: 0;
+  left: calc(var(--close-size) / 2);
+  content: '';
+
+  width: 3px;
+  height: var(--close-size);
+}
+.close:before {
+  transform: rotate(45deg);
+}
+.close:after {
+  transform: rotate(-45deg);
+}

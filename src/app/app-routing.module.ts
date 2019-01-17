@@ -9,7 +9,7 @@ import { SummaryComponent } from './summary/summary.component';
 import { SettingsComponent } from './settings/settings.component';
 import { AddInstanceComponent } from './add-instance/add-instance.component';
 import { AddAmazonRDSComponent } from './add-amazon-rds/add-amazon-rds.component';
-import { InstanceService } from './core/instance.service';
+import { InstanceService } from './core/services/instance.service';
 import { AddRemoteInstanceComponent } from './add-remote-instances/add-remote-instance.component';
 import { RemoteInstancesListComponent } from './remote-instances-list/remote-instances-list.component';
 

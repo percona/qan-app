@@ -1,11 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
-import { InstanceService } from '../core/instance.service';
+import { InstanceService } from '../core/services/instance.service';
 import { QueryParams } from '../core/core.component';
 import { MongoQueryDetailsService } from './mongo-query-details.service';
-import {QueryDetails} from '../core/base-query-details.service';
+import {QueryDetails} from '../core/services/base-query-details.service';
 import {BaseQueryDetailsComponent} from '../core/base-query-details.component';
-import {BaseQueryDetailsService} from '../core/base-query-details.service';
+import {BaseQueryDetailsService} from '../core/services/base-query-details.service';
 
 @Component({
   moduleId: module.id,
@@ -26,6 +26,9 @@ export class MongoQueryDetailsComponent extends BaseQueryDetailsComponent implem
     super(route, router, instanceService, baseQueryDetailsService);
   }
 
+  /**
+   * Set current query params when page is loaded
+   */
   ngOnInit() {
     this.queryParams = this.route.snapshot.queryParams as QueryParams;
     this.parseParams();

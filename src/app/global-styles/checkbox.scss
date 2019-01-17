@@ -15,8 +15,8 @@
   user-select: none;
 }
 
-/* Styles for first checkbox*/
-.checkbox-container:first-of-type {
+/* Styles for main checkbox*/
+.checkbox-container--main {
   font-weight: 700;
 }
 
@@ -74,6 +74,16 @@ input:checked ~ .checkbox-container__checkmark:after {
   transform: rotate(45deg);
   border: solid var(--main-text-color);
   border-width: 0 2px 2px 0;
+}
+
+/* Styles for main (first) checkbox when it is unchecked*/
+.checkbox-container__main-input ~ span {
+  opacity: 0.6;
+}
+
+/* Styles for main (first) checkbox when it is checked*/
+.checkbox-container__main-input:checked ~ span {
+  opacity: 1;
 }
 
 /* Disabled styles */

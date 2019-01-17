@@ -9,7 +9,7 @@ import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {HttpModule} from '@angular/http';
 import {NgbDropdownConfig, NgbDropdownModule} from '@ng-bootstrap/ng-bootstrap';
 import {ActivatedRoute} from '@angular/router';
-import {InstanceService} from '../instance.service';
+import {InstanceService} from '../services/instance.service';
 import {MomentFormatPipe} from '../../shared/moment-format.pipe';
 import * as moment from 'moment';
 

@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
-import { InstanceService } from '../core/instance.service';
+import { InstanceService } from '../core/services/instance.service';
 import { QueryParams } from '../core/core.component';
 import { MySQLQueryDetailsService } from './mysql-query-details.service';
-import {BaseQueryDetailsService} from '../core/base-query-details.service';
-import { QueryDetails } from '../core/base-query-details.service';
+import {BaseQueryDetailsService} from '../core/services/base-query-details.service';
+import { QueryDetails } from '../core/services/base-query-details.service';
 import * as hljs from 'highlight.js';
 import {BaseQueryDetailsComponent} from '../core/base-query-details.component';
 
@@ -39,12 +39,20 @@ export class MySQLQueryDetailsComponent extends BaseQueryDetailsComponent implem
     super(route, router, instanceService, baseQueryDetailsService);
   }
 
+  /**
+   * Set current query params when page is loaded
+   */
   ngOnInit() {
     this.queryParams = this.route.snapshot.queryParams as QueryParams;
     this.parseParams();
     this.onChangeParams(this.queryParams);
   }
 
+  /**
+   * Show table info for current table name if it in current db
+   * @param dbName - name of current DB
+   * @param tblName - name of current table
+   */
   selectTableInfo(dbName: string, tblName: string) {
     if (!this.dbServer || !this.dbServer.Agent) { return; }
     const agentUUID = this.dbServer.Agent.UUID;
@@ -83,6 +91,9 @@ export class MySQLQueryDetailsComponent extends BaseQueryDetailsComponent implem
       .then(() => this.isTableInfoLoading = false);
   }
 
+  /**
+   * Add DB and table name for current query
+   */
   addDBTable() {
     if (this.newDBTblNames.length > 6) {
       const part = this.newDBTblNames.split('.');
@@ -102,6 +113,10 @@ export class MySQLQueryDetailsComponent extends BaseQueryDetailsComponent implem
     return false;
   }
 
+  /**
+   * Remove DB data from current query
+   * @param dbTableItem - DB which need to remove
+   */
   removeDBTable(dbTableItem) {
     const len = this.queryDetails.Query.Tables.length;
 
@@ -118,6 +133,11 @@ export class MySQLQueryDetailsComponent extends BaseQueryDetailsComponent implem
     this.mysqlQueryDetailsService.updateTables(this.queryDetails.Query.Id, this.queryDetails.Query.Tables);
   }
 
+  /**
+   * Check if current DB is select
+   * @param item - current DB
+   * @return Match of current DB and selected DB
+   */
   isSelectedDbTbl(item): boolean {
     return `\`${item.Db}\`.\`${item.Table}\`` === this.dbTblNames;
   }

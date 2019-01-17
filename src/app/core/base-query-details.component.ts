@@ -2,10 +2,10 @@
  * Base class for query-details-pages.
  */
 import {CoreComponent} from './core.component';
-import {QueryDetails} from './base-query-details.service';
+import {QueryDetails} from './services/base-query-details.service';
 import {ActivatedRoute, Router} from '@angular/router';
-import {InstanceService} from './instance.service';
-import {BaseQueryDetailsService} from './base-query-details.service';
+import {InstanceService} from './services/instance.service';
+import {BaseQueryDetailsService} from './services/base-query-details.service';
 import * as moment from 'moment';
 import * as hljs from 'highlight.js';
 import * as vkbeautify from 'vkbeautify';
@@ -60,6 +60,10 @@ export abstract class BaseQueryDetailsComponent extends CoreComponent {
     super(route, router, instanceService);
   }
 
+  /**
+   * Reset server summery and query details if query changes
+   * @param params - current link params
+   */
   onChangeParams(params) {
     if (!this.dbServer) { return }
 
@@ -78,6 +82,12 @@ export abstract class BaseQueryDetailsComponent extends CoreComponent {
     }
   }
 
+  /**
+   * Display server summery
+   * @param dbServerUUID - UUID of current dbServer
+   * @param from - start of date period
+   * @param to - end of date period
+   */
   async getServerSummary(dbServerUUID: string, from: string, to: string) {
     this.dbName = this.dbTblNames = '';
     try {
@@ -87,6 +97,13 @@ export abstract class BaseQueryDetailsComponent extends CoreComponent {
     }
   }
 
+  /**
+   * Display query details of current query for selected date period
+   * @param dbServerUUID - UUID of current dbServer
+   * @param queryID - id of current query
+   * @param from - start of date period
+   * @param to - end of date period
+   */
   async getQueryDetails(dbServerUUID, queryID, from, to: string) {
     this.isLoading = true;
     this.dbName = this.dbTblNames = '';
@@ -120,6 +137,9 @@ export abstract class BaseQueryDetailsComponent extends CoreComponent {
     this.isLoading = false;
   }
 
+  /**
+   * Display Explain data for current query
+   */
   async getExplain() {
     if (!this.dbServer.Agent) { return }
 
@@ -176,6 +196,9 @@ export abstract class BaseQueryDetailsComponent extends CoreComponent {
     this.isExplainLoading = false;
   }
 
+  /**
+   * Display table data for current query
+   */
   getTableInfo() {
     if (!this.dbServer.Agent) { return }
 
@@ -229,6 +252,10 @@ export abstract class BaseQueryDetailsComponent extends CoreComponent {
       .then(() => this.isTableInfoLoading = false);
   }
 
+  /**
+   * Get table name
+   * @return table name or empty string
+   */
   getTableName(): string {
     if (this.queryDetails.hasOwnProperty('Query')
       && this.queryDetails.Query.hasOwnProperty('Tables')
@@ -239,6 +266,10 @@ export abstract class BaseQueryDetailsComponent extends CoreComponent {
     return '';
   }
 
+  /**
+   * Get DB name
+   * @return DB name or empty string
+   */
   getDBName(): string {
     if (this.queryDetails.Example.Db !== '') {
       return this.queryDetails.Example.Db;
@@ -260,6 +291,10 @@ export abstract class BaseQueryDetailsComponent extends CoreComponent {
     return vkbeautify.sql(text.toLowerCase()).replace('explain', 'EXPLAIN ').replace('  ', ' ');
   }
 
+  /**
+   * Show notification if content has been copied
+   * @param key - name of current copied section
+   */
   showSuccessNotification(key) {
     this.isCopied[key] = true;
     setTimeout(() => {

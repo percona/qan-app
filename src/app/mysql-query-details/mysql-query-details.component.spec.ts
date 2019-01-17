@@ -11,11 +11,11 @@ import {ClipboardModule} from 'ngx-clipboard';
 import {MapToIterablePipe} from '../shared/map-to-iterable.pipe';
 import {ActivatedRoute} from '@angular/router';
 import {RouterTestingModule} from '@angular/router/testing';
-import {InstanceService} from '../core/instance.service';
+import {InstanceService} from '../core/services/instance.service';
 import {MySQLQueryDetailsService} from './mysql-query-details.service';
 import {NgbAccordionConfig, NgbModule} from '@ng-bootstrap/ng-bootstrap';
 import {HttpClientModule} from '@angular/common/http';
-import {BaseQueryDetailsService} from '../core/base-query-details.service';
+import {BaseQueryDetailsService} from '../core/services/base-query-details.service';
 
 fdescribe('MySQLQueryDetailsComponent', () => {
   let component: MySQLQueryDetailsComponent;

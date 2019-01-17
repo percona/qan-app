@@ -1,10 +1,11 @@
 import {CoreComponent, QueryParams, QanError} from '../core/core.component';
 import {Component, Input, OnChanges, OnInit} from '@angular/core';
-import {InstanceService} from '../core/instance.service';
+import {InstanceService} from '../core/services/instance.service';
 import {QueryProfileService} from './query-profile.service';
 import {Router, ActivatedRoute} from '@angular/router';
 import * as moment from 'moment';
-import {QueryTableConfigurationService} from './query-table-configuration.service';
+import {FilterSearchService} from '../core/services/filter-search.service';
+import {QanEditColumnService} from '../qan-edit-column/qan-edit-column.service';
 
 const queryProfileError = 'No data. Please check pmm-client and database configurations on selected instance.';
 
@@ -31,12 +32,16 @@ export class QueryProfileComponent extends CoreComponent {
   public isSearchQuery = false;
   public selectedOption: any;
   public selectedPaginationOption: any = 10;
-  public checkedColumns: any;
-  public isMainColumn: boolean;
-  public isRowsScanned: boolean;
-  public isLoad = false;
-  public isCount = false;
-  public isLatency = false;
+  public isQueryCol = true;
+  public isRowsScannedCol = true;
+  public defaultSelected = {name: '', columns: []};
+  public selected = this.defaultSelected;
+  public selectedConfig = {};
+  public configs: any;
+
+  public currentColumn: string;
+  public yKey: string;
+
   public isSearchable = false;
   public page = 1;
   public selectPaginationConfig = [10, 50, 100];
@@ -55,47 +60,30 @@ export class QueryProfileComponent extends CoreComponent {
               protected router: Router,
               protected instanceService: InstanceService,
               public queryProfileService: QueryProfileService,
-              private configService: QueryTableConfigurationService) {
+              private configService: QanEditColumnService,
+              private filterSearchService: FilterSearchService) {
     super(route, router, instanceService);
     this.configService.source.subscribe(items => {
-      this.checkedColumns = items.filter((config: any) => !!config.checked);
-      if (!!this.checkedColumns.length) {
-        this.selectedOption = (!this.selectedOption || !this.checkedColumns.find(item => {
-          return item.id === this.selectedOption.id
-        })) ?
-          this.checkedColumns[0] : this.selectedOption;
-        this.checkEmptyColumn(this.selectedOption);
+      if (!items.length) {
+        return;
+      }
+
+      this.configs = items.filter((config: any) => !!config.checked);
+      const firstElement = this.configs.length ? this.configs[0] : this.defaultSelected;
+      this.selected = this.configs.find(item => item.name === this.selected.name) ? this.selected : firstElement;
+      if (this.selected && this.selected.name) {
+        this.onConfigChanges(this.selected.name);
       } else {
-        this.selectedOption = '';
+        this.isQueryCol = false;
+        this.isRowsScannedCol = false;
       }
     });
   }
 
-  checkEmptyColumn(selected) {
-    const isEmptyColumn = !Object.keys(selected).length;
-    this.isLoad = false;
-    this.isCount = false;
-    this.isLatency = false;
-
-    switch (selected.id) {
-      case 'load':
-        this.isMainColumn = selected.sparkline || selected.value;
-        this.isRowsScanned = selected.percentage;
-        this.isLoad = !isEmptyColumn;
-        break;
-      case 'count':
-        this.isMainColumn = selected.sparkline || selected.queriesPerSecond;
-        this.isRowsScanned = selected.value || selected.percentage;
-        this.isCount = !isEmptyColumn;
-        break;
-      case 'latency':
-        this.isMainColumn = selected.sparkline || selected.value;
-        this.isRowsScanned = selected.distribution;
-        this.isLatency = !isEmptyColumn;
-        break;
-    }
-  }
-
+  /**
+   * Load query if params have been changed
+   * @param params - current link params
+   */
   onChangeParams(params) {
     // checks changing tz
     this.fromDate = moment(this.from).format('llll');
@@ -113,11 +101,18 @@ export class QueryProfileComponent extends CoreComponent {
     }
   }
 
+  /**
+   * Check if current query is first seen for current date
+   * @param currentQuery - query in main qan-table
+   */
   checkFirstSeen(currentQuery) {
     this.isFirstSeen = moment.utc(currentQuery['FirstSeen']).valueOf() > moment.utc(this.fromUTCDate).valueOf();
     return this.isFirstSeen;
   }
 
+  // /**
+  //  * Load first 10 queries for main qan-table
+  //  */
   // public async loadQueries() {
   //   this.isQuerySwitching = true;
   //
@@ -203,6 +198,9 @@ export class QueryProfileComponent extends CoreComponent {
   //   Promise.all([this.getPage(1, 0), this.getPage(1, 10), this.getPage(1, 20), this.getPage(1, 30), this.getPage(1, 40)]);
   // }
 
+  // /**
+  //  * Load next 10 queries for main qan-table
+  //  */
   // public async loadMoreQueries() {
   //   this.isLoading = true;
   //   this.offset = this.offset + 10;
@@ -222,12 +220,30 @@ export class QueryProfileComponent extends CoreComponent {
   //   this.isLoading = false;
   // }
 
+  // /**
+  //  * Count how queries left in main qan-table
+  //  */
+  // countDbQueries() {
+  //   this.leftInDbQueries = this.totalAmountOfQueries - (this.queryProfile.length - 1);
+  //   this.quantityDbQueriesMessage = this.leftInDbQueries > 0 ?
+  //     `Load next ${this.leftInDbQueries > 10 ? 10 : this.leftInDbQueries} queries` :
+  //     'No more queries for selected time range';
+  // }
+
+  /**
+   * Set router parameters if query is checked in main qan-table
+   * @param queryID - checked queries' id
+   * @return query params of current query
+   */
   composeQueryParamsForGrid(queryID: string | null): QueryParams {
     const queryParams: QueryParams = Object.assign({}, this.queryParams);
     queryParams.queryID = queryID || 'TOTAL';
     return queryParams;
   }
 
+  /**
+   * Show search queries result for main qan-table
+   */
   search() {
     this.isSearchQuery = true;
     const params: QueryParams = Object.assign({}, this.queryParams);
@@ -242,7 +258,12 @@ export class QueryProfileComponent extends CoreComponent {
     this.router.navigate(['profile'], {queryParams: params});
   }
 
-  getFirstSeen(isFirstSeenChecked = false) {
+  /**
+   * Show first-seen queries or restore default state of main qan-table queries
+   * if isFirstSeenChecked is false
+   * @param isFirstSeenChecked - state for checked switcher for first-seen
+   */
+  toggleFirstSeen(isFirstSeenChecked = false) {
     this.isQuerySwitching = true;
     this.isFirstSeenChecked = isFirstSeenChecked;
     const params: QueryParams = Object.assign({}, this.queryParams);
@@ -256,5 +277,42 @@ export class QueryProfileComponent extends CoreComponent {
     delete params.queryID;
     this.router.navigate(['profile'], {queryParams: params});
     this.isQuerySwitching = false;
+  }
+
+  /**
+   * Set selected config parameters when column type changes
+   * @param name - checked column-type name
+   */
+  onConfigChanges(name) {
+    this.selectedConfig = {};
+    this.selected.columns.forEach(column =>
+      this.selectedConfig[this.filterSearchService.transformForSearch(column.name)] = column.value);
+    this.currentColumn = name;
+    this.setCurrentSparkline(name, this.selectedConfig);
+  }
+
+  /**
+   * Set sparkline type and display column for config parameters
+   * @param name - checked column-type name
+   * @param config - checked config parameters
+   */
+  setCurrentSparkline(name: string, config) {
+    switch (name) {
+      case 'Load':
+        this.isQueryCol = config.sparkline || config.value;
+        this.isRowsScannedCol = config.percentage;
+        this.yKey = 'Query_load';
+        break;
+      case 'Count':
+        this.isQueryCol = config.sparkline || config.queriespersecond;
+        this.isRowsScannedCol = config.value || config.percentage;
+        this.yKey = 'Query_count';
+        break;
+      case 'Avg Latency':
+        this.isQueryCol = config.sparkline || config.value;
+        this.isRowsScannedCol = config.distribution;
+        this.yKey = 'Query_time_avg';
+        break;
+    }
   }
 }
