@@ -4,7 +4,8 @@ import {InstanceService} from '../core/services/instance.service';
 import {QueryProfileService} from './query-profile.service';
 import {Router, ActivatedRoute} from '@angular/router';
 import * as moment from 'moment';
-import {QueryTableConfigService} from '../core/services/query-table-config.service';
+import {FilterSearchService} from '../core/services/filter-search.service';
+import {QanEditColumnService} from '../qan-edit-column/qan-edit-column.service';
 
 const queryProfileError = 'No data. Please check pmm-client and database configurations on selected instance.';
 
@@ -45,7 +46,8 @@ export class QueryProfileComponent extends CoreComponent {
               protected router: Router,
               protected instanceService: InstanceService,
               public queryProfileService: QueryProfileService,
-              private configService: QueryTableConfigService) {
+              private configService: QanEditColumnService,
+              private filterSearchService: FilterSearchService) {
     super(route, router, instanceService);
     this.configService.source.subscribe(items => {
       if (!items.length) {
@@ -64,6 +66,10 @@ export class QueryProfileComponent extends CoreComponent {
     });
   }
 
+  /**
+   * Load query if params have been changed
+   * @param params - current link params
+   */
   onChangeParams(params) {
     // checks changing tz
     this.fromDate = moment(this.from).format('llll');
@@ -81,11 +87,18 @@ export class QueryProfileComponent extends CoreComponent {
     }
   }
 
+  /**
+   * Check if current query is first seen for current date
+   * @param currentQuery - query in main qan-table
+   */
   checkFirstSeen(currentQuery) {
     this.isFirstSeen = moment.utc(currentQuery['FirstSeen']).valueOf() > moment.utc(this.fromUTCDate).valueOf();
     return this.isFirstSeen;
   }
 
+  /**
+   * Load first 10 queries for main qan-table
+   */
   public async loadQueries() {
     this.isQuerySwitching = true;
 
@@ -117,6 +130,9 @@ export class QueryProfileComponent extends CoreComponent {
     }
   }
 
+  /**
+   * Load next 10 queries for main qan-table
+   */
   public async loadMoreQueries() {
     this.isLoading = true;
     this.offset = this.offset + 10;
@@ -136,6 +152,9 @@ export class QueryProfileComponent extends CoreComponent {
     this.isLoading = false;
   }
 
+  /**
+   * Count how queries left in main qan-table
+   */
   countDbQueries() {
     this.leftInDbQueries = this.totalAmountOfQueries - (this.queryProfile.length - 1);
     this.quantityDbQueriesMessage = this.leftInDbQueries > 0 ?
@@ -143,12 +162,20 @@ export class QueryProfileComponent extends CoreComponent {
       'No more queries for selected time range';
   }
 
+  /**
+   * Set router parameters if query is checked in main qan-table
+   * @param queryID - checked queries' id
+   * @return query params of current query
+   */
   composeQueryParamsForGrid(queryID: string | null): QueryParams {
     const queryParams: QueryParams = Object.assign({}, this.queryParams);
     queryParams.queryID = queryID || 'TOTAL';
     return queryParams;
   }
 
+  /**
+   * Show search queries result for main qan-table
+   */
   search() {
     this.isSearchQuery = true;
     const params: QueryParams = Object.assign({}, this.queryParams);
@@ -163,7 +190,12 @@ export class QueryProfileComponent extends CoreComponent {
     this.router.navigate(['profile'], {queryParams: params});
   }
 
-  getFirstSeen(isFirstSeenChecked = false) {
+  /**
+   * Show first-seen queries or restore default state of main qan-table queries
+   * if isFirstSeenChecked is false
+   * @param isFirstSeenChecked - state for checked switcher for first-seen
+   */
+  toggleFirstSeen(isFirstSeenChecked = false) {
     this.isQuerySwitching = true;
     this.isFirstSeenChecked = isFirstSeenChecked;
     const params: QueryParams = Object.assign({}, this.queryParams);
@@ -179,15 +211,24 @@ export class QueryProfileComponent extends CoreComponent {
     this.isQuerySwitching = false;
   }
 
+  /**
+   * Set selected config parameters when column type changes
+   * @param name - checked column-type name
+   */
   onConfigChanges(name) {
     this.selectedConfig = {};
     this.selected.columns.forEach(column =>
-      this.selectedConfig[column.name.toLocaleLowerCase().replace(/\s+/g, '')] = column.value);
+      this.selectedConfig[this.filterSearchService.transformForSearch(column.name)] = column.value);
     this.currentColumn = name;
     this.setCurrentSparkline(name, this.selectedConfig);
   }
 
-  setCurrentSparkline(name, config) {
+  /**
+   * Set sparkline type and display column for config parameters
+   * @param name - checked column-type name
+   * @param config - checked config parameters
+   */
+  setCurrentSparkline(name: string, config) {
     switch (name) {
       case 'Load':
         this.isQueryCol = config.sparkline || config.value;

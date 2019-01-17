@@ -46,7 +46,7 @@ export class LoadSparklinesDirective {
         if (data !== null) {
             setTimeout(() => {
                 this.drawChart(data)
-            }, 1);
+            }, 0);
         }
     }
 

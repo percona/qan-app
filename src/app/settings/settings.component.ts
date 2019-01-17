@@ -73,7 +73,7 @@ export class SettingsComponent extends CoreComponent {
 
   /**
    * Get from agent:
-   *  - Collect interval: positive intager;
+   *  - Collect interval: positive integer;
    *  - Send real query examples: boolean;
    *  - Collect from: 'slowlog' or 'perfschema'.
    */
@@ -93,7 +93,7 @@ export class SettingsComponent extends CoreComponent {
 
   /**
    * Set on agent:
-   *  - Collect interval: positive intager;
+   *  - Collect interval: positive integer;
    *  - Send real query examples: boolean;
    *  - Collect from: 'slowlog' or 'perfschema'.
    */
@@ -144,7 +144,7 @@ export class SettingsComponent extends CoreComponent {
   }
 
   /**
-   * Ovverrides parent method.
+   * Overrides parent method.
    * Executes on route was changed to refresh data.
    * @param params - URL query parameters
    */
