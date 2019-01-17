@@ -1,8 +1,4 @@
-import {
-    NgModule,
-    Optional, SkipSelf
-} from '@angular/core';
-
+import { NgModule, Optional, SkipSelf } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { SharedModule } from '../shared/shared.module';
 import { NavComponent } from './nav/nav.component';
@@ -27,19 +23,23 @@ import { RemoteInstancesListComponent } from '../remote-instances-list/remote-in
 import { BaseQueryDetailsService } from './services/base-query-details.service';
 import { QanEditColumnComponent } from '../qan-edit-column/qan-edit-column.component';
 import { NgSelectModule } from '@ng-select/ng-select';
-import { QueryTableConfigService } from './services/query-table-config.service';
+import { QanFilterComponent } from '../qan-filter/qan-filter.component';
+import { QanFilterService } from '../qan-filter/qan-filter.service';
+import { PerfectScrollbarModule } from 'ngx-perfect-scrollbar';
+import { FilterSearchService } from './services/filter-search.service';
+import { QanEditColumnService } from '../qan-edit-column/qan-edit-column.service';
 
 @NgModule({
-    imports: [CommonModule, SharedModule, ClipboardModule, NgSelectModule],
+    imports: [CommonModule, SharedModule, ClipboardModule, NgSelectModule,  PerfectScrollbarModule],
     declarations: [NavComponent, PageNotFoundComponent, QueryProfileComponent,
-        MySQLQueryDetailsComponent, MongoQueryDetailsComponent,
+        MySQLQueryDetailsComponent, MongoQueryDetailsComponent, QanFilterComponent,
         SummaryComponent, SettingsComponent, JSONTreeComponent, RemoteInstancesListComponent, QanEditColumnComponent],
     exports: [NavComponent, PageNotFoundComponent, QueryProfileComponent,
-        MySQLQueryDetailsComponent, MongoQueryDetailsComponent,
+        MySQLQueryDetailsComponent, MongoQueryDetailsComponent, QanFilterComponent,
         SummaryComponent, SettingsComponent, JSONTreeComponent],
     providers: [InstanceService, QueryProfileService, MySQLQueryDetailsService,
         MongoQueryDetailsService, SummaryService, SettingsService, AddAmazonRDSService, AddRemoteInstanceService, BaseQueryDetailsService,
-      RemoteInstancesListService, QueryTableConfigService]
+      RemoteInstancesListService, QanEditColumnService, QanFilterService, FilterSearchService]
 })
 export class CoreModule {
 

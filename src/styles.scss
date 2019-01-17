@@ -4,15 +4,17 @@
 @import "app/global-styles/themes/theme-dark";
 @import "app/global-styles/themes/theme-light";
 @import "app/global-styles/accordion";
+@import "app/global-styles/tabset";
 @import "app/global-styles/grid-tables";
 @import "app/global-styles/qan-main-table";
 @import "app/global-styles/buttons";
 @import "app/global-styles/inputs";
 @import "app/global-styles/input-select";
 @import "app/global-styles/select.scss";
+@import "app/global-styles/scrollbar";
 @import "app/global-styles/checkbox";
 @import "app/global-styles/configuration-panel";
-@import "app/global-styles/query-search";
+@import "app/global-styles/search";
 @import "app/global-styles/column-configuration";
 @import "app/global-styles/switcher";
 @import "app/global-styles/overlay";
@@ -20,6 +22,8 @@
 @import "app/global-styles/spinner";
 @import "app/global-styles/charts";
 @import "app/global-styles/app-tooltip";
+@import "app/global-styles/close-icon";
+@import "app/global-styles/badge";
 @import "app/global-styles/not-used";
 
 *, *:after, *:before {

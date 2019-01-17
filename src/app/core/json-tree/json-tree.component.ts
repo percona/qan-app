@@ -18,16 +18,25 @@ export class JSONTreeComponent implements OnChanges {
     renderjson.set_icons('+', '-');
   }
 
+  /**
+   * Reset state of JSON viewer
+   */
   ngOnChanges() {
     this.isCollapsed = true;
     this.resetJson();
   }
 
+  /**
+   * Collapse all JSON viewer object
+   */
   public toggleAll() {
     this.isCollapsed = !this.isCollapsed;
     this.resetJson();
   }
 
+  /**
+   * Reset JSON object for viewer
+   */
   public resetJson() {
     renderjson.set_show_to_level(this.isCollapsed ? '' : 'all');
 

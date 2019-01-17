@@ -292,25 +292,25 @@ fdescribe('QueryProfileComponent', () => {
   });
 
   it('should be true if first seen is checked', () => {
-    component.getFirstSeen(true);
+    component.toggleFirstSeen(true);
     fixture.detectChanges();
     expect(component.testingVariable).toBeTruthy();
   });
 
   it('should be false if first seen not checked', () => {
-    component.getFirstSeen(false);
+    component.toggleFirstSeen(false);
     fixture.detectChanges();
     expect(component.testingVariable).toBeFalsy();
   });
 
   it('should be false if first seen is not presented', () => {
-    component.getFirstSeen();
+    component.toggleFirstSeen();
     fixture.detectChanges();
     expect(component.testingVariable).toBeFalsy();
   });
 
   it('should be false if first seen is not presented', () => {
-    component.getFirstSeen();
+    component.toggleFirstSeen();
     fixture.detectChanges();
     expect(component.testingVariable).toBeFalsy();
   });

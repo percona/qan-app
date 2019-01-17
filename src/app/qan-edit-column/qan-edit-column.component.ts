@@ -1,5 +1,6 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
-import {QueryTableConfigService} from '../core/services/query-table-config.service';
+import {FilterSearchService} from '../core/services/filter-search.service';
+import {QanEditColumnService} from './qan-edit-column.service';
 
 @Component({
   selector: 'app-qan-edit-column',
@@ -15,22 +16,33 @@ export class QanEditColumnComponent implements OnInit, OnDestroy {
   public configSearchValue = '';
   public configSearchValues = [];
 
-  constructor(public configService: QueryTableConfigService) {
-    this.configService.getConfigurations();
+  constructor(private configService: QanEditColumnService, private filterSearchService: FilterSearchService) {
+    this.configService.getConfigs();
     this.subscription = this.configService.source.subscribe(items => {
       this.configs = items;
       this.configs.forEach(config => localStorage.setItem(config.name, JSON.stringify(config)));
     });
   }
 
+  /**
+   * Set config groups for edit column menu
+   */
   ngOnInit() {
     this.configSearchValues = this.configs;
   }
 
+  /**
+   * Destroys route subscription on component unload.
+   */
   ngOnDestroy() {
     this.subscription.unsubscribe();
   }
 
+  /**
+   * Check checked configs in group and if all is unchecked, disable all config group
+   * @param event - change event, need to check if current checkbox contains main class
+   * @param config - current config group
+   */
   setConfig(event, config) {
     const currentConfig = this.configs.find(item => item.name === config.name);
     const isMainCheckbox = event.target.className.includes(this.mainCheckboxClass);
@@ -44,15 +56,16 @@ export class QanEditColumnComponent implements OnInit, OnDestroy {
     this.configService.setConfig(this.configs);
   }
 
-  findConfigs(searchValue) {
+  /**
+   * Search in edit column configs by value in search field
+   * @param searchValue - value, which user type in search field
+   */
+  findConfigs(searchValue: string) {
     if (!searchValue) {
       this.configSearchValues = this.configs;
       return;
     }
 
-    searchValue = searchValue.toLowerCase().replace(' ', '');
-    this.configSearchValues = [];
-    this.configSearchValues = this.configs.filter(config =>
-      config.name.toLowerCase().replace(' ', '').includes(searchValue));
+    this.configSearchValues = this.configs.filter(config => this.filterSearchService.findBySearch(config.name, searchValue));
   }
 }

@@ -12,6 +12,7 @@
 </div>
 <div *ngIf="dbServer !== null && dbServer !== undefined" class="content-wrapper">
   <section *ngIf="!noQueryError" class="queries-table-wrapper">
+    <app-qan-filter></app-qan-filter>
     <section class="configuration-panel">
       <p class="configuration-panel__title">
         Top {{ totalAmountOfQueries ? (queryProfile?.length - 1) : 0 }} of {{ totalAmountOfQueries }} Queries by % Grand Total Time (%GTT)
@@ -22,7 +23,7 @@
         <label class="switcher">
           <input type="checkbox"
                  class="switcher__checkbox"
-                 (change)="isFirstSeenChecked = !isFirstSeenChecked; getFirstSeen(isFirstSeenChecked);"
+                 (change)="isFirstSeenChecked = !isFirstSeenChecked; toggleFirstSeen(isFirstSeenChecked);"
                  [disabled]="!isQuerySwitching && !isLoading && totalAmountOfQueries === 0 && !isFirstSeenChecked && !isSearchQuery">
           <span class="switcher__slider">
   	        <span class="switcher__option">All queries</span>
@@ -31,13 +32,13 @@
         </label>
       </div>
 
-      <form (submit)="search()" class="query-search query-search--clicked">
+      <form (submit)="search()" class="search ">
         <input [(ngModel)]="searchValue" name="searchValue"
                [disabled]="!isQuerySwitching && !isLoading && totalAmountOfQueries === 0 && !isSearchQuery"
-               class="input-field query-search__input"
+               class="input-field search__input"
                type="text" placeholder="Search by query abstract, fingerprint or ID"
                id="search-input">
-        <button class="query-search__button" type="submit">
+        <button class="search__button" type="submit">
           <span class="fa fa-search"></span>
         </button>
       </form>
@@ -70,7 +71,7 @@
       </label>
     </div>
 
-    <table *ngIf="!isQuerySwitching" class="pmm-grid-table">
+    <table *ngIf="!isQuerySwitching" class="pmm-grid-table" id="qanTable">
       <tr class="pmm-grid-table__row">
         <th class="pmm-grid-table__cell">#</th>
         <th class="pmm-grid-table__cell pmm-grid-table__cell--full">Query Abstract</th>

@@ -5,6 +5,11 @@
   margin-bottom: var(--main-bottom-indent);
 }
 
+.configuration-panel > label {
+  margin-left: auto;
+  margin-right: 10px;
+}
+
 .configuration-panel--reverse {
   flex-direction: row-reverse;
 }

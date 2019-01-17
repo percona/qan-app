@@ -26,6 +26,9 @@ export class MongoQueryDetailsComponent extends BaseQueryDetailsComponent implem
     super(route, router, instanceService, baseQueryDetailsService);
   }
 
+  /**
+   * Set current query params when page is loaded
+   */
   ngOnInit() {
     this.queryParams = this.route.snapshot.queryParams as QueryParams;
     this.parseParams();
