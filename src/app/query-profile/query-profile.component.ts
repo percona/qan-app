@@ -16,6 +16,7 @@ const queryProfileError = 'No data. Please check pmm-client and database configu
 })
 export class QueryProfileComponent extends CoreComponent {
 
+  // tslint:disable-next-line:no-input-rename
   @Input('data') queryProfile: Array<{}> = [];
   public profileTotal;
   public totalAmountOfQueries: number;
@@ -192,9 +193,9 @@ export class QueryProfileComponent extends CoreComponent {
   // public rowsPerTable(selectOption) {
   //   this.queryProfile = [];
   //   this.paginationConfig.itemsPerPage = this.selectedPaginationOption;
-    // for (let count = 0; count < selectOption; count += 10) {
-    //   this.pushNewRow(count); // 0, 10, 20, 30, 40
-    // }
+  // for (let count = 0; count < selectOption; count += 10) {
+  //   this.pushNewRow(count); // 0, 10, 20, 30, 40
+  // }
   //   Promise.all([this.getPage(1, 0), this.getPage(1, 10), this.getPage(1, 20), this.getPage(1, 30), this.getPage(1, 40)]);
   // }
 
