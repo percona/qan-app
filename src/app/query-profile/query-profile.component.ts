@@ -289,6 +289,7 @@ export class QueryProfileComponent extends CoreComponent {
       this.selectedConfig[this.filterSearchService.transformForSearch(column.name)] = column.value);
     this.currentColumn = name;
     this.setCurrentSparkline(name, this.selectedConfig);
+    console.log('selectedConfig - ', this.selectedConfig);
   }
 
   /**
