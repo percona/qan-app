@@ -21,6 +21,7 @@
   z-index: 0;
   grid-column: 2 / 3;
   grid-row: 1 / 2;
+  margin-top: var(--filter-row-height);
   //height: 715px;
 }
 
@@ -42,12 +43,12 @@
 .outlet--cropped {
   overflow-x: hidden;
   overflow-y: scroll;
-  height: 660px;
+  height: 610px;
 }
 
 //todo: If this variant has been accepted - add grid-row height
 .query-details-wrapper--cropped {
-  height: 715px; //645
+  height: 665px; //645
 }
 
 .queries-table-wrapper--opened {

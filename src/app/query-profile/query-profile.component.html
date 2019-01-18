@@ -45,14 +45,13 @@
     </section>
 
     <section class="configuration-panel configuration-panel--outlet">
-      <ng-select
-        [(ngModel)]="selected"
-        [items]="configs"
-        [disabled]="!configs.length"
-        (change)="onConfigChanges(selected.name)"
-        class="pmm-select"
-        bindLabel="name"
-        role="combobox">
+      <ng-select [(ngModel)]="selected"
+                 [items]="configs"
+                 [disabled]="!configs.length"
+                 (change)="onConfigChanges(selected.name)"
+                 class="pmm-select"
+                 bindLabel="name"
+                 role="combobox">
       </ng-select>
 
       <app-qan-edit-column></app-qan-edit-column>
@@ -71,89 +70,91 @@
       </label>
     </div>
 
-    <table *ngIf="!isQuerySwitching" class="pmm-grid-table" id="qanTable">
-      <tr class="pmm-grid-table__row">
-        <th class="pmm-grid-table__cell">#</th>
-        <th class="pmm-grid-table__cell pmm-grid-table__cell--full">Query Abstract</th>
-        <th *ngIf="selected && isQueryCol" class="pmm-grid-table__cell">
-          <div class="cell__content--max">{{selected.name}}</div>
-        </th>
-        <th *ngIf="selected && isRowsScannedCol" class="pmm-grid-table__cell">
-          <div class="cell__content--max">Rows Scanned</div>
-        </th>
-      </tr>
-      <tr *ngFor="let row of queryProfile; let i = index;"
-          [routerLink]="['./', 'report', dbServer.Subsystem]"
-          [queryParams]="composeQueryParamsForGrid(row.Id)" routerLinkActive="pmm-grid-table__row--active"
-          [class.pmm-grid-table__row--first-seen]="checkFirstSeen(row)"
-          (click)="toggleQueryDetails()"
-          class="pmm-grid-table__row">
-        <td class="pmm-grid-table__cell">
-          {{i || ''}}
-        </td>
-        <td class="pmm-grid-table__cell">
-          <div>
-            <button class="pmm-grid-table__details-button">
-              {{ row.Rank ? (row.Abstract || 'Low Ranking Queries') : 'TOTAL' }}
-            </button>
-          </div>
-        </td>
-        <td *ngIf="selected && isQueryCol" class="pmm-grid-table__cell">
-          <div [ngSwitch]="currentColumn" class="pmm-grid-table__sub-table">
-            <div *ngIf="selectedConfig?.sparkline" class="scaling-svg-container app-tooltip"
-                 [appLoadSparklines]="row.Log"
-                 data-tooltip="Loading..."
-                 xkey="Start_ts" ykey="{{yKey}}"
-                 measurement="number"
-                 id="loadSparkline">
+    <section>
+      <table *ngIf="!isQuerySwitching" class="pmm-grid-table" id="qanTable">
+        <tr class="pmm-grid-table__row">
+          <th class="pmm-grid-table__cell">#</th>
+          <th class="pmm-grid-table__cell pmm-grid-table__cell--full">Query Abstract</th>
+          <th *ngIf="selected && isQueryCol" class="pmm-grid-table__cell">
+            <div class="cell__content--max">{{selected.name}}</div>
+          </th>
+          <th *ngIf="selected && isRowsScannedCol" class="pmm-grid-table__cell">
+            <div class="cell__content--max">Rows Scanned</div>
+          </th>
+        </tr>
+        <tr *ngFor="let row of queryProfile; let i = index;"
+            [routerLink]="['./', 'report', dbServer.Subsystem]"
+            [queryParams]="composeQueryParamsForGrid(row.Id)" routerLinkActive="pmm-grid-table__row--active"
+            [class.pmm-grid-table__row--first-seen]="checkFirstSeen(row)"
+            (click)="toggleQueryDetails()"
+            class="pmm-grid-table__row">
+          <td class="pmm-grid-table__cell">
+            {{i || ''}}
+          </td>
+          <td class="pmm-grid-table__cell">
+            <div>
+              <button class="pmm-grid-table__details-button">
+                {{ row.Rank ? (row.Abstract || 'Low Ranking Queries') : 'TOTAL' }}
+              </button>
             </div>
-            <ng-container *ngSwitchCase="'Load'">
+          </td>
+          <td *ngIf="selected && isQueryCol" class="pmm-grid-table__cell">
+            <div [ngSwitch]="currentColumn" class="pmm-grid-table__sub-table">
+              <div *ngIf="selectedConfig?.sparkline" class="scaling-svg-container app-tooltip"
+                   [appLoadSparklines]="row.Log"
+                   data-tooltip="Loading..."
+                   xkey="Start_ts" ykey="{{yKey}}"
+                   measurement="number"
+                   id="loadSparkline">
+              </div>
+              <ng-container *ngSwitchCase="'Load'">
               <span *ngIf="selectedConfig?.value">
                 {{ row.Load | humanize : 'number' }}
               </span>
-            </ng-container>
+              </ng-container>
 
-            <ng-container *ngSwitchCase="'Count'" class="unit unit--qps" id="countQueriesPerSecond">
-              <span *ngIf="selectedConfig?.queriespersecond">{{row.QPS | humanize : 'number'}}</span>
-            </ng-container>
+              <ng-container *ngSwitchCase="'Count'" class="unit unit--qps" id="countQueriesPerSecond">
+                <span *ngIf="selectedConfig?.queriespersecond">{{row.QPS | humanize : 'number'}}</span>
+              </ng-container>
 
-            <ng-container *ngSwitchCase="'Avg Latency'">
-              <span *ngIf="selectedConfig?.value">{{ row.Stats.Avg | humanize }}</span>
-            </ng-container>
-            <ng-container *ngSwitchDefault></ng-container>
-          </div>
-        </td>
-        <td *ngIf="selected && isRowsScannedCol" class="pmm-grid-table__cell">
-          <div [ngSwitch]="currentColumn" class="pmm-grid-table__sub-table" id="rowsCanned">
-            <ng-container *ngSwitchCase="'Load'">
+              <ng-container *ngSwitchCase="'Avg Latency'">
+                <span *ngIf="selectedConfig?.value">{{ row.Stats.Avg | humanize }}</span>
+              </ng-container>
+              <ng-container *ngSwitchDefault></ng-container>
+            </div>
+          </td>
+          <td *ngIf="selected && isRowsScannedCol" class="pmm-grid-table__cell">
+            <div [ngSwitch]="currentColumn" class="pmm-grid-table__sub-table" id="rowsCanned">
+              <ng-container *ngSwitchCase="'Load'">
               <span *ngIf="selectedConfig?.percentage">
                 {{row.Percentage | humanize : 'percent'}}
               </span>
-            </ng-container>
+              </ng-container>
 
-            <span *ngIf="currentColumn === 'Count' && selectedConfig?.value" id="countValue">
+              <span *ngIf="currentColumn === 'Count' && selectedConfig?.value" id="countValue">
               {{row.Stats.Cnt | humanize : 'number'}}
             </span>
 
-            <ng-container *ngSwitchCase="'Count'" class="unit unit--percent" id="countPercentage">
-              <span *ngIf="selectedConfig?.percentage">{{(row.Stats.Cnt / profileTotal?.Stats.Cnt * 100).toFixed(2)}}</span>
-            </ng-container>
+              <ng-container *ngSwitchCase="'Count'" class="unit unit--percent" id="countPercentage">
+                <span *ngIf="selectedConfig?.percentage">{{(row.Stats.Cnt / profileTotal?.Stats.Cnt * 100).toFixed(2)}}</span>
+              </ng-container>
 
-            <ng-container *ngSwitchCase="'Avg Latency'">
-              <div *ngIf="selectedConfig?.distribution"
-                   [appLatencyChart]="row.Stats"
-                   class="scaling-svg-container scaling-svg-container--full-width app-tooltip"
-                   data-tooltip="Loading..."
-                   measurement="time"
-                   id="latencyDistribution">
-              </div>
-            </ng-container>
+              <ng-container *ngSwitchCase="'Avg Latency'">
+                <div *ngIf="selectedConfig?.distribution"
+                     [appLatencyChart]="row.Stats"
+                     class="scaling-svg-container scaling-svg-container--full-width app-tooltip"
+                     data-tooltip="Loading..."
+                     measurement="time"
+                     id="latencyDistribution">
+                </div>
+              </ng-container>
 
-            <ng-container *ngSwitchDefault></ng-container>
-          </div>
-        </td>
-      </tr>
-    </table>
+              <ng-container *ngSwitchDefault></ng-container>
+            </div>
+          </td>
+        </tr>
+      </table>
+    </section>
 
     <div class="center-children">
       <button *ngIf="totalAmountOfQueries && !isLoading"
