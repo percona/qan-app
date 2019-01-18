@@ -80,6 +80,21 @@
   margin: var(--accordion-inner-indent);
 }
 
+.card-body__content--slinky {
+  display: grid;
+  grid-template-columns: 1fr auto;
+}
+
+.card-body__content--slinky .content__text {
+  grid-column: 1/3;
+  grid-row: 1/2;
+}
+
+.card-body__content--slinky .button--fixed {
+  grid-column: 2/3;
+  grid-row: 1 /2;
+}
+
 .card-body__content > * {
   color: inherit;
 }

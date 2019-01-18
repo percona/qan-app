@@ -57,7 +57,7 @@
       </ngb-tab>
       <ngb-tab [disabled]="!selected.length" id="checked-tab">
         <ng-template ngbTabTitle>
-          <span>Checked</span>
+          <span>Selected</span>
           <span *ngIf="selected.length" class="badge">{{selected.length}}</span>
         </ng-template>
         <ng-template ngbTabContent>
@@ -79,7 +79,7 @@
                     </div>
                     <div class="chips {{selectedLabel.groupName.toLowerCase()}}">
                       <span class="ng-value-label">{{selectedLabel.filterName}}</span>
-                      <span (click)="changeFilterState(selectedLabel)" class="close"></span>
+                      <span (click)="changeFilterState(selectedLabel)" class="close-icon"></span>
                     </div>
                   </ng-container>
                 </div>
@@ -110,7 +110,7 @@
         <div class="ng-value" *ngFor="let item of items">
           <div class="chips {{item.groupName.toLowerCase()}}">
             <span class="ng-value-label">{{item.groupName}}: {{item.filterName}}</span>
-            <span class="close" (click)="clear(item)" aria-hidden="true"></span>
+            <span class="close-icon" (click)="clear(item)" aria-hidden="true"></span>
           </div>
         </div>
       </perfect-scrollbar>
@@ -118,7 +118,7 @@
     <ng-template ng-label-tmp let-item="item" let-clear="clear">
       <div class="chips {{item.groupName.toLowerCase()}}">
         <span class="ng-value-label">{{item.groupName}}: {{item.filterName}}</span>
-        <span class="close" (click)="clear(item)" aria-hidden="true"></span>
+        <span class="close-icon" (click)="clear(item)" aria-hidden="true"></span>
       </div>
     </ng-template>
     <!--Group template-->

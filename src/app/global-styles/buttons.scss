@@ -36,7 +36,7 @@
 }
 
 .button--fixed {
-  position: fixed;
+  position: sticky;
 }
 
 .button--inside {
@@ -49,10 +49,6 @@
 
 .button--inside-active {
   background-color: var(--highlight-background);
-}
-
-.button--copy {
-  right: var(--accordion-inner-indent);
 }
 
 .button--expand {

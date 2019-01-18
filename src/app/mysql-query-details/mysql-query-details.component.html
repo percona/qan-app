@@ -693,9 +693,9 @@
           <div *ngIf="isLoading" class="spinner-wrapper spinner-wrapper--centered">
             <i class="fa fa-spinner fa-pulse fa-3x fa-fw"></i>
           </div>
-          <div class="card-body__content" *ngIf="!isLoading">
+          <div class="card-body__content card-body__content--slinky" *ngIf="!isLoading">
             <pre class="content__text"><code [innerHTML]="fingerprint"></code></pre>
-            <button class="button button--inside button--fixed button--copy"
+            <button class="button button--inside button--fixed"
                     id="copyFingerprint"
                     ngxClipboard
                     [cbContent]="queryDetails.Query.Fingerprint"
@@ -716,9 +716,9 @@
           <div *ngIf="isLoading" class="spinner-wrapper spinner-wrapper--centered">
             <i class="fa fa-spinner fa-pulse fa-3x fa-fw"></i>
           </div>
-          <div *ngIf="!isLoading" class="card-body__content">
+          <div *ngIf="!isLoading" class="card-body__content card-body__content--slinky">
             <pre class="content__text"><code [innerHTML]="queryExample"></code></pre>
-            <button class="button button--inside button--fixed button--copy"
+            <button class="button button--inside button--fixed"
                     id="copyQueryExample"
                     ngxClipboard
                     [cbContent]="queryDetails.Example.Query"
@@ -805,9 +805,9 @@
           <div *ngIf="isExplainLoading" class="spinner-wrapper spinner-wrapper--centered">
             <i class="fa fa-spinner fa-pulse fa-3x fa-fw"></i>
           </div>
-          <div *ngIf="!isExplainLoading && !explainError" class="card-body__content">
+          <div *ngIf="!isExplainLoading && !explainError" class="card-body__content card-body__content--slinky">
             <app-json-tree [json]="explainJson"></app-json-tree>
-            <button class="button button--inside button--fixed button--copy"
+            <button class="button button--inside button--fixed"
                     id="copyJson"
                     ngxClipboard
                     [cbContent]="explainJsonString"
@@ -833,9 +833,9 @@
           <div *ngIf="isExplainLoading" class="spinner-wrapper spinner-wrapper--centered">
             <i class="fa fa-spinner fa-pulse fa-3x fa-fw"></i>
           </div>
-          <div *ngIf="!isExplainLoading && !explainError" class="card-body__content">
+          <div *ngIf="!isExplainLoading && !explainError" class="card-body__content card-body__content--slinky">
             <pre class="content__text">{{ explainVisual }}</pre>
-            <button class="button button--inside button--fixed button--copy"
+            <button class="button button--inside button--fixed"
                     id="copyVisualExplain"
                     ngxClipboard
                     [cbContent]="explainVisual"
@@ -894,9 +894,9 @@
             <i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
             {{ createTableError }}
           </div>
-          <div *ngIf="!isTableInfoLoading && !createTableError" class="card-body__content">
+          <div *ngIf="!isTableInfoLoading && !createTableError" class="card-body__content card-body__content--slinky">
             <pre class="content__text"><code [innerHTML]="createTable"></code></pre>
-            <button class="button button--inside button--fixed button--copy"
+            <button class="button button--inside button--fixed"
                     id="copyCreateTable"
                     ngxClipboard
                     [cbContent]="tableInfo.Create"

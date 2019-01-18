@@ -188,9 +188,9 @@
           <div *ngIf="isLoading" class="spinner-wrapper spinner-wrapper--centered">
             <i class="fa fa-spinner fa-pulse fa-3x fa-fw"></i>
           </div>
-          <div *ngIf="!isLoading" class="card-body__content">
+          <div *ngIf="!isLoading" class="card-body__content card-body__content--slinky">
             <pre class="content__text"><code [innerHTML]="fingerprint"></code></pre>
-            <button class="button button--inside button--fixed button--copy"
+            <button class="button button--inside button--fixed"
                     id="copyFingerprint"
                     ngxClipboard
                     [cbContent]="fingerprint"
@@ -211,9 +211,9 @@
           <div *ngIf="isLoading" class="spinner-wrapper spinner-wrapper--centered">
             <i class="fa fa-spinner fa-pulse fa-3x fa-fw"></i>
           </div>
-          <div *ngIf="!isLoading" class="card-body__content">
+          <div *ngIf="!isLoading" class="card-body__content card-body__content--slinky">
             <pre class="content__text"><code [innerHTML]="queryExample"></code></pre>
-            <button class="button button--inside button--fixed button--copy"
+            <button class="button button--inside button--fixed"
                     id="copyQueryExample"
                     ngxClipboard
                     [cbContent]="queryDetails.Example.Query"
@@ -252,9 +252,9 @@
           <div *ngIf="isExplainLoading" class="spinner-wrapper spinner-wrapper--centered">
             <i class="fa fa-spinner fa-pulse fa-3x fa-fw"></i>
           </div>
-          <div *ngIf="!isExplainLoading && !explainError" class="card-body__content">
+          <div *ngIf="!isExplainLoading && !explainError" class="card-body__content card-body__content--slinky">
             <app-json-tree [json]="explainJson"></app-json-tree>
-            <button class="button button--inside button--fixed button--copy"
+            <button class="button button--inside button--fixed"
                     id="copyJson"
                     ngxClipboard
                     [cbContent]="explainJsonString"

@@ -6,8 +6,13 @@
 
 .queries-table-wrapper {
   z-index: 1;
+
   grid-column: 1 / 3;
   grid-row: 1 / 2;
+
+  display: flex;
+  flex-direction: column;
+
   margin-bottom: var(--main-bottom-indent);
 }
 
@@ -16,6 +21,7 @@
   z-index: 0;
   grid-column: 2 / 3;
   grid-row: 1 / 2;
+  //height: 715px;
 }
 
 .scaling-svg-container {
@@ -29,15 +35,19 @@
 .query-details-wrapper__outlet {
   z-index: 1;
   width: 100%;
-  padding: 20px 0 30px 20px;
+  padding-left: 20px;
   background-color: var(--page-background);
+}
+
+.outlet--cropped {
+  overflow-x: hidden;
+  overflow-y: scroll;
+  height: 660px;
 }
 
 //todo: If this variant has been accepted - add grid-row height
 .query-details-wrapper--cropped {
-  overflow-x: hidden;
-  overflow-y: scroll;
-  height: 645px;
+  height: 715px; //645
 }
 
 .queries-table-wrapper--opened {
@@ -51,4 +61,16 @@
 //todo: Delete after approving one of proof of concept
 .switcher--temporary {
   --switcher-width: 145px;
+}
+
+.close-icon--details {
+  --close-size: 30px;
+  opacity: 1;
+  margin-top: 0;
+  margin-bottom: 10px;
+}
+
+.close-icon--details:before,
+.close-icon--details:after {
+  background-color: white;
 }
