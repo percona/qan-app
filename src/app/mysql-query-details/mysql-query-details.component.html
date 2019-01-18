@@ -693,7 +693,7 @@
           <div *ngIf="isLoading" class="spinner-wrapper spinner-wrapper--centered">
             <i class="fa fa-spinner fa-pulse fa-3x fa-fw"></i>
           </div>
-          <div class="card-body__content card-body__content--slinky" *ngIf="!isLoading">
+          <div class="card-body__content slinky-content" *ngIf="!isLoading">
             <pre class="content__text"><code [innerHTML]="fingerprint"></code></pre>
             <button class="button button--inside button--fixed"
                     id="copyFingerprint"
@@ -716,7 +716,7 @@
           <div *ngIf="isLoading" class="spinner-wrapper spinner-wrapper--centered">
             <i class="fa fa-spinner fa-pulse fa-3x fa-fw"></i>
           </div>
-          <div *ngIf="!isLoading" class="card-body__content card-body__content--slinky">
+          <div *ngIf="!isLoading" class="card-body__content slinky-content">
             <pre class="content__text"><code [innerHTML]="queryExample"></code></pre>
             <button class="button button--inside button--fixed"
                     id="copyQueryExample"
@@ -805,8 +805,8 @@
           <div *ngIf="isExplainLoading" class="spinner-wrapper spinner-wrapper--centered">
             <i class="fa fa-spinner fa-pulse fa-3x fa-fw"></i>
           </div>
-          <div *ngIf="!isExplainLoading && !explainError" class="card-body__content card-body__content--slinky">
-            <app-json-tree [json]="explainJson"></app-json-tree>
+          <div *ngIf="!isExplainLoading && !explainError" class="card-body__content slinky-content">
+            <app-json-tree [json]="explainJson" class="slinky-content"></app-json-tree>
             <button class="button button--inside button--fixed"
                     id="copyJson"
                     ngxClipboard
@@ -833,7 +833,7 @@
           <div *ngIf="isExplainLoading" class="spinner-wrapper spinner-wrapper--centered">
             <i class="fa fa-spinner fa-pulse fa-3x fa-fw"></i>
           </div>
-          <div *ngIf="!isExplainLoading && !explainError" class="card-body__content card-body__content--slinky">
+          <div *ngIf="!isExplainLoading && !explainError" class="card-body__content slinky-content">
             <pre class="content__text">{{ explainVisual }}</pre>
             <button class="button button--inside button--fixed"
                     id="copyVisualExplain"
@@ -894,7 +894,7 @@
             <i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
             {{ createTableError }}
           </div>
-          <div *ngIf="!isTableInfoLoading && !createTableError" class="card-body__content card-body__content--slinky">
+          <div *ngIf="!isTableInfoLoading && !createTableError" class="card-body__content slinky-content">
             <pre class="content__text"><code [innerHTML]="createTable"></code></pre>
             <button class="button button--inside button--fixed"
                     id="copyCreateTable"
