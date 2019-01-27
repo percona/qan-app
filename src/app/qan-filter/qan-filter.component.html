@@ -1,6 +1,6 @@
 <aside [class.filter-menu--open]="isToggleMenu" class="filter-menu">
   <div class="filter-menu__header">
-    <button (click)="setFilterHeight(); isToggleMenu = !isToggleMenu" class="filter-menu__toggle">
+    <button (click)="isToggleMenu = !isToggleMenu; setFilterHeight()" class="filter-menu__toggle">
       <i class="fa fa-list" aria-hidden="true"></i>
     </button>
     <div *ngIf="isToggleMenu" class="filter-menu__title">
@@ -39,7 +39,7 @@
                   </div>
                   <div *ngIf="filterGroup.values.length" class="filter-group__filters">
                     <ng-container *ngFor="let value of filterGroup.values; let index = index">
-                      <label *ngIf="index <= limits[filterGroup.name]" class="checkbox-container">
+                      <label *ngIf="index <= limits[filterGroup.name]" class="checkbox-container checkbox-container--filter">
                         <input (change)="setConfigs()"
                                [(ngModel)]="value.state"
                                type="checkbox">

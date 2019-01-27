@@ -4,13 +4,16 @@ import {QanFilterModel} from '../core/models/qan-fliter.model';
 import {NgbTabset} from '@ng-bootstrap/ng-bootstrap';
 import {PerfectScrollbarConfigInterface} from 'ngx-perfect-scrollbar';
 import {FilterSearchService} from '../core/services/filter-search.service';
+import {CoreComponent, QueryParams} from '../core/core.component';
+import {ActivatedRoute, Router} from '@angular/router';
+import {InstanceService} from '../core/services/instance.service';
 
 @Component({
   selector: 'app-qan-filter',
   templateUrl: './qan-filter.component.html',
   styleUrls: ['./qan-filter.component.scss']
 })
-export class QanFilterComponent implements OnInit, OnDestroy {
+export class QanFilterComponent extends CoreComponent implements OnInit, OnDestroy {
 
   @ViewChild('tabs')
   private tabs: NgbTabset;
@@ -27,7 +30,18 @@ export class QanFilterComponent implements OnInit, OnDestroy {
   public filters: any;
   public scrollbarConfig: PerfectScrollbarConfigInterface = {};
 
-  constructor(private qanFilterService: QanFilterService, private filterSearchService: FilterSearchService) {
+  private customEvents = {
+    openFilters: new Event('openFilters'),
+    sendEvent: (event) => document.dispatchEvent(event)
+  };
+
+
+  constructor(private qanFilterService: QanFilterService,
+              private filterSearchService: FilterSearchService,
+              protected route: ActivatedRoute,
+              protected router: Router,
+              protected instanceService: InstanceService) {
+    super(route, router, instanceService);
     this.qanFilterService.getFilterConfigs();
     this.filterSubscription = this.qanFilterService.filterSource.subscribe(items => {
       this.filters = items;
@@ -37,6 +51,7 @@ export class QanFilterComponent implements OnInit, OnDestroy {
         this.selected = [...this.selected, ...group.values.filter((value: any) => value.state)];
       });
       this.groupSelected();
+      this.addFilterToURL();
     });
     this.filtersSearchedValues = this.filters;
   }
@@ -50,6 +65,9 @@ export class QanFilterComponent implements OnInit, OnDestroy {
 
   ngOnDestroy() {
     this.filterSubscription.unsubscribe();
+  }
+
+  onChangeParams(params) {
   }
 
   setFilterHeight() {
@@ -112,6 +130,16 @@ export class QanFilterComponent implements OnInit, OnDestroy {
 
   setConfigs() {
     this.qanFilterService.setFilterConfigs(this.filters);
+  }
+
+  addFilterToURL() {
+    const params: QueryParams = Object.assign({}, this.queryParams);
+    params.filters = '';
+    if (this.selected.length) {
+      this.selected.forEach(filter => params.filters += `${filter['groupName']}-${filter['filterName']},`);
+    }
+    this.router.navigate(['profile'], {queryParams: params});
+    setTimeout(() => this.customEvents.sendEvent(this.customEvents.openFilters))
   }
 
   autocompleteSearch = (term: string, item: any) => {
