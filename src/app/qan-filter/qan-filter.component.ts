@@ -4,9 +4,10 @@ import {QanFilterModel} from '../core/models/qan-fliter.model';
 import {NgbTabset} from '@ng-bootstrap/ng-bootstrap';
 import {PerfectScrollbarConfigInterface} from 'ngx-perfect-scrollbar';
 import {FilterSearchService} from '../core/services/filter-search.service';
-import {CoreComponent, QueryParams} from '../core/core.component';
+import {CoreComponent} from '../core/core.component';
 import {ActivatedRoute, Router} from '@angular/router';
 import {InstanceService} from '../core/services/instance.service';
+import {QueryParams} from '../core/services/url-params.service';
 
 @Component({
   selector: 'app-qan-filter',
@@ -29,12 +30,6 @@ export class QanFilterComponent extends CoreComponent implements OnInit, OnDestr
   private filterSubscription: any;
   public filters: any;
   public scrollbarConfig: PerfectScrollbarConfigInterface = {};
-
-  private customEvents = {
-    openFilters: new Event('openFilters'),
-    sendEvent: (event) => document.dispatchEvent(event)
-  };
-
 
   constructor(private qanFilterService: QanFilterService,
               private filterSearchService: FilterSearchService,
@@ -135,11 +130,13 @@ export class QanFilterComponent extends CoreComponent implements OnInit, OnDestr
   addFilterToURL() {
     const params: QueryParams = Object.assign({}, this.queryParams);
     params.filters = '';
+    params.queryID = '';
+    params.search = '';
     if (this.selected.length) {
       this.selected.forEach(filter => params.filters += `${filter['groupName']}-${filter['filterName']},`);
     }
     this.router.navigate(['profile'], {queryParams: params});
-    setTimeout(() => this.customEvents.sendEvent(this.customEvents.openFilters))
+    setTimeout(() => this.customEvents.sendEvent(this.customEvents.updateUrl));
   }
 
   autocompleteSearch = (term: string, item: any) => {

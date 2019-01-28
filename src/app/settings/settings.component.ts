@@ -109,7 +109,7 @@ export class SettingsComponent extends CoreComponent {
     try {
       // this.agentConf = res; // diffrent responce than GetDefaults.
       this.isApplied = true;
-      window.parent.document.dispatchEvent(this.event);
+      this.customEvents.sendEvent(this.customEvents.copySuccess);
       setTimeout(() => {
         this.isApplied = false;
       }, visibleMessageTime);

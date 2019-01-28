@@ -53,8 +53,6 @@ export abstract class BaseQueryDetailsComponent extends CoreComponent {
     tableSection: ['table-create'],
   };
 
-  event = new Event('showSuccessNotification');
-
   constructor(protected route: ActivatedRoute, protected router: Router,
               public instanceService: InstanceService, public queryDetailsService: BaseQueryDetailsService) {
     super(route, router, instanceService);
@@ -300,6 +298,6 @@ export abstract class BaseQueryDetailsComponent extends CoreComponent {
     setTimeout(() => {
       this.isCopied[key] = false
     }, 3000);
-    window.parent.document.dispatchEvent(this.event);
+    this.customEvents.sendEvent(this.customEvents.copySuccess);
   }
 }

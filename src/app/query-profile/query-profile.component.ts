@@ -1,11 +1,12 @@
-import {CoreComponent, QueryParams, QanError} from '../core/core.component';
 import {Component} from '@angular/core';
-import {InstanceService} from '../core/services/instance.service';
-import {QueryProfileService} from './query-profile.service';
 import {Router, ActivatedRoute} from '@angular/router';
-import * as moment from 'moment';
+import {InstanceService} from '../core/services/instance.service';
 import {FilterSearchService} from '../core/services/filter-search.service';
+import {QueryParams} from '../core/services/url-params.service';
 import {QanEditColumnService} from '../qan-edit-column/qan-edit-column.service';
+import {QueryProfileService} from './query-profile.service';
+import {CoreComponent, QanError} from '../core/core.component';
+import * as moment from 'moment';
 
 const queryProfileError = 'No data. Please check pmm-client and database configurations on selected instance.';
 
@@ -179,15 +180,16 @@ export class QueryProfileComponent extends CoreComponent {
   search() {
     this.isSearchQuery = true;
     const params: QueryParams = Object.assign({}, this.queryParams);
-    if (!!this.searchValue) {
-      params.search = this.searchValue === 'null' ? 'NULL' : this.searchValue;
+    if (!!this.searchValue && this.searchValue.toLowerCase() !== 'null') {
+      params.search = this.searchValue;
       this.testingVariable = true;
     } else {
       this.testingVariable = false;
-      delete params.search;
+      params.search = '';
     }
-    delete params.queryID;
+    params.queryID = '';
     this.router.navigate(['profile'], {queryParams: params});
+    this.customEvents.sendEvent(this.customEvents.updateUrl);
   }
 
   /**

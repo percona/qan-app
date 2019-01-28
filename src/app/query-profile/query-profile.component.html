@@ -73,6 +73,7 @@
           [routerLink]="['./', 'report', dbServer.Subsystem]"
           [queryParams]="composeQueryParamsForGrid(row.Id)" routerLinkActive="pmm-grid-table__row--active"
           [class.pmm-grid-table__row--first-seen]="checkFirstSeen(row)"
+          (click)="customEvents.sendEvent(this.customEvents.updateUrl)"
           class="pmm-grid-table__row">
         <td class="pmm-grid-table__cell">
           {{i || ''}}

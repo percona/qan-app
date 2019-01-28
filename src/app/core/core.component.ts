@@ -1,24 +1,13 @@
-import 'rxjs/add/operator/filter';
-import {Instance, InstanceService} from './services/instance.service';
 import {OnDestroy} from '@angular/core';
-import {ParseQueryParamDatePipe} from '../shared/parse-query-param-date.pipe';
 import {Event, Router, ActivatedRoute, NavigationEnd} from '@angular/router';
-import {Subscription} from 'rxjs/Subscription';
+import {Instance, InstanceService} from './services/instance.service';
+import {QueryParams} from './services/url-params.service';
+import {ParseQueryParamDatePipe} from '../shared/parse-query-param-date.pipe';
 import * as moment from 'moment';
+import {Subscription} from 'rxjs/Subscription';
+import 'rxjs/add/operator/filter';
 
 import {environment} from '../environment';
-
-export interface QueryParams {
-  from?: string;
-  to?: string;
-  'var-host'?: string; // | string[];
-  search?: string;
-  queryID?: string;
-  tz?: string;
-  theme?: string;
-  first_seen?: boolean;
-  filters?: any;
-}
 
 /**
  * Base class for all components.
@@ -42,9 +31,19 @@ export abstract class CoreComponent implements OnDestroy {
 
   public fromUTCDate: string;
   public toUTCDate: string;
+  protected customEvents = {
+    checkFilters: new Event('checkFilters'),
+    copySuccess: new Event('showSuccessNotification'),
+    selectQuery: new Event('selectQuery'),
+    searchQuery: new Event('searchQuery'),
+    updateUrl: new Event('updateUrl'),
+    sendEvent: (event) => setTimeout(() => document.dispatchEvent(event), 0)
+  };
+
   parseQueryParamDatePipe = new ParseQueryParamDatePipe();
 
-  constructor(protected route: ActivatedRoute, protected router: Router,
+  constructor(protected route: ActivatedRoute,
+              protected router: Router,
               protected instanceService: InstanceService) {
     this.isDemo = environment.demoHosts.includes(location.hostname);
     this.dbServer = instanceService.dbServers[0];

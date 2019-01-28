@@ -2,12 +2,13 @@ import 'rxjs/add/operator/filter';
 import { Component, OnDestroy } from '@angular/core';
 import { InstanceService } from '../services/instance.service';
 import { MomentFormatPipe } from '../../shared/moment-format.pipe';
-import { QueryParams, CoreComponent } from '../core.component';
+import { CoreComponent } from '../core.component';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs/Subscription';
 import * as moment from 'moment';
 
 import { environment } from '../../environment';
+import {QueryParams} from '../services/url-params.service';
 
 @Component({
   moduleId: module.id,
