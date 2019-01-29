@@ -46,6 +46,14 @@ button:not([type="submit"]) {
   box-shadow: 2px 3px 5px -1px rgba(0, 0, 0, 0.75);
 }
 
+.filter-menu__header {
+  display: flex;
+  align-items: center;
+
+  height: var(--filter-row-height);
+  padding-right: var(--lr-menu-indent);
+}
+
 .filter-menu__title {
   display: flex;
   justify-content: space-between;

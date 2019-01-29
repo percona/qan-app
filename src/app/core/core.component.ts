@@ -66,6 +66,7 @@ export abstract class CoreComponent implements OnDestroy {
         this.parseParams();
 
         // trigger overriden method in child component
+        console.log('subscribeToRouter');
         this.onChangeParams(this.queryParams);
 
         this.previousQueryParams = Object.assign({}, this.queryParams);

@@ -121,6 +121,8 @@ export class QueryProfileComponent extends CoreComponent {
       this.totalAmountOfQueries = data['TotalQueries'];
       if (this.totalAmountOfQueries > 0) {
         this.queryProfile = data['Query'];
+        console.log('this.queryProfile - ', this.queryProfile);
+        console.log('data[\'Query\'] - ', data['Query']);
         this.countDbQueries();
         this.profileTotal = this.queryProfile[0];
       }
@@ -168,9 +170,10 @@ export class QueryProfileComponent extends CoreComponent {
    * @param queryID - checked queries' id
    * @return query params of current query
    */
-  composeQueryParamsForGrid(queryID: string | null): QueryParams {
+  composeQueryParamsForGrid(queryID: string | null, index): QueryParams {
     const queryParams: QueryParams = Object.assign({}, this.queryParams);
     queryParams.queryID = queryID || 'TOTAL';
+    console.log(`${index}-${queryParams.queryID}`);
     return queryParams;
   }
 
@@ -178,16 +181,10 @@ export class QueryProfileComponent extends CoreComponent {
    * Show search queries result for main qan-table
    */
   search() {
-    this.isSearchQuery = true;
     const params: QueryParams = Object.assign({}, this.queryParams);
-    if (!!this.searchValue && this.searchValue.toLowerCase() !== 'null') {
-      params.search = this.searchValue;
-      this.testingVariable = true;
-    } else {
-      this.testingVariable = false;
-      params.search = '';
-    }
+    params.search = !!this.searchValue && this.searchValue.toLowerCase() !== 'null' ? this.searchValue : '';
     params.queryID = '';
+    this.isSearchQuery = true;
     this.router.navigate(['profile'], {queryParams: params});
     this.customEvents.sendEvent(this.customEvents.updateUrl);
   }
@@ -198,17 +195,11 @@ export class QueryProfileComponent extends CoreComponent {
    * @param isFirstSeenChecked - state for checked switcher for first-seen
    */
   toggleFirstSeen(isFirstSeenChecked = false) {
-    this.isQuerySwitching = true;
-    this.isFirstSeenChecked = isFirstSeenChecked;
     const params: QueryParams = Object.assign({}, this.queryParams);
-    if (isFirstSeenChecked) {
-      this.testingVariable = true;
-      params.first_seen = this.isFirstSeenChecked;
-    } else {
-      this.testingVariable = false;
-      delete params.first_seen;
-    }
-    delete params.queryID;
+    this.isFirstSeenChecked = isFirstSeenChecked;
+    params.first_seen = isFirstSeenChecked ? this.isFirstSeenChecked : false;
+    params.queryID = '';
+    this.isQuerySwitching = true;
     this.router.navigate(['profile'], {queryParams: params});
     this.isQuerySwitching = false;
   }
