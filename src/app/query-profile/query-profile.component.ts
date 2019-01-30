@@ -166,14 +166,25 @@ export class QueryProfileComponent extends CoreComponent {
   }
 
   /**
-   * Set router parameters if query is checked in main qan-table
-   * @param queryID - checked queries' id
-   * @return query params of current query
+   * Send event which trigger updating url in grafana-dashboards
+   * Navigate to query details
+   * @param queryID - query id of current table row
    */
-  composeQueryParamsForGrid(queryID: string | null): QueryParamsModel {
+  selectedQuery(queryID) {
     const params: QueryParamsModel = Object.assign({}, this.queryParams);
     params.queryID = queryID || 'TOTAL';
-    return params;
+    this.router.navigate(['./', 'report', this.dbServer.Subsystem], {relativeTo: this.route, queryParams: params});
+    this.customEvents.sendEvent(this.customEvents.updateUrl);
+  }
+
+  /**
+   * Check if current query id is equal with upl params id
+   * @param queryID - query id of current table row
+   * @return equality of ids
+   */
+  isRowActive(queryID) {
+    queryID = !queryID ? 'TOTAL' : queryID;
+    return queryID === this.queryParams.queryID
   }
 
   /**
