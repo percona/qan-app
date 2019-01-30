@@ -134,7 +134,8 @@ export class QanFilterComponent extends CoreComponent implements OnInit, OnDestr
     params.queryID = '';
     params.search = '';
     if (this.selected.length) {
-      this.selected.forEach(filter => params.filters += `${filter['groupName']}-${filter['filterName']}_`);
+      params.filters = this.selected.map(filter => `${filter['groupName']}-${filter['filterName']}`).join(',');
+      console.log('params.filters - ', params.filters);
     }
     this.router.navigate(['profile'], {queryParams: params});
     this.customEvents.sendEvent(this.customEvents.updateUrl);
