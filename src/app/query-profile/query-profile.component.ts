@@ -2,11 +2,11 @@ import {Component} from '@angular/core';
 import {Router, ActivatedRoute} from '@angular/router';
 import {InstanceService} from '../core/services/instance.service';
 import {FilterSearchService} from '../core/services/filter-search.service';
-import {QueryParams} from '../core/services/url-params.service';
 import {QanEditColumnService} from '../qan-edit-column/qan-edit-column.service';
 import {QueryProfileService} from './query-profile.service';
 import {CoreComponent, QanError} from '../core/core.component';
 import * as moment from 'moment';
+import {QueryParamsModel} from '../core/models/query-params.model';
 
 const queryProfileError = 'No data. Please check pmm-client and database configurations on selected instance.';
 
@@ -76,6 +76,8 @@ export class QueryProfileComponent extends CoreComponent {
     this.fromDate = moment(this.from).format('llll');
     this.toDate = moment(this.to).format('llll');
 
+    console.log('previousQueryParams - ', this.previousQueryParams);
+    console.log('queryParams - ', this.queryParams);
     // only if host, from and to are different from prev router - load queries.
     if (!this.previousQueryParams ||
       this.previousQueryParams['var-host'] !== this.queryParams['var-host'] ||
@@ -121,8 +123,6 @@ export class QueryProfileComponent extends CoreComponent {
       this.totalAmountOfQueries = data['TotalQueries'];
       if (this.totalAmountOfQueries > 0) {
         this.queryProfile = data['Query'];
-        console.log('this.queryProfile - ', this.queryProfile);
-        console.log('data[\'Query\'] - ', data['Query']);
         this.countDbQueries();
         this.profileTotal = this.queryProfile[0];
       }
@@ -170,21 +170,20 @@ export class QueryProfileComponent extends CoreComponent {
    * @param queryID - checked queries' id
    * @return query params of current query
    */
-  composeQueryParamsForGrid(queryID: string | null, index): QueryParams {
-    const queryParams: QueryParams = Object.assign({}, this.queryParams);
-    queryParams.queryID = queryID || 'TOTAL';
-    console.log(`${index}-${queryParams.queryID}`);
-    return queryParams;
+  composeQueryParamsForGrid(queryID: string | null): QueryParamsModel {
+    const params: QueryParamsModel = Object.assign({}, this.queryParams);
+    params.queryID = queryID || 'TOTAL';
+    return params;
   }
 
   /**
    * Show search queries result for main qan-table
    */
   search() {
-    const params: QueryParams = Object.assign({}, this.queryParams);
-    params.search = !!this.searchValue && this.searchValue.toLowerCase() !== 'null' ? this.searchValue : '';
-    params.queryID = '';
     this.isSearchQuery = true;
+    const params: QueryParamsModel = Object.assign({}, this.queryParams);
+    params.search = this.searchValue !== 'null' ? this.searchValue : '';
+    params.queryID = '';
     this.router.navigate(['profile'], {queryParams: params});
     this.customEvents.sendEvent(this.customEvents.updateUrl);
   }
@@ -195,7 +194,7 @@ export class QueryProfileComponent extends CoreComponent {
    * @param isFirstSeenChecked - state for checked switcher for first-seen
    */
   toggleFirstSeen(isFirstSeenChecked = false) {
-    const params: QueryParams = Object.assign({}, this.queryParams);
+    const params: QueryParamsModel = Object.assign({}, this.queryParams);
     this.isFirstSeenChecked = isFirstSeenChecked;
     params.first_seen = isFirstSeenChecked ? this.isFirstSeenChecked : false;
     params.queryID = '';

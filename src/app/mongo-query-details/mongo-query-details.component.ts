@@ -5,7 +5,7 @@ import { MongoQueryDetailsService } from './mongo-query-details.service';
 import {QueryDetails} from '../core/services/base-query-details.service';
 import {BaseQueryDetailsComponent} from '../core/base-query-details.component';
 import {BaseQueryDetailsService} from '../core/services/base-query-details.service';
-import {QueryParams} from '../core/services/url-params.service';
+import {QueryParamsModel} from '../core/models/query-params.model';
 
 @Component({
   moduleId: module.id,
@@ -30,7 +30,7 @@ export class MongoQueryDetailsComponent extends BaseQueryDetailsComponent implem
    * Set current query params when page is loaded
    */
   ngOnInit() {
-    this.queryParams = this.route.snapshot.queryParams as QueryParams;
+    this.queryParams = new QueryParamsModel(this.route.snapshot.queryParams);
     this.parseParams();
     this.onChangeParams(this.queryParams);
   }

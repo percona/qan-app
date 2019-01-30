@@ -8,7 +8,7 @@ import { Subscription } from 'rxjs/Subscription';
 import * as moment from 'moment';
 
 import { environment } from '../../environment';
-import {QueryParams} from '../services/url-params.service';
+import {QueryParamsModel} from '../models/query-params.model';
 
 @Component({
   moduleId: module.id,
@@ -125,13 +125,13 @@ export class NavComponent extends CoreComponent implements OnDestroy {
     this.timezone = tz;
     const expireDays = moment().utc().add(7, 'y').toString();
     document.cookie = `timezone=${tz}; expires=${expireDays}; path=/`;
-    const params: QueryParams = Object.assign({}, this.queryParams);
+    const params: QueryParamsModel = Object.assign({}, this.queryParams);
     params.tz = tz;
     this.router.navigate([this.path], { queryParams: params, relativeTo: this.route });
   }
 
   setQuickRange(num: string, unit = 's') {
-    const params: QueryParams = Object.assign({}, this.queryParams);
+    const params: QueryParamsModel = Object.assign({}, this.queryParams);
     params.to = moment().valueOf().toString();
     params.from = moment().subtract(num as moment.unitOfTime.DurationConstructor, unit).valueOf().toString();
     this.router.navigate(['profile'], { queryParams: params });
@@ -139,7 +139,7 @@ export class NavComponent extends CoreComponent implements OnDestroy {
   }
 
   setTimeRange(from, to) {
-    const params: QueryParams = Object.assign({}, this.queryParams);
+    const params: QueryParamsModel = Object.assign({}, this.queryParams);
     params.to = this.toTimeRaw;
     params.from = this.fromTimeRaw;
     this.router.navigate(['profile'], { queryParams: params });

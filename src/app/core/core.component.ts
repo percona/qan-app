@@ -1,13 +1,13 @@
 import {OnDestroy} from '@angular/core';
 import {Event, Router, ActivatedRoute, NavigationEnd} from '@angular/router';
 import {Instance, InstanceService} from './services/instance.service';
-import {QueryParams} from './services/url-params.service';
 import {ParseQueryParamDatePipe} from '../shared/parse-query-param-date.pipe';
 import * as moment from 'moment';
 import {Subscription} from 'rxjs/Subscription';
 import 'rxjs/add/operator/filter';
 
 import {environment} from '../environment';
+import {QueryParamsModel} from './models/query-params.model';
 
 /**
  * Base class for all components.
@@ -16,9 +16,8 @@ export abstract class CoreComponent implements OnDestroy {
 
   public isDemo = false;
   protected routerSubscription: Subscription;
-  public queryParams: QueryParams;
-  public newQueryParams: any;
-  public previousQueryParams: QueryParams;
+  public queryParams: QueryParamsModel;
+  public previousQueryParams: QueryParamsModel;
   public agent: Instance | null;
   public dbServer: Instance | null;
   public dbServers: Array<Instance> = [];
@@ -61,12 +60,10 @@ export abstract class CoreComponent implements OnDestroy {
     this.routerSubscription = this.router.events
       .filter((e: any) => e instanceof NavigationEnd)
       .subscribe((event: Event) => {
-        this.queryParams = this.route.snapshot.queryParams as QueryParams;
-        this.newQueryParams = this.route.snapshot.queryParams.keys;
+        this.queryParams = new QueryParamsModel(this.route.snapshot.queryParams);
         this.parseParams();
 
         // trigger overriden method in child component
-        console.log('subscribeToRouter');
         this.onChangeParams(this.queryParams);
 
         this.previousQueryParams = Object.assign({}, this.queryParams);

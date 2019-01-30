@@ -6,7 +6,7 @@ import {BaseQueryDetailsService} from '../core/services/base-query-details.servi
 import { QueryDetails } from '../core/services/base-query-details.service';
 import * as hljs from 'highlight.js';
 import {BaseQueryDetailsComponent} from '../core/base-query-details.component';
-import {QueryParams} from '../core/services/url-params.service';
+import {QueryParamsModel} from '../core/models/query-params.model';
 
 @Component({
   moduleId: module.id,
@@ -43,7 +43,7 @@ export class MySQLQueryDetailsComponent extends BaseQueryDetailsComponent implem
    * Set current query params when page is loaded
    */
   ngOnInit() {
-    this.queryParams = this.route.snapshot.queryParams as QueryParams;
+    this.queryParams = new QueryParamsModel(this.route.snapshot.queryParams);
     this.parseParams();
     this.onChangeParams(this.queryParams);
   }

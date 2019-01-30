@@ -7,7 +7,7 @@ import {FilterSearchService} from '../core/services/filter-search.service';
 import {CoreComponent} from '../core/core.component';
 import {ActivatedRoute, Router} from '@angular/router';
 import {InstanceService} from '../core/services/instance.service';
-import {QueryParams} from '../core/services/url-params.service';
+import {QueryParamsModel} from '../core/models/query-params.model';
 
 @Component({
   selector: 'app-qan-filter',
@@ -46,12 +46,12 @@ export class QanFilterComponent extends CoreComponent implements OnInit, OnDestr
         this.selected = [...this.selected, ...group.values.filter((value: any) => value.state)];
       });
       this.groupSelected();
-      this.addFilterToURL();
     });
     this.filtersSearchedValues = this.filters;
   }
 
   ngOnInit() {
+    this.queryParams = new QueryParamsModel(this.route.snapshot.queryParams);
     this.filters.forEach(group => {
       this.autocomplete = [...this.autocomplete, ...group['values'].slice()];
       this.limits[group['name']] = this.defaultLimit;
@@ -125,18 +125,19 @@ export class QanFilterComponent extends CoreComponent implements OnInit, OnDestr
 
   setConfigs() {
     this.qanFilterService.setFilterConfigs(this.filters);
+    this.addFilterToURL();
   }
 
   addFilterToURL() {
-    const params: QueryParams = Object.assign({}, this.queryParams);
+    const params: QueryParamsModel = Object.assign({}, this.queryParams);
     params.filters = '';
     params.queryID = '';
     params.search = '';
     if (this.selected.length) {
-      this.selected.forEach(filter => params.filters += `${filter['groupName']}-${filter['filterName']},`);
+      this.selected.forEach(filter => params.filters += `${filter['groupName']}-${filter['filterName']}_`);
     }
     this.router.navigate(['profile'], {queryParams: params});
-    setTimeout(() => this.customEvents.sendEvent(this.customEvents.updateUrl));
+    this.customEvents.sendEvent(this.customEvents.updateUrl);
   }
 
   autocompleteSearch = (term: string, item: any) => {
