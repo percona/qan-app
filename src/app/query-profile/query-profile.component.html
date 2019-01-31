@@ -59,15 +59,9 @@
 
     <!--todo: Delete after one of proof of concept will be accepted-->
     <div>
-      <label class="switcher switcher--temporary">
-        <input (change)="isCropped = !isCropped"
-               type="checkbox"
-               class="switcher__checkbox">
-        <span class="switcher__slider">
-  	        <span class="switcher__option">Full</span>
-            <span class="switcher__option">Cropped</span>
-          </span>
-      </label>
+      <label><input type="radio" [(ngModel)]="detailsView" name="view" value="full">Full</label>
+      <label><input type="radio" [(ngModel)]="detailsView" name="view" value="cropped">Cropped</label>
+      <label><input type="radio" [(ngModel)]="detailsView" name="view" value="modal">Modal</label>
     </div>
 
     <section>
@@ -169,8 +163,9 @@
     </div>
   </section>
 
-  <aside [class.query-details-wrapper--cropped]="isCropped && isQueryDetails"
-         [class.queries-table-wrapper--opened]="isQueryDetails"
+  <aside [class.query-details-wrapper--opened]="isQueryDetails"
+         [class.query-details-wrapper--cropped]="detailsView === 'cropped'"
+         [class.query-details-wrapper--modal]="detailsView === 'modal'"
          class="query-details-wrapper">
     <span *ngIf="isQueryDetails" (click)="toggleQueryDetails(!isQueryDetails)" class="close-icon close-icon--details"></span>
     <div class="query-details-wrapper__outlet" *ngIf="isQueryDetails" [class.outlet--cropped]="isCropped">

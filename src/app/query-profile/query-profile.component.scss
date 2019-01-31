@@ -49,9 +49,10 @@
 //todo: If this variant has been accepted - add grid-row height
 .query-details-wrapper--cropped {
   height: 665px; //645
+  overflow-y: scroll;
 }
 
-.queries-table-wrapper--opened {
+.query-details-wrapper--opened {
   z-index: 2;
   -webkit-box-shadow: -4px 2px 5px 0 rgba(0,0,0,0.75);
   -moz-box-shadow: -4px 2px 5px 0 rgba(0,0,0,0.75);

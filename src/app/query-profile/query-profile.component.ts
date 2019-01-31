@@ -40,6 +40,7 @@ export class QueryProfileComponent extends CoreComponent implements OnInit {
   public selected = this.defaultSelected;
   public selectedConfig = {};
   public configs: any;
+  public detailsView = 'full';
 
   public currentColumn: string;
   public yKey: string;
@@ -70,6 +71,8 @@ export class QueryProfileComponent extends CoreComponent implements OnInit {
 
   ngOnInit() {
     this.toggleQueryDetails(this.queryParams.queryID !== 'null');
+    console.log('detailsView - ', this.detailsView);
+    console.log('this.queryParams.queryID - ', this.queryParams.queryID);
   }
 
   /**
@@ -256,5 +259,6 @@ export class QueryProfileComponent extends CoreComponent implements OnInit {
 
   toggleQueryDetails(isQueryDetails = true) {
     this.isQueryDetails = isQueryDetails;
+    console.log('isQueryDetails - ', isQueryDetails);
   }
 }
