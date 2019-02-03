@@ -2,6 +2,7 @@
   position: relative;
   display: grid;
   grid-template-columns: 1fr 70%;
+  grid-template-rows: 481px; //todo: add variable
 }
 
 .queries-table-wrapper {
@@ -21,7 +22,7 @@
   z-index: 0;
   grid-column: 2 / 3;
   grid-row: 1 / 2;
-  margin-top: var(--filter-row-height);
+  //margin-top: var(--filter-row-height);
   //height: 715px;
 }
 
@@ -54,6 +55,7 @@
 
 .query-details-wrapper--opened {
   z-index: 2;
+  overflow-y: scroll;
   -webkit-box-shadow: -4px 2px 5px 0 rgba(0,0,0,0.75);
   -moz-box-shadow: -4px 2px 5px 0 rgba(0,0,0,0.75);
   box-shadow: -4px 2px 5px 0 rgba(0,0,0,0.75);
@@ -85,4 +87,10 @@
 .close-icon--details:before,
 .close-icon--details:after {
   background-color: white;
+}
+
+.pmm-grid-table {
+  grid-column: 1/3;
+  grid-row: 1/2;
+  margin-bottom: 0;
 }

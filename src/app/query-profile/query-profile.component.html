@@ -10,7 +10,7 @@
   <a href="https://www.percona.com/doc/percona-monitoring-and-management/pmm-admin.html#adding-monitoring-services"
      target="blank">PMM documentation.</a>
 </div>
-<div *ngIf="dbServer !== null && dbServer !== undefined" class="content-wrapper">
+<div *ngIf="dbServer !== null && dbServer !== undefined" class="">
   <section *ngIf="!noQueryError" class="queries-table-wrapper">
     <app-qan-filter></app-qan-filter>
     <section class="configuration-panel">
@@ -64,7 +64,7 @@
       <label><input type="radio" [(ngModel)]="detailsView" name="view" value="modal">Modal</label>
     </div>
 
-    <section>
+    <section class="content-wrapper">
       <table *ngIf="!isQuerySwitching" class="pmm-grid-table" id="qanTable">
         <tr class="pmm-grid-table__row">
           <th class="pmm-grid-table__cell">#</th>
@@ -148,6 +148,15 @@
           </td>
         </tr>
       </table>
+      <aside [class.query-details-wrapper--opened]="isQueryDetails"
+             [class.query-details-wrapper--cropped]="detailsView === 'cropped'"
+             [class.query-details-wrapper--modal]="detailsView === 'modal'"
+             class="query-details-wrapper">
+        <span *ngIf="isQueryDetails" (click)="toggleQueryDetails(!isQueryDetails)" class="close-icon close-icon--details"></span>
+        <div class="query-details-wrapper__outlet" *ngIf="isQueryDetails" [class.outlet--cropped]="isCropped">
+          <router-outlet></router-outlet>
+        </div>
+      </aside>
     </section>
 
     <div class="center-children">
@@ -162,16 +171,6 @@
       </div>
     </div>
   </section>
-
-  <aside [class.query-details-wrapper--opened]="isQueryDetails"
-         [class.query-details-wrapper--cropped]="detailsView === 'cropped'"
-         [class.query-details-wrapper--modal]="detailsView === 'modal'"
-         class="query-details-wrapper">
-    <span *ngIf="isQueryDetails" (click)="toggleQueryDetails(!isQueryDetails)" class="close-icon close-icon--details"></span>
-    <div class="query-details-wrapper__outlet" *ngIf="isQueryDetails" [class.outlet--cropped]="isCropped">
-      <router-outlet></router-outlet>
-    </div>
-  </aside>
 
   <div *ngIf="!!noQueryError" class="text-center alert alert-danger w-75 mx-auto wrong-configuration-message" role="alert">
     {{ noQueryError }}
