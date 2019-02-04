@@ -728,7 +728,7 @@
       </ngb-tab>
       <ngb-tab *ngIf="!!queryExample || !!explainError || !!explainJson || !!explainVisual || !!explainClassic" title="EXPLAIN">
         <ng-template ngbTabContent>
-          <form class="configuration-panel__options center-children search">
+          <form class="configuration-panel__options center-children search search--modal">
             <input [(ngModel)]="dbName" [ngModelOptions]="{standalone: true}"
                    type="text" class="input-field search__input search__input--small"
                    id="databaseInput" placeholder="`database-name`">
@@ -849,7 +849,7 @@
                title="TABLES">
         <ng-template ngbTabContent>
           <label for="dbTblNamesInput">DB and table</label>
-          <form (submit)="addDBTable()" class="configuration-panel__options center-children search">
+          <form (submit)="addDBTable()" class="configuration-panel__options center-children search search--modal">
             <input [(ngModel)]="newDBTblNames" [ngModelOptions]="{standalone: true}"
                    type="text" class="input-field search__input search__input--small"
                    id="dbTblNamesInput" placeholder="`database-name`.`table-name`">
