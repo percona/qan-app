@@ -71,8 +71,6 @@ export class QueryProfileComponent extends CoreComponent implements OnInit {
 
   ngOnInit() {
     this.toggleQueryDetails(this.queryParams.queryID !== 'null');
-    console.log('detailsView - ', this.detailsView);
-    console.log('this.queryParams.queryID - ', this.queryParams.queryID);
   }
 
   /**
@@ -159,6 +157,14 @@ export class QueryProfileComponent extends CoreComponent implements OnInit {
     }
     this.countDbQueries();
     this.isLoading = false;
+    // todo: calc height function
+    const qanTable = document.getElementById('qanTable');
+    const gridContentWrapper = document.getElementById('grid-content-wrapper');
+    const filters = document.getElementsByClassName('filter-menu') as HTMLCollectionOf<HTMLElement>;
+    setTimeout(() => {
+      filters[0].style.setProperty('--filters-height', `${qanTable.offsetHeight}px`);
+      gridContentWrapper.style.setProperty('--grid-content-wrapper', `${qanTable.offsetHeight}px`)
+    }, 0);
   }
 
   /**
@@ -259,6 +265,5 @@ export class QueryProfileComponent extends CoreComponent implements OnInit {
 
   toggleQueryDetails(isQueryDetails = true) {
     this.isQueryDetails = isQueryDetails;
-    console.log('isQueryDetails - ', isQueryDetails);
   }
 }

@@ -1,15 +1,18 @@
 .content-wrapper {
+  --grid-content-wrapper: 481px;
+
   position: relative;
   display: grid;
   grid-template-columns: 1fr 70%;
-  grid-template-rows: 481px; //todo: add variable
+  grid-template-rows: auto; //todo: add variable
+  height: var(--grid-content-wrapper);
 }
 
 .queries-table-wrapper {
   z-index: 1;
 
   grid-column: 1 / 3;
-  grid-row: 1 / 2;
+  grid-row: 1 / -1;
 
   display: flex;
   flex-direction: column;
@@ -19,9 +22,9 @@
 
 .query-details-wrapper {
   position: relative;
-  z-index: 0;
+  z-index: -1;
   grid-column: 2 / 3;
-  grid-row: 1 / 2;
+  grid-row: 1 / -1;
   //margin-top: var(--filter-row-height);
   //height: 715px;
 }
