@@ -8,10 +8,11 @@ button:not([type="submit"]) {
   --lr-menu-indent: 1em;
   --tb-menu-indent: 10px;
   --search-height: 35px;
+  --filter-row-height: 25px;
   --toggle-color: rgb(204, 204, 204);
   --button-title-color: rgb(227, 132, 0);
-  --filters-height: 525px;
-  --difference: 33px;
+  --filters-height: 481px;
+  --correct-value: 43px; // change value if add/remove some components before tables
 
   position: absolute;
   top: 0;
@@ -26,9 +27,9 @@ button:not([type="submit"]) {
 .filter-menu--open {
   width: auto;
 
-  -webkit-box-shadow: 2px 3px 5px -1px rgba(0, 0, 0, 0.75);
-  -moz-box-shadow: 2px 3px 5px -1px rgba(0, 0, 0, 0.75);
-  box-shadow: 2px 3px 5px -1px rgba(0, 0, 0, 0.75);
+  -webkit-box-shadow: 2px 5px 5px -1px rgba(0, 0, 0, 0.75);
+  -moz-box-shadow: 2px 5px 5px -1px rgba(0, 0, 0, 0.75);
+  box-shadow: 2px 5px 5px -1px rgba(0, 0, 0, 0.75);
 }
 
 .filter-menu__header {
@@ -36,7 +37,7 @@ button:not([type="submit"]) {
   align-items: center;
 
   height: var(--filter-row-height);
-  padding-right: var(--lr-menu-indent);
+  padding: 9px var(--lr-menu-indent) 0 var(--lr-menu-indent);
 }
 
 .filter-menu__title {
@@ -55,17 +56,17 @@ button:not([type="submit"]) {
 
 .filter-menu__body {
   width: 280px;
-  padding: 0 0 10px var(--lr-menu-indent);
+  padding: var(--main-bottom-indent) 0 var(--tb-menu-indent) var(--lr-menu-indent);
 }
 
 .filter-menu__filters {
   position: relative;
-  height: calc(var(--filters-height) + var(--difference));
+  height: calc(var(--filters-height) - var(--tb-menu-indent) + var(--correct-value));
 }
 
 .filter-menu__filters--chips {
   padding-right: var(--lr-menu-indent);
-  height: calc(var(--filters-height) + var(--search-height) + var(--tb-menu-indent) + var(--difference));
+  height: calc(var(--filters-height) + var(--search-height) + var(--correct-value));
 }
 
 .filters__filter-group {

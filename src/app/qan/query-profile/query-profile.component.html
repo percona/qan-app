@@ -12,8 +12,12 @@
 </div>
 <div *ngIf="dbServer !== null && dbServer !== undefined" class="content-wrapper">
   <div *ngIf="!noQueryError" class="queries-viewer">
-    <app-qan-filter></app-qan-filter>
-    <app-qan-search></app-qan-search>
+    <div class="action-tools">
+      <div class="actions-tools__body">
+        <app-qan-filter></app-qan-filter>
+        <app-qan-search></app-qan-search>
+      </div>
+    </div>
 
     <section class="configuration-panel">
       <p class="configuration-panel__title">
@@ -47,17 +51,17 @@
     </section>
 
     <section class="configuration-panel">
-      <!--<ng-select-->
-        <!--[(ngModel)]="selected"-->
-        <!--[items]="configs"-->
-        <!--[disabled]="!configs.length"-->
-        <!--(change)="onConfigChanges(selected.name)"-->
-        <!--class="pmm-select"-->
-        <!--bindLabel="name"-->
-        <!--role="combobox">-->
-      <!--</ng-select>-->
+      <ng-select
+        [(ngModel)]="selected"
+        [items]="configs"
+        [disabled]="!configs.length"
+        (change)="onConfigChanges(selected.name)"
+        class="pmm-select"
+        bindLabel="name"
+        role="combobox">
+      </ng-select>
 
-      <!--<app-qan-edit-column></app-qan-edit-column>-->
+      <app-qan-edit-column></app-qan-edit-column>
     </section>
 
     <table *ngIf="!isQuerySwitching" class="pmm-grid-table" id="qanTable">

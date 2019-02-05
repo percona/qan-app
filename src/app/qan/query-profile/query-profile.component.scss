@@ -9,3 +9,16 @@
 .scaling-svg-container {
   width: 130px;
 }
+
+.action-tools {
+  padding: 10px var(--lr-config-menu-indent) 10px 0;
+  background-color: var(--main-border-color);
+  margin-bottom: var(--main-bottom-indent);
+}
+
+.actions-tools__body {
+  position: relative;
+  display: grid;
+  grid-template-columns: 50px 1fr;
+  width: 100%;
+}

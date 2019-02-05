@@ -8,7 +8,7 @@ import {QanFilterModel} from '../../core/models/qan-fliter.model';
 @Component({
   selector: 'app-qan-search',
   templateUrl: './qan-search.component.html',
-  styleUrls: ['./qan-search.component.css']
+  styleUrls: ['./qan-search.component.scss']
 })
 export class QanSearchComponent implements OnInit, OnDestroy {
 
