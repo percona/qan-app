@@ -1,18 +1,3 @@
-:host {
-  --lr-search-indent: 25px;
-  --filter-row-height: 50px;
-  --close-aside-width: 55px;
-
-  position: relative;
-  display: flex;
-  align-items: center;
-
-  min-height: var(--filter-row-height);
-  margin-bottom: var(--main-bottom-indent);
-  padding-right: var(--lr-search-indent);
-  background-color: var(--main-border-color);
-}
-
 button:not([type="submit"]) {
   cursor: pointer;
   background-color: transparent;
