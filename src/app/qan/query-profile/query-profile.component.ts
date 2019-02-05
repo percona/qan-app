@@ -1,10 +1,10 @@
-import {CoreComponent, QueryParams, QanError} from '../core/core.component';
+import {CoreComponent, QueryParams, QanError} from '../../core/core.component';
 import {Component} from '@angular/core';
-import {InstanceService} from '../core/services/instance.service';
+import {InstanceService} from '../../core/services/instance.service';
 import {QueryProfileService} from './query-profile.service';
 import {Router, ActivatedRoute} from '@angular/router';
 import * as moment from 'moment';
-import {FilterSearchService} from '../core/services/filter-search.service';
+import {FilterSearchService} from '../../core/services/filter-search.service';
 import {QanEditColumnService} from '../qan-edit-column/qan-edit-column.service';
 
 const queryProfileError = 'No data. Please check pmm-client and database configurations on selected instance.';

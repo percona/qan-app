@@ -1,5 +1,5 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
-import {FilterSearchService} from '../core/services/filter-search.service';
+import {FilterSearchService} from '../../core/services/filter-search.service';
 import {QanEditColumnService} from './qan-edit-column.service';
 
 @Component({

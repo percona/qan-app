@@ -8,20 +8,20 @@ import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 import {FormsModule} from '@angular/forms';
 import {RouterTestingModule} from '@angular/router/testing';
 import {ClipboardModule} from 'ngx-clipboard';
-import {InstanceService} from '../core/services/instance.service';
+import {InstanceService} from '../../core/services/instance.service';
 import {QueryProfileService} from './query-profile.service';
-import {LoadSparklinesDirective} from '../shared/load-sparklines.directive';
-import {HumanizePipe} from '../shared/humanize.pipe';
-import {LatencyChartDirective} from '../shared/latency-chart.directive';
-import {MomentFormatPipe} from '../shared/moment-format.pipe';
-import {ParseQueryParamDatePipe} from '../shared/parse-query-param-date.pipe';
+import {LoadSparklinesDirective} from '../../shared/load-sparklines.directive';
+import {HumanizePipe} from '../../shared/humanize.pipe';
+import {LatencyChartDirective} from '../../shared/latency-chart.directive';
+import {MomentFormatPipe} from '../../shared/moment-format.pipe';
+import {ParseQueryParamDatePipe} from '../../shared/parse-query-param-date.pipe';
 import {ActivatedRoute} from '@angular/router';
 import {HttpClientModule} from '@angular/common/http';
 
 fdescribe('QueryProfileComponent', () => {
   let component: QueryProfileComponent;
   let fixture: ComponentFixture<QueryProfileComponent>;
-  const queryProfileJson = require('../mock-data/queryProfile-mock.json');
+  const queryProfileJson = require('../../mock-data/queryProfile-mock.json');
   const queryProfileResponse = Object.assign({}, queryProfileJson);
 
   beforeEach(async(() => {
