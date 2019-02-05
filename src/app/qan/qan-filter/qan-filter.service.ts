@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-import {QanFilterGroupsModel} from '../core/models/qan-filter-groups.model';
+import {QanFilterGroupsModel} from '../../core/models/qan-filter-groups.model';
 import {BehaviorSubject} from 'rxjs/Rx';
 
 @Injectable()

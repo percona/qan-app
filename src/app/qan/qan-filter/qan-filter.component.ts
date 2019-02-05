@@ -1,13 +1,13 @@
 import {Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
-import {QanFilterService} from './qan-filter.service';
-import {QanFilterModel} from '../core/models/qan-fliter.model';
 import {NgbTabset} from '@ng-bootstrap/ng-bootstrap';
 import {PerfectScrollbarConfigInterface} from 'ngx-perfect-scrollbar';
-import {FilterSearchService} from '../core/services/filter-search.service';
-import {CoreComponent} from '../core/core.component';
+import {CoreComponent} from '../../core/core.component';
 import {ActivatedRoute, Router} from '@angular/router';
-import {InstanceService} from '../core/services/instance.service';
-import {QueryParamsModel} from '../core/models/query-params.model';
+import {InstanceService} from '../../core/services/instance.service';
+import {QueryParamsModel} from '../../core/models/query-params.model';
+import {QanFilterService} from './qan-filter.service';
+import {FilterSearchService} from '../../core/services/filter-search.service';
+import {QanFilterModel} from '../../core/models/qan-fliter.model';
 
 @Component({
   selector: 'app-qan-filter',
@@ -23,7 +23,6 @@ export class QanFilterComponent extends CoreComponent implements OnInit, OnDestr
   public isEmptySearch = false;
   public limits = {};
   public filtersSearchedValues = [];
-  public autocomplete: Array<{}> = [];
   public selected: Array<{}> = [];
   public defaultLimit = 4;
   public filterSearchValue = '';
@@ -47,15 +46,14 @@ export class QanFilterComponent extends CoreComponent implements OnInit, OnDestr
       });
       this.groupSelected();
     });
-    this.filtersSearchedValues = this.filters;
   }
 
   ngOnInit() {
     this.queryParams = new QueryParamsModel(this.route.snapshot.queryParams);
     this.filters.forEach(group => {
-      this.autocomplete = [...this.autocomplete, ...group['values'].slice()];
       this.limits[group['name']] = this.defaultLimit;
     });
+    this.filtersSearchedValues = this.filters;
   }
 
   ngOnDestroy() {
@@ -69,10 +67,6 @@ export class QanFilterComponent extends CoreComponent implements OnInit, OnDestr
     const qanTable = document.getElementById('qanTable');
     const filters = document.getElementsByClassName('filter-menu') as HTMLCollectionOf<HTMLElement>;
     filters[0].style.setProperty('--filters-height', `${qanTable.offsetHeight}px`);
-  }
-
-  groupSelected() {
-    this.selected = [...this.selected.sort((a, b) => a['groupName'].localeCompare(b['groupName']))];
   }
 
   getAll(group) {
@@ -123,6 +117,10 @@ export class QanFilterComponent extends CoreComponent implements OnInit, OnDestr
     return `(${checkedFilters}/${allFilters})`
   }
 
+  groupSelected() {
+    this.selected = [...this.selected.sort((a, b) => a['groupName'].localeCompare(b['groupName']))];
+  }
+
   setConfigs() {
     this.qanFilterService.setFilterConfigs(this.filters);
     this.addFilterToURL();
@@ -140,9 +138,4 @@ export class QanFilterComponent extends CoreComponent implements OnInit, OnDestr
     this.router.navigate(['profile'], {queryParams: params});
     this.customEvents.sendEvent(this.customEvents.updateUrl);
   }
-
-  autocompleteSearch = (term: string, item: any) => {
-    return this.filterSearchService.findBySearch(item.filterName, term)
-      || this.filterSearchService.findBySearch(item.groupName, term);
-  };
 }

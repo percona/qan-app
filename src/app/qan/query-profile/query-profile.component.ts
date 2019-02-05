@@ -1,12 +1,12 @@
+import {CoreComponent, QanError} from '../../core/core.component';
 import {Component} from '@angular/core';
-import {Router, ActivatedRoute} from '@angular/router';
-import {InstanceService} from '../core/services/instance.service';
-import {FilterSearchService} from '../core/services/filter-search.service';
-import {QanEditColumnService} from '../qan-edit-column/qan-edit-column.service';
+import {InstanceService} from '../../core/services/instance.service';
 import {QueryProfileService} from './query-profile.service';
-import {CoreComponent, QanError} from '../core/core.component';
+import {Router, ActivatedRoute} from '@angular/router';
 import * as moment from 'moment';
-import {QueryParamsModel} from '../core/models/query-params.model';
+import {FilterSearchService} from '../../core/services/filter-search.service';
+import {QanEditColumnService} from '../qan-edit-column/qan-edit-column.service';
+import {QueryParamsModel} from '../../core/models/query-params.model';
 
 const queryProfileError = 'No data. Please check pmm-client and database configurations on selected instance.';
 
@@ -76,8 +76,6 @@ export class QueryProfileComponent extends CoreComponent {
     this.fromDate = moment(this.from).format('llll');
     this.toDate = moment(this.to).format('llll');
 
-    console.log('previousQueryParams - ', this.previousQueryParams);
-    console.log('queryParams - ', this.queryParams);
     // only if host, from and to are different from prev router - load queries.
     if (!this.previousQueryParams ||
       this.previousQueryParams['var-host'] !== this.queryParams['var-host'] ||
