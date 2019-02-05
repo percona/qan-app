@@ -9,7 +9,7 @@ import {QueryProfileService} from './query-profile.service';
 describe('QueryProfileService', () => {
   let service: QueryProfileService;
   let backend: MockBackend;
-  const mysqlServiceJson = require('../mock-data/mysqlService-mock.json');
+  const mysqlServiceJson = require('../../mock-data/mysqlService-mock.json');
   const mysqlServiceResponse = Object.assign({}, mysqlServiceJson);
 
   beforeEach(() => {

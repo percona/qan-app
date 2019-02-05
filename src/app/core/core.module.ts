@@ -5,8 +5,8 @@ import { NavComponent } from './nav/nav.component';
 import { JSONTreeComponent } from './json-tree/json-tree.component';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 import { InstanceService } from './services/instance.service';
-import { QueryProfileComponent } from '../query-profile/query-profile.component';
-import { QueryProfileService } from '../query-profile/query-profile.service';
+import { QueryProfileComponent } from '../qan/query-profile/query-profile.component';
+import { QueryProfileService } from '../qan/query-profile/query-profile.service';
 import { MySQLQueryDetailsComponent } from '../mysql-query-details/mysql-query-details.component';
 import { MySQLQueryDetailsService } from '../mysql-query-details/mysql-query-details.service';
 import { MongoQueryDetailsComponent } from '../mongo-query-details/mongo-query-details.component';
@@ -21,23 +21,24 @@ import { RemoteInstancesListService } from '../remote-instances-list/remote-inst
 import { ClipboardModule } from 'ngx-clipboard';
 import { RemoteInstancesListComponent } from '../remote-instances-list/remote-instances-list.component';
 import { BaseQueryDetailsService } from './services/base-query-details.service';
-import { QanEditColumnComponent } from '../qan-edit-column/qan-edit-column.component';
+import { QanEditColumnComponent } from '../qan/qan-edit-column/qan-edit-column.component';
 import { NgSelectModule } from '@ng-select/ng-select';
-import { QanFilterComponent } from '../qan-filter/qan-filter.component';
-import { QanFilterService } from '../qan-filter/qan-filter.service';
+import { QanFilterComponent } from '../qan/qan-filter/qan-filter.component';
+import { QanFilterService } from '../qan/qan-filter/qan-filter.service';
 import { PerfectScrollbarModule } from 'ngx-perfect-scrollbar';
 import { FilterSearchService } from './services/filter-search.service';
-import { QanEditColumnService } from '../qan-edit-column/qan-edit-column.service';
+import { QanEditColumnService } from '../qan/qan-edit-column/qan-edit-column.service';
+import { QanSearchComponent } from '../qan/qan-search/qan-search.component';
 import { NgxPaginationModule } from 'ngx-pagination';
 
 @NgModule({
     imports: [CommonModule, SharedModule, ClipboardModule, NgSelectModule, NgxPaginationModule, PerfectScrollbarModule],
     declarations: [NavComponent, PageNotFoundComponent, QueryProfileComponent,
         MySQLQueryDetailsComponent, MongoQueryDetailsComponent, QanFilterComponent,
-        SummaryComponent, SettingsComponent, JSONTreeComponent, RemoteInstancesListComponent, QanEditColumnComponent],
+        SummaryComponent, SettingsComponent, JSONTreeComponent, RemoteInstancesListComponent, QanEditColumnComponent, QanSearchComponent],
     exports: [NavComponent, PageNotFoundComponent, QueryProfileComponent,
         MySQLQueryDetailsComponent, MongoQueryDetailsComponent, QanFilterComponent,
-        SummaryComponent, SettingsComponent, JSONTreeComponent],
+        SummaryComponent, SettingsComponent, JSONTreeComponent, QanSearchComponent],
     providers: [InstanceService, QueryProfileService, MySQLQueryDetailsService,
         MongoQueryDetailsService, SummaryService, SettingsService, AddAmazonRDSService, AddRemoteInstanceService, BaseQueryDetailsService,
       RemoteInstancesListService, QanEditColumnService, QanFilterService, FilterSearchService]

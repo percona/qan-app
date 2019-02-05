@@ -21,6 +21,6 @@ export class FilterSearchService {
    * @param value
    */
   transformForSearch(value: string) {
-    return value.toLowerCase().replace(/\s+/g, '');
+    return value.toLowerCase().replace(/\s+/g, '').trim();
   }
 }
