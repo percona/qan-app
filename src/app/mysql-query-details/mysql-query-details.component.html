@@ -858,7 +858,7 @@
             </button>
           </form>
 
-          <div class="button-group" role="group" aria-label="Tables">
+          <div *ngIf="queryDetails?.Query?.Tables" class="button-group" role="group" aria-label="Tables">
             <button type="button"
                     class="button"
                     *ngFor="let item of queryDetails?.Query?.Tables"
