@@ -1,4 +1,4 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
+import {Component, EventEmitter, Input, OnChanges, OnDestroy, OnInit, Output} from '@angular/core';
 import {FilterSearchService} from '../../core/services/filter-search.service';
 import {QanEditColumnService} from './qan-edit-column.service';
 import {PerfectScrollbarConfigInterface} from 'ngx-perfect-scrollbar';
@@ -8,10 +8,13 @@ import {PerfectScrollbarConfigInterface} from 'ngx-perfect-scrollbar';
   templateUrl: './qan-edit-column.component.html',
   styleUrls: ['./qan-edit-column.component.scss']
 })
-export class QanEditColumnComponent implements OnInit, OnDestroy {
+export class QanEditColumnComponent implements OnInit, OnDestroy, OnChanges {
+
+  @Input() isEditColumnDisplays: boolean;
+  @Output() editColumnToggle = new EventEmitter();
 
   private subscription: any;
-  public isConfigMenu = false;
+  public isEditColumn = false;
   public configs: any;
   public mainCheckboxClass = 'checkbox-container__main-input';
   public configSearchValue = '';
@@ -31,6 +34,13 @@ export class QanEditColumnComponent implements OnInit, OnDestroy {
    */
   ngOnInit() {
     this.configSearchValues = this.configs;
+  }
+
+  /**
+   * Display or hide edit column menu
+   */
+  ngOnChanges() {
+    this.isEditColumn = this.isEditColumnDisplays;
   }
 
   /**
@@ -69,5 +79,10 @@ export class QanEditColumnComponent implements OnInit, OnDestroy {
     }
 
     this.configSearchValues = this.configs.filter(config => this.filterSearchService.findBySearch(config.name, searchValue));
+  }
+
+  toggleMenu() {
+    this.isEditColumn = !this.isEditColumn;
+    this.editColumnToggle.emit('edit-column-menu');
   }
 }

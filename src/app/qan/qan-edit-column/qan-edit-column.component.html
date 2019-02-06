@@ -1,10 +1,16 @@
-<aside class="aside-menu--theme-column-config aside-menu" [class.aside-menu--open]="isConfigMenu">
+<aside class="aside-menu--theme-column-config aside-menu" [class.aside-menu--open]="isEditColumn">
   <div class="aside-menu__header">
-    <button (click)="isConfigMenu = !isConfigMenu" class="aside-menu__toggle">
+    <button (click)="toggleMenu()" class="aside-menu__toggle">
       <i class="fa fa-cog" aria-hidden="true"></i>
     </button>
   </div>
-  <section [hidden]="!isConfigMenu" class="aside-menu__body" id="configurationMenuWrapper">
+  <section [hidden]="!isEditColumn" class="aside-menu__body" id="configurationMenuWrapper">
+    <div class="aside-menu__title">
+      <span class="title__text">Edit columns: </span>
+      <button (click)="toggleMenu()" class="aside-menu__close">
+        <i class="fa fa-times" aria-hidden="true"></i>
+      </button>
+    </div>
     <form class="aside-menu__search search search--no-border">
       <input (keyup)="findConfigs(configSearchValue)"
              [(ngModel)]="configSearchValue"

@@ -1,13 +1,13 @@
-<aside [class.aside-menu--open]="isToggleMenu" class="aside-menu">
+<aside [class.aside-menu--open]="isFilterMenu" class="aside-menu">
   <div class="aside-menu__header">
-    <button (click)="setFilterHeight(); isToggleMenu = !isToggleMenu" class="aside-menu__toggle">
+    <button (click)="toggleMenu()" class="aside-menu__toggle">
       <i class="fa fa-list" aria-hidden="true"></i>
     </button>
   </div>
-  <section [hidden]="!isToggleMenu" class="aside-menu__body">
+  <section [hidden]="!isFilterMenu" class="aside-menu__body">
     <div class="aside-menu__title">
       <span class="title__text">Filter by: </span>
-      <button (click)="isToggleMenu = !isToggleMenu" class="aside-menu__close">
+      <button (click)="toggleMenu()" class="aside-menu__close">
         <i class="fa fa-times" aria-hidden="true"></i>
       </button>
     </div>

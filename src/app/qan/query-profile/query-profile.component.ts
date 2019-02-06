@@ -17,6 +17,8 @@ const queryProfileError = 'No data. Please check pmm-client and database configu
 export class QueryProfileComponent extends CoreComponent {
 
   public queryProfile: Array<{}>;
+  public isFilterMenu = false;
+  public isEditColumnMenu = false;
   public profileTotal;
   public offset: number;
   public totalAmountOfQueries: number;
@@ -246,5 +248,10 @@ export class QueryProfileComponent extends CoreComponent {
         this.yKey = 'Query_time_avg';
         break;
     }
+  }
+
+  viewState(menuName) {
+    this.isFilterMenu = menuName === 'filter-menu';
+    this.isEditColumnMenu = !this.isFilterMenu;
   }
 }

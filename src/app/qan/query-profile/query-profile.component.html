@@ -14,8 +14,8 @@
   <div *ngIf="!noQueryError" class="queries-viewer">
     <div class="action-tools">
       <div class="actions-tools__body">
-        <app-qan-filter></app-qan-filter>
-        <app-qan-edit-column></app-qan-edit-column>
+        <app-qan-filter (filterMenuToggle)="viewState($event)" [isFilterMenuDisplays]="isFilterMenu"></app-qan-filter>
+        <app-qan-edit-column (editColumnToggle)="viewState($event)" [isEditColumnDisplays]="isEditColumnMenu"></app-qan-edit-column>
         <app-qan-search></app-qan-search>
       </div>
     </div>

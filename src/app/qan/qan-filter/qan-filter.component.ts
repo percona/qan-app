@@ -1,4 +1,4 @@
-import {Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
+import {Component, EventEmitter, Input, OnChanges, OnDestroy, OnInit, Output, ViewChild} from '@angular/core';
 import {NgbTabset} from '@ng-bootstrap/ng-bootstrap';
 import {PerfectScrollbarConfigInterface} from 'ngx-perfect-scrollbar';
 import {QanFilterService} from './qan-filter.service';
@@ -10,12 +10,15 @@ import {QanFilterModel} from '../../core/models/qan-fliter.model';
   templateUrl: './qan-filter.component.html',
   styleUrls: ['./qan-filter.component.scss']
 })
-export class QanFilterComponent implements OnInit, OnDestroy {
+export class QanFilterComponent implements OnInit, OnDestroy, OnChanges {
 
   @ViewChild('tabs')
+  @Input() isFilterMenuDisplays: boolean;
+  @Output() filterMenuToggle = new EventEmitter();
+
   private tabs: NgbTabset;
 
-  public isToggleMenu = false;
+  public isFilterMenu = false;
   public isEmptySearch = false;
   public limits = {};
   public filtersSearchedValues = [];
@@ -46,8 +49,18 @@ export class QanFilterComponent implements OnInit, OnDestroy {
     this.filtersSearchedValues = this.filters;
   }
 
+  ngOnChanges() {
+    this.isFilterMenu = this.isFilterMenuDisplays;
+  }
+
   ngOnDestroy() {
     this.filterSubscription.unsubscribe();
+  }
+
+  toggleMenu() {
+    this.isFilterMenu = !this.isFilterMenu;
+    this.filterMenuToggle.emit('filter-menu');
+    this.setFilterHeight();
   }
 
   setFilterHeight() {
@@ -60,6 +73,24 @@ export class QanFilterComponent implements OnInit, OnDestroy {
     this.limits[group.name] = this.limits[group.name] <= this.defaultLimit ? group.values.length - 1 : this.defaultLimit;
   }
 
+  resetToggleFilterMenuLimits() {
+    this.filtersSearchedValues.forEach(value => this.limits[value.name] = this.defaultLimit);
+  }
+
+  countFilters(item) {
+    const checkedFilters = item.values.filter(value => value.state === true).length;
+    const allFilters = this.filters.find(value => value.name === item.name).values.length;
+    return `(${checkedFilters}/${allFilters})`
+  }
+
+  groupSelected() {
+    this.selected = [...this.selected.sort((a, b) => a['groupName'].localeCompare(b['groupName']))];
+  }
+
+  setConfigs() {
+    this.qanFilterService.setFilterConfigs(this.filters);
+  }
+
   changeFilterState(event = new QanFilterModel(), state = false) {
     if (event.groupName) {
       const filtersGroup = this.filters.find(group => group.name === event.groupName);
@@ -70,7 +101,7 @@ export class QanFilterComponent implements OnInit, OnDestroy {
       });
     }
     this.setConfigs();
-    if (!this.selected.length && this.isToggleMenu) {
+    if (!this.selected.length && this.isFilterMenu) {
       this.tabs.select('filters-tab')
     }
   }
@@ -92,23 +123,5 @@ export class QanFilterComponent implements OnInit, OnDestroy {
     if (searchByGroup.length === 1) {
       searchByGroup.forEach(group => this.limits[group.name] = group.values.length);
     }
-  }
-
-  resetToggleFilterMenuLimits() {
-    this.filtersSearchedValues.forEach(value => this.limits[value.name] = this.defaultLimit);
-  }
-
-  countFilters(item) {
-    const checkedFilters = item.values.filter(value => value.state === true).length;
-    const allFilters = this.filters.find(value => value.name === item.name).values.length;
-    return `(${checkedFilters}/${allFilters})`
-  }
-
-  groupSelected() {
-    this.selected = [...this.selected.sort((a, b) => a['groupName'].localeCompare(b['groupName']))];
-  }
-
-  setConfigs() {
-    this.qanFilterService.setFilterConfigs(this.filters);
   }
 }
