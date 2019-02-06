@@ -11,7 +11,7 @@
 }
 
 .action-tools {
-  padding: 10px var(--lr-config-menu-indent) 10px 0;
+  padding: var(--tb-config-menu-indent) var(--lr-config-menu-indent);
   background-color: var(--main-border-color);
   margin-bottom: var(--main-bottom-indent);
 }
@@ -19,6 +19,8 @@
 .actions-tools__body {
   position: relative;
   display: grid;
-  grid-template-columns: 50px 1fr;
+  grid-template-columns: repeat(2, auto) 1fr;
+  grid-column-gap: 15px;
+  grid-template-rows: var(--qan-search-height);
   width: 100%;
 }

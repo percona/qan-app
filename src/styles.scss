@@ -15,7 +15,7 @@
 @import "app/global-styles/checkbox";
 @import "app/global-styles/configuration-panel";
 @import "app/global-styles/search";
-@import "app/global-styles/column-configuration";
+@import "app/global-styles/aside-menu";
 @import "app/global-styles/switcher";
 @import "app/global-styles/overlay";
 @import "app/global-styles/units";
@@ -97,6 +97,27 @@ footer {
 
 .cursor-pointer {
   cursor: pointer;
+}
+
+.schemas {
+  color: var(--color-shemas);
+}
+
+.servers {
+  color: var(--color-servers);
+}
+
+.users {
+  color: var(--color-users);
+}
+
+.hosts {
+  color: var(--color-hosts);
+}
+
+.badge {
+  --color: var(--main-text-color);
+  --bg-color: var(--button-title-color);
 }
 
 div[hljs] > pre {

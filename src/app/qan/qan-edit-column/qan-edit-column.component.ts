@@ -1,6 +1,7 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {FilterSearchService} from '../../core/services/filter-search.service';
 import {QanEditColumnService} from './qan-edit-column.service';
+import {PerfectScrollbarConfigInterface} from 'ngx-perfect-scrollbar';
 
 @Component({
   selector: 'app-qan-edit-column',
@@ -15,6 +16,7 @@ export class QanEditColumnComponent implements OnInit, OnDestroy {
   public mainCheckboxClass = 'checkbox-container__main-input';
   public configSearchValue = '';
   public configSearchValues = [];
+  public scrollbarConfig: PerfectScrollbarConfigInterface = {};
 
   constructor(private configService: QanEditColumnService, private filterSearchService: FilterSearchService) {
     this.configService.getConfigs();

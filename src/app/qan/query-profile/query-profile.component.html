@@ -15,6 +15,7 @@
     <div class="action-tools">
       <div class="actions-tools__body">
         <app-qan-filter></app-qan-filter>
+        <app-qan-edit-column></app-qan-edit-column>
         <app-qan-search></app-qan-search>
       </div>
     </div>
@@ -60,8 +61,6 @@
         bindLabel="name"
         role="combobox">
       </ng-select>
-
-      <app-qan-edit-column></app-qan-edit-column>
     </section>
 
     <table *ngIf="!isQuerySwitching" class="pmm-grid-table" id="qanTable">

@@ -52,7 +52,7 @@ export class QanFilterComponent implements OnInit, OnDestroy {
 
   setFilterHeight() {
     const qanTable = document.getElementById('qanTable');
-    const filters = document.getElementsByClassName('filter-menu') as HTMLCollectionOf<HTMLElement>;
+    const filters = document.getElementsByClassName('aside-menu') as HTMLCollectionOf<HTMLElement>;
     filters[0].style.setProperty('--filters-height', `${qanTable.offsetHeight}px`);
   }
 

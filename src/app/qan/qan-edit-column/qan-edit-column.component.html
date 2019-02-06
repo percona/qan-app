@@ -1,11 +1,11 @@
-<div class="column-configuration">
-  <button (click)="isConfigMenu = !isConfigMenu" class="button column-configuration__toggle-button">
-    <i class="fa fa-cog" aria-hidden="true"></i> Edit columns
-  </button>
-  <div *ngIf="isConfigMenu" class="column-configuration__menu" id="configurationMenuWrapper">
-    <span class="triangle"></span>
-
-    <form class="search search--no-border">
+<aside class="aside-menu--theme-column-config aside-menu" [class.aside-menu--open]="isConfigMenu">
+  <div class="aside-menu__header">
+    <button (click)="isConfigMenu = !isConfigMenu" class="aside-menu__toggle">
+      <i class="fa fa-cog" aria-hidden="true"></i>
+    </button>
+  </div>
+  <section [hidden]="!isConfigMenu" class="aside-menu__body" id="configurationMenuWrapper">
+    <form class="aside-menu__search search search--no-border">
       <input (keyup)="findConfigs(configSearchValue)"
              [(ngModel)]="configSearchValue"
              name="searchValue"
@@ -15,30 +15,33 @@
         <i class="fa fa-search"></i>
       </button>
     </form>
+    <perfect-scrollbar [config]="scrollbarConfig" class="pmm-scrollbar">
+      <div class="aside-menu__filters">
+        <div *ngFor="let config of configSearchValues" class="filters__filter-group">
+          <div class="filter-group__title">
+            <label *ngIf="config.columns.length" class="checkbox-container checkbox-container--main">
+              <input (change)="setConfig($event, config)"
+                     [(ngModel)]="config.checked"
+                     [ngClass]="mainCheckboxClass"
+                     type="checkbox">
+              <span class="checkbox-container__checkmark"></span>
+              <span class="checkbox-container__label-text">{{config.name}}</span>
+            </label>
+          </div>
 
-    <div class="column-configuration__menu-options" id="configurationMenu">
-      <ng-container *ngFor="let config of configSearchValues">
-        <label *ngIf="config.columns.length" class="checkbox-container checkbox-container--main">
-          <input (change)="setConfig($event, config)"
-                 [(ngModel)]="config.checked"
-                 [ngClass]="mainCheckboxClass"
-                 type="checkbox">
-          <span class="checkbox-container__checkmark"></span>
-          <span class="checkbox-container__label-text">{{config.name}}</span>
-        </label>
-
-        <div *ngIf="config.columns.length" class="column-configs-wrapper">
-          <label *ngFor="let column of config.columns" class="checkbox-container">
-            <input (change)="setConfig($event, config)"
-                   [(ngModel)]="column.value"
-                   [disabled]="!config.checked"
-                   type="checkbox">
-            <span class="checkbox-container__checkmark"></span>
-            <span class="checkbox-container__label-text">{{column.name}}</span>
-          </label>
+          <div *ngIf="config.columns.length" class="filter-group__filters">
+            <label *ngFor="let column of config.columns" class="checkbox-container">
+              <input (change)="setConfig($event, config)"
+                     [(ngModel)]="column.value"
+                     [disabled]="!config.checked"
+                     type="checkbox">
+              <span class="checkbox-container__checkmark"></span>
+              <span class="checkbox-container__label-text">{{column.name}}</span>
+            </label>
+          </div>
         </div>
-      </ng-container>
-      <span *ngIf="!configSearchValues.length" class="menu-options__no-items">No items found...</span>
-    </div>
-  </div>
-</div>
+        <span *ngIf="!configSearchValues.length" class="filters__empty-text">No items found...</span>
+      </div>
+    </perfect-scrollbar>
+  </section>
+</aside>
