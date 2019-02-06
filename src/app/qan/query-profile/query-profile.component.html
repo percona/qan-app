@@ -122,9 +122,9 @@
               </span>
             </ng-container>
 
-            <span *ngIf="currentColumn === 'Count' && selectedConfig?.value" id="countValue">
-                  {{row.Stats.Cnt | humanize : 'number'}}
-            </span>
+            <ng-container *ngSwitchCase="'Count'" id="countValue">
+              <span *ngIf="selectedConfig?.value">{{row.Stats.Cnt | humanize : 'number'}}</span>
+            </ng-container>
 
             <ng-container *ngSwitchCase="'Count'" class="unit unit--percent" id="countPercentage">
               <span *ngIf="selectedConfig?.percentage">{{(row.Stats.Cnt / profileTotal?.Stats.Cnt * 100).toFixed(2)}}</span>
