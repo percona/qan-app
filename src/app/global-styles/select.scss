@@ -72,6 +72,15 @@
   cursor: not-allowed;
 }
 
+.pmm-select--table.ng-select .ng-select-container {
+  border: none;
+}
+
+.ng-select.pmm-select--table .ng-select-container .ng-arrow-wrapper .ng-arrow {
+  top: 0;
+  background: url(/assets/search.svg) bottom center/100% no-repeat;
+}
+
 // Filter select
 .pmm-select--filter.ng-select {
   height: 100%;

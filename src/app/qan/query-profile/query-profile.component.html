@@ -52,15 +52,15 @@
     </section>
 
     <section class="configuration-panel">
-      <ng-select
-        [(ngModel)]="selected"
-        [items]="configs"
-        [disabled]="!configs.length"
-        (change)="onConfigChanges(selected.name)"
-        class="pmm-select"
-        bindLabel="name"
-        role="combobox">
-      </ng-select>
+      <!--<ng-select-->
+        <!--[(ngModel)]="selected"-->
+        <!--[items]="configs"-->
+        <!--[disabled]="!configs.length"-->
+        <!--(change)="onConfigChanges(selected.name)"-->
+        <!--class="pmm-select"-->
+        <!--bindLabel="name"-->
+        <!--role="combobox">-->
+      <!--</ng-select>-->
     </section>
 
     <table *ngIf="!isQuerySwitching" class="pmm-grid-table" id="qanTable">
@@ -68,7 +68,16 @@
         <th class="pmm-grid-table__cell">#</th>
         <th class="pmm-grid-table__cell pmm-grid-table__cell--full">Query Abstract</th>
         <th *ngIf="selected && isQueryCol" class="pmm-grid-table__cell">
-          <div class="cell__content--max">{{selected.name}}</div>
+          <!--<div class="cell__content&#45;&#45;max">{{selected.name}}</div>-->
+          <ng-select
+            [(ngModel)]="selected"
+            [items]="configs"
+            [disabled]="!configs.length"
+            (change)="onConfigChanges(selected.name)"
+            class="pmm-select pmm-select--table"
+            bindLabel="name"
+            role="combobox">
+          </ng-select>
         </th>
         <th *ngIf="selected && isRowsScannedCol" class="pmm-grid-table__cell">
           <div class="cell__content--max">Rows Scanned</div>
