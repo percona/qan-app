@@ -95,8 +95,8 @@
                  [appLoadSparklines]="row.Log"
                  data-tooltip="Loading..."
                  xkey="Start_ts" ykey="{{yKey}}"
-                 measurement="number"
-                 id="loadSparkline">
+                 measurement="{{measurement}}"
+                 id="sparkline">
             </div>
             <ng-container *ngSwitchCase="'Load'">
               <span *ngIf="selectedConfig?.value">

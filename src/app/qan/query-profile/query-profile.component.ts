@@ -43,6 +43,7 @@ export class QueryProfileComponent extends CoreComponent {
 
   public currentColumn: string;
   public yKey: string;
+  public measurement: string;
 
   constructor(protected route: ActivatedRoute,
               protected router: Router,
@@ -236,16 +237,19 @@ export class QueryProfileComponent extends CoreComponent {
         this.isQueryCol = config.sparkline || config.value;
         this.isRowsScannedCol = config.percentage;
         this.yKey = 'Query_load';
+        this.measurement = 'number';
         break;
       case 'Count':
         this.isQueryCol = config.sparkline || config.queriespersecond;
         this.isRowsScannedCol = config.value || config.percentage;
         this.yKey = 'Query_count';
+        this.measurement = 'number';
         break;
       case 'Avg Latency':
         this.isQueryCol = config.sparkline || config.value;
         this.isRowsScannedCol = config.distribution;
         this.yKey = 'Query_time_avg';
+        this.measurement = 'time';
         break;
     }
   }
