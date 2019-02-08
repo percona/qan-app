@@ -53,12 +53,11 @@ export class QueryProfileComponent extends CoreComponent {
       if (!items.length) {
         return;
       }
-
       this.configs = items.filter((config: any) => !!config.checked);
       const firstElement = this.configs.length ? this.configs[0] : this.defaultSelected;
       this.selected = this.configs.find(item => item.name === this.selected.name) ? this.selected : firstElement;
       if (this.selected && this.selected.name) {
-        this.onConfigChanges(this.selected.name);
+        this.onConfigChanges(this.selected);
       } else {
         this.isQueryCol = false;
         this.isRowsScannedCol = false;
@@ -213,14 +212,19 @@ export class QueryProfileComponent extends CoreComponent {
 
   /**
    * Set selected config parameters when column type changes
-   * @param name - checked column-type name
+   * @param selected - checked column-type
    */
-  onConfigChanges(name) {
+  onConfigChanges(selected) {
+    if (!selected) {
+      this.selected = selected = this.configs.length ? this.configs[0] : this.defaultSelected;
+      console.log('this.configs - ', this.configs);
+      console.log('selected - ', selected);
+    }
     this.selectedConfig = {};
-    this.selected.columns.forEach(column =>
+    selected.columns.forEach(column =>
       this.selectedConfig[this.filterSearchService.transformForSearch(column.name)] = column.value);
-    this.currentColumn = name;
-    this.setCurrentSparkline(name, this.selectedConfig);
+    this.currentColumn = selected.name;
+    this.setCurrentSparkline(selected.name, this.selectedConfig);
   }
 
   /**

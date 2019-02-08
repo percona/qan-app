@@ -55,7 +55,7 @@
         [(ngModel)]="selected"
         [items]="configs"
         [disabled]="!configs.length"
-        (change)="onConfigChanges(selected.name)"
+        (change)="onConfigChanges(selected)"
         class="pmm-select"
         bindLabel="name"
         role="combobox">
