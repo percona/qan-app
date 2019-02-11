@@ -68,7 +68,7 @@
             [(ngModel)]="selectedColumn"
             [items]="columnsConfig"
             [disabled]="!columnsConfig.length"
-            (change)="onConfigChanges(selectedColumn.name)"
+            (change)="onConfigChanges(selectedColumn)"
             class="pmm-select pmm-select--table"
             bindLabel="name"
             role="combobox">

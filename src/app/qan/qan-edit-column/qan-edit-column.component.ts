@@ -13,6 +13,8 @@ export class QanEditColumnComponent implements OnInit, OnDestroy, OnChanges {
   @Input() isEditColumnDisplays: boolean;
   @Output() editColumnToggle = new EventEmitter();
 
+  public isExtendedConfigTable = false;
+
   private subscription: any;
   public isEditColumn = false;
   public configs: any;

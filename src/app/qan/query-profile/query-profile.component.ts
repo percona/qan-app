@@ -15,7 +15,6 @@ const queryProfileError = 'No data. Please check pmm-client and database configu
   styleUrls: ['./query-profile.component.scss'],
 })
 export class QueryProfileComponent extends CoreComponent {
-
   public queryProfile: Array<{}>;
   public isFilterMenu = false;
   public isEditColumnMenu = false;
@@ -65,7 +64,7 @@ export class QueryProfileComponent extends CoreComponent {
       const firstElement = this.columnsConfig.length ? this.columnsConfig[0] : this.defaultSelectedColumn;
       this.selectedColumn = this.columnsConfig.find(item => item.name === this.selectedColumn.name) ? this.selectedColumn : firstElement;
       if (this.selectedColumn && this.selectedColumn.name) {
-        this.onConfigChanges(this.selectedColumn.name);
+        this.onConfigChanges(this.selectedColumn);
       } else {
         this.isQueryCol = false;
         this.isRowsScannedCol = false;

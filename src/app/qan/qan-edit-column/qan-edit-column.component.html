@@ -35,7 +35,7 @@
             </label>
           </div>
 
-          <div *ngIf="config.columns.length" class="filter-group__filters">
+          <div *ngIf="config.columns.length && isExtendedConfigTable" class="filter-group__filters">
             <label *ngFor="let column of config.columns" class="checkbox-container">
               <input (change)="setConfig($event, config)"
                      [(ngModel)]="column.value"
