@@ -220,14 +220,17 @@ export class QueryProfileComponent extends CoreComponent {
 
   /**
    * Set selected config parameters when column type changes
-   * @param name - checked column-type name
+   * @param selected - checked column-type
    */
-  onConfigChanges(name) {
+  onConfigChanges(selected) {
+    if (!selected) {
+      this.selectedColumn = selected = this.columnsConfig.length ? this.columnsConfig[0] : this.defaultSelectedColumn;
+    }
     this.selectedColumnConfig = {};
-    this.selectedColumn.columns.forEach(column =>
+    selected.columns.forEach(column =>
       this.selectedColumnConfig[this.filterSearchService.transformForSearch(column.name)] = column.value);
-    this.currentColumn = name;
-    this.setCurrentSparkline(name, this.selectedColumnConfig);
+    this.currentColumn = selected.name;
+    this.setCurrentSparkline(selected.name, this.selectedColumnConfig);
   }
 
   /**
