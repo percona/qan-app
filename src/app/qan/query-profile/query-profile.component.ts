@@ -38,6 +38,7 @@ export class QueryProfileComponent extends CoreComponent {
 
   public defaultSelectedColumn = {name: '', columns: []};
   public selectedColumn = this.defaultSelectedColumn;
+  public previousColumn = this.selectedColumn;
   public columnsConfig: any;
   public selectedColumnConfig = {};
 
@@ -223,13 +224,14 @@ export class QueryProfileComponent extends CoreComponent {
    */
   onConfigChanges(selected) {
     if (!selected) {
-      this.selectedColumn = selected = this.columnsConfig.length ? this.columnsConfig[0] : this.defaultSelectedColumn;
+      this.selectedColumn = selected = this.columnsConfig.length ? this.previousColumn : this.defaultSelectedColumn;
     }
     this.selectedColumnConfig = {};
     selected.columns.forEach(column =>
       this.selectedColumnConfig[this.filterSearchService.transformForSearch(column.name)] = column.value);
     this.currentColumn = selected.name;
     this.setCurrentSparkline(selected.name, this.selectedColumnConfig);
+    this.previousColumn = this.selectedColumn;
   }
 
   /**
