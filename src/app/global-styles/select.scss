@@ -72,13 +72,18 @@
   cursor: not-allowed;
 }
 
-.pmm-select--table.ng-select .ng-select-container {
-  border: none;
-}
+.pmm-select--table.ng-select {
+  cursor: pointer;
 
-.pmm-select--table.ng-select .ng-select-container .ng-value-container {
-  min-height: 25px;
-  border-bottom: 1px solid var(--main-border-color);
+  .ng-select-container {
+    border: none;
+  }
+
+  .ng-select-container .ng-value-container {
+    min-height: 25px;
+    border-bottom: 1px solid var(--main-border-color);
+  }
+
 }
 
 .ng-select.pmm-select--table .ng-select-container .ng-arrow-wrapper .ng-arrow {
