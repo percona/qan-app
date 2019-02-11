@@ -22,9 +22,9 @@
       </button>
     </form>
     <perfect-scrollbar [config]="scrollbarConfig" class="pmm-scrollbar">
-      <div class="aside-menu__filters">
+      <div class="aside-menu__properties aside-menu__properties--columns">
         <div *ngFor="let config of configSearchValues" class="filters__filter-group">
-          <div class="filter-group__title">
+          <div class="filter-group__title filter-group__title--no-padding">
             <label *ngIf="config.columns.length" class="checkbox-container checkbox-container--main">
               <input (change)="setConfig($event, config)"
                      [(ngModel)]="config.checked"

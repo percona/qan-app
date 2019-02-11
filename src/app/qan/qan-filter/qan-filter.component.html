@@ -26,7 +26,7 @@
               </button>
             </form>
             <perfect-scrollbar [config]="scrollbarConfig" class="pmm-scrollbar">
-              <div class="aside-menu__filters">
+              <div class="aside-menu__properties aside-menu__properties--filters">
                 <div *ngFor="let filterGroup of filtersSearchedValues" class="filters__filter-group">
                   <div *ngIf="filterGroup.values.length" class="filter-group__title">
                     <span class="title__text {{filterGroup.name.toLowerCase()}}">
@@ -63,7 +63,7 @@
         <ng-template ngbTabContent>
           <div class="pmm-tabset__tab-content" id="body-content-chips">
             <perfect-scrollbar [config]="scrollbarConfig" class="pmm-scrollbar">
-              <div class="aside-menu__filters aside-menu__filters--chips">
+              <div class="aside-menu__properties aside-menu__properties--chips">
                 <div class="filter-group__title filter-group__title--no-padding">
                   <button (click)="changeFilterState()" class="title__button">
                     Reset all <i class="fa fa-times" aria-hidden="true"></i>
