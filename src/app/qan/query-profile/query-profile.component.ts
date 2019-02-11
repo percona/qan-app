@@ -36,10 +36,14 @@ export class QueryProfileComponent extends CoreComponent {
   public isSearchQuery = false;
   public isQueryCol = true;
   public isRowsScannedCol = true;
-  public defaultSelected = {name: '', columns: []};
-  public selected = this.defaultSelected;
-  public selectedConfig = {};
-  public configs: any;
+
+  public defaultSelectedColumn = {name: '', columns: []};
+  public selectedColumn = this.defaultSelectedColumn;
+  public columnsConfig: any;
+  public selectedColumnConfig = {};
+
+  queryTypes = ['Query Abstract'];
+  selectedQueryType = this.queryTypes[0];
 
   public currentColumn: string;
   public yKey: string;
@@ -57,11 +61,11 @@ export class QueryProfileComponent extends CoreComponent {
         return;
       }
 
-      this.configs = items.filter((config: any) => !!config.checked);
-      const firstElement = this.configs.length ? this.configs[0] : this.defaultSelected;
-      this.selected = this.configs.find(item => item.name === this.selected.name) ? this.selected : firstElement;
-      if (this.selected && this.selected.name) {
-        this.onConfigChanges(this.selected.name);
+      this.columnsConfig = items.filter((config: any) => !!config.checked);
+      const firstElement = this.columnsConfig.length ? this.columnsConfig[0] : this.defaultSelectedColumn;
+      this.selectedColumn = this.columnsConfig.find(item => item.name === this.selectedColumn.name) ? this.selectedColumn : firstElement;
+      if (this.selectedColumn && this.selectedColumn.name) {
+        this.onConfigChanges(this.selectedColumn.name);
       } else {
         this.isQueryCol = false;
         this.isRowsScannedCol = false;
@@ -219,11 +223,11 @@ export class QueryProfileComponent extends CoreComponent {
    * @param name - checked column-type name
    */
   onConfigChanges(name) {
-    this.selectedConfig = {};
-    this.selected.columns.forEach(column =>
-      this.selectedConfig[this.filterSearchService.transformForSearch(column.name)] = column.value);
+    this.selectedColumnConfig = {};
+    this.selectedColumn.columns.forEach(column =>
+      this.selectedColumnConfig[this.filterSearchService.transformForSearch(column.name)] = column.value);
     this.currentColumn = name;
-    this.setCurrentSparkline(name, this.selectedConfig);
+    this.setCurrentSparkline(name, this.selectedColumnConfig);
   }
 
   /**

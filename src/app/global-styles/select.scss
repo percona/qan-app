@@ -75,6 +75,7 @@
 .pmm-select--table.ng-select .ng-select-container {
   border: none;
 }
+
 .pmm-select--table.ng-select .ng-select-container .ng-value-container {
   border-bottom: 1px solid var(--main-border-color);
 }
@@ -82,6 +83,15 @@
 .ng-select.pmm-select--table .ng-select-container .ng-arrow-wrapper .ng-arrow {
   top: 0;
   background: url(/assets/search.svg) bottom center/100% no-repeat;
+}
+
+.pmm-select--auto-width.ng-select {
+  width: max-content;
+  display: inline-flex;
+}
+
+.pmm-select--auto-width.ng-select .ng-value-container {
+  padding-right: 10px;
 }
 
 // Filter select
