@@ -42,7 +42,7 @@ export class QueryProfileComponent extends CoreComponent {
   public columnsConfig: any;
   public selectedColumnConfig = {};
 
-  queryTypes = ['Query Abstract'];
+  queryTypes = ['Query', 'Server', 'Host'];
   selectedQueryType = this.queryTypes[0];
 
   public currentColumn: string;

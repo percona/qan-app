@@ -12,15 +12,16 @@ import { MomentFormatPipe } from './moment-format.pipe';
 import { TruncateRootPipe } from './truncate-root.pipe';
 import { ParseQueryParamDatePipe } from './parse-query-param-date.pipe';
 import { SortingTablePipe } from './sorting-table.pipe';
+import { TableHeadersToMultiplePipe } from './table-headers-to-multiple.pipe';
 
 @NgModule({
   imports: [
     CommonModule
   ],
   declarations: [HumanizePipe, LatencyChartDirective, LoadSparklinesDirective,
-     MapToIterablePipe, MomentFormatPipe, TruncateRootPipe, ParseQueryParamDatePipe, SortingTablePipe],
+     MapToIterablePipe, MomentFormatPipe, TruncateRootPipe, ParseQueryParamDatePipe, SortingTablePipe, TableHeadersToMultiplePipe],
   exports: [MapToIterablePipe, MomentFormatPipe, TruncateRootPipe, HumanizePipe,
-    LatencyChartDirective, LoadSparklinesDirective, SortingTablePipe,
+    LatencyChartDirective, LoadSparklinesDirective, SortingTablePipe, TableHeadersToMultiplePipe,
     CommonModule, FormsModule, HttpClientModule, NgbModule, RouterModule]
 })
 export class SharedModule {
