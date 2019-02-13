@@ -10,7 +10,7 @@ import * as moment from 'moment';
 import * as hljs from 'highlight.js';
 import * as vkbeautify from 'vkbeautify';
 
-export abstract class BaseQueryDetailsComponent extends CoreComponent {
+export abstract class OldQueryDetailsComponent extends CoreComponent {
   public queryDetails: any | QueryDetails;
   protected dbName: string;
   public dbTblNames: string;
@@ -24,6 +24,8 @@ export abstract class BaseQueryDetailsComponent extends CoreComponent {
   public explainVisual;
   public explainData;
   isLoading: boolean;
+  isMongo = false;
+  isExplain: boolean;
   isFirstSeen: boolean;
   isSummary: boolean;
   isExplainLoading: boolean;
@@ -116,11 +118,14 @@ export abstract class BaseQueryDetailsComponent extends CoreComponent {
 
       switch (this.dbServer.Subsystem) {
         case('mysql'):
+          this.isExplain = !!(this.queryExample || this.explainError || this.explainJson || this.explainVisual || this.explainClassic);
           this.fingerprint = hljs.highlight('sql', this.fixBeautifyText(this.queryDetails.Query.Fingerprint)).value;
           this.queryExample = hljs.highlight('sql', this.fixBeautifyText(this.queryDetails.Example.Query)).value;
           this.getTableInfo();
           break;
         case('mongo'):
+          this.isMongo = true;
+          this.isExplain = !!(this.queryExample || this.explainJson || this.explainError);
           this.fingerprint = this.queryDetails.Query.Fingerprint;
           this.queryExample = hljs.highlight('json', vkbeautify.json(this.queryDetails.Example.Query)).value;
           break;

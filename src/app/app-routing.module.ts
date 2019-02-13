@@ -35,7 +35,7 @@ const routes: Routes = [
     {
         path: 'profile', component: QueryProfileComponent, canActivate: [RegisteredInstanceGuard], children: [
             { path: 'report/mysql', component: MySQLQueryDetailsComponent, canActivate: [RegisteredInstanceGuard] },
-            { path: 'report/mongo', component: MongoQueryDetailsComponent, canActivate: [RegisteredInstanceGuard] }
+            { path: 'report/mongo', component: MySQLQueryDetailsComponent, canActivate: [RegisteredInstanceGuard] }
         ]
     },
     { path: 'sys-summary', component: SummaryComponent, pathMatch: 'full', canActivate: [RegisteredInstanceGuard] },

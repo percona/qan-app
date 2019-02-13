@@ -727,7 +727,7 @@
           </ngb-accordion>
         </ng-template>
       </ngb-tab>
-      <ngb-tab *ngIf="!!queryExample || !!explainError || !!explainJson || !!explainVisual || !!explainClassic" title="EXPLAIN">
+      <ngb-tab *ngIf="isExplain" title="EXPLAIN">
         <ng-template ngbTabContent>
           <!--<label for="databaseInput"><i class="fa fa-database" aria-hidden="true"></i></label>-->
           <form class="configuration-panel__options center-children search search--modal">
@@ -740,7 +740,7 @@
           </form>
 
           <ngb-accordion [activeIds]="accordionIds.explainSection">
-            <ngb-panel id="classic-explain">
+            <ngb-panel *ngIf="!isMongo" id="classic-explain">
               <ng-template ngbPanelTitle>
                 <header class="card-header__content">
                   <h5 class="card-header__title">CLASSIC</h5>
@@ -816,7 +816,7 @@
               </ng-template>
             </ngb-panel>
 
-            <ngb-panel *ngIf="!!explainVisual || !!explainError" id="visual-explain">
+            <ngb-panel *ngIf="!isMongo && (!!explainVisual || !!explainError)" id="visual-explain">
               <ng-template ngbPanelTitle>
                 <header class="card-header__content">
                   <h5 class="card-header__title">VISUAL</h5>

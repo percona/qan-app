@@ -6,7 +6,7 @@ import { MySQLQueryDetailsService } from './mysql-query-details.service';
 import {BaseQueryDetailsService} from '../core/services/base-query-details.service';
 import { QueryDetails } from '../core/services/base-query-details.service';
 import * as hljs from 'highlight.js';
-import {BaseQueryDetailsComponent} from '../core/base-query-details.component';
+import {OldQueryDetailsComponent} from '../core/old-query-details.component';
 
 @Component({
   moduleId: module.id,
@@ -14,7 +14,7 @@ import {BaseQueryDetailsComponent} from '../core/base-query-details.component';
   templateUrl: './mysql-query-details.component.html',
   styleUrls: ['./mysql-query-details.component.scss']
 })
-export class MySQLQueryDetailsComponent extends BaseQueryDetailsComponent implements OnInit {
+export class MySQLQueryDetailsComponent extends OldQueryDetailsComponent implements OnInit {
 
   protected queryID: string;
   public queryDetails: QueryDetails;

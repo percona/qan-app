@@ -4,7 +4,7 @@ import { InstanceService } from '../core/services/instance.service';
 import { QueryParams } from '../core/core.component';
 import { MongoQueryDetailsService } from './mongo-query-details.service';
 import {QueryDetails} from '../core/services/base-query-details.service';
-import {BaseQueryDetailsComponent} from '../core/base-query-details.component';
+import {OldQueryDetailsComponent} from '../core/old-query-details.component';
 import {BaseQueryDetailsService} from '../core/services/base-query-details.service';
 
 @Component({
@@ -13,7 +13,7 @@ import {BaseQueryDetailsService} from '../core/services/base-query-details.servi
   templateUrl: './mongo-query-details.component.html',
   styleUrls: ['./mongo-query-details.component.scss']
 })
-export class MongoQueryDetailsComponent extends BaseQueryDetailsComponent implements OnInit {
+export class MongoQueryDetailsComponent extends OldQueryDetailsComponent implements OnInit {
 
   protected queryID: string;
   public queryDetails: any | QueryDetails;

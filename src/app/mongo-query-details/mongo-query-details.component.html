@@ -727,7 +727,7 @@
           </ngb-accordion>
         </ng-template>
       </ngb-tab>
-      <ngb-tab *ngIf="!!queryExample || !!explainJson || !!explainError" title="EXPLAIN">
+      <ngb-tab *ngIf="isExplain" title="EXPLAIN">
         <ng-template ngbTabContent>
           <!--<label for="databaseInput"><i class="fa fa-database" aria-hidden="true"></i></label>-->
           <form class="configuration-panel__options center-children search search--modal">
@@ -739,7 +739,7 @@
             </button>
           </form>
 
-          <ngb-accordion [activeIds]="accordionIds.explainSection" *ngIf="!!queryExample">
+          <ngb-accordion [activeIds]="accordionIds.explainSection">
             <ngb-panel *ngIf="!!explainJson || !!explainError" id="json-explain">
               <ng-template ngbPanelTitle>
                 <header class="card-header__content">
