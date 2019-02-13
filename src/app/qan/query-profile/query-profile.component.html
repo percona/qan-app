@@ -10,9 +10,15 @@
   <a href="https://www.percona.com/doc/percona-monitoring-and-management/pmm-admin.html#adding-monitoring-services"
      target="blank">PMM documentation.</a>
 </div>
-<div *ngIf="dbServer !== null && dbServer !== undefined" class="">
-  <section *ngIf="!noQueryError" class="queries-table-wrapper">
-    <app-qan-filter></app-qan-filter>
+<div *ngIf="dbServer !== null && dbServer !== undefined" class="content-wrapper">
+  <section *ngIf="!noQueryError" class="queries-viewer">
+    <div class="action-tools">
+      <div class="actions-tools__body">
+        <app-qan-filter></app-qan-filter>
+        <app-qan-search></app-qan-search>
+      </div>
+    </div>
+
     <section class="configuration-panel">
       <p class="configuration-panel__title">
         Top {{ totalAmountOfQueries ? (queryProfile?.length - 1) : 0 }} of {{ totalAmountOfQueries }} Queries by % Grand Total Time (%GTT)

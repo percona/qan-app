@@ -2,7 +2,7 @@ import { NgModule, Injectable } from '@angular/core';
 import { Routes, Router, RouterModule, CanActivate } from '@angular/router';
 import { PageNotFoundComponent } from './core/page-not-found/page-not-found.component';
 
-import { QueryProfileComponent } from './query-profile/query-profile.component';
+import { QueryProfileComponent } from './qan/query-profile/query-profile.component';
 import { MySQLQueryDetailsComponent } from './mysql-query-details/mysql-query-details.component';
 import { MongoQueryDetailsComponent } from './mongo-query-details/mongo-query-details.component';
 import { SummaryComponent } from './summary/summary.component';
