@@ -673,6 +673,7 @@
         </ngb-accordion>
       </ng-template>
     </ngb-tab>
+    <!--- additional info for query only-->
     <div *ngIf="!isSummary">
       <ngb-tab *ngIf="!!fingerprint || !!queryExample" title="QUERY">
         <ng-template ngbTabContent>
@@ -687,7 +688,7 @@
                 <div *ngIf="isLoading" class="spinner-wrapper spinner-wrapper--centered">
                   <i class="fa fa-spinner fa-pulse fa-3x fa-fw"></i>
                 </div>
-                <div class="card-body__content slinky-content" *ngIf="!isLoading">
+                <div *ngIf="!isLoading" class="card-body__content slinky-content">
                   <pre class="content__text"><code [innerHTML]="fingerprint"></code></pre>
                   <button class="button button--inside button--fixed"
                           id="copyFingerprint"
@@ -728,11 +729,12 @@
       </ngb-tab>
       <ngb-tab *ngIf="!!queryExample || !!explainError || !!explainJson || !!explainVisual || !!explainClassic" title="EXPLAIN">
         <ng-template ngbTabContent>
+          <!--<label for="databaseInput"><i class="fa fa-database" aria-hidden="true"></i></label>-->
           <form class="configuration-panel__options center-children search search--modal">
             <input [(ngModel)]="dbName" [ngModelOptions]="{standalone: true}"
                    type="text" class="input-field search__input search__input--small"
                    id="databaseInput" placeholder="`database-name`">
-            <button (click)="getExplain()" [disabled]="!dbName" class="search__button" type="submit">
+            <button (click)="getExplain()" [disabled]="!dbName"  type="submit" class="search__button">
               EXPLAIN
             </button>
           </form>
