@@ -57,13 +57,6 @@
       <app-qan-edit-column></app-qan-edit-column>
     </section>
 
-    <!--&lt;!&ndash;todo: Delete after one of proof of concept will be accepted&ndash;&gt;-->
-    <!--<div>-->
-      <!--<label><input type="radio" [(ngModel)]="detailsView" name="view" value="full">Full</label>-->
-      <!--<label><input type="radio" [(ngModel)]="detailsView" name="view" value="cropped">Cropped</label>-->
-      <!--<label><input type="radio" [(ngModel)]="detailsView" name="view" value="modal">Modal</label>-->
-    <!--</div>-->
-
     <section class="content-wrapper" id="grid-content-wrapper">
       <table *ngIf="!isQuerySwitching" class="pmm-grid-table" id="qanTable">
         <tr class="pmm-grid-table__row">
@@ -148,28 +141,24 @@
           </td>
         </tr>
       </table>
-      <aside [class.query-details-wrapper--opened]="isQueryDetails"
-             [class.query-details-wrapper--cropped]="detailsView === 'cropped'"
-             [class.query-details-wrapper--modal]="detailsView === 'modal'"
-             class="query-details-wrapper">
-        <span *ngIf="isQueryDetails" (click)="toggleQueryDetails(!isQueryDetails)" class="close-icon close-icon--details"></span>
-        <div class="query-details-wrapper__outlet" *ngIf="isQueryDetails" [class.outlet--cropped]="isCropped">
-          <router-outlet></router-outlet>
+
+      <div class="center-children">
+        <button *ngIf="totalAmountOfQueries && !isLoading"
+                (click)="loadMoreQueries()"
+                [disabled]="leftInDbQueries === 0"
+                class="button button--dark button--big">
+          {{quantityDbQueriesMessage}}
+        </button>
+        <div *ngIf="isLoading || isQuerySwitching" class="spinner-wrapper">
+          <i class="fa fa-spinner fa-pulse fa-fw fa-40"></i>
         </div>
+      </div>
+
+      <aside class="query-details-wrapper">
+        <router-outlet></router-outlet>
       </aside>
     </section>
 
-    <div class="center-children">
-      <button *ngIf="totalAmountOfQueries && !isLoading"
-              (click)="loadMoreQueries()"
-              [disabled]="leftInDbQueries === 0"
-              class="button button--dark button--big">
-        {{quantityDbQueriesMessage}}
-      </button>
-      <div *ngIf="isLoading || isQuerySwitching" class="spinner-wrapper">
-        <i class="fa fa-spinner fa-pulse fa-fw fa-40"></i>
-      </div>
-    </div>
   </section>
 
   <div *ngIf="!!noQueryError" class="text-center alert alert-danger w-75 mx-auto wrong-configuration-message" role="alert">
