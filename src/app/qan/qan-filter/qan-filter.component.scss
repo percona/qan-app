@@ -1,0 +1,7 @@
+.chips {
+  --chips-indents: 5px;
+
+  display: inline-flex;
+  margin-right: var(--chips-indents);
+  margin-bottom: var(--chips-indents);
+}
