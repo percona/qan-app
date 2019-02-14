@@ -71,7 +71,7 @@
 
 .aside-menu__properties--chips {
   padding-right: var(--lr-menu-indent);
-  height: calc(var(--filters-height) + var(--search-height) + var(--correct-value));
+  height: calc(var(--filters-height) + var(--search-height) + var(--filters-correct-value) + var(--tb-menu-indent));
 }
 
 .filters__filter-group {
