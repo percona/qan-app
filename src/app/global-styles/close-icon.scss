@@ -1,4 +1,4 @@
-.close {
+.close-icon {
   --close-size: 18px;
 
   position: relative;
@@ -13,8 +13,8 @@
   margin-top: 2px;
 }
 
-.close:before,
-.close:after {
+.close-icon:before,
+.close-icon:after {
   position: absolute;
   top: 0;
   left: calc(var(--close-size) / 2);
@@ -23,9 +23,9 @@
   width: 3px;
   height: var(--close-size);
 }
-.close:before {
+.close-icon:before {
   transform: rotate(45deg);
 }
-.close:after {
+.close-icon:after {
   transform: rotate(-45deg);
 }

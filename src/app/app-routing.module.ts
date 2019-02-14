@@ -3,8 +3,6 @@ import { Routes, Router, RouterModule, CanActivate } from '@angular/router';
 import { PageNotFoundComponent } from './core/page-not-found/page-not-found.component';
 
 import { QueryProfileComponent } from './qan/query-profile/query-profile.component';
-import { MySQLQueryDetailsComponent } from './mysql-query-details/mysql-query-details.component';
-import { MongoQueryDetailsComponent } from './mongo-query-details/mongo-query-details.component';
 import { SummaryComponent } from './summary/summary.component';
 import { SettingsComponent } from './settings/settings.component';
 import { AddInstanceComponent } from './add-instance/add-instance.component';
@@ -12,6 +10,7 @@ import { AddAmazonRDSComponent } from './add-amazon-rds/add-amazon-rds.component
 import { InstanceService } from './core/services/instance.service';
 import { AddRemoteInstanceComponent } from './add-remote-instances/add-remote-instance.component';
 import { RemoteInstancesListComponent } from './remote-instances-list/remote-instances-list.component';
+import { QueryDetailsComponent } from './qan/query-details/query-details.component';
 
 @Injectable()
 export class RegisteredInstanceGuard implements CanActivate {
@@ -34,8 +33,8 @@ const routes: Routes = [
     { path: '', redirectTo: 'profile', pathMatch: 'full', canActivate: [RegisteredInstanceGuard] },
     {
         path: 'profile', component: QueryProfileComponent, canActivate: [RegisteredInstanceGuard], children: [
-            { path: 'report/mysql', component: MySQLQueryDetailsComponent, canActivate: [RegisteredInstanceGuard] },
-            { path: 'report/mongo', component: MongoQueryDetailsComponent, canActivate: [RegisteredInstanceGuard] }
+            { path: 'report/mysql', component: QueryDetailsComponent, canActivate: [RegisteredInstanceGuard] },
+            { path: 'report/mongo', component: QueryDetailsComponent, canActivate: [RegisteredInstanceGuard] }
         ]
     },
     { path: 'sys-summary', component: SummaryComponent, pathMatch: 'full', canActivate: [RegisteredInstanceGuard] },
