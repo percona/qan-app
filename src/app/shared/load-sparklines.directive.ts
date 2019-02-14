@@ -25,6 +25,7 @@ export class LoadSparklinesDirective implements OnChanges {
 
     @HostBinding('attr.data-tooltip')
     @Input() dataTooltip: string;
+    @Input() appLoadSparklines: Array<{}>;
 
     constructor(
         public elementRef: ElementRef,
@@ -41,8 +42,6 @@ export class LoadSparklinesDirective implements OnChanges {
     @Input() set measurement(measurement: string) {
         this._measurement = measurement;
     }
-
-    @Input() appLoadSparklines: Array<{}>;
 
     ngOnChanges() {
       setTimeout(() => this.drawChart(this.appLoadSparklines), 0);
