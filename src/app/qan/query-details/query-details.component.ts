@@ -131,14 +131,12 @@ export class QueryDetailsComponent extends CoreComponent implements OnInit {
 
       switch (this.dbServer.Subsystem) {
         case('mysql'):
-          this.isExplain = !!(this.queryExample || this.explainError || this.explainJson || this.explainVisual || this.explainClassic);
           this.fingerprint = hljs.highlight('sql', this.fixBeautifyText(this.queryDetails.Query.Fingerprint)).value;
           this.queryExample = hljs.highlight('sql', this.fixBeautifyText(this.queryDetails.Example.Query)).value;
           this.getTableInfo();
           break;
         case('mongo'):
           this.isMongo = true;
-          this.isExplain = !!(this.queryExample || this.explainJson || this.explainError);
           this.fingerprint = this.queryDetails.Query.Fingerprint;
           this.queryExample = hljs.highlight('json', vkbeautify.json(this.queryDetails.Example.Query)).value;
           break;
@@ -210,7 +208,7 @@ export class QueryDetailsComponent extends CoreComponent implements OnInit {
           console.error(err);
       }
     }
-
+    this.isExplain = !!(this.explainError || this.explainJson || this.explainVisual || this.explainClassic);
     this.isExplainLoading = false;
   }
 
