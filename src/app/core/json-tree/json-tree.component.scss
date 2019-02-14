@@ -1,8 +1,7 @@
 // Copied and pasted
 ::ng-deep {
   .renderjson a              { text-decoration: none; }
-  .renderjson .disclosure    { color: crimson;
-    font-size: 150%; }
+  .renderjson .disclosure    { color: crimson; font-size: 150%; }
   .renderjson .syntax        { color: grey; }
   .renderjson .string        { color: red; }
   .renderjson .number        { color: cyan; }
@@ -13,9 +12,14 @@
   .renderjson .array.syntax  { color: lightsalmon; }
 }
 
-.json-tree {
+:host {
   display: flex;
   justify-content: space-between;
   width: 100%;
   margin-right: 20px;
+}
+
+:host.slinky-content {
+  display: grid;
+  grid-template-columns: 1fr auto;
 }

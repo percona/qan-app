@@ -1,5 +1,5 @@
 import {CoreComponent, QueryParams, QanError} from '../../core/core.component';
-import {Component} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {InstanceService} from '../../core/services/instance.service';
 import {QueryProfileService} from './query-profile.service';
 import {Router, ActivatedRoute} from '@angular/router';
@@ -14,7 +14,8 @@ const queryProfileError = 'No data. Please check pmm-client and database configu
   templateUrl: 'query-profile.component.html',
   styleUrls: ['./query-profile.component.scss'],
 })
-export class QueryProfileComponent extends CoreComponent {
+export class QueryProfileComponent extends CoreComponent implements OnInit {
+
   public queryProfile: Array<{}>;
   public isFilterMenu = false;
   public isEditColumnMenu = false;
@@ -31,6 +32,8 @@ export class QueryProfileComponent extends CoreComponent {
   public noQueryError: string;
   public isFirstSeen: boolean;
   public isFirstSeenChecked = false;
+  public isQueryDetails = false;
+  public isCropped = false;
   public testingVariable: boolean;
   public isSearchQuery = false;
   public isQueryCol = true;
@@ -71,6 +74,10 @@ export class QueryProfileComponent extends CoreComponent {
         this.isRowsScannedCol = false;
       }
     });
+  }
+
+  ngOnInit() {
+    this.toggleQueryDetails(this.queryParams.queryID !== 'null');
   }
 
   /**
@@ -157,6 +164,14 @@ export class QueryProfileComponent extends CoreComponent {
     }
     this.countDbQueries();
     this.isLoading = false;
+    // todo: calc height function
+    const qanTable = document.getElementById('qanTable');
+    const gridContentWrapper = document.getElementById('grid-content-wrapper');
+    const filters = document.getElementsByClassName('filter-menu') as HTMLCollectionOf<HTMLElement>;
+    setTimeout(() => {
+      filters[0].style.setProperty('--filters-height', `${qanTable.offsetHeight}px`);
+      gridContentWrapper.style.setProperty('--grid-content-wrapper', `${qanTable.offsetHeight}px`)
+    }, 0);
   }
 
   /**
@@ -260,6 +275,10 @@ export class QueryProfileComponent extends CoreComponent {
         this.measurement = 'time';
         break;
     }
+  }
+
+  toggleQueryDetails(isQueryDetails = true) {
+    this.isQueryDetails = isQueryDetails;
   }
 
   viewState(menuName) {

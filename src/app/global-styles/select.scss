@@ -256,22 +256,22 @@
   border-radius: 3px;
 }
 
-.chips.schemas .close:before,
-.chips.schemas .close:after {
+.chips.schemas .close-icon:before,
+.chips.schemas .close-icon:after {
   background-color: var(--color-shemas);
 }
 
-.chips.servers .close:before,
-.chips.servers .close:after {
+.chips.servers .close-icon:before,
+.chips.servers .close-icon:after {
   background-color: var(--color-servers);
 }
 
-.chips.users .close:before,
-.chips.users .close:after {
+.chips.users .close-icon:before,
+.chips.users .close-icon:after {
   background-color: var(--color-users);
 }
 
-.chips.hosts .close:before,
-.chips.hosts .close:after {
+.chips.hosts .close-icon:before,
+.chips.hosts .close-icon:after {
   background-color: var(--color-hosts);
 }

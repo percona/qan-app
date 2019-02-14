@@ -57,7 +57,7 @@
       </ngb-tab>
       <ngb-tab [disabled]="!selected.length" id="checked-tab">
         <ng-template ngbTabTitle>
-          <span>Checked</span>
+          <span>Selected</span>
           <span *ngIf="selected.length" class="badge">{{selected.length}}</span>
         </ng-template>
         <ng-template ngbTabContent>
@@ -79,7 +79,7 @@
                     </div>
                     <div class="chips {{selectedLabel.groupName.toLowerCase()}}">
                       <span class="ng-value-label">{{selectedLabel.filterName}}</span>
-                      <span (click)="changeFilterState(selectedLabel)" class="close"></span>
+                      <span (click)="changeFilterState(selectedLabel)" class="close-icon"></span>
                     </div>
                   </ng-container>
                 </div>

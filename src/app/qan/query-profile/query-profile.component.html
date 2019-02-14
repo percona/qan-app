@@ -11,7 +11,7 @@
      target="blank">PMM documentation.</a>
 </div>
 <div *ngIf="dbServer !== null && dbServer !== undefined" class="content-wrapper">
-  <div *ngIf="!noQueryError" class="queries-viewer">
+  <section *ngIf="!noQueryError" class="queries-viewer">
     <div class="action-tools">
       <div class="actions-tools__body">
         <app-qan-filter (filterMenuToggle)="viewState($event)" [isFilterMenuDisplays]="isFilterMenu"></app-qan-filter>
@@ -54,7 +54,7 @@
     </section>
 
     <table *ngIf="!isQuerySwitching" class="pmm-grid-table" id="qanTable">
-      <tr class="pmm-grid-table__row pmm-grid-table__row--no-pointer">
+      <tr class="pmm-grid-table__row">
         <th class="pmm-grid-table__cell">#</th>
         <th class="pmm-grid-table__cell pmm-grid-table__cell--full">
           <ng-select
@@ -84,6 +84,7 @@
           [routerLink]="['./', 'report', dbServer.Subsystem]"
           [queryParams]="composeQueryParamsForGrid(row.Id)" routerLinkActive="pmm-grid-table__row--active"
           [class.pmm-grid-table__row--first-seen]="checkFirstSeen(row)"
+          (click)="toggleQueryDetails()"
           class="pmm-grid-table__row">
         <td class="pmm-grid-table__cell">
           {{i || ''}}
@@ -120,7 +121,7 @@
             <ng-container *ngSwitchDefault></ng-container>
           </div>
         </td>
-        <td *ngIf="selectedColumn && isRowsScannedCol" class="pmm-grid-table__cell">
+        <td *ngIf="selectedColumnConfig && isRowsScannedCol" class="pmm-grid-table__cell">
           <div [ngSwitch]="currentColumn" class="pmm-grid-table__sub-table" id="rowsCanned">
             <ng-container *ngSwitchCase="'Load'">
               <span *ngIf="selectedColumnConfig?.percentage">
@@ -163,36 +164,36 @@
         <i class="fa fa-spinner fa-pulse fa-fw fa-40"></i>
       </div>
     </div>
-  </div>
 
-  <router-outlet></router-outlet>
+    <router-outlet></router-outlet>
 
-  <div *ngIf="!!noQueryError" class="text-center alert alert-danger w-75 mx-auto wrong-configuration-message" role="alert">
-    {{ noQueryError }}
-  </div>
+    <div *ngIf="!!noQueryError" class="text-center alert alert-danger w-75 mx-auto wrong-configuration-message" role="alert">
+      {{ noQueryError }}
+    </div>
 
-  <div *ngIf="!isQuerySwitching && !isLoading && totalAmountOfQueries === 0" class="text-center">
-    <div *ngIf="dbServer.Subsystem === 'mongo' && !isFirstSeenChecked && !isSearchQuery"
-         class="alert alert-warning w-75 mx-auto wrap no-mongo-queries">
-      There is no query data because profiling is not enabled for the selected host. For information about how to
-      enable profiling, see
-      <a href="https://www.percona.com/doc/percona-monitoring-and-management/conf-mongodb.html" target="blank">
-        Configuring profiling in MongoDB
-      </a>in PMM documentation.
+    <div *ngIf="!isQuerySwitching && !isLoading && totalAmountOfQueries === 0" class="text-center">
+      <div *ngIf="dbServer.Subsystem === 'mongo' && !isFirstSeenChecked && !isSearchQuery"
+           class="alert alert-warning w-75 mx-auto wrap no-mongo-queries">
+        There is no query data because profiling is not enabled for the selected host. For information about how to
+        enable profiling, see
+        <a href="https://www.percona.com/doc/percona-monitoring-and-management/conf-mongodb.html" target="blank">
+          Configuring profiling in MongoDB
+        </a>in PMM documentation.
+      </div>
+      <div *ngIf="dbServer.Subsystem === 'mysql' && !isFirstSeenChecked && !isSearchQuery"
+           class="alert alert-warning w-75 mx-auto wrap no-mysql-queries">
+        There is no query data because the MySQL Server is not configured for monitoring. For details about the
+        required configuration, see
+        <a href="https://www.percona.com/doc/percona-monitoring-and-management/conf-mysql.html" target="blank">
+          Configuring MySQL for Percona Monitoring and Management
+        </a>in PMM documentation.
+      </div>
+      <div *ngIf="isFirstSeenChecked && !isSearchQuery" class="alert alert-warning w-75 mx-auto wrap">
+        There are no queries First Seen during the selected time range, try widening your time range.
+      </div>
+      <div *ngIf="isSearchQuery" class="alert alert-warning w-75 mx-auto wrap">
+        There are no queries during the selected time range, try widening your time range.
+      </div>
     </div>
-    <div *ngIf="dbServer.Subsystem === 'mysql' && !isFirstSeenChecked && !isSearchQuery"
-         class="alert alert-warning w-75 mx-auto wrap no-mysql-queries">
-      There is no query data because the MySQL Server is not configured for monitoring. For details about the
-      required configuration, see
-      <a href="https://www.percona.com/doc/percona-monitoring-and-management/conf-mysql.html" target="blank">
-        Configuring MySQL for Percona Monitoring and Management
-      </a>in PMM documentation.
-    </div>
-    <div *ngIf="isFirstSeenChecked && !isSearchQuery" class="alert alert-warning w-75 mx-auto wrap">
-      There are no queries First Seen during the selected time range, try widening your time range.
-    </div>
-    <div *ngIf="isSearchQuery" class="alert alert-warning w-75 mx-auto wrap">
-      There are no queries during the selected time range, try widening your time range.
-    </div>
-  </div>
+  </section>
 </div>
