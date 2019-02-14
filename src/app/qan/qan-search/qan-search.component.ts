@@ -15,7 +15,6 @@ export class QanSearchComponent implements OnInit, OnDestroy {
   @ViewChild('tabs')
   private tabs: NgbTabset;
 
-  public isFilterMenu = false;
   public autocomplete: Array<{}> = [];
   public selected: Array<{}> = [];
   private filterSubscription: any;
@@ -58,9 +57,6 @@ export class QanSearchComponent implements OnInit, OnDestroy {
       });
     }
     this.qanFilterService.setFilterConfigs(this.filters);
-    if (!this.selected.length && this.isFilterMenu) {
-      this.tabs.select('filters-tab')
-    }
   }
 
   autocompleteSearch = (term: string, item: any) => {
