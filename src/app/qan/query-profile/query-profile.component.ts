@@ -33,7 +33,6 @@ export class QueryProfileComponent extends CoreComponent implements OnInit {
   public isFirstSeen: boolean;
   public isFirstSeenChecked = false;
   public isQueryDetails = false;
-  public isCropped = false;
   public testingVariable: boolean;
   public isSearchQuery = false;
   public isQueryCol = true;
@@ -47,6 +46,7 @@ export class QueryProfileComponent extends CoreComponent implements OnInit {
 
   queryTypes = ['Query', 'Server', 'Host'];
   selectedQueryType = this.queryTypes[0];
+  previousQueryType = this.selectedQueryType;
 
   public currentColumn: string;
   public yKey: string;
@@ -68,7 +68,7 @@ export class QueryProfileComponent extends CoreComponent implements OnInit {
       const firstElement = this.columnsConfig.length ? this.columnsConfig[0] : this.defaultSelectedColumn;
       this.selectedColumn = this.columnsConfig.find(item => item.name === this.selectedColumn.name) ? this.selectedColumn : firstElement;
       if (this.selectedColumn && this.selectedColumn.name) {
-        this.onConfigChanges(this.selectedColumn);
+        this.onColumnConfigChanges(this.selectedColumn);
       } else {
         this.isQueryCol = false;
         this.isRowsScannedCol = false;
@@ -237,16 +237,23 @@ export class QueryProfileComponent extends CoreComponent implements OnInit {
    * Set selected config parameters when column type changes
    * @param selected - checked column-type
    */
-  onConfigChanges(selected) {
-    if (!selected) {
-      this.selectedColumn = selected = this.columnsConfig.length ? this.previousColumn : this.defaultSelectedColumn;
+  onColumnConfigChanges(selectedColumn) {
+    if (!selectedColumn) {
+      this.selectedColumn = selectedColumn = this.columnsConfig.length ? this.previousColumn : this.defaultSelectedColumn;
     }
     this.selectedColumnConfig = {};
-    selected.columns.forEach(column =>
+    selectedColumn.columns.forEach(column =>
       this.selectedColumnConfig[this.filterSearchService.transformForSearch(column.name)] = column.value);
-    this.currentColumn = selected.name;
-    this.setCurrentSparkline(selected.name, this.selectedColumnConfig);
+    this.currentColumn = selectedColumn.name;
+    this.setCurrentSparkline(selectedColumn.name, this.selectedColumnConfig);
     this.previousColumn = this.selectedColumn;
+  }
+
+  onQueryTypeChanges(selectedQueryType) {
+    if (!selectedQueryType) {
+      this.selectedQueryType = this.previousQueryType;
+    }
+    this.previousQueryType = this.selectedQueryType;
   }
 
   /**

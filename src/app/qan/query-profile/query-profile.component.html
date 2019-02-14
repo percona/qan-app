@@ -61,6 +61,7 @@
             [(ngModel)]="selectedQueryType"
             [items]="queryTypes"
             [disabled]="!queryTypes.length"
+            (change)="onQueryTypeChanges(selectedQueryType)"
             class="pmm-select pmm-select--table pmm-select--auto-width"
             role="combobox">
           </ng-select>
@@ -70,7 +71,7 @@
             [(ngModel)]="selectedColumn"
             [items]="columnsConfig"
             [disabled]="!columnsConfig.length"
-            (change)="onConfigChanges(selectedColumn)"
+            (change)="onColumnConfigChanges(selectedColumn)"
             class="pmm-select pmm-select--table"
             bindLabel="name"
             role="combobox">
