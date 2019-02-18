@@ -17,6 +17,8 @@ const queryProfileError = 'No data. Please check pmm-client and database configu
 export class QueryProfileComponent extends CoreComponent implements OnInit {
 
   public queryProfile: Array<{}>;
+  public isFilterMenu = false;
+  public isEditColumnMenu = false;
   public profileTotal;
   public offset: number;
   public totalAmountOfQueries: number;
@@ -31,19 +33,24 @@ export class QueryProfileComponent extends CoreComponent implements OnInit {
   public isFirstSeen: boolean;
   public isFirstSeenChecked = false;
   public isQueryDetails = false;
-  public isCropped = false;
   public testingVariable: boolean;
   public isSearchQuery = false;
   public isQueryCol = true;
   public isRowsScannedCol = true;
-  public defaultSelected = {name: '', columns: []};
-  public selected = this.defaultSelected;
-  public selectedConfig = {};
-  public configs: any;
-  public detailsView = 'full';
+
+  public defaultSelectedColumn = {name: '', columns: []};
+  public selectedColumn = this.defaultSelectedColumn;
+  public previousColumn = this.selectedColumn;
+  public columnsConfig: any;
+  public selectedColumnConfig = {};
+
+  queryTypes = ['Query', 'Server', 'Host'];
+  selectedQueryType = this.queryTypes[0];
+  previousQueryType = this.selectedQueryType;
 
   public currentColumn: string;
   public yKey: string;
+  public measurement: string;
 
   constructor(protected route: ActivatedRoute,
               protected router: Router,
@@ -57,11 +64,11 @@ export class QueryProfileComponent extends CoreComponent implements OnInit {
         return;
       }
 
-      this.configs = items.filter((config: any) => !!config.checked);
-      const firstElement = this.configs.length ? this.configs[0] : this.defaultSelected;
-      this.selected = this.configs.find(item => item.name === this.selected.name) ? this.selected : firstElement;
-      if (this.selected && this.selected.name) {
-        this.onConfigChanges(this.selected.name);
+      this.columnsConfig = items.filter((config: any) => !!config.checked);
+      const firstElement = this.columnsConfig.length ? this.columnsConfig[0] : this.defaultSelectedColumn;
+      this.selectedColumn = this.columnsConfig.find(item => item.name === this.selectedColumn.name) ? this.selectedColumn : firstElement;
+      if (this.selectedColumn && this.selectedColumn.name) {
+        this.onColumnConfigChanges(this.selectedColumn);
       } else {
         this.isQueryCol = false;
         this.isRowsScannedCol = false;
@@ -228,14 +235,25 @@ export class QueryProfileComponent extends CoreComponent implements OnInit {
 
   /**
    * Set selected config parameters when column type changes
-   * @param name - checked column-type name
+   * @param selected - checked column-type
    */
-  onConfigChanges(name) {
-    this.selectedConfig = {};
-    this.selected.columns.forEach(column =>
-      this.selectedConfig[this.filterSearchService.transformForSearch(column.name)] = column.value);
-    this.currentColumn = name;
-    this.setCurrentSparkline(name, this.selectedConfig);
+  onColumnConfigChanges(selectedColumn) {
+    if (!selectedColumn) {
+      this.selectedColumn = selectedColumn = this.columnsConfig.length ? this.previousColumn : this.defaultSelectedColumn;
+    }
+    this.selectedColumnConfig = {};
+    selectedColumn.columns.forEach(column =>
+      this.selectedColumnConfig[this.filterSearchService.transformForSearch(column.name)] = column.value);
+    this.currentColumn = selectedColumn.name;
+    this.setCurrentSparkline(selectedColumn.name, this.selectedColumnConfig);
+    this.previousColumn = this.selectedColumn;
+  }
+
+  onQueryTypeChanges(selectedQueryType) {
+    if (!selectedQueryType) {
+      this.selectedQueryType = this.previousQueryType;
+    }
+    this.previousQueryType = this.selectedQueryType;
   }
 
   /**
@@ -249,21 +267,29 @@ export class QueryProfileComponent extends CoreComponent implements OnInit {
         this.isQueryCol = config.sparkline || config.value;
         this.isRowsScannedCol = config.percentage;
         this.yKey = 'Query_load';
+        this.measurement = 'number';
         break;
       case 'Count':
         this.isQueryCol = config.sparkline || config.queriespersecond;
         this.isRowsScannedCol = config.value || config.percentage;
         this.yKey = 'Query_count';
+        this.measurement = 'number';
         break;
       case 'Avg Latency':
         this.isQueryCol = config.sparkline || config.value;
         this.isRowsScannedCol = config.distribution;
         this.yKey = 'Query_time_avg';
+        this.measurement = 'time';
         break;
     }
   }
 
   toggleQueryDetails(isQueryDetails = true) {
     this.isQueryDetails = isQueryDetails;
+  }
+
+  viewState(menuName) {
+    this.isFilterMenu = menuName === 'filter-menu';
+    this.isEditColumnMenu = !this.isFilterMenu;
   }
 }

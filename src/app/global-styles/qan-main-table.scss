@@ -28,7 +28,11 @@
   cursor: pointer;
 }
 
-.pmm-grid-table__row:focus {
+.pmm-grid-table__row--no-pointer {
+  cursor: auto;
+}
+
+  .pmm-grid-table__row:focus {
   outline: none;
 }
 
