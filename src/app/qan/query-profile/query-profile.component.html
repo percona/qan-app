@@ -11,18 +11,21 @@
      target="blank">PMM documentation.</a>
 </div>
 <div *ngIf="dbServer !== null && dbServer !== undefined" class="content-wrapper">
-  <div *ngIf="!noQueryError" class="queries-viewer">
+  <section *ngIf="!noQueryError" class="queries-viewer">
     <div class="action-tools">
       <div class="actions-tools__body">
-        <app-qan-filter></app-qan-filter>
+        <app-qan-filter (filterMenuToggle)="viewState($event)" [isFilterMenuDisplays]="isFilterMenu"></app-qan-filter>
+        <app-qan-edit-column (editColumnToggle)="viewState($event)" [isEditColumnDisplays]="isEditColumnMenu"></app-qan-edit-column>
         <app-qan-search></app-qan-search>
       </div>
     </div>
 
     <section class="configuration-panel">
-      <!--<p class="configuration-panel__title">-->
-      <!--Top {{ totalAmountOfQueries ? (queryProfile?.length - 1) : 0 }} of {{ totalAmountOfQueries }} Queries by % Grand Total Time (%GTT)-->
-      <!--</p>-->
+      <p class="configuration-panel__title">
+        Top {{ totalAmountOfQueries ? (queryProfile?.length - 1) : 0 }} of
+        {{ totalAmountOfQueries }} {{ selectedQueryType | tableHeadersToMultiple}} by
+        {{selectedColumn.name}}
+      </p>
 
       <div class="configuration-panel__options center-children">
         <span>Display</span>
@@ -50,38 +53,31 @@
       </form>
     </section>
 
-    <section class="configuration-panel">
-      <div class="configuration-panel__selects">
-        <span>Top</span>
-        <ng-select
-          [(ngModel)]="selected"
-          [items]="configs"
-          [disabled]="!configs.length"
-          (change)="onConfigChanges(selected.name)"
-          class="pmm-select"
-          bindLabel="name"
-          role="combobox">
-        </ng-select>
-        <span>by</span>
-        <ng-select [(ngModel)]="selectedOption"
-                   [items]="checkedColumns"
-                   (change)="checkEmptyColumn(selectedOption)"
-                   class="pmm-select"
-                   bindLabel="name"
-                   role="combobox">
-        </ng-select>
-      </div>
-      <app-qan-edit-column></app-qan-edit-column>
-    </section>
-
     <table *ngIf="!isQuerySwitching" class="pmm-grid-table" id="qanTable">
       <tr class="pmm-grid-table__row">
         <th class="pmm-grid-table__cell">#</th>
-        <th class="pmm-grid-table__cell pmm-grid-table__cell--full">Query Abstract</th>
-        <th *ngIf="selected && isQueryCol" class="pmm-grid-table__cell">
-          <div class="cell__content--max">{{selected.name}}</div>
+        <th class="pmm-grid-table__cell pmm-grid-table__cell--full">
+          <ng-select
+            [(ngModel)]="selectedQueryType"
+            [items]="queryTypes"
+            [disabled]="!queryTypes.length"
+            (change)="onQueryTypeChanges(selectedQueryType)"
+            class="pmm-select pmm-select--table pmm-select--auto-width"
+            role="combobox">
+          </ng-select>
         </th>
-        <th *ngIf="selected && isRowsScannedCol" class="pmm-grid-table__cell">
+        <th *ngIf="selectedColumn && isQueryCol" class="pmm-grid-table__cell">
+          <ng-select
+            [(ngModel)]="selectedColumn"
+            [items]="columnsConfig"
+            [disabled]="!columnsConfig.length"
+            (change)="onColumnConfigChanges(selectedColumn)"
+            class="pmm-select pmm-select--table"
+            bindLabel="name"
+            role="combobox">
+          </ng-select>
+        </th>
+        <th *ngIf="selectedColumn && isRowsScannedCol" class="pmm-grid-table__cell">
           <div class="cell__content--max">Rows Scanned</div>
         </th>
       </tr>
@@ -89,6 +85,7 @@
           [routerLink]="['./', 'report', dbServer.Subsystem]"
           [queryParams]="composeQueryParamsForGrid(row.Id)" routerLinkActive="pmm-grid-table__row--active"
           [class.pmm-grid-table__row--first-seen]="checkFirstSeen(row)"
+          (click)="toggleQueryDetails()"
           class="pmm-grid-table__row">
         <td class="pmm-grid-table__cell">
           {{i || ''}}
@@ -100,49 +97,49 @@
             </button>
           </div>
         </td>
-        <td *ngIf="selected && isQueryCol" class="pmm-grid-table__cell">
+        <td *ngIf="selectedColumn && isQueryCol" class="pmm-grid-table__cell">
           <div [ngSwitch]="currentColumn" class="pmm-grid-table__sub-table">
-            <div *ngIf="selectedConfig?.sparkline" class="scaling-svg-container app-tooltip"
+            <div *ngIf="selectedColumnConfig?.sparkline" class="scaling-svg-container app-tooltip"
                  [appLoadSparklines]="row.Log"
                  data-tooltip="Loading..."
                  xkey="Start_ts" ykey="{{yKey}}"
-                 measurement="number"
-                 id="loadSparkline">
+                 measurement="{{measurement}}"
+                 id="sparkline">
             </div>
             <ng-container *ngSwitchCase="'Load'">
-              <span *ngIf="selectedConfig?.value">
+              <span *ngIf="selectedColumnConfig?.value">
                 {{ row.Load | humanize : 'number' }}
               </span>
             </ng-container>
 
             <ng-container *ngSwitchCase="'Count'" class="unit unit--qps" id="countQueriesPerSecond">
-              <span *ngIf="selectedConfig?.queriespersecond">{{row.QPS | humanize : 'number'}}</span>
+              <span *ngIf="selectedColumnConfig?.queriespersecond">{{row.QPS | humanize : 'number'}}</span>
             </ng-container>
 
             <ng-container *ngSwitchCase="'Avg Latency'">
-              <span *ngIf="selectedConfig?.value">{{ row.Stats.Avg | humanize }}</span>
+              <span *ngIf="selectedColumnConfig?.value">{{ row.Stats.Avg | humanize }}</span>
             </ng-container>
             <ng-container *ngSwitchDefault></ng-container>
           </div>
         </td>
-        <td *ngIf="selected && isRowsScannedCol" class="pmm-grid-table__cell">
+        <td *ngIf="selectedColumnConfig && isRowsScannedCol" class="pmm-grid-table__cell">
           <div [ngSwitch]="currentColumn" class="pmm-grid-table__sub-table" id="rowsCanned">
             <ng-container *ngSwitchCase="'Load'">
-              <span *ngIf="selectedConfig?.percentage">
+              <span *ngIf="selectedColumnConfig?.percentage">
                 {{row.Percentage | humanize : 'percent'}}
               </span>
             </ng-container>
 
-            <span *ngIf="currentColumn === 'Count' && selectedConfig?.value" id="countValue">
-                  {{row.Stats.Cnt | humanize : 'number'}}
-            </span>
+            <ng-container *ngSwitchCase="'Count'" id="countValue">
+              <span *ngIf="selectedColumnConfig?.value">{{row.Stats.Cnt | humanize : 'number'}}</span>
+            </ng-container>
 
             <ng-container *ngSwitchCase="'Count'" class="unit unit--percent" id="countPercentage">
-              <span *ngIf="selectedConfig?.percentage">{{(row.Stats.Cnt / profileTotal?.Stats.Cnt * 100).toFixed(2)}}</span>
+              <span *ngIf="selectedColumnConfig?.percentage">{{(row.Stats.Cnt / profileTotal?.Stats.Cnt * 100).toFixed(2)}}</span>
             </ng-container>
 
             <ng-container *ngSwitchCase="'Avg Latency'">
-              <div *ngIf="selectedConfig?.distribution"
+              <div *ngIf="selectedColumnConfig?.distribution"
                    [appLatencyChart]="row.Stats"
                    class="scaling-svg-container scaling-svg-container--full-width app-tooltip"
                    data-tooltip="Loading..."
@@ -163,7 +160,8 @@
       [nextLabel]="paginationControlsConfig.nextLabel"
       [maxSize]="5"
       (pageChange)="getPage($event)"
-      class="pmm-pagination"></pagination-controls>
+      class="pmm-pagination">
+    </pagination-controls>
 
     <!--<div class="center-children">-->
     <!--<button *ngIf="totalAmountOfQueries && !isLoading"-->
@@ -176,36 +174,35 @@
     <!--<i class="fa fa-spinner fa-pulse fa-fw fa-40"></i>-->
     <!--</div>-->
     <!--</div>-->
-  </div>
+  </section>
 
   <router-outlet></router-outlet>
+</div>
+<div *ngIf="!!noQueryError" class="text-center alert alert-danger w-75 mx-auto wrong-configuration-message" role="alert">
+  {{ noQueryError }}
+</div>
 
-  <div *ngIf="!!noQueryError" class="text-center alert alert-danger w-75 mx-auto wrong-configuration-message" role="alert">
-    {{ noQueryError }}
+<div *ngIf="!isQuerySwitching && !isLoading && totalAmountOfQueries === 0" class="text-center">
+  <div *ngIf="dbServer.Subsystem === 'mongo' && !isFirstSeenChecked && !isSearchQuery"
+       class="alert alert-warning w-75 mx-auto wrap no-mongo-queries">
+    There is no query data because profiling is not enabled for the selected host. For information about how to
+    enable profiling, see
+    <a href="https://www.percona.com/doc/percona-monitoring-and-management/conf-mongodb.html" target="blank">
+      Configuring profiling in MongoDB
+    </a>in PMM documentation.
   </div>
-
-  <div *ngIf="!isQuerySwitching && !isLoading && totalAmountOfQueries === 0" class="text-center">
-    <div *ngIf="dbServer.Subsystem === 'mongo' && !isFirstSeenChecked && !isSearchQuery"
-         class="alert alert-warning w-75 mx-auto wrap no-mongo-queries">
-      There is no query data because profiling is not enabled for the selected host. For information about how to
-      enable profiling, see
-      <a href="https://www.percona.com/doc/percona-monitoring-and-management/conf-mongodb.html" target="blank">
-        Configuring profiling in MongoDB
-      </a>in PMM documentation.
-    </div>
-    <div *ngIf="dbServer.Subsystem === 'mysql' && !isFirstSeenChecked && !isSearchQuery"
-         class="alert alert-warning w-75 mx-auto wrap no-mysql-queries">
-      There is no query data because the MySQL Server is not configured for monitoring. For details about the
-      required configuration, see
-      <a href="https://www.percona.com/doc/percona-monitoring-and-management/conf-mysql.html" target="blank">
-        Configuring MySQL for Percona Monitoring and Management
-      </a>in PMM documentation.
-    </div>
-    <div *ngIf="isFirstSeenChecked && !isSearchQuery" class="alert alert-warning w-75 mx-auto wrap">
-      There are no queries First Seen during the selected time range, try widening your time range.
-    </div>
-    <div *ngIf="isSearchQuery" class="alert alert-warning w-75 mx-auto wrap">
-      There are no queries during the selected time range, try widening your time range.
-    </div>
+  <div *ngIf="dbServer.Subsystem === 'mysql' && !isFirstSeenChecked && !isSearchQuery"
+       class="alert alert-warning w-75 mx-auto wrap no-mysql-queries">
+    There is no query data because the MySQL Server is not configured for monitoring. For details about the
+    required configuration, see
+    <a href="https://www.percona.com/doc/percona-monitoring-and-management/conf-mysql.html" target="blank">
+      Configuring MySQL for Percona Monitoring and Management
+    </a>in PMM documentation.
+  </div>
+  <div *ngIf="isFirstSeenChecked && !isSearchQuery" class="alert alert-warning w-75 mx-auto wrap">
+    There are no queries First Seen during the selected time range, try widening your time range.
+  </div>
+  <div *ngIf="isSearchQuery" class="alert alert-warning w-75 mx-auto wrap">
+    There are no queries during the selected time range, try widening your time range.
   </div>
 </div>

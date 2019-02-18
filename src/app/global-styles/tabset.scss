@@ -1,51 +1,67 @@
 .pmm-tabset {
   --checked-tab-color: rgb(0, 108, 255);
+
+  .nav.nav-tabs {
+    display: flex;
+    margin-bottom: var(--main-bottom-indent);
+    margin-right: var(--lr-menu-indent);
+    border-bottom: 1px solid #000;
+  }
+
+  .nav.nav-tabs .nav-item {
+    width: 50%;
+    height: 35px;
+  }
+
+  .nav.nav-tabs .nav-item .nav-link {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    width: 100%;
+    height: 100%;
+    padding: 0;
+
+    color: inherit;
+    font-weight: 600;
+    border: none;
+  }
+
+  .nav.nav-tabs .nav-item .nav-link.disabled {
+    opacity: 0.3;
+  }
+
+  .nav.nav-tabs .nav-item .nav-link.disabled:hover {
+    cursor: not-allowed;
+    color: inherit;
+  }
+
+  .nav.nav-tabs .nav-item .nav-link:hover {
+    color: var(--checked-tab-color);
+    border: none;
+  }
+
+  .nav.nav-tabs .nav-item .nav-link.active {
+    color: var(--checked-tab-color);
+    border: none;
+    border-bottom: 1px solid var(--checked-tab-color);
+    background-color: transparent;
+    font-weight: 600;
+  }
+
 }
 
-.pmm-tabset .nav.nav-tabs {
-  display: flex;
-  justify-content: space-around !important;
-  margin-bottom: var(--main-bottom-indent);
-  margin-right: var(--lr-menu-indent);
-  border-bottom: 1px solid #000;
-}
+.pmm-tabset--theme-details {
 
-.pmm-tabset .nav.nav-tabs .nav-item {
-  width: 50%;
-  height: 35px;
-}
+  .nav.nav-tabs {
+    border-bottom: 1px solid var(--main-border-color);
+  }
 
-.pmm-tabset .nav.nav-tabs .nav-item .nav-link {
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  .nav.nav-tabs .nav-item {
+    width: auto;
+  }
 
-  width: 100%;
-  height: 100%;
-  padding: 0;
-
-  color: inherit;
-  font-weight: 600;
-}
-
-.pmm-tabset .nav.nav-tabs .nav-item .nav-link.disabled {
-  opacity: 0.3;
-}
-
-.pmm-tabset .nav.nav-tabs .nav-item .nav-link.disabled:hover {
-  cursor: not-allowed;
-  color: inherit;
-}
-
-.pmm-tabset .nav.nav-tabs .nav-item .nav-link:hover {
-  color: var(--checked-tab-color);
-  border: none;
-}
-
-.pmm-tabset .nav.nav-tabs .nav-item .nav-link.active {
-  color: var(--checked-tab-color);
-  border: none;
-  border-bottom:  1px solid var(--checked-tab-color);
-  background-color: transparent;
-  font-weight: 600;
+  .nav.nav-tabs .nav-item .nav-link {
+    padding: 0 15px;
+  }
 }

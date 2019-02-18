@@ -1,4 +1,4 @@
-import { Directive, Input, HostBinding } from '@angular/core';
+import {Directive, Input, HostBinding, OnChanges} from '@angular/core';
 import { ElementRef } from '@angular/core';
 
 import * as moment from 'moment';
@@ -14,7 +14,7 @@ import { MomentFormatPipe } from './moment-format.pipe';
  * Display sparklines in top queries and metrics.
  */
 @Directive({ selector: '[appLoadSparklines]' })
-export class LoadSparklinesDirective {
+export class LoadSparklinesDirective implements OnChanges {
 
     public _xkey: string;
     public _ykey: string;
@@ -25,6 +25,7 @@ export class LoadSparklinesDirective {
 
     @HostBinding('attr.data-tooltip')
     @Input() dataTooltip: string;
+    @Input() appLoadSparklines: Array<{}>;
 
     constructor(
         public elementRef: ElementRef,
@@ -42,12 +43,8 @@ export class LoadSparklinesDirective {
         this._measurement = measurement;
     }
 
-    @Input() set appLoadSparklines(data: Array<{}>) {
-        if (data !== null) {
-            setTimeout(() => {
-                this.drawChart(data)
-            }, 0);
-        }
+    ngOnChanges() {
+      setTimeout(() => this.drawChart(this.appLoadSparklines), 0);
     }
 
     drawChart(data: Array<{}>) {

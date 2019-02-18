@@ -1,5 +1,5 @@
 import {CoreComponent, QueryParams, QanError} from '../../core/core.component';
-import {Component, Input, OnChanges, OnInit} from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
 import {InstanceService} from '../../core/services/instance.service';
 import {QueryProfileService} from './query-profile.service';
 import {Router, ActivatedRoute} from '@angular/router';
@@ -14,10 +14,12 @@ const queryProfileError = 'No data. Please check pmm-client and database configu
   templateUrl: 'query-profile.component.html',
   styleUrls: ['./query-profile.component.scss'],
 })
-export class QueryProfileComponent extends CoreComponent {
+export class QueryProfileComponent extends CoreComponent implements OnInit {
 
   // tslint:disable-next-line:no-input-rename
   @Input('data') queryProfile: Array<{}> = [];
+  public isFilterMenu = false;
+  public isEditColumnMenu = false;
   public profileTotal;
   public totalAmountOfQueries: number;
   public searchValue: string;
@@ -29,19 +31,27 @@ export class QueryProfileComponent extends CoreComponent {
   public noQueryError: string;
   public isFirstSeen: boolean;
   public isFirstSeenChecked = false;
+  public isQueryDetails = false;
   public testingVariable: boolean;
   public isSearchQuery = false;
   public selectedOption: any;
   public selectedPaginationOption: any = 10;
   public isQueryCol = true;
   public isRowsScannedCol = true;
-  public defaultSelected = {name: '', columns: []};
-  public selected = this.defaultSelected;
-  public selectedConfig = {};
-  public configs: any;
+
+  public defaultSelectedColumn = {name: '', columns: []};
+  public selectedColumn = this.defaultSelectedColumn;
+  public previousColumn = this.selectedColumn;
+  public columnsConfig: any;
+  public selectedColumnConfig = {};
+
+  queryTypes = ['Query', 'Server', 'Host'];
+  selectedQueryType = this.queryTypes[0];
+  previousQueryType = this.selectedQueryType;
 
   public currentColumn: string;
   public yKey: string;
+  public measurement: string;
 
   public isSearchable = false;
   public page = 1;
@@ -69,16 +79,20 @@ export class QueryProfileComponent extends CoreComponent {
         return;
       }
 
-      this.configs = items.filter((config: any) => !!config.checked);
-      const firstElement = this.configs.length ? this.configs[0] : this.defaultSelected;
-      this.selected = this.configs.find(item => item.name === this.selected.name) ? this.selected : firstElement;
-      if (this.selected && this.selected.name) {
-        this.onConfigChanges(this.selected.name);
+      this.columnsConfig = items.filter((config: any) => !!config.checked);
+      const firstElement = this.columnsConfig.length ? this.columnsConfig[0] : this.defaultSelectedColumn;
+      this.selectedColumn = this.columnsConfig.find(item => item.name === this.selectedColumn.name) ? this.selectedColumn : firstElement;
+      if (this.selectedColumn && this.selectedColumn.name) {
+        this.onColumnConfigChanges(this.selectedColumn);
       } else {
         this.isQueryCol = false;
         this.isRowsScannedCol = false;
       }
     });
+  }
+
+  ngOnInit() {
+    this.toggleQueryDetails(this.queryParams.queryID !== 'null');
   }
 
   /**
@@ -197,6 +211,14 @@ export class QueryProfileComponent extends CoreComponent {
   //   this.pushNewRow(count); // 0, 10, 20, 30, 40
   // }
   //   Promise.all([this.getPage(1, 0), this.getPage(1, 10), this.getPage(1, 20), this.getPage(1, 30), this.getPage(1, 40)]);
+  // todo: calc height function
+  // const qanTable = document.getElementById('qanTable');
+  // const gridContentWrapper = document.getElementById('grid-content-wrapper');
+  // const filters = document.getElementsByClassName('filter-menu') as HTMLCollectionOf<HTMLElement>;
+  // setTimeout(() => {
+  // filters[0].style.setProperty('--filters-height', `${qanTable.offsetHeight}px`);
+  // gridContentWrapper.style.setProperty('--grid-content-wrapper', `${qanTable.offsetHeight}px`)
+  // }, 0);
   // }
 
   // /**
@@ -282,15 +304,25 @@ export class QueryProfileComponent extends CoreComponent {
 
   /**
    * Set selected config parameters when column type changes
-   * @param name - checked column-type name
+   * @param selected - checked column-type
    */
-  onConfigChanges(name) {
-    this.selectedConfig = {};
-    this.selected.columns.forEach(column =>
-      this.selectedConfig[this.filterSearchService.transformForSearch(column.name)] = column.value);
-    this.currentColumn = name;
-    this.setCurrentSparkline(name, this.selectedConfig);
-    console.log('selectedConfig - ', this.selectedConfig);
+  onColumnConfigChanges(selectedColumn) {
+    if (!selectedColumn) {
+      this.selectedColumn = selectedColumn = this.columnsConfig.length ? this.previousColumn : this.defaultSelectedColumn;
+    }
+    this.selectedColumnConfig = {};
+    selectedColumn.columns.forEach(column =>
+      this.selectedColumnConfig[this.filterSearchService.transformForSearch(column.name)] = column.value);
+    this.currentColumn = selectedColumn.name;
+    this.setCurrentSparkline(selectedColumn.name, this.selectedColumnConfig);
+    this.previousColumn = this.selectedColumn;
+  }
+
+  onQueryTypeChanges(selectedQueryType) {
+    if (!selectedQueryType) {
+      this.selectedQueryType = this.previousQueryType;
+    }
+    this.previousQueryType = this.selectedQueryType;
   }
 
   /**
@@ -304,17 +336,29 @@ export class QueryProfileComponent extends CoreComponent {
         this.isQueryCol = config.sparkline || config.value;
         this.isRowsScannedCol = config.percentage;
         this.yKey = 'Query_load';
+        this.measurement = 'number';
         break;
       case 'Count':
         this.isQueryCol = config.sparkline || config.queriespersecond;
         this.isRowsScannedCol = config.value || config.percentage;
         this.yKey = 'Query_count';
+        this.measurement = 'number';
         break;
       case 'Avg Latency':
         this.isQueryCol = config.sparkline || config.value;
         this.isRowsScannedCol = config.distribution;
         this.yKey = 'Query_time_avg';
+        this.measurement = 'time';
         break;
     }
+  }
+
+  toggleQueryDetails(isQueryDetails = true) {
+    this.isQueryDetails = isQueryDetails;
+  }
+
+  viewState(menuName) {
+    this.isFilterMenu = menuName === 'filter-menu';
+    this.isEditColumnMenu = !this.isFilterMenu;
   }
 }
