@@ -69,6 +69,7 @@
     "karma-jasmine": "1.1.2",
     "karma-jasmine-html-reporter": "^1.4.0",
     "karma-remap-istanbul": "0.6.0",
+    "ng-swagger-gen": "^1.5.0",
     "protractor": "5.4.0",
     "raw-loader": "0.5.1",
     "readable-stream": "^2.3.6",
