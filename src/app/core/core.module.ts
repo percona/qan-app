@@ -26,6 +26,7 @@ import { QanEditColumnService } from '../qan/qan-edit-column/qan-edit-column.ser
 import { QanSearchComponent } from '../qan/qan-search/qan-search.component';
 import { QueryDetailsComponent } from '../qan/query-details/query-details.component';
 import { QueryDetailsService } from '../qan/query-details/query-details.service';
+import { ApiModule } from '../inventory-api/api.module';
 
 @NgModule({
     imports: [
@@ -34,6 +35,7 @@ import { QueryDetailsService } from '../qan/query-details/query-details.service'
       ClipboardModule,
       NgSelectModule,
       PerfectScrollbarModule,
+      ApiModule
     ],
     declarations: [
       NavComponent,
