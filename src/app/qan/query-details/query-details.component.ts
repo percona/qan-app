@@ -1,18 +1,24 @@
-/**
- * Base class for query-details-pages.
- */
-import {CoreComponent} from './core.component';
-import {QueryDetails} from './services/base-query-details.service';
 import {ActivatedRoute, Router} from '@angular/router';
-import {InstanceService} from './services/instance.service';
-import {BaseQueryDetailsService} from './services/base-query-details.service';
 import * as moment from 'moment';
 import * as hljs from 'highlight.js';
 import * as vkbeautify from 'vkbeautify';
+import {CoreComponent} from '../../core/core.component';
+import {InstanceService} from '../../core/services/instance.service';
+import {QueryDetails, QueryDetailsService} from './query-details.service';
+import {Component, OnInit} from '@angular/core';
+import {QueryParamsModel} from '../../core/models/query-params.model';
 
-export abstract class BaseQueryDetailsComponent extends CoreComponent {
+@Component({
+  moduleId: module.id,
+  selector: 'app-query-details',
+  templateUrl: './query-details.component.html',
+  styleUrls: ['./query-details.component.scss']
+})
+
+export class QueryDetailsComponent extends CoreComponent implements OnInit {
   public queryDetails: any | QueryDetails;
   protected dbName: string;
+  protected newDBTblNames: string;
   public dbTblNames: string;
   public queryExample: string;
   public fingerprint: string;
@@ -24,6 +30,8 @@ export abstract class BaseQueryDetailsComponent extends CoreComponent {
   public explainVisual;
   public explainData;
   isLoading: boolean;
+  isMongo = false;
+  isExplain: boolean;
   isFirstSeen: boolean;
   isSummary: boolean;
   isExplainLoading: boolean;
@@ -53,9 +61,19 @@ export abstract class BaseQueryDetailsComponent extends CoreComponent {
     tableSection: ['table-create'],
   };
 
-  constructor(protected route: ActivatedRoute, protected router: Router,
-              public instanceService: InstanceService, public queryDetailsService: BaseQueryDetailsService) {
+  event = new Event('showSuccessNotification');
+
+  constructor(protected route: ActivatedRoute,
+              protected router: Router,
+              public instanceService: InstanceService,
+              public queryDetailsService: QueryDetailsService) {
     super(route, router, instanceService);
+  }
+
+  ngOnInit() {
+    this.queryParams = new QueryParamsModel(this.route.snapshot.queryParams);
+    this.parseParams();
+    this.onChangeParams(this.queryParams);
   }
 
   /**
@@ -119,6 +137,7 @@ export abstract class BaseQueryDetailsComponent extends CoreComponent {
           this.getTableInfo();
           break;
         case('mongo'):
+          this.isMongo = true;
           this.fingerprint = this.queryDetails.Query.Fingerprint;
           this.queryExample = hljs.highlight('json', vkbeautify.json(this.queryDetails.Example.Query)).value;
           break;
@@ -190,7 +209,7 @@ export abstract class BaseQueryDetailsComponent extends CoreComponent {
           console.error(err);
       }
     }
-
+    this.isExplain = !!(this.explainError || this.explainJson || this.explainVisual || this.explainClassic);
     this.isExplainLoading = false;
   }
 
@@ -299,5 +318,99 @@ export abstract class BaseQueryDetailsComponent extends CoreComponent {
       this.isCopied[key] = false
     }, 3000);
     this.customEvents.sendEvent(this.customEvents.copySuccess);
+  }
+
+  /**
+   * Show table info for current table name if it in current db
+   * @param dbName - name of current DB
+   * @param tblName - name of current table
+   */
+  selectTableInfo(dbName: string, tblName: string) {
+    if (!this.dbServer || !this.dbServer.Agent) { return; }
+    const agentUUID = this.dbServer.Agent.UUID;
+    const dbServerUUID = this.dbServer.UUID;
+
+    this.isTableInfoLoading = true;
+    this.statusTableError = '';
+    this.indexTableError = '';
+    this.createTableError = '';
+    this.dbTblNames = `\`${dbName}\`.\`${tblName}\``;
+
+    this.queryDetailsService.getTableInfo(agentUUID, dbServerUUID, dbName, tblName)
+      .then(data => {
+        const info = data[`${dbName}.${tblName}`];
+
+        if (info.hasOwnProperty('Errors') && info['Errors'].length > 0) {
+          throw info['Errors'];
+        }
+        this.tableInfo = info;
+        this.createTable = hljs.highlight('sql', this.tableInfo.Create).value;
+      })
+      .catch(errors => {
+        for (const err of errors) {
+          if (err.startsWith('SHOW TABLE STATUS')) {
+            this.statusTableError = err;
+          }
+          if (err.startsWith('SHOW INDEX FROM')) {
+            this.indexTableError = err;
+          }
+          if (err.startsWith('SHOW CREATE TABLE')) {
+            this.createTableError = err;
+          }
+        }
+
+      })
+      .then(() => this.isTableInfoLoading = false);
+  }
+
+  /**
+   * Add DB and table name for current query
+   */
+  addDBTable() {
+    if (this.newDBTblNames.length > 6) {
+      const part = this.newDBTblNames.split('.');
+      const db = part[0].replace(/`/g, '');
+      const tbl = part[1].replace(/`/g, '');
+
+      if (this.queryDetails.Query.Tables === null) {
+        this.queryDetails.Query.Tables = [];
+      }
+
+      this.queryDetails.Query.Tables.push({Db: db, Table: tbl});
+      this.queryDetailsService.updateTables(this.queryDetails.Query.Id, this.queryDetails.Query.Tables);
+      this.dbTblNames = this.newDBTblNames;
+      this.getTableInfo();
+      this.newDBTblNames = '';
+    }
+    return false;
+  }
+
+  /**
+   * Remove DB data from current query
+   * @param dbTableItem - DB which need to remove
+   */
+  removeDBTable(dbTableItem) {
+    const len = this.queryDetails.Query.Tables.length;
+
+    for (let i = 0; i < len; i++) {
+      try {
+        if (this.queryDetails.Query.Tables[i].Db === dbTableItem.Db
+          && this.queryDetails.Query.Tables[i].Table === dbTableItem.Table) {
+          this.queryDetails.Query.Tables.splice(i, 1);
+        }
+      } catch (e) {
+        console.error(e);
+      }
+    }
+    this.queryDetailsService.updateTables(this.queryDetails.Query.Id, this.queryDetails.Query.Tables);
+  }
+
+  /**
+   * Check if current DB is select
+   * @param item - current DB
+   * @return Match of current DB and selected DB
+   */
+  isSelectedDbTbl(item): boolean {
+    return `\`${item.Db}\`.\`${item.Table}\`` === this.dbTblNames;
   }
 }

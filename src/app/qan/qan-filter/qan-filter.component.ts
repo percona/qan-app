@@ -1,4 +1,4 @@
-import {Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
+import {Component, EventEmitter, Input, OnChanges, OnDestroy, OnInit, Output, ViewChild} from '@angular/core';
 import {NgbTabset} from '@ng-bootstrap/ng-bootstrap';
 import {PerfectScrollbarConfigInterface} from 'ngx-perfect-scrollbar';
 import {CoreComponent} from '../../core/core.component';
@@ -14,12 +14,13 @@ import {QanFilterModel} from '../../core/models/qan-fliter.model';
   templateUrl: './qan-filter.component.html',
   styleUrls: ['./qan-filter.component.scss']
 })
-export class QanFilterComponent extends CoreComponent implements OnInit, OnDestroy {
+export class QanFilterComponent extends CoreComponent implements OnInit, OnDestroy, OnChanges {
 
-  @ViewChild('tabs')
-  private tabs: NgbTabset;
+  @ViewChild('tabs') tabs: NgbTabset;
+  @Input() isFilterMenuDisplays: boolean;
+  @Output() filterMenuToggle = new EventEmitter();
 
-  public isToggleMenu = false;
+  public isFilterMenu = false;
   public isEmptySearch = false;
   public limits = {};
   public filtersSearchedValues = [];
@@ -45,6 +46,9 @@ export class QanFilterComponent extends CoreComponent implements OnInit, OnDestr
         this.selected = [...this.selected, ...group.values.filter((value: any) => value.state)];
       });
       this.groupSelected();
+      if (!this.selected.length && this.isFilterMenu) {
+        this.tabs.select('filters-tab')
+      }
     });
   }
 
@@ -56,8 +60,18 @@ export class QanFilterComponent extends CoreComponent implements OnInit, OnDestr
     this.filtersSearchedValues = this.filters;
   }
 
+  ngOnChanges() {
+    this.isFilterMenu = this.isFilterMenuDisplays;
+  }
+
   ngOnDestroy() {
     this.filterSubscription.unsubscribe();
+  }
+
+  toggleMenu() {
+    this.isFilterMenu = !this.isFilterMenu;
+    this.filterMenuToggle.emit('filter-menu');
+    this.setFilterHeight();
   }
 
   onChangeParams(params) {
@@ -65,7 +79,7 @@ export class QanFilterComponent extends CoreComponent implements OnInit, OnDestr
 
   setFilterHeight() {
     const qanTable = document.getElementById('qanTable');
-    const filters = document.getElementsByClassName('filter-menu') as HTMLCollectionOf<HTMLElement>;
+    const filters = document.getElementsByClassName('aside-menu') as HTMLCollectionOf<HTMLElement>;
     filters[0].style.setProperty('--filters-height', `${qanTable.offsetHeight}px`);
   }
 
@@ -83,9 +97,6 @@ export class QanFilterComponent extends CoreComponent implements OnInit, OnDestr
       });
     }
     this.setConfigs();
-    if (!this.selected.length && this.isToggleMenu) {
-      this.tabs.select('filters-tab')
-    }
   }
 
   findFilters(searchValue) {

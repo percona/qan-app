@@ -72,8 +72,37 @@
   cursor: not-allowed;
 }
 
+.pmm-select--table.ng-select {
+  cursor: pointer;
+
+  .ng-select-container {
+    border: none;
+  }
+
+  .ng-select-container .ng-value-container {
+    min-height: 25px;
+    border-bottom: 1px solid var(--main-border-color);
+  }
+
+}
+
+.ng-select.pmm-select--table .ng-select-container .ng-arrow-wrapper .ng-arrow {
+  top: 0;
+  background: url(/assets/search.svg) bottom center/100% no-repeat;
+}
+
+.pmm-select--auto-width.ng-select {
+  width: max-content;
+  display: inline-flex;
+}
+
+.pmm-select--auto-width.ng-select .ng-value-container {
+  padding-right: 10px;
+}
+
 // Filter select
 .pmm-select--filter.ng-select {
+  height: 100%;
   border-radius: 5px;
   background-color: var(--background-select);
 }
@@ -227,22 +256,22 @@
   border-radius: 3px;
 }
 
-.chips.schemas .close:before,
-.chips.schemas .close:after {
+.chips.schemas .close-icon:before,
+.chips.schemas .close-icon:after {
   background-color: var(--color-shemas);
 }
 
-.chips.servers .close:before,
-.chips.servers .close:after {
+.chips.servers .close-icon:before,
+.chips.servers .close-icon:after {
   background-color: var(--color-servers);
 }
 
-.chips.users .close:before,
-.chips.users .close:after {
+.chips.users .close-icon:before,
+.chips.users .close-icon:after {
   background-color: var(--color-users);
 }
 
-.chips.hosts .close:before,
-.chips.hosts .close:after {
+.chips.hosts .close-icon:before,
+.chips.hosts .close-icon:after {
   background-color: var(--color-hosts);
 }
