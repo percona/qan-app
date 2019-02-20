@@ -1,12 +1,12 @@
-import 'rxjs/add/operator/filter';
 import { Instance, InstanceService } from './services/instance.service';
 import { OnDestroy } from '@angular/core';
 import { ParseQueryParamDatePipe } from '../shared/parse-query-param-date.pipe';
 import { Event, Router, ActivatedRoute, NavigationEnd } from '@angular/router';
-import { Subscription } from 'rxjs/Subscription';
 import * as moment from 'moment';
 
 import { environment } from '../environment';
+import {Subscription} from 'rxjs/internal/Subscription';
+import {filter} from 'rxjs/operators';
 
 export interface QueryParams {
     from?: string;
@@ -58,9 +58,9 @@ export abstract class CoreComponent implements OnDestroy {
      */
     subscribeToRouter() {
 
-        this.routerSubscription = this.router.events
-            .filter((e: any) => e instanceof NavigationEnd)
-            .subscribe((event: Event) => {
+        this.routerSubscription = this.router.events.pipe(
+            filter((e: any) => e instanceof NavigationEnd)
+            ).subscribe((event: Event) => {
                 this.queryParams = this.route.snapshot.queryParams as QueryParams;
                 this.parseParams();
 
