@@ -11,6 +11,7 @@ import { InstanceService } from './core/services/instance.service';
 import { AddRemoteInstanceComponent } from './add-remote-instances/add-remote-instance.component';
 import { RemoteInstancesListComponent } from './remote-instances-list/remote-instances-list.component';
 import { QueryDetailsComponent } from './qan/query-details/query-details.component';
+import {InventoryComponent} from './inventory/inventory.component';
 
 @Injectable()
 export class RegisteredInstanceGuard implements CanActivate {
@@ -44,6 +45,7 @@ const routes: Routes = [
     { path: 'add-remote-postgres', component: AddRemoteInstanceComponent, pathMatch: 'full' },
     { path: 'add-remote-mysql', component: AddRemoteInstanceComponent, pathMatch: 'full' },
     { path: 'pmm-list', component: RemoteInstancesListComponent, pathMatch: 'full' },
+    { path: 'pmm-inventory', component: InventoryComponent, pathMatch: 'full' },
     { path: '**', component: PageNotFoundComponent }
 ];
 

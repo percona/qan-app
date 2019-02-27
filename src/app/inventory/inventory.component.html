@@ -1,3 +1,38 @@
-<p>
-  inventory works!
-</p>
+<ngb-tabset id="inventory-tabset">
+  <ngb-tab title="Services">
+    <ng-template ngbTabContent>
+      <table class="inventory-table">
+        <tr>
+          <th class="inventory-table__cell">Service name</th>
+          <th class="inventory-table__cell">Agent status</th>
+          <th class="inventory-table__cell">DSN</th>
+          <th class="inventory-table__cell">Engine</th>
+          <th class="inventory-table__cell">Version</th>
+          <th class="inventory-table__cell">Labels</th>
+          <th class="inventory-table__cell">More</th>
+          <th class="inventory-table__cell"></th>
+        </tr>
+        <tr>
+          <td class="inventory-table__cell">MySQL</td>
+          <td class="inventory-table__cell"><span></span><p>MySQL_exporter</p></td>
+          <td class="inventory-table__cell">https://jira.percona.com/browse/PMM-3550</td>
+          <td class="inventory-table__cell">Percona</td>
+          <td class="inventory-table__cell">8.0</td>
+          <td class="inventory-table__cell"><span>label</span><p>Add label</p></td>
+          <td class="inventory-table__cell">AWS CREDENTIALS</td>
+          <td class="inventory-table__cell">
+            <i class="fa fa-trash-o"></i>
+          </td>
+        </tr>
+      </table>
+    </ng-template>
+  </ngb-tab>
+  <ngb-tab title="Agents">
+    <ng-template ngbTabContent>
+    </ng-template>
+  </ngb-tab>
+  <ngb-tab title="Nodes">
+    <ng-template ngbTabContent>
+    </ng-template>
+  </ngb-tab>
+</ngb-tabset>

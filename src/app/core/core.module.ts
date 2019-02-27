@@ -27,6 +27,10 @@ import { QanSearchComponent } from '../qan/qan-search/qan-search.component';
 import { QueryDetailsComponent } from '../qan/query-details/query-details.component';
 import { QueryDetailsService } from '../qan/query-details/query-details.service';
 import { ApiModule } from '../inventory-api/api.module';
+import {InventoryService} from '../inventory/inventory.service';
+import {NodesService} from '../inventory-api/services/nodes.service';
+import {ServicesService} from '../inventory-api/services/services.service';
+import {AgentsService} from '../inventory-api/services/agents.service';
 
 @NgModule({
     imports: [
@@ -74,7 +78,11 @@ import { ApiModule } from '../inventory-api/api.module';
       RemoteInstancesListService,
       QanEditColumnService,
       QanFilterService,
-      FilterSearchService
+      FilterSearchService,
+      InventoryService,
+      NodesService,
+      ServicesService,
+      AgentsService
     ]
 })
 export class CoreModule {
