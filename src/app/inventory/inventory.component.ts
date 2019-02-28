@@ -27,15 +27,6 @@ export class InventoryComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    console.log('this.nodeData - ', this.nodeData);
-    console.log('this.agentsData - ', this.agentsData);
-    console.log('this.servicesData - ', this.servicesData);
-    this.servicesService.AddAmazonRDSMySQLService({
-      address: 'localhost',
-      node_id: '1wfvr31',
-      port: 3306,
-      service_name: 'service'
-    }).subscribe(data => console.log('response-data - ', data));
   }
 
   ngOnDestroy() {
