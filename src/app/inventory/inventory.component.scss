@@ -54,17 +54,3 @@
     }
   }
 }
-
-.inventory-table {
-  width: 100%;
-  border-collapse: collapse;
-}
-
-.inventory-table,
-.inventory-table__cell {
-  border: 1px solid var(--main-border-color);
-}
-
-.inventory-table__cell {
-  padding: 10px;
-}

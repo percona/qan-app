@@ -31,6 +31,10 @@ import {InventoryService} from '../inventory/inventory.service';
 import {NodesService} from '../inventory-api/services/nodes.service';
 import {ServicesService} from '../inventory-api/services/services.service';
 import {AgentsService} from '../inventory-api/services/agents.service';
+import {InventoryComponent} from '../inventory/inventory.component';
+import {ServicesTableComponent} from '../inventory/services-table/services-table.component';
+import {AgentsTableComponent} from '../inventory/agents-table/agents-table.component';
+import {NodesTableComponent} from '../inventory/nodes-table/nodes-table.component';
 
 @NgModule({
     imports: [
@@ -53,6 +57,10 @@ import {AgentsService} from '../inventory-api/services/agents.service';
       RemoteInstancesListComponent,
       QanEditColumnComponent,
       QueryDetailsComponent,
+      InventoryComponent,
+      ServicesTableComponent,
+      AgentsTableComponent,
+      NodesTableComponent,
     ],
     exports: [
       NavComponent,
@@ -66,6 +74,10 @@ import {AgentsService} from '../inventory-api/services/agents.service';
       RemoteInstancesListComponent,
       QanEditColumnComponent,
       QueryDetailsComponent,
+      InventoryComponent,
+      ServicesTableComponent,
+      AgentsTableComponent,
+      NodesTableComponent,
     ],
     providers: [
       InstanceService,

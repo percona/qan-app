@@ -12,6 +12,7 @@ import { map as __map, filter as __filter } from 'rxjs/operators';
 })
 class ServicesService extends __BaseService {
   static readonly AddAmazonRDSMySQLServicePath = '/v1/inventory/Services/AddAmazonRDSMySQL';
+  static readonly AddMongoDBServicePath = '/v1/inventory/Services/AddMongoDB';
   static readonly AddMySQLServicePath = '/v1/inventory/Services/AddMySQL';
   static readonly ChangeAmazonRDSMySQLServicePath = '/v1/inventory/Services/ChangeAmazonRDSMySQL';
   static readonly ChangeMySQLServicePath = '/v1/inventory/Services/ChangeMySQL';
@@ -30,7 +31,7 @@ class ServicesService extends __BaseService {
    * @param body undefined
    * @return A successful response.
    */
-  AddAmazonRDSMySQLServiceResponse(body: {address?: string, node_id?: string, port?: number, service_name?: string}): __Observable<__StrictHttpResponse<{amazon_rds_mysql?: {address?: string, node_id?: string, port?: number, service_id?: string, service_name?: string}}>> {
+  AddAmazonRDSMySQLServiceResponse(body: {address?: string, custom_labels?: {[key: string]: string}, node_id?: string, port?: number, service_name?: string}): __Observable<__StrictHttpResponse<{amazon_rds_mysql?: {address?: string, custom_labels?: {[key: string]: string}, node_id?: string, port?: number, service_id?: string, service_name?: string}}>> {
     let __params = this.newParams();
     let __headers = new HttpHeaders();
     let __body: any = null;
@@ -48,7 +49,7 @@ class ServicesService extends __BaseService {
     return this.http.request<any>(req).pipe(
       __filter(_r => _r instanceof HttpResponse),
       __map((_r) => {
-        return _r as __StrictHttpResponse<{amazon_rds_mysql?: {address?: string, node_id?: string, port?: number, service_id?: string, service_name?: string}}>;
+        return _r as __StrictHttpResponse<{amazon_rds_mysql?: {address?: string, custom_labels?: {[key: string]: string}, node_id?: string, port?: number, service_id?: string, service_name?: string}}>;
       })
     );
   }
@@ -56,9 +57,9 @@ class ServicesService extends __BaseService {
    * @param body undefined
    * @return A successful response.
    */
-  AddAmazonRDSMySQLService(body: {address?: string, node_id?: string, port?: number, service_name?: string}): __Observable<{amazon_rds_mysql?: {address?: string, node_id?: string, port?: number, service_id?: string, service_name?: string}}> {
+  AddAmazonRDSMySQLService(body: {address?: string, custom_labels?: {[key: string]: string}, node_id?: string, port?: number, service_name?: string}): __Observable<{amazon_rds_mysql?: {address?: string, custom_labels?: {[key: string]: string}, node_id?: string, port?: number, service_id?: string, service_name?: string}}> {
     return this.AddAmazonRDSMySQLServiceResponse(body).pipe(
-      __map(_r => _r.body as {amazon_rds_mysql?: {address?: string, node_id?: string, port?: number, service_id?: string, service_name?: string}})
+      __map(_r => _r.body as {amazon_rds_mysql?: {address?: string, custom_labels?: {[key: string]: string}, node_id?: string, port?: number, service_id?: string, service_name?: string}})
     );
   }
 
@@ -66,7 +67,43 @@ class ServicesService extends __BaseService {
    * @param body undefined
    * @return A successful response.
    */
-  AddMySQLServiceResponse(body: {address?: string, node_id?: string, port?: number, service_name?: string, unix_socket?: string}): __Observable<__StrictHttpResponse<{mysql?: {address?: string, node_id?: string, port?: number, service_id?: string, service_name?: string, unix_socket?: string}}>> {
+  AddMongoDBServiceResponse(body: {custom_labels?: {[key: string]: string}, node_id?: string, service_name?: string}): __Observable<__StrictHttpResponse<{mongodb?: {custom_labels?: {[key: string]: string}, node_id?: string, service_id?: string, service_name?: string}}>> {
+    let __params = this.newParams();
+    let __headers = new HttpHeaders();
+    let __body: any = null;
+    __body = body;
+    let req = new HttpRequest<any>(
+      'POST',
+      this.rootUrl + `/v1/inventory/Services/AddMongoDB`,
+      __body,
+      {
+        headers: __headers,
+        params: __params,
+        responseType: 'json'
+      });
+
+    return this.http.request<any>(req).pipe(
+      __filter(_r => _r instanceof HttpResponse),
+      __map((_r) => {
+        return _r as __StrictHttpResponse<{mongodb?: {custom_labels?: {[key: string]: string}, node_id?: string, service_id?: string, service_name?: string}}>;
+      })
+    );
+  }
+  /**
+   * @param body undefined
+   * @return A successful response.
+   */
+  AddMongoDBService(body: {custom_labels?: {[key: string]: string}, node_id?: string, service_name?: string}): __Observable<{mongodb?: {custom_labels?: {[key: string]: string}, node_id?: string, service_id?: string, service_name?: string}}> {
+    return this.AddMongoDBServiceResponse(body).pipe(
+      __map(_r => _r.body as {mongodb?: {custom_labels?: {[key: string]: string}, node_id?: string, service_id?: string, service_name?: string}})
+    );
+  }
+
+  /**
+   * @param body undefined
+   * @return A successful response.
+   */
+  AddMySQLServiceResponse(body: {address?: string, custom_labels?: {[key: string]: string}, node_id?: string, port?: number, service_name?: string}): __Observable<__StrictHttpResponse<{mysql?: {address?: string, custom_labels?: {[key: string]: string}, node_id?: string, port?: number, service_id?: string, service_name?: string}}>> {
     let __params = this.newParams();
     let __headers = new HttpHeaders();
     let __body: any = null;
@@ -84,7 +121,7 @@ class ServicesService extends __BaseService {
     return this.http.request<any>(req).pipe(
       __filter(_r => _r instanceof HttpResponse),
       __map((_r) => {
-        return _r as __StrictHttpResponse<{mysql?: {address?: string, node_id?: string, port?: number, service_id?: string, service_name?: string, unix_socket?: string}}>;
+        return _r as __StrictHttpResponse<{mysql?: {address?: string, custom_labels?: {[key: string]: string}, node_id?: string, port?: number, service_id?: string, service_name?: string}}>;
       })
     );
   }
@@ -92,9 +129,9 @@ class ServicesService extends __BaseService {
    * @param body undefined
    * @return A successful response.
    */
-  AddMySQLService(body: {address?: string, node_id?: string, port?: number, service_name?: string, unix_socket?: string}): __Observable<{mysql?: {address?: string, node_id?: string, port?: number, service_id?: string, service_name?: string, unix_socket?: string}}> {
+  AddMySQLService(body: {address?: string, custom_labels?: {[key: string]: string}, node_id?: string, port?: number, service_name?: string}): __Observable<{mysql?: {address?: string, custom_labels?: {[key: string]: string}, node_id?: string, port?: number, service_id?: string, service_name?: string}}> {
     return this.AddMySQLServiceResponse(body).pipe(
-      __map(_r => _r.body as {mysql?: {address?: string, node_id?: string, port?: number, service_id?: string, service_name?: string, unix_socket?: string}})
+      __map(_r => _r.body as {mysql?: {address?: string, custom_labels?: {[key: string]: string}, node_id?: string, port?: number, service_id?: string, service_name?: string}})
     );
   }
 
@@ -102,7 +139,7 @@ class ServicesService extends __BaseService {
    * @param body undefined
    * @return A successful response.
    */
-  ChangeAmazonRDSMySQLServiceResponse(body: {address?: string, port?: number, service_id?: string, service_name?: string}): __Observable<__StrictHttpResponse<{amazon_rds_mysql?: {address?: string, node_id?: string, port?: number, service_id?: string, service_name?: string}}>> {
+  ChangeAmazonRDSMySQLServiceResponse(body: {address?: string, custom_labels?: {[key: string]: string}, port?: number, service_id?: string, service_name?: string}): __Observable<__StrictHttpResponse<{amazon_rds_mysql?: {address?: string, custom_labels?: {[key: string]: string}, node_id?: string, port?: number, service_id?: string, service_name?: string}}>> {
     let __params = this.newParams();
     let __headers = new HttpHeaders();
     let __body: any = null;
@@ -120,7 +157,7 @@ class ServicesService extends __BaseService {
     return this.http.request<any>(req).pipe(
       __filter(_r => _r instanceof HttpResponse),
       __map((_r) => {
-        return _r as __StrictHttpResponse<{amazon_rds_mysql?: {address?: string, node_id?: string, port?: number, service_id?: string, service_name?: string}}>;
+        return _r as __StrictHttpResponse<{amazon_rds_mysql?: {address?: string, custom_labels?: {[key: string]: string}, node_id?: string, port?: number, service_id?: string, service_name?: string}}>;
       })
     );
   }
@@ -128,9 +165,9 @@ class ServicesService extends __BaseService {
    * @param body undefined
    * @return A successful response.
    */
-  ChangeAmazonRDSMySQLService(body: {address?: string, port?: number, service_id?: string, service_name?: string}): __Observable<{amazon_rds_mysql?: {address?: string, node_id?: string, port?: number, service_id?: string, service_name?: string}}> {
+  ChangeAmazonRDSMySQLService(body: {address?: string, custom_labels?: {[key: string]: string}, port?: number, service_id?: string, service_name?: string}): __Observable<{amazon_rds_mysql?: {address?: string, custom_labels?: {[key: string]: string}, node_id?: string, port?: number, service_id?: string, service_name?: string}}> {
     return this.ChangeAmazonRDSMySQLServiceResponse(body).pipe(
-      __map(_r => _r.body as {amazon_rds_mysql?: {address?: string, node_id?: string, port?: number, service_id?: string, service_name?: string}})
+      __map(_r => _r.body as {amazon_rds_mysql?: {address?: string, custom_labels?: {[key: string]: string}, node_id?: string, port?: number, service_id?: string, service_name?: string}})
     );
   }
 
@@ -138,7 +175,7 @@ class ServicesService extends __BaseService {
    * @param body undefined
    * @return A successful response.
    */
-  ChangeMySQLServiceResponse(body: {address?: string, node_id?: string, port?: number, service_id?: string, service_name?: string, unix_socket?: string}): __Observable<__StrictHttpResponse<{mysql?: {address?: string, node_id?: string, port?: number, service_id?: string, service_name?: string, unix_socket?: string}}>> {
+  ChangeMySQLServiceResponse(body: {address?: string, custom_labels?: {[key: string]: string}, port?: number, service_id?: string, service_name?: string}): __Observable<__StrictHttpResponse<{mysql?: {address?: string, custom_labels?: {[key: string]: string}, node_id?: string, port?: number, service_id?: string, service_name?: string}}>> {
     let __params = this.newParams();
     let __headers = new HttpHeaders();
     let __body: any = null;
@@ -156,7 +193,7 @@ class ServicesService extends __BaseService {
     return this.http.request<any>(req).pipe(
       __filter(_r => _r instanceof HttpResponse),
       __map((_r) => {
-        return _r as __StrictHttpResponse<{mysql?: {address?: string, node_id?: string, port?: number, service_id?: string, service_name?: string, unix_socket?: string}}>;
+        return _r as __StrictHttpResponse<{mysql?: {address?: string, custom_labels?: {[key: string]: string}, node_id?: string, port?: number, service_id?: string, service_name?: string}}>;
       })
     );
   }
@@ -164,9 +201,9 @@ class ServicesService extends __BaseService {
    * @param body undefined
    * @return A successful response.
    */
-  ChangeMySQLService(body: {address?: string, node_id?: string, port?: number, service_id?: string, service_name?: string, unix_socket?: string}): __Observable<{mysql?: {address?: string, node_id?: string, port?: number, service_id?: string, service_name?: string, unix_socket?: string}}> {
+  ChangeMySQLService(body: {address?: string, custom_labels?: {[key: string]: string}, port?: number, service_id?: string, service_name?: string}): __Observable<{mysql?: {address?: string, custom_labels?: {[key: string]: string}, node_id?: string, port?: number, service_id?: string, service_name?: string}}> {
     return this.ChangeMySQLServiceResponse(body).pipe(
-      __map(_r => _r.body as {mysql?: {address?: string, node_id?: string, port?: number, service_id?: string, service_name?: string, unix_socket?: string}})
+      __map(_r => _r.body as {mysql?: {address?: string, custom_labels?: {[key: string]: string}, node_id?: string, port?: number, service_id?: string, service_name?: string}})
     );
   }
 
@@ -174,7 +211,7 @@ class ServicesService extends __BaseService {
    * @param body undefined
    * @return A successful response.
    */
-  GetServiceResponse(body: {service_id?: string}): __Observable<__StrictHttpResponse<{amazon_rds_mysql?: {address?: string, node_id?: string, port?: number, service_id?: string, service_name?: string}, mysql?: {address?: string, node_id?: string, port?: number, service_id?: string, service_name?: string, unix_socket?: string}}>> {
+  GetServiceResponse(body: {service_id?: string}): __Observable<__StrictHttpResponse<{amazon_rds_mysql?: {address?: string, custom_labels?: {[key: string]: string}, node_id?: string, port?: number, service_id?: string, service_name?: string}, mongodb?: {custom_labels?: {[key: string]: string}, node_id?: string, service_id?: string, service_name?: string}, mysql?: {address?: string, custom_labels?: {[key: string]: string}, node_id?: string, port?: number, service_id?: string, service_name?: string}}>> {
     let __params = this.newParams();
     let __headers = new HttpHeaders();
     let __body: any = null;
@@ -192,7 +229,7 @@ class ServicesService extends __BaseService {
     return this.http.request<any>(req).pipe(
       __filter(_r => _r instanceof HttpResponse),
       __map((_r) => {
-        return _r as __StrictHttpResponse<{amazon_rds_mysql?: {address?: string, node_id?: string, port?: number, service_id?: string, service_name?: string}, mysql?: {address?: string, node_id?: string, port?: number, service_id?: string, service_name?: string, unix_socket?: string}}>;
+        return _r as __StrictHttpResponse<{amazon_rds_mysql?: {address?: string, custom_labels?: {[key: string]: string}, node_id?: string, port?: number, service_id?: string, service_name?: string}, mongodb?: {custom_labels?: {[key: string]: string}, node_id?: string, service_id?: string, service_name?: string}, mysql?: {address?: string, custom_labels?: {[key: string]: string}, node_id?: string, port?: number, service_id?: string, service_name?: string}}>;
       })
     );
   }
@@ -200,9 +237,9 @@ class ServicesService extends __BaseService {
    * @param body undefined
    * @return A successful response.
    */
-  GetService(body: {service_id?: string}): __Observable<{amazon_rds_mysql?: {address?: string, node_id?: string, port?: number, service_id?: string, service_name?: string}, mysql?: {address?: string, node_id?: string, port?: number, service_id?: string, service_name?: string, unix_socket?: string}}> {
+  GetService(body: {service_id?: string}): __Observable<{amazon_rds_mysql?: {address?: string, custom_labels?: {[key: string]: string}, node_id?: string, port?: number, service_id?: string, service_name?: string}, mongodb?: {custom_labels?: {[key: string]: string}, node_id?: string, service_id?: string, service_name?: string}, mysql?: {address?: string, custom_labels?: {[key: string]: string}, node_id?: string, port?: number, service_id?: string, service_name?: string}}> {
     return this.GetServiceResponse(body).pipe(
-      __map(_r => _r.body as {amazon_rds_mysql?: {address?: string, node_id?: string, port?: number, service_id?: string, service_name?: string}, mysql?: {address?: string, node_id?: string, port?: number, service_id?: string, service_name?: string, unix_socket?: string}})
+      __map(_r => _r.body as {amazon_rds_mysql?: {address?: string, custom_labels?: {[key: string]: string}, node_id?: string, port?: number, service_id?: string, service_name?: string}, mongodb?: {custom_labels?: {[key: string]: string}, node_id?: string, service_id?: string, service_name?: string}, mysql?: {address?: string, custom_labels?: {[key: string]: string}, node_id?: string, port?: number, service_id?: string, service_name?: string}})
     );
   }
 
@@ -210,7 +247,7 @@ class ServicesService extends __BaseService {
    * @param body undefined
    * @return A successful response.
    */
-  ListServicesResponse(body: {node_id?: string}): __Observable<__StrictHttpResponse<{amazon_rds_mysql?: Array<{address?: string, node_id?: string, port?: number, service_id?: string, service_name?: string}>, mysql?: Array<{address?: string, node_id?: string, port?: number, service_id?: string, service_name?: string, unix_socket?: string}>}>> {
+  ListServicesResponse(body: {node_id?: string}): __Observable<__StrictHttpResponse<{amazon_rds_mysql?: Array<{address?: string, custom_labels?: {[key: string]: string}, node_id?: string, port?: number, service_id?: string, service_name?: string}>, mongodb?: Array<{custom_labels?: {[key: string]: string}, node_id?: string, service_id?: string, service_name?: string}>, mysql?: Array<{address?: string, custom_labels?: {[key: string]: string}, node_id?: string, port?: number, service_id?: string, service_name?: string}>}>> {
     let __params = this.newParams();
     let __headers = new HttpHeaders();
     let __body: any = null;
@@ -228,7 +265,7 @@ class ServicesService extends __BaseService {
     return this.http.request<any>(req).pipe(
       __filter(_r => _r instanceof HttpResponse),
       __map((_r) => {
-        return _r as __StrictHttpResponse<{amazon_rds_mysql?: Array<{address?: string, node_id?: string, port?: number, service_id?: string, service_name?: string}>, mysql?: Array<{address?: string, node_id?: string, port?: number, service_id?: string, service_name?: string, unix_socket?: string}>}>;
+        return _r as __StrictHttpResponse<{amazon_rds_mysql?: Array<{address?: string, custom_labels?: {[key: string]: string}, node_id?: string, port?: number, service_id?: string, service_name?: string}>, mongodb?: Array<{custom_labels?: {[key: string]: string}, node_id?: string, service_id?: string, service_name?: string}>, mysql?: Array<{address?: string, custom_labels?: {[key: string]: string}, node_id?: string, port?: number, service_id?: string, service_name?: string}>}>;
       })
     );
   }
@@ -236,9 +273,9 @@ class ServicesService extends __BaseService {
    * @param body undefined
    * @return A successful response.
    */
-  ListServices(body: {node_id?: string}): __Observable<{amazon_rds_mysql?: Array<{address?: string, node_id?: string, port?: number, service_id?: string, service_name?: string}>, mysql?: Array<{address?: string, node_id?: string, port?: number, service_id?: string, service_name?: string, unix_socket?: string}>}> {
+  ListServices(body: {node_id?: string}): __Observable<{amazon_rds_mysql?: Array<{address?: string, custom_labels?: {[key: string]: string}, node_id?: string, port?: number, service_id?: string, service_name?: string}>, mongodb?: Array<{custom_labels?: {[key: string]: string}, node_id?: string, service_id?: string, service_name?: string}>, mysql?: Array<{address?: string, custom_labels?: {[key: string]: string}, node_id?: string, port?: number, service_id?: string, service_name?: string}>}> {
     return this.ListServicesResponse(body).pipe(
-      __map(_r => _r.body as {amazon_rds_mysql?: Array<{address?: string, node_id?: string, port?: number, service_id?: string, service_name?: string}>, mysql?: Array<{address?: string, node_id?: string, port?: number, service_id?: string, service_name?: string, unix_socket?: string}>})
+      __map(_r => _r.body as {amazon_rds_mysql?: Array<{address?: string, custom_labels?: {[key: string]: string}, node_id?: string, port?: number, service_id?: string, service_name?: string}>, mongodb?: Array<{custom_labels?: {[key: string]: string}, node_id?: string, service_id?: string, service_name?: string}>, mysql?: Array<{address?: string, custom_labels?: {[key: string]: string}, node_id?: string, port?: number, service_id?: string, service_name?: string}>})
     );
   }
 
