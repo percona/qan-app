@@ -17,65 +17,65 @@ export class NodesTableComponent implements OnInit, OnDestroy {
   public remoteAmazonRDS = new RemoteAmazonRDS();
 
   constructor(private nodesService: NodesService) {
-    this.nodeSubscription = this.nodesService.ListNodes({}).subscribe(data => console.log('ListNodes - ', data));
+    this.nodeSubscription = this.nodesService.ListNodes({}).subscribe(data => this.nodeData = data);
   }
 
   ngOnInit() {
-    this.nodeData = {
-      container: [
-        {
-          custom_labels: {
-            additionalProp1: 'additionalProp1',
-            additionalProp2: 'additionalProp2',
-            additionalProp3: 'additionalProp3'
-          },
-          docker_container_id: 'docker_container_id',
-          docker_container_name: 'docker_container_name',
-          machine_id: 'machine_id',
-          node_id: 'node_id',
-          node_name: 'node_name'
-        }
-      ],
-      generic: [
-        {
-          address: 'address',
-          custom_labels: {
-            additionalProp1: 'additionalProp1',
-            additionalProp2: 'additionalProp2',
-            additionalProp3: 'additionalProp3'
-          },
-          distro: 'distro',
-          distro_version: 'distro_version',
-          machine_id: 'machine_id',
-          node_id: 'node_id',
-          node_name: 'node_name'
-        }
-      ],
-      remote: [
-        {
-          custom_labels: {
-            additionalProp1: 'additionalProp1',
-            additionalProp2: 'additionalProp2',
-            additionalProp3: 'additionalProp3'
-          },
-          node_id: 'node_id',
-          node_name: 'node_name'
-        }
-      ],
-      remote_amazon_rds: [
-        {
-          custom_labels: {
-            additionalProp1: 'additionalProp1',
-            additionalProp2: 'additionalProp2',
-            additionalProp3: 'additionalProp3'
-          },
-          instance: 'instance',
-          node_id: 'node_id',
-          node_name: 'node_name',
-          region: 'region'
-        }
-      ]
-    }
+    // this.nodeData = {
+    //   container: [
+    //     {
+    //       custom_labels: {
+    //         additionalProp1: 'additionalProp1',
+    //         additionalProp2: 'additionalProp2',
+    //         additionalProp3: 'additionalProp3'
+    //       },
+    //       docker_container_id: 'docker_container_id',
+    //       docker_container_name: 'docker_container_name',
+    //       machine_id: 'machine_id',
+    //       node_id: 'node_id',
+    //       node_name: 'node_name'
+    //     }
+    //   ],
+    //   generic: [
+    //     {
+    //       address: 'address',
+    //       custom_labels: {
+    //         additionalProp1: 'additionalProp1',
+    //         additionalProp2: 'additionalProp2',
+    //         additionalProp3: 'additionalProp3'
+    //       },
+    //       distro: 'distro',
+    //       distro_version: 'distro_version',
+    //       machine_id: 'machine_id',
+    //       node_id: 'node_id',
+    //       node_name: 'node_name'
+    //     }
+    //   ],
+    //   remote: [
+    //     {
+    //       custom_labels: {
+    //         additionalProp1: 'additionalProp1',
+    //         additionalProp2: 'additionalProp2',
+    //         additionalProp3: 'additionalProp3'
+    //       },
+    //       node_id: 'node_id',
+    //       node_name: 'node_name'
+    //     }
+    //   ],
+    //   remote_amazon_rds: [
+    //     {
+    //       custom_labels: {
+    //         additionalProp1: 'additionalProp1',
+    //         additionalProp2: 'additionalProp2',
+    //         additionalProp3: 'additionalProp3'
+    //       },
+    //       instance: 'instance',
+    //       node_id: 'node_id',
+    //       node_name: 'node_name',
+    //       region: 'region'
+    //     }
+    //   ]
+    // }
   }
 
   ngOnDestroy() {

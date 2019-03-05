@@ -19,95 +19,95 @@ export class AgentsTableComponent implements OnInit, OnDestroy {
   public pmmAgent = new PmmAgent();
 
   constructor(private agentsService: AgentsService) {
-    this.agentsSubscription = this.agentsService.ListAgents({}).subscribe(data => console.log('ListAgents - ', data));
+    this.agentsSubscription = this.agentsService.ListAgents({}).subscribe(data => this.agentsData = data);
   }
 
   ngOnInit() {
-    this.agentsData = {
-      external_exporter: [
-        {
-          agent_id: 'agent_id',
-          custom_labels: {
-            additionalProp1: 'additionalProp1',
-            additionalProp2: 'additionalProp2',
-            additionalProp3: 'additionalProp3'
-          },
-          metrics_url: 'metrics_url'
-        }
-      ],
-      mongodb_exporter: [
-        {
-          agent_id: 'agent_id',
-          connection_string: 'connection_string',
-          custom_labels: {
-            additionalProp1: 'additionalProp1',
-            additionalProp2: 'additionalProp2',
-            additionalProp3: 'additionalProp3'
-          },
-          listen_port: 0,
-          runs_on_node_id: 'runs_on_node_id',
-          service_id: 'service_id',
-          status: 'status'
-        }
-      ],
-      mysqld_exporter: [
-        {
-          agent_id: 'agent_id',
-          custom_labels: {
-            additionalProp1: 'additionalProp1',
-            additionalProp2: 'additionalProp2',
-            additionalProp3: 'additionalProp3'
-          },
-          listen_port: 0,
-          password: 'password',
-          runs_on_node_id: 'runs_on_node_id',
-          service_id: 'service_id',
-          status: 'status',
-          username: 'username'
-        }
-      ],
-      node_exporter: [
-        {
-          agent_id: 'agent_id',
-          custom_labels: {
-            additionalProp1: 'additionalProp1',
-            additionalProp2: 'additionalProp2',
-            additionalProp3: 'additionalProp3'
-          },
-          listen_port: 0,
-          node_id: 'node_id',
-          status: 'status'
-        }
-      ],
-      pmm_agent: [
-        {
-          agent_id: 'agent_id',
-          connected: true,
-          custom_labels: {
-            additionalProp1: 'additionalProp1',
-            additionalProp2: 'additionalProp2',
-            additionalProp3: 'additionalProp3'
-          },
-          node_id: 'node_id'
-        }
-      ],
-      rds_exporter: [
-        {
-          agent_id: 'agent_id',
-          custom_labels: {
-            additionalProp1: 'additionalProp1',
-            additionalProp2: 'additionalProp2',
-            additionalProp3: 'additionalProp3'
-          },
-          listen_port: 0,
-          runs_on_node_id: 'runs_on_node_id',
-          service_ids: [
-            'service_ids-0'
-          ],
-          status: 'AGENT_STATUS_INVALID'
-        }
-      ]
-    }
+    // this.agentsData = {
+    //   external_exporter: [
+    //     {
+    //       agent_id: 'agent_id',
+    //       custom_labels: {
+    //         additionalProp1: 'additionalProp1',
+    //         additionalProp2: 'additionalProp2',
+    //         additionalProp3: 'additionalProp3'
+    //       },
+    //       metrics_url: 'metrics_url'
+    //     }
+    //   ],
+    //   mongodb_exporter: [
+    //     {
+    //       agent_id: 'agent_id',
+    //       connection_string: 'connection_string',
+    //       custom_labels: {
+    //         additionalProp1: 'additionalProp1',
+    //         additionalProp2: 'additionalProp2',
+    //         additionalProp3: 'additionalProp3'
+    //       },
+    //       listen_port: 0,
+    //       runs_on_node_id: 'runs_on_node_id',
+    //       service_id: 'service_id',
+    //       status: 'status'
+    //     }
+    //   ],
+    //   mysqld_exporter: [
+    //     {
+    //       agent_id: 'agent_id',
+    //       custom_labels: {
+    //         additionalProp1: 'additionalProp1',
+    //         additionalProp2: 'additionalProp2',
+    //         additionalProp3: 'additionalProp3'
+    //       },
+    //       listen_port: 0,
+    //       password: 'password',
+    //       runs_on_node_id: 'runs_on_node_id',
+    //       service_id: 'service_id',
+    //       status: 'status',
+    //       username: 'username'
+    //     }
+    //   ],
+    //   node_exporter: [
+    //     {
+    //       agent_id: 'agent_id',
+    //       custom_labels: {
+    //         additionalProp1: 'additionalProp1',
+    //         additionalProp2: 'additionalProp2',
+    //         additionalProp3: 'additionalProp3'
+    //       },
+    //       listen_port: 0,
+    //       node_id: 'node_id',
+    //       status: 'status'
+    //     }
+    //   ],
+    //   pmm_agent: [
+    //     {
+    //       agent_id: 'agent_id',
+    //       connected: true,
+    //       custom_labels: {
+    //         additionalProp1: 'additionalProp1',
+    //         additionalProp2: 'additionalProp2',
+    //         additionalProp3: 'additionalProp3'
+    //       },
+    //       node_id: 'node_id'
+    //     }
+    //   ],
+    //   rds_exporter: [
+    //     {
+    //       agent_id: 'agent_id',
+    //       custom_labels: {
+    //         additionalProp1: 'additionalProp1',
+    //         additionalProp2: 'additionalProp2',
+    //         additionalProp3: 'additionalProp3'
+    //       },
+    //       listen_port: 0,
+    //       runs_on_node_id: 'runs_on_node_id',
+    //       service_ids: [
+    //         'service_ids-0'
+    //       ],
+    //       status: 'AGENT_STATUS_INVALID'
+    //     }
+    //   ]
+    // }
   }
 
   ngOnDestroy() {

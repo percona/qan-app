@@ -16,96 +16,96 @@ export class ServicesTableComponent implements OnInit, OnDestroy {
   public mongoDBService = new MongoDBService();
 
   constructor(private servicesService: ServicesService) {
-    this.servicesSubscription = this.servicesService.ListServices({}).subscribe(data => console.log('ListServices - ', data));
+    this.servicesSubscription = this.servicesService.ListServices({}).subscribe(data => this.servicesData = data);
   }
 
   ngOnInit() {
-    this.servicesData = {
-      amazon_rds_mysql: [
-        {
-          address: 'address-0',
-          custom_labels: {
-            additionalProp1: 'additionalProp1',
-            additionalProp2: 'additionalProp2',
-            additionalProp3: 'additionalProp3'
-          },
-          node_id: 'node_id-0',
-          port: 0,
-          service_id: 'service_id-0',
-          service_name: 'service_name-0'
-        },
-        {
-          address: 'address-0',
-          custom_labels: {
-            additionalProp1: 'additionalProp1',
-            additionalProp3: 'additionalProp3'
-          },
-          node_id: 'node_id-0',
-          port: 0,
-          service_id: 'service_id-0',
-          service_name: 'service_name-0'
-        },
-        {
-          address: 'address-0',
-          custom_labels: {
-            additionalProp1: 'additionalProp1',
-            additionalProp2: 'additionalProp2',
-          },
-          node_id: 'node_id-0',
-          port: 0,
-          service_id: 'service_id-0',
-          service_name: 'service_name-0'
-        }
-      ],
-      mysql: [
-        {
-          address: 'address-0',
-          custom_labels: {
-            additionalProp1: 'additionalProp1',
-            additionalProp2: 'additionalProp2',
-            additionalProp3: 'additionalProp3'
-          },
-          node_id: 'node_id-0',
-          port: 0,
-          service_id: 'service_id-0',
-          service_name: 'service_name-0',
-        },
-        {
-          address: 'address-0',
-          custom_labels: {
-            additionalProp1: 'additionalProp1',
-            additionalProp3: 'additionalProp3'
-          },
-          node_id: 'node_id-0',
-          port: 0,
-          service_id: 'service_id-0',
-          service_name: 'service_name-0',
-        },
-        {
-          address: 'address-0',
-          custom_labels: {
-            additionalProp1: 'additionalProp1',
-            additionalProp2: 'additionalProp2',
-          },
-          node_id: 'node_id-0',
-          port: 0,
-          service_id: 'service_id-0',
-          service_name: 'service_name-0',
-        }
-      ],
-      mongodb: [
-        {
-          custom_labels: {
-            additionalProp1: 'additionalProp1',
-            additionalProp2: 'additionalProp2',
-            additionalProp3: 'additionalProp3'
-          },
-          node_id: 'node_id',
-          service_id: 'service_id',
-          service_name: 'service_name'
-        }
-      ],
-    };
+    // this.servicesData = {
+    //   amazon_rds_mysql: [
+    //     {
+    //       address: 'address-0',
+    //       custom_labels: {
+    //         additionalProp1: 'additionalProp1',
+    //         additionalProp2: 'additionalProp2',
+    //         additionalProp3: 'additionalProp3'
+    //       },
+    //       node_id: 'node_id-0',
+    //       port: 0,
+    //       service_id: 'service_id-0',
+    //       service_name: 'service_name-0'
+    //     },
+    //     {
+    //       address: 'address-0',
+    //       custom_labels: {
+    //         additionalProp1: 'additionalProp1',
+    //         additionalProp3: 'additionalProp3'
+    //       },
+    //       node_id: 'node_id-0',
+    //       port: 0,
+    //       service_id: 'service_id-0',
+    //       service_name: 'service_name-0'
+    //     },
+    //     {
+    //       address: 'address-0',
+    //       custom_labels: {
+    //         additionalProp1: 'additionalProp1',
+    //         additionalProp2: 'additionalProp2',
+    //       },
+    //       node_id: 'node_id-0',
+    //       port: 0,
+    //       service_id: 'service_id-0',
+    //       service_name: 'service_name-0'
+    //     }
+    //   ],
+    //   mysql: [
+    //     {
+    //       address: 'address-0',
+    //       custom_labels: {
+    //         additionalProp1: 'additionalProp1',
+    //         additionalProp2: 'additionalProp2',
+    //         additionalProp3: 'additionalProp3'
+    //       },
+    //       node_id: 'node_id-0',
+    //       port: 0,
+    //       service_id: 'service_id-0',
+    //       service_name: 'service_name-0',
+    //     },
+    //     {
+    //       address: 'address-0',
+    //       custom_labels: {
+    //         additionalProp1: 'additionalProp1',
+    //         additionalProp3: 'additionalProp3'
+    //       },
+    //       node_id: 'node_id-0',
+    //       port: 0,
+    //       service_id: 'service_id-0',
+    //       service_name: 'service_name-0',
+    //     },
+    //     {
+    //       address: 'address-0',
+    //       custom_labels: {
+    //         additionalProp1: 'additionalProp1',
+    //         additionalProp2: 'additionalProp2',
+    //       },
+    //       node_id: 'node_id-0',
+    //       port: 0,
+    //       service_id: 'service_id-0',
+    //       service_name: 'service_name-0',
+    //     }
+    //   ],
+    //   mongodb: [
+    //     {
+    //       custom_labels: {
+    //         additionalProp1: 'additionalProp1',
+    //         additionalProp2: 'additionalProp2',
+    //         additionalProp3: 'additionalProp3'
+    //       },
+    //       node_id: 'node_id',
+    //       service_id: 'service_id',
+    //       service_name: 'service_name'
+    //     }
+    //   ],
+    // };
   }
 
   ngOnDestroy() {
