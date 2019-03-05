@@ -1,15 +1,15 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {NodesService} from '../../inventory-api/services/nodes.service';
 import {Container, Generic, Remote, RemoteAmazonRDS} from '../inventory.service';
+import {Observable} from 'rxjs/internal/Observable';
 
 @Component({
   selector: 'app-nodes-table',
   templateUrl: './nodes-table.component.html',
   styleUrls: ['./nodes-table.component.scss']
 })
-export class NodesTableComponent implements OnInit, OnDestroy {
-  public nodeData: any;
-  private nodeSubscription: any;
+export class NodesTableComponent implements OnInit {
+  public nodeData$: Observable<{}>;
 
   public container = new Container();
   public generic = new Generic();
@@ -17,7 +17,7 @@ export class NodesTableComponent implements OnInit, OnDestroy {
   public remoteAmazonRDS = new RemoteAmazonRDS();
 
   constructor(private nodesService: NodesService) {
-    this.nodeSubscription = this.nodesService.ListNodes({}).subscribe(data => this.nodeData = data);
+    this.nodeData$ = this.nodesService.ListNodes({});
   }
 
   ngOnInit() {
@@ -78,24 +78,23 @@ export class NodesTableComponent implements OnInit, OnDestroy {
     // }
   }
 
-  ngOnDestroy() {
-    this.nodeSubscription.unsubscribe();
-  }
-
   addContainer() {
-    this.nodesService.AddContainerNode(this.container).subscribe(data => console.log('addContainer - ', data));
+    this.nodesService.AddContainerNode(this.container);
   }
 
   addGeneric() {
-    this.nodesService.AddGenericNode(this.generic).subscribe(data => console.log('addGeneric - ', data))
+    this.nodesService.AddGenericNode(this.generic);
   }
 
   addRemote() {
-    this.nodesService.AddRemoteNode(this.remote).subscribe(data => console.log('addRemote - ', data))
+    this.nodesService.AddRemoteNode(this.remote);
   }
 
   remoteAmazonRDSNode() {
-    this.nodesService.AddRemoteAmazonRDSNode(this.remoteAmazonRDS).subscribe(data => console.log('remoteAmazonRDS - ', data))
+    this.nodesService.AddRemoteAmazonRDSNode(this.remoteAmazonRDS);
   }
 
+  removeNode(id) {
+    this.nodesService.RemoveNode({node_id: id});
+  }
 }

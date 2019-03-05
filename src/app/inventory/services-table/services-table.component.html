@@ -6,11 +6,11 @@
     <th class="inventory-table__cell">Details</th>
     <th class="inventory-table__cell"></th>
   </tr>
-  <tbody *ngIf="servicesData?.amazon_rds_mysql">
-  <tr *ngFor="let amazonData of servicesData.amazon_rds_mysql">
+  <tbody *ngIf="(servicesData$ | async)?.amazon_rds_mysql">
+  <tr *ngFor="let amazonData of (servicesData$ | async)?.amazon_rds_mysql">
     <td class="inventory-table__cell">Amazon RDS Mysql</td>
-    <td class="inventory-table__cell">{{amazonData.service_name}}</td>
-    <td class="inventory-table__cell">{{amazonData.node_id}}</td>
+    <td class="inventory-table__cell">{{amazonData?.service_name}}</td>
+    <td class="inventory-table__cell">{{amazonData?.node_id}}</td>
     <td class="inventory-table__cell"></td>
     <!--<td class="inventory-table__cell">-->
       <!--<div *ngIf="amazonData?.custom_labels">-->
@@ -20,15 +20,15 @@
       <!--</div>-->
       <!--<p>Add label</p></td>-->
     <td class="inventory-table__cell">
-      <i class="fa fa-trash-o"></i>
+      <button><i class="fa fa-trash-o"></i></button>
     </td>
   </tr>
   </tbody>
-  <tbody *ngIf="servicesData?.mysql">
-  <tr *ngFor="let mysql of servicesData.mysql">
+  <tbody *ngIf="(servicesData$ | async)?.mysql">
+  <tr *ngFor="let mysql of (servicesData$ | async)?.mysql">
     <td class="inventory-table__cell">Mysql</td>
-    <td class="inventory-table__cell">{{mysql.service_name}}</td>
-    <td class="inventory-table__cell">{{mysql.node_id}}</td>
+    <td class="inventory-table__cell">{{mysql?.service_name}}</td>
+    <td class="inventory-table__cell">{{mysql?.node_id}}</td>
     <td class="inventory-table__cell"></td>
     <!--<td class="inventory-table__cell">-->
       <!--<div *ngIf="mysql?.custom_labels">-->
@@ -38,15 +38,15 @@
       <!--</div>-->
       <!--<p>Add label</p></td>-->
     <td class="inventory-table__cell">
-      <i class="fa fa-trash-o"></i>
+      <button><i class="fa fa-trash-o"></i></button>
     </td>
   </tr>
   </tbody>
-  <tbody *ngIf="servicesData?.mongodb">
-  <tr *ngFor="let mongodb of servicesData.mongodb | async">
+  <tbody *ngIf="(servicesData$ | async)?.mongodb">
+  <tr *ngFor="let mongodb of (servicesData$ | async)?.mongodb">
     <td class="inventory-table__cell">MongoDB</td>
-    <td class="inventory-table__cell">{{mongodb.service_name}}</td>
-    <td class="inventory-table__cell">{{mongodb.node_id}}</td>
+    <td class="inventory-table__cell">{{mongodb?.service_name}}</td>
+    <td class="inventory-table__cell">{{mongodb?.node_id}}</td>
     <td class="inventory-table__cell"></td>
     <!--<td class="inventory-table__cell">-->
       <!--<div *ngIf="mongodb?.custom_labels">-->
@@ -56,41 +56,41 @@
       <!--</div>-->
       <!--<p>Add label</p></td>-->
     <td class="inventory-table__cell">
-      <i class="fa fa-trash-o"></i>
+      <button><i class="fa fa-trash-o"></i></button>
     </td>
   </tr>
   </tbody>
 </table>
-<div class="form-wrapper-inventory">
-  <form (ngSubmit)="addAmazonRDSMySQL()">
-    <h5>Add Amazon RDS MySQL</h5>
-    <input [(ngModel)]="amazonRDSMySQL.address" [ngModelOptions]="{standalone: true}" class="input-field" placeholder="address"
-           type="text">
-    <input [(ngModel)]="amazonRDSMySQL.node_id" [ngModelOptions]="{standalone: true}" class="input-field" placeholder="node_id"
-           type="text">
-    <input [(ngModel)]="amazonRDSMySQL.port" [ngModelOptions]="{standalone: true}" class="input-field" placeholder="port"
-           type="number">
-    <input [(ngModel)]="amazonRDSMySQL.service_name" [ngModelOptions]="{standalone: true}" class="input-field"
-           placeholder="service_name" type="text">
-    <button type="submit">Submit</button>
-  </form>
-  <form (ngSubmit)="addMySQLService()">
-    <h5>Add MySQL Service</h5>
-    <input [(ngModel)]="mySQLService.address" [ngModelOptions]="{standalone: true}" class="input-field" placeholder="address"
-           type="text">
-    <input [(ngModel)]="mySQLService.node_id" [ngModelOptions]="{standalone: true}" class="input-field" placeholder="node_id"
-           type="text">
-    <input [(ngModel)]="mySQLService.port" [ngModelOptions]="{standalone: true}" class="input-field" placeholder="port" type="number">
-    <input [(ngModel)]="mySQLService.service_name" [ngModelOptions]="{standalone: true}" class="input-field"
-           placeholder="service_name" type="text">
-    <button type="submit">Submit</button>
-  </form>
-  <form (ngSubmit)="addMongoDBService()">
-    <h5>Add MongoDB Service</h5>
-    <input [(ngModel)]="mongoDBService.node_id" [ngModelOptions]="{standalone: true}" class="input-field" placeholder="node_id"
-           type="text">
-    <input [(ngModel)]="mongoDBService.service_name" [ngModelOptions]="{standalone: true}" class="input-field"
-           placeholder="service_name" type="text">
-    <button type="submit">Submit</button>
-  </form>
-</div>
+<!--<div class="form-wrapper-inventory">-->
+  <!--<form (ngSubmit)="addAmazonRDSMySQL()">-->
+    <!--<h5>Add Amazon RDS MySQL</h5>-->
+    <!--<input [(ngModel)]="amazonRDSMySQL.address" [ngModelOptions]="{standalone: true}" class="input-field" placeholder="address"-->
+           <!--type="text">-->
+    <!--<input [(ngModel)]="amazonRDSMySQL.node_id" [ngModelOptions]="{standalone: true}" class="input-field" placeholder="node_id"-->
+           <!--type="text">-->
+    <!--<input [(ngModel)]="amazonRDSMySQL.port" [ngModelOptions]="{standalone: true}" class="input-field" placeholder="port"-->
+           <!--type="number">-->
+    <!--<input [(ngModel)]="amazonRDSMySQL.service_name" [ngModelOptions]="{standalone: true}" class="input-field"-->
+           <!--placeholder="service_name" type="text">-->
+    <!--<button type="submit">Submit</button>-->
+  <!--</form>-->
+  <!--<form (ngSubmit)="addMySQLService()">-->
+    <!--<h5>Add MySQL Service</h5>-->
+    <!--<input [(ngModel)]="mySQLService.address" [ngModelOptions]="{standalone: true}" class="input-field" placeholder="address"-->
+           <!--type="text">-->
+    <!--<input [(ngModel)]="mySQLService.node_id" [ngModelOptions]="{standalone: true}" class="input-field" placeholder="node_id"-->
+           <!--type="text">-->
+    <!--<input [(ngModel)]="mySQLService.port" [ngModelOptions]="{standalone: true}" class="input-field" placeholder="port" type="number">-->
+    <!--<input [(ngModel)]="mySQLService.service_name" [ngModelOptions]="{standalone: true}" class="input-field"-->
+           <!--placeholder="service_name" type="text">-->
+    <!--<button type="submit">Submit</button>-->
+  <!--</form>-->
+  <!--<form (ngSubmit)="addMongoDBService()">-->
+    <!--<h5>Add MongoDB Service</h5>-->
+    <!--<input [(ngModel)]="mongoDBService.node_id" [ngModelOptions]="{standalone: true}" class="input-field" placeholder="node_id"-->
+           <!--type="text">-->
+    <!--<input [(ngModel)]="mongoDBService.service_name" [ngModelOptions]="{standalone: true}" class="input-field"-->
+           <!--placeholder="service_name" type="text">-->
+    <!--<button type="submit">Submit</button>-->
+  <!--</form>-->
+<!--</div>-->

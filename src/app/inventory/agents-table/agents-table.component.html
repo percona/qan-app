@@ -7,8 +7,8 @@
     <th class="inventory-table__cell">Port</th>
     <th class="inventory-table__cell"></th>
   </tr>
-  <tbody *ngIf="agentsData?.external_exporter">
-  <tr *ngFor="let external_exporter of agentsData.external_exporter">
+  <tbody *ngIf="(agentsData$ | async)?.external_exporter">
+  <tr *ngFor="let external_exporter of (agentsData$ | async)?.external_exporter">
     <td class="inventory-table__cell">External exporter</td>
     <td class="inventory-table__cell">-</td>
     <td class="inventory-table__cell">-</td>
@@ -22,16 +22,18 @@
       <!--</div>-->
       <!--<p>Add label</p></td>-->
     <!--<td class="inventory-table__cell"></td>-->
-    <td class="inventory-table__cell"><i class="fa fa-trash-o"></i></td>
+    <td class="inventory-table__cell">
+      <button><i class="fa fa-trash-o"></i></button>
+    </td>
   </tr>
   </tbody>
-  <tbody *ngIf="agentsData?.mongodb_exporter">
-  <tr *ngFor="let mongodb_exporter of agentsData.mongodb_exporter">
+  <tbody *ngIf="(agentsData$ | async)?.mongodb_exporter">
+  <tr *ngFor="let mongodb_exporter of (agentsData$ | async)?.mongodb_exporter">
     <td class="inventory-table__cell">Mongodb exporter</td>
     <td class="inventory-table__cell">{{mongodb_exporter?.runs_on_node_id}}</td>
-    <td class="inventory-table__cell">-</td>
-    <td class="inventory-table__cell">{{mongodb_exporter?.status}} ??? status</td>
-    <td class="inventory-table__cell">{{mongodb_exporter?.listen_port}} ??? listen port</td>
+    <td class="inventory-table__cell"></td>
+    <td class="inventory-table__cell">{{mongodb_exporter?.status}}</td>
+    <td class="inventory-table__cell">{{mongodb_exporter?.listen_port}}</td>
     <!--<td class="inventory-table__cell">-->
       <!--<div *ngIf="mongodb_exporter?.custom_labels">-->
         <!--<span>{{mongodb_exporter.custom_labels?.additionalProp1}}</span>-->
@@ -39,16 +41,18 @@
         <!--<span>{{mongodb_exporter.custom_labels?.additionalProp3}}</span>-->
       <!--</div>-->
       <!--<p>Add label</p></td>-->
-    <td class="inventory-table__cell"><i class="fa fa-trash-o"></i></td>
+    <td class="inventory-table__cell">
+      <button><i class="fa fa-trash-o"></i></button>
+    </td>
   </tr>
   </tbody>
-  <tbody *ngIf="agentsData?.mysqld_exporter">
-  <tr *ngFor="let mysqld_exporter of agentsData.mysqld_exporter">
+  <tbody *ngIf="(agentsData$ | async)?.mysqld_exporter | async">
+  <tr *ngFor="let mysqld_exporter of agentsData$.mysqld_exporter | async">
     <td class="inventory-table__cell">Mysql Exporter</td>
     <td class="inventory-table__cell">{{mysqld_exporter?.runs_on_node_id}}</td>
-    <td class="inventory-table__cell">-</td>
-    <td class="inventory-table__cell">{{mysqld_exporter.status}} ??? status</td>
-    <td class="inventory-table__cell">{{mysqld_exporter.listen_port}} ??? listen port</td>
+    <td class="inventory-table__cell"></td>
+    <td class="inventory-table__cell">{{mysqld_exporter?.status}}</td>
+    <td class="inventory-table__cell">{{mysqld_exporter?.listen_port}}</td>
     <!--<td class="inventory-table__cell">-->
       <!--<div *ngIf="mysqld_exporter?.custom_labels">-->
         <!--<span>{{mysqld_exporter.custom_labels?.additionalProp1}}</span>-->
@@ -56,16 +60,18 @@
         <!--<span>{{mysqld_exporter.custom_labels?.additionalProp3}}</span>-->
       <!--</div>-->
       <!--<p>Add label</p></td>-->
-    <td class="inventory-table__cell"><i class="fa fa-trash-o"></i></td>
+    <td class="inventory-table__cell">
+      <button><i class="fa fa-trash-o"></i></button>
+    </td>
   </tr>
   </tbody>
-  <tbody *ngIf="agentsData?.node_exporter">
-  <tr *ngFor="let node_exporter of agentsData.node_exporter">
+  <tbody *ngIf="(agentsData$ | async)?.node_exporter">
+  <tr *ngFor="let node_exporter of (agentsData$ | async)?.node_exporter">
     <td class="inventory-table__cell">Node exporter</td>
-    <td class="inventory-table__cell">{{node_exporter.node_id}}</td>
-    <td class="inventory-table__cell">-</td>
-    <td class="inventory-table__cell">{{node_exporter?.status}} ??? status</td>
-    <td class="inventory-table__cell">{{node_exporter.listen_port}} ??? listen port</td>
+    <td class="inventory-table__cell">{{node_exporter?.node_id}}</td>
+    <td class="inventory-table__cell"></td>
+    <td class="inventory-table__cell">{{node_exporter?.status}}</td>
+    <td class="inventory-table__cell">{{node_exporter?.listen_port}}</td>
     <!--<td class="inventory-table__cell">-->
       <!--<div *ngIf="node_exporter?.custom_labels">-->
         <!--<span>{{node_exporter.custom_labels?.additionalProp1}}</span>-->
@@ -74,16 +80,18 @@
       <!--</div>-->
       <!--<p>Add label</p>-->
     <!--</td>-->
-    <td class="inventory-table__cell"><i class="fa fa-trash-o"></i></td>
+    <td class="inventory-table__cell">
+      <button><i class="fa fa-trash-o"></i></button>
+    </td>
   </tr>
   </tbody>
-  <tbody *ngIf="agentsData?.pmm_agent">
-  <tr *ngFor="let pmm_agent of agentsData.pmm_agent">
+  <tbody *ngIf="(agentsData$ | async)?.pmm_agent">
+  <tr *ngFor="let pmm_agent of (agentsData$ | async)?.pmm_agent">
     <td class="inventory-table__cell">PMM Agent</td>
     <td class="inventory-table__cell">{{pmm_agent?.node_id}}</td>
-    <td class="inventory-table__cell">-</td>
-    <td class="inventory-table__cell">-</td>
-    <td class="inventory-table__cell">-</td>
+    <td class="inventory-table__cell"></td>
+    <td class="inventory-table__cell"></td>
+    <td class="inventory-table__cell"></td>
     <!--<td class="inventory-table__cell">-->
       <!--<div *ngIf="pmm_agent?.custom_labels">-->
         <!--<span>{{pmm_agent.custom_labels?.additionalProp1}}</span>-->
@@ -91,18 +99,20 @@
         <!--<span>{{pmm_agent.custom_labels?.additionalProp3}}</span>-->
       <!--</div>-->
       <!--<p>Add label</p></td>-->
-    <td class="inventory-table__cell"><i class="fa fa-trash-o"></i></td>
+    <td class="inventory-table__cell">
+      <button><i class="fa fa-trash-o"></i></button>
+    </td>
   </tr>
   </tbody>
-  <tbody *ngIf="agentsData?.rds_exporter">
-  <tr *ngFor="let rds_exporter of agentsData.rds_exporter">
+  <tbody *ngIf="(agentsData$ | async)?.rds_exporter">
+  <tr *ngFor="let rds_exporter of (agentsData$ | async)?.rds_exporter">
     <td class="inventory-table__cell">Rds exporter</td>
     <td class="inventory-table__cell">{{rds_exporter?.runs_on_node_id}}</td>
     <td class="inventory-table__cell">
       <span *ngFor="let service_ids of rds_exporter.service_ids">{{service_ids}}</span>
     </td>
     <td class="inventory-table__cell">{{rds_exporter?.status}}</td>
-    <td class="inventory-table__cell">-</td>
+    <td class="inventory-table__cell"></td>
     <!--<td class="inventory-table__cell">-->
       <!--<div *ngIf="rds_exporter?.custom_labels">-->
         <!--<span>{{rds_exporter.custom_labels?.additionalProp1}}</span>-->
@@ -110,59 +120,61 @@
         <!--<span>{{rds_exporter.custom_labels?.additionalProp3}}</span>-->
       <!--</div>-->
       <!--<p>Add label</p></td>-->
-    <td class="inventory-table__cell"><i class="fa fa-trash-o"></i></td>
+    <td class="inventory-table__cell">
+      <button><i class="fa fa-trash-o"></i></button>
+    </td>
   </tr>
   </tbody>
 </table>
-<div class="form-wrapper-inventory">
-  <form (ngSubmit)="addExternalExporter()">
-    <h5>Add External Exporter</h5>
-    <input [(ngModel)]="externalExporter.metrics_url" [ngModelOptions]="{standalone: true}" class="input-field" placeholder="metrics_url"
-           type="text">
-    <button type="submit">Submit</button>
-  </form>
+<!--<div class="form-wrapper-inventory">-->
+  <!--<form (ngSubmit)="addExternalExporter()">-->
+    <!--<h5>Add External Exporter</h5>-->
+    <!--<input [(ngModel)]="externalExporter.metrics_url" [ngModelOptions]="{standalone: true}" class="input-field" placeholder="metrics_url"-->
+           <!--type="text">-->
+    <!--<button type="submit">Submit</button>-->
+  <!--</form>-->
 
-  <form (ngSubmit)="addMongoDBExporter()">
-    <h5>Mongo Exporter</h5>
-    <input [(ngModel)]="mongoExporter.connection_string" [ngModelOptions]="{standalone: true}" class="input-field" placeholder="connection_string"
-           type="text">
-    <input [(ngModel)]="mongoExporter.runs_on_node_id" [ngModelOptions]="{standalone: true}" class="input-field" placeholder="runs_on_node_id"
-           type="text">
-    <input [(ngModel)]="mongoExporter.service_id" [ngModelOptions]="{standalone: true}" class="input-field" placeholder="service_id" type="text">
-    <button type="submit">Submit</button>
-  </form>
+  <!--<form (ngSubmit)="addMongoDBExporter()">-->
+    <!--<h5>Mongo Exporter</h5>-->
+    <!--<input [(ngModel)]="mongoExporter.connection_string" [ngModelOptions]="{standalone: true}" class="input-field" placeholder="connection_string"-->
+           <!--type="text">-->
+    <!--<input [(ngModel)]="mongoExporter.runs_on_node_id" [ngModelOptions]="{standalone: true}" class="input-field" placeholder="runs_on_node_id"-->
+           <!--type="text">-->
+    <!--<input [(ngModel)]="mongoExporter.service_id" [ngModelOptions]="{standalone: true}" class="input-field" placeholder="service_id" type="text">-->
+    <!--<button type="submit">Submit</button>-->
+  <!--</form>-->
 
-  <form (ngSubmit)="addMySQLdExporter()">
-    <h5>MySQL Exporter</h5>
-    <input [(ngModel)]="mySQLExporter.username" [ngModelOptions]="{standalone: true}" class="input-field"
-           placeholder="username" type="text">
-    <input [(ngModel)]="mySQLExporter.password" [ngModelOptions]="{standalone: true}" class="input-field" placeholder="password"
-           type="password">
-    <input [(ngModel)]="mySQLExporter.service_id" [ngModelOptions]="{standalone: true}" class="input-field" placeholder="service_id"
-           type="text">
-    <input [(ngModel)]="mySQLExporter.runs_on_node_id" [ngModelOptions]="{standalone: true}" class="input-field" placeholder="runs_on_node_id"
-           type="text">
-    <button type="submit">Submit</button>
-  </form>
+  <!--<form (ngSubmit)="addMySQLdExporter()">-->
+    <!--<h5>MySQL Exporter</h5>-->
+    <!--<input [(ngModel)]="mySQLExporter.username" [ngModelOptions]="{standalone: true}" class="input-field"-->
+           <!--placeholder="username" type="text">-->
+    <!--<input [(ngModel)]="mySQLExporter.password" [ngModelOptions]="{standalone: true}" class="input-field" placeholder="password"-->
+           <!--type="password">-->
+    <!--<input [(ngModel)]="mySQLExporter.service_id" [ngModelOptions]="{standalone: true}" class="input-field" placeholder="service_id"-->
+           <!--type="text">-->
+    <!--<input [(ngModel)]="mySQLExporter.runs_on_node_id" [ngModelOptions]="{standalone: true}" class="input-field" placeholder="runs_on_node_id"-->
+           <!--type="text">-->
+    <!--<button type="submit">Submit</button>-->
+  <!--</form>-->
 
-  <form (ngSubmit)="addNodeExporter()">
-    <h5>Add Node Exporter</h5>
-    <input [(ngModel)]="nodeExporter.node_id" [ngModelOptions]="{standalone: true}" class="input-field" placeholder="node_id"
-           type="text">
-    <button type="submit">Submit</button>
-  </form>
+  <!--<form (ngSubmit)="addNodeExporter()">-->
+    <!--<h5>Add Node Exporter</h5>-->
+    <!--<input [(ngModel)]="nodeExporter.node_id" [ngModelOptions]="{standalone: true}" class="input-field" placeholder="node_id"-->
+           <!--type="text">-->
+    <!--<button type="submit">Submit</button>-->
+  <!--</form>-->
 
-  <form (ngSubmit)="addPmmAgent()">
-    <h5>Pmm Agent</h5>
-    <input [(ngModel)]="pmmAgent.node_id" [ngModelOptions]="{standalone: true}" class="input-field" placeholder="node_id"
-           type="text">
-    <button type="submit">Submit</button>
-  </form>
+  <!--<form (ngSubmit)="addPmmAgent()">-->
+    <!--<h5>Pmm Agent</h5>-->
+    <!--<input [(ngModel)]="pmmAgent.node_id" [ngModelOptions]="{standalone: true}" class="input-field" placeholder="node_id"-->
+           <!--type="text">-->
+    <!--<button type="submit">Submit</button>-->
+  <!--</form>-->
 
-  <form (ngSubmit)="addRdsExporter()">
-    <h5>Rds Exporter</h5>
-    <input [(ngModel)]="rdsExporter.runs_on_node_id" [ngModelOptions]="{standalone: true}" class="input-field" placeholder="runs_on_node_id"
-           type="text">
-    <button type="submit">Submit</button>
-  </form>
-</div>
+  <!--<form (ngSubmit)="addRdsExporter()">-->
+    <!--<h5>Rds Exporter</h5>-->
+    <!--<input [(ngModel)]="rdsExporter.runs_on_node_id" [ngModelOptions]="{standalone: true}" class="input-field" placeholder="runs_on_node_id"-->
+           <!--type="text">-->
+    <!--<button type="submit">Submit</button>-->
+  <!--</form>-->
+<!--</div>-->

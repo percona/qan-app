@@ -1,15 +1,15 @@
-import {Component, Input, OnDestroy, OnInit} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {AgentsService} from '../../inventory-api/services/agents.service';
 import {AddRDSExporter, ExternalExporter, MongoExporter, MySQLExporter, NodeExporter, PmmAgent} from '../inventory.service';
+import {Observable} from 'rxjs/internal/Observable';
 
 @Component({
   selector: 'app-agents-table',
   templateUrl: './agents-table.component.html',
   styleUrls: ['./agents-table.component.scss']
 })
-export class AgentsTableComponent implements OnInit, OnDestroy {
-  public agentsData: any;
-  private agentsSubscription: any;
+export class AgentsTableComponent implements OnInit {
+  public agentsData$: Observable<{}>;
 
   public externalExporter = new ExternalExporter();
   public mongoExporter = new MongoExporter();
@@ -19,7 +19,7 @@ export class AgentsTableComponent implements OnInit, OnDestroy {
   public pmmAgent = new PmmAgent();
 
   constructor(private agentsService: AgentsService) {
-    this.agentsSubscription = this.agentsService.ListAgents({}).subscribe(data => this.agentsData = data);
+    this.agentsData$ = this.agentsService.ListAgents({});
   }
 
   ngOnInit() {
@@ -110,35 +110,31 @@ export class AgentsTableComponent implements OnInit, OnDestroy {
     // }
   }
 
-  ngOnDestroy() {
-    this.agentsSubscription.unsubscribe();
-  }
-
-  // Agents
   addExternalExporter() {
-    this.agentsService.AddExternalExporter(this.externalExporter).subscribe(data => console.log('externalExporter - ', data));
+    this.agentsService.AddExternalExporter(this.externalExporter).subscribe();
   }
 
   addMongoDBExporter() {
-    this.agentsService.AddMongoDBExporter(this.mongoExporter).subscribe(data => console.log('mongoExporter - ', data));
+    this.agentsService.AddMongoDBExporter(this.mongoExporter).subscribe();
   }
 
   addMySQLdExporter() {
-    this.agentsService.AddMySQLdExporter(this.mySQLExporter).subscribe(data => console.log('mySQLExporter - ', data));
+    this.agentsService.AddMySQLdExporter(this.mySQLExporter).subscribe();
   }
 
   addNodeExporter() {
-    this.agentsService.AddNodeExporter(this.nodeExporter).subscribe(data => console.log('nodeExporter - ', data));
+    this.agentsService.AddNodeExporter(this.nodeExporter).subscribe();
   }
 
   addPmmAgent() {
-    this.agentsService.AddPMMAgent(this.pmmAgent).subscribe(data => console.log('pmmAgent - ', data));
+    this.agentsService.AddPMMAgent(this.pmmAgent).subscribe();
   }
 
   addRdsExporter() {
-    this.agentsService.AddRDSExporter(this.rdsExporter).subscribe(data => console.log('rdsExporter - ', data));
+    this.agentsService.AddRDSExporter(this.rdsExporter).subscribe();
   }
 
-  // END Agents
-
+  removeAgents(id) {
+    this.agentsService.RemoveAgent({agent_id: id}).subscribe();
+  }
 }
