@@ -7,124 +7,16 @@
     <th class="inventory-table__cell">Port</th>
     <th class="inventory-table__cell"></th>
   </tr>
-  <tbody *ngIf="(agentsData$ | async)?.external_exporter && (agentsData$ | async)?.external_exporter.length">
-  <tr *ngFor="let external_exporter of (agentsData$ | async)?.external_exporter">
-    <td class="inventory-table__cell">External exporter</td>
-    <td class="inventory-table__cell">-</td>
-    <td class="inventory-table__cell">-</td>
-    <td class="inventory-table__cell">-</td>
-    <td class="inventory-table__cell">-</td>
-    <!--<td class="inventory-table__cell">-->
-      <!--<div *ngIf="external_exporter?.custom_labels">-->
-        <!--<span>{{external_exporter.custom_labels?.additionalProp1}}</span>-->
-        <!--<span>{{external_exporter.custom_labels?.additionalProp2}}</span>-->
-        <!--<span>{{external_exporter.custom_labels?.additionalProp3}}</span>-->
-      <!--</div>-->
-      <!--<p>Add label</p></td>-->
-    <!--<td class="inventory-table__cell"></td>-->
+  <tr *ngFor="let agentData of agentsData">
+    <td class="inventory-table__cell">{{agentData.agentType}}</td>
+    <td class="inventory-table__cell">{{agentData?.runs_on_node_id}}</td>
+    <td class="inventory-table__cell"></td>
+    <td class="inventory-table__cell">{{agentData?.status}}</td>
+    <td class="inventory-table__cell">{{agentData?.listen_port}}</td>
     <td class="inventory-table__cell">
-      <button (click)="removeAgents(external_exporter.agent_id)"><i class="fa fa-trash-o"></i></button>
+      <button (click)="removeAgents(agentData.agent_id); agentData.isDeleted = !agentData.isDeleted"><i class="fa fa-trash-o"></i></button>
     </td>
   </tr>
-  </tbody>
-  <tbody *ngIf="newData?.mongodb_exporter">
-  <tr *ngFor="let mongodb_exporter of newData?.mongodb_exporter">
-    <td class="inventory-table__cell">Mongodb exporter</td>
-    <td class="inventory-table__cell">{{newData?.runs_on_node_id}}</td>
-    <td class="inventory-table__cell"></td>
-    <td class="inventory-table__cell">{{newData?.status}}</td>
-    <td class="inventory-table__cell">{{newData?.listen_port}}</td>
-    <!--<td class="inventory-table__cell">-->
-      <!--<div *ngIf="mongodb_exporter?.custom_labels">-->
-        <!--<span>{{mongodb_exporter.custom_labels?.additionalProp1}}</span>-->
-        <!--<span>{{mongodb_exporter.custom_labels?.additionalProp2}}</span>-->
-        <!--<span>{{mongodb_exporter.custom_labels?.additionalProp3}}</span>-->
-      <!--</div>-->
-      <!--<p>Add label</p></td>-->
-    <td class="inventory-table__cell">
-      <button (click)="removeAgents(mongodb_exporter.agent_id)"><i class="fa fa-trash-o"></i></button>
-    </td>
-  </tr>
-  </tbody>
-  <tbody *ngIf="newData?.mysqld_exporter">
-  <tr *ngFor="let mysqld_exporter of newData.mysqld_exporter">
-    <td class="inventory-table__cell">Mysql Exporter</td>
-    <td class="inventory-table__cell">{{mysqld_exporter?.runs_on_node_id}}</td>
-    <td class="inventory-table__cell"></td>
-    <td class="inventory-table__cell">{{mysqld_exporter?.status}}</td>
-    <td class="inventory-table__cell">{{mysqld_exporter?.listen_port}}</td>
-    <!--<td class="inventory-table__cell">-->
-      <!--<div *ngIf="mysqld_exporter?.custom_labels">-->
-        <!--<span>{{mysqld_exporter.custom_labels?.additionalProp1}}</span>-->
-        <!--<span>{{mysqld_exporter.custom_labels?.additionalProp2}}</span>-->
-        <!--<span>{{mysqld_exporter.custom_labels?.additionalProp3}}</span>-->
-      <!--</div>-->
-      <!--<p>Add label</p></td>-->
-    <td class="inventory-table__cell">
-      <button><i class="fa fa-trash-o"></i></button>
-    </td>
-  </tr>
-  </tbody>
-  <tbody *ngIf="newData?.node_exporter">
-  <tr *ngFor="let node_exporter of newData?.node_exporter">
-    <td class="inventory-table__cell">Node exporter</td>
-    <td class="inventory-table__cell">{{node_exporter?.node_id}}</td>
-    <td class="inventory-table__cell"></td>
-    <td class="inventory-table__cell">{{node_exporter?.status}}</td>
-    <td class="inventory-table__cell">{{node_exporter?.listen_port}}</td>
-    <!--<td class="inventory-table__cell">-->
-      <!--<div *ngIf="node_exporter?.custom_labels">-->
-        <!--<span>{{node_exporter.custom_labels?.additionalProp1}}</span>-->
-        <!--<span>{{node_exporter.custom_labels?.additionalProp2}}</span>-->
-        <!--<span>{{node_exporter.custom_labels?.additionalProp3}}</span>-->
-      <!--</div>-->
-      <!--<p>Add label</p>-->
-    <!--</td>-->
-    <td class="inventory-table__cell">
-      <button (click)="removeAgents(node_exporter.agent_id)"><i class="fa fa-trash-o"></i></button>
-    </td>
-  </tr>
-  </tbody>
-  <tbody *ngIf="newData?.pmm_agent">
-  <tr *ngFor="let pmm_agent of newData?.pmm_agent">
-    <td class="inventory-table__cell">PMM Agent</td>
-    <td class="inventory-table__cell">{{pmm_agent?.node_id}}</td>
-    <td class="inventory-table__cell"></td>
-    <td class="inventory-table__cell"></td>
-    <td class="inventory-table__cell"></td>
-    <!--<td class="inventory-table__cell">-->
-      <!--<div *ngIf="pmm_agent?.custom_labels">-->
-        <!--<span>{{pmm_agent.custom_labels?.additionalProp1}}</span>-->
-        <!--<span>{{pmm_agent.custom_labels?.additionalProp2}}</span>-->
-        <!--<span>{{pmm_agent.custom_labels?.additionalProp3}}</span>-->
-      <!--</div>-->
-      <!--<p>Add label</p></td>-->
-    <td class="inventory-table__cell">
-      <button (click)="removeAgents(pmm_agent.agent_id)"><i class="fa fa-trash-o"></i></button>
-    </td>
-  </tr>
-  </tbody>
-  <tbody *ngIf="newData?.rds_exporter">
-  <tr *ngFor="let rds_exporter of newData?.rds_exporter">
-    <td class="inventory-table__cell">Rds exporter</td>
-    <td class="inventory-table__cell">{{rds_exporter?.runs_on_node_id}}</td>
-    <td class="inventory-table__cell">
-      <span *ngFor="let service_ids of rds_exporter.service_ids">{{service_ids}}</span>
-    </td>
-    <td class="inventory-table__cell">{{rds_exporter?.status}}</td>
-    <td class="inventory-table__cell"></td>
-    <!--<td class="inventory-table__cell">-->
-      <!--<div *ngIf="rds_exporter?.custom_labels">-->
-        <!--<span>{{rds_exporter.custom_labels?.additionalProp1}}</span>-->
-        <!--<span>{{rds_exporter.custom_labels?.additionalProp2}}</span>-->
-        <!--<span>{{rds_exporter.custom_labels?.additionalProp3}}</span>-->
-      <!--</div>-->
-      <!--<p>Add label</p></td>-->
-    <td class="inventory-table__cell">
-      <button (click)="removeAgents(rds_exporter.agent_id)"><i class="fa fa-trash-o"></i></button>
-    </td>
-  </tr>
-  </tbody>
 </table>
 <div class="form-wrapper-inventory">
   <form (ngSubmit)="addExternalExporter()">

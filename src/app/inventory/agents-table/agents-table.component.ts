@@ -1,16 +1,14 @@
 import {Component, OnInit} from '@angular/core';
 import {AgentsService} from '../../inventory-api/services/agents.service';
 import {AddRDSExporter, ExternalExporter, MongoExporter, MySQLExporter, NodeExporter, PmmAgent} from '../inventory.service';
-import {Observable} from 'rxjs/internal/Observable';
-import {BehaviorSubject} from 'rxjs/internal/BehaviorSubject';
-import {combineLatest} from 'rxjs/internal/observable/combineLatest';
-import {AgentsTableModel} from './models/agents-table.model';
 import {ExternalExporterModel} from './models/external-exporter.model';
 import {RdsExporterModel} from './models/rds-exporter.model';
 import {PmmAgentModel} from './models/pmm-agent.model';
 import {NodeExporterModel} from './models/node-exporter.model';
 import {MysqlExporterModel} from './models/mysql-exporter.model';
 import {MongodbExporterModel} from './models/mongodb-exporter.model';
+import {AgentsTableService} from './agents-table.service';
+
 // import {CustomAgentsTableModel} from './models/custom-agents-table.model';
 
 @Component({
@@ -19,8 +17,7 @@ import {MongodbExporterModel} from './models/mongodb-exporter.model';
   styleUrls: ['./agents-table.component.scss']
 })
 export class AgentsTableComponent implements OnInit {
-  public agentsData$: any;
-  public newData: any;
+  public agentsData: any;
 
   public externalExporter = new ExternalExporter();
   public mongoExporter = new MongoExporter();
@@ -28,23 +25,17 @@ export class AgentsTableComponent implements OnInit {
   public nodeExporter = new NodeExporter();
   public rdsExporter = new AddRDSExporter();
   public pmmAgent = new PmmAgent();
-  public sub$;
-  public stream$;
 
-  constructor(private agentsService: AgentsService) {
+  constructor(private agentsService: AgentsService, private agentTableService: AgentsTableService) {
     this.agentsService.ListAgents({}).subscribe(item => {
-      // this.newData = new AgentsTableModel(item);
-      // console.log('this.newData - ', this.newData);
-      const newData2 = Object.keys(item).map(agentType => new Object({agentType: agentType, params: item[agentType]}));
-      console.log('newData2 - ', newData2);
-      const newResult = newData2.map(agent => agent['params'].map(arrItem => {return this.checkAgentType(agent['agentType'], arrItem)} ));
-      // new Object({agent: agent.agentType, metrics_url: arrItem.metrics_url})))
-      console.log('newResult - ', newResult);
+      const dataStructure = this.generateAgentStructure(item);
+      this.agentTableService.setAgentsData(dataStructure);
     });
-    // const subj = new BehaviorSubject(this.agentsData$);
-    // this.sub$ = new BehaviorSubject({});
-    // this.stream$ = combineLatest(this.agentsData$, this.sub$.asObservable());
-    // this.stream$.subscribe(console.log);
+    this.agentTableService.agentsData.subscribe(agents => {
+      if (agents.length) {
+        this.agentsData = agents.filter(agent => !agent.isDeleted);
+      }
+    });
   }
 
   checkAgentType(params, type) {
@@ -69,10 +60,13 @@ export class AgentsTableComponent implements OnInit {
         model = new RdsExporterModel(params, type);
         break;
     }
-    console.log('model = ', model);
-    console.log('params = ', params);
-    console.log('type = ', type);
     return model;
+  }
+
+  generateAgentStructure(item) {
+    const newData2 = Object.keys(item).map(agentType => new Object({agentType: agentType, params: item[agentType]}));
+    const newResult = newData2.map(agent => agent['params'].map(arrItem => this.checkAgentType(arrItem, agent['agentType'])));
+    return [].concat(...newResult);
   }
 
   ngOnInit() {
@@ -188,10 +182,8 @@ export class AgentsTableComponent implements OnInit {
   }
 
   removeAgents(id) {
-    // this.agentsService.RemoveAgent({agent_id: id}).subscribe(() => {
-    //
-    // });
-    // this.sub$.next(id);
-    console.log('agentsData$ - ', this.agentsData$);
+    this.agentsService.RemoveAgent({agent_id: id}).subscribe(() => {
+      this.agentTableService.setAgentsData(this.agentsData);
+    });
   }
 }

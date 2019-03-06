@@ -10,15 +10,16 @@ export class PmmAgentModel {
   agentType: string;
   isDeleted: boolean;
 
-  // status: AGENT_STATUS_INVALID
   constructor(params, type) {
     this.agentType = type;
     this.isDeleted = false;
     this.agent_id = params.agent_id || '';
     this.connected = params.connected || '';
-    this.custom_labels.additionalProp1 = params.custom_labels.additionalProp1 || '';
-    this.custom_labels.additionalProp2 = params.custom_labels.additionalProp3 || '';
-    this.custom_labels.additionalProp2 = params.custom_labels.additionalProp3 || '';
+    if (params.custom_labels) {
+      this.custom_labels.additionalProp1 = params.custom_labels.additionalProp1 || '';
+      this.custom_labels.additionalProp2 = params.custom_labels.additionalProp3 || '';
+      this.custom_labels.additionalProp2 = params.custom_labels.additionalProp3 || '';
+    }
     this.node_id = params.node_id || '';
   }
 }
