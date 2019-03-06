@@ -4,10 +4,10 @@ import {InstanceService} from '../core/services/instance.service';
 import {CoreComponent} from '../core/core.component';
 import {environment} from '../environment';
 import * as moment from 'moment';
-import {Observable} from 'rxjs/Rx';
-import 'rxjs/add/observable/interval';
-import 'rxjs/add/operator/map';
 import {SettingsService} from './settings.service';
+import {Observable} from 'rxjs/internal/Observable';
+import {interval} from 'rxjs/internal/observable/interval';
+import {map} from 'rxjs/operators';
 
 @Component({
   moduleId: module.id,
@@ -127,7 +127,7 @@ export class SettingsComponent extends CoreComponent {
 
     this.agentStatus = this.settingsService.getAgentStatus(this.agent.UUID);
     const updated: any = moment();
-    this.statusUpdatedFromNow$ = Observable.interval(60000).map(n => updated.fromNow());
+    this.statusUpdatedFromNow$ = interval(60000).pipe(map(n => updated.fromNow()));
   }
 
   /**
@@ -140,7 +140,7 @@ export class SettingsComponent extends CoreComponent {
     const end = moment.utc().format('YYYY-MM-DDTHH:mm:ss');
     this.agentLog = this.settingsService.getAgentLog(this.agent.UUID, begin, end);
     const updated: any = moment();
-    this.logUpdatedFromNow$ = Observable.interval(60000).map(n => updated.fromNow());
+    this.logUpdatedFromNow$ = interval(60000).pipe(map(n => updated.fromNow()));
   }
 
   /**

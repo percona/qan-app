@@ -1,8 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 
-import 'rxjs/add/operator/toPromise';
-
 export interface Instance {
   Created: string;
   DSN: string;

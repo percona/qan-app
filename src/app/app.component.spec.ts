@@ -10,7 +10,6 @@ import {HttpModule} from '@angular/http';
 import {InstanceService} from './core/services/instance.service';
 import {CoreModule} from './core/core.module';
 import {AddInstanceComponent} from './add-instance/add-instance.component';
-import {AddAwsComponent} from './add-aws/add-aws.component';
 import {APP_BASE_HREF} from '@angular/common';
 import {CUSTOM_ELEMENTS_SCHEMA} from '@angular/core';
 
@@ -24,7 +23,6 @@ describe('AppComponent', () => {
       declarations: [
         AppComponent,
         AddInstanceComponent,
-        AddAwsComponent
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
       providers: [

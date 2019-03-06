@@ -26,6 +26,15 @@ import { QanEditColumnService } from '../qan/qan-edit-column/qan-edit-column.ser
 import { QanSearchComponent } from '../qan/qan-search/qan-search.component';
 import { QueryDetailsComponent } from '../qan/query-details/query-details.component';
 import { QueryDetailsService } from '../qan/query-details/query-details.service';
+import { ApiModule } from '../inventory-api/api.module';
+import {InventoryService} from '../inventory/inventory.service';
+import {NodesService} from '../inventory-api/services/nodes.service';
+import {ServicesService} from '../inventory-api/services/services.service';
+import {AgentsService} from '../inventory-api/services/agents.service';
+import {InventoryComponent} from '../inventory/inventory.component';
+import {ServicesTableComponent} from '../inventory/services-table/services-table.component';
+import {AgentsTableComponent} from '../inventory/agents-table/agents-table.component';
+import {NodesTableComponent} from '../inventory/nodes-table/nodes-table.component';
 
 @NgModule({
     imports: [
@@ -34,6 +43,7 @@ import { QueryDetailsService } from '../qan/query-details/query-details.service'
       ClipboardModule,
       NgSelectModule,
       PerfectScrollbarModule,
+      ApiModule
     ],
     declarations: [
       NavComponent,
@@ -47,6 +57,10 @@ import { QueryDetailsService } from '../qan/query-details/query-details.service'
       RemoteInstancesListComponent,
       QanEditColumnComponent,
       QueryDetailsComponent,
+      InventoryComponent,
+      ServicesTableComponent,
+      AgentsTableComponent,
+      NodesTableComponent,
     ],
     exports: [
       NavComponent,
@@ -60,6 +74,10 @@ import { QueryDetailsService } from '../qan/query-details/query-details.service'
       RemoteInstancesListComponent,
       QanEditColumnComponent,
       QueryDetailsComponent,
+      InventoryComponent,
+      ServicesTableComponent,
+      AgentsTableComponent,
+      NodesTableComponent,
     ],
     providers: [
       InstanceService,
@@ -72,7 +90,11 @@ import { QueryDetailsService } from '../qan/query-details/query-details.service'
       RemoteInstancesListService,
       QanEditColumnService,
       QanFilterService,
-      FilterSearchService
+      FilterSearchService,
+      InventoryService,
+      NodesService,
+      ServicesService,
+      AgentsService
     ]
 })
 export class CoreModule {

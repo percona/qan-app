@@ -1,0 +1,28 @@
+.inventory-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.inventory-table,
+.inventory-table__cell {
+  border: 1px solid var(--main-border-color);
+}
+
+.inventory-table__cell {
+  padding: 10px;
+}
+
+.form-wrapper-inventory {
+  display: grid;
+  grid-template-columns: repeat(3, 250px);
+  grid-column-gap: 50px;
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+
+  & > * {
+    margin-bottom: 20px;
+  }
+}
