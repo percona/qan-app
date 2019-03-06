@@ -1,0 +1,4 @@
+[submodule "qan-app"]
+	branch = PMM-3550-inventory-ui
+[submodule "grafana-dashboards"]
+	branch = PMM-3550-inventory-ui

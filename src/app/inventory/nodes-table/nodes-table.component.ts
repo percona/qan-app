@@ -2,6 +2,9 @@ import {Component, OnDestroy, OnInit} from '@angular/core';
 import {NodesService} from '../../inventory-api/services/nodes.service';
 import {Container, Generic, Remote, RemoteAmazonRDS} from '../inventory.service';
 import {Observable} from 'rxjs/internal/Observable';
+import {BehaviorSubject} from 'rxjs/internal/BehaviorSubject';
+import {combineLatest} from 'rxjs/internal/observable/combineLatest';
+import {of} from 'rxjs/internal/observable/of';
 
 @Component({
   selector: 'app-nodes-table',

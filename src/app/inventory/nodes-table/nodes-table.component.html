@@ -94,47 +94,47 @@
   </tr>
   </tbody>
 </table>
-<!--<div class="form-wrapper-inventory">-->
-  <!--<form (ngSubmit)="addContainer()">-->
-    <!--<h5>Container</h5>-->
-    <!--<input [(ngModel)]="container.docker_container_id" [ngModelOptions]="{standalone: true}" class="input-field"-->
-           <!--placeholder="docker_container_id"-->
-           <!--type="text">-->
-    <!--<input [(ngModel)]="container.docker_container_name" [ngModelOptions]="{standalone: true}" class="input-field"-->
-           <!--placeholder="docker_container_name"-->
-           <!--type="text">-->
-    <!--<input [(ngModel)]="container.machine_id" [ngModelOptions]="{standalone: true}" class="input-field" placeholder="machine_id"-->
-           <!--type="text">-->
-    <!--<input [(ngModel)]="container.node_name" [ngModelOptions]="{standalone: true}" class="input-field" placeholder="node_name" type="text">-->
-    <!--<button type="submit">Submit</button>-->
-  <!--</form>-->
+<div class="form-wrapper-inventory">
+  <form (ngSubmit)="addContainer()">
+    <h5>Container</h5>
+    <input [(ngModel)]="container.docker_container_id" [ngModelOptions]="{standalone: true}" class="input-field"
+           placeholder="docker_container_id"
+           type="text">
+    <input [(ngModel)]="container.docker_container_name" [ngModelOptions]="{standalone: true}" class="input-field"
+           placeholder="docker_container_name"
+           type="text">
+    <input [(ngModel)]="container.machine_id" [ngModelOptions]="{standalone: true}" class="input-field" placeholder="machine_id"
+           type="text">
+    <input [(ngModel)]="container.node_name" [ngModelOptions]="{standalone: true}" class="input-field" placeholder="node_name" type="text">
+    <button type="submit">Submit</button>
+  </form>
 
-  <!--<form (ngSubmit)="addGeneric()">-->
-    <!--<h5>Add Generic</h5>-->
-    <!--<input [(ngModel)]="generic.address" [ngModelOptions]="{standalone: true}" class="input-field" placeholder="address"-->
-           <!--type="text">-->
-    <!--<input [(ngModel)]="generic.distro" [ngModelOptions]="{standalone: true}" class="input-field" placeholder="distro"-->
-           <!--type="text">-->
-    <!--<input [(ngModel)]="generic.distro_version" [ngModelOptions]="{standalone: true}" class="input-field" placeholder="distro_version"-->
-           <!--type="text">-->
-    <!--<input [(ngModel)]="generic.machine_id" [ngModelOptions]="{standalone: true}" class="input-field" placeholder="machine_id" type="text">-->
-    <!--<input [(ngModel)]="generic.node_name" [ngModelOptions]="{standalone: true}" class="input-field" placeholder="node_name" type="text">-->
-    <!--<button type="submit">Submit</button>-->
-  <!--</form>-->
+  <form (ngSubmit)="addGeneric()">
+    <h5>Add Generic</h5>
+    <input [(ngModel)]="generic.address" [ngModelOptions]="{standalone: true}" class="input-field" placeholder="address"
+           type="text">
+    <input [(ngModel)]="generic.distro" [ngModelOptions]="{standalone: true}" class="input-field" placeholder="distro"
+           type="text">
+    <input [(ngModel)]="generic.distro_version" [ngModelOptions]="{standalone: true}" class="input-field" placeholder="distro_version"
+           type="text">
+    <input [(ngModel)]="generic.machine_id" [ngModelOptions]="{standalone: true}" class="input-field" placeholder="machine_id" type="text">
+    <input [(ngModel)]="generic.node_name" [ngModelOptions]="{standalone: true}" class="input-field" placeholder="node_name" type="text">
+    <button type="submit">Submit</button>
+  </form>
 
-  <!--<form (ngSubmit)="addRemote()">-->
-    <!--<h5>Add Remote</h5>-->
-    <!--<input [(ngModel)]="remote.node_name" [ngModelOptions]="{standalone: true}" class="input-field" placeholder="node_name" type="text">-->
-    <!--<button type="submit">Submit</button>-->
-  <!--</form>-->
+  <form (ngSubmit)="addRemote()">
+    <h5>Add Remote</h5>
+    <input [(ngModel)]="remote.node_name" [ngModelOptions]="{standalone: true}" class="input-field" placeholder="node_name" type="text">
+    <button type="submit">Submit</button>
+  </form>
 
-  <!--<form (ngSubmit)="remoteAmazonRDSNode()">-->
-    <!--<h5>Add Remote Amazon RDS</h5>-->
-    <!--<input [(ngModel)]="remoteAmazonRDS.instance" [ngModelOptions]="{standalone: true}" class="input-field" placeholder="instance"-->
-           <!--type="text">-->
-    <!--<input [(ngModel)]="remoteAmazonRDS.node_name" [ngModelOptions]="{standalone: true}" class="input-field" placeholder="node_name"-->
-           <!--type="text">-->
-    <!--<input [(ngModel)]="remoteAmazonRDS.region" [ngModelOptions]="{standalone: true}" class="input-field" placeholder="region" type="text">-->
-    <!--<button type="submit">Submit</button>-->
-  <!--</form>-->
-<!--</div>-->
+  <form (ngSubmit)="remoteAmazonRDSNode()">
+    <h5>Add Remote Amazon RDS</h5>
+    <input [(ngModel)]="remoteAmazonRDS.instance" [ngModelOptions]="{standalone: true}" class="input-field" placeholder="instance"
+           type="text">
+    <input [(ngModel)]="remoteAmazonRDS.node_name" [ngModelOptions]="{standalone: true}" class="input-field" placeholder="node_name"
+           type="text">
+    <input [(ngModel)]="remoteAmazonRDS.region" [ngModelOptions]="{standalone: true}" class="input-field" placeholder="region" type="text">
+    <button type="submit">Submit</button>
+  </form>
+</div>
