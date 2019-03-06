@@ -5,6 +5,17 @@ import {Observable} from 'rxjs/internal/Observable';
 import {BehaviorSubject} from 'rxjs/internal/BehaviorSubject';
 import {combineLatest} from 'rxjs/internal/observable/combineLatest';
 import {of} from 'rxjs/internal/observable/of';
+import {NodesTableService} from './nodes-table.service';
+import {ExternalExporterModel} from '../agents-table/models/external-exporter.model';
+import {MongodbExporterModel} from '../agents-table/models/mongodb-exporter.model';
+import {MysqlExporterModel} from '../agents-table/models/mysql-exporter.model';
+import {NodeExporterModel} from '../agents-table/models/node-exporter.model';
+import {PmmAgentModel} from '../agents-table/models/pmm-agent.model';
+import {RdsExporterModel} from '../agents-table/models/rds-exporter.model';
+import {ContainerModel} from './models/container.model';
+import {GenericModel} from './models/generic.model';
+import {RemoteModel} from './models/remote.model';
+import {RemoteAmazonRdsModel} from './models/remote-amazon-rds.model';
 
 @Component({
   selector: 'app-nodes-table',
@@ -12,15 +23,48 @@ import {of} from 'rxjs/internal/observable/of';
   styleUrls: ['./nodes-table.component.scss']
 })
 export class NodesTableComponent implements OnInit {
-  public nodeData$: Observable<{}>;
+  public nodesData: any;
 
   public container = new Container();
   public generic = new Generic();
   public remote = new Remote();
   public remoteAmazonRDS = new RemoteAmazonRDS();
 
-  constructor(private nodesService: NodesService) {
-    this.nodeData$ = this.nodesService.ListNodes({});
+  constructor(private nodesService: NodesService, private nodesTableService: NodesTableService) {
+    this.nodesService.ListNodes({}).subscribe(item => {
+      const dataStructure = this.generateAgentStructure(item);
+      this.nodesTableService.setNodesData(dataStructure);
+    });
+    this.nodesTableService.nodesData.subscribe(agents => {
+      if (agents.length) {
+        this.nodesData = agents.filter(agent => !agent.isDeleted);
+      }
+    });
+  }
+
+  checkAgentType(params, type) {
+    let model = {};
+    switch (type) {
+      case 'container':
+        model = new ContainerModel(params, type);
+        break;
+      case 'generic':
+        model = new GenericModel(params, type);
+        break;
+      case 'remote':
+        model = new RemoteModel(params, type);
+        break;
+      case 'remote_amazon_rds':
+        model = new RemoteAmazonRdsModel(params, type);
+        break;
+    }
+    return model;
+  }
+
+  generateAgentStructure(item) {
+    const newData2 = Object.keys(item).map(agentType => new Object({agentType: agentType, params: item[agentType]}));
+    const newResult = newData2.map(agent => agent['params'].map(arrItem => this.checkAgentType(arrItem, agent['agentType'])));
+    return [].concat(...newResult);
   }
 
   ngOnInit() {

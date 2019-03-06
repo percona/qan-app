@@ -9,90 +9,25 @@
     <th class="inventory-table__cell">Distro version</th>
     <th class="inventory-table__cell"></th>
   </tr>
-  <tbody *ngIf="(nodeData$ | async)?.container">
-  <tr *ngFor="let container of (nodeData$ | async)?.container">
-    <td class="inventory-table__cell">Container</td>
-    <td class="inventory-table__cell">{{container?.node_name}}</td>
-    <td class="inventory-table__cell"></td>
-    <td class="inventory-table__cell"></td>
-    <td class="inventory-table__cell">{{container?.machine_id}}</td>
-    <td class="inventory-table__cell"></td>
-    <td class="inventory-table__cell"></td>
+  <tr *ngFor="let nodeData of nodesData">
+    <td class="inventory-table__cell">{{nodeData.agentType}}</td>
+    <td class="inventory-table__cell">{{nodeData?.node_name}}</td>
+    <td class="inventory-table__cell">{{nodeData?.region}}</td>
+    <td class="inventory-table__cell">{{nodeData?.instance}}</td>
+    <td class="inventory-table__cell">{{nodeData?.machine_id}}</td>
+    <td class="inventory-table__cell">{{nodeData?.distro}}</td>
+    <td class="inventory-table__cell">{{nodeData?.distro_version}}</td>
     <!--<td class="inventory-table__cell">-->
-      <!--<div *ngIf="container?.custom_labels">-->
-        <!--<span *ngIf="container.custom_labels?.additionalProp1">{{container.custom_labels.additionalProp1}}</span>-->
-        <!--<span *ngIf="container.custom_labels?.additionalProp2">{{container.custom_labels.additionalProp2}}</span>-->
-        <!--<span *ngIf="container.custom_labels?.additionalProp3">{{container.custom_labels.additionalProp3}}</span>-->
-      <!--</div>-->
-      <!--<p>Add label</p></td>-->
+    <!--<div *ngIf="remote_amazon_rds?.custom_labels">-->
+    <!--<span *ngIf="remote_amazon_rds.custom_labels?.additionalProp1">{{remote_amazon_rds.custom_labels.additionalProp1}}</span>-->
+    <!--<span *ngIf="remote_amazon_rds.custom_labels?.additionalProp2">{{remote_amazon_rds.custom_labels.additionalProp2}}</span>-->
+    <!--<span *ngIf="remote_amazon_rds.custom_labels?.additionalProp3">{{remote_amazon_rds.custom_labels.additionalProp3}}</span>-->
+    <!--</div>-->
+    <!--<p>Add label</p></td>-->
     <td class="inventory-table__cell">
       <button><i class="fa fa-trash-o"></i></button>
     </td>
   </tr>
-  </tbody>
-  <tbody *ngIf="(nodeData$ | async)?.generic">
-  <tr *ngFor="let generic of (nodeData$ | async)?.generic">
-    <td class="inventory-table__cell">Generic</td>
-    <td class="inventory-table__cell">{{generic.node_name}}</td>
-    <td class="inventory-table__cell"></td>
-    <td class="inventory-table__cell"></td>
-    <td class="inventory-table__cell">{{generic.machine_id}}</td>
-    <td class="inventory-table__cell">{{generic.distro}}</td>
-    <td class="inventory-table__cell">{{generic.distro_version}}</td>
-    <!--<td class="inventory-table__cell">-->
-      <!--<div *ngIf="generic?.custom_labels">-->
-        <!--<span *ngIf="generic.custom_labels?.additionalProp1">{{generic.custom_labels.additionalProp1}}</span>-->
-        <!--<span *ngIf="generic.custom_labels?.additionalProp2">{{generic.custom_labels.additionalProp2}}</span>-->
-        <!--<span *ngIf="generic.custom_labels?.additionalProp3">{{generic.custom_labels.additionalProp3}}</span>-->
-      <!--</div>-->
-      <!--<p>Add label</p></td>-->
-    <td class="inventory-table__cell">
-      <i class="fa fa-trash-o"></i>
-    </td>
-  </tr>
-  </tbody>
-  <tbody *ngIf="(nodeData$ | async)?.remote">
-  <tr *ngFor="let remote of (nodeData$ | async)?.remote">
-    <td class="inventory-table__cell">Remote</td>
-    <td class="inventory-table__cell">{{remote?.node_name}}</td>
-    <td class="inventory-table__cell"></td>
-    <td class="inventory-table__cell"></td>
-    <td class="inventory-table__cell"></td>
-    <td class="inventory-table__cell"></td>
-    <td class="inventory-table__cell"></td>
-    <!--<td class="inventory-table__cell">-->
-      <!--<div *ngIf="remote?.custom_labels">-->
-        <!--<span *ngIf="remote.custom_labels?.additionalProp1">{{remote.custom_labels.additionalProp1}}</span>-->
-        <!--<span *ngIf="remote.custom_labels?.additionalProp2">{{remote.custom_labels.additionalProp2}}</span>-->
-        <!--<span *ngIf="remote.custom_labels?.additionalProp3">{{remote.custom_labels.additionalProp3}}</span>-->
-      <!--</div>-->
-      <!--<p>Add label</p></td>-->
-    <td class="inventory-table__cell">
-      <button><i class="fa fa-trash-o"></i></button>
-    </td>
-  </tr>
-  </tbody>
-  <tbody *ngIf="(nodeData$ | async)?.remote_amazon_rds">
-  <tr *ngFor="let remote_amazon_rds of (nodeData$ | async)?.remote_amazon_rds">
-    <td class="inventory-table__cell">Remote amazon rds</td>
-    <td class="inventory-table__cell">{{remote_amazon_rds?.node_name}}</td>
-    <td class="inventory-table__cell">{{remote_amazon_rds?.region}}</td>
-    <td class="inventory-table__cell">{{remote_amazon_rds?.instance}}</td>
-    <td class="inventory-table__cell"></td>
-    <td class="inventory-table__cell"></td>
-    <td class="inventory-table__cell"></td>
-    <!--<td class="inventory-table__cell">-->
-      <!--<div *ngIf="remote_amazon_rds?.custom_labels">-->
-        <!--<span *ngIf="remote_amazon_rds.custom_labels?.additionalProp1">{{remote_amazon_rds.custom_labels.additionalProp1}}</span>-->
-        <!--<span *ngIf="remote_amazon_rds.custom_labels?.additionalProp2">{{remote_amazon_rds.custom_labels.additionalProp2}}</span>-->
-        <!--<span *ngIf="remote_amazon_rds.custom_labels?.additionalProp3">{{remote_amazon_rds.custom_labels.additionalProp3}}</span>-->
-      <!--</div>-->
-      <!--<p>Add label</p></td>-->
-    <td class="inventory-table__cell">
-      <button><i class="fa fa-trash-o"></i></button>
-    </td>
-  </tr>
-  </tbody>
 </table>
 <div class="form-wrapper-inventory">
   <form (ngSubmit)="addContainer()">
