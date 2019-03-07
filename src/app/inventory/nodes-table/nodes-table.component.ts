@@ -1,100 +1,46 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {NodesService} from '../../inventory-api/services/nodes.service';
-import {Container, Generic, Remote, RemoteAmazonRDS} from '../inventory.service';
-import {Observable} from 'rxjs/internal/Observable';
+import {InventoryService} from '../inventory.service';
+import {NodesTableService} from './nodes-table.service';
 
 @Component({
   selector: 'app-nodes-table',
   templateUrl: './nodes-table.component.html',
   styleUrls: ['./nodes-table.component.scss']
 })
-export class NodesTableComponent implements OnInit {
-  public nodeData$: Observable<{}>;
+export class NodesTableComponent implements OnInit, OnDestroy {
+  private nodesList$: any;
+  private nodesTableData$: any;
 
-  public container = new Container();
-  public generic = new Generic();
-  public remote = new Remote();
-  public remoteAmazonRDS = new RemoteAmazonRDS();
+  public nodesData: any;
 
-  constructor(private nodesService: NodesService) {
-    this.nodeData$ = this.nodesService.ListNodes({});
+  constructor(
+    private nodesService: NodesService,
+    private nodesTableService: NodesTableService,
+    private inventoryService: InventoryService
+  ) {
+    this.nodesList$ = this.nodesService.ListNodes({}).subscribe(item => {
+      const dataStructure = this.inventoryService.generateStructure(item);
+      this.nodesTableService.setNodesData(dataStructure);
+    });
+    this.nodesTableData$ = this.nodesTableService.nodesData.subscribe(nodes => {
+      if (nodes.length) {
+        this.nodesData = nodes.filter(agent => !agent.isDeleted);
+      }
+    });
   }
 
   ngOnInit() {
-    // this.nodeData = {
-    //   container: [
-    //     {
-    //       custom_labels: {
-    //         additionalProp1: 'additionalProp1',
-    //         additionalProp2: 'additionalProp2',
-    //         additionalProp3: 'additionalProp3'
-    //       },
-    //       docker_container_id: 'docker_container_id',
-    //       docker_container_name: 'docker_container_name',
-    //       machine_id: 'machine_id',
-    //       node_id: 'node_id',
-    //       node_name: 'node_name'
-    //     }
-    //   ],
-    //   generic: [
-    //     {
-    //       address: 'address',
-    //       custom_labels: {
-    //         additionalProp1: 'additionalProp1',
-    //         additionalProp2: 'additionalProp2',
-    //         additionalProp3: 'additionalProp3'
-    //       },
-    //       distro: 'distro',
-    //       distro_version: 'distro_version',
-    //       machine_id: 'machine_id',
-    //       node_id: 'node_id',
-    //       node_name: 'node_name'
-    //     }
-    //   ],
-    //   remote: [
-    //     {
-    //       custom_labels: {
-    //         additionalProp1: 'additionalProp1',
-    //         additionalProp2: 'additionalProp2',
-    //         additionalProp3: 'additionalProp3'
-    //       },
-    //       node_id: 'node_id',
-    //       node_name: 'node_name'
-    //     }
-    //   ],
-    //   remote_amazon_rds: [
-    //     {
-    //       custom_labels: {
-    //         additionalProp1: 'additionalProp1',
-    //         additionalProp2: 'additionalProp2',
-    //         additionalProp3: 'additionalProp3'
-    //       },
-    //       instance: 'instance',
-    //       node_id: 'node_id',
-    //       node_name: 'node_name',
-    //       region: 'region'
-    //     }
-    //   ]
-    // }
   }
 
-  addContainer() {
-    this.nodesService.AddContainerNode(this.container);
-  }
-
-  addGeneric() {
-    this.nodesService.AddGenericNode(this.generic);
-  }
-
-  addRemote() {
-    this.nodesService.AddRemoteNode(this.remote);
-  }
-
-  remoteAmazonRDSNode() {
-    this.nodesService.AddRemoteAmazonRDSNode(this.remoteAmazonRDS);
+  ngOnDestroy() {
+    this.nodesList$.unsubscribe();
+    this.nodesTableData$.unsubscribe();
   }
 
   removeNode(id) {
-    this.nodesService.RemoveNode({node_id: id});
+    this.nodesService.RemoveNode({node_id: id}).subscribe(
+      () => this.nodesTableService.setNodesData(this.nodesData)
+    )
   }
 }
