@@ -6,60 +6,17 @@
     <th class="inventory-table__cell">Details</th>
     <th class="inventory-table__cell"></th>
   </tr>
-  <tbody *ngIf="(servicesData$ | async)?.amazon_rds_mysql">
-  <tr *ngFor="let amazonData of (servicesData$ | async)?.amazon_rds_mysql">
-    <td class="inventory-table__cell">Amazon RDS Mysql</td>
-    <td class="inventory-table__cell">{{amazonData?.service_name}}</td>
-    <td class="inventory-table__cell">{{amazonData?.node_id}}</td>
+  <tr *ngFor="let serviceData of servicesData">
+    <td class="inventory-table__cell">{{serviceData.agentType}}</td>
+    <td class="inventory-table__cell">{{serviceData?.service_name}}</td>
+    <td class="inventory-table__cell">{{serviceData?.node_id}}</td>
     <td class="inventory-table__cell"></td>
-    <!--<td class="inventory-table__cell">-->
-      <!--<div *ngIf="amazonData?.custom_labels">-->
-        <!--<span *ngIf="amazonData?.custom_labels?.additionalProp1">{{amazonData.custom_labels.additionalProp1}}</span>-->
-        <!--<span *ngIf="amazonData?.custom_labels?.additionalProp2">{{amazonData.custom_labels.additionalProp2}}</span>-->
-        <!--<span *ngIf="amazonData?.custom_labels?.additionalProp2">{{amazonData.custom_labels.additionalProp3}}</span>-->
-      <!--</div>-->
-      <!--<p>Add label</p></td>-->
     <td class="inventory-table__cell">
-      <button><i class="fa fa-trash-o"></i></button>
+      <button (click)="removeService(serviceData.service_id); serviceData.isDeleted = !servicesData.isDeleted">
+        <i class="fa fa-trash-o"></i>
+      </button>
     </td>
   </tr>
-  </tbody>
-  <tbody *ngIf="(servicesData$ | async)?.mysql">
-  <tr *ngFor="let mysql of (servicesData$ | async)?.mysql">
-    <td class="inventory-table__cell">Mysql</td>
-    <td class="inventory-table__cell">{{mysql?.service_name}}</td>
-    <td class="inventory-table__cell">{{mysql?.node_id}}</td>
-    <td class="inventory-table__cell"></td>
-    <!--<td class="inventory-table__cell">-->
-      <!--<div *ngIf="mysql?.custom_labels">-->
-        <!--<span *ngIf="mysql?.custom_labels?.additionalProp1">{{mysql.custom_labels.additionalProp1}}</span>-->
-        <!--<span *ngIf="mysql?.custom_labels?.additionalProp2">{{mysql.custom_labels.additionalProp2}}</span>-->
-        <!--<span *ngIf="mysql?.custom_labels?.additionalProp2">{{mysql.custom_labels.additionalProp3}}</span>-->
-      <!--</div>-->
-      <!--<p>Add label</p></td>-->
-    <td class="inventory-table__cell">
-      <button><i class="fa fa-trash-o"></i></button>
-    </td>
-  </tr>
-  </tbody>
-  <tbody *ngIf="(servicesData$ | async)?.mongodb">
-  <tr *ngFor="let mongodb of (servicesData$ | async)?.mongodb">
-    <td class="inventory-table__cell">MongoDB</td>
-    <td class="inventory-table__cell">{{mongodb?.service_name}}</td>
-    <td class="inventory-table__cell">{{mongodb?.node_id}}</td>
-    <td class="inventory-table__cell"></td>
-    <!--<td class="inventory-table__cell">-->
-      <!--<div *ngIf="mongodb?.custom_labels">-->
-        <!--<span *ngIf="mongodb?.custom_labels?.additionalProp1">{{mongodb.custom_labels.additionalProp1}}</span>-->
-        <!--<span *ngIf="mongodb?.custom_labels?.additionalProp2">{{mongodb.custom_labels.additionalProp2}}</span>-->
-        <!--<span *ngIf="mongodb?.custom_labels?.additionalProp2">{{mongodb.custom_labels.additionalProp3}}</span>-->
-      <!--</div>-->
-      <!--<p>Add label</p></td>-->
-    <td class="inventory-table__cell">
-      <button><i class="fa fa-trash-o"></i></button>
-    </td>
-  </tr>
-  </tbody>
 </table>
 <!--<div class="form-wrapper-inventory">-->
   <!--<form (ngSubmit)="addAmazonRDSMySQL()">-->

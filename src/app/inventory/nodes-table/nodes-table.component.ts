@@ -35,9 +35,9 @@ export class NodesTableComponent implements OnInit {
       const dataStructure = this.generateAgentStructure(item);
       this.nodesTableService.setNodesData(dataStructure);
     });
-    this.nodesTableService.nodesData.subscribe(agents => {
-      if (agents.length) {
-        this.nodesData = agents.filter(agent => !agent.isDeleted);
+    this.nodesTableService.nodesData.subscribe(nodes => {
+      if (nodes.length) {
+        this.nodesData = nodes.filter(agent => !agent.isDeleted);
       }
     });
   }
