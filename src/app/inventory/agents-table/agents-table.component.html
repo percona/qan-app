@@ -14,7 +14,9 @@
     <td class="inventory-table__cell">{{agentData?.status}}</td>
     <td class="inventory-table__cell">{{agentData?.listen_port}}</td>
     <td class="inventory-table__cell">
-      <button (click)="removeAgents(agentData.agent_id); agentData.isDeleted = !agentData.isDeleted"><i class="fa fa-trash-o"></i></button>
+      <button (click)="removeAgents(agentData.agent_id); agentData.isDeleted = !agentData.isDeleted">
+        <i class="fa fa-trash-o"></i>
+      </button>
     </td>
   </tr>
 </table>

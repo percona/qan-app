@@ -18,7 +18,9 @@
     <td class="inventory-table__cell">{{nodeData?.distro}}</td>
     <td class="inventory-table__cell">{{nodeData?.distro_version}}</td>
     <td class="inventory-table__cell">
-      <button (click)="removeNode(nodeData.node_id); nodeData.isDeleted = !nodeData.isDeleted"><i class="fa fa-trash-o"></i></button>
+      <button (click)="removeNode(nodeData.node_id); nodeData.isDeleted = !nodeData.isDeleted">
+        <i class="fa fa-trash-o"></i>
+      </button>
     </td>
   </tr>
 </table>

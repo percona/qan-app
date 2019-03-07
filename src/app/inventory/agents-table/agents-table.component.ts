@@ -1,6 +1,6 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {AgentsService} from '../../inventory-api/services/agents.service';
-import {InventoryService,} from '../inventory.service';
+import {InventoryService} from '../inventory.service';
 import {AgentsTableService} from './agents-table.service';
 
 @Component({
