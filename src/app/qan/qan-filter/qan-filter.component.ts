@@ -1,4 +1,4 @@
-import {Component, EventEmitter, Input, OnChanges, OnDestroy, OnInit, Output, ViewChild} from '@angular/core';
+import {Component, OnChanges, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {NgbTabset} from '@ng-bootstrap/ng-bootstrap';
 import {PerfectScrollbarConfigInterface} from 'ngx-perfect-scrollbar';
 import {QanFilterService} from './qan-filter.service';
@@ -52,16 +52,6 @@ export class QanFilterComponent implements OnInit, OnDestroy, OnChanges {
 
   ngOnDestroy() {
     this.filterSubscription.unsubscribe();
-  }
-
-  toggleMenu() {
-    this.setFilterHeight();
-  }
-
-  setFilterHeight() {
-    const qanTable = document.getElementById('qanTable');
-    const filters = document.getElementsByClassName('aside-menu') as HTMLCollectionOf<HTMLElement>;
-    filters[0].style.setProperty('--filters-height', `${qanTable.offsetHeight}px`);
   }
 
   getAll(group) {

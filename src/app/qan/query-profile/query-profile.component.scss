@@ -28,6 +28,8 @@
 .pmm-qan {
   display: grid;
   grid-template-areas: 'search search' 'filter table';
+  grid-template-columns: 300px 1fr;
+  grid-gap: 10px;
 }
 
 .pmm-qan__search {
@@ -35,7 +37,7 @@
 }
 
 .pmm-qan__filter {
-
+  grid-area: filter;
 }
 
 .pmm-qan__table {
