@@ -1,5 +1,5 @@
 <aside class="aside">
-  <div *ngFor="let filterGroup of filtersSearchedValues" class="aside__filter-group">
+  <div *ngFor="let filterGroup of filters" class="aside__filter-group">
     <div *ngIf="filterGroup.values.length" class="filter-group__title">
       <span class="title__text">{{filterGroup.name}}</span>
       <button *ngIf="filterGroup.values.length > defaultLimit" (click)="getAll(filterGroup)" class="filter-group__see-all">
@@ -18,5 +18,4 @@
       </ng-container>
     </div>
   </div>
-  <span *ngIf="!filtersSearchedValues.length" class="aside__empty-text">No items found...</span>
 </aside>
