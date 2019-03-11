@@ -1,8 +1,6 @@
 .input-field {
-  --default-left-right-indent: 1rem;
-
   width: 100%;
-  padding: 0 var(--default-left-right-indent);
+  padding: 0 var(--input-lr-inner-indent);
   color: inherit;
   border: 1px solid var(--main-border-color);
   background-color: transparent;
@@ -29,7 +27,7 @@
 .input-field--interval,
 .input-field--select {
   height: 40px;
-  padding: var(--default-left-right-indent);
+  padding: var(--input-lr-inner-indent);
 }
 
 .input-field--interval {

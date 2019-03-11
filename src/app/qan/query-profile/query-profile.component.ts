@@ -17,8 +17,6 @@ const queryProfileError = 'No data. Please check pmm-client and database configu
 export class QueryProfileComponent extends CoreComponent implements OnInit {
 
   public queryProfile: Array<{}>;
-  public isFilterMenu = false;
-  public isEditColumnMenu = false;
   public profileTotal;
   public offset: number;
   public totalAmountOfQueries: number;
@@ -76,9 +74,7 @@ export class QueryProfileComponent extends CoreComponent implements OnInit {
     });
   }
 
-  ngOnInit() {
-    this.toggleQueryDetails(this.queryParams.queryID !== 'null');
-  }
+  ngOnInit() {}
 
   /**
    * Load query if params have been changed
@@ -164,14 +160,6 @@ export class QueryProfileComponent extends CoreComponent implements OnInit {
     }
     this.countDbQueries();
     this.isLoading = false;
-    // todo: calc height function
-    const qanTable = document.getElementById('qanTable');
-    const gridContentWrapper = document.getElementById('grid-content-wrapper');
-    const filters = document.getElementsByClassName('filter-menu') as HTMLCollectionOf<HTMLElement>;
-    setTimeout(() => {
-      filters[0].style.setProperty('--filters-height', `${qanTable.offsetHeight}px`);
-      gridContentWrapper.style.setProperty('--grid-content-wrapper', `${qanTable.offsetHeight}px`)
-    }, 0);
   }
 
   /**
@@ -286,10 +274,5 @@ export class QueryProfileComponent extends CoreComponent implements OnInit {
 
   toggleQueryDetails(isQueryDetails = true) {
     this.isQueryDetails = isQueryDetails;
-  }
-
-  viewState(menuName) {
-    this.isFilterMenu = menuName === 'filter-menu';
-    this.isEditColumnMenu = !this.isFilterMenu;
   }
 }

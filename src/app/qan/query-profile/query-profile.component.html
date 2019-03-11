@@ -15,31 +15,29 @@
     <app-qan-search class="pmm-qan__search"></app-qan-search>
     <app-qan-filter class="pmm-qan__filter"></app-qan-filter>
     <div class="pmm-qan__table">
+      <ng-select [searchable]="false"
+                 [items]="queryTypes"
+                 [clearable]="false"
+                 bindLabel="name"
+                 #column
+                 bindValue="name"
+                 class="pmm-select pmm-select--column">
+        <ng-template ng-header-tmp>
+          <input (input)="column.filter($event.target.value)" class="input-field" placeholder="Type to search">
+          <button><img src="assets/search.svg" alt="search"></button>
+        </ng-template>
+        <ng-template ng-footer-tmp>
+          <button>Remove this column</button>
+        </ng-template>
+      </ng-select>
       <table *ngIf="!isQuerySwitching" class=" pmm-grid-table" id="qanTable">
         <tr class="pmm-grid-table__row">
           <th class="pmm-grid-table__cell">#</th>
           <th class="pmm-grid-table__cell pmm-grid-table__cell--full">
-            <!--<ng-select-->
-            <!--[(ngModel)]="selectedQueryType"-->
-            <!--[items]="queryTypes"-->
-            <!--[disabled]="!queryTypes.length"-->
-            <!--(change)="onQueryTypeChanges(selectedQueryType)"-->
-            <!--class="pmm-select pmm-select&#45;&#45;table pmm-select&#45;&#45;auto-width"-->
-            <!--role="combobox">-->
-            <!--</ng-select>-->
           </th>
-          <th *ngIf="selectedColumn && isQueryCol" class="pmm-grid-table__cell">
-            <!--<ng-select-->
-            <!--[(ngModel)]="selectedColumn"-->
-            <!--[items]="columnsConfig"-->
-            <!--[disabled]="!columnsConfig.length"-->
-            <!--(change)="onColumnConfigChanges(selectedColumn)"-->
-            <!--class="pmm-select pmm-select&#45;&#45;table"-->
-            <!--bindLabel="name"-->
-            <!--role="combobox">-->
-            <!--</ng-select>-->
+          <th class="pmm-grid-table__cell">
           </th>
-          <th *ngIf="selectedColumn && isRowsScannedCol" class="pmm-grid-table__cell">
+          <th class="pmm-grid-table__cell">
             <div class="cell__content--max">Rows Scanned</div>
           </th>
         </tr>
@@ -116,18 +114,9 @@
         </tr>
       </table>
 
-      <!--<div class="center-children">-->
-      <!--<button *ngIf="totalAmountOfQueries && !isLoading"-->
-      <!--(click)="loadMoreQueries()"-->
-      <!--[disabled]="leftInDbQueries === 0"-->
-      <!--class="button button&#45;&#45;dark button&#45;&#45;big">-->
-      <!--{{quantityDbQueriesMessage}}-->
-      <!--</button>-->
-      <!--<div *ngIf="isLoading || isQuerySwitching" class="spinner-wrapper">-->
-      <!--<i class="fa fa-spinner fa-pulse fa-fw fa-40"></i>-->
-      <!--</div>-->
-      <!--</div>-->
+      <div class="pmm-table">
 
+      </div>
       <router-outlet></router-outlet>
     </div>
 
