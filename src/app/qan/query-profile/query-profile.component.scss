@@ -24,3 +24,20 @@
   grid-template-rows: var(--qan-search-height);
   width: 100%;
 }
+
+.pmm-qan {
+  display: grid;
+  grid-template-areas: 'search search' 'filter table';
+}
+
+.pmm-qan__search {
+  grid-area: search;
+}
+
+.pmm-qan__filter {
+
+}
+
+.pmm-qan__table {
+  grid-area: table;
+}

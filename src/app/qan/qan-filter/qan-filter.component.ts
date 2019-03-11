@@ -13,10 +13,7 @@ import {QanFilterModel} from '../../core/models/qan-fliter.model';
 export class QanFilterComponent implements OnInit, OnDestroy, OnChanges {
 
   @ViewChild('tabs') tabs: NgbTabset;
-  @Input() isFilterMenuDisplays: boolean;
-  @Output() filterMenuToggle = new EventEmitter();
 
-  public isFilterMenu = false;
   public isEmptySearch = false;
   public limits = {};
   public filtersSearchedValues = [];
@@ -37,7 +34,7 @@ export class QanFilterComponent implements OnInit, OnDestroy, OnChanges {
         this.selected = [...this.selected, ...group.values.filter((value: any) => value.state)];
       });
       this.groupSelected();
-      if (!this.selected.length && this.isFilterMenu) {
+      if (!this.selected.length) {
         this.tabs.select('filters-tab')
       }
     });
@@ -51,7 +48,6 @@ export class QanFilterComponent implements OnInit, OnDestroy, OnChanges {
   }
 
   ngOnChanges() {
-    this.isFilterMenu = this.isFilterMenuDisplays;
   }
 
   ngOnDestroy() {
@@ -59,8 +55,6 @@ export class QanFilterComponent implements OnInit, OnDestroy, OnChanges {
   }
 
   toggleMenu() {
-    this.isFilterMenu = !this.isFilterMenu;
-    this.filterMenuToggle.emit('filter-menu');
     this.setFilterHeight();
   }
 

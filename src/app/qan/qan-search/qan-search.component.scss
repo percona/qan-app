@@ -13,3 +13,13 @@
 .hosts {
   color: var(--color-hosts);
 }
+
+.close-button {
+  --icon-color: rgb(69, 70, 71);
+
+  margin-left: 5px;
+  font-size: 18px;
+  color: var(--icon-color);
+  border: none;
+  background: transparent;
+}
