@@ -127,7 +127,7 @@
       <!--</div>-->
       <!--</div>-->
       <div class="sticky-wrapper">
-        <div class="pmm-table">
+        <div class="pmm-table" #qanTable>
           <div class="pmm-table__cell pmm-table__cell--title pmm-table__cell--first-c pmm-table__cell--sticky">#</div>
           <div class="pmm-table__cell pmm-table__cell--title pmm-table__cell--second-c pmm-table__cell--sticky"></div>
           <div class="pmm-table__cell pmm-table__cell--title">Rows Scanned</div>
@@ -148,12 +148,12 @@
                  [queryParams]="composeQueryParamsForGrid(row.Id)"
                  [class.pmm-table__cell--first-seen]="checkFirstSeen(row)"
                  routerLinkActive="pmm-table__cell--active"
-                 class="pmm-table__cell pmm-table__cell--first-c pmm-table__cell--sticky">{{i || ''}}</div>
+                 class="pmm-table__cell pmm-table__cell--first-c pmm-table__cell--sticky pmm-table__cell--content">{{i || ''}}</div>
             <div [routerLink]="['./', 'report', dbServer.Subsystem]"
                  [queryParams]="composeQueryParamsForGrid(row.Id)"
                  [class.pmm-table__cell--first-seen]="checkFirstSeen(row)"
                  routerLinkActive="pmm-table__cell--active"
-                 class="pmm-table__cell pmm-table__cell--second-c pmm-table__cell--sticky">
+                 class="pmm-table__cell pmm-table__cell--second-c pmm-table__cell--sticky pmm-table__cell--content">
               <div class="overlay-container">
                 <span class="overlay-container__item">{{ row.Rank ? (row.Abstract || 'Low Ranking Queries') : 'TOTAL' }}</span>
               </div>
@@ -162,84 +162,84 @@
                  [queryParams]="composeQueryParamsForGrid(row.Id)"
                  [class.pmm-table__cell--first-seen]="checkFirstSeen(row)"
                  routerLinkActive="pmm-table__cell--active"
-                 class="pmm-table__cell">
+                 class="pmm-table__cell pmm-table__cell--content">
               Lorem ipsum dolor sit amet.
             </div>
             <div [routerLink]="['./', 'report', dbServer.Subsystem]"
                  [queryParams]="composeQueryParamsForGrid(row.Id)"
                  [class.pmm-table__cell--first-seen]="checkFirstSeen(row)"
                  routerLinkActive="pmm-table__cell--active"
-                 class="pmm-table__cell">
+                 class="pmm-table__cell pmm-table__cell--content">
               Lorem ipsum dolor sit amet.
             </div>
             <div [routerLink]="['./', 'report', dbServer.Subsystem]"
                  [queryParams]="composeQueryParamsForGrid(row.Id)"
                  [class.pmm-table__cell--first-seen]="checkFirstSeen(row)"
                  routerLinkActive="pmm-table__cell--active"
-                 class="pmm-table__cell">
+                 class="pmm-table__cell pmm-table__cell--content">
               Lorem ipsum dolor sit amet.
             </div>
             <div [routerLink]="['./', 'report', dbServer.Subsystem]"
                  [queryParams]="composeQueryParamsForGrid(row.Id)"
                  [class.pmm-table__cell--first-seen]="checkFirstSeen(row)"
                  routerLinkActive="pmm-table__cell--active"
-                 class="pmm-table__cell">
+                 class="pmm-table__cell pmm-table__cell--content">
               Lorem ipsum dolor sit amet.
             </div>
             <div [routerLink]="['./', 'report', dbServer.Subsystem]"
                  [queryParams]="composeQueryParamsForGrid(row.Id)"
                  [class.pmm-table__cell--first-seen]="checkFirstSeen(row)"
                  routerLinkActive="pmm-table__cell--active"
-                 class="pmm-table__cell">
+                 class="pmm-table__cell pmm-table__cell--content">
               Lorem ipsum dolor sit amet.
             </div>
             <div [routerLink]="['./', 'report', dbServer.Subsystem]"
                  [queryParams]="composeQueryParamsForGrid(row.Id)"
                  [class.pmm-table__cell--first-seen]="checkFirstSeen(row)"
                  routerLinkActive="pmm-table__cell--active"
-                 class="pmm-table__cell">
+                 class="pmm-table__cell pmm-table__cell--content">
               Lorem ipsum dolor sit amet.
             </div>
             <div [routerLink]="['./', 'report', dbServer.Subsystem]"
                  [queryParams]="composeQueryParamsForGrid(row.Id)"
                  [class.pmm-table__cell--first-seen]="checkFirstSeen(row)"
                  routerLinkActive="pmm-table__cell--active"
-                 class="pmm-table__cell">
+                 class="pmm-table__cell pmm-table__cell--content">
               Lorem ipsum dolor sit amet.
             </div>
             <div [routerLink]="['./', 'report', dbServer.Subsystem]"
                  [queryParams]="composeQueryParamsForGrid(row.Id)"
                  [class.pmm-table__cell--first-seen]="checkFirstSeen(row)"
                  routerLinkActive="pmm-table__cell--active"
-                 class="pmm-table__cell">
+                 class="pmm-table__cell pmm-table__cell--content">
               Lorem ipsum dolor sit amet.
             </div>
             <div [routerLink]="['./', 'report', dbServer.Subsystem]"
                  [queryParams]="composeQueryParamsForGrid(row.Id)"
                  [class.pmm-table__cell--first-seen]="checkFirstSeen(row)"
                  routerLinkActive="pmm-table__cell--active"
-                 class="pmm-table__cell">
+                 class="pmm-table__cell pmm-table__cell--content">
               Lorem ipsum dolor sit amet.
             </div>
             <div [routerLink]="['./', 'report', dbServer.Subsystem]"
                  [queryParams]="composeQueryParamsForGrid(row.Id)"
                  [class.pmm-table__cell--first-seen]="checkFirstSeen(row)"
                  routerLinkActive="pmm-table__cell--active"
-                 class="pmm-table__cell">
+                 class="pmm-table__cell pmm-table__cell--content">
               Lorem ipsum dolor sit amet.
             </div>
             <div [routerLink]="['./', 'report', dbServer.Subsystem]"
                  [queryParams]="composeQueryParamsForGrid(row.Id)"
                  [class.pmm-table__cell--first-seen]="checkFirstSeen(row)"
                  routerLinkActive="pmm-table__cell--active"
-                 class="pmm-table__cell">
+                 class="pmm-table__cell pmm-table__cell--content">
               Lorem ipsum dolor sit amet.
             </div>
             <div [routerLink]="['./', 'report', dbServer.Subsystem]"
                  [queryParams]="composeQueryParamsForGrid(row.Id)"
                  [class.pmm-table__cell--first-seen]="checkFirstSeen(row)"
                  routerLinkActive="pmm-table__cell--active"
-                 class="pmm-table__cell">
+                 class="pmm-table__cell pmm-table__cell--content">
               Lorem ipsum dolor sit amet.
             </div>
           </ng-container>
@@ -249,7 +249,7 @@
       <router-outlet></router-outlet>
     </div>
     <div class="btn-column-wrapper">
-      <button class="pmm-qan__add-column-btn">
+      <button (click)="addColumn()" class="pmm-qan__add-column-btn">
         <i class="fa fa-plus-circle" aria-hidden="true"></i>
       </button>
     </div>

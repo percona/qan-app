@@ -1,5 +1,5 @@
 import {CoreComponent, QueryParams, QanError} from '../../core/core.component';
-import {Component, OnInit} from '@angular/core';
+import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
 import {InstanceService} from '../../core/services/instance.service';
 import {QueryProfileService} from './query-profile.service';
 import {Router, ActivatedRoute} from '@angular/router';
@@ -13,6 +13,7 @@ const queryProfileError = 'No data. Please check pmm-client and database configu
   styleUrls: ['./query-profile.component.scss'],
 })
 export class QueryProfileComponent extends CoreComponent implements OnInit {
+  @ViewChild('qanTable') table: ElementRef;
 
   public queryProfile: Array<{}>;
   public profileTotal;
@@ -66,6 +67,15 @@ export class QueryProfileComponent extends CoreComponent implements OnInit {
   navigateToDetails(subsystem, id) {
     const params = this.composeQueryParamsForGrid(id);
     this.router.navigate(['./', 'report', subsystem], {queryParams: params, relativeTo: this.route})
+  }
+
+  addColumn() {
+    // const columnQuantity = getComputedStyle(this.table.nativeElement).getPropertyValue('--column-quantity');
+    // this.table.nativeElement.style.setProperty('--column-quantity', `${+columnQuantity + 1}`);
+    const titleColumns = this.table.nativeElement.querySelectorAll('.pmm-table__cell--title');
+    const contentColumns = this.table.nativeElement.querySelectorAll('.pmm-table__cell--content');
+    console.log('titleColumns - ', titleColumns);
+    console.log('contentColumns - ', contentColumns);
   }
 
   /**
