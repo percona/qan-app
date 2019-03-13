@@ -57,21 +57,7 @@ export class QueryProfileComponent extends CoreComponent implements OnInit {
               private configService: QanEditColumnService,
               private filterSearchService: FilterSearchService) {
     super(route, router, instanceService);
-    this.configService.source.subscribe(items => {
-      if (!items.length) {
-        return;
-      }
 
-      this.columnsConfig = items.filter((config: any) => !!config.checked);
-      const firstElement = this.columnsConfig.length ? this.columnsConfig[0] : this.defaultSelectedColumn;
-      this.selectedColumn = this.columnsConfig.find(item => item.name === this.selectedColumn.name) ? this.selectedColumn : firstElement;
-      if (this.selectedColumn && this.selectedColumn.name) {
-        this.onColumnConfigChanges(this.selectedColumn);
-      } else {
-        this.isQueryCol = false;
-        this.isRowsScannedCol = false;
-      }
-    });
   }
 
   ngOnInit() {}
@@ -95,6 +81,11 @@ export class QueryProfileComponent extends CoreComponent implements OnInit {
       this.previousQueryParams.tz !== this.queryParams.tz) {
       this.loadQueries();
     }
+  }
+
+  navigateToDetails(subsystem, id) {
+    const params = this.composeQueryParamsForGrid(id);
+    this.router.navigate(['./', 'report', subsystem], {queryParams: params, relativeTo: this.route})
   }
 
   /**
@@ -221,58 +212,58 @@ export class QueryProfileComponent extends CoreComponent implements OnInit {
     this.isQuerySwitching = false;
   }
 
-  /**
-   * Set selected config parameters when column type changes
-   * @param selected - checked column-type
-   */
-  onColumnConfigChanges(selectedColumn) {
-    if (!selectedColumn) {
-      this.selectedColumn = selectedColumn = this.columnsConfig.length ? this.previousColumn : this.defaultSelectedColumn;
-    }
-    this.selectedColumnConfig = {};
-    selectedColumn.columns.forEach(column =>
-      this.selectedColumnConfig[this.filterSearchService.transformForSearch(column.name)] = column.value);
-    this.currentColumn = selectedColumn.name;
-    this.setCurrentSparkline(selectedColumn.name, this.selectedColumnConfig);
-    this.previousColumn = this.selectedColumn;
-  }
+  // /**
+  //  * Set selected config parameters when column type changes
+  //  * @param selected - checked column-type
+  //  */
+  // onColumnConfigChanges(selectedColumn) {
+  //   if (!selectedColumn) {
+  //     this.selectedColumn = selectedColumn = this.columnsConfig.length ? this.previousColumn : this.defaultSelectedColumn;
+  //   }
+  //   this.selectedColumnConfig = {};
+  //   selectedColumn.columns.forEach(column =>
+  //     this.selectedColumnConfig[this.filterSearchService.transformForSearch(column.name)] = column.value);
+  //   this.currentColumn = selectedColumn.name;
+  //   // this.setCurrentSparkline(selectedColumn.name, this.selectedColumnConfig);
+  //   this.previousColumn = this.selectedColumn;
+  // }
 
-  onQueryTypeChanges(selectedQueryType) {
-    if (!selectedQueryType) {
-      this.selectedQueryType = this.previousQueryType;
-    }
-    this.previousQueryType = this.selectedQueryType;
-  }
+  // onQueryTypeChanges(selectedQueryType) {
+  //   if (!selectedQueryType) {
+  //     this.selectedQueryType = this.previousQueryType;
+  //   }
+  //   this.previousQueryType = this.selectedQueryType;
+  // }
 
   /**
    * Set sparkline type and display column for config parameters
    * @param name - checked column-type name
    * @param config - checked config parameters
    */
-  setCurrentSparkline(name: string, config) {
-    switch (name) {
-      case 'Load':
-        this.isQueryCol = config.sparkline || config.value;
-        this.isRowsScannedCol = config.percentage;
-        this.yKey = 'Query_load';
-        this.measurement = 'number';
-        break;
-      case 'Count':
-        this.isQueryCol = config.sparkline || config.queriespersecond;
-        this.isRowsScannedCol = config.value || config.percentage;
-        this.yKey = 'Query_count';
-        this.measurement = 'number';
-        break;
-      case 'Avg Latency':
-        this.isQueryCol = config.sparkline || config.value;
-        this.isRowsScannedCol = config.distribution;
-        this.yKey = 'Query_time_avg';
-        this.measurement = 'time';
-        break;
-    }
-  }
+  // setCurrentSparkline(name: string, config) {
+  //   switch (name) {
+  //     case 'Load':
+  //       this.isQueryCol = config.sparkline || config.value;
+  //       this.isRowsScannedCol = config.percentage;
+  //       this.yKey = 'Query_load';
+  //       this.measurement = 'number';
+  //       break;
+  //     case 'Count':
+  //       this.isQueryCol = config.sparkline || config.queriespersecond;
+  //       this.isRowsScannedCol = config.value || config.percentage;
+  //       this.yKey = 'Query_count';
+  //       this.measurement = 'number';
+  //       break;
+  //     case 'Avg Latency':
+  //       this.isQueryCol = config.sparkline || config.value;
+  //       this.isRowsScannedCol = config.distribution;
+  //       this.yKey = 'Query_time_avg';
+  //       this.measurement = 'time';
+  //       break;
+  //   }
+  // }
 
-  toggleQueryDetails(isQueryDetails = true) {
-    this.isQueryDetails = isQueryDetails;
-  }
+  // toggleQueryDetails(isQueryDetails = true) {
+  //   this.isQueryDetails = isQueryDetails;
+  // }
 }

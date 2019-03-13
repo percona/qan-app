@@ -32,7 +32,7 @@
   cursor: auto;
 }
 
-  .pmm-grid-table__row:focus {
+.pmm-grid-table__row:focus {
   outline: none;
 }
 
@@ -51,10 +51,6 @@
 
 .pmm-grid-table__cell {
   padding: 0 10px;
-}
-
-.pmm-grid-table__cell--full {
-  width: 100%;
 }
 
 .pmm-grid-table__details-button {
@@ -78,4 +74,35 @@
 
 .cell__content--max {
   width: max-content;
+}
+
+.pmm-grid-table__table {
+  table-layout: fixed;
+  width: 100%;
+}
+
+.table-wrapper--outer {
+  position: relative;
+}
+
+.table-wrapper--inner {
+  overflow-x: scroll;
+  overflow-y: visible;
+  width: inherit;
+  margin-left: 200px;
+}
+
+.pmm-grid-table__cell--fixed {
+  position: absolute;
+  left: 0;
+  width: 100px;
+}
+
+.pmm-grid-table__cell--main {
+  left: 100px;
+}
+
+.pmm-table {
+  display: grid;
+  grid-template-columns: auto 200px ;
 }

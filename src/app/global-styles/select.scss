@@ -237,6 +237,13 @@
     }
   }
 
+  &.pmm-select--column-main {
+    .ng-dropdown-panel {
+      width: auto;
+      min-width: inherit;
+    }
+  }
+
   // END SELECT IN EDITABLE QAN COLUMNS
 
   .ng-dropdown-panel {
