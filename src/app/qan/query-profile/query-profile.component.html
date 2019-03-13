@@ -37,95 +37,95 @@
       <!--bindValue="name"-->
       <!--class="pmm-select pmm-select&#45;&#45;column pmm-select&#45;&#45;column-main">-->
       <!--</ng-select>-->
-      <div class="table-wrapper--outer">
-        <div class="table-wrapper--inner">
-          <!--<table *ngIf="!isQuerySwitching" class="pmm-grid-table" id="qanTable">-->
-          <!--<tr class="pmm-grid-table__row">-->
-          <!--<th class="pmm-grid-table__cell pmm-grid-table__cell&#45;&#45;fixed">#</th>-->
-          <!--<th class="pmm-grid-table__cell pmm-grid-table__cell&#45;&#45;fixed pmm-grid-table__cell&#45;&#45;main">-->
-          <!--</th>-->
-          <!--<th class="pmm-grid-table__cell">-->
-          <!--Rows Scanned-->
-          <!--</th>-->
-          <!--<th class="pmm-grid-table__cell">-->
-          <!--<div class="cell__content&#45;&#45;max">Rows Scanned</div>-->
-          <!--</th>-->
-          <!--</tr>-->
-          <!--<tr *ngFor="let row of queryProfile; let i = index;"-->
-          <!--[routerLink]="['./', 'report', dbServer.Subsystem]"-->
-          <!--[queryParams]="composeQueryParamsForGrid(row.Id)" routerLinkActive="pmm-grid-table__row&#45;&#45;active"-->
-          <!--[class.pmm-grid-table__row&#45;&#45;first-seen]="checkFirstSeen(row)"-->
-          <!--class="pmm-grid-table__row">-->
-          <!--<td class="pmm-grid-table__cell pmm-grid-table__cell&#45;&#45;fixed">-->
-          <!--{{i || ''}}-->
-          <!--</td>-->
-          <!--<td class="pmm-grid-table__cell pmm-grid-table__cell&#45;&#45;fixed pmm-grid-table__cell&#45;&#45;main">-->
-          <!--<div>-->
-          <!--<button class="pmm-grid-table__details-button">-->
-          <!--{{ row.Rank ? (row.Abstract || 'Low Ranking Queries') : 'TOTAL' }}-->
-          <!--</button>-->
-          <!--</div>-->
-          <!--</td>-->
-          <!--<td class="pmm-grid-table__cell">-->
-          <!--&lt;!&ndash;<div [ngSwitch]="currentColumn" class="pmm-grid-table__sub-table">&ndash;&gt;-->
-          <!--&lt;!&ndash;<div *ngIf="selectedColumnConfig?.sparkline" class="scaling-svg-container app-tooltip"&ndash;&gt;-->
-          <!--&lt;!&ndash;[appLoadSparklines]="row.Log"&ndash;&gt;-->
-          <!--&lt;!&ndash;data-tooltip="Loading..."&ndash;&gt;-->
-          <!--&lt;!&ndash;xkey="Start_ts" ykey="{{yKey}}"&ndash;&gt;-->
-          <!--&lt;!&ndash;measurement="{{measurement}}"&ndash;&gt;-->
-          <!--&lt;!&ndash;id="sparkline">&ndash;&gt;-->
-          <!--&lt;!&ndash;</div>&ndash;&gt;-->
-          <!--&lt;!&ndash;<ng-container *ngSwitchCase="'Load'">&ndash;&gt;-->
-          <!--&lt;!&ndash;<span *ngIf="selectedColumnConfig?.value">&ndash;&gt;-->
-          <!--&lt;!&ndash;{{ row.Load | humanize : 'number' }}&ndash;&gt;-->
-          <!--&lt;!&ndash;</span>&ndash;&gt;-->
-          <!--&lt;!&ndash;</ng-container>&ndash;&gt;-->
+      <!--<div class="table-wrapper&#45;&#45;outer">-->
+      <!--<div class="table-wrapper&#45;&#45;inner">-->
+      <!--<table *ngIf="!isQuerySwitching" class="pmm-grid-table" id="qanTable">-->
+      <!--<tr class="pmm-grid-table__row">-->
+      <!--<th class="pmm-grid-table__cell pmm-grid-table__cell&#45;&#45;fixed">#</th>-->
+      <!--<th class="pmm-grid-table__cell pmm-grid-table__cell&#45;&#45;fixed pmm-grid-table__cell&#45;&#45;main">-->
+      <!--</th>-->
+      <!--<th class="pmm-grid-table__cell">-->
+      <!--Rows Scanned-->
+      <!--</th>-->
+      <!--<th class="pmm-grid-table__cell">-->
+      <!--<div class="cell__content&#45;&#45;max">Rows Scanned</div>-->
+      <!--</th>-->
+      <!--</tr>-->
+      <!--<tr *ngFor="let row of queryProfile; let i = index;"-->
+      <!--[routerLink]="['./', 'report', dbServer.Subsystem]"-->
+      <!--[queryParams]="composeQueryParamsForGrid(row.Id)" routerLinkActive="pmm-grid-table__row&#45;&#45;active"-->
+      <!--[class.pmm-grid-table__row&#45;&#45;first-seen]="checkFirstSeen(row)"-->
+      <!--class="pmm-grid-table__row">-->
+      <!--<td class="pmm-grid-table__cell pmm-grid-table__cell&#45;&#45;fixed">-->
+      <!--{{i || ''}}-->
+      <!--</td>-->
+      <!--<td class="pmm-grid-table__cell pmm-grid-table__cell&#45;&#45;fixed pmm-grid-table__cell&#45;&#45;main">-->
+      <!--<div>-->
+      <!--<button class="pmm-grid-table__details-button">-->
+      <!--{{ row.Rank ? (row.Abstract || 'Low Ranking Queries') : 'TOTAL' }}-->
+      <!--</button>-->
+      <!--</div>-->
+      <!--</td>-->
+      <!--<td class="pmm-grid-table__cell">-->
+      <!--&lt;!&ndash;<div [ngSwitch]="currentColumn" class="pmm-grid-table__sub-table">&ndash;&gt;-->
+      <!--&lt;!&ndash;<div *ngIf="selectedColumnConfig?.sparkline" class="scaling-svg-container app-tooltip"&ndash;&gt;-->
+      <!--&lt;!&ndash;[appLoadSparklines]="row.Log"&ndash;&gt;-->
+      <!--&lt;!&ndash;data-tooltip="Loading..."&ndash;&gt;-->
+      <!--&lt;!&ndash;xkey="Start_ts" ykey="{{yKey}}"&ndash;&gt;-->
+      <!--&lt;!&ndash;measurement="{{measurement}}"&ndash;&gt;-->
+      <!--&lt;!&ndash;id="sparkline">&ndash;&gt;-->
+      <!--&lt;!&ndash;</div>&ndash;&gt;-->
+      <!--&lt;!&ndash;<ng-container *ngSwitchCase="'Load'">&ndash;&gt;-->
+      <!--&lt;!&ndash;<span *ngIf="selectedColumnConfig?.value">&ndash;&gt;-->
+      <!--&lt;!&ndash;{{ row.Load | humanize : 'number' }}&ndash;&gt;-->
+      <!--&lt;!&ndash;</span>&ndash;&gt;-->
+      <!--&lt;!&ndash;</ng-container>&ndash;&gt;-->
 
-          <!--&lt;!&ndash;<ng-container *ngSwitchCase="'Count'" class="unit unit&#45;&#45;qps" id="countQueriesPerSecond">&ndash;&gt;-->
-          <!--&lt;!&ndash;<span *ngIf="selectedColumnConfig?.queriespersecond">{{row.QPS | humanize : 'number'}}</span>&ndash;&gt;-->
-          <!--&lt;!&ndash;</ng-container>&ndash;&gt;-->
+      <!--&lt;!&ndash;<ng-container *ngSwitchCase="'Count'" class="unit unit&#45;&#45;qps" id="countQueriesPerSecond">&ndash;&gt;-->
+      <!--&lt;!&ndash;<span *ngIf="selectedColumnConfig?.queriespersecond">{{row.QPS | humanize : 'number'}}</span>&ndash;&gt;-->
+      <!--&lt;!&ndash;</ng-container>&ndash;&gt;-->
 
-          <!--&lt;!&ndash;<ng-container *ngSwitchCase="'Avg Latency'">&ndash;&gt;-->
-          <!--&lt;!&ndash;<span *ngIf="selectedColumnConfig?.value">{{ row.Stats.Avg | humanize }}</span>&ndash;&gt;-->
-          <!--&lt;!&ndash;</ng-container>&ndash;&gt;-->
-          <!--&lt;!&ndash;<ng-container *ngSwitchDefault></ng-container>&ndash;&gt;-->
-          <!--&lt;!&ndash;</div>&ndash;&gt;-->
-          <!--daAsADdcs-->
-          <!--</td>-->
-          <!--<td class="pmm-grid-table__cell">-->
-          <!--&lt;!&ndash;<div [ngSwitch]="currentColumn" class="pmm-grid-table__sub-table" id="rowsCanned">&ndash;&gt;-->
-          <!--&lt;!&ndash;<ng-container *ngSwitchCase="'Load'">&ndash;&gt;-->
-          <!--&lt;!&ndash;<span *ngIf="selectedColumnConfig?.percentage">&ndash;&gt;-->
-          <!--&lt;!&ndash;{{row.Percentage | humanize : 'percent'}}&ndash;&gt;-->
-          <!--&lt;!&ndash;</span>&ndash;&gt;-->
-          <!--&lt;!&ndash;</ng-container>&ndash;&gt;-->
+      <!--&lt;!&ndash;<ng-container *ngSwitchCase="'Avg Latency'">&ndash;&gt;-->
+      <!--&lt;!&ndash;<span *ngIf="selectedColumnConfig?.value">{{ row.Stats.Avg | humanize }}</span>&ndash;&gt;-->
+      <!--&lt;!&ndash;</ng-container>&ndash;&gt;-->
+      <!--&lt;!&ndash;<ng-container *ngSwitchDefault></ng-container>&ndash;&gt;-->
+      <!--&lt;!&ndash;</div>&ndash;&gt;-->
+      <!--daAsADdcs-->
+      <!--</td>-->
+      <!--<td class="pmm-grid-table__cell">-->
+      <!--&lt;!&ndash;<div [ngSwitch]="currentColumn" class="pmm-grid-table__sub-table" id="rowsCanned">&ndash;&gt;-->
+      <!--&lt;!&ndash;<ng-container *ngSwitchCase="'Load'">&ndash;&gt;-->
+      <!--&lt;!&ndash;<span *ngIf="selectedColumnConfig?.percentage">&ndash;&gt;-->
+      <!--&lt;!&ndash;{{row.Percentage | humanize : 'percent'}}&ndash;&gt;-->
+      <!--&lt;!&ndash;</span>&ndash;&gt;-->
+      <!--&lt;!&ndash;</ng-container>&ndash;&gt;-->
 
-          <!--&lt;!&ndash;<ng-container *ngSwitchCase="'Count'" id="countValue">&ndash;&gt;-->
-          <!--&lt;!&ndash;<span *ngIf="selectedColumnConfig?.value">{{row.Stats.Cnt | humanize : 'number'}}</span>&ndash;&gt;-->
-          <!--&lt;!&ndash;</ng-container>&ndash;&gt;-->
+      <!--&lt;!&ndash;<ng-container *ngSwitchCase="'Count'" id="countValue">&ndash;&gt;-->
+      <!--&lt;!&ndash;<span *ngIf="selectedColumnConfig?.value">{{row.Stats.Cnt | humanize : 'number'}}</span>&ndash;&gt;-->
+      <!--&lt;!&ndash;</ng-container>&ndash;&gt;-->
 
-          <!--&lt;!&ndash;<ng-container *ngSwitchCase="'Count'" class="unit unit&#45;&#45;percent" id="countPercentage">&ndash;&gt;-->
-          <!--&lt;!&ndash;<span *ngIf="selectedColumnConfig?.percentage">{{(row.Stats.Cnt / profileTotal?.Stats.Cnt * 100).toFixed(2)}}</span>&ndash;&gt;-->
-          <!--&lt;!&ndash;</ng-container>&ndash;&gt;-->
+      <!--&lt;!&ndash;<ng-container *ngSwitchCase="'Count'" class="unit unit&#45;&#45;percent" id="countPercentage">&ndash;&gt;-->
+      <!--&lt;!&ndash;<span *ngIf="selectedColumnConfig?.percentage">{{(row.Stats.Cnt / profileTotal?.Stats.Cnt * 100).toFixed(2)}}</span>&ndash;&gt;-->
+      <!--&lt;!&ndash;</ng-container>&ndash;&gt;-->
 
-          <!--&lt;!&ndash;<ng-container *ngSwitchCase="'Avg Latency'">&ndash;&gt;-->
-          <!--&lt;!&ndash;<div *ngIf="selectedColumnConfig?.distribution"&ndash;&gt;-->
-          <!--&lt;!&ndash;[appLatencyChart]="row.Stats"&ndash;&gt;-->
-          <!--&lt;!&ndash;class="scaling-svg-container scaling-svg-container&#45;&#45;full-width app-tooltip"&ndash;&gt;-->
-          <!--&lt;!&ndash;data-tooltip="Loading..."&ndash;&gt;-->
-          <!--&lt;!&ndash;measurement="time"&ndash;&gt;-->
-          <!--&lt;!&ndash;id="latencyDistribution">&ndash;&gt;-->
-          <!--&lt;!&ndash;</div>&ndash;&gt;-->
-          <!--&lt;!&ndash;</ng-container>&ndash;&gt;-->
+      <!--&lt;!&ndash;<ng-container *ngSwitchCase="'Avg Latency'">&ndash;&gt;-->
+      <!--&lt;!&ndash;<div *ngIf="selectedColumnConfig?.distribution"&ndash;&gt;-->
+      <!--&lt;!&ndash;[appLatencyChart]="row.Stats"&ndash;&gt;-->
+      <!--&lt;!&ndash;class="scaling-svg-container scaling-svg-container&#45;&#45;full-width app-tooltip"&ndash;&gt;-->
+      <!--&lt;!&ndash;data-tooltip="Loading..."&ndash;&gt;-->
+      <!--&lt;!&ndash;measurement="time"&ndash;&gt;-->
+      <!--&lt;!&ndash;id="latencyDistribution">&ndash;&gt;-->
+      <!--&lt;!&ndash;</div>&ndash;&gt;-->
+      <!--&lt;!&ndash;</ng-container>&ndash;&gt;-->
 
-          <!--&lt;!&ndash;<ng-container *ngSwitchDefault></ng-container>&ndash;&gt;-->
-          <!--&lt;!&ndash;</div>&ndash;&gt;-->
-          <!--asxafcewwwdas-->
-          <!--</td>-->
-          <!--</tr>-->
-          <!--</table>-->
-        </div>
-      </div>
+      <!--&lt;!&ndash;<ng-container *ngSwitchDefault></ng-container>&ndash;&gt;-->
+      <!--&lt;!&ndash;</div>&ndash;&gt;-->
+      <!--asxafcewwwdas-->
+      <!--</td>-->
+      <!--</tr>-->
+      <!--</table>-->
+      <!--</div>-->
+      <!--</div>-->
       <div class="sticky-wrapper">
         <div class="pmm-table">
           <div class="pmm-table__cell pmm-table__cell--title pmm-table__cell--first-c pmm-table__cell--sticky">#</div>
@@ -245,7 +245,13 @@
           </ng-container>
         </div>
       </div>
+      <input type="text" id="search-input">
       <router-outlet></router-outlet>
+    </div>
+    <div class="btn-column-wrapper">
+      <button class="pmm-qan__add-column-btn">
+        <i class="fa fa-plus-circle" aria-hidden="true"></i>
+      </button>
     </div>
 
     <div *ngIf="!!noQueryError" class="text-center alert alert-danger w-75 mx-auto wrong-configuration-message" role="alert">

@@ -4,8 +4,6 @@ import {InstanceService} from '../../core/services/instance.service';
 import {QueryProfileService} from './query-profile.service';
 import {Router, ActivatedRoute} from '@angular/router';
 import * as moment from 'moment';
-import {FilterSearchService} from '../../core/services/filter-search.service';
-import {QanEditColumnService} from '../qan-edit-column/qan-edit-column.service';
 
 const queryProfileError = 'No data. Please check pmm-client and database configurations on selected instance.';
 
@@ -30,32 +28,14 @@ export class QueryProfileComponent extends CoreComponent implements OnInit {
   public noQueryError: string;
   public isFirstSeen: boolean;
   public isFirstSeenChecked = false;
-  public isQueryDetails = false;
   public testingVariable: boolean;
   public isSearchQuery = false;
-  public isQueryCol = true;
-  public isRowsScannedCol = true;
-
-  public defaultSelectedColumn = {name: '', columns: []};
-  public selectedColumn = this.defaultSelectedColumn;
-  public previousColumn = this.selectedColumn;
-  public columnsConfig: any;
-  public selectedColumnConfig = {};
-
-  queryTypes = ['Query', 'Server', 'Host'];
-  selectedQueryType = this.queryTypes[0];
-  previousQueryType = this.selectedQueryType;
-
-  public currentColumn: string;
-  public yKey: string;
   public measurement: string;
 
   constructor(protected route: ActivatedRoute,
               protected router: Router,
               protected instanceService: InstanceService,
-              public queryProfileService: QueryProfileService,
-              private configService: QanEditColumnService,
-              private filterSearchService: FilterSearchService) {
+              public queryProfileService: QueryProfileService) {
     super(route, router, instanceService);
 
   }
@@ -211,59 +191,4 @@ export class QueryProfileComponent extends CoreComponent implements OnInit {
     this.router.navigate(['profile'], {queryParams: params});
     this.isQuerySwitching = false;
   }
-
-  // /**
-  //  * Set selected config parameters when column type changes
-  //  * @param selected - checked column-type
-  //  */
-  // onColumnConfigChanges(selectedColumn) {
-  //   if (!selectedColumn) {
-  //     this.selectedColumn = selectedColumn = this.columnsConfig.length ? this.previousColumn : this.defaultSelectedColumn;
-  //   }
-  //   this.selectedColumnConfig = {};
-  //   selectedColumn.columns.forEach(column =>
-  //     this.selectedColumnConfig[this.filterSearchService.transformForSearch(column.name)] = column.value);
-  //   this.currentColumn = selectedColumn.name;
-  //   // this.setCurrentSparkline(selectedColumn.name, this.selectedColumnConfig);
-  //   this.previousColumn = this.selectedColumn;
-  // }
-
-  // onQueryTypeChanges(selectedQueryType) {
-  //   if (!selectedQueryType) {
-  //     this.selectedQueryType = this.previousQueryType;
-  //   }
-  //   this.previousQueryType = this.selectedQueryType;
-  // }
-
-  /**
-   * Set sparkline type and display column for config parameters
-   * @param name - checked column-type name
-   * @param config - checked config parameters
-   */
-  // setCurrentSparkline(name: string, config) {
-  //   switch (name) {
-  //     case 'Load':
-  //       this.isQueryCol = config.sparkline || config.value;
-  //       this.isRowsScannedCol = config.percentage;
-  //       this.yKey = 'Query_load';
-  //       this.measurement = 'number';
-  //       break;
-  //     case 'Count':
-  //       this.isQueryCol = config.sparkline || config.queriespersecond;
-  //       this.isRowsScannedCol = config.value || config.percentage;
-  //       this.yKey = 'Query_count';
-  //       this.measurement = 'number';
-  //       break;
-  //     case 'Avg Latency':
-  //       this.isQueryCol = config.sparkline || config.value;
-  //       this.isRowsScannedCol = config.distribution;
-  //       this.yKey = 'Query_time_avg';
-  //       this.measurement = 'time';
-  //       break;
-  //   }
-  // }
-
-  // toggleQueryDetails(isQueryDetails = true) {
-  //   this.isQueryDetails = isQueryDetails;
-  // }
 }
