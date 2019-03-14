@@ -4,6 +4,7 @@ import {InstanceService} from '../../core/services/instance.service';
 import {QueryProfileService} from './query-profile.service';
 import {Router, ActivatedRoute} from '@angular/router';
 import * as moment from 'moment';
+import {PerfectScrollbarConfigInterface} from 'ngx-perfect-scrollbar';
 
 const queryProfileError = 'No data. Please check pmm-client and database configurations on selected instance.';
 
@@ -32,6 +33,9 @@ export class QueryProfileComponent extends CoreComponent implements OnInit {
   public testingVariable: boolean;
   public isSearchQuery = false;
   public measurement: string;
+  public scrollbarConfig: PerfectScrollbarConfigInterface = {
+    suppressScrollY: false
+  };
 
   constructor(protected route: ActivatedRoute,
               protected router: Router,
@@ -41,7 +45,8 @@ export class QueryProfileComponent extends CoreComponent implements OnInit {
 
   }
 
-  ngOnInit() {}
+  ngOnInit() {
+  }
 
   /**
    * Load query if params have been changed

@@ -12,20 +12,14 @@
   margin-bottom: var(--main-bottom-indent);
 }
 
-.pmm-grid-table,
-.pmm-grid-table__sub-table {
+.pmm-grid-table {
   width: 100%;
   border-collapse: collapse;
 }
 
-.pmm-grid-table,
-.pmm-grid-table__cell {
-  border: 1px solid var(--main-border-color);
-}
-
 .pmm-grid-table__row {
-  height: 40px;
   cursor: pointer;
+  background-color: var(--page-background);
 }
 
 .pmm-grid-table__row--no-pointer {
@@ -50,7 +44,10 @@
 }
 
 .pmm-grid-table__cell {
-  padding: 0 10px;
+  height: var(--row-heigth);
+  padding: 5px;
+  white-space: nowrap;
+  border-bottom: 1px solid var(--main-border-color);
 }
 
 .pmm-grid-table__details-button {
@@ -83,26 +80,67 @@
 
 .table-wrapper--outer {
   position: relative;
+  border-top: 1px solid var(--main-border-color);
+
+  .right-table-border {
+    position: absolute;
+    right: 0;
+    display: block;
+    width: 1px;
+    height: calc(100% - 20px);
+    background-color: var(--main-border-color);
+  }
 }
 
 .table-wrapper--inner {
-  overflow-x: scroll;
-  overflow-y: visible;
-  width: inherit;
-  margin-left: 200px;
+  --row-heigth: 40px;
+  --first-c-width: 30px;
+  --second-c-width: 250px;
+
+  margin-left: calc(var(--first-c-width) + var(--second-c-width));
 }
 
 .pmm-grid-table__cell--fixed {
   position: absolute;
+  top: 0;
   left: 0;
-  width: 100px;
+  width: 30px;
+  margin-top: 1px;
+  background-color: inherit;
 }
 
-.pmm-grid-table__cell--main {
-  left: 100px;
+.pmm-grid-table__cell--first-c {
+  left: 0;
+  width: var(--first-c-width);
+  border-left: 1px solid var(--main-border-color);
+}
+
+.pmm-grid-table__cell--second-c {
+  left: var(--first-c-width);
+  width: var(--second-c-width);
+  border-left: 1px solid var(--main-border-color);
+  border-right: 1px solid var(--main-border-color);
+}
+
+.pmm-grid-table__cell--second-c ~ .pmm-grid-table__cell {
+  border-left: 1px solid var(--main-border-color);
+}
+
+.pmm-grid-table__cell--second-c + .pmm-grid-table__cell {
+  border-left: none;
 }
 
 .pmm-table {
   display: grid;
   grid-template-columns: auto 200px ;
+}
+
+
+.main-main-wrapper {
+  display: flex;
+  flex-direction: column;
+
+  & > div {
+    margin-bottom: 20px;
+  }
 }

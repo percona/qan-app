@@ -37,216 +37,334 @@
       <!--bindValue="name"-->
       <!--class="pmm-select pmm-select&#45;&#45;column pmm-select&#45;&#45;column-main">-->
       <!--</ng-select>-->
-      <!--<div class="table-wrapper&#45;&#45;outer">-->
-      <!--<div class="table-wrapper&#45;&#45;inner">-->
-      <!--<table *ngIf="!isQuerySwitching" class="pmm-grid-table" id="qanTable">-->
-      <!--<tr class="pmm-grid-table__row">-->
-      <!--<th class="pmm-grid-table__cell pmm-grid-table__cell&#45;&#45;fixed">#</th>-->
-      <!--<th class="pmm-grid-table__cell pmm-grid-table__cell&#45;&#45;fixed pmm-grid-table__cell&#45;&#45;main">-->
-      <!--</th>-->
-      <!--<th class="pmm-grid-table__cell">-->
-      <!--Rows Scanned-->
-      <!--</th>-->
-      <!--<th class="pmm-grid-table__cell">-->
-      <!--<div class="cell__content&#45;&#45;max">Rows Scanned</div>-->
-      <!--</th>-->
-      <!--</tr>-->
-      <!--<tr *ngFor="let row of queryProfile; let i = index;"-->
-      <!--[routerLink]="['./', 'report', dbServer.Subsystem]"-->
-      <!--[queryParams]="composeQueryParamsForGrid(row.Id)" routerLinkActive="pmm-grid-table__row&#45;&#45;active"-->
-      <!--[class.pmm-grid-table__row&#45;&#45;first-seen]="checkFirstSeen(row)"-->
-      <!--class="pmm-grid-table__row">-->
-      <!--<td class="pmm-grid-table__cell pmm-grid-table__cell&#45;&#45;fixed">-->
-      <!--{{i || ''}}-->
-      <!--</td>-->
-      <!--<td class="pmm-grid-table__cell pmm-grid-table__cell&#45;&#45;fixed pmm-grid-table__cell&#45;&#45;main">-->
-      <!--<div>-->
-      <!--<button class="pmm-grid-table__details-button">-->
-      <!--{{ row.Rank ? (row.Abstract || 'Low Ranking Queries') : 'TOTAL' }}-->
-      <!--</button>-->
-      <!--</div>-->
-      <!--</td>-->
-      <!--<td class="pmm-grid-table__cell">-->
-      <!--&lt;!&ndash;<div [ngSwitch]="currentColumn" class="pmm-grid-table__sub-table">&ndash;&gt;-->
-      <!--&lt;!&ndash;<div *ngIf="selectedColumnConfig?.sparkline" class="scaling-svg-container app-tooltip"&ndash;&gt;-->
-      <!--&lt;!&ndash;[appLoadSparklines]="row.Log"&ndash;&gt;-->
-      <!--&lt;!&ndash;data-tooltip="Loading..."&ndash;&gt;-->
-      <!--&lt;!&ndash;xkey="Start_ts" ykey="{{yKey}}"&ndash;&gt;-->
-      <!--&lt;!&ndash;measurement="{{measurement}}"&ndash;&gt;-->
-      <!--&lt;!&ndash;id="sparkline">&ndash;&gt;-->
-      <!--&lt;!&ndash;</div>&ndash;&gt;-->
-      <!--&lt;!&ndash;<ng-container *ngSwitchCase="'Load'">&ndash;&gt;-->
-      <!--&lt;!&ndash;<span *ngIf="selectedColumnConfig?.value">&ndash;&gt;-->
-      <!--&lt;!&ndash;{{ row.Load | humanize : 'number' }}&ndash;&gt;-->
-      <!--&lt;!&ndash;</span>&ndash;&gt;-->
-      <!--&lt;!&ndash;</ng-container>&ndash;&gt;-->
+      <div class="main-main-wrapper">
+        <div class="table-wrapper--outer">
+          <perfect-scrollbar [config]="scrollbarConfig" class="pmm-scrollbar">
+            <div class="table-wrapper--inner">
+              <table *ngIf="!isQuerySwitching" class="pmm-grid-table" id="qanTable">
+                <tr class="pmm-grid-table__row">
+                  <th class="pmm-grid-table__cell pmm-grid-table__cell--fixed pmm-grid-table__cell--first-c">#</th>
+                  <th class="pmm-grid-table__cell pmm-grid-table__cell--fixed pmm-grid-table__cell--second-c">
+                    Fingerprint
+                  </th>
+                  <th class="pmm-grid-table__cell">
+                    Rows Scanned
+                  </th>
+                  <th class="pmm-grid-table__cell">
+                    <div class="cell__content--max">Rows Scanned</div>
+                  </th>
+                  <th class="pmm-grid-table__cell">
+                    <div class="cell__content--max">Rows Scanned</div>
+                  </th>
+                  <th class="pmm-grid-table__cell">
+                    <div class="cell__content--max">Rows Scanned</div>
+                  </th>
+                  <th class="pmm-grid-table__cell">
+                    <div class="cell__content--max">Rows Scanned</div>
+                  </th>
+                  <th class="pmm-grid-table__cell">
+                    <div class="cell__content--max">Rows Scanned</div>
+                  </th>
+                  <th class="pmm-grid-table__cell">
+                    <div class="cell__content--max">Rows Scanned</div>
+                  </th>
+                  <th class="pmm-grid-table__cell">
+                    <div class="cell__content--max">Rows Scanned</div>
+                  </th>
+                  <th class="pmm-grid-table__cell">
+                    <div class="cell__content--max">Rows Scanned</div>
+                  </th>
+                  <th class="pmm-grid-table__cell">
+                    <div class="cell__content--max">Rows Scanned</div>
+                  </th>
+                  <th class="pmm-grid-table__cell">
+                    <div class="cell__content--max">Rows Scanned</div>
+                  </th>
+                  <th class="pmm-grid-table__cell">
+                    <div class="cell__content--max">Rows Scanned</div>
+                  </th>
+                  <th class="pmm-grid-table__cell">
+                    <div class="cell__content--max">Rows Scanned</div>
+                  </th>
+                  <th class="pmm-grid-table__cell">
+                    <div class="cell__content--max">Rows Scanned</div>
+                  </th>
+                  <th class="pmm-grid-table__cell">
+                    <div class="cell__content--max">Rows Scanned</div>
+                  </th>
+                  <th class="pmm-grid-table__cell">
+                    <div class="cell__content--max">Rows Scanned</div>
+                  </th>
+                </tr>
+                <tr *ngFor="let row of queryProfile; let i = index;"
+                    [routerLink]="['./', 'report', dbServer.Subsystem]"
+                    [queryParams]="composeQueryParamsForGrid(row.Id)" routerLinkActive="pmm-grid-table__row--active"
+                    [class.pmm-grid-table__row--first-seen]="checkFirstSeen(row)"
+                    class="pmm-grid-table__row">
+                  <td class="pmm-grid-table__cell pmm-grid-table__cell--first-c pmm-grid-table__cell--fixed">
+                    {{i || ''}}
+                  </td>
+                  <td class="pmm-grid-table__cell pmm-grid-table__cell--second-c pmm-grid-table__cell--fixed ">
+                    <div class="overlay-container">
+                    <span class="overlay-container__item">
+                      {{ row.Rank ? (row.Abstract || 'Low Ranking Queries') : 'TOTAL' }}
+                    </span>
+                    </div>
+                  </td>
+                  <td class="pmm-grid-table__cell">
+                    <!--<div [ngSwitch]="currentColumn" class="pmm-grid-table__sub-table">-->
+                    <!--<div *ngIf="selectedColumnConfig?.sparkline" class="scaling-svg-container app-tooltip"-->
+                    <!--[appLoadSparklines]="row.Log"-->
+                    <!--data-tooltip="Loading..."-->
+                    <!--xkey="Start_ts" ykey="{{yKey}}"-->
+                    <!--measurement="{{measurement}}"-->
+                    <!--id="sparkline">-->
+                    <!--</div>-->
+                    <!--<ng-container *ngSwitchCase="'Load'">-->
+                    <!--<span *ngIf="selectedColumnConfig?.value">-->
+                    <!--{{ row.Load | humanize : 'number' }}-->
+                    <!--</span>-->
+                    <!--</ng-container>-->
 
-      <!--&lt;!&ndash;<ng-container *ngSwitchCase="'Count'" class="unit unit&#45;&#45;qps" id="countQueriesPerSecond">&ndash;&gt;-->
-      <!--&lt;!&ndash;<span *ngIf="selectedColumnConfig?.queriespersecond">{{row.QPS | humanize : 'number'}}</span>&ndash;&gt;-->
-      <!--&lt;!&ndash;</ng-container>&ndash;&gt;-->
+                    <!--<ng-container *ngSwitchCase="'Count'" class="unit unit--qps" id="countQueriesPerSecond">-->
+                    <!--<span *ngIf="selectedColumnConfig?.queriespersecond">{{row.QPS | humanize : 'number'}}</span>-->
+                    <!--</ng-container>-->
 
-      <!--&lt;!&ndash;<ng-container *ngSwitchCase="'Avg Latency'">&ndash;&gt;-->
-      <!--&lt;!&ndash;<span *ngIf="selectedColumnConfig?.value">{{ row.Stats.Avg | humanize }}</span>&ndash;&gt;-->
-      <!--&lt;!&ndash;</ng-container>&ndash;&gt;-->
-      <!--&lt;!&ndash;<ng-container *ngSwitchDefault></ng-container>&ndash;&gt;-->
-      <!--&lt;!&ndash;</div>&ndash;&gt;-->
-      <!--daAsADdcs-->
-      <!--</td>-->
-      <!--<td class="pmm-grid-table__cell">-->
-      <!--&lt;!&ndash;<div [ngSwitch]="currentColumn" class="pmm-grid-table__sub-table" id="rowsCanned">&ndash;&gt;-->
-      <!--&lt;!&ndash;<ng-container *ngSwitchCase="'Load'">&ndash;&gt;-->
-      <!--&lt;!&ndash;<span *ngIf="selectedColumnConfig?.percentage">&ndash;&gt;-->
-      <!--&lt;!&ndash;{{row.Percentage | humanize : 'percent'}}&ndash;&gt;-->
-      <!--&lt;!&ndash;</span>&ndash;&gt;-->
-      <!--&lt;!&ndash;</ng-container>&ndash;&gt;-->
+                    <!--<ng-container *ngSwitchCase="'Avg Latency'">-->
+                    <!--<span *ngIf="selectedColumnConfig?.value">{{ row.Stats.Avg | humanize }}</span>-->
+                    <!--</ng-container>-->
+                    <!--<ng-container *ngSwitchDefault></ng-container>-->
+                    <!--</div>-->
+                    daAsADdcs
+                  </td>
+                  <td class="pmm-grid-table__cell">
+                    <!--<div [ngSwitch]="currentColumn" class="pmm-grid-table__sub-table" id="rowsCanned">-->
+                    <!--<ng-container *ngSwitchCase="'Load'">-->
+                    <!--<span *ngIf="selectedColumnConfig?.percentage">-->
+                    <!--{{row.Percentage | humanize : 'percent'}}-->
+                    <!--</span>-->
+                    <!--</ng-container>-->
 
-      <!--&lt;!&ndash;<ng-container *ngSwitchCase="'Count'" id="countValue">&ndash;&gt;-->
-      <!--&lt;!&ndash;<span *ngIf="selectedColumnConfig?.value">{{row.Stats.Cnt | humanize : 'number'}}</span>&ndash;&gt;-->
-      <!--&lt;!&ndash;</ng-container>&ndash;&gt;-->
+                    <!--<ng-container *ngSwitchCase="'Count'" id="countValue">-->
+                    <!--<span *ngIf="selectedColumnConfig?.value">{{row.Stats.Cnt | humanize : 'number'}}</span>-->
+                    <!--</ng-container>-->
 
-      <!--&lt;!&ndash;<ng-container *ngSwitchCase="'Count'" class="unit unit&#45;&#45;percent" id="countPercentage">&ndash;&gt;-->
-      <!--&lt;!&ndash;<span *ngIf="selectedColumnConfig?.percentage">{{(row.Stats.Cnt / profileTotal?.Stats.Cnt * 100).toFixed(2)}}</span>&ndash;&gt;-->
-      <!--&lt;!&ndash;</ng-container>&ndash;&gt;-->
+                    <!--<ng-container *ngSwitchCase="'Count'" class="unit unit--percent" id="countPercentage">-->
+                    <!--<span *ngIf="selectedColumnConfig?.percentage">{{(row.Stats.Cnt / profileTotal?.Stats.Cnt * 100).toFixed(2)}}</span>-->
+                    <!--</ng-container>-->
 
-      <!--&lt;!&ndash;<ng-container *ngSwitchCase="'Avg Latency'">&ndash;&gt;-->
-      <!--&lt;!&ndash;<div *ngIf="selectedColumnConfig?.distribution"&ndash;&gt;-->
-      <!--&lt;!&ndash;[appLatencyChart]="row.Stats"&ndash;&gt;-->
-      <!--&lt;!&ndash;class="scaling-svg-container scaling-svg-container&#45;&#45;full-width app-tooltip"&ndash;&gt;-->
-      <!--&lt;!&ndash;data-tooltip="Loading..."&ndash;&gt;-->
-      <!--&lt;!&ndash;measurement="time"&ndash;&gt;-->
-      <!--&lt;!&ndash;id="latencyDistribution">&ndash;&gt;-->
-      <!--&lt;!&ndash;</div>&ndash;&gt;-->
-      <!--&lt;!&ndash;</ng-container>&ndash;&gt;-->
+                    <!--<ng-container *ngSwitchCase="'Avg Latency'">-->
+                    <!--<div *ngIf="selectedColumnConfig?.distribution"-->
+                    <!--[appLatencyChart]="row.Stats"-->
+                    <!--class="scaling-svg-container scaling-svg-container--full-width app-tooltip"-->
+                    <!--data-tooltip="Loading..."-->
+                    <!--measurement="time"-->
+                    <!--id="latencyDistribution">-->
+                    <!--</div>-->
+                    <!--</ng-container>-->
 
-      <!--&lt;!&ndash;<ng-container *ngSwitchDefault></ng-container>&ndash;&gt;-->
-      <!--&lt;!&ndash;</div>&ndash;&gt;-->
-      <!--asxafcewwwdas-->
-      <!--</td>-->
-      <!--</tr>-->
-      <!--</table>-->
-      <!--</div>-->
-      <!--</div>-->
-      <div class="sticky-wrapper">
-        <div class="pmm-table" #qanTable>
-          <div class="pmm-table__cell pmm-table__cell--title pmm-table__cell--first-c pmm-table__cell--sticky">#</div>
-          <div class="pmm-table__cell pmm-table__cell--title pmm-table__cell--second-c pmm-table__cell--sticky"></div>
-          <div class="pmm-table__cell pmm-table__cell--title">Rows Scanned</div>
-          <div class="pmm-table__cell pmm-table__cell--title">Rows Scanned</div>
-          <div class="pmm-table__cell pmm-table__cell--title">Rows Scanned</div>
-          <div class="pmm-table__cell pmm-table__cell--title">Rows Scanned</div>
-          <div class="pmm-table__cell pmm-table__cell--title">Rows Scanned</div>
-          <div class="pmm-table__cell pmm-table__cell--title">Rows Scanned</div>
-          <div class="pmm-table__cell pmm-table__cell--title">Rows Scanned</div>
-          <div class="pmm-table__cell pmm-table__cell--title">Rows Scanned</div>
-          <div class="pmm-table__cell pmm-table__cell--title">Rows Scanned</div>
-          <div class="pmm-table__cell pmm-table__cell--title">Rows Scanned</div>
-          <div class="pmm-table__cell pmm-table__cell--title">Rows Scanned</div>
-          <div class="pmm-table__cell pmm-table__cell--title">Rows Scanned</div>
-
-          <ng-container *ngFor="let row of queryProfile; let i = index;">
-            <div [routerLink]="['./', 'report', dbServer.Subsystem]"
-                 [queryParams]="composeQueryParamsForGrid(row.Id)"
-                 [class.pmm-table__cell--first-seen]="checkFirstSeen(row)"
-                 routerLinkActive="pmm-table__cell--active"
-                 class="pmm-table__cell pmm-table__cell--first-c pmm-table__cell--sticky pmm-table__cell--content">{{i || ''}}</div>
-            <div [routerLink]="['./', 'report', dbServer.Subsystem]"
-                 [queryParams]="composeQueryParamsForGrid(row.Id)"
-                 [class.pmm-table__cell--first-seen]="checkFirstSeen(row)"
-                 routerLinkActive="pmm-table__cell--active"
-                 class="pmm-table__cell pmm-table__cell--second-c pmm-table__cell--sticky pmm-table__cell--content">
-              <div class="overlay-container">
-                <span class="overlay-container__item">{{ row.Rank ? (row.Abstract || 'Low Ranking Queries') : 'TOTAL' }}</span>
-              </div>
+                    <!--<ng-container *ngSwitchDefault></ng-container>-->
+                    <!--</div>-->
+                    asxafcewwwdas
+                  </td>
+                  <th class="pmm-grid-table__cell">
+                    <div class="cell__content--max">
+                      Lorem ipsum dolor sit amet.
+                    </div>
+                  </th>
+                  <th class="pmm-grid-table__cell">
+                    <div class="cell__content--max">
+                      Lorem ipsum dolor sit amet.
+                    </div>
+                  </th>
+                  <th class="pmm-grid-table__cell">
+                    <div class="cell__content--max">
+                      Lorem ipsum dolor sit amet.
+                    </div>
+                  </th>
+                  <th class="pmm-grid-table__cell">
+                    <div class="cell__content--max">
+                      Lorem ipsum dolor sit amet.
+                    </div>
+                  </th>
+                  <th class="pmm-grid-table__cell">
+                    <div class="cell__content--max">
+                      Lorem ipsum dolor sit amet.
+                    </div>
+                  </th>
+                  <th class="pmm-grid-table__cell">
+                    <div class="cell__content--max">
+                      Lorem ipsum dolor sit amet.
+                    </div>
+                  </th>
+                  <th class="pmm-grid-table__cell">
+                    <div class="cell__content--max">
+                      Lorem ipsum dolor sit amet.
+                    </div>
+                  </th>
+                  <th class="pmm-grid-table__cell">
+                    <div class="cell__content--max">
+                      Lorem ipsum dolor sit amet.
+                    </div>
+                  </th>
+                  <th class="pmm-grid-table__cell">
+                    <div class="cell__content--max">
+                      Lorem ipsum dolor sit amet.
+                    </div>
+                  </th>
+                  <th class="pmm-grid-table__cell">
+                    <div class="cell__content--max">
+                      Lorem ipsum dolor sit amet.
+                    </div>
+                  </th>
+                  <th class="pmm-grid-table__cell">
+                    <div class="cell__content--max">
+                      Lorem ipsum dolor sit amet.
+                    </div>
+                  </th>
+                  <th class="pmm-grid-table__cell">
+                    <div class="cell__content--max">
+                      Lorem ipsum dolor sit amet.
+                    </div>
+                  </th>
+                  <th class="pmm-grid-table__cell">
+                    <div class="cell__content--max">
+                      Lorem ipsum dolor sit amet.
+                    </div>
+                  </th>
+                  <th class="pmm-grid-table__cell">
+                    <div class="cell__content--max">
+                      Lorem ipsum dolor sit amet.
+                    </div>
+                  </th>
+                </tr>
+              </table>
             </div>
-            <div [routerLink]="['./', 'report', dbServer.Subsystem]"
-                 [queryParams]="composeQueryParamsForGrid(row.Id)"
-                 [class.pmm-table__cell--first-seen]="checkFirstSeen(row)"
-                 routerLinkActive="pmm-table__cell--active"
-                 class="pmm-table__cell pmm-table__cell--content">
-              Lorem ipsum dolor sit amet.
-            </div>
-            <div [routerLink]="['./', 'report', dbServer.Subsystem]"
-                 [queryParams]="composeQueryParamsForGrid(row.Id)"
-                 [class.pmm-table__cell--first-seen]="checkFirstSeen(row)"
-                 routerLinkActive="pmm-table__cell--active"
-                 class="pmm-table__cell pmm-table__cell--content">
-              Lorem ipsum dolor sit amet.
-            </div>
-            <div [routerLink]="['./', 'report', dbServer.Subsystem]"
-                 [queryParams]="composeQueryParamsForGrid(row.Id)"
-                 [class.pmm-table__cell--first-seen]="checkFirstSeen(row)"
-                 routerLinkActive="pmm-table__cell--active"
-                 class="pmm-table__cell pmm-table__cell--content">
-              Lorem ipsum dolor sit amet.
-            </div>
-            <div [routerLink]="['./', 'report', dbServer.Subsystem]"
-                 [queryParams]="composeQueryParamsForGrid(row.Id)"
-                 [class.pmm-table__cell--first-seen]="checkFirstSeen(row)"
-                 routerLinkActive="pmm-table__cell--active"
-                 class="pmm-table__cell pmm-table__cell--content">
-              Lorem ipsum dolor sit amet.
-            </div>
-            <div [routerLink]="['./', 'report', dbServer.Subsystem]"
-                 [queryParams]="composeQueryParamsForGrid(row.Id)"
-                 [class.pmm-table__cell--first-seen]="checkFirstSeen(row)"
-                 routerLinkActive="pmm-table__cell--active"
-                 class="pmm-table__cell pmm-table__cell--content">
-              Lorem ipsum dolor sit amet.
-            </div>
-            <div [routerLink]="['./', 'report', dbServer.Subsystem]"
-                 [queryParams]="composeQueryParamsForGrid(row.Id)"
-                 [class.pmm-table__cell--first-seen]="checkFirstSeen(row)"
-                 routerLinkActive="pmm-table__cell--active"
-                 class="pmm-table__cell pmm-table__cell--content">
-              Lorem ipsum dolor sit amet.
-            </div>
-            <div [routerLink]="['./', 'report', dbServer.Subsystem]"
-                 [queryParams]="composeQueryParamsForGrid(row.Id)"
-                 [class.pmm-table__cell--first-seen]="checkFirstSeen(row)"
-                 routerLinkActive="pmm-table__cell--active"
-                 class="pmm-table__cell pmm-table__cell--content">
-              Lorem ipsum dolor sit amet.
-            </div>
-            <div [routerLink]="['./', 'report', dbServer.Subsystem]"
-                 [queryParams]="composeQueryParamsForGrid(row.Id)"
-                 [class.pmm-table__cell--first-seen]="checkFirstSeen(row)"
-                 routerLinkActive="pmm-table__cell--active"
-                 class="pmm-table__cell pmm-table__cell--content">
-              Lorem ipsum dolor sit amet.
-            </div>
-            <div [routerLink]="['./', 'report', dbServer.Subsystem]"
-                 [queryParams]="composeQueryParamsForGrid(row.Id)"
-                 [class.pmm-table__cell--first-seen]="checkFirstSeen(row)"
-                 routerLinkActive="pmm-table__cell--active"
-                 class="pmm-table__cell pmm-table__cell--content">
-              Lorem ipsum dolor sit amet.
-            </div>
-            <div [routerLink]="['./', 'report', dbServer.Subsystem]"
-                 [queryParams]="composeQueryParamsForGrid(row.Id)"
-                 [class.pmm-table__cell--first-seen]="checkFirstSeen(row)"
-                 routerLinkActive="pmm-table__cell--active"
-                 class="pmm-table__cell pmm-table__cell--content">
-              Lorem ipsum dolor sit amet.
-            </div>
-            <div [routerLink]="['./', 'report', dbServer.Subsystem]"
-                 [queryParams]="composeQueryParamsForGrid(row.Id)"
-                 [class.pmm-table__cell--first-seen]="checkFirstSeen(row)"
-                 routerLinkActive="pmm-table__cell--active"
-                 class="pmm-table__cell pmm-table__cell--content">
-              Lorem ipsum dolor sit amet.
-            </div>
-            <div [routerLink]="['./', 'report', dbServer.Subsystem]"
-                 [queryParams]="composeQueryParamsForGrid(row.Id)"
-                 [class.pmm-table__cell--first-seen]="checkFirstSeen(row)"
-                 routerLinkActive="pmm-table__cell--active"
-                 class="pmm-table__cell pmm-table__cell--content">
-              Lorem ipsum dolor sit amet.
-            </div>
-          </ng-container>
+          </perfect-scrollbar>
+          <span class="right-table-border"></span>
         </div>
+        <!--<div class="sticky-wrapper">-->
+          <!--<div class="pmm-table" #qanTable>-->
+            <!--<div class="pmm-table__cell pmm-table__cell&#45;&#45;title pmm-table__cell&#45;&#45;first-c pmm-table__cell&#45;&#45;sticky">#</div>-->
+            <!--<div class="pmm-table__cell pmm-table__cell&#45;&#45;title pmm-table__cell&#45;&#45;second-c pmm-table__cell&#45;&#45;sticky"></div>-->
+            <!--<div class="pmm-table__cell pmm-table__cell&#45;&#45;title">Rows Scanned</div>-->
+            <!--<div class="pmm-table__cell pmm-table__cell&#45;&#45;title">Rows Scanned</div>-->
+            <!--<div class="pmm-table__cell pmm-table__cell&#45;&#45;title">Rows Scanned</div>-->
+            <!--<div class="pmm-table__cell pmm-table__cell&#45;&#45;title">Rows Scanned</div>-->
+            <!--<div class="pmm-table__cell pmm-table__cell&#45;&#45;title">Rows Scanned</div>-->
+            <!--<div class="pmm-table__cell pmm-table__cell&#45;&#45;title">Rows Scanned</div>-->
+            <!--<div class="pmm-table__cell pmm-table__cell&#45;&#45;title">Rows Scanned</div>-->
+            <!--<div class="pmm-table__cell pmm-table__cell&#45;&#45;title">Rows Scanned</div>-->
+            <!--<div class="pmm-table__cell pmm-table__cell&#45;&#45;title">Rows Scanned</div>-->
+            <!--<div class="pmm-table__cell pmm-table__cell&#45;&#45;title">Rows Scanned</div>-->
+            <!--<div class="pmm-table__cell pmm-table__cell&#45;&#45;title">Rows Scanned</div>-->
+            <!--<div class="pmm-table__cell pmm-table__cell&#45;&#45;title">Rows Scanned</div>-->
+
+            <!--<ng-container *ngFor="let row of queryProfile; let i = index;">-->
+              <!--<div [routerLink]="['./', 'report', dbServer.Subsystem]"-->
+                   <!--[queryParams]="composeQueryParamsForGrid(row.Id)"-->
+                   <!--[class.pmm-table__cell&#45;&#45;first-seen]="checkFirstSeen(row)"-->
+                   <!--routerLinkActive="pmm-table__cell&#45;&#45;active"-->
+                   <!--class="pmm-table__cell pmm-table__cell&#45;&#45;first-c pmm-table__cell&#45;&#45;sticky pmm-table__cell&#45;&#45;content">{{i || ''}}</div>-->
+              <!--<div [routerLink]="['./', 'report', dbServer.Subsystem]"-->
+                   <!--[queryParams]="composeQueryParamsForGrid(row.Id)"-->
+                   <!--[class.pmm-table__cell&#45;&#45;first-seen]="checkFirstSeen(row)"-->
+                   <!--routerLinkActive="pmm-table__cell&#45;&#45;active"-->
+                   <!--class="pmm-table__cell pmm-table__cell&#45;&#45;second-c pmm-table__cell&#45;&#45;sticky pmm-table__cell&#45;&#45;content">-->
+                <!--<div class="overlay-container">-->
+                  <!--<span class="overlay-container__item">{{ row.Rank ? (row.Abstract || 'Low Ranking Queries') : 'TOTAL' }}</span>-->
+                <!--</div>-->
+              <!--</div>-->
+              <!--<div [routerLink]="['./', 'report', dbServer.Subsystem]"-->
+                   <!--[queryParams]="composeQueryParamsForGrid(row.Id)"-->
+                   <!--[class.pmm-table__cell&#45;&#45;first-seen]="checkFirstSeen(row)"-->
+                   <!--routerLinkActive="pmm-table__cell&#45;&#45;active"-->
+                   <!--class="pmm-table__cell pmm-table__cell&#45;&#45;content">-->
+                <!--Lorem ipsum dolor sit amet.-->
+              <!--</div>-->
+              <!--<div [routerLink]="['./', 'report', dbServer.Subsystem]"-->
+                   <!--[queryParams]="composeQueryParamsForGrid(row.Id)"-->
+                   <!--[class.pmm-table__cell&#45;&#45;first-seen]="checkFirstSeen(row)"-->
+                   <!--routerLinkActive="pmm-table__cell&#45;&#45;active"-->
+                   <!--class="pmm-table__cell pmm-table__cell&#45;&#45;content">-->
+                <!--Lorem ipsum dolor sit amet.-->
+              <!--</div>-->
+              <!--<div [routerLink]="['./', 'report', dbServer.Subsystem]"-->
+                   <!--[queryParams]="composeQueryParamsForGrid(row.Id)"-->
+                   <!--[class.pmm-table__cell&#45;&#45;first-seen]="checkFirstSeen(row)"-->
+                   <!--routerLinkActive="pmm-table__cell&#45;&#45;active"-->
+                   <!--class="pmm-table__cell pmm-table__cell&#45;&#45;content">-->
+                <!--Lorem ipsum dolor sit amet.-->
+              <!--</div>-->
+              <!--<div [routerLink]="['./', 'report', dbServer.Subsystem]"-->
+                   <!--[queryParams]="composeQueryParamsForGrid(row.Id)"-->
+                   <!--[class.pmm-table__cell&#45;&#45;first-seen]="checkFirstSeen(row)"-->
+                   <!--routerLinkActive="pmm-table__cell&#45;&#45;active"-->
+                   <!--class="pmm-table__cell pmm-table__cell&#45;&#45;content">-->
+                <!--Lorem ipsum dolor sit amet.-->
+              <!--</div>-->
+              <!--<div [routerLink]="['./', 'report', dbServer.Subsystem]"-->
+                   <!--[queryParams]="composeQueryParamsForGrid(row.Id)"-->
+                   <!--[class.pmm-table__cell&#45;&#45;first-seen]="checkFirstSeen(row)"-->
+                   <!--routerLinkActive="pmm-table__cell&#45;&#45;active"-->
+                   <!--class="pmm-table__cell pmm-table__cell&#45;&#45;content">-->
+                <!--Lorem ipsum dolor sit amet.-->
+              <!--</div>-->
+              <!--<div [routerLink]="['./', 'report', dbServer.Subsystem]"-->
+                   <!--[queryParams]="composeQueryParamsForGrid(row.Id)"-->
+                   <!--[class.pmm-table__cell&#45;&#45;first-seen]="checkFirstSeen(row)"-->
+                   <!--routerLinkActive="pmm-table__cell&#45;&#45;active"-->
+                   <!--class="pmm-table__cell pmm-table__cell&#45;&#45;content">-->
+                <!--Lorem ipsum dolor sit amet.-->
+              <!--</div>-->
+              <!--<div [routerLink]="['./', 'report', dbServer.Subsystem]"-->
+                   <!--[queryParams]="composeQueryParamsForGrid(row.Id)"-->
+                   <!--[class.pmm-table__cell&#45;&#45;first-seen]="checkFirstSeen(row)"-->
+                   <!--routerLinkActive="pmm-table__cell&#45;&#45;active"-->
+                   <!--class="pmm-table__cell pmm-table__cell&#45;&#45;content">-->
+                <!--Lorem ipsum dolor sit amet.-->
+              <!--</div>-->
+              <!--<div [routerLink]="['./', 'report', dbServer.Subsystem]"-->
+                   <!--[queryParams]="composeQueryParamsForGrid(row.Id)"-->
+                   <!--[class.pmm-table__cell&#45;&#45;first-seen]="checkFirstSeen(row)"-->
+                   <!--routerLinkActive="pmm-table__cell&#45;&#45;active"-->
+                   <!--class="pmm-table__cell pmm-table__cell&#45;&#45;content">-->
+                <!--Lorem ipsum dolor sit amet.-->
+              <!--</div>-->
+              <!--<div [routerLink]="['./', 'report', dbServer.Subsystem]"-->
+                   <!--[queryParams]="composeQueryParamsForGrid(row.Id)"-->
+                   <!--[class.pmm-table__cell&#45;&#45;first-seen]="checkFirstSeen(row)"-->
+                   <!--routerLinkActive="pmm-table__cell&#45;&#45;active"-->
+                   <!--class="pmm-table__cell pmm-table__cell&#45;&#45;content">-->
+                <!--Lorem ipsum dolor sit amet.-->
+              <!--</div>-->
+              <!--<div [routerLink]="['./', 'report', dbServer.Subsystem]"-->
+                   <!--[queryParams]="composeQueryParamsForGrid(row.Id)"-->
+                   <!--[class.pmm-table__cell&#45;&#45;first-seen]="checkFirstSeen(row)"-->
+                   <!--routerLinkActive="pmm-table__cell&#45;&#45;active"-->
+                   <!--class="pmm-table__cell pmm-table__cell&#45;&#45;content">-->
+                <!--Lorem ipsum dolor sit amet.-->
+              <!--</div>-->
+              <!--<div [routerLink]="['./', 'report', dbServer.Subsystem]"-->
+                   <!--[queryParams]="composeQueryParamsForGrid(row.Id)"-->
+                   <!--[class.pmm-table__cell&#45;&#45;first-seen]="checkFirstSeen(row)"-->
+                   <!--routerLinkActive="pmm-table__cell&#45;&#45;active"-->
+                   <!--class="pmm-table__cell pmm-table__cell&#45;&#45;content">-->
+                <!--Lorem ipsum dolor sit amet.-->
+              <!--</div>-->
+              <!--<div [routerLink]="['./', 'report', dbServer.Subsystem]"-->
+                   <!--[queryParams]="composeQueryParamsForGrid(row.Id)"-->
+                   <!--[class.pmm-table__cell&#45;&#45;first-seen]="checkFirstSeen(row)"-->
+                   <!--routerLinkActive="pmm-table__cell&#45;&#45;active"-->
+                   <!--class="pmm-table__cell pmm-table__cell&#45;&#45;content">-->
+                <!--Lorem ipsum dolor sit amet.-->
+              <!--</div>-->
+            <!--</ng-container>-->
+          <!--</div>-->
+        <!--</div>-->
+        <input type="text" id="search-input">
+        <router-outlet></router-outlet>
       </div>
-      <input type="text" id="search-input">
-      <router-outlet></router-outlet>
     </div>
     <div class="btn-column-wrapper">
       <button (click)="addColumn()" class="pmm-qan__add-column-btn">
