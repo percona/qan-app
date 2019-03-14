@@ -33,6 +33,7 @@ export class QueryProfileComponent extends CoreComponent implements OnInit {
   public testingVariable: boolean;
   public isSearchQuery = false;
   public measurement: string;
+  public queryTypes: ['asd', 'asdae', 'asdasdasd'];
   public scrollbarConfig: PerfectScrollbarConfigInterface = {
     suppressScrollY: false
   };

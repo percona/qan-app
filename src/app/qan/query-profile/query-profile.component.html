@@ -15,28 +15,6 @@
     <app-qan-search class="pmm-qan__search"></app-qan-search>
     <app-qan-filter class="pmm-qan__filter"></app-qan-filter>
     <div class="pmm-qan__table">
-      <!--<ng-select [searchable]="false"-->
-      <!--[items]="queryTypes"-->
-      <!--[clearable]="false"-->
-      <!--bindLabel="name"-->
-      <!--#column-->
-      <!--bindValue="name"-->
-      <!--class="pmm-select pmm-select&#45;&#45;column">-->
-      <!--<ng-template ng-header-tmp>-->
-      <!--<input (input)="column.filter($event.target.value)" class="input-field" placeholder="Type to search">-->
-      <!--<button><img src="assets/search.svg" alt="search"></button>-->
-      <!--</ng-template>-->
-      <!--<ng-template ng-footer-tmp>-->
-      <!--<button>Remove this column</button>-->
-      <!--</ng-template>-->
-      <!--</ng-select>-->
-      <!--<ng-select [searchable]="false"-->
-      <!--[items]="queryTypes"-->
-      <!--[clearable]="false"-->
-      <!--bindLabel="name"-->
-      <!--bindValue="name"-->
-      <!--class="pmm-select pmm-select&#45;&#45;column pmm-select&#45;&#45;column-main">-->
-      <!--</ng-select>-->
       <div class="main-main-wrapper">
         <div class="table-wrapper--outer">
           <perfect-scrollbar [config]="scrollbarConfig" class="pmm-scrollbar">
@@ -45,13 +23,39 @@
                 <tr class="pmm-grid-table__row">
                   <th class="pmm-grid-table__cell pmm-grid-table__cell--fixed pmm-grid-table__cell--first-c">#</th>
                   <th class="pmm-grid-table__cell pmm-grid-table__cell--fixed pmm-grid-table__cell--second-c">
-                    Fingerprint
+                    <ng-select [searchable]="false"
+                               [items]="queryTypes"
+                               [clearable]="false"
+                               bindLabel="name"
+                               bindValue="name"
+                               class="pmm-select pmm-select--column pmm-select--column-main">
+                    </ng-select>
                   </th>
                   <th class="pmm-grid-table__cell">
-                    Rows Scanned
+                    <ng-select [searchable]="false"
+                               [items]="queryTypes"
+                               [clearable]="false"
+                               bindLabel="name"
+                               #column
+                               bindValue="name"
+                               class="pmm-select pmm-select--column">
+                      <ng-template ng-header-tmp>
+                        <input (input)="column.filter($event.target.value)" class="input-field" placeholder="Type to search">
+                        <button><img src="assets/search.svg" alt="search"></button>
+                      </ng-template>
+                      <ng-template ng-footer-tmp>
+                        <button>Remove this column</button>
+                      </ng-template>
+                    </ng-select>
                   </th>
                   <th class="pmm-grid-table__cell">
-                    <div class="cell__content--max">Rows Scanned</div>
+                    <ng-select [searchable]="false"
+                               [items]="queryTypes"
+                               [clearable]="false"
+                               bindLabel="name"
+                               bindValue="name"
+                               class="pmm-select pmm-select--column pmm-select--column-main">
+                    </ng-select>
                   </th>
                   <th class="pmm-grid-table__cell">
                     <div class="cell__content--max">Rows Scanned</div>

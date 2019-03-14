@@ -45,9 +45,17 @@
 
 .pmm-grid-table__cell {
   height: var(--row-heigth);
-  padding: 5px;
   white-space: nowrap;
   border-bottom: 1px solid var(--main-border-color);
+}
+
+th.pmm-grid-table__cell:first-child,
+td.pmm-grid-table__cell {
+  padding: 5px;
+}
+
+th.pmm-grid-table__cell--fixed {
+  z-index: 1;
 }
 
 .pmm-grid-table__details-button {
@@ -81,9 +89,11 @@
 .table-wrapper--outer {
   position: relative;
   border-top: 1px solid var(--main-border-color);
+  background-color: var(--page-background);
 
   .right-table-border {
     position: absolute;
+    top: 0;
     right: 0;
     display: block;
     width: 1px;
@@ -97,13 +107,14 @@
   --first-c-width: 30px;
   --second-c-width: 250px;
 
+  margin-top: -1px;
   margin-left: calc(var(--first-c-width) + var(--second-c-width));
 }
 
 .pmm-grid-table__cell--fixed {
   position: absolute;
-  top: 0;
   left: 0;
+  //z-index: 1100;
   width: 30px;
   margin-top: 1px;
   background-color: inherit;
