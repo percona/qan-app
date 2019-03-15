@@ -19,6 +19,8 @@ export class QanTableComponent extends CoreComponent implements OnInit {
 
   public queryTypes = ['Query', 'Schema', 'Server', 'Database', 'User', 'Host'];
   public selectedQueryType: string;
+  public yKey: string;
+  public measurement: string;
 
   public queryProfile: Array<{}>;
   public isFirstSeen: boolean;
@@ -56,6 +58,29 @@ export class QanTableComponent extends CoreComponent implements OnInit {
     const queryParams: QueryParams = Object.assign({}, this.queryParams);
     queryParams.queryID = queryID || 'TOTAL';
     return queryParams;
+  }
+
+
+  /**
+   * Set sparkline type and display column for config parameters
+   * @param name - checked column-type name
+   * @param config - checked config parameters
+   */
+  setCurrentSparkline(name: string, config) {
+    switch (name) {
+      case 'Load':
+        this.yKey = 'Query_load';
+        this.measurement = 'number';
+        break;
+      case 'Count':
+        this.yKey = 'Query_count';
+        this.measurement = 'number';
+        break;
+      case 'Avg Latency':
+        this.yKey = 'Query_time_avg';
+        this.measurement = 'time';
+        break;
+    }
   }
 
   onChangeParams(params): void {

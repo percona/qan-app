@@ -15,7 +15,7 @@
   <section *ngIf="!noQueryError" class="pmm-qan">
     <app-qan-search class="pmm-qan__search"></app-qan-search>
     <app-qan-filter class="pmm-qan__filter"></app-qan-filter>
-    <app-qan-table *ngIf="!isQuerySwitching && queryProfile.length" [tableData]="queryProfile" class="pmm-qan__table"></app-qan-table>
+    <app-qan-table *ngIf="!isQueryLoading && queryProfile.length" [tableData]="queryProfile" class="pmm-qan__table"></app-qan-table>
     <div class="btn-column-wrapper">
       <button class="pmm-qan__add-column-btn">
         <i class="fa fa-plus-circle" aria-hidden="true"></i>
@@ -26,7 +26,7 @@
       {{ noQueryError }}
     </div>
 
-    <div *ngIf="!isQuerySwitching && !isLoading && totalAmountOfQueries === 0" class="text-center">
+    <div *ngIf="!isQueryLoading && !isLoading && totalAmountOfQueries === 0" class="text-center">
       <div *ngIf="dbServer.Subsystem === 'mongo' && !isFirstSeenChecked && !isSearchQuery"
            class="alert alert-warning w-75 mx-auto wrap no-mongo-queries">
         There is no query data because profiling is not enabled for the selected host. For information about how to

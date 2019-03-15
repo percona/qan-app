@@ -4,7 +4,6 @@ import {InstanceService} from '../../core/services/instance.service';
 import {QueryProfileService} from './query-profile.service';
 import {Router, ActivatedRoute} from '@angular/router';
 import * as moment from 'moment';
-import {PerfectScrollbarConfigInterface} from 'ngx-perfect-scrollbar';
 
 const queryProfileError = 'No data. Please check pmm-client and database configurations on selected instance.';
 
@@ -27,7 +26,7 @@ export class QueryProfileComponent extends CoreComponent implements OnInit {
   public toDate: string;
   public quantityDbQueriesMessage: string;
   public isLoading: boolean;
-  public isQuerySwitching: boolean;
+  public isQueryLoading: boolean;
   public noQueryError: string;
   public isFirstSeen: boolean;
   public isFirstSeenChecked = false;
@@ -39,9 +38,9 @@ export class QueryProfileComponent extends CoreComponent implements OnInit {
   constructor(protected route: ActivatedRoute,
               protected router: Router,
               protected instanceService: InstanceService,
-              public queryProfileService: QueryProfileService) {
+              public queryProfileService: QueryProfileService
+  ) {
     super(route, router, instanceService);
-
   }
 
   ngOnInit() {
@@ -86,136 +85,12 @@ export class QueryProfileComponent extends CoreComponent implements OnInit {
    * Load first 10 queries for main qan-table
    */
   public async loadQueries() {
-    this.isQuerySwitching = true;
+    this.isQueryLoading = true;
 
     // clear after error
     this.noQueryError = '';
     this.totalAmountOfQueries = this.leftInDbQueries = 0;
     this.queryProfile = [];
-    this.mockQueryProfile = {
-      'rows': [
-        {
-          'percentage': 1,
-          'dimension': 'TOTALS',
-          'row_number': 7,
-          'qps': 0.012439613,
-          'load': 0.000008560507,
-          'stats': {
-            'num_queries': 1030,
-            'm_query_time_sum': 0.70881,
-            'm_query_time_min': 0.000002,
-            'm_query_time_max': 0.001967,
-            'm_query_time_p99': 0.0006881651
-          },
-          'm_qc_hit': {
-            'rate': 0.0003,
-            'stats': {
-              'num_queries': 10,
-              'm_qc_hit_sum': 0.0003,
-              'm_qc_hit_min': 0.00003,
-              'm_qc_hit_max': 0.00003,
-              'm_qc_hit_p99': 0.00003
-            },
-            'sparklines': [
-              {
-                'ts': '2019-01-05T20:50:50',
-                'value': 10
-              },
-              {
-                'ts': '2019-01-05T20:55:50',
-                'value': 50
-              }
-            ]
-          },
-          'm_bytes_sent': {
-            'rate': 0.0003,
-            'stats': {
-              'num_queries': 10,
-              'm_bytes_sent_sum': 0.0003,
-              'm_bytes_sent_min': 0.00003,
-              'm_bytes_sent_max': 0.00003,
-              'm_bytes_sent_p99': 0.00003
-            },
-            'sparklines': [
-              {
-                'ts': '2019-01-05T20:50:50',
-                'value': 10
-              },
-              {
-                'ts': '2019-01-05T20:55:50',
-                'value': 50
-              }
-            ]
-          }
-        },
-        {
-          'rank': 1,
-          'percentage': 0.00042324464,
-          'dimension': 'B305F6354FA21F2A',
-          'load': {
-            'qps': 0.000120772944,
-            'load': 3.6231886e-9,
-            'stats': {
-              'num_queries': 10,
-              'm_query_time_sum': 0.0003,
-              'm_query_time_min': 0.00003,
-              'm_query_time_max': 0.00003,
-              'm_query_time_p99': 0.00003
-            },
-            'sparklines': [
-              {
-                'ts': '2019-01-05T20:50:50',
-                'value': 10
-              },
-              {
-                'ts': '2019-01-05T20:55:50',
-                'value': 50
-              }
-            ]
-          },
-          'm_qc_hit': {
-            'rate': 0.0003,
-            'stats': {
-              'num_queries': 10,
-              'm_qc_hit_sum': 0.0003,
-              'm_qc_hit_min': 0.00003,
-              'm_qc_hit_max': 0.00003,
-              'm_qc_hit_p99': 0.00003
-            },
-            'sparklines': [
-              {
-                'ts': '2019-01-05T20:50:50',
-                'value': 10
-              },
-              {
-                'ts': '2019-01-05T20:55:50',
-                'value': 50
-              }
-            ]
-          },
-          'm_bytes_sent': {
-            'rate': 0.0003,
-            'stats': {
-              'num_queries': 10,
-              'm_bytes_sent_sum': 0.0003,
-              'm_bytes_sent_min': 0.00003,
-              'm_bytes_sent_max': 0.00003,
-              'm_bytes_sent_p99': 0.00003
-            },
-            'sparklines': [
-              {
-                'ts': '2019-01-05T20:50:50',
-                'value': 10
-              },
-              {
-                'ts': '2019-01-05T20:55:50',
-                'value': 50
-              }
-            ]
-          }
-        }
-      ]
-    };
     this.searchValue = this.queryParams.search === 'null' ? '' : this.queryParams.search;
     const search = this.queryParams.search === 'null' && this.searchValue !== 'NULL' ? '' : this.queryParams.search;
     const firstSeen = this.queryParams.first_seen;
@@ -236,7 +111,7 @@ export class QueryProfileComponent extends CoreComponent implements OnInit {
     } catch (err) {
       this.noQueryError = err.name === QanError.errType ? err.message : queryProfileError;
     } finally {
-      this.isQuerySwitching = false;
+      this.isQueryLoading = false;
     }
   }
 
@@ -306,7 +181,7 @@ export class QueryProfileComponent extends CoreComponent implements OnInit {
    * @param isFirstSeenChecked - state for checked switcher for first-seen
    */
   toggleFirstSeen(isFirstSeenChecked = false) {
-    this.isQuerySwitching = true;
+    this.isQueryLoading = true;
     this.isFirstSeenChecked = isFirstSeenChecked;
     const params: QueryParams = Object.assign({}, this.queryParams);
     if (isFirstSeenChecked) {
@@ -318,6 +193,6 @@ export class QueryProfileComponent extends CoreComponent implements OnInit {
     }
     delete params.queryID;
     this.router.navigate(['profile'], {queryParams: params});
-    this.isQuerySwitching = false;
+    this.isQueryLoading = false;
   }
 }
