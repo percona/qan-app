@@ -14,7 +14,6 @@ import { InstanceService } from './core/services/instance.service';
 import { AddAmazonRDSComponent } from './add-amazon-rds/add-amazon-rds.component';
 import { AddRemoteInstanceComponent } from './add-remote-instances/add-remote-instance.component';
 import { AddInstanceComponent } from './add-instance/add-instance.component';
-import { QanTableCellComponent } from './qan/qan-table-cell/qan-table-cell.component';
 
 export function getInstances(instanceService: InstanceService) {
   return function () { return instanceService.getDBServers(); };
@@ -26,7 +25,6 @@ export function getInstances(instanceService: InstanceService) {
     AddAmazonRDSComponent,
     AddRemoteInstanceComponent,
     AddInstanceComponent,
-    QanTableCellComponent
   ],
   imports: [
     AppRoutingModule,

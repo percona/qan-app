@@ -1,0 +1,125 @@
+<div class="table-wrapper--outer">
+  <perfect-scrollbar [config]="scrollbarConfig" class="pmm-scrollbar">
+    <div class="table-wrapper--inner">
+      <table class="qan-table" id="qanTable">
+        <tr class="qan-table__row">
+          <th class="qan-table__cell qan-table__cell--fixed qan-table__cell--first-c">#</th>
+          <th class="qan-table__cell qan-table__cell--fixed qan-table__cell--second-c">
+            <ng-select [searchable]="false"
+                       [(ngModel)]="selectedQueryType"
+                       [items]="queryTypes"
+                       [clearable]="false"
+                       bindLabel="name"
+                       bindValue="name"
+                       class="pmm-select pmm-select--column pmm-select--column-main">
+            </ng-select>
+          </th>
+          <th class="qan-table__cell">
+            <ng-select [searchable]="false"
+                       [items]="queryTypes"
+                       [clearable]="false"
+                       bindLabel="name"
+                       #column
+                       bindValue="name"
+                       class="pmm-select pmm-select--column">
+              <ng-template ng-header-tmp>
+                <input (input)="column.filter($event.target.value)" class="input-field" placeholder="Type to search">
+                <button><img src="assets/search.svg" alt="search"></button>
+              </ng-template>
+              <ng-template ng-footer-tmp>
+                <button>Remove this column</button>
+              </ng-template>
+            </ng-select>
+          </th>
+          <th class="qan-table__cell">
+
+          </th>
+          <th class="qan-table__cell">
+            <ng-select [searchable]="false"
+                       [items]="queryTypes"
+                       [clearable]="false"
+                       bindLabel="name"
+                       #column
+                       bindValue="name"
+                       class="pmm-select pmm-select--column">
+              <ng-template ng-header-tmp>
+                <input (input)="column.filter($event.target.value)" class="input-field" placeholder="Type to search">
+                <button><img src="assets/search.svg" alt="search"></button>
+              </ng-template>
+              <ng-template ng-footer-tmp>
+                <button>Remove this column</button>
+              </ng-template>
+            </ng-select>
+          </th>
+        </tr>
+        <tr *ngFor="let row of tableData; let i = index;"
+            [routerLink]="['./', 'report', dbServer.Subsystem]"
+            [queryParams]="composeQueryParamsForGrid(row.Id)"
+            [class.qan-table__row--first-seen]="checkFirstSeen(row)"
+            routerLinkActive="qan-table__row--active"
+            class="qan-table__row">
+          <td class="qan-table__cell qan-table__cell--first-c qan-table__cell--fixed">
+            {{i || ''}}
+          </td>
+          <td class="qan-table__cell qan-table__cell--second-c qan-table__cell--fixed ">
+            <div class="overlay-container">
+                    <span class="overlay-container__item qan-table__abstract">
+                      {{ row?.Rank ? (row?.Abstract || 'Low Ranking Queries') : 'TOTAL' }}
+                    </span>
+            </div>
+          </td>
+          <td>
+            <app-qan-table-cell></app-qan-table-cell>
+            <!--<div class="flex-container">-->
+            <!--<div class="scaling-svg-container app-tooltip"-->
+            <!--[appLoadSparklines]="row.Log"-->
+            <!--data-tooltip="Loading..."-->
+            <!--xkey="Start_ts" ykey="Query_load"-->
+            <!--measurement="number">-->
+            <!--</div>-->
+            <!--<div class="ml-3 mr-3">{{ row.Load | humanize : 'number' }}</div>-->
+            <!--<div><span>{{ row.Percentage | humanize : 'percent' }}</span></div>-->
+            <!--</div>-->
+          </td>
+          <td>
+            <app-qan-table-cell></app-qan-table-cell>
+            <!--<div class="flex-container ">-->
+            <!--<div><span class="unit unit-qps">{{row.QPS | humanize : 'number'}}</span></div>-->
+            <!--<div class="scaling-svg-container app-tooltip"-->
+            <!--[appLoadSparklines]="row.Log"-->
+            <!--data-tooltip="Loading..."-->
+            <!--xkey="Start_ts" ykey="Query_count"-->
+            <!--measurement="number">-->
+            <!--</div>-->
+            <!--<div class="ml-2 mr-2">{{row.Stats.Cnt | humanize : 'number'}}</div>-->
+            <!--<div>-->
+            <!--<span class="unit unit-percent">{{ (row.Stats.Cnt / tableData[0]?.Stats.Cnt * 100).toFixed(2) }}</span>-->
+            <!--</div>-->
+            <!--</div>-->
+          </td>
+          <td>
+            <app-qan-table-cell></app-qan-table-cell>
+            <!--<div class="flex-container">-->
+            <!--<div class="scaling-svg-container app-tooltip"-->
+            <!--[appLoadSparklines]="row.Log"-->
+            <!--data-tooltip="Loading..."-->
+            <!--xkey="Start_ts" ykey="Query_time_avg"-->
+            <!--measurement="time">-->
+            <!--</div>-->
+            <!--<div class="cell-overlay main-table-overlay">-->
+            <!--<span class="unit unit-avg">{{ row.Stats.Avg | humanize }}</span>-->
+            <!--</div>-->
+            <!--<div class="scaling-svg-container app-tooltip"-->
+            <!--data-tooltip="Loading..."-->
+            <!--measurement="time"-->
+            <!--[appLatencyChart]="row.Stats">-->
+            <!--</div>-->
+            <!--</div>-->
+          </td>
+        </tr>
+      </table>
+    </div>
+  </perfect-scrollbar>
+  <span class="right-table-border"></span>
+</div>
+<router-outlet></router-outlet>

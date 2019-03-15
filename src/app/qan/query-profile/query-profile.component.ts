@@ -16,6 +16,7 @@ const queryProfileError = 'No data. Please check pmm-client and database configu
 export class QueryProfileComponent extends CoreComponent implements OnInit {
   @ViewChild('qanTable') table: ElementRef;
 
+  objectKeys = Object.keys;
   public queryProfile: Array<{}>;
   public profileTotal;
   public offset: number;
@@ -33,10 +34,7 @@ export class QueryProfileComponent extends CoreComponent implements OnInit {
   public testingVariable: boolean;
   public isSearchQuery = false;
   public measurement: string;
-  public queryTypes: ['asd', 'asdae', 'asdasdasd'];
-  public scrollbarConfig: PerfectScrollbarConfigInterface = {
-    suppressScrollY: false
-  };
+  public mockQueryProfile = {};
 
   constructor(protected route: ActivatedRoute,
               protected router: Router,
@@ -75,15 +73,6 @@ export class QueryProfileComponent extends CoreComponent implements OnInit {
     this.router.navigate(['./', 'report', subsystem], {queryParams: params, relativeTo: this.route})
   }
 
-  addColumn() {
-    // const columnQuantity = getComputedStyle(this.table.nativeElement).getPropertyValue('--column-quantity');
-    // this.table.nativeElement.style.setProperty('--column-quantity', `${+columnQuantity + 1}`);
-    const titleColumns = this.table.nativeElement.querySelectorAll('.pmm-table__cell--title');
-    const contentColumns = this.table.nativeElement.querySelectorAll('.pmm-table__cell--content');
-    console.log('titleColumns - ', titleColumns);
-    console.log('contentColumns - ', contentColumns);
-  }
-
   /**
    * Check if current query is first seen for current date
    * @param currentQuery - query in main qan-table
@@ -103,6 +92,130 @@ export class QueryProfileComponent extends CoreComponent implements OnInit {
     this.noQueryError = '';
     this.totalAmountOfQueries = this.leftInDbQueries = 0;
     this.queryProfile = [];
+    this.mockQueryProfile = {
+      'rows': [
+        {
+          'percentage': 1,
+          'dimension': 'TOTALS',
+          'row_number': 7,
+          'qps': 0.012439613,
+          'load': 0.000008560507,
+          'stats': {
+            'num_queries': 1030,
+            'm_query_time_sum': 0.70881,
+            'm_query_time_min': 0.000002,
+            'm_query_time_max': 0.001967,
+            'm_query_time_p99': 0.0006881651
+          },
+          'm_qc_hit': {
+            'rate': 0.0003,
+            'stats': {
+              'num_queries': 10,
+              'm_qc_hit_sum': 0.0003,
+              'm_qc_hit_min': 0.00003,
+              'm_qc_hit_max': 0.00003,
+              'm_qc_hit_p99': 0.00003
+            },
+            'sparklines': [
+              {
+                'ts': '2019-01-05T20:50:50',
+                'value': 10
+              },
+              {
+                'ts': '2019-01-05T20:55:50',
+                'value': 50
+              }
+            ]
+          },
+          'm_bytes_sent': {
+            'rate': 0.0003,
+            'stats': {
+              'num_queries': 10,
+              'm_bytes_sent_sum': 0.0003,
+              'm_bytes_sent_min': 0.00003,
+              'm_bytes_sent_max': 0.00003,
+              'm_bytes_sent_p99': 0.00003
+            },
+            'sparklines': [
+              {
+                'ts': '2019-01-05T20:50:50',
+                'value': 10
+              },
+              {
+                'ts': '2019-01-05T20:55:50',
+                'value': 50
+              }
+            ]
+          }
+        },
+        {
+          'rank': 1,
+          'percentage': 0.00042324464,
+          'dimension': 'B305F6354FA21F2A',
+          'load': {
+            'qps': 0.000120772944,
+            'load': 3.6231886e-9,
+            'stats': {
+              'num_queries': 10,
+              'm_query_time_sum': 0.0003,
+              'm_query_time_min': 0.00003,
+              'm_query_time_max': 0.00003,
+              'm_query_time_p99': 0.00003
+            },
+            'sparklines': [
+              {
+                'ts': '2019-01-05T20:50:50',
+                'value': 10
+              },
+              {
+                'ts': '2019-01-05T20:55:50',
+                'value': 50
+              }
+            ]
+          },
+          'm_qc_hit': {
+            'rate': 0.0003,
+            'stats': {
+              'num_queries': 10,
+              'm_qc_hit_sum': 0.0003,
+              'm_qc_hit_min': 0.00003,
+              'm_qc_hit_max': 0.00003,
+              'm_qc_hit_p99': 0.00003
+            },
+            'sparklines': [
+              {
+                'ts': '2019-01-05T20:50:50',
+                'value': 10
+              },
+              {
+                'ts': '2019-01-05T20:55:50',
+                'value': 50
+              }
+            ]
+          },
+          'm_bytes_sent': {
+            'rate': 0.0003,
+            'stats': {
+              'num_queries': 10,
+              'm_bytes_sent_sum': 0.0003,
+              'm_bytes_sent_min': 0.00003,
+              'm_bytes_sent_max': 0.00003,
+              'm_bytes_sent_p99': 0.00003
+            },
+            'sparklines': [
+              {
+                'ts': '2019-01-05T20:50:50',
+                'value': 10
+              },
+              {
+                'ts': '2019-01-05T20:55:50',
+                'value': 50
+              }
+            ]
+          }
+        }
+      ]
+    };
     this.searchValue = this.queryParams.search === 'null' ? '' : this.queryParams.search;
     const search = this.queryParams.search === 'null' && this.searchValue !== 'NULL' ? '' : this.queryParams.search;
     const firstSeen = this.queryParams.first_seen;

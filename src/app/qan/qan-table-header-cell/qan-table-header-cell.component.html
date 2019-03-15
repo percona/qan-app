@@ -1,0 +1,16 @@
+<ng-select [searchable]="false"
+           [(ngModel)]="selectedQueryColumn"
+           [items]="queryColumns"
+           [clearable]="false"
+           bindLabel="name"
+           #column
+           bindValue="name"
+           class="pmm-select pmm-select--column">
+  <ng-template ng-header-tmp>
+    <input (input)="column.filter($event.target.value)" class="input-field" placeholder="Type to search">
+    <button><img src="assets/search.svg" alt="search"></button>
+  </ng-template>
+  <ng-template ng-footer-tmp>
+    <button>Remove this column</button>
+  </ng-template>
+</ng-select>

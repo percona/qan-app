@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
 
 @Component({
   selector: 'app-qan-table-cell',
@@ -6,7 +6,7 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./qan-table-cell.component.css']
 })
 export class QanTableCellComponent implements OnInit {
-
+  @Input() cellData: any;
   constructor() { }
 
   ngOnInit() {
