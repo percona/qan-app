@@ -1,6 +1,7 @@
 # QanApp
 
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/dda40c1517c749b989e26b2ad0cc4d63)](https://www.codacy.com/app/Percona/qan-app?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=percona/qan-app&amp;utm_campaign=Badge_Grade)
+[![CLA assistant](https://cla-assistant.percona.com/readme/badge/percona/qan-app)](https://cla-assistant.percona.com/percona/qan-app)
 
 This project was generated with [angular-cli](https://github.com/angular/angular-cli) version 1.0.0-beta.25.5.
 
