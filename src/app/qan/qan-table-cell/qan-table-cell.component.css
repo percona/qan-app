@@ -1,0 +1,11 @@
+.cell-inner {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  width: 100%;
+  height: inherit;
+}
+
+.cell-inner > *:not(:last-child) {
+  margin-right: 15px;
+}
