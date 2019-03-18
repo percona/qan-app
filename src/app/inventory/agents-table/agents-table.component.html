@@ -1,22 +1,12 @@
 <table class="inventory-table">
   <tr>
+    <th class="inventory-table__cell">ID</th>
     <th class="inventory-table__cell">Type</th>
-    <th class="inventory-table__cell">Runs on node id</th>
-    <th class="inventory-table__cell">Monitoring Services</th>
-    <th class="inventory-table__cell">State</th>
-    <th class="inventory-table__cell">Port</th>
-    <th class="inventory-table__cell"></th>
+    <th class="inventory-table__cell">Other Details</th>
   </tr>
   <tr *ngFor="let agentData of agentsData">
+    <td class="inventory-table__cell">{{agentData?.agent_id}}</td>
     <td class="inventory-table__cell">{{agentData.agentType}}</td>
-    <td class="inventory-table__cell">{{agentData?.runs_on_node_id}}</td>
     <td class="inventory-table__cell"></td>
-    <td class="inventory-table__cell">{{agentData?.status}}</td>
-    <td class="inventory-table__cell">{{agentData?.listen_port}}</td>
-    <td class="inventory-table__cell">
-      <button (click)="removeAgents(agentData.agent_id); agentData.isDeleted = !agentData.isDeleted">
-        <i class="fa fa-trash-o"></i>
-      </button>
-    </td>
   </tr>
 </table>
