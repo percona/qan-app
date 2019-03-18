@@ -9,7 +9,7 @@
     <th class="inventory-table__cell">Other Details</th>
   </tr>
   <tr *ngFor="let serviceData of servicesData">
-    <td class="inventory-table__cell">{{serviceData.service_id}}</td>
+    <td class="inventory-table__cell">{{serviceData?.service_id}}</td>
     <td class="inventory-table__cell">{{serviceData.agentType}}</td>
     <td class="inventory-table__cell">{{serviceData?.service_name}}</td>
     <td class="inventory-table__cell">{{serviceData?.node_id}}</td>

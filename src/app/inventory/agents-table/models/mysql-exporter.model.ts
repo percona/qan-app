@@ -7,7 +7,7 @@ export class MysqlExporterModel {
   };
   listen_port: 0;
   password: string;
-  runs_on_node_id: string;
+  pmm_agent_id: string;
   service_id: string;
   status: string;
   username: string;
@@ -24,7 +24,7 @@ export class MysqlExporterModel {
       this.custom_labels.additionalProp2 = params.custom_labels.additionalProp3 || '';
     }
     this.listen_port = params.listen_port || '';
-    this.runs_on_node_id = params.runs_on_node_id || '';
+    this.pmm_agent_id = params.runs_on_node_id || '';
     this.service_id = params.service_id || '';
     this.status = params.status || '';
   }

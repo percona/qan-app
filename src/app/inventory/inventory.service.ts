@@ -12,6 +12,7 @@ import {RemoteAmazonRdsModel} from './nodes-table/models/remote-amazon-rds.model
 import {AmazonRdsMysqlModel} from './services-table/models/amazon-rds-mysql.model';
 import {MongodbModel} from './services-table/models/mongodb.model';
 import {MysqlModel} from './services-table/models/mysql.model';
+import {QanMysqlPerfschemaAgentModel} from './agents-table/models/qan-mysql-perfschema-agent.model';
 
 @Injectable({
   providedIn: 'root'
@@ -39,6 +40,8 @@ export class InventoryService {
         return new NodeExporterModel(params, 'Node exporter');
       case 'pmm_agent':
         return new PmmAgentModel(params, 'PMM Agent');
+      case 'qan_mysql_perfschema_agent':
+        return new QanMysqlPerfschemaAgentModel(params, 'Qan MySQL Perfschema Agent');
       case 'rds_exporter':
         return new RdsExporterModel(params, 'RDS exporter');
       case 'container':
@@ -50,11 +53,11 @@ export class InventoryService {
       case 'remote_amazon_rds':
         return new RemoteAmazonRdsModel(params, 'Remote Amazon RDS');
       case 'amazon_rds_mysql':
-        return new AmazonRdsMysqlModel(params, 'Amazon RDS MySQL');
+        return new AmazonRdsMysqlModel(params, 'Amazon RDS MySQL'); // same agent
       case 'mongodb':
-        return new MongodbModel(params, 'MongoDB');
+        return new MongodbModel(params, 'MongoDB'); // same agent
       case 'mysql':
-        return new MysqlModel(params, 'MySQL');
+        return new MysqlModel(params, 'MySQL'); // same agent
       default:
         return {}
     }

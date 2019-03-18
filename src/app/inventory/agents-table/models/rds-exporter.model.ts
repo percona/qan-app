@@ -6,7 +6,7 @@ export class RdsExporterModel {
     additionalProp3: string
   };
   listen_port: number;
-  runs_on_node_id: string;
+  pmm_agent_id: string;
   service_ids: Array<string>;
   status: string;
   agentType: string;
@@ -22,7 +22,7 @@ export class RdsExporterModel {
       this.custom_labels.additionalProp2 = params.custom_labels.additionalProp3 || '';
     }
     this.listen_port = params.listen_port || '';
-    this.runs_on_node_id = params.runs_on_node_id || '';
+    this.pmm_agent_id = params.pmm_agent_id || '';
     this.service_ids = params.service_ids || [];
     this.status = params.status || '';
   }

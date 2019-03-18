@@ -1,15 +1,14 @@
 export class PmmAgentModel {
   agent_id: string;
-  connected: true;
+  connected: boolean;
   custom_labels: {
     additionalProp1: string;
     additionalProp2: string;
     additionalProp3: string
   };
-  node_id: string;
+  runs_on_node_id: string;
   agentType: string;
   isDeleted: boolean;
-
   constructor(params, type) {
     this.agentType = type;
     this.isDeleted = false;
@@ -20,7 +19,7 @@ export class PmmAgentModel {
       this.custom_labels.additionalProp2 = params.custom_labels.additionalProp3 || '';
       this.custom_labels.additionalProp2 = params.custom_labels.additionalProp3 || '';
     }
-    this.node_id = params.node_id || '';
+    this.runs_on_node_id = params.runs_on_node_id || '';
   }
 }
 

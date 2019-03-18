@@ -5,8 +5,8 @@ export class NodeExporterModel {
     additionalProp2: string;
     additionalProp3: string
   };
-  listen_port?: number;
-  node_id: string;
+  listen_port: number;
+  pmm_agent_id: string;
   status: string;
   agentType: string;
   isDeleted: boolean;
@@ -21,7 +21,7 @@ export class NodeExporterModel {
       this.custom_labels.additionalProp2 = params.custom_labels.additionalProp3 || '';
     }
     this.listen_port = params.listen_port || '';
-    this.node_id = params.node_id || '';
+    this.pmm_agent_id = params.pmm_agent_id || '';
     this.status = params.status || '';
   }
 }
