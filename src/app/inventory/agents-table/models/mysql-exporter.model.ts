@@ -1,13 +1,9 @@
 export class MysqlExporterModel {
   agent_id: string;
-  custom_labels: {
-    additionalProp1: string;
-    additionalProp2: string;
-    additionalProp3: string
-  };
+  custom_labels: Array<string>;
   listen_port: 0;
   password: string;
-  runs_on_node_id: string;
+  pmm_agent_id: string;
   service_id: string;
   status: string;
   username: string;
@@ -18,13 +14,9 @@ export class MysqlExporterModel {
     this.agentType = type;
     this.isDeleted = false;
     this.agent_id = params.agent_id || '';
-    if (params.custom_labels) {
-      this.custom_labels.additionalProp1 = params.custom_labels.additionalProp1 || '';
-      this.custom_labels.additionalProp2 = params.custom_labels.additionalProp3 || '';
-      this.custom_labels.additionalProp2 = params.custom_labels.additionalProp3 || '';
-    }
+    this.custom_labels = params.custom_labels && params.custom_labels.length ? Object.values(params.custom_labels) : [];
     this.listen_port = params.listen_port || '';
-    this.runs_on_node_id = params.runs_on_node_id || '';
+    this.pmm_agent_id = params.runs_on_node_id || '';
     this.service_id = params.service_id || '';
     this.status = params.status || '';
   }

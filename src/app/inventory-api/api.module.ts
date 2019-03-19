@@ -6,6 +6,10 @@ import { ApiConfiguration } from './api-configuration';
 import { AgentsService } from './services/agents.service';
 import { NodesService } from './services/nodes.service';
 import { ServicesService } from './services/services.service';
+import { MySQLService } from './services/my-sql.service';
+import { MetricsService } from './services/metrics.service';
+import { ProfileService } from './services/profile.service';
+import { ServerService } from './services/server.service';
 
 /**
  * Provider for all Api services, plus ApiConfiguration
@@ -22,7 +26,11 @@ import { ServicesService } from './services/services.service';
     ApiConfiguration,
     AgentsService,
     NodesService,
-    ServicesService
+    ServicesService,
+    MySQLService,
+    MetricsService,
+    ProfileService,
+    ServerService
   ],
 })
 export class ApiModule { }
