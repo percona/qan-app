@@ -22,6 +22,7 @@ export class ServicesTableComponent implements OnInit, OnDestroy {
     this.servicesList$ = this.servicesService.ListServices({}).subscribe(item => {
       const dataStructure = this.inventoryService.generateStructure(item);
       this.servicesTableService.setServicesData(dataStructure);
+      console.log('dataStructure - ', dataStructure);
     });
     this.servicesTableData$ = this.servicesTableService.servicesData.subscribe(services => {
       if (services.length) {

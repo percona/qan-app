@@ -14,7 +14,7 @@ export class MysqlExporterModel {
     this.agentType = type;
     this.isDeleted = false;
     this.agent_id = params.agent_id || '';
-    this.custom_labels = Object.values(params.custom_labels) || [];
+    this.custom_labels = params.custom_labels && params.custom_labels.length ? Object.values(params.custom_labels) : [];
     this.listen_port = params.listen_port || '';
     this.pmm_agent_id = params.runs_on_node_id || '';
     this.service_id = params.service_id || '';

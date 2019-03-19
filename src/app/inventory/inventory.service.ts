@@ -24,11 +24,15 @@ export class InventoryService {
 
   generateStructure(item) {
     const addAgentType = Object.keys(item).map(agentType => new Object({agentType: agentType, params: item[agentType]}));
+    console.log('createParams - ', addAgentType.map(agent => agent['params']));
+    console.log('createParams 2 - ', addAgentType.map(agent => agent['params'].map(arrItem => this.checkType(arrItem, agent['agentType']))));
     const createParams = addAgentType.map(agent => agent['params'].map(arrItem => this.checkType(arrItem, agent['agentType'])));
     return [].concat(...createParams);
   }
 
   checkType(params, type) {
+    console.log('params - ', params);
+    console.log('type - ', type);
     switch (type) {
       case 'external_exporter':
         return new ExternalExporterModel(params, 'External exporter');
