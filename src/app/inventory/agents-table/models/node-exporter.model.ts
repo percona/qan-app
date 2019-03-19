@@ -1,10 +1,6 @@
 export class NodeExporterModel {
   agent_id: string;
-  custom_labels: {
-    additionalProp1: string;
-    additionalProp2: string;
-    additionalProp3: string
-  };
+  custom_labels: Array<string>;
   listen_port: number;
   pmm_agent_id: string;
   status: string;
@@ -15,11 +11,7 @@ export class NodeExporterModel {
     this.agentType = type;
     this.isDeleted = false;
     this.agent_id = params.agent_id || '';
-    if (params.custom_labels) {
-      this.custom_labels.additionalProp1 = params.custom_labels.additionalProp1 || '';
-      this.custom_labels.additionalProp2 = params.custom_labels.additionalProp3 || '';
-      this.custom_labels.additionalProp2 = params.custom_labels.additionalProp3 || '';
-    }
+    this.custom_labels = Object.values(params.custom_labels) || [];
     this.listen_port = params.listen_port || '';
     this.pmm_agent_id = params.pmm_agent_id || '';
     this.status = params.status || '';

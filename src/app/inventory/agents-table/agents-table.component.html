@@ -10,13 +10,13 @@
     <td class="inventory-table__cell">
       <span *ngIf="agentData?.connected">connected: {{agentData.connected}}</span>
       <span *ngIf="agentData?.runs_on_node_id">runs_on_node: {{agentData.runs_on_node_id}}</span>
-      <span *ngIf="agentData?.metrics_url">metrics_url: {{agentData.metrics_url}}</span>
-      <span *ngIf="agentData?.listen_port">listen_port: {{agentData.listen_port}}</span>
-      <span *ngIf="agentData?.pmm_agent_id">pmm_agent_id: {{agentData.pmm_agent_id}}</span>
-      <span *ngIf="agentData?.service_id">service_id: {{agentData.service_id}}</span>
+      <span *ngIf="agentData?.metrics_url">metrics_url: {{agentData.metrics_url}}</span> check
+      <span *ngIf="agentData?.listen_port">listen_port: {{agentData.listen_port}}</span> check
+      <span *ngIf="agentData?.pmm_agent_id">pmm_agent_id: {{agentData.pmm_agent_id}}</span> check
+      <span *ngIf="agentData?.service_id">service_id: {{agentData.service_id}}</span> check
       <span *ngIf="agentData?.status">status: {{agentData.status}}</span>
       <span *ngIf="agentData?.username">status: {{agentData.username}}</span>
-      <span *ngIf="agentData?.password">status: {{agentData.password}}</span>
+      <span *ngIf="agentData?.password">status: {{agentData.password}}</span> check
       <span *ngIf="agentData?.service_ids.length">
         service_ids: <span *ngFor="let service_id of agentData.service_ids">{{service_id}} </span>
       </span>
