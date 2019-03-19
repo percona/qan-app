@@ -10,13 +10,18 @@
     <td class="inventory-table__cell">{{nodeData?.node_name}}</td>
     <td class="inventory-table__cell">{{nodeData?.address}}</td>
     <td class="inventory-table__cell">
-      <span *ngIf="nodeData?.docker_container_id">docker_container_id: {{nodeData.docker_container_id}}</span>
-      <span *ngIf="nodeData?.docker_container_name">docker_container_name: {{nodeData.docker_container_name}}</span>
-      <span *ngIf="nodeData?.machine_id">machine_id: {{nodeData.machine_id}}</span>
-      <span *ngIf="nodeData?.distro">distro: {{nodeData.distro}}</span>
-      <span *ngIf="nodeData?.distro_version">distro_version: {{nodeData.distro_version}}</span>
-      <span *ngIf="nodeData?.instance">instance: {{nodeData.instance}}</span>
-      <span *ngIf="nodeData?.region">region: {{nodeData.region}}</span>
+      <div class="cell__details">
+        <span *ngIf="nodeData?.docker_container_id">docker_container_id: {{nodeData.docker_container_id}}</span>
+        <span *ngIf="nodeData?.docker_container_name">docker_container_name: {{nodeData.docker_container_name}}</span>
+        <span *ngIf="nodeData?.machine_id">machine_id: {{nodeData.machine_id}}</span>
+        <span *ngIf="nodeData?.distro">distro: {{nodeData.distro}}</span>
+        <span *ngIf="nodeData?.distro_version">distro_version: {{nodeData.distro_version}}</span>
+        <span *ngIf="nodeData?.instance">instance: {{nodeData.instance}}</span>
+        <span *ngIf="nodeData?.region">region: {{nodeData.region}}</span>
+        <span *ngIf="nodeData?.custom_labels.length">
+          custom_labels: <span *ngFor="let custom_label of nodeData.custom_labels">{{custom_label}} </span>
+        </span>
+      </div>
     </td>
   </tr>
 </table>

@@ -32,3 +32,8 @@ button {
   border: none;
   color: white;
 }
+
+.cell__details {
+  display: flex;
+  flex-direction: column;
+}

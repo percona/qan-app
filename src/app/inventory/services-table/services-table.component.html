@@ -15,6 +15,12 @@
     <td class="inventory-table__cell">{{serviceData?.node_id}}</td>
     <td class="inventory-table__cell">{{serviceData?.address}}</td>
     <td class="inventory-table__cell">{{serviceData?.port}}</td>
-    <td class="inventory-table__cell"></td>
+    <td class="inventory-table__cell">
+      <div class="cell__details">
+        <span *ngIf="serviceData?.custom_labels.length">
+          custom_labels: <span *ngFor="let custom_label of serviceData.custom_labels">{{custom_label}} </span>
+        </span>
+      </div>
+    </td>
   </tr>
 </table>
