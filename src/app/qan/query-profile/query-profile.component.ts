@@ -19,6 +19,7 @@ export class QueryProfileComponent extends CoreComponent implements OnInit {
   public queryProfile: Array<{}>;
   public profileTotal;
   public offset: number;
+  public isAdditionalColumn = false;
   public totalAmountOfQueries: number;
   public leftInDbQueries: number;
   public searchValue: string;
@@ -1030,6 +1031,10 @@ export class QueryProfileComponent extends CoreComponent implements OnInit {
   }
 
   ngOnInit() {
+  }
+
+  addColumn() {
+    this.isAdditionalColumn = true;
   }
 
   /**

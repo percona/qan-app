@@ -1,5 +1,25 @@
+.main-wrapper {
+  position: relative;
+}
+
+.add-column-btn {
+  position: absolute;
+  top: 0;
+  right: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 40px;
+  font-size: 20px;
+  color: var(--main-border-color);
+  cursor: pointer;
+  border: none;
+  background-color: transparent;
+}
+
 .table-wrapper--outer {
   position: relative;
+  margin-right: 20px;
   border-top: 1px solid var(--main-border-color);
   background-color: var(--page-background);
 

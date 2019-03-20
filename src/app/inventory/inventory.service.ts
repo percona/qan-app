@@ -12,13 +12,15 @@ import {RemoteAmazonRdsModel} from './nodes-table/models/remote-amazon-rds.model
 import {AmazonRdsMysqlModel} from './services-table/models/amazon-rds-mysql.model';
 import {MongodbModel} from './services-table/models/mongodb.model';
 import {MysqlModel} from './services-table/models/mysql.model';
+import {QanMysqlPerfschemaAgentModel} from './agents-table/models/qan-mysql-perfschema-agent.model';
 
 @Injectable({
   providedIn: 'root'
 })
 export class InventoryService {
 
-  constructor() {}
+  constructor() {
+  }
 
   generateStructure(item) {
     const addAgentType = Object.keys(item).map(agentType => new Object({agentType: agentType, params: item[agentType]}));
@@ -27,48 +29,37 @@ export class InventoryService {
   }
 
   checkType(params, type) {
-    let model = {};
     switch (type) {
       case 'external_exporter':
-        model = new ExternalExporterModel(params, 'External exporter');
-        break;
+        return new ExternalExporterModel(params, 'External exporter');
       case 'mongodb_exporter':
-        model = new MongodbExporterModel(params, 'MongoDB');
-        break;
+        return new MongodbExporterModel(params, 'MongoDB');
       case 'mysqld_exporter':
-        model = new MysqlExporterModel(params, 'MySQL exporter');
-        break;
+        return new MysqlExporterModel(params, 'MySQL exporter');
       case 'node_exporter':
-        model = new NodeExporterModel(params, 'Node exporter');
-        break;
+        return new NodeExporterModel(params, 'Node exporter');
       case 'pmm_agent':
-        model = new PmmAgentModel(params, 'PMM Agent');
-        break;
+        return new PmmAgentModel(params, 'PMM Agent');
+      case 'qan_mysql_perfschema_agent':
+        return new QanMysqlPerfschemaAgentModel(params, 'Qan MySQL Perfschema Agent');
       case 'rds_exporter':
-        model = new RdsExporterModel(params, 'RDS exporter');
-        break;
+        return new RdsExporterModel(params, 'RDS exporter');
       case 'container':
-        model = new ContainerModel(params, 'Container');
-        break;
+        return new ContainerModel(params, 'Container');
       case 'generic':
-        model = new GenericModel(params, 'Generic');
-        break;
+        return new GenericModel(params, 'Generic');
       case 'remote':
-        model = new RemoteModel(params, 'Remote');
-        break;
+        return new RemoteModel(params, 'Remote');
       case 'remote_amazon_rds':
-        model = new RemoteAmazonRdsModel(params, 'Remote Amazon RDS');
-        break;
+        return new RemoteAmazonRdsModel(params, 'Remote Amazon RDS');
       case 'amazon_rds_mysql':
-        model = new AmazonRdsMysqlModel(params, 'Amazon RDS MySQL');
-        break;
+        return new AmazonRdsMysqlModel(params, 'Amazon RDS MySQL');
       case 'mongodb':
-        model = new MongodbModel(params, 'MongoDB');
-        break;
+        return new MongodbModel(params, 'MongoDB');
       case 'mysql':
-        model = new MysqlModel(params, 'MySQL');
-        break;
+        return new MysqlModel(params, 'MySQL');
+      default:
+        return {}
     }
-    return model;
   }
 }

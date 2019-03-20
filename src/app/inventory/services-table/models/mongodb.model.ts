@@ -1,9 +1,6 @@
 export class MongodbModel {
-  custom_labels?: {
-    additionalProp1: string;
-    additionalProp2: string;
-    additionalProp3: string
-  };
+  address: string;
+  custom_labels: Array<string>;
   node_id: string;
   service_id: string;
   service_name: string;
@@ -13,11 +10,8 @@ export class MongodbModel {
   constructor(params, type) {
     this.agentType = type;
     this.isDeleted = false;
-    if (params.custom_labels) {
-      this.custom_labels.additionalProp1 = params.custom_labels.additionalProp1 || '';
-      this.custom_labels.additionalProp2 = params.custom_labels.additionalProp3 || '';
-      this.custom_labels.additionalProp2 = params.custom_labels.additionalProp3 || '';
-    }
+    this.custom_labels = params.custom_labels && Object.keys(params.custom_labels).length ? Object.values(params.custom_labels) : [];
+    this.address = params.address || '';
     this.node_id = params.node_id || '';
     this.service_id = params.service_id || '';
     this.service_name = params.service_name || '';

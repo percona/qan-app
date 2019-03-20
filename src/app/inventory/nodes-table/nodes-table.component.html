@@ -1,26 +1,27 @@
 <table class="inventory-table">
   <tr>
-    <th class="inventory-table__cell">Type</th>
-    <th class="inventory-table__cell">Name</th>
-    <th class="inventory-table__cell">Region</th>
-    <th class="inventory-table__cell">Instance</th>
-    <th class="inventory-table__cell">Machine ID</th>
-    <th class="inventory-table__cell">Distro</th>
-    <th class="inventory-table__cell">Distro version</th>
-    <th class="inventory-table__cell"></th>
+    <th class="inventory-table__cell">ID</th>
+    <th class="inventory-table__cell">Node Name</th>
+    <th class="inventory-table__cell">Address</th>
+    <th class="inventory-table__cell">Other Details</th>
   </tr>
   <tr *ngFor="let nodeData of nodesData">
-    <td class="inventory-table__cell">{{nodeData.agentType}}</td>
+    <td class="inventory-table__cell">{{nodeData?.node_id}}</td>
     <td class="inventory-table__cell">{{nodeData?.node_name}}</td>
-    <td class="inventory-table__cell">{{nodeData?.region}}</td>
-    <td class="inventory-table__cell">{{nodeData?.instance}}</td>
-    <td class="inventory-table__cell">{{nodeData?.machine_id}}</td>
-    <td class="inventory-table__cell">{{nodeData?.distro}}</td>
-    <td class="inventory-table__cell">{{nodeData?.distro_version}}</td>
+    <td class="inventory-table__cell">{{nodeData?.address}}</td>
     <td class="inventory-table__cell">
-      <button (click)="removeNode(nodeData.node_id); nodeData.isDeleted = !nodeData.isDeleted">
-        <i class="fa fa-trash-o"></i>
-      </button>
+      <div class="cell__details">
+        <span *ngIf="nodeData?.docker_container_id">docker_container_id: {{nodeData.docker_container_id}}</span>
+        <span *ngIf="nodeData?.docker_container_name">docker_container_name: {{nodeData.docker_container_name}}</span>
+        <span *ngIf="nodeData?.machine_id">machine_id: {{nodeData.machine_id}}</span>
+        <span *ngIf="nodeData?.distro">distro: {{nodeData.distro}}</span>
+        <span *ngIf="nodeData?.distro_version">distro_version: {{nodeData.distro_version}}</span>
+        <span *ngIf="nodeData?.instance">instance: {{nodeData.instance}}</span>
+        <span *ngIf="nodeData?.region">region: {{nodeData.region}}</span>
+        <span *ngIf="nodeData?.custom_labels.length">
+          custom_labels: <span *ngFor="let custom_label of nodeData.custom_labels">{{custom_label}} </span>
+        </span>
+      </div>
     </td>
   </tr>
 </table>

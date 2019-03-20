@@ -28,8 +28,8 @@
 .pmm-qan {
   --grid-gap: 10px;
   display: grid;
-  grid-template-areas: 'search search search' 'filter table add-column';
-  grid-template-columns: 300px minmax(1000px, 1fr) 20px;
+  grid-template-areas: 'search search' 'filter table';
+  grid-template-columns: 300px minmax(1000px, 1fr);
 }
 
 .pmm-qan__search {
@@ -44,23 +44,6 @@
 .pmm-qan__table {
   grid-area: table;
   margin-left: var(--grid-gap);
-}
-
-.btn-column-wrapper {
-  margin-left: 3px;
-}
-
-.pmm-qan__add-column-btn {
-  grid-area: add-column;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  height: 40px;
-  font-size: 20px;
-  color: var(--main-border-color);
-  cursor: pointer;
-  border: none;
-  background-color: transparent;
 }
 
 #search-input {

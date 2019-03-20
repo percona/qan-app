@@ -1,9 +1,6 @@
 export class GenericModel {
-  custom_labels?: {
-    additionalProp1: string;
-    additionalProp2: string;
-    additionalProp3: string
-  };
+  address: string;
+  custom_labels: Array<string>;
   distro: string;
   distro_version: string;
   machine_id: string;
@@ -15,11 +12,8 @@ export class GenericModel {
   constructor(params, type) {
     this.agentType = type;
     this.isDeleted = false;
-    if (params.custom_labels) {
-      this.custom_labels.additionalProp1 = params.custom_labels.additionalProp1 || '';
-      this.custom_labels.additionalProp2 = params.custom_labels.additionalProp3 || '';
-      this.custom_labels.additionalProp2 = params.custom_labels.additionalProp3 || '';
-    }
+    this.address = params.address || '';
+    this.custom_labels = params.custom_labels && Object.keys(params.custom_labels).length ? Object.values(params.custom_labels) : [];
     this.distro = params.distro || '';
     this.distro_version = params.distro_version || '';
     this.machine_id = params.machine_id || '';

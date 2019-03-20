@@ -4,6 +4,7 @@
   justify-content: space-between;
   width: 100%;
   height: inherit;
+  font-weight: 100;
 }
 
 .cell-inner > *:not(:last-child) {
