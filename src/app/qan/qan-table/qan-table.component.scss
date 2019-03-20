@@ -9,7 +9,7 @@
     right: 0;
     display: block;
     width: 1px;
-    height: calc(100% - 20px);
+    height: calc(100% - var(--main-bottom-indent));
     background-color: var(--main-border-color);
   }
 }
@@ -21,6 +21,7 @@
 
   margin-top: -1px;
   margin-left: calc(var(--first-c-width) + var(--second-c-width));
+  margin-bottom: var(--main-bottom-indent);
 }
 
 

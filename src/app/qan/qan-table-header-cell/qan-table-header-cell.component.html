@@ -1,10 +1,9 @@
 <ng-select [searchable]="false"
            [(ngModel)]="selectedQueryColumn"
-           [items]="columns"
+           [items]="options"
            [clearable]="false"
-           bindLabel="{{currentColumnName}}"
+           bindLabel="humanizeName"
            #column
-           bindValue="{{currentColumnName}}"
            class="pmm-select pmm-select--column">
   <ng-template ng-header-tmp>
     <input (input)="column.filter($event.target.value)" class="input-field" placeholder="Type to search">

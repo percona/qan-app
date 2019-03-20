@@ -4,6 +4,7 @@ import {CoreComponent, QueryParams} from '../../core/core.component';
 import {ActivatedRoute, Router} from '@angular/router';
 import {InstanceService} from '../../core/services/instance.service';
 import * as moment from 'moment';
+import {SelectOptionModel} from '../qan-table-header-cell/modesl/select-option.model';
 
 @Component({
   selector: 'app-qan-table',
@@ -11,14 +12,58 @@ import * as moment from 'moment';
   styleUrls: ['./qan-table.component.scss']
 })
 export class QanTableComponent extends CoreComponent implements OnInit {
-  // @Input() tableData: any;
-
   public scrollbarConfig: PerfectScrollbarConfigInterface = {
     suppressScrollY: false
   };
 
+  public queryColumns = {
+    data: {
+      bytes_sent: 'Bytes Sent',
+      count: 'Count',
+      docs_returned: 'Docs Returned',
+      docs_scanned: 'Docs Scanned',
+      filesort: 'Filesort',
+      filesort_on_disk: 'Filesort on Disk',
+      full_join: 'Full Join',
+      full_scan: 'Full Scan',
+      innodb_io_r_bytes: 'Innodb IO R Bytes',
+      innodb_io_r_ops: 'Innodb IO R Ops',
+      innodb_io_r_wait: 'Innodb IO R Wait',
+      innodb_pages_distinct: 'Innodb Pages Distinct',
+      innodb_queue_wait: 'Innodb Queue Wait',
+      innodb_rec_lock_wait: 'Innodb Rec Lock Wait',
+      latancy: 'Latancy',
+      load: 'Load',
+      lock_time: 'Lock Time',
+      merge_passes: 'Merge Passes',
+      no_good_index_used: 'No Good Index Used',
+      no_index_used: 'No Index Used',
+      qc_hit: 'Query Cache Hit',
+      query_length: 'Query Length',
+      query_time: 'Query Time',
+      response_length: 'Response Length',
+      rows_affected: 'Rows Affected',
+      rows_examined: 'Rows Examined',
+      rows_read: 'Rows Read',
+      rows_sent: 'Rows Sent',
+      select_full_range_join: 'Select Full Range Join',
+      select_range: 'Select Range',
+      select_range_check: 'Select Range Check',
+      sort_range: 'Sort Range',
+      sort_rows: 'Sort Rows',
+      sort_scan: 'Sort Scan',
+      tmp_disk_tables: 'Tmp Disk Tables',
+      tmp_table: 'Tmp Table',
+      tmp_table_on_disk: 'Tmp Table on Disk',
+      tmp_table_sizes: 'Tmp Table Sizes',
+      tmp_tables: 'Tmp Tables'
+    }
+  };
+  public selectOptions: any;
+  public listColumns = this.queryColumns.data;
+
+
   public objectKeys = Object.keys;
-  public objectValues = Object.values;
   public jsonStringify = JSON.stringify;
 
   public queryTypes = ['Query', 'Schema', 'Server', 'Database', 'User', 'Host'];
@@ -51,7 +96,6 @@ export class QanTableComponent extends CoreComponent implements OnInit {
               'p99': 205.63243
             }
           },
-          'bytes_sent2': {},
           'query_time': {
             'stats': {
               'rate': 0.55897486,
@@ -806,7 +850,6 @@ export class QanTableComponent extends CoreComponent implements OnInit {
               'p99': 205.63243
             }
           },
-          'bytes_sent2': {},
           'query_time': {
             'stats': {
               'rate': 0.55897486,
@@ -1021,7 +1064,6 @@ export class QanTableComponent extends CoreComponent implements OnInit {
             }
           },
           'bytes_sent': {},
-          'bytes_sent2': {},
           'query_time': {},
           'rows_sent': {}
         },
@@ -1158,7 +1200,6 @@ export class QanTableComponent extends CoreComponent implements OnInit {
             }
           },
           'bytes_sent': {},
-          'bytes_sent2': {},
           'query_time': {},
           'rows_sent': {}
         },
@@ -1259,7 +1300,6 @@ export class QanTableComponent extends CoreComponent implements OnInit {
             }
           },
           'bytes_sent': {},
-          'bytes_sent2': {},
           'query_time': {},
           'rows_sent': {}
         },
@@ -1408,7 +1448,6 @@ export class QanTableComponent extends CoreComponent implements OnInit {
             }
           },
           'bytes_sent': {},
-          'bytes_sent2': {},
           'query_time': {},
           'rows_sent': {}
         },
@@ -2133,7 +2172,6 @@ export class QanTableComponent extends CoreComponent implements OnInit {
             }
           },
           'bytes_sent': {},
-          'bytes_sent2': {},
           'query_time': {},
           'rows_sent': {}
         },
@@ -2762,7 +2800,6 @@ export class QanTableComponent extends CoreComponent implements OnInit {
             }
           },
           'bytes_sent': {},
-          'bytes_sent2': {},
           'query_time': {},
           'rows_sent': {}
         },
@@ -3492,7 +3529,6 @@ export class QanTableComponent extends CoreComponent implements OnInit {
             }
           },
           'bytes_sent': {},
-          'bytes_sent2': {},
           'query_time': {},
           'rows_sent': {}
         },
@@ -4210,7 +4246,6 @@ export class QanTableComponent extends CoreComponent implements OnInit {
             }
           },
           'bytes_sent': {},
-          'bytes_sent2': {},
           'query_time': {},
           'rows_sent': {}
         },
@@ -4946,7 +4981,8 @@ export class QanTableComponent extends CoreComponent implements OnInit {
   }
 
   ngOnInit() {
-    // console.log('tableData - ', this.tableData);
+    const entriesArray = Object.entries(this.listColumns);
+    this.selectOptions = entriesArray.map(item => new SelectOptionModel(item));
   }
 
 
