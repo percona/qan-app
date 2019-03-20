@@ -11,7 +11,7 @@ export class ContainerModel {
   constructor(params, type) {
     this.agentType = type;
     this.isDeleted = false;
-    this.custom_labels = params.custom_labels && params.custom_labels.length ? Object.values(params.custom_labels) : [];
+    this.custom_labels = params.custom_labels && Object.keys(params.custom_labels).length ? Object.values(params.custom_labels) : [];
     this.docker_container_id = params.docker_container_id || '';
     this.docker_container_name = params.docker_container_name || '';
     this.machine_id = params.machine_id || '';

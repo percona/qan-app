@@ -12,7 +12,7 @@ export class QanMysqlPerfschemaAgentModel {
     this.agentType = type;
     this.isDeleted = false;
     this.agent_id = params.agent_id || '';
-    this.custom_labels = params.custom_labels && params.custom_labels.length ? Object.values(params.custom_labels) : [];
+    this.custom_labels = params.custom_labels && Object.keys(params.custom_labels).length ? Object.values(params.custom_labels) : [];
     this.password = params.password || '';
     this.pmm_agent_id = params.pmm_agent_id || '';
     this.service_id = params.service_id || '';

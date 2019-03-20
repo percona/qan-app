@@ -8,7 +8,7 @@ export class RemoteModel {
   constructor(params, type) {
     this.agentType = type;
     this.isDeleted = false;
-    this.custom_labels = params.custom_labels && params.custom_labels.length ? Object.values(params.custom_labels) : [];
+    this.custom_labels = params.custom_labels && Object.keys(params.custom_labels).length ? Object.values(params.custom_labels) : [];
     this.node_id = params.node_id || '';
     this.node_name = params.node_name || '';
   }
