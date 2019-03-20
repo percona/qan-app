@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
 
 @Component({
   selector: 'app-qan-table-header-cell',
@@ -7,7 +7,10 @@ import { Component, OnInit } from '@angular/core';
 })
 export class QanTableHeaderCellComponent implements OnInit {
 
+  @Input() currentColumnName: any;
+
   public columns: any;
+  public listColumns: any;
   public queryColumns = {
     data: {
       bytes_sent: 'Bytes Sent',
@@ -54,11 +57,15 @@ export class QanTableHeaderCellComponent implements OnInit {
   public selectedQueryColumn: string;
 
   constructor() {
-    this.columns = Object.values(this.queryColumns.data);
-    this.selectedQueryColumn = this.columns[0];
+    this.listColumns = this.queryColumns.data;
+    this.columns = Object.values(this.listColumns);
+    // this.selectedQueryColumn = this.columns[0];
   }
 
   ngOnInit() {
+    if (this.currentColumnName === Object.keys(this.listColumns)) {
+      console.log('currentColumn, - ', this.listColumns[this.currentColumnName]);
+    }
   }
 
 }

@@ -1,7 +1,7 @@
 <div class="table-wrapper--outer">
   <perfect-scrollbar [config]="scrollbarConfig" class="pmm-scrollbar">
     <div class="table-wrapper--inner">
-      <!--<table class="qan-table" id="qanTable">-->
+      <table class="qan-table" id="qanTable">
         <!--<tr class="qan-table__row">-->
           <!--<th class="qan-table__cell qan-table__cell&#45;&#45;fixed qan-table__cell&#45;&#45;first-c">#</th>-->
           <!--<th class="qan-table__cell qan-table__cell&#45;&#45;fixed qan-table__cell&#45;&#45;second-c">-->
@@ -89,88 +89,54 @@
           <!--</td>-->
         <!--</tr>-->
 
-        <!--<ng-container *ngFor="let row of queries; let index = index;">-->
-          <!--<tr *ngIf="!index">-->
-            <!--<th class="qan-table__cell qan-table__cell&#45;&#45;fixed qan-table__cell&#45;&#45;first-c">#</th>-->
-            <!--<th class="qan-table__cell qan-table__cell&#45;&#45;fixed qan-table__cell&#45;&#45;second-c">-->
-              <!--<ng-select [searchable]="false"-->
-                         <!--[(ngModel)]="selectedQueryType"-->
-                         <!--[items]="queryTypes"-->
-                         <!--[clearable]="false"-->
-                         <!--bindLabel="name"-->
-                         <!--bindValue="name"-->
-                         <!--class="pmm-select pmm-select&#45;&#45;column pmm-select&#45;&#45;column-main">-->
-              <!--</ng-select>-->
-            <!--</th>-->
-            <!--<th *ngFor="queries.metrics" class="qan-table__cell">-->
-              <!--<app-qan-table-header-cell></app-qan-table-header-cell>-->
-            <!--</th>-->
-          <!--</tr>-->
-          <!--<tr [routerLink]="['./', 'report', dbServer.Subsystem]"-->
-              <!--[queryParams]="composeQueryParamsForGrid(row.dimension)"-->
-              <!--routerLinkActive="qan-table__row&#45;&#45;active"-->
-              <!--class="qan-table__row">-->
-            <!--<td class="qan-table__cell qan-table__cell&#45;&#45;first-c qan-table__cell&#45;&#45;fixed">-->
-              <!--{{i || ''}}-->
-            <!--</td>-->
-            <!--<td class="qan-table__cell qan-table__cell&#45;&#45;second-c qan-table__cell&#45;&#45;fixed ">-->
-              <!--<div class="overlay-container">-->
-                    <!--<span class="overlay-container__item qan-table__abstract">-->
+        <ng-container *ngFor="let row of queries; let index = index;">
+          <tr *ngIf="!index" class="qan-table__row">
+            <th class="qan-table__cell qan-table__cell--fixed qan-table__cell--first-c">#</th>
+            <th class="qan-table__cell qan-table__cell--fixed qan-table__cell--second-c">
+              <ng-select [searchable]="false"
+                         [(ngModel)]="selectedQueryType"
+                         [items]="queryTypes"
+                         [clearable]="false"
+                         bindLabel="name"
+                         bindValue="name"
+                         class="pmm-select pmm-select--column pmm-select--column-main">
+              </ng-select>
+            </th>
+            <th *ngFor="let metric of objectKeys(row.metrics)" class="qan-table__cell">
+              <app-qan-table-header-cell [currentColumnName]="metric"></app-qan-table-header-cell>
+            </th>
+          </tr>
+          <tr [routerLink]="['./', 'report', dbServer.Subsystem]"
+              [queryParams]="composeQueryParamsForGrid(row.dimension)"
+              routerLinkActive="qan-table__row--active"
+              class="qan-table__row">
+            <td class="qan-table__cell qan-table__cell--first-c qan-table__cell--fixed">
+              {{index || ''}}
+            </td>
+            <td class="qan-table__cell qan-table__cell--second-c qan-table__cell--fixed ">
+              <div class="overlay-container">
+                    <span class="overlay-container__item qan-table__abstract">
                       <!--{{ row?.Rank ? (row?.Abstract || 'Low Ranking Queries') : 'TOTAL' }}-->
-                    <!--</span>-->
+                      {{row.dimension || 'TOTAL'}}
+                    </span>
+              </div>
+            </td>
+            <td *ngFor="let metric of objectKeys(row.metrics)" class="qan-table__cell">
+              <app-qan-table-cell [cellData]="jsonStringify(row.metrics[metric])"></app-qan-table-cell>
+              <!--<div class="flex-container">-->
+              <!--<div class="scaling-svg-container app-tooltip"-->
+              <!--[appLoadSparklines]="row.Log"-->
+              <!--data-tooltip="Loading..."-->
+              <!--xkey="Start_ts" ykey="Query_load"-->
+              <!--measurement="number">-->
               <!--</div>-->
-            <!--</td>-->
-            <!--<td>-->
-              <!--<app-qan-table-cell></app-qan-table-cell>-->
-              <!--&lt;!&ndash;<div class="flex-container">&ndash;&gt;-->
-              <!--&lt;!&ndash;<div class="scaling-svg-container app-tooltip"&ndash;&gt;-->
-              <!--&lt;!&ndash;[appLoadSparklines]="row.Log"&ndash;&gt;-->
-              <!--&lt;!&ndash;data-tooltip="Loading..."&ndash;&gt;-->
-              <!--&lt;!&ndash;xkey="Start_ts" ykey="Query_load"&ndash;&gt;-->
-              <!--&lt;!&ndash;measurement="number">&ndash;&gt;-->
-              <!--&lt;!&ndash;</div>&ndash;&gt;-->
-              <!--&lt;!&ndash;<div class="ml-3 mr-3">{{ row.Load | humanize : 'number' }}</div>&ndash;&gt;-->
-              <!--&lt;!&ndash;<div><span>{{ row.Percentage | humanize : 'percent' }}</span></div>&ndash;&gt;-->
-              <!--&lt;!&ndash;</div>&ndash;&gt;-->
-            <!--</td>-->
-            <!--<td>-->
-              <!--<app-qan-table-cell></app-qan-table-cell>-->
-              <!--&lt;!&ndash;<div class="flex-container ">&ndash;&gt;-->
-              <!--&lt;!&ndash;<div><span class="unit unit-qps">{{row.QPS | humanize : 'number'}}</span></div>&ndash;&gt;-->
-              <!--&lt;!&ndash;<div class="scaling-svg-container app-tooltip"&ndash;&gt;-->
-              <!--&lt;!&ndash;[appLoadSparklines]="row.Log"&ndash;&gt;-->
-              <!--&lt;!&ndash;data-tooltip="Loading..."&ndash;&gt;-->
-              <!--&lt;!&ndash;xkey="Start_ts" ykey="Query_count"&ndash;&gt;-->
-              <!--&lt;!&ndash;measurement="number">&ndash;&gt;-->
-              <!--&lt;!&ndash;</div>&ndash;&gt;-->
-              <!--&lt;!&ndash;<div class="ml-2 mr-2">{{row.Stats.Cnt | humanize : 'number'}}</div>&ndash;&gt;-->
-              <!--&lt;!&ndash;<div>&ndash;&gt;-->
-              <!--&lt;!&ndash;<span class="unit unit-percent">{{ (row.Stats.Cnt / tableData[0]?.Stats.Cnt * 100).toFixed(2) }}</span>&ndash;&gt;-->
-              <!--&lt;!&ndash;</div>&ndash;&gt;-->
-              <!--&lt;!&ndash;</div>&ndash;&gt;-->
-            <!--</td>-->
-            <!--<td>-->
-              <!--<app-qan-table-cell></app-qan-table-cell>-->
-              <!--&lt;!&ndash;<div class="flex-container">&ndash;&gt;-->
-              <!--&lt;!&ndash;<div class="scaling-svg-container app-tooltip"&ndash;&gt;-->
-              <!--&lt;!&ndash;[appLoadSparklines]="row.Log"&ndash;&gt;-->
-              <!--&lt;!&ndash;data-tooltip="Loading..."&ndash;&gt;-->
-              <!--&lt;!&ndash;xkey="Start_ts" ykey="Query_time_avg"&ndash;&gt;-->
-              <!--&lt;!&ndash;measurement="time">&ndash;&gt;-->
-              <!--&lt;!&ndash;</div>&ndash;&gt;-->
-              <!--&lt;!&ndash;<div class="cell-overlay main-table-overlay">&ndash;&gt;-->
-              <!--&lt;!&ndash;<span class="unit unit-avg">{{ row.Stats.Avg | humanize }}</span>&ndash;&gt;-->
-              <!--&lt;!&ndash;</div>&ndash;&gt;-->
-              <!--&lt;!&ndash;<div class="scaling-svg-container app-tooltip"&ndash;&gt;-->
-              <!--&lt;!&ndash;data-tooltip="Loading..."&ndash;&gt;-->
-              <!--&lt;!&ndash;measurement="time"&ndash;&gt;-->
-              <!--&lt;!&ndash;[appLatencyChart]="row.Stats">&ndash;&gt;-->
-              <!--&lt;!&ndash;</div>&ndash;&gt;-->
-              <!--&lt;!&ndash;</div>&ndash;&gt;-->
-            <!--</td>-->
-          <!--</tr>-->
-        <!--</ng-container>-->
-      <!--</table>-->
+              <!--<div class="ml-3 mr-3">{{ row.Load | humanize : 'number' }}</div>-->
+              <!--<div><span>{{ row.Percentage | humanize : 'percent' }}</span></div>-->
+              <!--</div>-->
+            </td>
+          </tr>
+        </ng-container>
+      </table>
     </div>
   </perfect-scrollbar>
   <span class="right-table-border"></span>

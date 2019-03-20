@@ -1,13 +1,3 @@
-.app-theme-dark .qan-table {
-  --pmm-row-active: rgb(35, 70, 130);
-  --pmm-row-first-seen: rgb(13, 35, 59);
-}
-
-.app-theme-light .qan-table {
-  --pmm-row-active: rgb(255, 228, 225);
-  --pmm-row-first-seen: rgb(221, 228, 237);
-}
-
 .table-wrapper--outer {
   position: relative;
   border-top: 1px solid var(--main-border-color);
