@@ -10,7 +10,7 @@ export class MongodbModel {
   constructor(params, type) {
     this.agentType = type;
     this.isDeleted = false;
-    this.custom_labels = params.custom_labels && params.custom_labels.length ? Object.values(params.custom_labels) : [];
+    this.custom_labels = params.custom_labels && Object.keys(params.custom_labels).length ? Object.values(params.custom_labels) : [];
     this.address = params.address || '';
     this.node_id = params.node_id || '';
     this.service_id = params.service_id || '';

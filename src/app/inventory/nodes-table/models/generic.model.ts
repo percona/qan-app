@@ -13,7 +13,7 @@ export class GenericModel {
     this.agentType = type;
     this.isDeleted = false;
     this.address = params.address || '';
-    this.custom_labels = params.custom_labels && params.custom_labels.length ? Object.values(params.custom_labels) : [];
+    this.custom_labels = params.custom_labels && Object.keys(params.custom_labels).length ? Object.values(params.custom_labels) : [];
     this.distro = params.distro || '';
     this.distro_version = params.distro_version || '';
     this.machine_id = params.machine_id || '';

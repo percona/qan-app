@@ -9,7 +9,7 @@ export class ExternalExporterModel {
     this.agentType = type;
     this.isDeleted = false;
     this.agent_id = params.agent_id || '';
-    this.custom_labels = params.custom_labels && params.custom_labels.length ? Object.values(params.custom_labels) : [];
+    this.custom_labels = params.custom_labels && Object.keys(params.custom_labels).length ? Object.values(params.custom_labels) : [];
     this.metrics_url = params.metrics_url || '';
   }
 }

@@ -10,7 +10,7 @@ export class PmmAgentModel {
     this.isDeleted = false;
     this.agent_id = params.agent_id || '';
     this.connected = params.connected || '';
-    this.custom_labels = params.custom_labels && params.custom_labels.length ? Object.values(params.custom_labels) : [];
+    this.custom_labels = params.custom_labels && Object.keys(params.custom_labels).length ? Object.values(params.custom_labels) : [];
     this.runs_on_node_id = params.runs_on_node_id || '';
   }
 }
