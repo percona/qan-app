@@ -16,7 +16,7 @@ import { MomentFormatPipe } from './moment-format.pipe';
 @Directive({ selector: '[appLoadSparklines]' })
 export class LoadSparklinesDirective implements OnChanges {
 
-    public _xkey: string;
+    public _xkey: number;
     public _ykey: string;
     public _measurement: string;
 
@@ -31,7 +31,7 @@ export class LoadSparklinesDirective implements OnChanges {
         public elementRef: ElementRef,
     ) { }
 
-    @Input() set xkey(xkey: string) {
+    @Input() set xkey(xkey: number) {
         this._xkey = xkey;
     }
 
@@ -65,7 +65,7 @@ export class LoadSparklinesDirective implements OnChanges {
         const width = Math.floor(svg.node().getBoundingClientRect().width);
         svg.attr('width', width).attr('viewBox', '-1 0 ' + (width + 2) + ' 20');
 
-        const xDomain = extent(data.map(d => moment.utc(d[xkey])));
+        const xDomain = extent(data.map(d => moment.utc(moment.unix(d[xkey]).format('YYYY-MM-DDTHH:mm:ssZ'))));
 
         const xScale = scaleTime().range([2, width - 2]).domain(xDomain);
 
@@ -75,12 +75,12 @@ export class LoadSparklinesDirective implements OnChanges {
 
         const svgLine = line()
             .defined(d => !d['NoData'])
-            .x(d => xScale(moment.utc(d[xkey])))
+            .x(d => xScale(moment.utc(moment.unix(d[xkey]).format('YYYY-MM-DDTHH:mm:ssZ'))))
             .y(d => yScale(d[ykey] === undefined ? 0 : d[ykey]));
 
         const svgArea = area()
             .defined(d => !d['NoData'])
-            .x(d => xScale(moment.utc(d[xkey])))
+            .x(d => xScale(moment.utc(moment.unix(d[xkey]).format('YYYY-MM-DDTHH:mm:ssZ'))))
             .y0(d => yScale(d[ykey] === undefined ? 0 : d[ykey]))
             .y1(height - 1);
 
@@ -121,7 +121,7 @@ export class LoadSparklinesDirective implements OnChanges {
             .attr('y', 8);
 
         // @ts-ignore TS2345
-        const bisectDate = bisector((d, x) => moment.utc(d[xkey]).isBefore(x)).right;
+        const bisectDate = bisector((d, x) => moment.utc(moment.unix(d[xkey]).format('YYYY-MM-DDTHH:mm:ssZ')).isBefore(x)).right;
 
         const rect = g.append('rect')
             .attr('class', 'overlay')
@@ -140,8 +140,8 @@ export class LoadSparklinesDirective implements OnChanges {
 
             // correction bisector to use data[0] on right edge of sparkline.
             if (i === 1) {
-                const d0 = moment.utc(data[0][xkey]);
-                const d1 = moment.utc(data[1][xkey]);
+                const d0 = moment.utc(moment.utc(moment.unix(data[0][xkey]).format('YYYY-MM-DDTHH:mm:ssZ')));
+                const d1 = moment.utc(moment.utc(moment.unix(data[1][xkey]).format('YYYY-MM-DDTHH:mm:ssZ')));
                 if (mouseDate.diff(d1) > 0 && d0.diff(mouseDate) < mouseDate.diff(d1)) {
                     d = data[0];
                 }

@@ -1033,10 +1033,6 @@ export class QueryProfileComponent extends CoreComponent implements OnInit {
   ngOnInit() {
   }
 
-  addColumn() {
-    this.isAdditionalColumn = true;
-  }
-
   /**
    * Load query if params have been changed
    * @param params - current link params
@@ -1104,6 +1100,7 @@ export class QueryProfileComponent extends CoreComponent implements OnInit {
     } finally {
       this.isQueryLoading = false;
     }
+    // console.log(JSON.stringify(this.queryProfile[1]['Log']));
   }
 
   /**

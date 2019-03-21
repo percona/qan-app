@@ -1,14 +1,76 @@
 <div class="cell-inner">
-  {{cellData}}
+  <!--{{cellData}}-->
+  <!--</div>-->
+
+  <!--<div class="flex-container">-->
+  <!--<div class="scaling-svg-container app-tooltip"-->
+  <!--[appLoadSparklines]="row.Log"-->
+  <!--data-tooltip="Loading..."-->
+  <!--xkey="Start_ts" ykey="Query_load"-->
+  <!--measurement="number">-->
+  <!--</div>-->
+  <!--<div class="ml-3 mr-3">{{ row.Load | humanize : 'number' }}</div>-->
+  <!--<div><span>{{ row.Percentage | humanize : 'percent' }}</span></div>-->
+  <!--</div>-->
+
+  <!--LOAD DATA-->
+  <div class="scaling-svg-container app-tooltip"
+       [appLoadSparklines]="sparklineData"
+       data-tooltip="Loading..."
+       xkey="timestamp" ykey="m_query_load"
+       measurement="number">
+  </div>
+  <!--<div class="ml-3 mr-3">{{ row.Load | humanize : 'number' }}</div>-->
+  <!--<div><span>{{ row.Percentage | humanize : 'percent' }}</span></div>-->
+
+
+  <!--COUNT DATA-->
+  <!--<div class="flex-container ">-->
+  <!--<div><span class="unit unit-qps">{{row.QPS | humanize : 'number'}}</span></div>-->
+  <!--<div class="scaling-svg-container app-tooltip"-->
+       <!--[appLoadSparklines]="sparklineData"-->
+       <!--data-tooltip="Loading..."-->
+       <!--xkey="timestamp" ykey="m_lock_time_sum"-->
+       <!--measurement="number">-->
+  <!--</div>-->
+  <!--<div class="scaling-svg-container app-tooltip"-->
+       <!--[appLoadSparklines]="sparklineData"-->
+       <!--data-tooltip="Loading..."-->
+       <!--xkey="timestamp" ykey="m_query_time_sum"-->
+       <!--measurement="number">-->
+  <!--</div>-->
+  <div class="scaling-svg-container app-tooltip"
+       [appLoadSparklines]="sparklineData"
+       data-tooltip="Loading..."
+       xkey="timestamp" ykey="m_query_time_avg"
+       measurement="time">
+  </div>
+  <!--<div class="scaling-svg-container app-tooltip"-->
+       <!--[appLoadSparklines]="sparklineData"-->
+       <!--data-tooltip="Loading..."-->
+       <!--xkey="timestamp" ykey="num_queries_sum"-->
+       <!--measurement="number">-->
+  <!--</div>-->
+  <!--<div class="ml-2 mr-2">{{row.Stats.Cnt | humanize : 'number'}}</div>-->
+  <!--<div><span class="unit unit-percent">{{ (row.Stats.Cnt / profileTotal?.Stats.Cnt * 100).toFixed(2) }}</span>-->
+  <!--</div>-->
 </div>
 
+
+<!--LATENCY DATA-->
 <!--<div class="flex-container">-->
 <!--<div class="scaling-svg-container app-tooltip"-->
 <!--[appLoadSparklines]="row.Log"-->
 <!--data-tooltip="Loading..."-->
-<!--xkey="Start_ts" ykey="Query_load"-->
-<!--measurement="number">-->
+<!--xkey="Start_ts" ykey="Query_time_avg"-->
+<!--measurement="time">-->
 <!--</div>-->
-<!--<div class="ml-3 mr-3">{{ row.Load | humanize : 'number' }}</div>-->
-<!--<div><span>{{ row.Percentage | humanize : 'percent' }}</span></div>-->
+<!--<div class="cell-overlay main-table-overlay">-->
+<!--<span class="unit unit-avg">{{ row.Stats.Avg | humanize }}</span>-->
+<!--</div>-->
+<!--<div class="scaling-svg-container app-tooltip"-->
+<!--data-tooltip="Loading..."-->
+<!--measurement="time"-->
+<!--[appLatencyChart]="row.Stats">-->
+<!--</div>-->
 <!--</div>-->

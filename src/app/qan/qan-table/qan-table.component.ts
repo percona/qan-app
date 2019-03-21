@@ -4963,7 +4963,7 @@ export class QanTableComponent extends CoreComponent implements OnInit, OnChange
             }
           }
         ]
-      }
+      },
     ],
     'total_rows': 9
   };
@@ -4986,9 +4986,548 @@ export class QanTableComponent extends CoreComponent implements OnInit, OnChange
   }
 
   ngOnInit() {
+    const mockArray = [
+      {
+        'Point': 0,
+        'Start_ts': '2019-03-21T14:59:28Z',
+        'NoData': false,
+        'Query_count': 22,
+        'Query_load': 0.00044082195,
+        'Query_time_avg': 0.0175688
+      },
+      {
+        'Point': 1,
+        'Start_ts': '2019-03-21T14:47:28Z',
+        'NoData': false,
+        'Query_count': 25,
+        'Query_load': 0.0008300738,
+        'Query_time_avg': 0.01754594
+      },
+      {
+        'Point': 2,
+        'Start_ts': '2019-03-21T14:35:28Z',
+        'NoData': false,
+        'Query_count': 24,
+        'Query_load': 0.00052262266,
+        'Query_time_avg': 0.01741783
+      },
+      {
+        'Point': 3,
+        'Start_ts': '2019-03-21T14:23:28Z',
+        'NoData': false,
+        'Query_count': 24,
+        'Query_load': 0.0006480602,
+        'Query_time_avg': 0.0173951
+      },
+      {
+        'Point': 4,
+        'Start_ts': '2019-03-21T14:11:28Z',
+        'NoData': false,
+        'Query_count': 6,
+        'Query_load': 0.00034209044,
+        'Query_time_avg': 0.017283598
+      },
+      {
+        'Point': 5,
+        'Start_ts': '2019-03-21T13:59:28Z',
+        'NoData': false,
+        'Query_count': 18,
+        'Query_load': 0.0003708497,
+        'Query_time_avg': 0.01715585
+      },
+      {
+        'Point': 6,
+        'Start_ts': '2019-03-21T13:47:28Z',
+        'NoData': false,
+        'Query_count': 24,
+        'Query_load': 0.0004104204,
+        'Query_time_avg': 0.017298305
+      },
+      {
+        'Point': 7,
+        'Start_ts': '2019-03-21T13:35:28Z',
+        'NoData': false,
+        'Query_count': 24,
+        'Query_load': 0.00075334636,
+        'Query_time_avg': 0.017178468
+      },
+      {
+        'Point': 8,
+        'Start_ts': '2019-03-21T13:23:28Z',
+        'NoData': false,
+        'Query_count': 24,
+        'Query_load': 0.000698235,
+        'Query_time_avg': 0.01712988
+      },
+      {
+        'Point': 9,
+        'Start_ts': '2019-03-21T13:11:28Z',
+        'NoData': false,
+        'Query_count': 24,
+        'Query_load': 0.00048711765,
+        'Query_time_avg': 0.01696416
+      },
+      {
+        'Point': 10,
+        'Start_ts': '2019-03-21T12:59:28Z',
+        'NoData': false,
+        'Query_count': 2,
+        'Query_load': 0.00007934625,
+        'Query_time_avg': 0.01707627
+      },
+      {
+        'Point': 11,
+        'Start_ts': '2019-03-21T12:47:28Z',
+        'NoData': false,
+        'Query_count': 10,
+        'Query_load': 0.00020919568,
+        'Query_time_avg': 0.01707124
+      },
+      {
+        'Point': 12,
+        'Start_ts': '2019-03-21T12:35:28Z',
+        'NoData': false,
+        'Query_count': 24,
+        'Query_load': 0.0006085776,
+        'Query_time_avg': 0.0171027
+      },
+      {
+        'Point': 13,
+        'Start_ts': '2019-03-21T12:23:28Z',
+        'NoData': false,
+        'Query_count': 24,
+        'Query_load': 0.00075663766,
+        'Query_time_avg': 0.01678981
+      },
+      {
+        'Point': 14,
+        'Start_ts': '2019-03-21T12:11:28Z',
+        'NoData': false,
+        'Query_count': 24,
+        'Query_load': 0.0007241547,
+        'Query_time_avg': 0.016381245
+      },
+      {
+        'Point': 15,
+        'Start_ts': '2019-03-21T11:59:28Z',
+        'NoData': false,
+        'Query_count': 28,
+        'Query_load': 0.0012239272,
+        'Query_time_avg': 0.015832406
+      },
+      {
+        'Point': 16,
+        'Start_ts': '2019-03-21T11:47:28Z',
+        'NoData': false,
+        'Query_count': 24,
+        'Query_load': 0.00065410184,
+        'Query_time_avg': 0.01477689
+      },
+      {
+        'Point': 17,
+        'Start_ts': '2019-03-21T11:35:28Z',
+        'NoData': false,
+        'Query_count': 24,
+        'Query_load': 0.00043718418,
+        'Query_time_avg': 0.014516711
+      },
+      {
+        'Point': 18,
+        'Start_ts': '2019-03-21T11:23:28Z',
+        'NoData': false,
+        'Query_count': 24,
+        'Query_load': 0.00042974917,
+        'Query_time_avg': 0.014694266
+      },
+      {
+        'Point': 19,
+        'Start_ts': '2019-03-21T11:11:28Z',
+        'NoData': false,
+        'Query_count': 24,
+        'Query_load': 0.00066831027,
+        'Query_time_avg': 0.014599123
+      },
+      {
+        'Point': 20,
+        'Start_ts': '2019-03-21T10:59:28Z',
+        'NoData': false,
+        'Query_count': 24,
+        'Query_load': 0.00054119126,
+        'Query_time_avg': 0.014046963
+      },
+      {
+        'Point': 21,
+        'Start_ts': '2019-03-21T10:47:28Z',
+        'NoData': false,
+        'Query_count': 24,
+        'Query_load': 51240.957,
+        'Query_time_avg': 0.014008578
+      },
+      {
+        'Point': 22,
+        'Start_ts': '2019-03-21T10:35:28Z',
+        'NoData': false,
+        'Query_count': 24,
+        'Query_load': 0.00041493305,
+        'Query_time_avg': 0.014576021
+      },
+      {
+        'Point': 23,
+        'Start_ts': '2019-03-21T10:23:28Z',
+        'NoData': false,
+        'Query_count': 24,
+        'Query_load': 0.0005657964,
+        'Query_time_avg': 0.014349163
+      },
+      {
+        'Point': 24,
+        'Start_ts': '2019-03-21T10:11:28Z',
+        'NoData': false,
+        'Query_count': 22,
+        'Query_load': 0.0010165278,
+        'Query_time_avg': 0.0138633745
+      },
+      {
+        'Point': 25,
+        'Start_ts': '2019-03-21T09:59:28Z',
+        'NoData': false,
+        'Query_count': 20,
+        'Query_load': 0.0002015177,
+        'Query_time_avg': 0.010449383
+      },
+      {
+        'Point': 26,
+        'Start_ts': '2019-03-21T09:47:28Z',
+        'NoData': false,
+        'Query_count': 24,
+        'Query_load': 0.00022416704,
+        'Query_time_avg': 0.0113805765
+      },
+      {
+        'Point': 27,
+        'Start_ts': '2019-03-21T09:35:28Z',
+        'NoData': false,
+        'Query_count': 24,
+        'Query_load': 0.00040449965,
+        'Query_time_avg': 0.013443847
+      },
+      {
+        'Point': 28,
+        'Start_ts': '2019-03-21T09:23:28Z',
+        'NoData': false,
+        'Query_count': 24,
+        'Query_load': 0.00020293423,
+        'Query_time_avg': 0.016280053
+      },
+      {
+        'Point': 29,
+        'Start_ts': '2019-03-21T09:11:28Z',
+        'NoData': false,
+        'Query_count': 8,
+        'Query_load': 0.00014011432,
+        'Query_time_avg': 0.03430918
+      },
+      {
+        'Point': 30,
+        'Start_ts': '2019-03-21T08:59:28Z',
+        'NoData': true,
+        'Query_count': 0,
+        'Query_load': 0,
+        'Query_time_avg': 0
+      },
+      {
+        'Point': 31,
+        'Start_ts': '2019-03-21T08:47:28Z',
+        'NoData': true,
+        'Query_count': 0,
+        'Query_load': 0,
+        'Query_time_avg': 0
+      },
+      {
+        'Point': 32,
+        'Start_ts': '2019-03-21T08:35:28Z',
+        'NoData': true,
+        'Query_count': 0,
+        'Query_load': 0,
+        'Query_time_avg': 0
+      },
+      {
+        'Point': 33,
+        'Start_ts': '2019-03-21T08:23:28Z',
+        'NoData': true,
+        'Query_count': 0,
+        'Query_load': 0,
+        'Query_time_avg': 0
+      },
+      {
+        'Point': 34,
+        'Start_ts': '2019-03-21T08:11:28Z',
+        'NoData': true,
+        'Query_count': 0,
+        'Query_load': 0,
+        'Query_time_avg': 0
+      },
+      {
+        'Point': 35,
+        'Start_ts': '2019-03-21T07:59:28Z',
+        'NoData': true,
+        'Query_count': 0,
+        'Query_load': 0,
+        'Query_time_avg': 0
+      },
+      {
+        'Point': 36,
+        'Start_ts': '2019-03-21T07:47:28Z',
+        'NoData': true,
+        'Query_count': 0,
+        'Query_load': 0,
+        'Query_time_avg': 0
+      },
+      {
+        'Point': 37,
+        'Start_ts': '2019-03-21T07:35:28Z',
+        'NoData': true,
+        'Query_count': 0,
+        'Query_load': 0,
+        'Query_time_avg': 0
+      },
+      {
+        'Point': 38,
+        'Start_ts': '2019-03-21T07:23:28Z',
+        'NoData': true,
+        'Query_count': 0,
+        'Query_load': 0,
+        'Query_time_avg': 0
+      },
+      {
+        'Point': 39,
+        'Start_ts': '2019-03-21T07:11:28Z',
+        'NoData': true,
+        'Query_count': 0,
+        'Query_load': 0,
+        'Query_time_avg': 0
+      },
+      {
+        'Point': 40,
+        'Start_ts': '2019-03-21T06:59:28Z',
+        'NoData': true,
+        'Query_count': 0,
+        'Query_load': 0,
+        'Query_time_avg': 0
+      },
+      {
+        'Point': 41,
+        'Start_ts': '2019-03-21T06:47:28Z',
+        'NoData': true,
+        'Query_count': 0,
+        'Query_load': 0,
+        'Query_time_avg': 0
+      },
+      {
+        'Point': 42,
+        'Start_ts': '2019-03-21T06:35:28Z',
+        'NoData': true,
+        'Query_count': 0,
+        'Query_load': 0,
+        'Query_time_avg': 0
+      },
+      {
+        'Point': 43,
+        'Start_ts': '2019-03-21T06:23:28Z',
+        'NoData': true,
+        'Query_count': 0,
+        'Query_load': 0,
+        'Query_time_avg': 0
+      },
+      {
+        'Point': 44,
+        'Start_ts': '2019-03-21T06:11:28Z',
+        'NoData': true,
+        'Query_count': 0,
+        'Query_load': 0,
+        'Query_time_avg': 0
+      },
+      {
+        'Point': 45,
+        'Start_ts': '2019-03-21T05:59:28Z',
+        'NoData': true,
+        'Query_count': 0,
+        'Query_load': 0,
+        'Query_time_avg': 0
+      },
+      {
+        'Point': 46,
+        'Start_ts': '2019-03-21T05:47:28Z',
+        'NoData': true,
+        'Query_count': 0,
+        'Query_load': 0,
+        'Query_time_avg': 0
+      },
+      {
+        'Point': 47,
+        'Start_ts': '2019-03-21T05:35:28Z',
+        'NoData': true,
+        'Query_count': 0,
+        'Query_load': 0,
+        'Query_time_avg': 0
+      },
+      {
+        'Point': 48,
+        'Start_ts': '2019-03-21T05:23:28Z',
+        'NoData': true,
+        'Query_count': 0,
+        'Query_load': 0,
+        'Query_time_avg': 0
+      },
+      {
+        'Point': 49,
+        'Start_ts': '2019-03-21T05:11:28Z',
+        'NoData': true,
+        'Query_count': 0,
+        'Query_load': 0,
+        'Query_time_avg': 0
+      },
+      {
+        'Point': 50,
+        'Start_ts': '2019-03-21T04:59:28Z',
+        'NoData': true,
+        'Query_count': 0,
+        'Query_load': 0,
+        'Query_time_avg': 0
+      },
+      {
+        'Point': 51,
+        'Start_ts': '2019-03-21T04:47:28Z',
+        'NoData': true,
+        'Query_count': 0,
+        'Query_load': 0,
+        'Query_time_avg': 0
+      },
+      {
+        'Point': 52,
+        'Start_ts': '2019-03-21T04:35:28Z',
+        'NoData': true,
+        'Query_count': 0,
+        'Query_load': 0,
+        'Query_time_avg': 0
+      },
+      {
+        'Point': 53,
+        'Start_ts': '2019-03-21T04:23:28Z',
+        'NoData': true,
+        'Query_count': 0,
+        'Query_load': 0,
+        'Query_time_avg': 0
+      },
+      {
+        'Point': 54,
+        'Start_ts': '2019-03-21T04:11:28Z',
+        'NoData': true,
+        'Query_count': 0,
+        'Query_load': 0,
+        'Query_time_avg': 0
+      },
+      {
+        'Point': 55,
+        'Start_ts': '2019-03-21T03:59:28Z',
+        'NoData': true,
+        'Query_count': 0,
+        'Query_load': 0,
+        'Query_time_avg': 0
+      },
+      {
+        'Point': 56,
+        'Start_ts': '2019-03-21T03:47:28Z',
+        'NoData': true,
+        'Query_count': 0,
+        'Query_load': 0,
+        'Query_time_avg': 0
+      },
+      {
+        'Point': 57,
+        'Start_ts': '2019-03-21T03:35:28Z',
+        'NoData': true,
+        'Query_count': 0,
+        'Query_load': 0,
+        'Query_time_avg': 0
+      },
+      {
+        'Point': 58,
+        'Start_ts': '2019-03-21T03:23:28Z',
+        'NoData': true,
+        'Query_count': 0,
+        'Query_load': 0,
+        'Query_time_avg': 0
+      }
+    ];
     const entriesArray = Object.entries(this.listColumns);
     this.selectOptions = entriesArray.map(item => new SelectOptionModel(item));
     this.tableData = this.mockQueryProfile.rows.map(row => new TableDataModel(row));
+    this.tableData.push({
+      'metrics': [
+        {
+          metricName: 'lock_time',
+          stats: {
+            'stats': {
+              'cnt': 370,
+              'max': 0.000162,
+              'min': 8.7e-05,
+              'p99': 0.00010365946,
+              'rate': 0.7067387,
+              'sum': 0.38354
+            }
+          },
+        },
+        {
+          metricName: 'bytes_sent',
+          stats: {
+            'stats': {
+              'cnt': 370,
+              'max': 0.000162,
+              'min': 8.7e-05,
+              'p99': 0.00010365946,
+              'rate': 0.7067387,
+              'sum': 0.38354
+            }
+          }
+        },
+        {
+          metricName: 'query_time',
+          stats: {
+            'stats': {
+              'cnt': 370,
+              'max': 0.000162,
+              'min': 8.7e-05,
+              'p99': 0.00010365946,
+              'rate': 0.7067387,
+              'sum': 0.38354
+            }
+          }
+        },
+        {
+          metricName: 'rows_sent',
+          stats: {
+            'stats': {
+              'cnt': 370,
+              'max': 0.000162,
+              'min': 8.7e-05,
+              'p99': 0.00010365946,
+              'rate': 0.7067387,
+              'sum': 0.38354
+            }
+          }
+        }
+      ],
+      sparkline: mockArray.map(item => new Object({
+        m_query_load: item['Query_load'],
+        m_query_time_avg: item['Query_time_avg'],
+        timestamp: +moment(item['Start_ts']).format('X')
+      })),
+      dimension:
+        'DFC1D304DA3FA3EC',
+      rank:
+        10
+    });
     console.log('tableData - ', this.tableData);
   }
 

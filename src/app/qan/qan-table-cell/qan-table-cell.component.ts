@@ -6,7 +6,8 @@ import {Component, Input, OnInit} from '@angular/core';
   styleUrls: ['./qan-table-cell.component.css']
 })
 export class QanTableCellComponent implements OnInit {
-  @Input() cellData: any;
+  @Input() metricData: any;
+  @Input() sparklineData: any;
   constructor() { }
 
   ngOnInit() {

@@ -16,8 +16,10 @@
                            class="pmm-select pmm-select--column pmm-select--column-main">
                 </ng-select>
               </th>
-              <app-qan-table-header-cell *ngFor="let metric of row.metrics" [options]="selectOptions"
-                                         [currentColumnName]="metric.metricName"></app-qan-table-header-cell>
+              <app-qan-table-header-cell *ngFor="let metric of row.metrics"
+                                         [options]="selectOptions"
+                                         [currentColumnName]="metric.metricName">
+              </app-qan-table-header-cell>
             </tr>
             <tr [routerLink]="['./', 'report', dbServer.Subsystem]"
                 [queryParams]="composeQueryParamsForGrid(row.dimension)"
@@ -34,9 +36,10 @@
                     </span>
                 </div>
               </td>
-              <td *ngFor="let metric of row.metrics" class="qan-table__cell">
-                <app-qan-table-cell [cellData]="jsonStringify(metric.stats)"></app-qan-table-cell>
-              </td>
+              <app-qan-table-cell *ngFor="let metric of row.metrics"
+                                  [metricData]="jsonStringify(metric.stats)"
+                                  [sparklineData]="row.sparkline">
+              </app-qan-table-cell>
             </tr>
           </ng-container>
         </table>
