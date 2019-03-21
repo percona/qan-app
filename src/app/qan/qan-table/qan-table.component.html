@@ -1,10 +1,10 @@
 <div class="main-wrapper">
   <div class="table-wrapper--outer">
-    <perfect-scrollbar [config]="scrollbarConfig" class="pmm-scrollbar">
+    <perfect-scrollbar [config]="scrollbarConfig" class="pmm-scrollbar" #scrollbar>
       <div class="table-wrapper--inner">
         <table class="qan-table" id="qanTable">
-          <ng-container *ngFor="let row of queries; let index = index;">
-            <tr *ngIf="!index" class="qan-table__row qan-table__row--heading" #tableHeading>
+          <ng-container *ngFor="let row of tableData; let index = index;">
+            <tr *ngIf="!index" class="qan-table__row qan-table__row--heading">
               <th class="qan-table__cell qan-table__cell--fixed qan-table__cell--first-c">#</th>
               <th class="qan-table__cell qan-table__cell--fixed qan-table__cell--second-c">
                 <ng-select [searchable]="false"
@@ -16,14 +16,13 @@
                            class="pmm-select pmm-select--column pmm-select--column-main">
                 </ng-select>
               </th>
-              <th *ngFor="let metric of objectKeys(row.metrics)" class="qan-table__cell">
-                <app-qan-table-header-cell [options]="selectOptions" [currentColumnName]="metric"></app-qan-table-header-cell>
-              </th>
+              <app-qan-table-header-cell *ngFor="let metric of row.metrics" [options]="selectOptions"
+                                         [currentColumnName]="metric.metricName"></app-qan-table-header-cell>
             </tr>
             <tr [routerLink]="['./', 'report', dbServer.Subsystem]"
                 [queryParams]="composeQueryParamsForGrid(row.dimension)"
                 routerLinkActive="qan-table__row--active"
-                class="qan-table__row qan-table--body" #tableRow>
+                class="qan-table__row qan-table--body">
               <td class="qan-table__cell qan-table__cell--first-c qan-table__cell--fixed">
                 {{index || ''}}
               </td>
@@ -35,8 +34,8 @@
                     </span>
                 </div>
               </td>
-              <td *ngFor="let metric of objectKeys(row.metrics)" class="qan-table__cell">
-                <app-qan-table-cell [cellData]="jsonStringify(row.metrics[metric])"></app-qan-table-cell>
+              <td *ngFor="let metric of row.metrics" class="qan-table__cell">
+                <app-qan-table-cell [cellData]="jsonStringify(metric.stats)"></app-qan-table-cell>
               </td>
             </tr>
           </ng-container>
@@ -45,7 +44,7 @@
     </perfect-scrollbar>
     <span class="right-table-border"></span>
   </div>
-  <button class="add-column-btn">
+  <button (click)="addColumn()" class="add-column-btn">
     <i class="fa fa-plus-circle" aria-hidden="true"></i>
   </button>
 </div>

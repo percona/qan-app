@@ -1,10 +1,12 @@
 import {Component, ElementRef, Input, OnChanges, OnInit, ViewChild} from '@angular/core';
-import {PerfectScrollbarConfigInterface} from 'ngx-perfect-scrollbar';
+import {PerfectScrollbarComponent, PerfectScrollbarConfigInterface} from 'ngx-perfect-scrollbar';
 import {CoreComponent, QueryParams} from '../../core/core.component';
 import {ActivatedRoute, Router} from '@angular/router';
 import {InstanceService} from '../../core/services/instance.service';
 import * as moment from 'moment';
 import {SelectOptionModel} from '../qan-table-header-cell/modesl/select-option.model';
+import {TableDataModel} from './models/table-data.model';
+import {MetricModel} from './models/metric.model';
 
 @Component({
   selector: 'app-qan-table',
@@ -12,9 +14,7 @@ import {SelectOptionModel} from '../qan-table-header-cell/modesl/select-option.m
   styleUrls: ['./qan-table.component.scss']
 })
 export class QanTableComponent extends CoreComponent implements OnInit, OnChanges {
-  @Input() addColumn = false;
-  @ViewChild('tableHeading') tableHeading: ElementRef;
-  @ViewChild('tableRow') tableRow: ElementRef;
+  @ViewChild(PerfectScrollbarComponent) componentRef?: PerfectScrollbarComponent;
 
   public scrollbarConfig: PerfectScrollbarConfigInterface = {
     suppressScrollY: false
@@ -4968,6 +4968,8 @@ export class QanTableComponent extends CoreComponent implements OnInit, OnChange
     'total_rows': 9
   };
 
+  public tableData: any;
+
   public totalRows: number;
   public queries: any;
 
@@ -4986,11 +4988,18 @@ export class QanTableComponent extends CoreComponent implements OnInit, OnChange
   ngOnInit() {
     const entriesArray = Object.entries(this.listColumns);
     this.selectOptions = entriesArray.map(item => new SelectOptionModel(item));
+    this.tableData = this.mockQueryProfile.rows.map(row => new TableDataModel(row));
+    console.log('tableData - ', this.tableData);
   }
 
   ngOnChanges() {
   }
 
+  addColumn() {
+    this.tableData.forEach(query => query.metrics.push(new MetricModel()));
+    // console.log(this.scrollbar);
+    setTimeout(() => this.componentRef.directiveRef.scrollToRight(), 0);
+  }
 
   /**
    * Check if current query is first seen for current date
