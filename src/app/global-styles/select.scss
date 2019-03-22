@@ -162,7 +162,7 @@
 
     .ng-dropdown-panel {
       width: 100%;
-      z-index: unset;
+      z-index: 1;
 
       .ng-dropdown-panel-items {
         margin-bottom: 0;
@@ -256,7 +256,7 @@
   &.pmm-select--column-main {
     height: inherit;
     .ng-dropdown-panel {
-      z-index: 1;
+      z-index: 3;
       width: auto;
       min-width: inherit;
     }

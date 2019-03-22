@@ -22,52 +22,14 @@ export class QanTableComponent extends CoreComponent implements OnInit, OnChange
 
   public queryColumns = {
     data: {
-      bytes_sent: 'Bytes Sent',
       count: 'Count',
-      docs_returned: 'Docs Returned',
-      docs_scanned: 'Docs Scanned',
-      filesort: 'Filesort',
-      filesort_on_disk: 'Filesort on Disk',
-      full_join: 'Full Join',
-      full_scan: 'Full Scan',
-      innodb_io_r_bytes: 'Innodb IO R Bytes',
-      innodb_io_r_ops: 'Innodb IO R Ops',
-      innodb_io_r_wait: 'Innodb IO R Wait',
-      innodb_pages_distinct: 'Innodb Pages Distinct',
-      innodb_queue_wait: 'Innodb Queue Wait',
-      innodb_rec_lock_wait: 'Innodb Rec Lock Wait',
       latancy: 'Latancy',
       load: 'Load',
-      lock_time: 'Lock Time',
-      merge_passes: 'Merge Passes',
-      no_good_index_used: 'No Good Index Used',
-      no_index_used: 'No Index Used',
-      qc_hit: 'Query Cache Hit',
-      query_length: 'Query Length',
-      query_time: 'Query Time',
-      response_length: 'Response Length',
-      rows_affected: 'Rows Affected',
-      rows_examined: 'Rows Examined',
-      rows_read: 'Rows Read',
-      rows_sent: 'Rows Sent',
-      select_full_range_join: 'Select Full Range Join',
-      select_range: 'Select Range',
-      select_range_check: 'Select Range Check',
-      sort_range: 'Sort Range',
-      sort_rows: 'Sort Rows',
-      sort_scan: 'Sort Scan',
-      tmp_disk_tables: 'Tmp Disk Tables',
-      tmp_table: 'Tmp Table',
-      tmp_table_on_disk: 'Tmp Table on Disk',
-      tmp_table_sizes: 'Tmp Table Sizes',
-      tmp_tables: 'Tmp Tables'
     }
   };
   public selectOptions: any;
   public listColumns = this.queryColumns.data;
 
-  public objectKeys = Object.keys;
-  public jsonStringify = JSON.stringify;
 
   public queryTypes = ['Query', 'Schema', 'Server', 'Database', 'User', 'Host'];
   public selectedQueryType: string;
@@ -80,7 +42,7 @@ export class QanTableComponent extends CoreComponent implements OnInit, OnChange
     'rows': [
       {
         'metrics': {
-          'lock_time': {
+          'load': {
             'stats': {
               'cnt': 1789,
               'max': 0.000162,
@@ -89,17 +51,7 @@ export class QanTableComponent extends CoreComponent implements OnInit, OnChange
               'sum': 0.54269
             }
           },
-          'bytes_sent': {
-            'stats': {
-              'rate': 0.36247563,
-              'cnt': 370,
-              'sum': 760840,
-              'min': 184,
-              'max': 249,
-              'p99': 205.63243
-            }
-          },
-          'query_time': {
+          'latancy': {
             'stats': {
               'rate': 0.55897486,
               'cnt': 370,
@@ -109,16 +61,6 @@ export class QanTableComponent extends CoreComponent implements OnInit, OnChange
               'p99': 0.0016270973
             }
           },
-          'rows_sent': {
-            'stats': {
-              'rate': 0.30032468,
-              'cnt': 370,
-              'sum': 3700,
-              'min': 1,
-              'max': 1,
-              'p99': 1
-            }
-          }
         },
         'sparkline': [
           {
@@ -834,7 +776,7 @@ export class QanTableComponent extends CoreComponent implements OnInit, OnChange
       {
         'dimension': '07E4DDF133CD2FAD',
         'metrics': {
-          'lock_time': {
+          'load': {
             'stats': {
               'cnt': 1789,
               'max': 0.000162,
@@ -843,17 +785,7 @@ export class QanTableComponent extends CoreComponent implements OnInit, OnChange
               'sum': 0.54269
             }
           },
-          'bytes_sent': {
-            'stats': {
-              'rate': 0.36247563,
-              'cnt': 370,
-              'sum': 760840,
-              'min': 184,
-              'max': 249,
-              'p99': 205.63243
-            }
-          },
-          'query_time': {
+          'latancy': {
             'stats': {
               'rate': 0.55897486,
               'cnt': 370,
@@ -863,16 +795,6 @@ export class QanTableComponent extends CoreComponent implements OnInit, OnChange
               'p99': 0.0016270973
             }
           },
-          'rows_sent': {
-            'stats': {
-              'rate': 0.30032468,
-              'cnt': 370,
-              'sum': 3700,
-              'min': 1,
-              'max': 1,
-              'p99': 1
-            }
-          }
         },
         'rank': 1,
         'sparkline': [
@@ -1061,14 +983,25 @@ export class QanTableComponent extends CoreComponent implements OnInit, OnChange
       {
         'dimension': 'D2B2DCCF0040F792',
         'metrics': {
-          'lock_time': {
+          'load': {
             'stats': {
-              'cnt': 10
+              'cnt': 1789,
+              'max': 0.000162,
+              'p99': 3.0334824e-05,
+              'rate': 1,
+              'sum': 0.54269
             }
           },
-          'bytes_sent': {},
-          'query_time': {},
-          'rows_sent': {}
+          'latancy': {
+            'stats': {
+              'rate': 0.55897486,
+              'cnt': 370,
+              'sum': 6.02026,
+              'min': 0.001414,
+              'max': 0.002205,
+              'p99': 0.0016270973
+            }
+          },
         },
         'rank': 2,
         'sparkline': [
@@ -1197,14 +1130,25 @@ export class QanTableComponent extends CoreComponent implements OnInit, OnChange
       {
         'dimension': '4739F00420391F08',
         'metrics': {
-          'lock_time': {
+          'load': {
             'stats': {
-              'cnt': 7
+              'cnt': 1789,
+              'max': 0.000162,
+              'p99': 3.0334824e-05,
+              'rate': 1,
+              'sum': 0.54269
             }
           },
-          'bytes_sent': {},
-          'query_time': {},
-          'rows_sent': {}
+          'latancy': {
+            'stats': {
+              'rate': 0.55897486,
+              'cnt': 370,
+              'sum': 6.02026,
+              'min': 0.001414,
+              'max': 0.002205,
+              'p99': 0.0016270973
+            }
+          },
         },
         'rank': 3,
         'sparkline': [
@@ -1297,14 +1241,25 @@ export class QanTableComponent extends CoreComponent implements OnInit, OnChange
       {
         'dimension': 'B32023956BDC8890',
         'metrics': {
-          'lock_time': {
+          'load': {
             'stats': {
-              'cnt': 13
+              'cnt': 1789,
+              'max': 0.000162,
+              'p99': 3.0334824e-05,
+              'rate': 1,
+              'sum': 0.54269
             }
           },
-          'bytes_sent': {},
-          'query_time': {},
-          'rows_sent': {}
+          'latancy': {
+            'stats': {
+              'rate': 0.55897486,
+              'cnt': 370,
+              'sum': 6.02026,
+              'min': 0.001414,
+              'max': 0.002205,
+              'p99': 0.0016270973
+            }
+          },
         },
         'rank': 4,
         'sparkline': [
@@ -1445,14 +1400,25 @@ export class QanTableComponent extends CoreComponent implements OnInit, OnChange
       {
         'dimension': '50CDCBF0B17474BA',
         'metrics': {
-          'lock_time': {
+          'load': {
             'stats': {
-              'cnt': 526
+              'cnt': 1789,
+              'max': 0.000162,
+              'p99': 3.0334824e-05,
+              'rate': 1,
+              'sum': 0.54269
             }
           },
-          'bytes_sent': {},
-          'query_time': {},
-          'rows_sent': {}
+          'latancy': {
+            'stats': {
+              'rate': 0.55897486,
+              'cnt': 370,
+              'sum': 6.02026,
+              'min': 0.001414,
+              'max': 0.002205,
+              'p99': 0.0016270973
+            }
+          },
         },
         'rank': 5,
         'sparkline': [
@@ -2169,14 +2135,25 @@ export class QanTableComponent extends CoreComponent implements OnInit, OnChange
       {
         'dimension': '6053B61FAD364155',
         'metrics': {
-          'lock_time': {
+          'load': {
             'stats': {
-              'cnt': 122
+              'cnt': 1789,
+              'max': 0.000162,
+              'p99': 3.0334824e-05,
+              'rate': 1,
+              'sum': 0.54269
             }
           },
-          'bytes_sent': {},
-          'query_time': {},
-          'rows_sent': {}
+          'latancy': {
+            'stats': {
+              'rate': 0.55897486,
+              'cnt': 370,
+              'sum': 6.02026,
+              'min': 0.001414,
+              'max': 0.002205,
+              'p99': 0.0016270973
+            }
+          },
         },
         'rank': 6,
         'sparkline': [
@@ -2797,14 +2774,25 @@ export class QanTableComponent extends CoreComponent implements OnInit, OnChange
       {
         'dimension': '5E556C57819E58FF',
         'metrics': {
-          'lock_time': {
+          'load': {
             'stats': {
-              'cnt': 483
+              'cnt': 1789,
+              'max': 0.000162,
+              'p99': 3.0334824e-05,
+              'rate': 1,
+              'sum': 0.54269
             }
           },
-          'bytes_sent': {},
-          'query_time': {},
-          'rows_sent': {}
+          'latancy': {
+            'stats': {
+              'rate': 0.55897486,
+              'cnt': 370,
+              'sum': 6.02026,
+              'min': 0.001414,
+              'max': 0.002205,
+              'p99': 0.0016270973
+            }
+          },
         },
         'rank': 7,
         'sparkline': [
@@ -3521,19 +3509,25 @@ export class QanTableComponent extends CoreComponent implements OnInit, OnChange
       {
         'dimension': '5D730C79CA046D88',
         'metrics': {
-          'lock_time': {
+          'load': {
             'stats': {
-              'cnt': 240,
-              'max': 0.000101,
-              'min': 5.2e-05,
-              'p99': 6.63125e-05,
-              'rate': 0.29326138,
-              'sum': 0.15915
+              'cnt': 1789,
+              'max': 0.000162,
+              'p99': 3.0334824e-05,
+              'rate': 1,
+              'sum': 0.54269
             }
           },
-          'bytes_sent': {},
-          'query_time': {},
-          'rows_sent': {}
+          'latancy': {
+            'stats': {
+              'rate': 0.55897486,
+              'cnt': 370,
+              'sum': 6.02026,
+              'min': 0.001414,
+              'max': 0.002205,
+              'p99': 0.0016270973
+            }
+          },
         },
         'rank': 8,
         'sparkline': [
@@ -4238,19 +4232,25 @@ export class QanTableComponent extends CoreComponent implements OnInit, OnChange
       {
         'dimension': 'DFC1D304DA3FA3EC',
         'metrics': {
-          'lock_time': {
+          'load': {
             'stats': {
-              'cnt': 370,
+              'cnt': 1789,
               'max': 0.000162,
-              'min': 8.7e-05,
-              'p99': 0.00010365946,
-              'rate': 0.7067387,
-              'sum': 0.38354
+              'p99': 3.0334824e-05,
+              'rate': 1,
+              'sum': 0.54269
             }
           },
-          'bytes_sent': {},
-          'query_time': {},
-          'rows_sent': {}
+          'latancy': {
+            'stats': {
+              'rate': 0.55897486,
+              'cnt': 370,
+              'sum': 6.02026,
+              'min': 0.001414,
+              'max': 0.002205,
+              'p99': 0.0016270973
+            }
+          },
         },
         'rank': 9,
         'sparkline': [
@@ -5463,72 +5463,6 @@ export class QanTableComponent extends CoreComponent implements OnInit, OnChange
     const entriesArray = Object.entries(this.listColumns);
     this.selectOptions = entriesArray.map(item => new SelectOptionModel(item));
     this.tableData = this.mockQueryProfile.rows.map(row => new TableDataModel(row));
-    this.tableData.push({
-      'metrics': [
-        {
-          metricName: 'lock_time',
-          stats: {
-            'stats': {
-              'cnt': 370,
-              'max': 0.000162,
-              'min': 8.7e-05,
-              'p99': 0.00010365946,
-              'rate': 0.7067387,
-              'sum': 0.38354
-            }
-          },
-        },
-        {
-          metricName: 'bytes_sent',
-          stats: {
-            'stats': {
-              'cnt': 370,
-              'max': 0.000162,
-              'min': 8.7e-05,
-              'p99': 0.00010365946,
-              'rate': 0.7067387,
-              'sum': 0.38354
-            }
-          }
-        },
-        {
-          metricName: 'query_time',
-          stats: {
-            'stats': {
-              'cnt': 370,
-              'max': 0.000162,
-              'min': 8.7e-05,
-              'p99': 0.00010365946,
-              'rate': 0.7067387,
-              'sum': 0.38354
-            }
-          }
-        },
-        {
-          metricName: 'rows_sent',
-          stats: {
-            'stats': {
-              'cnt': 370,
-              'max': 0.000162,
-              'min': 8.7e-05,
-              'p99': 0.00010365946,
-              'rate': 0.7067387,
-              'sum': 0.38354
-            }
-          }
-        }
-      ],
-      sparkline: mockArray.map(item => new Object({
-        m_query_load: item['Query_load'],
-        m_query_time_avg: item['Query_time_avg'],
-        timestamp: +moment(item['Start_ts']).format('X')
-      })),
-      dimension:
-        'DFC1D304DA3FA3EC',
-      rank:
-        10
-    });
-    console.log('tableData - ', this.tableData);
   }
 
   ngOnChanges() {
@@ -5536,7 +5470,6 @@ export class QanTableComponent extends CoreComponent implements OnInit, OnChange
 
   addColumn() {
     this.tableData.forEach(query => query.metrics.push(new MetricModel()));
-    // console.log(this.scrollbar);
     setTimeout(() => this.componentRef.directiveRef.scrollToRight(), 0);
   }
 
@@ -5560,28 +5493,6 @@ export class QanTableComponent extends CoreComponent implements OnInit, OnChange
     return queryParams;
   }
 
-
-  /**
-   * Set sparkline type and display column for config parameters
-   * @param name - checked column-type name
-   * @param config - checked config parameters
-   */
-  setCurrentSparkline(name: string, config) {
-    switch (name) {
-      case 'Load':
-        this.yKey = 'Query_load';
-        this.measurement = 'number';
-        break;
-      case 'Count':
-        this.yKey = 'Query_count';
-        this.measurement = 'number';
-        break;
-      case 'Avg Latency':
-        this.yKey = 'Query_time_avg';
-        this.measurement = 'time';
-        break;
-    }
-  }
 
   onChangeParams(params): void {
   }

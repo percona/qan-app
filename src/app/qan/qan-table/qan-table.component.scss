@@ -52,6 +52,7 @@
 .qan-table__row {
   cursor: pointer;
   background-color: var(--page-background);
+  border-bottom: 1px solid var(--main-border-color);
 
   &:focus {
     outline: none;
@@ -70,15 +71,21 @@
 .qan-table__cell {
   height: var(--row-heigth);
   white-space: nowrap;
-  border-bottom: 1px solid var(--main-border-color);
+  //border-bottom: 1px solid var(--main-border-color);
 }
 
 .qan-table__cell--fixed {
   position: absolute;
+  z-index: 2;
   left: 0;
   width: 30px;
-  margin-top: 1px;
+  //margin-top: 1px;
   background-color: inherit;
+}
+
+.qan-table__cell--fixed {
+  height: calc(var(--row-heigth) + 1px);
+  border-bottom: 1px solid var(--main-border-color);
 }
 
 .qan-table__cell--first-c {
@@ -107,12 +114,8 @@ td.qan-table__cell {
   padding: 5px;
 }
 
-td.qan-table__cell {
-  margin-top: 1px;
-}
-
 th.qan-table__cell--fixed {
-  z-index: 1;
+  z-index: 4;
 }
 
 .qan-table__abstract {

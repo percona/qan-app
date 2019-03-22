@@ -14,11 +14,11 @@
   <!--</div>-->
 
   <!--LOAD DATA-->
-  <div class="scaling-svg-container app-tooltip"
+  <div *ngIf="metricData.metricName" class="scaling-svg-container app-tooltip"
        [appLoadSparklines]="sparklineData"
        data-tooltip="Loading..."
-       xkey="timestamp" ykey="m_query_load"
-       measurement="number">
+       xkey="timestamp" ykey="{{yKey}}"
+       measurement="{{measurement}}">
   </div>
   <!--<div class="ml-3 mr-3">{{ row.Load | humanize : 'number' }}</div>-->
   <!--<div><span>{{ row.Percentage | humanize : 'percent' }}</span></div>-->
@@ -39,12 +39,12 @@
        <!--xkey="timestamp" ykey="m_query_time_sum"-->
        <!--measurement="number">-->
   <!--</div>-->
-  <div class="scaling-svg-container app-tooltip"
-       [appLoadSparklines]="sparklineData"
-       data-tooltip="Loading..."
-       xkey="timestamp" ykey="m_query_time_avg"
-       measurement="time">
-  </div>
+  <!--<div class="scaling-svg-container app-tooltip"-->
+       <!--[appLoadSparklines]="sparklineData"-->
+       <!--data-tooltip="Loading..."-->
+       <!--xkey="timestamp" ykey="m_query_time_avg"-->
+       <!--measurement="time">-->
+  <!--</div>-->
   <!--<div class="scaling-svg-container app-tooltip"-->
        <!--[appLoadSparklines]="sparklineData"-->
        <!--data-tooltip="Loading..."-->

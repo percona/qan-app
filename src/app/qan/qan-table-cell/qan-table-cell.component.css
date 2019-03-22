@@ -4,7 +4,6 @@
   white-space: nowrap;
   vertical-align: top;
   border-right: 1px solid var(--main-border-color);
-  border-bottom: 1px solid var(--main-border-color);
 }
 
 .cell-inner {
