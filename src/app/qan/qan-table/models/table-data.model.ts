@@ -12,6 +12,6 @@ export class TableDataModel {
     this.sparkline = row.sparkline.map(sparklineValue => sparklineValue.values);
     this.sparkline.forEach(item => item['timestamp'] = moment.unix(item['timestamp']).format('YYYY-MM-DDTHH:mm:ssZ'));
     this.dimension = row.dimension || '';
-    this.rank = row.rank || 0
+    this.rank = row.rank || 0;
   }
 }

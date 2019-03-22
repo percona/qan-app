@@ -18,7 +18,9 @@
               </th>
               <app-qan-table-header-cell *ngFor="let metric of row.metrics"
                                          [options]="selectOptions"
-                                         [currentColumnName]="metric.metricName">
+                                         [currentColumnName]="metric.metricName"
+                                         [currentMetric]="metric"
+                                         [fullData]="tableData">
               </app-qan-table-header-cell>
             </tr>
             <tr [routerLink]="['./', 'report', dbServer.Subsystem]"
