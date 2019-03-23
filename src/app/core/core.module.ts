@@ -38,6 +38,7 @@ import {NodesTableComponent} from '../inventory/nodes-table/nodes-table.componen
 import {QanTableCellComponent} from '../qan/qan-table-cell/qan-table-cell.component';
 import {QanTableComponent} from '../qan/qan-table/qan-table.component';
 import {QanTableHeaderCellComponent} from '../qan/qan-table-header-cell/qan-table-header-cell.component';
+import {MainCellComponent} from '../qan/main-cell/main-cell.component';
 
 @NgModule({
   imports: [
@@ -67,6 +68,7 @@ import {QanTableHeaderCellComponent} from '../qan/qan-table-header-cell/qan-tabl
     QanTableComponent,
     QanTableHeaderCellComponent,
     QanTableCellComponent,
+    MainCellComponent
   ],
   exports: [
     NavComponent,

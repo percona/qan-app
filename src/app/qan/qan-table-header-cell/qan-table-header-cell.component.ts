@@ -1,5 +1,6 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {QanTableService} from '../qan-table/qan-table.service';
+import {SelectOptionModel} from './modesl/select-option.model';
 
 @Component({
   selector: 'app-qan-table-header-cell',
@@ -7,17 +8,15 @@ import {QanTableService} from '../qan-table/qan-table.service';
   styleUrls: ['./qan-table-header-cell.component.css']
 })
 export class QanTableHeaderCellComponent implements OnInit {
-
   @Input() currentColumnName: any;
-  @Input() currentMetric: any;
-  @Input() options: any;
   @Input() fullData: any;
   @Input() index: any;
 
-  public columns: any;
-  public selectedQueryColumn: string;
+  public options: Array<SelectOptionModel>;
+  public selectedQueryColumn: SelectOptionModel;
 
   constructor(private qanTableService: QanTableService) {
+    this.options = this.qanTableService.getOptions();
   }
 
   ngOnInit() {
@@ -26,10 +25,5 @@ export class QanTableHeaderCellComponent implements OnInit {
 
   removeColumn() {
     this.fullData.forEach(item => item.metrics.splice(this.index, 1));
-    console.log(this.fullData);
-    // this.currentMetric.isDeleted = true;
-    this.qanTableService.setConfig(this.fullData);
-    console.log('currentMetric - ', this.currentMetric);
   }
-
 }

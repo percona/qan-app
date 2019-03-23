@@ -1,13 +1,12 @@
 import { Injectable } from '@angular/core';
-import {BehaviorSubject} from 'rxjs/internal/BehaviorSubject';
 import {TableDataModel} from './models/table-data.model';
+import {SelectOptionModel} from '../qan-table-header-cell/modesl/select-option.model';
 
 @Injectable({
   providedIn: 'root'
 })
 export class QanTableService {
 
-  private tableDataSource = new BehaviorSubject([]);
   private mockData = {
     'rows': [
       {
@@ -4937,28 +4936,27 @@ export class QanTableService {
     ],
     'total_rows': 9
   };
+  public queryColumns = {
+    data: {
+      count: 'Count',
+      latancy: 'Latancy',
+      load: 'Load',
+    }
+  };
 
   constructor() { }
 
   /**
-   * Get configuration from server and modify it by models
+   * Get table data
    */
-  getConfigs() {
-    this.setConfig(this.mockData.rows.map(config => new TableDataModel(config)));
+  getTableData() {
+    return this.mockData.rows.map(config => new TableDataModel(config));
   }
 
   /**
-   * Set current state of config
-   * @param config - collection of configs from server
+   * Get columns options
    */
-  setConfig(config: TableDataModel[]) {
-    this.tableDataSource.next(config);
-  }
-
-  /**
-   * Provide access for private variable
-   */
-  get source() {
-    return this.tableDataSource;
+  getOptions() {
+    return Object.entries(this.queryColumns.data).map(item => new SelectOptionModel(item))
   }
 }
