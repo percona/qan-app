@@ -16,11 +16,12 @@
                            class="pmm-select pmm-select--column pmm-select--column-main">
                 </ng-select>
               </th>
-              <app-qan-table-header-cell *ngFor="let metric of row.metrics"
+              <app-qan-table-header-cell *ngFor="let metric of row.metrics; let index = index"
                                          [options]="selectOptions"
                                          [currentColumnName]="metric.metricName"
                                          [currentMetric]="metric"
-                                         [fullData]="tableData">
+                                         [fullData]="tableData"
+                                         [index]="index">
               </app-qan-table-header-cell>
             </tr>
             <tr [routerLink]="['./', 'report', dbServer.Subsystem]"
@@ -37,7 +38,7 @@
                     </span>
                 </div>
               </td>
-              <app-qan-table-cell *ngFor="let metric of row.metrics"
+              <app-qan-table-cell *ngFor="let metric of row.metrics; let index = index"
                                   [metricData]="metric"
                                   [sparklineData]="row.sparkline">
               </app-qan-table-cell>

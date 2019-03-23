@@ -12,6 +12,7 @@ export class QanTableHeaderCellComponent implements OnInit {
   @Input() currentMetric: any;
   @Input() options: any;
   @Input() fullData: any;
+  @Input() index: any;
 
   public columns: any;
   public selectedQueryColumn: string;
@@ -24,7 +25,9 @@ export class QanTableHeaderCellComponent implements OnInit {
   }
 
   removeColumn() {
-    this.currentMetric.isDeleted = true;
+    this.fullData.forEach(item => item.metrics.splice(this.index, 1));
+    console.log(this.fullData);
+    // this.currentMetric.isDeleted = true;
     this.qanTableService.setConfig(this.fullData);
     console.log('currentMetric - ', this.currentMetric);
   }

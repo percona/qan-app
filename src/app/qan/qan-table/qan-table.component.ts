@@ -56,7 +56,7 @@ export class QanTableComponent extends CoreComponent implements OnInit, OnChange
     this.selectedQueryType = this.queryTypes[0];
     this.qanTableService.getConfigs();
     this.tableDataSubscription$ = this.qanTableService.source.subscribe( tableD => {
-      console.log(tableD.filter(metrics => metrics.metrics.filter(metric => !metric.isDeleted)));
+      console.log(tableD.filter(row => row.metrics = row.metrics.filter(item => !item.isDeleted)));
       this.tableData = tableD;
     });
   }
