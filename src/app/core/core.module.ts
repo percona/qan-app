@@ -1,7 +1,6 @@
 import {NgModule, Optional, SkipSelf} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {SharedModule} from '../shared/shared.module';
-import {NavComponent} from './nav/nav.component';
 import {JSONTreeComponent} from './json-tree/json-tree.component';
 import {PageNotFoundComponent} from './page-not-found/page-not-found.component';
 import {InstanceService} from './services/instance.service';
@@ -50,7 +49,6 @@ import {MainCellComponent} from '../qan/main-cell/main-cell.component';
     ApiModule
   ],
   declarations: [
-    NavComponent,
     PageNotFoundComponent,
     QueryProfileComponent,
     QanFilterComponent,
@@ -71,7 +69,6 @@ import {MainCellComponent} from '../qan/main-cell/main-cell.component';
     MainCellComponent
   ],
   exports: [
-    NavComponent,
     PageNotFoundComponent,
     QueryProfileComponent,
     QanFilterComponent,

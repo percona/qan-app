@@ -1,6 +1,8 @@
 import { Injectable } from '@angular/core';
 import {TableDataModel} from './models/table-data.model';
 import {SelectOptionModel} from '../qan-table-header-cell/modesl/select-option.model';
+import {Observable} from 'rxjs';
+import {ProfileService} from '../../inventory-api/services/profile.service';
 
 @Injectable({
   providedIn: 'root'
@@ -4944,7 +4946,7 @@ export class QanTableService {
     }
   };
 
-  constructor() { }
+  constructor(private profileService: ProfileService) { }
 
   /**
    * Get table data

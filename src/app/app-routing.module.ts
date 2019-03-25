@@ -33,9 +33,9 @@ export class RegisteredInstanceGuard implements CanActivate {
 const routes: Routes = [
     { path: '', redirectTo: 'profile', pathMatch: 'full', canActivate: [RegisteredInstanceGuard] },
     {
-        path: 'profile', component: QueryProfileComponent, canActivate: [RegisteredInstanceGuard], children: [
-            { path: 'report/mysql', component: QueryDetailsComponent, canActivate: [RegisteredInstanceGuard] },
-            { path: 'report/mongo', component: QueryDetailsComponent, canActivate: [RegisteredInstanceGuard] }
+        path: 'profile', component: QueryProfileComponent, children: [
+            { path: 'report/mysql', component: QueryDetailsComponent },
+            { path: 'report/mongo', component: QueryDetailsComponent }
         ]
     },
     { path: 'sys-summary', component: SummaryComponent, pathMatch: 'full', canActivate: [RegisteredInstanceGuard] },
