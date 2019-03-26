@@ -10,8 +10,7 @@
                 <app-main-cell></app-main-cell>
               </th>
               <ng-container *ngFor="let metric of row.metrics; let index = index">
-              <app-qan-table-header-cell *ngIf="!metric.isDeleted"
-                                         [currentColumnName]="metric.metricName"
+              <app-qan-table-header-cell [currentColumnName]="metric.metricName"
                                          [fullData]="tableData"
                                          [metrics]="metrics"
                                          [index]="index">

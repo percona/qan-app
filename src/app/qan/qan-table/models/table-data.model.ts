@@ -2,7 +2,7 @@ import {MetricModel} from './metric.model';
 import * as moment from 'moment';
 
 export class TableDataModel {
-  metrics: Array<Object>;
+  metrics: Array<MetricModel>;
   sparkline: Array<Object>;
   dimension: string;
   rank: number;

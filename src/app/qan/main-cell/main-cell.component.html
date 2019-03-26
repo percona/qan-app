@@ -1,10 +1,10 @@
 <div>
   <ng-select [searchable]="false"
-             [(ngModel)]="selectedQueryType"
-             [items]="queryTypes"
+             [(ngModel)]="groupBy"
+             [items]="groupByItems"
              [clearable]="false"
-             bindLabel="name"
-             bindValue="name"
+             (change)="onChangeGroupBy($event)"
+             bindLabel="humanizeName"
              class="pmm-select pmm-select--column pmm-select--column-main">
   </ng-select>
 </div>

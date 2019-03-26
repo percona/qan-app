@@ -1,6 +1,6 @@
-import { Component, OnInit } from '@angular/core';
-import {MetricsNamesService} from '../../inventory-api/services/metrics-names.service';
-import {Subscription} from 'rxjs/internal/Subscription';
+import {Component, EventEmitter, OnInit, Output} from '@angular/core';
+import {SelectOptionModel} from '../qan-table-header-cell/modesl/select-option.model';
+import {QanTableService} from '../qan-table/qan-table.service';
 
 @Component({
   selector: 'app-main-cell',
@@ -8,15 +8,27 @@ import {Subscription} from 'rxjs/internal/Subscription';
   styleUrls: ['./main-cell.component.css']
 })
 export class MainCellComponent implements OnInit {
-  public queryTypes = ['Query', 'Schema', 'Server', 'Database', 'User', 'Host'];
-  public selectedQueryType: string;
-  public metrics$: Subscription;
+  public groupByData = {
+    queryid: 'Query',
+    d_server: 'Server',
+    d_database: 'Database',
+    d_schema: 'Schema',
+    d_username: 'User',
+    d_client_host: 'Host'
+  };
+  public groupByItems: SelectOptionModel[];
+  public groupBy: SelectOptionModel;
 
-  constructor(private metricsNamesService: MetricsNamesService) {
-    this.selectedQueryType = this.queryTypes[0];
+  constructor(private qanTableService: QanTableService) {
+    this.groupByItems = Object.entries(this.groupByData).map(metric => new SelectOptionModel(metric));
+    this.groupBy = this.groupByItems[0];
+    this.onChangeGroupBy(this.groupBy);
   }
 
   ngOnInit() {
   }
 
+  onChangeGroupBy(value) {
+    this.qanTableService.setGroupBy(value.name);
+  }
 }

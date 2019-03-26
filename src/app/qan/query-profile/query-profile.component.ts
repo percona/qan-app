@@ -1,13 +1,8 @@
-import {CoreComponent, QueryParams, QanError} from '../../core/core.component';
 import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
 import {InstanceService} from '../../core/services/instance.service';
 import {QueryProfileService} from './query-profile.service';
 import {Router, ActivatedRoute} from '@angular/router';
-import * as moment from 'moment';
 import {MetricsNamesService} from '../../inventory-api/services/metrics-names.service';
-import {Subscription} from 'rxjs/internal/Subscription';
-import {map} from 'rxjs/operators';
-
 const queryProfileError = 'No data. Please check pmm-client and database configurations on selected instance.';
 
 @Component({

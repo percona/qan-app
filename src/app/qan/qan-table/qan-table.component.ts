@@ -1,16 +1,16 @@
-import {Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
+import {Component, OnChanges, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {PerfectScrollbarComponent, PerfectScrollbarConfigInterface} from 'ngx-perfect-scrollbar';
-import {CoreComponent, QueryParams} from '../../core/core.component';
-import {ActivatedRoute, Router} from '@angular/router';
-import {InstanceService} from '../../core/services/instance.service';
+import {QueryParams} from '../../core/core.component';
 import {SelectOptionModel} from '../qan-table-header-cell/modesl/select-option.model';
 import {TableDataModel} from './models/table-data.model';
 import {MetricModel} from './models/metric.model';
-import {QanTableService} from './qan-table.service';
 import {ProfileService} from '../../inventory-api/services/profile.service';
 import {Subscription} from 'rxjs/internal/Subscription';
-import {map} from 'rxjs/operators';
+import {filter, map} from 'rxjs/operators';
 import {MetricsNamesService} from '../../inventory-api/services/metrics-names.service';
+import {GetProfileBody, QanTableService} from './qan-table.service';
+import {ParseQueryParamDatePipe} from '../../shared/parse-query-param-date.pipe';
+import {ActivatedRoute, Event, NavigationEnd, Router} from '@angular/router';
 
 @Component({
   selector: 'app-qan-table',
@@ -24,7 +24,7 @@ export class QanTableComponent implements OnInit, OnDestroy {
     suppressScrollY: false
   };
 
-  public queryParams: QueryParams;
+  public iframeQueryParams: QueryParams;
   public measurement: string;
   public queryProfile: Array<{}>;
   public tableData: TableDataModel[];
@@ -33,44 +33,66 @@ export class QanTableComponent implements OnInit, OnDestroy {
   public report$: Subscription;
   public metrics$;
   public metrics;
+  public defParams: GetProfileBody;
+  private parseQueryParamDatePipe = new ParseQueryParamDatePipe();
+  public getReportParams = {} as GetProfileBody;
+  public prevGetReportParams = {} as GetProfileBody;
+  public groupBy: string;
+
+  public from;
+  public to;
+  private routerSubscription$: Subscription;
 
   constructor(
-    protected route: ActivatedRoute,
-    protected router: Router,
-    protected instanceService: InstanceService,
-    private qanTableService: QanTableService,
+    private route: ActivatedRoute,
+    private router: Router,
     private profileService: ProfileService,
-    private metricsNamesService: MetricsNamesService
+    private metricsNamesService: MetricsNamesService,
+    private qanTableService: QanTableService
   ) {
-    // this.tableData = this.qanTableService.getTableData();
-    this.metrics$ = this.metricsNamesService.GetMetricsNames({}).pipe(
-      map(metrics => metrics.data)
-    ).subscribe(metrics => this.metrics = Object.entries(metrics).map(metric => new SelectOptionModel(metric)))
-  }
+    // this.subscribeToRouter();
+    // this.routerSubscription$ = this.router.events.pipe(
+    //   filter((e: any) => e instanceof NavigationEnd)
+    // ).subscribe((item) => {
+    //   console.log('item - ', item);
+    //   this.iframeQueryParams = this.route.snapshot.queryParams as QueryParams;
+    //   this.setProfileParams();
+    //   console.log('iframeQueryParams - ', this.iframeQueryParams);
+    //   console.log('getReportParams - ', this.getReportParams);
+    // });
 
-  ngOnInit() {
+    this.metrics$ = this.metricsNamesService.GetMetricsNames({})
+      .pipe(map(metrics => metrics.data))
+      .subscribe(metrics =>
+        this.metrics = Object.entries(metrics).map(metric => new SelectOptionModel(metric)));
+
     this.report$ = this.profileService.GetReport({
       'period_start_from': '2019-01-01 00:00:00',
       'period_start_to': '2019-01-01 01:00:00',
-      'order_by': 'num_queries',
-      'columns': ['query_time', 'bytes_sent', 'lock_time', 'rows_sent']
+      'order_by': 'num_queries'
     }).subscribe(item => {
       this.tableData = item.rows.map(row => new TableDataModel(row));
       this.totalRows = item.total_rows;
     });
+
+    this.qanTableService.groupBySource.subscribe(value => {
+      console.log('groupByValue - ', value);
+    })
+  }
+
+  ngOnInit() {
   }
 
   ngOnDestroy() {
-    if (this.report$) {
-      this.report$.unsubscribe();
-    }
+    this.metrics.unsubscribe();
+    this.report$.unsubscribe();
   }
+
 
   addColumn() {
     this.tableData.forEach(query => query.metrics.push(new MetricModel()));
     setTimeout(() => this.componentRef.directiveRef.scrollToRight(), 0);
   }
-
   // /**
   //  * Set router parameters if query is checked in main qan-table
   //  * @param queryID - checked queries' id
@@ -85,4 +107,18 @@ export class QanTableComponent implements OnInit, OnDestroy {
   // onChangeParams(params) {
   //
   // }
+
+  subscribeToRouter() {
+
+  }
+
+  setProfileParams() {
+    this.from = this.parseQueryParamDatePipe.transform(this.iframeQueryParams.from, 'from');
+    this.to = this.parseQueryParamDatePipe.transform(this.iframeQueryParams.to, 'to');
+
+    this.getReportParams.period_start_from = this.from.utc().format('YYYY-MM-DD HH:mm:ss');
+    this.getReportParams.period_start_to = this.to.utc().format('YYYY-MM-DD HH:mm:ss');
+
+    this.prevGetReportParams = Object.assign({}, this.getReportParams);
+  }
 }
