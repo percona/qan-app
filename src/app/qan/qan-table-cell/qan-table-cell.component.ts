@@ -11,13 +11,14 @@ export class QanTableCellComponent implements OnInit {
 
   public yKey: string;
   public measurement: string;
-  public isNoData = false;
+  public pipeType: string;
 
   constructor() {
   }
 
   ngOnInit() {
     this.setCurrentSparkline(this.metricData.metricName);
+    console.log('metricData  - ', this.metricData);
   }
 
   /**
@@ -41,14 +42,26 @@ export class QanTableCellComponent implements OnInit {
       case 'bytes_sent':
         this.yKey = 'm_bytes_sent_sum';
         this.measurement = 'size';
+        this.pipeType = 'size';
         break;
       case 'lock_time':
         this.yKey = 'm_lock_time_sum';
         this.measurement = 'number';
+        this.pipeType = 'time';
         break;
       case 'query_time':
         this.yKey = 'm_query_time_avg';
         this.measurement = 'time';
+        this.pipeType = 'time';
+        break;
+      case 'rows_sent':
+        this.yKey = 'm_rows_sent_sum';
+        this.measurement = 'number';
+        this.pipeType = 'number';
+        break;
+      case 'rows_examined':
+        this.yKey = 'm_rows_examined_sum';
+        this.measurement = 'number';
         break;
       default: {
         this.yKey = '';
@@ -57,5 +70,4 @@ export class QanTableCellComponent implements OnInit {
       }
     }
   }
-
 }

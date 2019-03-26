@@ -67,6 +67,7 @@ export class QanTableComponent implements OnInit, OnDestroy {
     }).subscribe(item => {
       this.tableData = item.rows.map(row => new TableDataModel(row));
       this.totalRows = item.total_rows;
+      console.log('this.tableData str - ', JSON.stringify(this.tableData));
     });
 
     this.qanTableService.groupBySource.subscribe(value => {

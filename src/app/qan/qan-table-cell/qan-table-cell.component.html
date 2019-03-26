@@ -20,6 +20,13 @@
        xkey="timestamp" ykey="{{yKey}}"
        measurement="{{measurement}}">
   </div>
+
+  <div *ngIf="metricData.stats.sum">
+    {{metricData.stats.sum | humanize : pipeType}}
+  </div>
+<!--  <div class="scaling-svg-container app-tooltip" data-tooltip="Loading..." measurement="number"-->
+<!--       [appLatencyChart]="queryDetails?.Metrics2" metricPrefix="Rows_sent">-->
+<!--  </div>-->
   <!--<div class="ml-3 mr-3">{{ row.Load | humanize : 'number' }}</div>-->
   <!--<div><span>{{ row.Percentage | humanize : 'percent' }}</span></div>-->
 
