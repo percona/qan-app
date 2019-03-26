@@ -13,7 +13,8 @@ export class QanTableCellComponent implements OnInit {
   public measurement: string;
   public isNoData = false;
 
-  constructor() { }
+  constructor() {
+  }
 
   ngOnInit() {
     this.setCurrentSparkline(this.metricData.metricName);
@@ -34,6 +35,18 @@ export class QanTableCellComponent implements OnInit {
         this.measurement = 'number';
         break;
       case 'latancy':
+        this.yKey = 'm_query_time_avg';
+        this.measurement = 'time';
+        break;
+      case 'bytes_sent':
+        this.yKey = 'm_bytes_sent_sum';
+        this.measurement = 'size';
+        break;
+      case 'lock_time':
+        this.yKey = 'm_lock_time_sum';
+        this.measurement = 'number';
+        break;
+      case 'query_time':
         this.yKey = 'm_query_time_avg';
         this.measurement = 'time';
         break;

@@ -10,7 +10,7 @@ import {filter, map} from 'rxjs/operators';
 import {MetricsNamesService} from '../../inventory-api/services/metrics-names.service';
 import {GetProfileBody, QanTableService} from './qan-table.service';
 import {ParseQueryParamDatePipe} from '../../shared/parse-query-param-date.pipe';
-import {ActivatedRoute, Event, NavigationEnd, Router} from '@angular/router';
+import {ActivatedRoute, Router} from '@angular/router';
 
 @Component({
   selector: 'app-qan-table',
@@ -33,7 +33,6 @@ export class QanTableComponent implements OnInit, OnDestroy {
   public report$: Subscription;
   public metrics$;
   public metrics;
-  public defParams: GetProfileBody;
   private parseQueryParamDatePipe = new ParseQueryParamDatePipe();
   public getReportParams = {} as GetProfileBody;
   public prevGetReportParams = {} as GetProfileBody;
@@ -50,16 +49,9 @@ export class QanTableComponent implements OnInit, OnDestroy {
     private metricsNamesService: MetricsNamesService,
     private qanTableService: QanTableService
   ) {
-    // this.subscribeToRouter();
-    // this.routerSubscription$ = this.router.events.pipe(
-    //   filter((e: any) => e instanceof NavigationEnd)
-    // ).subscribe((item) => {
-    //   console.log('item - ', item);
-    //   this.iframeQueryParams = this.route.snapshot.queryParams as QueryParams;
-    //   this.setProfileParams();
-    //   console.log('iframeQueryParams - ', this.iframeQueryParams);
-    //   console.log('getReportParams - ', this.getReportParams);
-    // });
+    this.iframeQueryParams = this.route.snapshot.queryParams as QueryParams;
+    this.from = this.parseQueryParamDatePipe.transform(this.iframeQueryParams.from, 'from');
+    this.to = this.parseQueryParamDatePipe.transform(this.iframeQueryParams.to, 'to');
 
     this.metrics$ = this.metricsNamesService.GetMetricsNames({})
       .pipe(map(metrics => metrics.data))
@@ -67,9 +59,11 @@ export class QanTableComponent implements OnInit, OnDestroy {
         this.metrics = Object.entries(metrics).map(metric => new SelectOptionModel(metric)));
 
     this.report$ = this.profileService.GetReport({
-      'period_start_from': '2019-01-01 00:00:00',
-      'period_start_to': '2019-01-01 01:00:00',
-      'order_by': 'num_queries'
+      'period_start_from': this.from.utc().format('YYYY-MM-DD HH:mm:ss'),
+      'period_start_to': this.to.utc().format('YYYY-MM-DD HH:mm:ss'),
+      'order_by': 'num_queries',
+      'group_by': 'queryid',
+      'columns': ['query_time', 'bytes_sent', 'lock_time', 'rows_sent']
     }).subscribe(item => {
       this.tableData = item.rows.map(row => new TableDataModel(row));
       this.totalRows = item.total_rows;
@@ -93,6 +87,7 @@ export class QanTableComponent implements OnInit, OnDestroy {
     this.tableData.forEach(query => query.metrics.push(new MetricModel()));
     setTimeout(() => this.componentRef.directiveRef.scrollToRight(), 0);
   }
+
   // /**
   //  * Set router parameters if query is checked in main qan-table
   //  * @param queryID - checked queries' id
@@ -108,17 +103,4 @@ export class QanTableComponent implements OnInit, OnDestroy {
   //
   // }
 
-  subscribeToRouter() {
-
-  }
-
-  setProfileParams() {
-    this.from = this.parseQueryParamDatePipe.transform(this.iframeQueryParams.from, 'from');
-    this.to = this.parseQueryParamDatePipe.transform(this.iframeQueryParams.to, 'to');
-
-    this.getReportParams.period_start_from = this.from.utc().format('YYYY-MM-DD HH:mm:ss');
-    this.getReportParams.period_start_to = this.to.utc().format('YYYY-MM-DD HH:mm:ss');
-
-    this.prevGetReportParams = Object.assign({}, this.getReportParams);
-  }
 }
