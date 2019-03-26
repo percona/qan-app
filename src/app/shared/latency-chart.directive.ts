@@ -1,10 +1,9 @@
-import { Directive, Input, HostBinding } from '@angular/core';
-import { ElementRef } from '@angular/core';
+import {Directive, ElementRef, HostBinding, Input} from '@angular/core';
 
-import { select } from 'd3-selection';
-import { scaleLog } from 'd3-scale';
+import {select} from 'd3-selection';
+import {scaleLog} from 'd3-scale';
 
-import { HumanizePipe } from './humanize.pipe';
+import {HumanizePipe} from './humanize.pipe';
 
 @Directive({
   selector: '[appLatencyChart]'
@@ -22,11 +21,10 @@ export class LatencyChartDirective {
     }
   }
 
-  constructor(
-    public elementRef: ElementRef,
-  ) { }
+  constructor(public elementRef: ElementRef) {
+  }
 
-  drawChart(data: {}) {
+  drawChart(data: any) {
     const chart = select(this.elementRef.nativeElement);
     chart.selectAll('*').remove();
     const svg: any = chart.append('svg')
@@ -44,33 +42,16 @@ export class LatencyChartDirective {
       .clamp(true)
       .nice();
 
-    let min = 0;
-    let max = 0;
-    let avg = 0;
-    let p95 = 0;
-
-    if (!!this.metricPrefix) {
-      min = `${this.metricPrefix}_min` in data ? data[`${this.metricPrefix}_min`] : 0;
-      max = `${this.metricPrefix}_max` in data ? data[`${this.metricPrefix}_max`] : 0;
-      avg = `${this.metricPrefix}_avg` in data ? data[`${this.metricPrefix}_avg`] : 0;
-      p95 = `${this.metricPrefix}_p95` in data ? data[`${this.metricPrefix}_p95`] : 0;
-    } else {
-      min = 'Min' in data ? data['Min'] : 0;
-      max = 'Max' in data ? data['Max'] : 0;
-      avg = 'Avg' in data ? data['Avg'] : 0;
-      p95 = 'P95' in data ? data['P95'] : 0;
-    }
+    const {min = 0, max = 0, avg = 0, p99 = 0} = data;
 
     const humanize = new HumanizePipe();
-    let tooltip = ` ⌜ Min: ${humanize.transform(min, this.measurement)}
- ⌟ Max: ${humanize.transform(max, this.measurement)}
- ◦ Avg: ${humanize.transform(avg, this.measurement)}`;
 
-    if (p95 !== 0 && p95 !== null ) {
-      tooltip += `
- • 95%: ${humanize.transform(p95, this.measurement)}`;
-    }
-    this.dataTooltip = tooltip;
+    const minStr = `⌜ Min: ${humanize.transform(min, this.measurement)}`;
+    const maxStr = `⌟ Max: ${humanize.transform(max, this.measurement)}`;
+    const avgStr = `◦ Avg: ${humanize.transform(avg, this.measurement)}`;
+    const p99Str = `${p99 ? `• 95%: ${humanize.transform(p99, this.measurement)}` : ''}`;
+
+    this.dataTooltip = `${minStr}\n${maxStr}\n${avgStr}\n${p99Str}`.trim();
 
     const g = svg.append('g');
 
@@ -114,12 +95,12 @@ export class LatencyChartDirective {
       .attr('cx', x(avg) + '')
       .attr('cy', '13px');
 
-    // p95Mark
-    if (p95 > 0) {
+    // p99Mark
+    if (p99 > 0) {
       g.append('circle')
         .attr('class', 'latency-chart-p95')
         .attr('r', 2)
-        .attr('cx', x(p95) + '')
+        .attr('cx', x(p99) + '')
         .attr('cy', '13px');
     }
   }
