@@ -1,8 +1,8 @@
-import {Component, OnInit} from '@angular/core';
-import {RemoteInstancesListService} from './remote-instances-list.service';
-import {RemoteInstance, RemoteInstanceNode, RemoteInstanceService} from '../add-remote-instances/add-remote-instance.service';
-import {environment} from '../environment';
-import {AddAmazonRDSService} from '../add-amazon-rds/add-amazon-rds.service';
+import { Component, OnInit } from '@angular/core';
+import { RemoteInstancesListService } from './remote-instances-list.service';
+import { RemoteInstance, RemoteInstanceNode, RemoteInstanceService } from '../add-remote-instances/add-remote-instance.service';
+import { environment } from '../environment';
+import { AddAmazonRDSService } from '../add-amazon-rds/add-amazon-rds.service';
 
 @Component({
   selector: 'app-remote-instances-list',

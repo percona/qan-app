@@ -1,7 +1,7 @@
-import {Component, OnInit} from '@angular/core';
-import {AddRemoteInstanceService, RemoteInstanceCredentials} from './add-remote-instance.service'
-import {environment} from '../environment';
-import {Router} from '@angular/router';
+import { Component, OnInit } from '@angular/core';
+import { AddRemoteInstanceService, RemoteInstanceCredentials } from './add-remote-instance.service'
+import { environment } from '../environment';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-add-remote-postgres',

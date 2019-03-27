@@ -1,6 +1,6 @@
-import {Component, EventEmitter, OnInit, Output} from '@angular/core';
-import {SelectOptionModel} from '../qan-table-header-cell/modesl/select-option.model';
-import {QanTableService} from '../qan-table/qan-table.service';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { SelectOptionModel } from '../qan-table-header-cell/modesl/select-option.model';
+import { QanTableService } from '../qan-table/qan-table.service';
 
 @Component({
   selector: 'app-main-cell',

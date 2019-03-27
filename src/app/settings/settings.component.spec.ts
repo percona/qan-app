@@ -1,17 +1,17 @@
 /* tslint:disable:no-unused-variable */
-import {async, ComponentFixture, TestBed} from '@angular/core/testing';
-import {By} from '@angular/platform-browser';
-import {CUSTOM_ELEMENTS_SCHEMA, DebugElement} from '@angular/core';
+import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { By } from '@angular/platform-browser';
+import { CUSTOM_ELEMENTS_SCHEMA, DebugElement } from '@angular/core';
 
-import {SettingsComponent} from './settings.component';
-import {ClipboardModule} from 'ngx-clipboard';
-import {RouterTestingModule} from '@angular/router/testing';
-import {FormsModule} from '@angular/forms';
-import {HttpClientModule} from '@angular/common/http';
-import {NgbAccordionConfig, NgbModule} from '@ng-bootstrap/ng-bootstrap';
-import {HumanizePipe} from '../shared/humanize.pipe';
-import {MapToIterablePipe} from '../shared/map-to-iterable.pipe';
-import {Instance, InstanceService} from '../core/services/instance.service';
+import { SettingsComponent } from './settings.component';
+import { ClipboardModule } from 'ngx-clipboard';
+import { RouterTestingModule } from '@angular/router/testing';
+import { FormsModule } from '@angular/forms';
+import { HttpClientModule } from '@angular/common/http';
+import { NgbAccordionConfig, NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { HumanizePipe } from '../shared/humanize.pipe';
+import { MapToIterablePipe } from '../shared/map-to-iterable.pipe';
+import { Instance, InstanceService } from '../core/services/instance.service';
 
 fdescribe('SettingsComponent', () => {
   let component: SettingsComponent;
@@ -72,10 +72,10 @@ fdescribe('SettingsComponent', () => {
 
   it('should be true if exampleQueries is presented in promise data', (done) => {
     const promiseData = {
-      'agent': {'KeepAlive': 76, 'Listen': '127.0.0.1:9000'},
-      'bin': {'basedir': '/usr/local/percona/qan-agent'},
-      'data': {'DataEncoding': 'gzip', 'MaxAge': 86400, 'MaxFiles': 1000, 'MaxSize': 104857600, 'SendInterval': 63},
-      'log': {'LogLevel': 'warning'},
+      'agent': { 'KeepAlive': 76, 'Listen': '127.0.0.1:9000' },
+      'bin': { 'basedir': '/usr/local/percona/qan-agent' },
+      'data': { 'DataEncoding': 'gzip', 'MaxAge': 86400, 'MaxFiles': 1000, 'MaxSize': 104857600, 'SendInterval': 63 },
+      'log': { 'LogLevel': 'warning' },
       'qan': {
         'CollectFrom': 'perfschema',
         'ExampleQueries': true,

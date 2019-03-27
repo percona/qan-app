@@ -1,5 +1,5 @@
-import {Injectable} from '@angular/core';
-import {HttpClient, HttpHeaders} from '@angular/common/http';
+import { Injectable } from '@angular/core';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 
 export interface RemoteInstanceCredentials {
   address: string;
@@ -31,7 +31,7 @@ export interface RemoteInstance {
 @Injectable()
 export class AddRemoteInstanceService {
 
-  private httpHeaders = new HttpHeaders({'Content-Type': 'application/json'});
+  private httpHeaders = new HttpHeaders({ 'Content-Type': 'application/json' });
   instanceUrlPart: string;
 
   constructor(private httpClient: HttpClient) {
@@ -49,7 +49,7 @@ export class AddRemoteInstanceService {
       username: remoteInstanceCredentials.username
     };
     return await this.httpClient
-      .post(url, data, {headers: this.httpHeaders})
+      .post(url, data, { headers: this.httpHeaders })
       .toPromise()
   }
 

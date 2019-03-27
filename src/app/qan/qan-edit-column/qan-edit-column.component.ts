@@ -1,7 +1,7 @@
-import {Component, EventEmitter, Input, OnChanges, OnDestroy, OnInit, Output} from '@angular/core';
-import {FilterSearchService} from '../../core/services/filter-search.service';
-import {QanEditColumnService} from './qan-edit-column.service';
-import {PerfectScrollbarConfigInterface} from 'ngx-perfect-scrollbar';
+import { Component, EventEmitter, Input, OnChanges, OnDestroy, OnInit, Output } from '@angular/core';
+import { FilterSearchService } from '../../core/services/filter-search.service';
+import { QanEditColumnService } from './qan-edit-column.service';
+import { PerfectScrollbarConfigInterface } from 'ngx-perfect-scrollbar';
 
 @Component({
   selector: 'app-qan-edit-column',

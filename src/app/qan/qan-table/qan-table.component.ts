@@ -1,19 +1,20 @@
-import {Component, OnChanges, OnDestroy, OnInit, ViewChild} from '@angular/core';
-import {PerfectScrollbarComponent, PerfectScrollbarConfigInterface} from 'ngx-perfect-scrollbar';
-import {QueryParams} from '../../core/core.component';
-import {SelectOptionModel} from '../qan-table-header-cell/modesl/select-option.model';
-import {TableDataModel} from './models/table-data.model';
-import {MetricModel} from './models/metric.model';
-import {ProfileService} from '../../inventory-api/services/profile.service';
-import {Subscription} from 'rxjs/internal/Subscription';
-import {filter, flatMap, map, mergeMapTo, switchMap} from 'rxjs/operators';
-import {MetricsNamesService} from '../../inventory-api/services/metrics-names.service';
-import {GetProfileBody, QanTableService} from './qan-table.service';
-import {ParseQueryParamDatePipe} from '../../shared/parse-query-param-date.pipe';
-import {ActivatedRoute, Router} from '@angular/router';
-import {Observable} from 'rxjs/internal/Observable';
-import {of} from 'rxjs/internal/observable/of';
-import {mergeMap} from 'rxjs/internal/operators/mergeMap';
+import { Component, OnChanges, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { PerfectScrollbarComponent, PerfectScrollbarConfigInterface } from 'ngx-perfect-scrollbar';
+import { QueryParams } from '../../core/core.component';
+import { SelectOptionModel } from '../qan-table-header-cell/modesl/select-option.model';
+import { TableDataModel } from './models/table-data.model';
+import { MetricModel } from './models/metric.model';
+import { ProfileService } from '../../inventory-api/services/profile.service';
+import { Subscription } from 'rxjs/internal/Subscription';
+import { filter, flatMap, map, mergeMapTo, switchMap } from 'rxjs/operators';
+import { MetricsNamesService } from '../../inventory-api/services/metrics-names.service';
+import { GetProfileBody, QanTableService } from './qan-table.service';
+import { ParseQueryParamDatePipe } from '../../shared/parse-query-param-date.pipe';
+import { ActivatedRoute, Router } from '@angular/router';
+import * as moment from 'moment';
+import { Observable } from 'rxjs/internal/Observable';
+import { of } from 'rxjs/internal/observable/of';
+import { mergeMap } from 'rxjs/internal/operators/mergeMap';
 
 @Component({
   selector: 'app-qan-table',
@@ -97,6 +98,23 @@ export class QanTableComponent implements OnInit, OnDestroy {
   addColumn() {
     this.tableData.forEach(query => query.metrics.push(new MetricModel()));
     setTimeout(() => this.componentRef.directiveRef.scrollToRight(), 100);
+  }
+
+  /**
+   * set timezone based on given query parameter.
+   */
+  setTimeZoneFromParams() {
+    const tz = this.iframeQueryParams.tz || 'browser';
+    const expireDays = moment().utc().add(7, 'y').toString();
+    document.cookie = `timezone=${tz}; expires=${expireDays}; path=/`;
+  }
+
+  setThemeFromParams() {
+    const theme = this.iframeQueryParams.theme || '';
+    if (theme) {
+      const expireDays = moment().utc().add(7, 'y').toString();
+      document.cookie = `theme=app-theme-${theme}; expires=${expireDays}; path=/`;
+    }
   }
 
   // /**

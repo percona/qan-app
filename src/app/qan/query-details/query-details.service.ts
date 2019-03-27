@@ -1,5 +1,5 @@
-import {Injectable} from '@angular/core';
-import {HttpClient, HttpHeaders, HttpParams} from '@angular/common/http';
+import { Injectable } from '@angular/core';
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 
 export interface QueryClass {
   Id: string;
@@ -42,7 +42,7 @@ export interface ServerSummary {
 @Injectable()
 export class QueryDetailsService {
 
-  private httpHeaders = new HttpHeaders({'Content-Type': 'application/json'});
+  private httpHeaders = new HttpHeaders({ 'Content-Type': 'application/json' });
 
   constructor(private httpClient: HttpClient) {
   }
@@ -53,7 +53,7 @@ export class QueryDetailsService {
     let httpParams = new HttpParams();
     httpParams = httpParams.append('begin', begin);
     httpParams = httpParams.append('end', end);
-    const response = await this.httpClient.get(url, {headers: this.httpHeaders, params: httpParams})
+    const response = await this.httpClient.get(url, { headers: this.httpHeaders, params: httpParams })
       .toPromise();
     return response as QueryDetails;
   }
@@ -65,7 +65,7 @@ export class QueryDetailsService {
     httpParams = httpParams.append('begin', begin);
     httpParams = httpParams.append('end', end);
 
-    const response = await this.httpClient.request('get', url, {headers: this.httpHeaders, params: httpParams})
+    const response = await this.httpClient.request('get', url, { headers: this.httpHeaders, params: httpParams })
       .toPromise();
     return response as ServerSummary;
   }

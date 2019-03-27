@@ -1,22 +1,22 @@
 /* tslint:disable:no-unused-variable */
-import {async, ComponentFixture, TestBed} from '@angular/core/testing';
-import {By} from '@angular/platform-browser';
-import {CUSTOM_ELEMENTS_SCHEMA, DebugElement, PipeTransform} from '@angular/core';
+import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { By } from '@angular/platform-browser';
+import { CUSTOM_ELEMENTS_SCHEMA, DebugElement, PipeTransform } from '@angular/core';
 
-import {QueryProfileComponent} from './query-profile.component';
-import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
-import {FormsModule} from '@angular/forms';
-import {RouterTestingModule} from '@angular/router/testing';
-import {ClipboardModule} from 'ngx-clipboard';
-import {InstanceService} from '../../core/services/instance.service';
-import {QueryProfileService} from './query-profile.service';
-import {LoadSparklinesDirective} from '../../shared/load-sparklines.directive';
-import {HumanizePipe} from '../../shared/humanize.pipe';
-import {LatencyChartDirective} from '../../shared/latency-chart.directive';
-import {MomentFormatPipe} from '../../shared/moment-format.pipe';
-import {ParseQueryParamDatePipe} from '../../shared/parse-query-param-date.pipe';
-import {ActivatedRoute} from '@angular/router';
-import {HttpClientModule} from '@angular/common/http';
+import { QueryProfileComponent } from './query-profile.component';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { FormsModule } from '@angular/forms';
+import { RouterTestingModule } from '@angular/router/testing';
+import { ClipboardModule } from 'ngx-clipboard';
+import { InstanceService } from '../../core/services/instance.service';
+import { QueryProfileService } from './query-profile.service';
+import { LoadSparklinesDirective } from '../../shared/load-sparklines.directive';
+import { HumanizePipe } from '../../shared/humanize.pipe';
+import { LatencyChartDirective } from '../../shared/latency-chart.directive';
+import { MomentFormatPipe } from '../../shared/moment-format.pipe';
+import { ParseQueryParamDatePipe } from '../../shared/parse-query-param-date.pipe';
+import { ActivatedRoute } from '@angular/router';
+import { HttpClientModule } from '@angular/common/http';
 
 fdescribe('QueryProfileComponent', () => {
   let component: QueryProfileComponent;
@@ -127,10 +127,10 @@ fdescribe('QueryProfileComponent', () => {
         ],
         Percentage: 1, QPS: 0.346875, Rank: 0,
         Stats:
-          {
-            Avg: 1.0198585265868896, Cnt: 14985, Max: 13.063, Med: 1.0610000052162119, Min: 0.1, P5: 0, P95: 2.8103783839457743,
-            Sum: 15282.580020904541
-          }
+        {
+          Avg: 1.0198585265868896, Cnt: 14985, Max: 13.063, Med: 1.0610000052162119, Min: 0.1, P5: 0, P95: 2.8103783839457743,
+          Sum: 15282.580020904541
+        }
       },
       {
         Abstract: 'INSERT sbtest3', Fingerprint: 'INSERT sbtest3', FirstSeen: '2018-07-26T12:23:00Z',
@@ -380,7 +380,7 @@ fdescribe('QueryProfileComponent', () => {
     };
     component.fromUTCDate = '12345678';
     component.toUTCDate = '92345678';
-    const response = Object.assign({}, queryProfileResponse, {json: () => response._body});
+    const response = Object.assign({}, queryProfileResponse, { json: () => response._body });
     response._body = Object.assign({}, response._body);
     const spy = spyOn(component.queryProfileService, 'getQueryProfile').and.returnValue(Promise.resolve(response));
     component.loadQueries();
@@ -418,7 +418,7 @@ fdescribe('QueryProfileComponent', () => {
     };
     component.fromUTCDate = '12345678';
     component.toUTCDate = '92345678';
-    const response = Object.assign({}, queryProfileResponse, {json: () => response._body});
+    const response = Object.assign({}, queryProfileResponse, { json: () => response._body });
     response._body = Object.assign({}, response._body);
     const spy = spyOn(component.queryProfileService, 'getQueryProfile').and.returnValue(Promise.resolve(response));
     component.loadMoreQueries();

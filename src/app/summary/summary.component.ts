@@ -1,13 +1,13 @@
-import {Component} from '@angular/core';
-import {Router, ActivatedRoute, Params} from '@angular/router';
+import { Component } from '@angular/core';
+import { Router, ActivatedRoute, Params } from '@angular/router';
 
-import {CoreComponent} from '../core/core.component';
-import {SummaryService} from './summary.service';
-import {InstanceService} from '../core/services/instance.service';
+import { CoreComponent } from '../core/core.component';
+import { SummaryService } from './summary.service';
+import { InstanceService } from '../core/services/instance.service';
 import * as JSZip from 'jszip';
 import saveAs from 'jszip/vendor/FileSaver';
 import * as moment from 'moment';
-import {MomentFormatPipe} from '../shared/moment-format.pipe';
+import { MomentFormatPipe } from '../shared/moment-format.pipe';
 
 
 /**
@@ -35,7 +35,7 @@ export class SummaryComponent {
   public mongoSummaryLoader: boolean;
 
   constructor(protected route: ActivatedRoute, protected router: Router,
-              public summaryService: SummaryService, protected instanceService: InstanceService) {
+    public summaryService: SummaryService, protected instanceService: InstanceService) {
     // super(route, router, instanceService);
   }
 

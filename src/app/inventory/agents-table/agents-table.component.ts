@@ -1,7 +1,7 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
-import {AgentsService} from '../../inventory-api/services/agents.service';
-import {InventoryService} from '../inventory.service';
-import {AgentsTableService} from './agents-table.service';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { AgentsService } from '../../inventory-api/services/agents.service';
+import { InventoryService } from '../inventory.service';
+import { AgentsTableService } from './agents-table.service';
 
 @Component({
   selector: 'app-agents-table',
@@ -39,7 +39,7 @@ export class AgentsTableComponent implements OnInit, OnDestroy {
   }
 
   removeAgents(id) {
-    this.agentsService.RemoveAgent({agent_id: id}).subscribe(() => {
+    this.agentsService.RemoveAgent({ agent_id: id }).subscribe(() => {
       this.agentTableService.setAgentsData(this.agentsData);
     });
   }

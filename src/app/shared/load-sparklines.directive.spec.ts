@@ -1,7 +1,7 @@
 /* tslint:disable:no-unused-variable */
 
-import {ElementRef} from '@angular/core';
-import {LoadSparklinesDirective} from './load-sparklines.directive';
+import { ElementRef } from '@angular/core';
+import { LoadSparklinesDirective } from './load-sparklines.directive';
 
 describe('LoadSparklinesDirective', () => {
   it('should create an instance', () => {

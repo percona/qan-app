@@ -8,9 +8,9 @@ fdescribe('QueryDetailsComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ QueryDetailsComponent ]
+      declarations: [QueryDetailsComponent]
     })
-    .compileComponents();
+      .compileComponents();
   }));
 
   beforeEach(() => {
