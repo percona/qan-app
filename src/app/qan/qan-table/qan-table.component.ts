@@ -11,6 +11,7 @@ import {MetricsNamesService} from '../../inventory-api/services/metrics-names.se
 import {GetProfileBody, QanTableService} from './qan-table.service';
 import {ParseQueryParamDatePipe} from '../../shared/parse-query-param-date.pipe';
 import {ActivatedRoute, Router} from '@angular/router';
+import * as moment from 'moment';
 
 @Component({
   selector: 'app-qan-table',
@@ -50,6 +51,9 @@ export class QanTableComponent implements OnInit, OnDestroy {
     private qanTableService: QanTableService
   ) {
     this.iframeQueryParams = this.route.snapshot.queryParams as QueryParams;
+    this.setTimeZoneFromParams();
+    this.setThemeFromParams();
+
     this.from = this.parseQueryParamDatePipe.transform(this.iframeQueryParams.from, 'from');
     this.to = this.parseQueryParamDatePipe.transform(this.iframeQueryParams.to, 'to');
 
@@ -59,8 +63,8 @@ export class QanTableComponent implements OnInit, OnDestroy {
         this.metrics = Object.entries(metrics).map(metric => new SelectOptionModel(metric)));
 
     this.report$ = this.profileService.GetReport({
-      'period_start_from': this.from.utc().format('YYYY-MM-DD HH:mm:ss'),
-      'period_start_to': this.to.utc().format('YYYY-MM-DD HH:mm:ss'),
+      'period_start_from': this.from.utc().format('YYYY-MM-DDTHH:mm:ssZ'),
+      'period_start_to': this.to.utc().format('YYYY-MM-DDTHH:mm:ssZ'),
       'order_by': 'num_queries',
       'group_by': 'queryid',
       'columns': ['query_time', 'bytes_sent', 'lock_time', 'rows_sent']
@@ -87,6 +91,23 @@ export class QanTableComponent implements OnInit, OnDestroy {
   addColumn() {
     this.tableData.forEach(query => query.metrics.push(new MetricModel()));
     setTimeout(() => this.componentRef.directiveRef.scrollToRight(), 0);
+  }
+
+  /**
+   * set timezone based on given query parameter.
+   */
+  setTimeZoneFromParams() {
+    const tz = this.iframeQueryParams.tz || 'browser';
+    const expireDays = moment().utc().add(7, 'y').toString();
+    document.cookie = `timezone=${tz}; expires=${expireDays}; path=/`;
+  }
+
+  setThemeFromParams() {
+    const theme = this.iframeQueryParams.theme || '';
+    if (theme) {
+      const expireDays = moment().utc().add(7, 'y').toString();
+      document.cookie = `theme=app-theme-${theme}; expires=${expireDays}; path=/`;
+    }
   }
 
   // /**
