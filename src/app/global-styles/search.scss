@@ -15,7 +15,7 @@
 
 .search__input {
   width: 100%;
-  padding: var(--input-top-indent, 0) var(--input-right-indent, var(--default-left-right-indent));
+  padding: var(--input-top-indent, 0) var(--input-right-indent, var(--input-lr-inner-indent));
   border: none;
 }
 

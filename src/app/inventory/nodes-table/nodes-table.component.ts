@@ -1,7 +1,7 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
-import {NodesService} from '../../inventory-api/services/nodes.service';
-import {InventoryService} from '../inventory.service';
-import {NodesTableService} from './nodes-table.service';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { NodesService } from '../../inventory-api/services/nodes.service';
+import { InventoryService } from '../inventory.service';
+import { NodesTableService } from './nodes-table.service';
 
 @Component({
   selector: 'app-nodes-table',
@@ -39,7 +39,7 @@ export class NodesTableComponent implements OnInit, OnDestroy {
   }
 
   removeNode(id) {
-    this.nodesService.RemoveNode({node_id: id}).subscribe(
+    this.nodesService.RemoveNode({ node_id: id }).subscribe(
       () => this.nodesTableService.setNodesData(this.nodesData)
     )
   }

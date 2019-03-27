@@ -1,6 +1,6 @@
-import {Pipe, PipeTransform} from '@angular/core';
+import { Pipe, PipeTransform } from '@angular/core';
 
-@Pipe({name: 'sortingTable'})
+@Pipe({ name: 'sortingTable' })
 export class SortingTablePipe implements PipeTransform {
 
   transform(instance: any[], path: string[], order: number = 1): any[] {

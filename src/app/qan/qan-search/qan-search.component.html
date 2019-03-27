@@ -9,22 +9,26 @@
            bindLabel="filterName"
            clearAllText="Reset"
            placeholder="Search by..."
-           class="pmm-select pmm-select--filter"
+           class="pmm-select pmm-select--search"
            role="combobox">
   <ng-template ng-multi-label-tmp let-items="items" let-clear="clear">
-    <perfect-scrollbar [config]="scrollbarConfig" class="pmm-scrollbar pmm-select__pmm-scrollbar">
+    <!--<perfect-scrollbar [config]="scrollbarConfig" class="pmm-scrollbar pmm-select__pmm-scrollbar">-->
       <div class="ng-value" *ngFor="let item of items">
         <div class="chips {{item.groupName.toLowerCase()}}">
-          <span class="ng-value-label">{{item.groupName}}: {{item.filterName}}</span>
-          <span class="close-icon" (click)="clear(item)" aria-hidden="true"></span>
+          <span class="ng-value-label">{{item.groupName.toLowerCase()}}: {{item.filterName}}</span>
+          <button class="close-button" (click)="clear(item)" aria-hidden="true">
+            <i class="fa fa-times" aria-hidden="true"></i>
+          </button>
         </div>
       </div>
-    </perfect-scrollbar>
+    <!--</perfect-scrollbar>-->
   </ng-template>
   <ng-template ng-label-tmp let-item="item" let-clear="clear">
     <div class="chips {{item.groupName.toLowerCase()}}">
       <span class="ng-value-label">{{item.groupName}}: {{item.filterName}}</span>
-      <span class="close-icon" (click)="clear(item)" aria-hidden="true"></span>
+      <button class="close-button" (click)="clear(item)" aria-hidden="true">
+        <i class="fa fa-times" aria-hidden="true"></i>
+      </button>
     </div>
   </ng-template>
   <!--Group template-->

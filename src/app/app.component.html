@@ -1,7 +1,5 @@
 <div>
-  <app-nav *ngIf="!hideNav"></app-nav>
-  <main [ngClass]="{'no-nav': hideNav }">
-    <!-- Router Outlet -->
+  <main>
     <router-outlet></router-outlet>
   </main>
   <footer>

@@ -41,10 +41,6 @@
 
 /* Create a custom checkbox */
 .checkbox-container__checkmark {
-  display: flex;
-  align-items: flex-start;
-  justify-content: center;
-
   width: 20px;
   height: 20px;
   margin-right: 8px;
@@ -68,6 +64,7 @@ input:checked ~ .checkbox-container__checkmark:after {
 
 /* Style the checkmark/indicator */
 .checkbox-container__checkmark:after {
+  margin: 0 auto;
   width: calc(var(--checkbox-size) / 2);
   height: var(--checkbox-size);
 

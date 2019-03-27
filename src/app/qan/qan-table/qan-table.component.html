@@ -1,0 +1,46 @@
+<div class="main-wrapper">
+  <div class="table-wrapper--outer">
+    <perfect-scrollbar [config]="scrollbarConfig" class="pmm-scrollbar">
+      <div class="table-wrapper--inner">
+        <table class="qan-table" id="qanTable">
+          <ng-container *ngFor="let row of tableData; let index = index;">
+            <tr *ngIf="!index" class="qan-table__row qan-table__row--heading">
+              <th class="qan-table__cell qan-table__cell--fixed qan-table__cell--first-c">#</th>
+              <th class="qan-table__cell qan-table__cell--fixed qan-table__cell--second-c">
+                <app-main-cell></app-main-cell>
+              </th>
+              <ng-container *ngFor="let metric of row.metrics; let index = index">
+              <app-qan-table-header-cell [currentColumnName]="metric.metricName"
+                                         [fullData]="tableData"
+                                         [metrics]="metrics"
+                                         [index]="index">
+              </app-qan-table-header-cell>
+              </ng-container>
+            </tr>
+            <tr class="qan-table__row qan-table--body">
+              <td class="qan-table__cell qan-table__cell--first-c qan-table__cell--fixed">
+                {{index || ''}}
+              </td>
+              <td class="qan-table__cell qan-table__cell--second-c qan-table__cell--fixed ">
+                <div class="overlay-container">
+                    <span class="overlay-container__item qan-table__abstract">
+                      {{row.dimension || 'TOTAL'}}
+                    </span>
+                </div>
+              </td>
+              <app-qan-table-cell *ngFor="let metric of row.metrics;"
+                                  [metricData]="metric"
+                                  [sparklineData]="row.sparkline">
+              </app-qan-table-cell>
+            </tr>
+          </ng-container>
+        </table>
+      </div>
+    </perfect-scrollbar>
+    <span class="right-table-border"></span>
+  </div>
+  <button (click)="addColumn()" class="add-column-btn">
+    <i class="fa fa-plus-circle" aria-hidden="true"></i>
+  </button>
+</div>
+<router-outlet></router-outlet>

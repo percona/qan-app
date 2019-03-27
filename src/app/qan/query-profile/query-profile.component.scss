@@ -24,3 +24,31 @@
   grid-template-rows: var(--qan-search-height);
   width: 100%;
 }
+
+.pmm-qan {
+  --grid-gap: 10px;
+  display: grid;
+  grid-template-areas: 'search search' 'filter table';
+  grid-template-columns: 300px minmax(1000px, 1fr);
+}
+
+.pmm-qan__search {
+  grid-area: search;
+  margin-bottom: var(--grid-gap);
+}
+
+.pmm-qan__filter {
+  grid-area: filter;
+}
+
+.pmm-qan__table {
+  grid-area: table;
+  margin-left: var(--grid-gap);
+}
+
+#search-input {
+  width: 1px;
+  height: 1px;
+  opacity: 0;
+  clip: (0, 0, 0, 0);
+}

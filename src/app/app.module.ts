@@ -16,7 +16,7 @@ import { AddRemoteInstanceComponent } from './add-remote-instances/add-remote-in
 import { AddInstanceComponent } from './add-instance/add-instance.component';
 
 export function getInstances(instanceService: InstanceService) {
-  return function () { return instanceService.getDBServers(); };
+  return function() { return instanceService.getDBServers(); };
 }
 
 @NgModule({
@@ -24,7 +24,7 @@ export function getInstances(instanceService: InstanceService) {
     AppComponent,
     AddAmazonRDSComponent,
     AddRemoteInstanceComponent,
-    AddInstanceComponent
+    AddInstanceComponent,
   ],
   imports: [
     AppRoutingModule,

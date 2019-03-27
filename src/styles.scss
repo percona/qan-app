@@ -7,7 +7,6 @@
 @import "app/global-styles/tabset";
 @import "app/global-styles/grid-tables";
 @import "app/global-styles/slinky-content";
-@import "app/global-styles/qan-main-table";
 @import "app/global-styles/buttons";
 @import "app/global-styles/inputs";
 @import "app/global-styles/input-select";
@@ -16,14 +15,12 @@
 @import "app/global-styles/checkbox";
 @import "app/global-styles/configuration-panel";
 @import "app/global-styles/search";
-@import "app/global-styles/aside-menu";
 @import "app/global-styles/switcher";
 @import "app/global-styles/overlay";
 @import "app/global-styles/units";
 @import "app/global-styles/spinner";
 @import "app/global-styles/charts";
 @import "app/global-styles/app-tooltip";
-@import "app/global-styles/close-icon";
 @import "app/global-styles/badge";
 @import "app/global-styles/not-used";
 
@@ -36,14 +33,6 @@
 body {
   color: var(--main-text-color, rgb(211, 211, 211));
   background-color: var(--page-background, transparent);
-}
-
-main {
-  padding-top: 70px;
-}
-
-.no-nav {
-  padding-top: 10px;
 }
 
 .center-children {

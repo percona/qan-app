@@ -1,9 +1,9 @@
-import {Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
-import {NgbTabset} from '@ng-bootstrap/ng-bootstrap';
-import {PerfectScrollbarConfigInterface} from 'ngx-perfect-scrollbar';
-import {QanFilterService} from '../qan-filter/qan-filter.service';
-import {FilterSearchService} from '../../core/services/filter-search.service';
-import {QanFilterModel} from '../../core/models/qan-fliter.model';
+import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { NgbTabset } from '@ng-bootstrap/ng-bootstrap';
+import { PerfectScrollbarConfigInterface } from 'ngx-perfect-scrollbar';
+import { QanFilterService } from '../qan-filter/qan-filter.service';
+import { FilterSearchService } from '../../core/services/filter-search.service';
+import { QanFilterModel } from '../../core/models/qan-fliter.model';
 
 @Component({
   selector: 'app-qan-search',

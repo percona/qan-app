@@ -1,11 +1,11 @@
-import {ActivatedRoute, Router} from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import * as moment from 'moment';
 import * as hljs from 'highlight.js';
 import * as vkbeautify from 'vkbeautify';
-import {CoreComponent, QueryParams} from '../../core/core.component';
-import {InstanceService} from '../../core/services/instance.service';
-import {QueryDetails, QueryDetailsService} from './query-details.service';
-import {Component, OnInit} from '@angular/core';
+import { CoreComponent, QueryParams } from '../../core/core.component';
+import { InstanceService } from '../../core/services/instance.service';
+import { QueryDetails, QueryDetailsService } from './query-details.service';
+import { Component, OnInit } from '@angular/core';
 
 @Component({
   moduleId: module.id,
@@ -63,9 +63,9 @@ export class QueryDetailsComponent extends CoreComponent implements OnInit {
   event = new Event('showSuccessNotification');
 
   constructor(protected route: ActivatedRoute,
-              protected router: Router,
-              public instanceService: InstanceService,
-              public queryDetailsService: QueryDetailsService) {
+    protected router: Router,
+    public instanceService: InstanceService,
+    public queryDetailsService: QueryDetailsService) {
     super(route, router, instanceService);
   }
 
@@ -125,17 +125,17 @@ export class QueryDetailsComponent extends CoreComponent implements OnInit {
     this.queryExample = '';
     try {
       this.queryDetails = await this.queryDetailsService.getQueryDetails(dbServerUUID, queryID, from, to);
-      this.firstSeen = moment(this.queryDetails.Query.FirstSeen).calendar(null, {sameElse: 'lll'});
-      this.lastSeen = moment(this.queryDetails.Query.LastSeen).calendar(null, {sameElse: 'lll'});
+      this.firstSeen = moment(this.queryDetails.Query.FirstSeen).calendar(null, { sameElse: 'lll' });
+      this.lastSeen = moment(this.queryDetails.Query.LastSeen).calendar(null, { sameElse: 'lll' });
       this.isFirstSeen = moment.utc(this.queryDetails.Query.FirstSeen).valueOf() > moment.utc(this.fromUTCDate).valueOf();
 
       switch (this.dbServer.Subsystem) {
-        case('mysql'):
+        case ('mysql'):
           this.fingerprint = hljs.highlight('sql', this.fixBeautifyText(this.queryDetails.Query.Fingerprint)).value;
           this.queryExample = hljs.highlight('sql', this.fixBeautifyText(this.queryDetails.Example.Query)).value;
           this.getTableInfo();
           break;
-        case('mongo'):
+        case ('mongo'):
           this.isMongo = true;
           this.fingerprint = this.queryDetails.Query.Fingerprint;
           this.queryExample = hljs.highlight('json', vkbeautify.json(this.queryDetails.Example.Query)).value;
@@ -198,10 +198,10 @@ export class QueryDetailsComponent extends CoreComponent implements OnInit {
       }
     } catch (err) {
       switch (this.dbServer.Subsystem) {
-        case('mysql'):
+        case ('mysql'):
           this.explainError = 'This type of query is not supported for EXPLAIN';
           break;
-        case('mongo'):
+        case ('mongo'):
           this.explainError = this.explainData.Error;
           break;
         default:
@@ -375,7 +375,7 @@ export class QueryDetailsComponent extends CoreComponent implements OnInit {
         this.queryDetails.Query.Tables = [];
       }
 
-      this.queryDetails.Query.Tables.push({Db: db, Table: tbl});
+      this.queryDetails.Query.Tables.push({ Db: db, Table: tbl });
       this.queryDetailsService.updateTables(this.queryDetails.Query.Id, this.queryDetails.Query.Tables);
       this.dbTblNames = this.newDBTblNames;
       this.getTableInfo();

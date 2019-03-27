@@ -10,7 +10,7 @@
   background-color: var(--element-background);
 }
 
-.accordion .card {
+.accordion .card:not(:last-child) {
   margin-bottom: var(--main-bottom-indent);
 }
 

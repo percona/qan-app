@@ -1,16 +1,16 @@
-import {Injectable} from '@angular/core';
-import {HttpClient, HttpHeaders, HttpParams} from '@angular/common/http';
+import { Injectable } from '@angular/core';
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 
 @Injectable()
 export class QueryProfileService {
 
-  private httpHeaders = new HttpHeaders({'Content-Type': 'application/json'});
+  private httpHeaders = new HttpHeaders({ 'Content-Type': 'application/json' });
 
   constructor(private httpClient: HttpClient) {
   }
 
   public async getQueryProfile(dbServerUUID, begin, end: string,
-                               offset = 0, search = '', first_seen): Promise<{}> {
+    offset = 0, search = '', first_seen): Promise<{}> {
     const url = `/qan-api/qan/profile/${dbServerUUID}`;
     let httpParams = new HttpParams();
     httpParams = httpParams.append('begin', begin);
@@ -25,7 +25,7 @@ export class QueryProfileService {
       httpParams = httpParams.append('search', search);
     }
     return await this.httpClient
-      .get(url, {headers: this.httpHeaders, params: httpParams})
+      .get(url, { headers: this.httpHeaders, params: httpParams })
       .toPromise();
   }
 }

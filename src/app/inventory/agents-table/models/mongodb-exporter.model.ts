@@ -1,6 +1,6 @@
 export class MongodbExporterModel {
   agent_id: string;
-  custom_labels: Array<string> ;
+  custom_labels: Array<string>;
   listen_port: number;
   username: string;
   password: string;

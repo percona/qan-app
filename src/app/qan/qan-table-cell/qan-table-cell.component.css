@@ -1,0 +1,22 @@
+:host {
+  display: table-cell;
+  height: var(--row-heigth);
+  white-space: nowrap;
+  vertical-align: top;
+  border-right: 1px solid var(--main-border-color);
+}
+
+.cell-inner {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  height: inherit;
+  padding: 0 5px;
+  font-weight: 100;
+}
+
+.cell-inner > *:not(:last-child) {
+  margin-right: 15px;
+}

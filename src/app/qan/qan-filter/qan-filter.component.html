@@ -1,93 +1,21 @@
-<aside [class.aside-menu--open]="isFilterMenu" class="aside-menu">
-  <div class="aside-menu__header">
-    <button (click)="toggleMenu()" class="aside-menu__toggle">
-      <i class="fa fa-list" aria-hidden="true"></i>
-    </button>
-  </div>
-  <section [hidden]="!isFilterMenu" class="aside-menu__body">
-    <div class="aside-menu__title">
-      <span class="title__text">Filter by: </span>
-      <button (click)="toggleMenu()" class="aside-menu__close">
-        <i class="fa fa-times" aria-hidden="true"></i>
+<aside class="aside">
+  <div *ngFor="let filterGroup of filters" class="aside__filter-group">
+    <div *ngIf="filterGroup.values.length" class="filter-group__title">
+      <span class="title__text">{{filterGroup.name}}</span>
+      <button *ngIf="filterGroup.values.length > defaultLimit" (click)="getAll(filterGroup)" class="filter-group__see-all">
+        {{limits[filterGroup.name] <= defaultLimit ? 'See all' : 'Show less'}}
       </button>
     </div>
-    <ngb-tabset class="pmm-tabset" #tabs>
-      <ngb-tab title="Filters" id="filters-tab">
-        <ng-template ngbTabContent>
-          <div class="pmm-tabset__tab-content" id="body-content-filters">
-            <form class="aside-menu__search search search--no-border">
-              <input (keyup)="findFilters(filterSearchValue)"
-                     [(ngModel)]="filterSearchValue"
-                     name="searchValue"
-                     class="search__input input-field"
-                     type="text" placeholder="Type to search">
-              <button class="search__button" type="submit">
-                <i class="fa fa-search"></i>
-              </button>
-            </form>
-            <perfect-scrollbar [config]="scrollbarConfig" class="pmm-scrollbar">
-              <div class="aside-menu__properties aside-menu__properties--filters">
-                <div *ngFor="let filterGroup of filtersSearchedValues" class="filters__filter-group">
-                  <div *ngIf="filterGroup.values.length" class="filter-group__title">
-                    <span class="title__text {{filterGroup.name.toLowerCase()}}">
-                      {{filterGroup.name}} {{countFilters(filterGroup)}}:
-                    </span>
-                    <button *ngIf="filterGroup.values.length > defaultLimit"
-                            (click)="getAll(filterGroup)" class="title__button">
-                      <i class="fa fa-chevron-{{limits[filterGroup.name] <= defaultLimit ? 'right' : 'down'}}" aria-hidden="true"></i>
-                    </button>
-                  </div>
-                  <div *ngIf="filterGroup.values.length" class="filter-group__filters">
-                    <ng-container *ngFor="let value of filterGroup.values; let index = index">
-                      <label *ngIf="index <= limits[filterGroup.name]" class="checkbox-container">
-                        <input (change)="setConfigs()"
-                               [(ngModel)]="value.state"
-                               type="checkbox">
-                        <span class="checkbox-container__checkmark"></span>
-                        <span class="checkbox-container__label-text">{{value.filterName}}</span>
-                      </label>
-                    </ng-container>
-                  </div>
-                </div>
-                <span *ngIf="!filtersSearchedValues.length" class="filters__empty-text">No items found...</span>
-              </div>
-            </perfect-scrollbar>
-          </div>
-        </ng-template>
-      </ngb-tab>
-      <ngb-tab [disabled]="!selected.length" id="checked-tab">
-        <ng-template ngbTabTitle>
-          <span>Selected</span>
-          <span *ngIf="selected.length" class="badge">{{selected.length}}</span>
-        </ng-template>
-        <ng-template ngbTabContent>
-          <div class="pmm-tabset__tab-content" id="body-content-chips">
-            <perfect-scrollbar [config]="scrollbarConfig" class="pmm-scrollbar">
-              <div class="aside-menu__properties aside-menu__properties--chips">
-                <div class="filter-group__title filter-group__title--no-padding">
-                  <button (click)="changeFilterState()" class="title__button">
-                    Reset all <i class="fa fa-times" aria-hidden="true"></i>
-                  </button>
-                </div>
-                <div class="filters__chips-list">
-                  <ng-container *ngFor="let selectedLabel of selected; let index = index">
-                    <div *ngIf="!index || selectedLabel.groupName !== selected[index - 1].groupName"
-                         class="filter-group__title">
-                      <span class="title__text {{selectedLabel.groupName.toLowerCase()}}">
-                        {{selectedLabel.groupName}}:
-                      </span>
-                    </div>
-                    <div class="chips {{selectedLabel.groupName.toLowerCase()}}">
-                      <span class="ng-value-label">{{selectedLabel.filterName}}</span>
-                      <span (click)="changeFilterState(selectedLabel)" class="close-icon"></span>
-                    </div>
-                  </ng-container>
-                </div>
-              </div>
-            </perfect-scrollbar>
-          </div>
-        </ng-template>
-      </ngb-tab>
-    </ngb-tabset>
-  </section>
+    <div *ngIf="filterGroup.values.length" class="filter-group__filters">
+      <ng-container *ngFor="let value of filterGroup.values; let index = index">
+        <label *ngIf="index <= limits[filterGroup.name]" class="checkbox-container">
+          <input (change)="setConfigs()"
+                 [(ngModel)]="value.state"
+                 type="checkbox">
+          <span class="checkbox-container__checkmark"></span>
+          <span class="checkbox-container__label-text {{filterGroup.name.toLowerCase()}}">{{value.filterName}}</span>
+        </label>
+      </ng-container>
+    </div>
+  </div>
 </aside>

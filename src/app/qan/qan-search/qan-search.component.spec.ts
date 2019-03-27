@@ -8,9 +8,9 @@ describe('QanSearchComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ QanSearchComponent ]
+      declarations: [QanSearchComponent]
     })
-    .compileComponents();
+      .compileComponents();
   }));
 
   beforeEach(() => {

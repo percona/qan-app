@@ -1,7 +1,48 @@
-.chips {
-  --chips-indents: 5px;
+.aside {
+  height: auto;
+  font-size: 0.9em;
+  border: 1px solid var(--main-border-color);
+  background-color: transparent;
+}
 
-  display: inline-flex;
-  margin-right: var(--chips-indents);
-  margin-bottom: var(--chips-indents);
+.aside__filter-group {
+  --filter-group-indent: 5px;
+
+  padding: 10px;
+
+  &:not(:last-child) {
+    border-bottom: 1px solid var(--main-border-color);
+  }
+}
+
+.filter-group__title {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  width: 100%;
+  margin-bottom: var(--filter-group-indent);
+}
+
+.title__text {
+  font-weight: 600;
+}
+
+.filter-group__filters {
+  display: inline-grid;
+  grid-row-gap: var(--filter-group-indent);
+}
+
+.checkbox-container__label-text {
+  font-size: 1em;
+  font-weight: 100;
+}
+
+.filter-group__see-all {
+  cursor: pointer;
+  margin-left: auto;
+  color: rgb(159, 159, 159);
+  text-decoration: underline;
+  border: none;
+  background-color: transparent;
 }

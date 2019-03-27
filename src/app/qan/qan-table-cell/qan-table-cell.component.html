@@ -1,0 +1,17 @@
+<div class="cell-inner">
+  <div *ngIf="metricData?.metricName" class="scaling-svg-container app-tooltip"
+       [appLoadSparklines]="sparklineData"
+       data-tooltip="Loading..."
+       xkey="timestamp" ykey="{{yKey}}"
+       measurement="{{measurement}}">
+  </div>
+
+  <div *ngIf="metricData?.stats?.sum">
+    {{metricData.stats.sum | humanize : pipeType}}
+  </div>
+
+  <div *ngIf="isStats" class="scaling-svg-container app-tooltip" data-tooltip="Loading..." [measurement]="pipeType"
+       [appLatencyChart]="metricData?.stats" metricPrefix="Rows_sent">
+  </div>
+</div>
+

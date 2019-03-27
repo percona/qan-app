@@ -1,5 +1,5 @@
 import { ParseQueryParamDatePipe } from './parse-query-param-date.pipe';
-import {MomentFormatPipe} from './moment-format.pipe';
+import { MomentFormatPipe } from './moment-format.pipe';
 import moment = require('moment');
 
 describe('ParseQueryParamDatePipe', () => {

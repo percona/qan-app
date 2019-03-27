@@ -5,7 +5,7 @@ import * as moment from 'moment';
 export class MomentFormatPipe implements PipeTransform {
 
   timezone = 'browser';
-  constructor () {
+  constructor() {
     this.timezone = this.getCookie('timezone') || 'browser';
   }
 

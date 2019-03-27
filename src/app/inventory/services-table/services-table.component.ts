@@ -1,7 +1,7 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
-import {ServicesService} from '../../inventory-api/services/services.service';
-import {InventoryService} from '../inventory.service';
-import {ServicesTableService} from './services-table.service';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { ServicesService } from '../../inventory-api/services/services.service';
+import { InventoryService } from '../inventory.service';
+import { ServicesTableService } from './services-table.service';
 
 @Component({
   selector: 'app-services-table',
@@ -39,7 +39,7 @@ export class ServicesTableComponent implements OnInit, OnDestroy {
   }
 
   removeService(id) {
-    this.servicesService.RemoveService({service_id: id}).subscribe(
+    this.servicesService.RemoveService({ service_id: id }).subscribe(
       () => this.servicesTableService.setServicesData(this.servicesData)
     );
   }

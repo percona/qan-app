@@ -1,7 +1,6 @@
 import { NgModule, Optional, SkipSelf } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { SharedModule } from '../shared/shared.module';
-import { NavComponent } from './nav/nav.component';
 import { JSONTreeComponent } from './json-tree/json-tree.component';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 import { InstanceService } from './services/instance.service';
@@ -27,82 +26,88 @@ import { QanSearchComponent } from '../qan/qan-search/qan-search.component';
 import { QueryDetailsComponent } from '../qan/query-details/query-details.component';
 import { QueryDetailsService } from '../qan/query-details/query-details.service';
 import { ApiModule } from '../inventory-api/api.module';
-import {InventoryService} from '../inventory/inventory.service';
-import {NodesService} from '../inventory-api/services/nodes.service';
-import {ServicesService} from '../inventory-api/services/services.service';
-import {AgentsService} from '../inventory-api/services/agents.service';
-import {InventoryComponent} from '../inventory/inventory.component';
-import {ServicesTableComponent} from '../inventory/services-table/services-table.component';
-import {AgentsTableComponent} from '../inventory/agents-table/agents-table.component';
-import {NodesTableComponent} from '../inventory/nodes-table/nodes-table.component';
+import { InventoryService } from '../inventory/inventory.service';
+import { NodesService } from '../inventory-api/services/nodes.service';
+import { ServicesService } from '../inventory-api/services/services.service';
+import { AgentsService } from '../inventory-api/services/agents.service';
+import { InventoryComponent } from '../inventory/inventory.component';
+import { ServicesTableComponent } from '../inventory/services-table/services-table.component';
+import { AgentsTableComponent } from '../inventory/agents-table/agents-table.component';
+import { NodesTableComponent } from '../inventory/nodes-table/nodes-table.component';
+import { QanTableCellComponent } from '../qan/qan-table-cell/qan-table-cell.component';
+import { QanTableComponent } from '../qan/qan-table/qan-table.component';
+import { QanTableHeaderCellComponent } from '../qan/qan-table-header-cell/qan-table-header-cell.component';
+import { MainCellComponent } from '../qan/main-cell/main-cell.component';
 
 @NgModule({
-    imports: [
-      CommonModule,
-      SharedModule,
-      ClipboardModule,
-      NgSelectModule,
-      PerfectScrollbarModule,
-      ApiModule
-    ],
-    declarations: [
-      NavComponent,
-      PageNotFoundComponent,
-      QueryProfileComponent,
-      QanFilterComponent,
-      SummaryComponent,
-      SettingsComponent,
-      JSONTreeComponent,
-      QanSearchComponent,
-      RemoteInstancesListComponent,
-      QanEditColumnComponent,
-      QueryDetailsComponent,
-      InventoryComponent,
-      ServicesTableComponent,
-      AgentsTableComponent,
-      NodesTableComponent,
-    ],
-    exports: [
-      NavComponent,
-      PageNotFoundComponent,
-      QueryProfileComponent,
-      QanFilterComponent,
-      SummaryComponent,
-      SettingsComponent,
-      JSONTreeComponent,
-      QanSearchComponent,
-      RemoteInstancesListComponent,
-      QanEditColumnComponent,
-      QueryDetailsComponent,
-      InventoryComponent,
-      ServicesTableComponent,
-      AgentsTableComponent,
-      NodesTableComponent,
-    ],
-    providers: [
-      InstanceService,
-      QueryProfileService,
-      SummaryService,
-      SettingsService,
-      AddAmazonRDSService,
-      AddRemoteInstanceService,
-      QueryDetailsService,
-      RemoteInstancesListService,
-      QanEditColumnService,
-      QanFilterService,
-      FilterSearchService,
-      InventoryService,
-      NodesService,
-      ServicesService,
-      AgentsService
-    ]
+  imports: [
+    CommonModule,
+    SharedModule,
+    ClipboardModule,
+    NgSelectModule,
+    PerfectScrollbarModule,
+    ApiModule
+  ],
+  declarations: [
+    PageNotFoundComponent,
+    QueryProfileComponent,
+    QanFilterComponent,
+    SummaryComponent,
+    SettingsComponent,
+    JSONTreeComponent,
+    QanSearchComponent,
+    RemoteInstancesListComponent,
+    QanEditColumnComponent,
+    QueryDetailsComponent,
+    InventoryComponent,
+    ServicesTableComponent,
+    AgentsTableComponent,
+    NodesTableComponent,
+    QanTableComponent,
+    QanTableHeaderCellComponent,
+    QanTableCellComponent,
+    MainCellComponent
+  ],
+  exports: [
+    PageNotFoundComponent,
+    QueryProfileComponent,
+    QanFilterComponent,
+    SummaryComponent,
+    SettingsComponent,
+    JSONTreeComponent,
+    QanSearchComponent,
+    RemoteInstancesListComponent,
+    QanEditColumnComponent,
+    QueryDetailsComponent,
+    InventoryComponent,
+    ServicesTableComponent,
+    AgentsTableComponent,
+    NodesTableComponent,
+  ],
+  providers: [
+    InstanceService,
+    QueryProfileService,
+    SummaryService,
+    SettingsService,
+    AddAmazonRDSService,
+    AddRemoteInstanceService,
+    QueryDetailsService,
+    RemoteInstancesListService,
+    QanEditColumnService,
+    QanFilterService,
+    FilterSearchService,
+    InventoryService,
+    NodesService,
+    ServicesService,
+    AgentsService
+  ]
 })
 export class CoreModule {
 
-    constructor( @Optional() @SkipSelf() parentModule: CoreModule) {
-        if (parentModule) {
-            throw new Error(
-                'CoreModule is already loaded. Import it in the AppModule only');
-        }
+  constructor(@Optional() @SkipSelf() parentModule: CoreModule) {
+    if (parentModule) {
+      throw new Error(
+        'CoreModule is already loaded. Import it in the AppModule only');
     }
+  }
 }
