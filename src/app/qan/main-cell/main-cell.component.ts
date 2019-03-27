@@ -1,4 +1,4 @@
-import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { SelectOptionModel } from '../qan-table-header-cell/modesl/select-option.model';
 import { QanTableService } from '../qan-table/qan-table.service';
 
@@ -21,8 +21,7 @@ export class MainCellComponent implements OnInit {
 
   constructor(private qanTableService: QanTableService) {
     this.groupByItems = Object.entries(this.groupByData).map(metric => new SelectOptionModel(metric));
-    this.groupBy = this.groupByItems[0];
-    this.onChangeGroupBy(this.groupBy);
+    this.groupBy = this.qanTableService.getGroupByValue || this.groupByItems[0];
   }
 
   ngOnInit() {
@@ -30,5 +29,6 @@ export class MainCellComponent implements OnInit {
 
   onChangeGroupBy(value) {
     this.qanTableService.setGroupBy(value.name);
+    this.qanTableService.setGroupByValue = value;
   }
 }

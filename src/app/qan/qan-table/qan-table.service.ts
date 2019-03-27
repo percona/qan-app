@@ -1,24 +1,19 @@
 import { Injectable } from '@angular/core';
-import { TableDataModel } from './models/table-data.model';
-import { SelectOptionModel } from '../qan-table-header-cell/modesl/select-option.model';
-import { Observable } from 'rxjs';
-import { ProfileService } from '../../inventory-api/services/profile.service';
-import { BehaviorSubject } from 'rxjs/internal/BehaviorSubject';
-import { groupBy } from 'rxjs/operators';
 import { Subject } from 'rxjs/internal/Subject';
+import { SelectOptionModel } from '../qan-table-header-cell/modesl/select-option.model';
 
 export interface GetProfileBody {
-  columns: string[];
-  first_seen: boolean;
-  group_by: string,
-  include_only_fields: string[]
-  keyword: string,
-  labels: LabelsProfile[],
-  limit: number,
-  offset: number,
-  order_by: string,
-  period_start_from: string,
-  period_start_to: string
+  columns?: string[];
+  first_seen?: boolean;
+  group_by?: string,
+  include_only_fields?: string[]
+  keyword?: string,
+  labels?: LabelsProfile[],
+  limit?: number,
+  offset?: number,
+  order_by?: string,
+  period_start_from?: string,
+  period_start_to?: string
 }
 
 export interface LabelsProfile {
@@ -31,16 +26,34 @@ export interface LabelsProfile {
   providedIn: 'root'
 })
 export class QanTableService {
-  private groupBy = new Subject();
+  private groupValue: SelectOptionModel;
+  private groupBy = new Subject<string>();
+  private profileParams = new Subject<GetProfileBody>();
 
   constructor() { }
 
 
-  setGroupBy(value) {
-    this.groupBy.next(value);
+  setGroupBy(group_by: string) {
+    this.groupBy.next(group_by);
   }
 
-  get groupBySource() {
+  setProfileParams(params: GetProfileBody) {
+    this.profileParams.next(params)
+  }
+
+  set setGroupByValue(group_by) {
+    this.groupValue = group_by as SelectOptionModel;
+  }
+
+  get groupBySource(): Subject<string> {
     return this.groupBy;
+  }
+
+  get profileParamsSource(): Subject<GetProfileBody> {
+    return this.profileParams;
+  }
+
+  get getGroupByValue(): SelectOptionModel {
+    return this.groupValue;
   }
 }

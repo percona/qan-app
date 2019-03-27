@@ -1,4 +1,4 @@
-import { Component, OnChanges, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { PerfectScrollbarComponent, PerfectScrollbarConfigInterface } from 'ngx-perfect-scrollbar';
 import { QueryParams } from '../../core/core.component';
 import { SelectOptionModel } from '../qan-table-header-cell/modesl/select-option.model';
@@ -6,7 +6,7 @@ import { TableDataModel } from './models/table-data.model';
 import { MetricModel } from './models/metric.model';
 import { ProfileService } from '../../inventory-api/services/profile.service';
 import { Subscription } from 'rxjs/internal/Subscription';
-import { filter, map } from 'rxjs/operators';
+import { map, switchMap } from 'rxjs/operators';
 import { MetricsNamesService } from '../../inventory-api/services/metrics-names.service';
 import { GetProfileBody, QanTableService } from './qan-table.service';
 import { ParseQueryParamDatePipe } from '../../shared/parse-query-param-date.pipe';
@@ -35,7 +35,7 @@ export class QanTableComponent implements OnInit, OnDestroy {
   public metrics$;
   public metrics;
   private parseQueryParamDatePipe = new ParseQueryParamDatePipe();
-  public getReportParams = {} as GetProfileBody;
+  public getReportParams: GetProfileBody = {};
   public prevGetReportParams = {} as GetProfileBody;
   public groupBy: string;
 
@@ -50,36 +50,26 @@ export class QanTableComponent implements OnInit, OnDestroy {
     private metricsNamesService: MetricsNamesService,
     private qanTableService: QanTableService
   ) {
-    this.iframeQueryParams = this.route.snapshot.queryParams as QueryParams;
-    this.setTimeZoneFromParams();
-    this.setThemeFromParams();
-
-    this.from = this.parseQueryParamDatePipe.transform(this.iframeQueryParams.from, 'from');
-    this.to = this.parseQueryParamDatePipe.transform(this.iframeQueryParams.to, 'to');
-
     this.metrics$ = this.metricsNamesService.GetMetricsNames({})
       .pipe(map(metrics => metrics.data))
-      .subscribe(metrics =>
-        this.metrics = Object.entries(metrics).map(metric => new SelectOptionModel(metric)));
+      .subscribe(metrics => this.metrics = Object.entries(metrics).map(metric => new SelectOptionModel(metric)));
 
-    this.report$ = this.profileService.GetReport({
-      'period_start_from': this.from.utc().format('YYYY-MM-DDTHH:mm:ssZ'),
-      'period_start_to': this.to.utc().format('YYYY-MM-DDTHH:mm:ssZ'),
-      'order_by': 'num_queries',
-      'group_by': 'queryid',
-      'columns': ['query_time', 'bytes_sent', 'lock_time', 'rows_sent']
-    }).subscribe(item => {
-      this.tableData = item.rows.map(row => new TableDataModel(row));
-      this.totalRows = item.total_rows;
-      console.log('this.tableData str - ', JSON.stringify(this.tableData));
-    });
+    this.report$ = this.qanTableService.profileParamsSource
+      .pipe(switchMap(params => this.profileService.GetReport(params)))
+      .subscribe(data => {
+        console.log(data);
+        this.tableData = data.rows.map(row => new TableDataModel(row));
+        this.totalRows = data.total_rows;
+      });
 
     this.qanTableService.groupBySource.subscribe(value => {
-      console.log('groupByValue - ', value);
-    })
+      this.getReportParams.group_by = value;
+      this.qanTableService.setProfileParams(this.getReportParams);
+    });
   }
 
   ngOnInit() {
+    this.setTimeRange();
   }
 
   ngOnDestroy() {
@@ -87,10 +77,24 @@ export class QanTableComponent implements OnInit, OnDestroy {
     this.report$.unsubscribe();
   }
 
+  setTimeRange() {
+    this.iframeQueryParams = this.route.snapshot.queryParams as QueryParams;
+    this.from = this.parseQueryParamDatePipe.transform(this.iframeQueryParams.from, 'from');
+    this.to = this.parseQueryParamDatePipe.transform(this.iframeQueryParams.to, 'to');
+
+    this.getReportParams.period_start_from = this.from.utc().format('YYYY-MM-DDTHH:mm:ssZ');
+    this.getReportParams.period_start_to = this.to.utc().format('YYYY-MM-DDTHH:mm:ssZ');
+    this.getReportParams.order_by = 'num_queries';
+    this.getReportParams.group_by = 'queryid';
+    this.getReportParams.columns = ['query_time', 'bytes_sent', 'lock_time', 'rows_sent'];
+    console.log('this.getReportParams - ', this.getReportParams);
+    this.qanTableService.setProfileParams(this.getReportParams);
+  }
+
 
   addColumn() {
     this.tableData.forEach(query => query.metrics.push(new MetricModel()));
-    setTimeout(() => this.componentRef.directiveRef.scrollToRight(), 0);
+    setTimeout(() => this.componentRef.directiveRef.scrollToRight(), 100);
   }
 
   /**
