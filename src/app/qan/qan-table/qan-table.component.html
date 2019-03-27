@@ -10,11 +10,11 @@
                 <app-main-cell></app-main-cell>
               </th>
               <ng-container *ngFor="let metric of row.metrics; let index = index">
-              <app-qan-table-header-cell [currentColumnName]="metric.metricName"
-                                         [fullData]="tableData"
-                                         [metrics]="metrics"
-                                         [index]="index">
-              </app-qan-table-header-cell>
+                <app-qan-table-header-cell [currentColumnName]="metric.metricName"
+                                           [fullData]="tableData"
+                                           [metrics]="metrics"
+                                           [index]="index">
+                </app-qan-table-header-cell>
               </ng-container>
             </tr>
             <tr class="qan-table__row qan-table--body">

@@ -1,5 +1,7 @@
 import { Injectable } from '@angular/core';
 import {Subject} from 'rxjs/internal/Subject';
+import {Observable} from 'rxjs/internal/Observable';
+import {Observer} from 'rxjs/internal/types';
 
 export interface GetProfileBody {
   columns?: string[];

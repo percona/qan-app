@@ -22,7 +22,6 @@ export class MainCellComponent implements OnInit {
   constructor(private qanTableService: QanTableService) {
     this.groupByItems = Object.entries(this.groupByData).map(metric => new SelectOptionModel(metric));
     this.groupBy = this.groupByItems[0];
-    this.onChangeGroupBy(this.groupBy);
   }
 
   ngOnInit() {
