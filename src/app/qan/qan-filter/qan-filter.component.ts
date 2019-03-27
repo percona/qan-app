@@ -1,8 +1,8 @@
-import {Component, OnChanges, OnDestroy, OnInit, ViewChild} from '@angular/core';
-import {NgbTabset} from '@ng-bootstrap/ng-bootstrap';
-import {QanFilterService} from './qan-filter.service';
-import {FilterSearchService} from '../../core/services/filter-search.service';
-import {QanFilterModel} from '../../core/models/qan-fliter.model';
+import { Component, OnChanges, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { NgbTabset } from '@ng-bootstrap/ng-bootstrap';
+import { QanFilterService } from './qan-filter.service';
+import { FilterSearchService } from '../../core/services/filter-search.service';
+import { QanFilterModel } from '../../core/models/qan-fliter.model';
 
 @Component({
   selector: 'app-qan-filter',

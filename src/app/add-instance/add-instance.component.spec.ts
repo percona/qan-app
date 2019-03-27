@@ -8,9 +8,9 @@ fdescribe('AddInstanceComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ AddInstanceComponent ]
+      declarations: [AddInstanceComponent]
     })
-    .compileComponents();
+      .compileComponents();
   }));
 
   beforeEach(() => {

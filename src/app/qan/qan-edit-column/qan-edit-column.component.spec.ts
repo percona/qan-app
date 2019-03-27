@@ -8,9 +8,9 @@ describe('QanEditColumnComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ QanEditColumnComponent ]
+      declarations: [QanEditColumnComponent]
     })
-    .compileComponents();
+      .compileComponents();
   }));
 
   beforeEach(() => {

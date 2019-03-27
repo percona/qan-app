@@ -1,11 +1,11 @@
 import { Injectable } from '@angular/core';
-import {TableDataModel} from './models/table-data.model';
-import {SelectOptionModel} from '../qan-table-header-cell/modesl/select-option.model';
-import {Observable} from 'rxjs';
-import {ProfileService} from '../../inventory-api/services/profile.service';
-import {BehaviorSubject} from 'rxjs/internal/BehaviorSubject';
-import {groupBy} from 'rxjs/operators';
-import {Subject} from 'rxjs/internal/Subject';
+import { TableDataModel } from './models/table-data.model';
+import { SelectOptionModel } from '../qan-table-header-cell/modesl/select-option.model';
+import { Observable } from 'rxjs';
+import { ProfileService } from '../../inventory-api/services/profile.service';
+import { BehaviorSubject } from 'rxjs/internal/BehaviorSubject';
+import { groupBy } from 'rxjs/operators';
+import { Subject } from 'rxjs/internal/Subject';
 
 export interface GetProfileBody {
   columns: string[];

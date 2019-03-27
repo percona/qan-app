@@ -1,10 +1,10 @@
-import {TestBed, inject, fakeAsync, tick} from '@angular/core/testing';
+import { TestBed, inject, fakeAsync, tick } from '@angular/core/testing';
 
-import {InstanceService} from '../instance.service';
+import { InstanceService } from '../instance.service';
 import 'rxjs/add/operator/toPromise';
-import {NO_ERRORS_SCHEMA} from '@angular/core';
-import {BaseRequestOptions, Http, HttpModule, ResponseOptions} from '@angular/http';
-import {MockBackend} from '@angular/http/testing';
+import { NO_ERRORS_SCHEMA } from '@angular/core';
+import { BaseRequestOptions, Http, HttpModule, ResponseOptions } from '@angular/http';
+import { MockBackend } from '@angular/http/testing';
 
 describe('InstanceService', () => {
   let service: InstanceService;
@@ -46,7 +46,7 @@ describe('InstanceService', () => {
   }));
 
   it('should create dbServer if response data is valid', fakeAsync(() => {
-    const response = Object.assign({}, dbServerResponse, {json: () => response._body});
+    const response = Object.assign({}, dbServerResponse, { json: () => response._body });
 
     backend.connections.subscribe(connection => {
       connection.mockRespond(response);

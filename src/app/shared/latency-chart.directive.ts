@@ -1,9 +1,9 @@
-import {Directive, ElementRef, HostBinding, Input} from '@angular/core';
+import { Directive, ElementRef, HostBinding, Input } from '@angular/core';
 
-import {select} from 'd3-selection';
-import {scaleLog} from 'd3-scale';
+import { select } from 'd3-selection';
+import { scaleLog } from 'd3-scale';
 
-import {HumanizePipe} from './humanize.pipe';
+import { HumanizePipe } from './humanize.pipe';
 
 @Directive({
   selector: '[appLatencyChart]'
@@ -42,7 +42,7 @@ export class LatencyChartDirective {
       .clamp(true)
       .nice();
 
-    const {min = 0, max = 0, avg = 0, p99 = 0} = data;
+    const { min = 0, max = 0, avg = 0, p99 = 0 } = data;
 
     const humanize = new HumanizePipe();
 

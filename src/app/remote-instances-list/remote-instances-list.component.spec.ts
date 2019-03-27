@@ -8,9 +8,9 @@ describe('RemoteInstancesListComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ RemoteInstancesListComponent ]
+      declarations: [RemoteInstancesListComponent]
     })
-    .compileComponents();
+      .compileComponents();
   }));
 
   beforeEach(() => {

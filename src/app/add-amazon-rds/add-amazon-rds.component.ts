@@ -86,7 +86,7 @@ export class AddAmazonRDSComponent implements OnInit {
 
   enableInstanceMonitoring(node: RDSNode) {
     this.mysqlCredentials = new MySQLCredentials();
-    this.rdsNode = {name: node.name, region: node.region} as RDSNode;
+    this.rdsNode = { name: node.name, region: node.region } as RDSNode;
   }
 
   showConnect(node: RDSNode): boolean {

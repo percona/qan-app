@@ -8,9 +8,9 @@ describe('QanTableCellComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ QanTableCellComponent ]
+      declarations: [QanTableCellComponent]
     })
-    .compileComponents();
+      .compileComponents();
   }));
 
   beforeEach(() => {

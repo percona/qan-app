@@ -1,10 +1,10 @@
 /* tslint:disable:no-unused-variable */
 
-import {TestBed, async, inject, fakeAsync, tick} from '@angular/core/testing';
-import {BaseRequestOptions, ConnectionBackend, Http, HttpModule, RequestOptions} from '@angular/http';
-import {NO_ERRORS_SCHEMA} from '@angular/core';
-import {MockBackend} from '@angular/http/testing';
-import {QueryProfileService} from './query-profile.service';
+import { TestBed, async, inject, fakeAsync, tick } from '@angular/core/testing';
+import { BaseRequestOptions, ConnectionBackend, Http, HttpModule, RequestOptions } from '@angular/http';
+import { NO_ERRORS_SCHEMA } from '@angular/core';
+import { MockBackend } from '@angular/http/testing';
+import { QueryProfileService } from './query-profile.service';
 
 describe('QueryProfileService', () => {
   let service: QueryProfileService;
@@ -37,7 +37,7 @@ describe('QueryProfileService', () => {
 
   it('should be true if getQueryProfile response data is valid',
     fakeAsync(() => {
-      const response = Object.assign({}, mysqlServiceResponse, {json: () => response._body});
+      const response = Object.assign({}, mysqlServiceResponse, { json: () => response._body });
       response._body = Object.assign({}, response._body);
       backend.connections.subscribe(connection => {
         connection.mockRespond(response);
@@ -51,7 +51,7 @@ describe('QueryProfileService', () => {
 
   it('should be true if getQueryProfile response data is valid',
     fakeAsync(() => {
-      const response = Object.assign({}, mysqlServiceResponse, {json: () => response._body});
+      const response = Object.assign({}, mysqlServiceResponse, { json: () => response._body });
       response._body = Object.assign({}, response._body);
       backend.connections.subscribe(connection => {
         connection.mockRespond(response);

@@ -1,4 +1,4 @@
-import {MetricModel} from './metric.model';
+import { MetricModel } from './metric.model';
 import * as moment from 'moment';
 
 export class TableDataModel {

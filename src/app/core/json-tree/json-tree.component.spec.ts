@@ -1,13 +1,13 @@
 /* tslint:disable:no-unused-variable */
-import {async, ComponentFixture, TestBed} from '@angular/core/testing';
-import {CUSTOM_ELEMENTS_SCHEMA} from '@angular/core';
+import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 
-import {RouterTestingModule} from '@angular/router/testing';
-import {FormsModule} from '@angular/forms';
-import {HttpModule} from '@angular/http';
-import {InstanceService} from '../services/instance.service';
-import {JSONTreeComponent} from './json-tree.component';
-import {ClipboardModule} from 'ngx-clipboard';
+import { RouterTestingModule } from '@angular/router/testing';
+import { FormsModule } from '@angular/forms';
+import { HttpModule } from '@angular/http';
+import { InstanceService } from '../services/instance.service';
+import { JSONTreeComponent } from './json-tree.component';
+import { ClipboardModule } from 'ngx-clipboard';
 
 describe('JSONTreeComponent', () => {
   let component: JSONTreeComponent;
@@ -43,7 +43,7 @@ describe('JSONTreeComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(JSONTreeComponent);
     component = fixture.componentInstance;
-    component.json = {json: 'json'};
+    component.json = { json: 'json' };
     fixture.detectChanges();
   });
 

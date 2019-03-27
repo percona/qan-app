@@ -1,13 +1,13 @@
-import {Component} from '@angular/core';
-import {Router, ActivatedRoute} from '@angular/router';
-import {InstanceService} from '../core/services/instance.service';
-import {CoreComponent} from '../core/core.component';
-import {environment} from '../environment';
+import { Component } from '@angular/core';
+import { Router, ActivatedRoute } from '@angular/router';
+import { InstanceService } from '../core/services/instance.service';
+import { CoreComponent } from '../core/core.component';
+import { environment } from '../environment';
 import * as moment from 'moment';
-import {SettingsService} from './settings.service';
-import {Observable} from 'rxjs/internal/Observable';
-import {interval} from 'rxjs/internal/observable/interval';
-import {map} from 'rxjs/operators';
+import { SettingsService } from './settings.service';
+import { Observable } from 'rxjs/internal/Observable';
+import { interval } from 'rxjs/internal/observable/interval';
+import { map } from 'rxjs/operators';
 
 @Component({
   moduleId: module.id,

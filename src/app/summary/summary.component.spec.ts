@@ -1,16 +1,16 @@
 /* tslint:disable:no-unused-variable */
-import {async, ComponentFixture, TestBed} from '@angular/core/testing';
-import {By} from '@angular/platform-browser';
-import {CUSTOM_ELEMENTS_SCHEMA, DebugElement} from '@angular/core';
+import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { By } from '@angular/platform-browser';
+import { CUSTOM_ELEMENTS_SCHEMA, DebugElement } from '@angular/core';
 import * as JSZip from 'jszip';
-import {SummaryComponent} from './summary.component';
-import {NgbAccordionConfig, NgbModule} from '@ng-bootstrap/ng-bootstrap';
-import {RouterTestingModule} from '@angular/router/testing';
-import {FormsModule} from '@angular/forms';
-import {HttpModule} from '@angular/http';
-import {SummaryService} from './summary.service';
-import {InstanceService} from '../core/services/instance.service';
-import {HttpClientModule} from '@angular/common/http';
+import { SummaryComponent } from './summary.component';
+import { NgbAccordionConfig, NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { RouterTestingModule } from '@angular/router/testing';
+import { FormsModule } from '@angular/forms';
+import { HttpModule } from '@angular/http';
+import { SummaryService } from './summary.service';
+import { InstanceService } from '../core/services/instance.service';
+import { HttpClientModule } from '@angular/common/http';
 
 fdescribe('SummaryComponent', () => {
   let component: SummaryComponent;
@@ -299,7 +299,7 @@ fdescribe('SummaryComponent', () => {
         Version: 'string',
       }
     };
-    const spy = spyOn(component.summaryService, 'getMySQL').and.returnValue(Promise.reject({message: 'Error message'}));
+    const spy = spyOn(component.summaryService, 'getMySQL').and.returnValue(Promise.reject({ message: 'Error message' }));
     component.dbServer.Subsystem = 'mysql';
     component.getMySQLSummary(component.agent.UUID);
     spy.calls.mostRecent().returnValue.then().catch((err) => {
@@ -371,7 +371,7 @@ fdescribe('SummaryComponent', () => {
       }
     };
     component.dbServer.Subsystem = 'mongo';
-    const spy = spyOn(component.summaryService, 'getMongo').and.returnValue(Promise.reject({message: 'Error message'}));
+    const spy = spyOn(component.summaryService, 'getMongo').and.returnValue(Promise.reject({ message: 'Error message' }));
     component.getMongoSummary(component.agent.UUID);
     spy.calls.mostRecent().returnValue.then().catch((err) => {
       fixture.detectChanges();

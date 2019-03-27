@@ -1,10 +1,10 @@
 /* tslint:disable:no-unused-variable */
 
-import {TestBed, async, inject, fakeAsync, tick} from '@angular/core/testing';
-import {BaseRequestOptions, ConnectionBackend, Http, HttpModule, RequestOptions} from '@angular/http';
-import {NO_ERRORS_SCHEMA} from '@angular/core';
-import {MockBackend} from '@angular/http/testing';
-import {SettingsService} from './settings.service';
+import { TestBed, async, inject, fakeAsync, tick } from '@angular/core/testing';
+import { BaseRequestOptions, ConnectionBackend, Http, HttpModule, RequestOptions } from '@angular/http';
+import { NO_ERRORS_SCHEMA } from '@angular/core';
+import { MockBackend } from '@angular/http/testing';
+import { SettingsService } from './settings.service';
 
 describe('SettingsService', () => {
   let service: SettingsService;
@@ -36,7 +36,7 @@ describe('SettingsService', () => {
   });
 
   it('should be true if getAgentStatus response data is valid', fakeAsync(() => {
-    const response = Object.assign({}, mysqlServiceResponse, {json: () => response._body});
+    const response = Object.assign({}, mysqlServiceResponse, { json: () => response._body });
     response._body = Object.assign({}, response._body);
 
     backend.connections.subscribe(connection => {
@@ -49,7 +49,7 @@ describe('SettingsService', () => {
   }));
 
   it('should be true if getAgentLog response data is valid', fakeAsync(() => {
-    const response = Object.assign({}, mysqlServiceResponse, {json: () => response._body});
+    const response = Object.assign({}, mysqlServiceResponse, { json: () => response._body });
     response._body = Object.assign({}, response._body);
 
     backend.connections.subscribe(connection => {
@@ -62,7 +62,7 @@ describe('SettingsService', () => {
   }));
 
   it('should be true if getAgentDefaults response data is valid', fakeAsync(() => {
-    const response = Object.assign({}, mysqlServiceResponse, {json: () => response._body});
+    const response = Object.assign({}, mysqlServiceResponse, { json: () => response._body });
     response._body = Object.assign({}, response._body);
 
     backend.connections.subscribe(connection => {
@@ -75,7 +75,7 @@ describe('SettingsService', () => {
   }));
 
   it('should create error during call getAgentDefaults if it presented in response', fakeAsync(() => {
-    const response = Object.assign({}, mysqlServiceResponse, {json: () => response._body});
+    const response = Object.assign({}, mysqlServiceResponse, { json: () => response._body });
     response._body = Object.assign({}, response._body);
     response._body['Error'] = 'Error';
 
@@ -91,7 +91,7 @@ describe('SettingsService', () => {
   }));
 
   it('should be true if setAgentDefaults response data is valid', fakeAsync(() => {
-    const response = Object.assign({}, mysqlServiceResponse, {json: () => response._body});
+    const response = Object.assign({}, mysqlServiceResponse, { json: () => response._body });
     response._body = Object.assign({}, response._body);
 
     backend.connections.subscribe(connection => {
@@ -104,7 +104,7 @@ describe('SettingsService', () => {
   }));
 
   it('should create error during call setAgentDefaults if it presented in response', fakeAsync(() => {
-    const response = Object.assign({}, mysqlServiceResponse, {json: () => response._body});
+    const response = Object.assign({}, mysqlServiceResponse, { json: () => response._body });
     response._body = Object.assign({}, response._body);
     response._body['Error'] = 'Error';
 

@@ -1,4 +1,4 @@
-import {ColumnStateModel} from './colum-state.mode';
+import { ColumnStateModel } from './colum-state.mode';
 
 export class ColumnConfigModel {
   name: string;

@@ -1,8 +1,8 @@
-import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
-import {InstanceService} from '../../core/services/instance.service';
-import {QueryProfileService} from './query-profile.service';
-import {Router, ActivatedRoute} from '@angular/router';
-import {MetricsNamesService} from '../../inventory-api/services/metrics-names.service';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { InstanceService } from '../../core/services/instance.service';
+import { QueryProfileService } from './query-profile.service';
+import { Router, ActivatedRoute } from '@angular/router';
+import { MetricsNamesService } from '../../inventory-api/services/metrics-names.service';
 const queryProfileError = 'No data. Please check pmm-client and database configurations on selected instance.';
 
 @Component({
@@ -36,10 +36,10 @@ export class QueryProfileComponent implements OnInit {
   private metrics$;
 
   constructor(protected route: ActivatedRoute,
-              protected router: Router,
-              protected instanceService: InstanceService,
-              public queryProfileService: QueryProfileService,
-              private metricsNamesService: MetricsNamesService
+    protected router: Router,
+    protected instanceService: InstanceService,
+    public queryProfileService: QueryProfileService,
+    private metricsNamesService: MetricsNamesService
   ) {
   }
 

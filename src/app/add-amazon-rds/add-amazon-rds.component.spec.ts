@@ -1,18 +1,18 @@
 import { AddAmazonRDSComponent } from './add-amazon-rds.component';
-import {async, ComponentFixture, TestBed} from '@angular/core/testing';
-import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
-import {CUSTOM_ELEMENTS_SCHEMA} from '@angular/core';
-import {RouterTestingModule} from '@angular/router/testing';
-import {FormsModule} from '@angular/forms';
-import {HttpClientModule} from '@angular/common/http';
-import {AddAmazonRDSService, MySQLCredentials, RDSCredentials} from './add-amazon-rds.service';
+import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+import { RouterTestingModule } from '@angular/router/testing';
+import { FormsModule } from '@angular/forms';
+import { HttpClientModule } from '@angular/common/http';
+import { AddAmazonRDSService, MySQLCredentials, RDSCredentials } from './add-amazon-rds.service';
 
 fdescribe('AddAmazonRDSComponent', () => {
   let component: AddAmazonRDSComponent;
   let fixture: ComponentFixture<AddAmazonRDSComponent>;
   const promiseData = [
     {
-      'node': {'region': 'us-east-1', 'name': 'rds-aurora1'},
+      'node': { 'region': 'us-east-1', 'name': 'rds-aurora1' },
       'service': {
         'address': 'rds-aurora1.cg8slbmxcsve.us-east-1.rds.amazonaws.com',
         'port': 3306,
@@ -21,7 +21,7 @@ fdescribe('AddAmazonRDSComponent', () => {
       }
     },
     {
-      'node': {'region': 'us-east-1', 'name': 'rds-aurora57'},
+      'node': { 'region': 'us-east-1', 'name': 'rds-aurora57' },
       'service': {
         'address': 'rds-aurora57.cg8slbmxcsve.us-east-1.rds.amazonaws.com',
         'port': 3306,
@@ -30,7 +30,7 @@ fdescribe('AddAmazonRDSComponent', () => {
       }
     },
     {
-      'node': {'region': 'us-east-1', 'name': 'rds-mysql56'},
+      'node': { 'region': 'us-east-1', 'name': 'rds-mysql56' },
       'service': {
         'address': 'rds-mysql56.cg8slbmxcsve.us-east-1.rds.amazonaws.com',
         'port': 3306,
@@ -39,7 +39,7 @@ fdescribe('AddAmazonRDSComponent', () => {
       }
     },
     {
-      'node': {'region': 'us-east-1', 'name': 'rds-mysql57'},
+      'node': { 'region': 'us-east-1', 'name': 'rds-mysql57' },
       'service': {
         'address': 'rds-mysql57.cg8slbmxcsve.us-east-1.rds.amazonaws.com',
         'port': 3306,
@@ -55,12 +55,12 @@ fdescribe('AddAmazonRDSComponent', () => {
     statusText: 'Internal Server Error',
     type: 2,
     url: 'http://localhost/managed/v0/rds/discover',
-    json: () => {return JSON.parse(err._body)}
+    json: () => { return JSON.parse(err._body) }
   };
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ AddAmazonRDSComponent ],
+      declarations: [AddAmazonRDSComponent],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
       imports: [FormsModule, RouterTestingModule, HttpClientModule, NgbModule],
       providers: [
@@ -89,7 +89,7 @@ fdescribe('AddAmazonRDSComponent', () => {
 
   it('should not create error if getRegistered return data', (done) => {
     const regData = [{
-      'node': {'region': 'us-east-1', 'name': 'rds-aurora1'},
+      'node': { 'region': 'us-east-1', 'name': 'rds-aurora1' },
       'service': {
         'address': 'rds-aurora1.cg8slbmxcsve.us-east-1.rds.amazonaws.com',
         'port': 3306,
@@ -150,7 +150,7 @@ fdescribe('AddAmazonRDSComponent', () => {
   });
 
   it('enableInstanceMonitoring', () => {
-    component.enableInstanceMonitoring({name: 'name', region: 'region'});
+    component.enableInstanceMonitoring({ name: 'name', region: 'region' });
     fixture.detectChanges();
     expect(component.rdsNode).toBeTruthy();
   });
@@ -160,7 +160,7 @@ fdescribe('AddAmazonRDSComponent', () => {
       name: 'name',
       region: 'region'
     };
-    const result = component.showConnect({name: 'name', region: 'region'});
+    const result = component.showConnect({ name: 'name', region: 'region' });
     fixture.detectChanges();
     expect(result).toBeTruthy();
   });
@@ -203,7 +203,7 @@ fdescribe('AddAmazonRDSComponent', () => {
   // });
 
   it('should create rdsNode if enable instance monitoring has been called', () => {
-    component.enableInstanceMonitoring({name: 'name', region: 'region'});
+    component.enableInstanceMonitoring({ name: 'name', region: 'region' });
     fixture.detectChanges();
     expect(component.rdsNode).toBeTruthy();
   });
