@@ -8,15 +8,9 @@ describe('MainCellComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-<<<<<<< HEAD
       declarations: [MainCellComponent]
     })
       .compileComponents();
-=======
-      declarations: [MainCellComponent]
-    })
-      .compileComponents();
->>>>>>> PMM-2.0
   }));
 
   beforeEach(() => {

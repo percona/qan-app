@@ -8,15 +8,9 @@ describe('QanTableHeaderCellComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-<<<<<<< HEAD
       declarations: [QanTableHeaderCellComponent]
     })
       .compileComponents();
-=======
-      declarations: [QanTableHeaderCellComponent]
-    })
-      .compileComponents();
->>>>>>> PMM-2.0
   }));
 
   beforeEach(() => {
