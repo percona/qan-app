@@ -96,7 +96,7 @@ export class QanTableComponent implements OnInit, OnDestroy {
 
   addColumn() {
     this.tableData.forEach(query => query.metrics.push(new MetricModel()));
-    setTimeout(() => this.componentRef.directiveRef.scrollToRight(), 0);
+    setTimeout(() => this.componentRef.directiveRef.scrollToRight(), 100);
   }
 
   // /**
