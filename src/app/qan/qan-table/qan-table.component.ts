@@ -1,4 +1,4 @@
-import { Component, OnChanges, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { PerfectScrollbarComponent, PerfectScrollbarConfigInterface } from 'ngx-perfect-scrollbar';
 import { QueryParams } from '../../core/core.component';
 import { SelectOptionModel } from '../qan-table-header-cell/modesl/select-option.model';
@@ -6,15 +6,12 @@ import { TableDataModel } from './models/table-data.model';
 import { MetricModel } from './models/metric.model';
 import { ProfileService } from '../../inventory-api/services/profile.service';
 import { Subscription } from 'rxjs/internal/Subscription';
-import { filter, flatMap, map, mergeMapTo, switchMap } from 'rxjs/operators';
+import { map, switchMap } from 'rxjs/operators';
 import { MetricsNamesService } from '../../inventory-api/services/metrics-names.service';
 import { GetProfileBody, QanTableService } from './qan-table.service';
 import { ParseQueryParamDatePipe } from '../../shared/parse-query-param-date.pipe';
 import { ActivatedRoute, Router } from '@angular/router';
 import * as moment from 'moment';
-import { Observable } from 'rxjs/internal/Observable';
-import { of } from 'rxjs/internal/observable/of';
-import { mergeMap } from 'rxjs/internal/operators/mergeMap';
 
 @Component({
   selector: 'app-qan-table',

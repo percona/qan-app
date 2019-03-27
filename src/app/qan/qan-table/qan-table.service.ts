@@ -1,7 +1,5 @@
 import { Injectable } from '@angular/core';
 import { Subject } from 'rxjs/internal/Subject';
-import { Observable } from 'rxjs/internal/Observable';
-import { Observer } from 'rxjs/internal/types';
 import { SelectOptionModel } from '../qan-table-header-cell/modesl/select-option.model';
 
 export interface GetProfileBody {

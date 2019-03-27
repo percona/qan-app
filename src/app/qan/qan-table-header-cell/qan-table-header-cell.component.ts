@@ -1,5 +1,4 @@
-import { Component, Input, OnInit, ViewChild } from '@angular/core';
-import { QanTableService } from '../qan-table/qan-table.service';
+import { Component, Input, OnInit } from '@angular/core';
 import { SelectOptionModel } from './modesl/select-option.model';
 
 @Component({
