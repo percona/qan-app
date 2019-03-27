@@ -11,6 +11,8 @@ import {MetricsNamesService} from '../../inventory-api/services/metrics-names.se
 import {GetProfileBody, QanTableService} from './qan-table.service';
 import {ParseQueryParamDatePipe} from '../../shared/parse-query-param-date.pipe';
 import {ActivatedRoute, Router} from '@angular/router';
+import {Observable} from 'rxjs/internal/Observable';
+import {of} from 'rxjs/internal/observable/of';
 
 @Component({
   selector: 'app-qan-table',
@@ -49,6 +51,10 @@ export class QanTableComponent implements OnInit, OnDestroy {
     private metricsNamesService: MetricsNamesService,
     private qanTableService: QanTableService
   ) {
+    this.qanTableService.groupBySource.subscribe(value => {
+      this.getReportParams.group_by = value;
+      this.qanTableService.setProfileParams(this.getReportParams);
+    });
     this.iframeQueryParams = this.route.snapshot.queryParams as QueryParams;
     this.from = this.parseQueryParamDatePipe.transform(this.iframeQueryParams.from, 'from');
     this.to = this.parseQueryParamDatePipe.transform(this.iframeQueryParams.to, 'to');
@@ -57,6 +63,9 @@ export class QanTableComponent implements OnInit, OnDestroy {
       .pipe(map(metrics => metrics.data))
       .subscribe(metrics =>
         this.metrics = Object.entries(metrics).map(metric => new SelectOptionModel(metric)));
+
+    this.qanTableService.profileParamsSource.subscribe(console.log);
+    // this.getReportParams.subscribe(item => console.log('item params - ', item));
 
     this.report$ = this.profileService.GetReport({
       'period_start_from': this.from.utc().format('YYYY-MM-DD HH:mm:ss'),
@@ -67,12 +76,7 @@ export class QanTableComponent implements OnInit, OnDestroy {
     }).subscribe(item => {
       this.tableData = item.rows.map(row => new TableDataModel(row));
       this.totalRows = item.total_rows;
-      console.log('this.tableData str - ', JSON.stringify(this.tableData));
     });
-
-    this.qanTableService.groupBySource.subscribe(value => {
-      console.log('groupByValue - ', value);
-    })
   }
 
   ngOnInit() {

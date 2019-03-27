@@ -19,7 +19,6 @@ export class QanTableCellComponent implements OnInit {
 
   ngOnInit() {
     this.isStats = Object.keys(this.metricData.stats).includes('min' && 'max');
-    console.log('Object.keys(this.metricData.stats) - ', Object.keys(this.metricData.stats));
     this.setCurrentSparkline(this.metricData.metricName);
   }
 
