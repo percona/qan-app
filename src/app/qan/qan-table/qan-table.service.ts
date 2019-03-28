@@ -29,6 +29,7 @@ export class QanTableService {
   private groupValue: SelectOptionModel;
   private groupBy = new Subject<string>();
   private profileParams = new Subject<GetProfileBody>();
+  private profileParamsState: GetProfileBody =  {};
 
   constructor() { }
 
@@ -45,6 +46,10 @@ export class QanTableService {
     this.groupValue = group_by as SelectOptionModel;
   }
 
+  set setProfileParamsState(params: GetProfileBody) {
+    this.profileParamsState = params;
+  }
+
   get groupBySource(): Subject<string> {
     return this.groupBy;
   }
@@ -55,5 +60,9 @@ export class QanTableService {
 
   get getGroupByValue(): SelectOptionModel {
     return this.groupValue;
+  }
+
+  get getProfileParamsState(): GetProfileBody {
+    return this.profileParamsState;
   }
 }
