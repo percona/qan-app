@@ -18,10 +18,11 @@
         <span *ngIf="agentData?.status">status: {{agentData.status}}</span>
         <span *ngIf="agentData?.username">username: {{agentData.username}}</span>
         <span *ngIf="agentData?.password">password: {{agentData.password}}</span>
-        <span *ngIf="agentData?.service_ids.length">
+        <span *ngIf="agentData?.disabled && !isString(agentData?.disabled)">disabled: {{agentData.disabled}}</span>
+        <span *ngIf="agentData?.service_ids?.length">
           service_ids: <span *ngFor="let service_id of agentData.service_ids">{{service_id}} </span>
         </span>
-        <span *ngIf="agentsData?.custom_labels.length">
+        <span *ngIf="agentsData?.custom_labels?.length">
           custom_labels: <span *ngFor="let custom_label of agentData.custom_labels">{{custom_label}} </span>
         </span>
       </div>

@@ -8,12 +8,12 @@ export class RemoteAmazonRdsModel {
   isDeleted: boolean;
 
   constructor(params, type) {
-    this.agentType = type;
-    this.isDeleted = false;
     this.custom_labels = params.custom_labels && Object.keys(params.custom_labels).length ? Object.values(params.custom_labels) : [];
     this.instance = params.instance || '';
     this.node_id = params.node_id || '';
     this.node_name = params.node_name || '';
     this.region = params.region || '';
+    this.agentType = type;
+    this.isDeleted = false;
   }
 }
