@@ -99,8 +99,8 @@ export class QanTableComponent implements OnInit, OnDestroy {
     this.from = this.parseQueryParamDatePipe.transform(this.iframeQueryParams.from, 'from');
     this.to = this.parseQueryParamDatePipe.transform(this.iframeQueryParams.to, 'to');
 
-    this.getReportParams.period_start_from = this.from.utc().format('YYYY-MM-DD HH:mm:ss');
-    this.getReportParams.period_start_to = this.to.utc().format('YYYY-MM-DD HH:mm:ss');
+    this.getReportParams.period_start_from = this.from.utc().format('YYYY-MM-DDTHH:mm:ssZ');
+    this.getReportParams.period_start_to = this.to.utc().format('YYYY-MM-DDTHH:mm:ssZ');
     this.getReportParams.order_by = 'num_queries';
     this.getReportParams.group_by = 'queryid';
     this.getReportParams.columns = ['query_time', 'bytes_sent', 'lock_time', 'rows_sent'];

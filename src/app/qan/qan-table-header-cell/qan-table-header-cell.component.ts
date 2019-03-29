@@ -20,10 +20,6 @@ export class QanTableHeaderCellComponent implements OnInit {
 
   ngOnInit() {
     this.selectedQueryColumn = this.metrics.filter(option => option.name === this.currentColumnName)[0];
-    console.log('metrics - ', this.metrics);
-    console.log('currentColumnName - ', this.currentColumnName);
-    console.log('index - ', this.index);
-    console.log('this.qanTableService.getProfileParamsState.columns - ', this.qanTableService.getProfileParamsState.columns);
   }
 
   removeColumn() {
