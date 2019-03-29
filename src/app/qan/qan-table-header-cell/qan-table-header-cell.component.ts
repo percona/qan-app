@@ -1,6 +1,6 @@
-import {Component, Input, OnInit} from '@angular/core';
-import {SelectOptionModel} from './modesl/select-option.model';
-import {QanTableService} from '../qan-table/qan-table.service';
+import { Component, Input, OnInit } from '@angular/core';
+import { SelectOptionModel } from './modesl/select-option.model';
+import { QanTableService } from '../qan-table/qan-table.service';
 
 @Component({
   selector: 'app-qan-table-header-cell',
