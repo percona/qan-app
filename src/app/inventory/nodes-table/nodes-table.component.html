@@ -16,9 +16,12 @@
         <span *ngIf="nodeData?.machine_id">machine_id: {{nodeData.machine_id}}</span>
         <span *ngIf="nodeData?.distro">distro: {{nodeData.distro}}</span>
         <span *ngIf="nodeData?.distro_version">distro_version: {{nodeData.distro_version}}</span>
+        <span *ngIf="nodeData?.node_id">node_id: {{nodeData.node_id}}</span>
+        <span *ngIf="nodeData?.node_name">node_name: {{nodeData.node_name}}</span>
         <span *ngIf="nodeData?.instance">instance: {{nodeData.instance}}</span>
         <span *ngIf="nodeData?.region">region: {{nodeData.region}}</span>
-        <span *ngIf="nodeData?.custom_labels.length">
+        <span *ngIf="nodeData?.address">address: {{nodeData.address}}</span>
+        <span *ngIf="nodeData?.custom_labels?.length">
           custom_labels: <span *ngFor="let custom_label of nodeData.custom_labels">{{custom_label}} </span>
         </span>
       </div>

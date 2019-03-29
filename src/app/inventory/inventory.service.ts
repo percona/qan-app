@@ -13,6 +13,8 @@ import { AmazonRdsMysqlModel } from './services-table/models/amazon-rds-mysql.mo
 import { MongodbModel } from './services-table/models/mongodb.model';
 import { MysqlModel } from './services-table/models/mysql.model';
 import { QanMysqlPerfschemaAgentModel } from './agents-table/models/qan-mysql-perfschema-agent.model';
+import { PostgresExporterModel } from './agents-table/models/postgres-exporter.model';
+import { PostgreSQLModel } from './services-table/models/postgresql.model';
 
 @Injectable({
   providedIn: 'root'
@@ -40,6 +42,8 @@ export class InventoryService {
         return new NodeExporterModel(params, 'Node exporter');
       case 'pmm_agent':
         return new PmmAgentModel(params, 'PMM Agent');
+      case 'postgres_exporter':
+        return new PostgresExporterModel(params, 'Postgres exporter');
       case 'qan_mysql_perfschema_agent':
         return new QanMysqlPerfschemaAgentModel(params, 'Qan MySQL Perfschema Agent');
       case 'rds_exporter':
@@ -58,6 +62,8 @@ export class InventoryService {
         return new MongodbModel(params, 'MongoDB');
       case 'mysql':
         return new MysqlModel(params, 'MySQL');
+      case 'postgresql':
+        return new PostgreSQLModel(params, 'PostgreSQL');
       default:
         return {}
     }
