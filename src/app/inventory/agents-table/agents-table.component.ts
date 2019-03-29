@@ -38,6 +38,10 @@ export class AgentsTableComponent implements OnInit, OnDestroy {
     this.agentsTableData$.unsubscribe();
   }
 
+  isString(value): boolean {
+    return typeof value === 'string';
+  }
+
   removeAgents(id) {
     this.agentsService.RemoveAgent({ agent_id: id }).subscribe(() => {
       this.agentTableService.setAgentsData(this.agentsData);
