@@ -1,16 +1,16 @@
-import {Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
-import {PerfectScrollbarComponent, PerfectScrollbarConfigInterface} from 'ngx-perfect-scrollbar';
-import {QueryParams} from '../../core/core.component';
-import {SelectOptionModel} from '../qan-table-header-cell/modesl/select-option.model';
-import {TableDataModel} from './models/table-data.model';
-import {MetricModel} from './models/metric.model';
-import {ProfileService} from '../../inventory-api/services/profile.service';
-import {Subscription} from 'rxjs/internal/Subscription';
-import {map, switchMap} from 'rxjs/operators';
-import {MetricsNamesService} from '../../inventory-api/services/metrics-names.service';
-import {GetProfileBody, QanTableService} from './qan-table.service';
-import {ParseQueryParamDatePipe} from '../../shared/parse-query-param-date.pipe';
-import {ActivatedRoute, Router} from '@angular/router';
+import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { PerfectScrollbarComponent, PerfectScrollbarConfigInterface } from 'ngx-perfect-scrollbar';
+import { QueryParams } from '../../core/core.component';
+import { SelectOptionModel } from '../qan-table-header-cell/modesl/select-option.model';
+import { TableDataModel } from './models/table-data.model';
+import { MetricModel } from './models/metric.model';
+import { ProfileService } from '../../inventory-api/services/profile.service';
+import { Subscription } from 'rxjs/internal/Subscription';
+import { map, switchMap } from 'rxjs/operators';
+import { MetricsNamesService } from '../../inventory-api/services/metrics-names.service';
+import { GetProfileBody, QanTableService } from './qan-table.service';
+import { ParseQueryParamDatePipe } from '../../shared/parse-query-param-date.pipe';
+import { ActivatedRoute, Router } from '@angular/router';
 import * as moment from 'moment';
 
 @Component({
@@ -99,13 +99,9 @@ export class QanTableComponent implements OnInit, OnDestroy {
     this.from = this.parseQueryParamDatePipe.transform(this.iframeQueryParams.from, 'from');
     this.to = this.parseQueryParamDatePipe.transform(this.iframeQueryParams.to, 'to');
 
-    this.getReportParams.period_start_from = this.from.utc().format('YYYY-MM-DDTHH:mm:ssZ');
-    this.getReportParams.period_start_to = this.to.utc().format('YYYY-MM-DDTHH:mm:ssZ');
-    this.getReportParams.order_by = 'num_queries';
-    this.getReportParams.group_by = 'queryid';
-    this.getReportParams.columns = ['query_time', 'bytes_sent', 'lock_time', 'rows_sent'];
-    this.qanTableService.setProfileParamsState = this.getReportParams;
-    this.qanTableService.setProfileParams(this.getReportParams);
+    this.qanTableService.getProfileParamsState.period_start_from = this.from.utc().format('YYYY-MM-DD HH:mm:ss');
+    this.qanTableService.getProfileParamsState.period_start_to = this.to.utc().format('YYYY-MM-DD HH:mm:ss');
+    this.qanTableService.setProfileParams(this.qanTableService.getProfileParamsState);
   }
 
 

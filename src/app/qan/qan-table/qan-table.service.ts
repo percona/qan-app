@@ -29,7 +29,11 @@ export class QanTableService {
   private groupValue: SelectOptionModel;
   private groupBy = new Subject<string>();
   private profileParams = new Subject<GetProfileBody>();
-  private profileParamsState: GetProfileBody =  {};
+  private profileParamsState: GetProfileBody =  {
+    order_by: 'num_queries',
+    group_by: 'queryid',
+    columns: ['query_time', 'bytes_sent', 'lock_time', 'rows_sent']
+  };
 
   constructor() { }
 
