@@ -2,6 +2,7 @@
   <ng-select [searchable]="false"
              [(ngModel)]="selectedQueryColumn"
              [items]="metrics"
+             (change)="setMetricColumn($event, index)"
              [clearable]="false"
              bindLabel="humanizeName"
              #column

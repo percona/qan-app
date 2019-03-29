@@ -59,11 +59,15 @@ export class QanTableComponent implements OnInit, OnDestroy {
       .subscribe(data => {
         console.log(data);
         this.tableData = data.rows.map(row => new TableDataModel(row));
+        this.tableData.forEach(row => {
+          row.metrics = this.mapOrder(row.metrics, this.qanTableService.getProfileParamsState.columns, 'metricName')
+        });
         this.totalRows = data.total_rows;
       });
 
     this.qanTableService.groupBySource.subscribe(value => {
       this.getReportParams.group_by = value;
+      this.qanTableService.setProfileParamsState = this.getReportParams;
       this.qanTableService.setProfileParams(this.getReportParams);
     });
   }
@@ -71,6 +75,19 @@ export class QanTableComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.setTimeRange();
   }
+
+  mapOrder(array, order, key) {
+    array.sort(function(a, b) {
+      const A = a[key], B = b[key];
+      if (order.indexOf(A) > order.indexOf(B)) {
+        return 1;
+      } else {
+        return -1;
+      }
+    });
+
+    return array;
+  };
 
   ngOnDestroy() {
     this.metrics.unsubscribe();
@@ -87,7 +104,7 @@ export class QanTableComponent implements OnInit, OnDestroy {
     this.getReportParams.order_by = 'num_queries';
     this.getReportParams.group_by = 'queryid';
     this.getReportParams.columns = ['query_time', 'bytes_sent', 'lock_time', 'rows_sent'];
-    console.log('this.getReportParams - ', this.getReportParams);
+    this.qanTableService.setProfileParamsState = this.getReportParams;
     this.qanTableService.setProfileParams(this.getReportParams);
   }
 

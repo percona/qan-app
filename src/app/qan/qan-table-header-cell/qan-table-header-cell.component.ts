@@ -1,5 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { SelectOptionModel } from './modesl/select-option.model';
+import { QanTableService } from '../qan-table/qan-table.service';
 
 @Component({
   selector: 'app-qan-table-header-cell',
@@ -14,7 +15,7 @@ export class QanTableHeaderCellComponent implements OnInit {
 
   public selectedQueryColumn: SelectOptionModel;
 
-  constructor() {
+  constructor(private qanTableService: QanTableService) {
   }
 
   ngOnInit() {
@@ -23,5 +24,11 @@ export class QanTableHeaderCellComponent implements OnInit {
 
   removeColumn() {
     this.fullData.forEach(item => item.metrics.splice(this.index, 1));
+  }
+
+  setMetricColumn(value, index) {
+    this.qanTableService.getProfileParamsState.columns[index] = value.name;
+    this.qanTableService.getProfileParamsState.columns = this.qanTableService.getProfileParamsState.columns.filter(item => !!item);
+    this.qanTableService.setProfileParams(this.qanTableService.getProfileParamsState);
   }
 }
