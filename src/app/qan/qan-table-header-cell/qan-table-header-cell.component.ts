@@ -1,11 +1,11 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { SelectOptionModel } from './modesl/select-option.model';
-import { QanTableService } from '../qan-table/qan-table.service';
+import { GetProfileBody, QanTableService } from '../qan-table/qan-table.service';
 
 @Component({
   selector: 'app-qan-table-header-cell',
   templateUrl: './qan-table-header-cell.component.html',
-  styleUrls: ['./qan-table-header-cell.component.css']
+  styleUrls: ['./qan-table-header-cell.component.scss']
 })
 export class QanTableHeaderCellComponent implements OnInit {
   @Input() currentColumnName: any;
@@ -14,8 +14,10 @@ export class QanTableHeaderCellComponent implements OnInit {
   @Input() index: any;
 
   public selectedQueryColumn: SelectOptionModel;
+  public profileParams: GetProfileBody;
 
   constructor(private qanTableService: QanTableService) {
+    this.profileParams = this.qanTableService.getProfileParamsState;
   }
 
   ngOnInit() {
@@ -27,14 +29,14 @@ export class QanTableHeaderCellComponent implements OnInit {
   }
 
   setMetricColumn(value, index) {
-    this.qanTableService.getProfileParamsState.columns[index] = value.name;
-    this.qanTableService.getProfileParamsState.columns = this.qanTableService.getProfileParamsState.columns.filter(item => !!item);
-    this.qanTableService.setProfileParams(this.qanTableService.getProfileParamsState);
+    this.profileParams = this.qanTableService.getProfileParamsState;
+    this.profileParams.columns[index] = value.name;
+    this.profileParams.columns = this.profileParams.columns.filter(item => !!item);
+    this.qanTableService.updateProfileParams(this.profileParams);
   }
 
   sortBy(selectedColumn) {
-    this.qanTableService.getProfileParamsState.order_by = selectedColumn.name;
-    this.qanTableService.setProfileParams(this.qanTableService.getProfileParamsState);
-    console.log('this.qanTableService.getProfileParamsState - ', this.qanTableService.getProfileParamsState);
+    this.profileParams.order_by = selectedColumn.name;
+    this.qanTableService.updateProfileParams(this.profileParams);
   }
 }

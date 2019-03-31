@@ -27,23 +27,13 @@ export class QanTableComponent implements OnInit, OnDestroy {
   };
 
   public iframeQueryParams: QueryParams;
-  public measurement: string;
-  public queryProfile: Array<{}>;
+  public profileParams: GetProfileBody;
   public tableData: TableDataModel[];
-  public previousTableData: TableDataModel[];
   public totalRows: number;
-  public queries: any;
   public report$: Subscription;
-  public metrics$;
-  public metrics;
+  public metrics$: Subscription;
+  public metrics: SelectOptionModel[];
   private parseQueryParamDatePipe = new ParseQueryParamDatePipe();
-  public getReportParams: GetProfileBody = {};
-  public prevGetReportParams = {} as GetProfileBody;
-  public groupBy: string;
-
-  public from;
-  public to;
-  private routerSubscription$: Subscription;
 
   constructor(
     private route: ActivatedRoute,
@@ -52,40 +42,28 @@ export class QanTableComponent implements OnInit, OnDestroy {
     private metricsNamesService: MetricsNamesService,
     private qanTableService: QanTableService
   ) {
+    this.profileParams = this.qanTableService.getProfileParamsState;
     this.metrics$ = this.metricsNamesService.GetMetricsNames({})
       .pipe(map(metrics => metrics.data))
       .subscribe(metrics => this.metrics = Object.entries(metrics).map(metric => new SelectOptionModel(metric)));
 
     this.report$ = this.qanTableService.profileParamsSource
       .pipe(
-        switchMap(params =>
-          this.profileService.GetReport(params)
-            .pipe(
-              catchError(err => {
-                console.log('catch err - ', err);
-                return throwError(err)
-              }),
-            )
+        switchMap(params => this.profileService.GetReport(params)
+          .pipe(catchError(err => {
+            console.log('catch err - ', err);
+            return throwError(err)
+          }),
+          )
         ),
         retryWhen(error => error)
       )
       .subscribe(
         data => {
           console.log('data - ', data);
-          this.tableData = data['rows'].map(row => new TableDataModel(row));
-          this.tableData.forEach(row => {
-            row.metrics = this.mapOrder(row.metrics, this.qanTableService.getProfileParamsState.columns, 'metricName')
-          });
-          this.previousTableData = JSON.parse(JSON.stringify(this.tableData));
-          this.totalRows = data['total_rows'];
+          this.setTableData(data);
         }
       );
-
-    this.qanTableService.groupBySource.subscribe(value => {
-      this.getReportParams.group_by = value;
-      this.qanTableService.setProfileParamsState = this.getReportParams;
-      this.qanTableService.setProfileParams(this.getReportParams);
-    });
   }
 
   ngOnInit() {
@@ -93,8 +71,9 @@ export class QanTableComponent implements OnInit, OnDestroy {
   }
 
   mapOrder(array, order, key) {
-    array.sort(function(a, b) {
-      const A = a[key], B = b[key];
+    array.sort((a, b) => {
+      const A = a[key];
+      const B = b[key];
       if (order.indexOf(A) > order.indexOf(B)) {
         return 1;
       } else {
@@ -106,18 +85,26 @@ export class QanTableComponent implements OnInit, OnDestroy {
   };
 
   ngOnDestroy() {
-    this.metrics.unsubscribe();
+    this.metrics$.unsubscribe();
     this.report$.unsubscribe();
   }
 
   setTimeRange() {
     this.iframeQueryParams = this.route.snapshot.queryParams as QueryParams;
-    this.from = this.parseQueryParamDatePipe.transform(this.iframeQueryParams.from, 'from');
-    this.to = this.parseQueryParamDatePipe.transform(this.iframeQueryParams.to, 'to');
+    const from = this.parseQueryParamDatePipe.transform(this.iframeQueryParams.from, 'from');
+    const to = this.parseQueryParamDatePipe.transform(this.iframeQueryParams.to, 'to');
 
-    this.qanTableService.getProfileParamsState.period_start_from = this.from.utc().format('YYYY-MM-DDTHH:mm:ssZ');
-    this.qanTableService.getProfileParamsState.period_start_to = this.to.utc().format('YYYY-MM-DDTHH:mm:ssZ');
-    this.qanTableService.setProfileParams(this.qanTableService.getProfileParamsState);
+    this.profileParams.period_start_from = from.utc().format('YYYY-MM-DDTHH:mm:ssZ');
+    this.profileParams.period_start_to = to.utc().format('YYYY-MM-DDTHH:mm:ssZ');
+    this.qanTableService.updateProfileParams(this.profileParams);
+  }
+
+  setTableData(data) {
+    this.tableData = data['rows'].map(row => new TableDataModel(row));
+    this.tableData.forEach(row => {
+      row.metrics = this.mapOrder(row.metrics, this.profileParams.columns, 'metricName')
+    });
+    this.totalRows = data['total_rows'];
   }
 
 

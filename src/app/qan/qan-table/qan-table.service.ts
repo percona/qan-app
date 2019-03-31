@@ -27,7 +27,6 @@ export interface LabelsProfile {
 })
 export class QanTableService {
   private groupValue: SelectOptionModel;
-  private groupBy = new Subject<string>();
   private profileParams = new Subject<GetProfileBody>();
   private profileParamsState: GetProfileBody = {
     order_by: 'num_queries',
@@ -37,12 +36,7 @@ export class QanTableService {
 
   constructor() { }
 
-
-  setGroupBy(group_by: string) {
-    this.groupBy.next(group_by);
-  }
-
-  setProfileParams(params: GetProfileBody) {
+  updateProfileParams(params: GetProfileBody) {
     this.profileParams.next(params)
   }
 
@@ -52,10 +46,6 @@ export class QanTableService {
 
   set setProfileParamsState(params: GetProfileBody) {
     this.profileParamsState = params;
-  }
-
-  get groupBySource(): Subject<string> {
-    return this.groupBy;
   }
 
   get profileParamsSource(): Subject<GetProfileBody> {
