@@ -1,6 +1,6 @@
-import {Component, Input, OnInit} from '@angular/core';
-import {SelectOptionModel} from './modesl/select-option.model';
-import {QanTableService} from '../qan-table/qan-table.service';
+import { Component, Input, OnInit } from '@angular/core';
+import { SelectOptionModel } from './modesl/select-option.model';
+import { QanTableService } from '../qan-table/qan-table.service';
 
 @Component({
   selector: 'app-qan-table-header-cell',
@@ -30,5 +30,11 @@ export class QanTableHeaderCellComponent implements OnInit {
     this.qanTableService.getProfileParamsState.columns[index] = value.name;
     this.qanTableService.getProfileParamsState.columns = this.qanTableService.getProfileParamsState.columns.filter(item => !!item);
     this.qanTableService.setProfileParams(this.qanTableService.getProfileParamsState);
+  }
+
+  sortBy(selectedColumn) {
+    this.qanTableService.getProfileParamsState.order_by = selectedColumn.name;
+    this.qanTableService.setProfileParams(this.qanTableService.getProfileParamsState);
+    console.log('this.qanTableService.getProfileParamsState - ', this.qanTableService.getProfileParamsState);
   }
 }

@@ -1,17 +1,22 @@
-import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
-import { PerfectScrollbarComponent, PerfectScrollbarConfigInterface } from 'ngx-perfect-scrollbar';
-import { QueryParams } from '../../core/core.component';
-import { SelectOptionModel } from '../qan-table-header-cell/modesl/select-option.model';
-import { TableDataModel } from './models/table-data.model';
-import { MetricModel } from './models/metric.model';
-import { ProfileService } from '../../inventory-api/services/profile.service';
-import { Subscription } from 'rxjs/internal/Subscription';
-import { map, switchMap } from 'rxjs/operators';
-import { MetricsNamesService } from '../../inventory-api/services/metrics-names.service';
-import { GetProfileBody, QanTableService } from './qan-table.service';
-import { ParseQueryParamDatePipe } from '../../shared/parse-query-param-date.pipe';
-import { ActivatedRoute, Router } from '@angular/router';
+import {Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
+import {PerfectScrollbarComponent, PerfectScrollbarConfigInterface} from 'ngx-perfect-scrollbar';
+import {QueryParams} from '../../core/core.component';
+import {SelectOptionModel} from '../qan-table-header-cell/modesl/select-option.model';
+import {TableDataModel} from './models/table-data.model';
+import {MetricModel} from './models/metric.model';
+import {ProfileService} from '../../inventory-api/services/profile.service';
+import {Subscription} from 'rxjs/internal/Subscription';
+import {catchError, map, retryWhen, switchMap} from 'rxjs/operators';
+import {MetricsNamesService} from '../../inventory-api/services/metrics-names.service';
+import {GetProfileBody, QanTableService} from './qan-table.service';
+import {ParseQueryParamDatePipe} from '../../shared/parse-query-param-date.pipe';
+import {ActivatedRoute, Router} from '@angular/router';
 import * as moment from 'moment';
+import {error} from '@angular/compiler/src/util';
+import {mergeMap} from 'rxjs/internal/operators/mergeMap';
+import {of} from 'rxjs/internal/observable/of';
+import {throwError} from 'rxjs/internal/observable/throwError';
+import {Observable} from 'rxjs/internal/Observable';
 
 @Component({
   selector: 'app-qan-table',
@@ -29,6 +34,7 @@ export class QanTableComponent implements OnInit, OnDestroy {
   public measurement: string;
   public queryProfile: Array<{}>;
   public tableData: TableDataModel[];
+  public previousTableData: TableDataModel[];
   public totalRows: number;
   public queries: any;
   public report$: Subscription;
@@ -55,15 +61,28 @@ export class QanTableComponent implements OnInit, OnDestroy {
       .subscribe(metrics => this.metrics = Object.entries(metrics).map(metric => new SelectOptionModel(metric)));
 
     this.report$ = this.qanTableService.profileParamsSource
-      .pipe(switchMap(params => this.profileService.GetReport(params)))
-      .subscribe(data => {
-        console.log(data);
-        this.tableData = data.rows.map(row => new TableDataModel(row));
-        this.tableData.forEach(row => {
-          row.metrics = this.mapOrder(row.metrics, this.qanTableService.getProfileParamsState.columns, 'metricName')
-        });
-        this.totalRows = data.total_rows;
-      });
+      .pipe(
+        mergeMap(params => this.profileService.GetReport(params)),
+        retryWhen(err => {console.log('err - ', err); return err}),
+      )
+      .subscribe(
+        data => {
+          console.log('data - ', data);
+          if (!data.hasOwnProperty('error')) {
+            this.tableData = data['rows'].map(row => new TableDataModel(row));
+            this.tableData.forEach(row => {
+              row.metrics = this.mapOrder(row.metrics, this.qanTableService.getProfileParamsState.columns, 'metricName')
+            });
+            this.previousTableData = JSON.parse(JSON.stringify(this.tableData));
+            this.totalRows = data['total_rows'];
+          } else {
+            console.log('Here is error - ', data);
+            // this.tableData = this.previousTableData;
+          }
+        },
+        err => console.log('error - ', err),
+        () => console.log('complete')
+      );
 
     this.qanTableService.groupBySource.subscribe(value => {
       this.getReportParams.group_by = value;
