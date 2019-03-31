@@ -1,22 +1,22 @@
-import {Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
-import {PerfectScrollbarComponent, PerfectScrollbarConfigInterface} from 'ngx-perfect-scrollbar';
-import {QueryParams} from '../../core/core.component';
-import {SelectOptionModel} from '../qan-table-header-cell/modesl/select-option.model';
-import {TableDataModel} from './models/table-data.model';
-import {MetricModel} from './models/metric.model';
-import {ProfileService} from '../../inventory-api/services/profile.service';
-import {Subscription} from 'rxjs/internal/Subscription';
-import {catchError, map, retryWhen, switchMap} from 'rxjs/operators';
-import {MetricsNamesService} from '../../inventory-api/services/metrics-names.service';
-import {GetProfileBody, QanTableService} from './qan-table.service';
-import {ParseQueryParamDatePipe} from '../../shared/parse-query-param-date.pipe';
-import {ActivatedRoute, Router} from '@angular/router';
+import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { PerfectScrollbarComponent, PerfectScrollbarConfigInterface } from 'ngx-perfect-scrollbar';
+import { QueryParams } from '../../core/core.component';
+import { SelectOptionModel } from '../qan-table-header-cell/modesl/select-option.model';
+import { TableDataModel } from './models/table-data.model';
+import { MetricModel } from './models/metric.model';
+import { ProfileService } from '../../inventory-api/services/profile.service';
+import { Subscription } from 'rxjs/internal/Subscription';
+import { catchError, map, retryWhen, switchMap } from 'rxjs/operators';
+import { MetricsNamesService } from '../../inventory-api/services/metrics-names.service';
+import { GetProfileBody, QanTableService } from './qan-table.service';
+import { ParseQueryParamDatePipe } from '../../shared/parse-query-param-date.pipe';
+import { ActivatedRoute, Router } from '@angular/router';
 import * as moment from 'moment';
-import {error} from '@angular/compiler/src/util';
-import {mergeMap} from 'rxjs/internal/operators/mergeMap';
-import {of} from 'rxjs/internal/observable/of';
-import {throwError} from 'rxjs/internal/observable/throwError';
-import {Observable} from 'rxjs/internal/Observable';
+import { error } from '@angular/compiler/src/util';
+import { mergeMap } from 'rxjs/internal/operators/mergeMap';
+import { of } from 'rxjs/internal/observable/of';
+import { throwError } from 'rxjs/internal/observable/throwError';
+import { Observable } from 'rxjs/internal/Observable';
 
 @Component({
   selector: 'app-qan-table',
@@ -63,7 +63,7 @@ export class QanTableComponent implements OnInit, OnDestroy {
     this.report$ = this.qanTableService.profileParamsSource
       .pipe(
         mergeMap(params => this.profileService.GetReport(params)),
-        retryWhen(err => {console.log('err - ', err); return err}),
+        retryWhen(err => { console.log('err - ', err); return err }),
       )
       .subscribe(
         data => {
@@ -96,7 +96,7 @@ export class QanTableComponent implements OnInit, OnDestroy {
   }
 
   mapOrder(array, order, key) {
-    array.sort(function (a, b) {
+    array.sort(function(a, b) {
       const A = a[key], B = b[key];
       if (order.indexOf(A) > order.indexOf(B)) {
         return 1;
