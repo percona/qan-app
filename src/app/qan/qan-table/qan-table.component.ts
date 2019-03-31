@@ -6,14 +6,13 @@ import { TableDataModel } from './models/table-data.model';
 import { MetricModel } from './models/metric.model';
 import { ProfileService } from '../../inventory-api/services/profile.service';
 import { Subscription } from 'rxjs/internal/Subscription';
-import { map, retryWhen } from 'rxjs/operators';
+import { catchError, map, retryWhen, switchMap } from 'rxjs/operators';
 import { MetricsNamesService } from '../../inventory-api/services/metrics-names.service';
 import { GetProfileBody, QanTableService } from './qan-table.service';
 import { ParseQueryParamDatePipe } from '../../shared/parse-query-param-date.pipe';
 import { ActivatedRoute, Router } from '@angular/router';
 import * as moment from 'moment';
-import { error } from '@angular/compiler/src/util';
-import { mergeMap } from 'rxjs/internal/operators/mergeMap';
+import { throwError } from 'rxjs/internal/observable/throwError';
 
 @Component({
   selector: 'app-qan-table',
@@ -59,26 +58,27 @@ export class QanTableComponent implements OnInit, OnDestroy {
 
     this.report$ = this.qanTableService.profileParamsSource
       .pipe(
-        mergeMap(params => this.profileService.GetReport(params)),
-        retryWhen(err => { console.log('err - ', err); return err }),
+        switchMap(params =>
+          this.profileService.GetReport(params)
+            .pipe(
+              catchError(err => {
+                console.log('catch err - ', err);
+                return throwError(err)
+              }),
+            )
+        ),
+        retryWhen(error => error)
       )
       .subscribe(
         data => {
           console.log('data - ', data);
-          if (!data.hasOwnProperty('error')) {
-            this.tableData = data['rows'].map(row => new TableDataModel(row));
-            this.tableData.forEach(row => {
-              row.metrics = this.mapOrder(row.metrics, this.qanTableService.getProfileParamsState.columns, 'metricName')
-            });
-            this.previousTableData = JSON.parse(JSON.stringify(this.tableData));
-            this.totalRows = data['total_rows'];
-          } else {
-            console.log('Here is error - ', data);
-            // this.tableData = this.previousTableData;
-          }
-        },
-        err => console.log('error - ', err),
-        () => console.log('complete')
+          this.tableData = data['rows'].map(row => new TableDataModel(row));
+          this.tableData.forEach(row => {
+            row.metrics = this.mapOrder(row.metrics, this.qanTableService.getProfileParamsState.columns, 'metricName')
+          });
+          this.previousTableData = JSON.parse(JSON.stringify(this.tableData));
+          this.totalRows = data['total_rows'];
+        }
       );
 
     this.qanTableService.groupBySource.subscribe(value => {
