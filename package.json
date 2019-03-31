@@ -7,6 +7,7 @@
     "ng": "PATH=$(npm bin):$PATH; ng",
     "start": "ng serve --proxy-config proxy.conf.json",
     "lint": "ng lint",
+    "format": "tsfmt -r",
     "test": "ng test",
     "test:coverage-report": "open coverage/index.html",
     "e2e": "ng e2e --proxy-config proxy.conf.json",
@@ -14,7 +15,7 @@
     "build": "ng build qan-app  --base-href '/qan/' --aot --output-path 'dist/qan-app' --prod --progress --output-hashing=all",
     "pack": "cd dist/; tar -czf qan-app-`date +%Y%m%dT%H%m%S`.tar.gz qan-app",
     "clean": "rm -r dist/*",
-    "gen-inventroy": "ng-swagger-gen"
+    "pmm-api-gen": "ng-swagger-gen"
   },
   "private": true,
   "dependencies": {
@@ -78,6 +79,7 @@
     "sass-loader": "7.0.3",
     "ts-node": "^7.0.1",
     "tslint": "5.11.0",
-    "typescript": "3.2.4"
+    "typescript": "3.2.4",
+    "typescript-formatter": "^7.2.2"
   }
 }

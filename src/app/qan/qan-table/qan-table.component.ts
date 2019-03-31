@@ -6,7 +6,7 @@ import { TableDataModel } from './models/table-data.model';
 import { MetricModel } from './models/metric.model';
 import { ProfileService } from '../../inventory-api/services/profile.service';
 import { Subscription } from 'rxjs/internal/Subscription';
-import { catchError, map, retryWhen, switchMap } from 'rxjs/operators';
+import { map, retryWhen } from 'rxjs/operators';
 import { MetricsNamesService } from '../../inventory-api/services/metrics-names.service';
 import { GetProfileBody, QanTableService } from './qan-table.service';
 import { ParseQueryParamDatePipe } from '../../shared/parse-query-param-date.pipe';
@@ -14,9 +14,6 @@ import { ActivatedRoute, Router } from '@angular/router';
 import * as moment from 'moment';
 import { error } from '@angular/compiler/src/util';
 import { mergeMap } from 'rxjs/internal/operators/mergeMap';
-import { of } from 'rxjs/internal/observable/of';
-import { throwError } from 'rxjs/internal/observable/throwError';
-import { Observable } from 'rxjs/internal/Observable';
 
 @Component({
   selector: 'app-qan-table',
@@ -118,8 +115,8 @@ export class QanTableComponent implements OnInit, OnDestroy {
     this.from = this.parseQueryParamDatePipe.transform(this.iframeQueryParams.from, 'from');
     this.to = this.parseQueryParamDatePipe.transform(this.iframeQueryParams.to, 'to');
 
-    this.qanTableService.getProfileParamsState.period_start_from = this.from.utc().format('YYYY-MM-DD HH:mm:ss');
-    this.qanTableService.getProfileParamsState.period_start_to = this.to.utc().format('YYYY-MM-DD HH:mm:ss');
+    this.qanTableService.getProfileParamsState.period_start_from = this.from.utc().format('YYYY-MM-DDTHH:mm:ssZ');
+    this.qanTableService.getProfileParamsState.period_start_to = this.to.utc().format('YYYY-MM-DDTHH:mm:ssZ');
     this.qanTableService.setProfileParams(this.qanTableService.getProfileParamsState);
   }
 
