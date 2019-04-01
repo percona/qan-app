@@ -44,7 +44,6 @@ export class QanTableComponent implements OnInit, OnDestroy {
     private qanTableService: QanTableService
   ) {
     this.profileParams = this.qanTableService.getProfileParamsState;
-    console.log('this.profileParams = ', this.profileParams);
     this.defaultColumns = this.qanTableService.getDefaultColumns;
 
     this.metrics$ = this.metricsNamesService.GetMetricsNames({})
@@ -55,14 +54,16 @@ export class QanTableComponent implements OnInit, OnDestroy {
       .pipe(
         map(params => {
           const parsedParams = JSON.parse(JSON.stringify(params));
+          // Remove default columns
           parsedParams.columns = parsedParams.columns.filter(column => !this.defaultColumns.includes(column));
           return parsedParams
         }),
-        switchMap(params => this.profileService.GetReport(params)
-          .pipe(catchError(err => {
-            console.log('catch err - ', err);
-            return throwError(err)
-          }),
+        switchMap(parsedParams => this.profileService.GetReport(parsedParams)
+          .pipe(
+            catchError(err => {
+              console.log('catch err - ', err);
+              return throwError(err)
+            }),
           )
         ),
         retryWhen(error => error)
@@ -108,10 +109,9 @@ export class QanTableComponent implements OnInit, OnDestroy {
   }
 
   setTableData(data) {
-    console.log('this.qanTableService.getProfileParamsState - ', this.qanTableService.getProfileParamsState);
-    // const orderArray = this.profileParams.columns.length ? this.profileParams.columns : this.defaultColumns;
     this.tableData = data['rows'].map(row => new TableDataModel(row));
     this.tableData.forEach(row => {
+      row.metrics = row.metrics.filter(metric => this.profileParams.columns.includes(metric.metricName));
       row.metrics = this.mapOrder(row.metrics, this.profileParams.columns, 'metricName');
     });
     this.totalRows = data['total_rows'];

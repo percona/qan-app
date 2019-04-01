@@ -12,6 +12,7 @@ export class QanTableHeaderCellComponent implements OnInit {
   @Input() fullData: any;
   @Input() metrics: Array<SelectOptionModel>;
   @Input() index: any;
+  @Input() rowMetrics: any;
 
   public selectedQueryColumn: SelectOptionModel;
   public profileParams: GetProfileBody;
@@ -26,12 +27,15 @@ export class QanTableHeaderCellComponent implements OnInit {
 
   removeColumn() {
     this.fullData.forEach(item => item.metrics.splice(this.index, 1));
+    this.profileParams.columns.splice(this.index, 1);
+    console.log('removeColumn columns - ', this.profileParams.columns);
   }
 
-  setMetricColumn(value, index) {
-    this.profileParams.columns[index] = value.name;
+  setMetricColumn(value) {
+    if (!value.name) { return; }
+
+    this.profileParams.columns[this.index] = value.name;
     this.profileParams.columns = this.profileParams.columns.filter(item => !!item);
-    console.log('this.profileParams.columns - ', this.profileParams.columns);
     this.qanTableService.updateProfileParams(this.profileParams);
   }
 

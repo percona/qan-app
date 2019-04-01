@@ -48,10 +48,8 @@ export class AddRemoteInstanceComponent implements OnInit {
     }
 
     try {
-      console.log(' ----- ');
       const res = await this.addRemoteInstanceService.enable(this.remoteInstanceCredentials, this.currentUrl)
         .then(() => {
-          console.log('res - ', res);
           window.parent.location.assign(newURL);
         });
 

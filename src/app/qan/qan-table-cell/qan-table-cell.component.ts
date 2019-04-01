@@ -1,5 +1,4 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { HumanizePipe } from '../../shared/humanize.pipe';
 import { MetricModel } from '../qan-table/models/metric.model';
 import { QanTableService } from '../qan-table/qan-table.service';
 
@@ -17,12 +16,8 @@ export class QanTableCellComponent implements OnInit {
   public measurement: string;
   public pipeType: string;
   public isStats: boolean;
-  public sumResult: any;
-  public humanizePipe = new HumanizePipe();
   public isDefaultColumn: boolean;
   public isLatency: boolean;
-  public isCount: boolean;
-  public isLoad: boolean;
   public profileParams: any;
 
   constructor(private qanTableService: QanTableService) {
@@ -30,12 +25,8 @@ export class QanTableCellComponent implements OnInit {
   }
 
   ngOnInit() {
-    console.log('this.metricData.metricName - ', this.metricData.metricName);
     this.isStats = Object.keys(this.metricData.stats).includes('min' && 'max');
     this.isDefaultColumn = this.profileParams.columns.includes(this.metricData.metricName);
-    this.isLatency = this.metricData.metricName === 'latancy';
-    this.isCount = this.metricData.metricName === 'count';
-    this.isLoad = this.metricData.metricName === 'load';
     this.setCurrentSparkline(this.metricData.metricName);
   }
 

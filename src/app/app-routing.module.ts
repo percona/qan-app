@@ -19,7 +19,6 @@ export class RegisteredInstanceGuard implements CanActivate {
   private existsRegisteredInstances: boolean;
 
   constructor(public instanceService: InstanceService, public router: Router) {
-    console.log('EmptyInstanceGuard.constructor', instanceService.dbServers);
     this.existsRegisteredInstances = instanceService.dbServers.length > 0;
   }
   canActivate() {
