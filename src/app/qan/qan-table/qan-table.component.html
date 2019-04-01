@@ -23,8 +23,11 @@
               </td>
               <td class="qan-table__cell qan-table__cell--second-c qan-table__cell--fixed ">
                 <div class="overlay-container">
-                    <span class="overlay-container__item qan-table__abstract">
-                      {{row.fingerprint || row.dimension || 'TOTAL'}}
+                    <span *ngIf="!row.fingerprint" class="overlay-container__item qan-table__abstract">
+                      {{row.dimension || 'TOTAL'}}
+                    </span>
+                    <span *ngIf="row.fingerprint" class="overlay-container__item qan-table__abstract">
+                      {{index ? row.fingerprint : 'TOTAL'}}
                     </span>
                 </div>
               </td>
