@@ -8,8 +8,8 @@ export class TableDataModel {
   fingerprint: string;
   rank: number;
   load: number;
-  num_queries: number;
-  qps: number;
+  count: number;
+  latancy: number;
 
   constructor(row) {
     const defaultMetrics = {
@@ -37,7 +37,7 @@ export class TableDataModel {
     this.fingerprint = row.fingerprint || '';
     this.rank = row.rank || 0;
     this.load = row.load || '';
-    this.num_queries = row.num_queries || '';
-    this.qps = row.qps || '';
+    this.count = row.num_queries || '';
+    this.latancy = row.qps || '';
   }
 }

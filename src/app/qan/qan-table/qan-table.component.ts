@@ -33,7 +33,6 @@ export class QanTableComponent implements OnInit, OnDestroy {
   public report$: Subscription;
   public metrics$: Subscription;
   public metrics: SelectOptionModel[];
-  public defaultMetrics: SelectOptionModel[];
   private parseQueryParamDatePipe = new ParseQueryParamDatePipe();
 
   constructor(
@@ -43,7 +42,6 @@ export class QanTableComponent implements OnInit, OnDestroy {
     private metricsNamesService: MetricsNamesService,
     private qanTableService: QanTableService
   ) {
-    // this.defaultMetrics = ['load']
     this.profileParams = this.qanTableService.getProfileParamsState;
     this.metrics$ = this.metricsNamesService.GetMetricsNames({})
       .pipe(map(metrics => metrics.data))
@@ -108,6 +106,7 @@ export class QanTableComponent implements OnInit, OnDestroy {
       row.metrics = this.mapOrder(row.metrics, orderArray, 'metricName')
     });
     this.totalRows = data['total_rows'];
+    console.log('tableData - ', this.tableData);
   }
 
 
