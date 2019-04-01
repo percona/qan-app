@@ -6,7 +6,7 @@ import { TableDataModel } from './models/table-data.model';
 import { MetricModel } from './models/metric.model';
 import { ProfileService } from '../../inventory-api/services/profile.service';
 import { Subscription } from 'rxjs/internal/Subscription';
-import { catchError, map, retryWhen, switchMap } from 'rxjs/operators';
+import { catchError, filter, map, retryWhen, switchMap } from 'rxjs/operators';
 import { MetricsNamesService } from '../../inventory-api/services/metrics-names.service';
 import { GetProfileBody, QanTableService } from './qan-table.service';
 import { ParseQueryParamDatePipe } from '../../shared/parse-query-param-date.pipe';
@@ -30,6 +30,7 @@ export class QanTableComponent implements OnInit, OnDestroy {
   public profileParams: GetProfileBody;
   public tableData: TableDataModel[];
   public totalRows: number;
+  public defaultColumns: string[];
   public report$: Subscription;
   public metrics$: Subscription;
   public metrics: SelectOptionModel[];
@@ -43,12 +44,20 @@ export class QanTableComponent implements OnInit, OnDestroy {
     private qanTableService: QanTableService
   ) {
     this.profileParams = this.qanTableService.getProfileParamsState;
+    console.log('this.profileParams = ', this.profileParams);
+    this.defaultColumns = this.qanTableService.getDefaultColumns;
+
     this.metrics$ = this.metricsNamesService.GetMetricsNames({})
       .pipe(map(metrics => metrics.data))
       .subscribe(metrics => this.metrics = Object.entries(metrics).map(metric => new SelectOptionModel(metric)));
 
     this.report$ = this.qanTableService.profileParamsSource
       .pipe(
+        map(params => {
+          const parsedParams = JSON.parse(JSON.stringify(params));
+          parsedParams.columns = parsedParams.columns.filter(column => !this.defaultColumns.includes(column));
+          return parsedParams
+        }),
         switchMap(params => this.profileService.GetReport(params)
           .pipe(catchError(err => {
             console.log('catch err - ', err);
@@ -60,7 +69,6 @@ export class QanTableComponent implements OnInit, OnDestroy {
       )
       .subscribe(
         data => {
-          console.log('data - ', data);
           this.setTableData(data);
         }
       );
@@ -100,10 +108,11 @@ export class QanTableComponent implements OnInit, OnDestroy {
   }
 
   setTableData(data) {
-    const orderArray = this.profileParams.columns.length ? this.profileParams.columns : ['load', 'count', 'latancy'];
+    console.log('this.qanTableService.getProfileParamsState - ', this.qanTableService.getProfileParamsState);
+    // const orderArray = this.profileParams.columns.length ? this.profileParams.columns : this.defaultColumns;
     this.tableData = data['rows'].map(row => new TableDataModel(row));
     this.tableData.forEach(row => {
-      row.metrics = this.mapOrder(row.metrics, orderArray, 'metricName')
+      row.metrics = this.mapOrder(row.metrics, this.profileParams.columns, 'metricName');
     });
     this.totalRows = data['total_rows'];
     console.log('tableData - ', this.tableData);
@@ -130,6 +139,14 @@ export class QanTableComponent implements OnInit, OnDestroy {
       const expireDays = moment().utc().add(7, 'y').toString();
       document.cookie = `theme=app-theme-${theme}; expires=${expireDays}; path=/`;
     }
+  }
+
+  checkMainColumns(columnName) {
+    if (!this.defaultColumns.includes(columnName)) {
+      return true
+    }
+
+    return this.profileParams.columns.includes(columnName)
   }
 
   // /**

@@ -28,10 +28,11 @@ export interface LabelsProfile {
 export class QanTableService {
   private groupValue: SelectOptionModel;
   private profileParams = new Subject<GetProfileBody>();
+  private defaultColumns: string[] = ['load', 'count', 'latancy'];
   private profileParamsState: GetProfileBody = {
     order_by: 'num_queries',
     group_by: 'queryid',
-    columns: []
+    columns: ['load', 'count', 'latancy']
   };
 
   constructor() { }
@@ -44,10 +45,6 @@ export class QanTableService {
     this.groupValue = group_by as SelectOptionModel;
   }
 
-  set setProfileParamsState(params: GetProfileBody) {
-    this.profileParamsState = params;
-  }
-
   get profileParamsSource(): Subject<GetProfileBody> {
     return this.profileParams;
   }
@@ -58,5 +55,9 @@ export class QanTableService {
 
   get getProfileParamsState(): GetProfileBody {
     return this.profileParamsState;
+  }
+
+  get getDefaultColumns(): string[] {
+    return this.defaultColumns;
   }
 }

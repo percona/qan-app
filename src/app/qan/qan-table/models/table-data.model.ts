@@ -12,25 +12,25 @@ export class TableDataModel {
   latancy: number;
 
   constructor(row) {
-    const defaultMetrics = {
-      load: {
-        stats: {
-          sum: row.load
-        }
-      },
-      count: {
-        stats: {
-          sum: row.num_queries
-        }
-      },
-      latancy: {
-        stats: {
-          sum: row.qps
-        }
+    row.metrics = row.metrics || {};
+    row.metrics.load = {
+      stats: {
+        sum: row.load
       }
     };
-    this.metrics = row.metrics ?
-      Object.entries(row.metrics).map(item => new MetricModel(item)) : Object.entries(defaultMetrics).map(item => new MetricModel(item));
+
+    row.metrics.count = {
+      stats: {
+        sum: row.num_queries
+      }
+    };
+
+    row.metrics.latancy = {
+      stats: {
+        sum: row.qps
+      }
+    };
+    this.metrics = Object.entries(row.metrics).map(item => new MetricModel(item));
     this.sparkline = row.sparkline.map(sparklineValue => sparklineValue.values);
     this.sparkline.forEach(item => item['timestamp'] = moment.unix(item['timestamp']).format('YYYY-MM-DDTHH:mm:ssZ'));
     this.dimension = row.dimension || '';

@@ -9,12 +9,14 @@
               <th class="qan-table__cell qan-table__cell--fixed qan-table__cell--second-c">
                 <app-main-cell></app-main-cell>
               </th>
-              <app-qan-table-header-cell *ngFor="let metric of row.metrics; let index = index"
-                                         [currentColumnName]="metric.metricName"
-                                         [fullData]="tableData"
-                                         [metrics]="metrics"
-                                         [index]="index">
-              </app-qan-table-header-cell>
+              <ng-container *ngFor="let metric of row.metrics; let index = index">
+                <app-qan-table-header-cell *ngIf="checkMainColumns(metric.metricName)"
+                                           [currentColumnName]="metric.metricName"
+                                           [fullData]="tableData"
+                                           [metrics]="metrics"
+                                           [index]="index">
+                </app-qan-table-header-cell>
+              </ng-container>
             </tr>
             <tr class="qan-table__row qan-table--body">
               <td class="qan-table__cell qan-table__cell--first-c qan-table__cell--fixed">
@@ -30,11 +32,13 @@
                     </span>
                 </div>
               </td>
-              <app-qan-table-cell *ngFor="let metric of row.metrics;"
-                                  [metricData]="metric"
-                                  [sparklineData]="row.sparkline"
-                                  [totalSum]="tableData[0][metric.metricName]">
-              </app-qan-table-cell>
+              <ng-container *ngFor="let metric of row.metrics;">
+                <app-qan-table-cell *ngIf="checkMainColumns(metric.metricName)"
+                                    [metricData]="metric"
+                                    [sparklineData]="row.sparkline"
+                                    [totalSum]="tableData[0][metric.metricName]">
+                </app-qan-table-cell>
+              </ng-container>
             </tr>
           </ng-container>
         </table>
