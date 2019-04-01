@@ -70,6 +70,11 @@ export class QanTableComponent implements OnInit, OnDestroy {
     this.setTimeRange();
   }
 
+  ngOnDestroy() {
+    this.metrics$.unsubscribe();
+    this.report$.unsubscribe();
+  }
+
   mapOrder(array, order, key) {
     array.sort((a, b) => {
       const A = a[key];
@@ -83,11 +88,6 @@ export class QanTableComponent implements OnInit, OnDestroy {
 
     return array;
   };
-
-  ngOnDestroy() {
-    this.metrics$.unsubscribe();
-    this.report$.unsubscribe();
-  }
 
   setTimeRange() {
     this.iframeQueryParams = this.route.snapshot.queryParams as QueryParams;
