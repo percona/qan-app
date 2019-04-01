@@ -29,7 +29,6 @@ export class QanTableHeaderCellComponent implements OnInit {
   }
 
   setMetricColumn(value, index) {
-    this.profileParams = this.qanTableService.getProfileParamsState;
     this.profileParams.columns[index] = value.name;
     this.profileParams.columns = this.profileParams.columns.filter(item => !!item);
     this.qanTableService.updateProfileParams(this.profileParams);

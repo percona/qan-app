@@ -32,11 +32,11 @@ export class QanTableCellComponent implements OnInit {
         this.yKey = 'm_query_load';
         this.measurement = 'number';
         break;
-      case 'Count':
-        this.yKey = 'Query_count';
+      case 'count':
+        this.yKey = 'num_queries_sum';
         this.measurement = 'number';
         break;
-      case 'latency':
+      case 'latancy':
         this.yKey = 'm_query_time_avg';
         this.measurement = 'time';
         break;

@@ -9,13 +9,14 @@
               <th class="qan-table__cell qan-table__cell--fixed qan-table__cell--second-c">
                 <app-main-cell></app-main-cell>
               </th>
-              <ng-container *ngFor="let metric of row.metrics; let index = index">
-                <app-qan-table-header-cell [currentColumnName]="metric.metricName"
+<!--              <ng-container *ngIf="!defaultMetrics">-->
+                <app-qan-table-header-cell *ngFor="let metric of row.metrics; let index = index"
+                                           [currentColumnName]="metric.metricName"
                                            [fullData]="tableData"
                                            [metrics]="metrics"
                                            [index]="index">
                 </app-qan-table-header-cell>
-              </ng-container>
+<!--              </ng-container>-->
             </tr>
             <tr class="qan-table__row qan-table--body">
               <td class="qan-table__cell qan-table__cell--first-c qan-table__cell--fixed">
@@ -26,7 +27,7 @@
                     <span *ngIf="!row.fingerprint" class="overlay-container__item qan-table__abstract">
                       {{row.dimension || 'TOTAL'}}
                     </span>
-                    <span *ngIf="row.fingerprint" class="overlay-container__item qan-table__abstract">
+                  <span *ngIf="row.fingerprint" class="overlay-container__item qan-table__abstract">
                       {{index ? row.fingerprint : 'TOTAL'}}
                     </span>
                 </div>
