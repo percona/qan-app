@@ -23,7 +23,7 @@ class ServerService extends __BaseService {
   /**
    * @return A successful response.
    */
-  VersionResponse(): __Observable<__StrictHttpResponse<{ version?: string }>> {
+  VersionResponse(): __Observable<__StrictHttpResponse<{version?: string}>> {
     let __params = this.newParams();
     let __headers = new HttpHeaders();
     let __body: any = null;
@@ -40,16 +40,16 @@ class ServerService extends __BaseService {
     return this.http.request<any>(req).pipe(
       __filter(_r => _r instanceof HttpResponse),
       __map((_r) => {
-        return _r as __StrictHttpResponse<{ version?: string }>;
+        return _r as __StrictHttpResponse<{version?: string}>;
       })
     );
   }
   /**
    * @return A successful response.
    */
-  Version(): __Observable<{ version?: string }> {
+  Version(): __Observable<{version?: string}> {
     return this.VersionResponse().pipe(
-      __map(_r => _r.body as { version?: string })
+      __map(_r => _r.body as {version?: string})
     );
   }
 }

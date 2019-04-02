@@ -24,7 +24,7 @@ class ProfileService extends __BaseService {
    * @param body undefined
    * @return A successful response.
    */
-  GetReportResponse(body: { columns?: Array<string>, group_by?: string, labels?: Array<{ key?: string, value?: Array<string> }>, limit?: number, offset?: number, order_by?: string, period_start_from?: string, period_start_to?: string }): __Observable<__StrictHttpResponse<{ limit?: number, offset?: number, rows?: Array<{ dimension?: string, fingerprint?: string, load?: number, metrics?: { [key: string]: { stats?: { cnt?: number, max?: number, min?: number, p99?: number, rate?: number, sum?: number } } }, num_queries?: number, qps?: number, rank?: number, sparkline?: Array<{ values?: { [key: string]: number } }> }>, total_rows?: number }>> {
+  GetReportResponse(body: {columns?: Array<string>, group_by?: string, labels?: Array<{key?: string, value?: Array<string>}>, limit?: number, offset?: number, order_by?: string, period_start_from?: string, period_start_to?: string}): __Observable<__StrictHttpResponse<{limit?: number, offset?: number, rows?: Array<{dimension?: string, fingerprint?: string, load?: number, metrics?: {[key: string]: {stats?: {cnt?: number, max?: number, min?: number, p99?: number, rate?: number, sum?: number}}}, num_queries?: number, qps?: number, rank?: number, sparkline?: Array<{values?: {[key: string]: number}}>}>, total_rows?: number}>> {
     let __params = this.newParams();
     let __headers = new HttpHeaders();
     let __body: any = null;
@@ -42,7 +42,7 @@ class ProfileService extends __BaseService {
     return this.http.request<any>(req).pipe(
       __filter(_r => _r instanceof HttpResponse),
       __map((_r) => {
-        return _r as __StrictHttpResponse<{ limit?: number, offset?: number, rows?: Array<{ dimension?: string, fingerprint?: string, load?: number, metrics?: { [key: string]: { stats?: { cnt?: number, max?: number, min?: number, p99?: number, rate?: number, sum?: number } } }, num_queries?: number, qps?: number, rank?: number, sparkline?: Array<{ values?: { [key: string]: number } }> }>, total_rows?: number }>;
+        return _r as __StrictHttpResponse<{limit?: number, offset?: number, rows?: Array<{dimension?: string, fingerprint?: string, load?: number, metrics?: {[key: string]: {stats?: {cnt?: number, max?: number, min?: number, p99?: number, rate?: number, sum?: number}}}, num_queries?: number, qps?: number, rank?: number, sparkline?: Array<{values?: {[key: string]: number}}>}>, total_rows?: number}>;
       })
     );
   }
@@ -50,9 +50,9 @@ class ProfileService extends __BaseService {
    * @param body undefined
    * @return A successful response.
    */
-  GetReport(body: { columns?: Array<string>, group_by?: string, labels?: Array<{ key?: string, value?: Array<string> }>, limit?: number, offset?: number, order_by?: string, period_start_from?: string, period_start_to?: string }): __Observable<{ limit?: number, offset?: number, rows?: Array<{ dimension?: string, fingerprint?: string, load?: number, metrics?: { [key: string]: { stats?: { cnt?: number, max?: number, min?: number, p99?: number, rate?: number, sum?: number } } }, num_queries?: number, qps?: number, rank?: number, sparkline?: Array<{ values?: { [key: string]: number } }> }>, total_rows?: number }> {
+  GetReport(body: {columns?: Array<string>, group_by?: string, labels?: Array<{key?: string, value?: Array<string>}>, limit?: number, offset?: number, order_by?: string, period_start_from?: string, period_start_to?: string}): __Observable<{limit?: number, offset?: number, rows?: Array<{dimension?: string, fingerprint?: string, load?: number, metrics?: {[key: string]: {stats?: {cnt?: number, max?: number, min?: number, p99?: number, rate?: number, sum?: number}}}, num_queries?: number, qps?: number, rank?: number, sparkline?: Array<{values?: {[key: string]: number}}>}>, total_rows?: number}> {
     return this.GetReportResponse(body).pipe(
-      __map(_r => _r.body as { limit?: number, offset?: number, rows?: Array<{ dimension?: string, fingerprint?: string, load?: number, metrics?: { [key: string]: { stats?: { cnt?: number, max?: number, min?: number, p99?: number, rate?: number, sum?: number } } }, num_queries?: number, qps?: number, rank?: number, sparkline?: Array<{ values?: { [key: string]: number } }> }>, total_rows?: number })
+      __map(_r => _r.body as {limit?: number, offset?: number, rows?: Array<{dimension?: string, fingerprint?: string, load?: number, metrics?: {[key: string]: {stats?: {cnt?: number, max?: number, min?: number, p99?: number, rate?: number, sum?: number}}}, num_queries?: number, qps?: number, rank?: number, sparkline?: Array<{values?: {[key: string]: number}}>}>, total_rows?: number})
     );
   }
 }
