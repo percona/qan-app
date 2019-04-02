@@ -23,3 +23,89 @@
   border: none;
   background: transparent;
 }
+
+::ng-deep .ng-select.pmm-select--search {
+
+  &.ng-select-opened .ng-select-container {
+    .ng-arrow {
+      top: 0;
+    }
+  }
+
+  .ng-select-container {
+    min-height: 0;
+    border: 1px solid var(--main-border-color);
+    background-color: transparent;
+    color: inherit;
+    border-radius: 4px;
+
+    .ng-clear-wrapper {
+      width: auto;
+
+      &:after {
+        content: 'Reset';
+        margin-right: 10px;
+        font-size: 0.75em;
+        font-weight: 100;
+      }
+
+      .ng-clear {
+        display: none;
+      }
+    }
+
+    .ng-value-container {
+      position: relative;
+      align-items: center;
+      min-height: 40px;
+      padding-bottom: 5px;
+
+      .ng-value {
+        display: inline-flex;
+        width: auto;
+        margin-right: 15px;
+        margin-bottom: 0;
+        font-size: .9em;
+        border-radius: 2px;
+        background-color: transparent;
+
+        .ng-value-label {
+          padding: 0;
+          line-height: 0;
+        }
+      }
+
+      .ng-placeholder {
+        top: 8px;
+        padding-bottom: 0;
+        padding-left: 0;
+      }
+
+      .ng-input {
+        padding: 0;
+
+        input {
+          color: inherit;
+        }
+
+        .ng-clear-wrapper {
+          display: none;
+        }
+      }
+    }
+  }
+
+  .ng-arrow-wrapper {
+    width: auto;
+    margin-right: 10px;
+    padding-right: 0;
+
+    .ng-arrow {
+      display: flex;
+      width: 20px;
+      height: 20px;
+      border: none;
+      background: url(/assets/search.svg) bottom center / 100% no-repeat;
+    }
+  }
+}

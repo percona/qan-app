@@ -1,0 +1,19 @@
+.cell-inner {
+  height: 100%;
+}
+
+::ng-deep .ng-select.pmm-select--column-main {
+  height: inherit;
+
+  .ng-dropdown-panel {
+    z-index: 3;
+    width: auto;
+    min-width: inherit;
+  }
+
+  .ng-select-container {
+    height: inherit;
+    border-radius: 0;
+    border-right: 1px solid var(--main-border-color);
+  }
+}

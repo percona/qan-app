@@ -1,8 +1,8 @@
-<div>
+<div class="cell_inner">
   <ng-select [searchable]="false"
              [(ngModel)]="selectedQueryColumn"
              [items]="metrics"
-             (change)="setMetricColumn($event, index)"
+             (change)="setMetricColumn($event)"
              [clearable]="false"
              bindLabel="humanizeName"
              #column
@@ -15,4 +15,10 @@
       <button (click)="removeColumn()">Remove this column</button>
     </ng-template>
   </ng-select>
+
+  <button (click)="sortBy(selectedQueryColumn)" class="sort-icon">
+    <i class="fa" [ngClass]="isNotDefaultIcon ? (isDESC ? 'fa-sort-desc' : 'fa-sort-asc') : 'fa-sort'"
+      aria-hidden="true">
+    </i>
+  </button>
 </div>

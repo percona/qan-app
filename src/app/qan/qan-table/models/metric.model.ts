@@ -1,6 +1,6 @@
 export class MetricModel {
   metricName: string;
-  stats: Object;
+  stats: any;
 
   constructor(metric: Array<any> = ['', {}]) {
     const [metricName, stats] = metric;

@@ -1,4 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { MetricModel } from '../qan-table/models/metric.model';
+import { QanTableService } from '../qan-table/qan-table.service';
 
 @Component({
   selector: 'app-qan-table-cell',
@@ -6,19 +8,25 @@ import { Component, Input, OnInit } from '@angular/core';
   styleUrls: ['./qan-table-cell.component.css']
 })
 export class QanTableCellComponent implements OnInit {
-  @Input() metricData: any;
+  @Input() metricData: MetricModel;
   @Input() sparklineData: any;
+  @Input() totalSum: any;
 
   public yKey: string;
   public measurement: string;
   public pipeType: string;
   public isStats: boolean;
+  public isDefaultColumn: boolean;
+  public isLatency: boolean;
+  public profileParams: any;
 
-  constructor() {
+  constructor(private qanTableService: QanTableService) {
+    this.profileParams = this.qanTableService.getProfileParamsState;
   }
 
   ngOnInit() {
     this.isStats = Object.keys(this.metricData.stats).includes('min' && 'max');
+    this.isDefaultColumn = this.profileParams.columns.includes(this.metricData.metricName);
     this.setCurrentSparkline(this.metricData.metricName);
   }
 
@@ -31,12 +39,14 @@ export class QanTableCellComponent implements OnInit {
       case 'load':
         this.yKey = 'm_query_load';
         this.measurement = 'number';
+        this.pipeType = 'number';
         break;
-      case 'Count':
-        this.yKey = 'Query_count';
+      case 'count':
+        this.yKey = 'num_queries_sum';
         this.measurement = 'number';
+        this.pipeType = 'number';
         break;
-      case 'latency':
+      case 'latancy':
         this.yKey = 'm_query_time_avg';
         this.measurement = 'time';
         break;
@@ -70,5 +80,9 @@ export class QanTableCellComponent implements OnInit {
         break;
       }
     }
+  }
+
+  percentFromNumber(total, current) {
+    return +(current / total)
   }
 }

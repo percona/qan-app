@@ -4,6 +4,7 @@ init:
 
 build:
 	rm -rf dist/*
+	npm run format
 	npm run build
 	npm run pack
 deploy:

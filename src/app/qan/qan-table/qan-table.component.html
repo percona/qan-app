@@ -9,11 +9,12 @@
               <th class="qan-table__cell qan-table__cell--fixed qan-table__cell--second-c">
                 <app-main-cell></app-main-cell>
               </th>
-              <ng-container *ngFor="let metric of row.metrics; let index = index">
+              <ng-container *ngFor="let metric of row.metrics; let indexMetrics = index">
                 <app-qan-table-header-cell [currentColumnName]="metric.metricName"
                                            [fullData]="tableData"
                                            [metrics]="metrics"
-                                           [index]="index">
+                                           [index]="indexMetrics"
+                                           [rowMetrics]="row.metrics">
                 </app-qan-table-header-cell>
               </ng-container>
             </tr>
@@ -23,15 +24,20 @@
               </td>
               <td class="qan-table__cell qan-table__cell--second-c qan-table__cell--fixed ">
                 <div class="overlay-container">
-                    <span class="overlay-container__item qan-table__abstract">
+                    <span *ngIf="!row.fingerprint" class="overlay-container__item qan-table__abstract">
                       {{row.dimension || 'TOTAL'}}
+                    </span>
+                  <span *ngIf="row.fingerprint" class="overlay-container__item qan-table__abstract">
+                      {{index ? row.fingerprint : 'TOTAL'}}
                     </span>
                 </div>
               </td>
-              <app-qan-table-cell *ngFor="let metric of row.metrics;"
-                                  [metricData]="metric"
-                                  [sparklineData]="row.sparkline">
-              </app-qan-table-cell>
+              <ng-container *ngFor="let metric of row.metrics;">
+                <app-qan-table-cell [metricData]="metric"
+                                    [sparklineData]="row.sparkline"
+                                    [totalSum]="tableData[0][metric.metricName]">
+                </app-qan-table-cell>
+              </ng-container>
             </tr>
           </ng-container>
         </table>

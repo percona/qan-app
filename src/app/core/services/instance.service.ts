@@ -26,7 +26,6 @@ export class InstanceService {
     return this.httpClient.get(this.instancesUrl)
       .toPromise()
       .then((response: any) => {
-        console.log('response - ', response);
         const agents = response.filter(
           (i: Instance) => i.Subsystem === 'agent'
         ) as Instance[];
@@ -44,7 +43,6 @@ export class InstanceService {
           this.dbServerMap[srv.Name] = srv;
           this.dbServerMap[srv.Name].Agent = agentsByParentUUID[srv.ParentUUID];
         }
-        console.log('this.dbServers - ', this.dbServers);
         return this.dbServers;
       })
       .catch(err => console.log(err));
