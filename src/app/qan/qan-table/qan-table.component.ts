@@ -141,14 +141,6 @@ export class QanTableComponent implements OnInit, OnDestroy {
     }
   }
 
-  checkMainColumns(columnName) {
-    if (!this.defaultColumns.includes(columnName)) {
-      return true
-    }
-
-    return this.profileParams.columns.includes(columnName)
-  }
-
   // /**
   //  * Set router parameters if query is checked in main qan-table
   //  * @param queryID - checked queries' id

@@ -10,14 +10,12 @@
                 <app-main-cell></app-main-cell>
               </th>
               <ng-container *ngFor="let metric of row.metrics; let indexMetrics = index">
-                <ng-container *ngIf="checkMainColumns(metric.metricName)">
-                  <app-qan-table-header-cell [currentColumnName]="metric.metricName"
-                                             [fullData]="tableData"
-                                             [metrics]="metrics"
-                                             [index]="indexMetrics"
-                                             [rowMetrics]="row.metrics">
-                  </app-qan-table-header-cell>
-                </ng-container>
+                <app-qan-table-header-cell [currentColumnName]="metric.metricName"
+                                           [fullData]="tableData"
+                                           [metrics]="metrics"
+                                           [index]="indexMetrics"
+                                           [rowMetrics]="row.metrics">
+                </app-qan-table-header-cell>
               </ng-container>
             </tr>
             <tr class="qan-table__row qan-table--body">
@@ -35,8 +33,7 @@
                 </div>
               </td>
               <ng-container *ngFor="let metric of row.metrics;">
-                <app-qan-table-cell *ngIf="checkMainColumns(metric.metricName)"
-                                    [metricData]="metric"
+                <app-qan-table-cell [metricData]="metric"
                                     [sparklineData]="row.sparkline"
                                     [totalSum]="tableData[0][metric.metricName]">
                 </app-qan-table-cell>

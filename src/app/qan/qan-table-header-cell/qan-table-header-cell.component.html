@@ -16,5 +16,9 @@
     </ng-template>
   </ng-select>
 
-  <button (click)="sortBy(selectedQueryColumn)" class="sort-icon"><i class="fa fa-sort" aria-hidden="true"></i></button>
+  <button (click)="sortBy(selectedQueryColumn)" class="sort-icon">
+    <i class="fa" [ngClass]="isNotDefaultIcon ? (isDESC ? 'fa-sort-desc' : 'fa-sort-asc') : 'fa-sort'"
+      aria-hidden="true">
+    </i>
+  </button>
 </div>
