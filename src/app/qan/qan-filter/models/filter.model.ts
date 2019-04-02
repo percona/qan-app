@@ -5,8 +5,8 @@ export class FilterModel {
 
   constructor(item) {
     const { value, count } = item;
-    this.value = value;
-    this.count = count;
+    this.value = value || '';
+    this.count = count || '';
     this.state = false;
   }
 }

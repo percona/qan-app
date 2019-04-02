@@ -25,7 +25,7 @@ export class QanFilterComponent implements OnInit, OnDestroy, OnChanges {
 
   constructor(private qanFilterService: QanFilterService,
     private filterService: FiltersService,
-    private qanTableService: QanTableService
+    private qanTableService: QanTableService,
   ) {
     this.profileParams = this.qanTableService.getProfileParamsState;
     this.qanTableService.profileParamsSource.pipe(
@@ -41,7 +41,8 @@ export class QanFilterComponent implements OnInit, OnDestroy, OnChanges {
     ).subscribe(
       response => {
         this.filters = response.map(responseItem => new FilterGroupModel(responseItem));
-        console.log('this.filters - ', this.filters);
+        this.qanTableService.setFiltersState = this.filters;
+        this.qanFilterService.updateFilterConfigs(this.filters);
       }
     )
   }
@@ -59,8 +60,9 @@ export class QanFilterComponent implements OnInit, OnDestroy, OnChanges {
   getAll(group) {
     this.limits[group.name] = this.limits[group.name] <= this.defaultLimit ? group.values.length - 1 : this.defaultLimit;
   }
+
   //
   setConfigs() {
-    // this.qanFilterService.setFilterConfigs(this.filters);
+    setTimeout(() => this.qanFilterService.updateFilterConfigs(this.filters), 0);
   }
 }
