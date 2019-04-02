@@ -30,6 +30,7 @@
   display: grid;
   grid-template-areas: 'search search' 'filter table';
   grid-template-columns: 300px minmax(1000px, 1fr);
+  grid-template-rows: auto 480px;
 }
 
 .pmm-qan__search {
