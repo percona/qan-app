@@ -3,12 +3,12 @@
            [multiple]="true"
            [searchFn]="autocompleteSearch"
            (change)="groupSelected()"
-           (add)="changeFilterState($event, true)"
+           (add)="changeFilterState($event)"
+           (clear)="resetAll()"
            bindLabel="filterName"
            clearAllText="Reset"
            placeholder="Search by..."
-           class="pmm-select pmm-select--search"
-           role="combobox">
+           class="pmm-select pmm-select--search">
   <ng-template ng-multi-label-tmp let-items="items">
     <!--<perfect-scrollbar [config]="scrollbarConfig" class="pmm-scrollbar pmm-select__pmm-scrollbar">-->
       <div class="ng-value" *ngFor="let item of items">
@@ -21,14 +21,14 @@
       </div>
     <!--</perfect-scrollbar>-->
   </ng-template>
-  <ng-template ng-label-tmp let-item="item">
-    <div class="chips {{item.groupName.toLowerCase()}}">
-      <span class="ng-value-label">{{item.groupName}}: {{item.filterName}}</span>
-      <button class="close-button" (click)="toggleItem(item)" aria-hidden="true">
-        <i class="fa fa-times" aria-hidden="true"></i>
-      </button>
-    </div>
-  </ng-template>
+<!--  <ng-template ng-label-tmp let-item="item">-->
+<!--    <div class="chips {{item.groupName.toLowerCase()}}">-->
+<!--      <span class="ng-value-label">{{item.groupName}}: {{item.filterName}}</span>-->
+<!--      <button class="close-button" (click)="toggleItem(item)" aria-hidden="true">-->
+<!--        <i class="fa fa-times" aria-hidden="true"></i>-->
+<!--      </button>-->
+<!--    </div>-->
+<!--  </ng-template>-->
   <!--Group template-->
   <!--<ng-template ng-optgroup-tmp let-item="item">-->
   <!--<span class="{{item.groupName.toLowerCase()}}">{{item.groupName}}</span>-->

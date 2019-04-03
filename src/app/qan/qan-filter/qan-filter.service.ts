@@ -7,6 +7,7 @@ import { FiltersSearchModel } from './models/filters-search.model';
 export class QanFilterService {
 
   private filtersConfigsSource = new Subject<FiltersSearchModel[][]>();
+  private filtersInitialSource: FiltersSearchModel[][];
 
   // private filtersAutocompleteSource = new Subject<FiltersSearchModel[]>();
 
@@ -26,6 +27,14 @@ export class QanFilterService {
    */
   get filterSource(): Subject<FiltersSearchModel[][]> {
     return this.filtersConfigsSource;
+  }
+
+  set setFiltersInitialState(state: FiltersSearchModel[][]) {
+    this.filtersInitialSource = state;
+  }
+
+  get getFilterInitialState(): FiltersSearchModel[][] {
+    return this.filtersInitialSource;
   }
 
   // get autocompleteSource(): Subject<FiltersSearchModel[]> {

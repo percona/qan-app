@@ -45,8 +45,8 @@ export class QanFilterComponent implements OnInit, OnDestroy, OnChanges {
       )
     ).subscribe(
       response => {
-        console.log('response - ', response);
         this.qanFilterService.updateFilterConfigs(response);
+        this.qanFilterService.setFiltersInitialState = response;
       }
     );
 
@@ -71,15 +71,6 @@ export class QanFilterComponent implements OnInit, OnDestroy, OnChanges {
     this.limits[group.name] = this.limits[group.name] <= this.defaultLimit ? group.values.length - 1 : this.defaultLimit;
   }
 
-  // checkFilterGroup(index: number, filter: FiltersSearchModel): boolean {
-  //   if (!(index - 1)) {
-  //     return true
-  //   } else {
-  //     return filter.groupName !== this.filters[index - 1].groupName
-  //   }
-  // }
-
-  //
   setConfigs() {
     this.qanFilterService.updateFilterConfigs(this.filters);
   }
