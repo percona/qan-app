@@ -1,39 +1,52 @@
-<ng-select [items]="autocomplete"
-           [(ngModel)]="selected"
-           [multiple]="true"
-           [searchFn]="autocompleteSearch"
-           (change)="groupSelected()"
-           (add)="changeFilterState($event)"
-           (clear)="resetAll()"
-           bindLabel="filterName"
-           clearAllText="Reset"
-           placeholder="Search by..."
-           class="pmm-select pmm-select--search">
-  <ng-template ng-multi-label-tmp let-items="items">
-    <!--<perfect-scrollbar [config]="scrollbarConfig" class="pmm-scrollbar pmm-select__pmm-scrollbar">-->
-      <div class="ng-value" *ngFor="let item of items">
-        <div class="chips {{item.groupName.toLowerCase()}}">
-          <span class="ng-value-label">{{item.groupName.toLowerCase()}}: {{item.filterName}}</span>
-          <button class="close-button" (click)="toggleItem(item)" aria-hidden="true">
-            <i class="fa fa-times" aria-hidden="true"></i>
-          </button>
-        </div>
-      </div>
-    <!--</perfect-scrollbar>-->
-  </ng-template>
-<!--  <ng-template ng-label-tmp let-item="item">-->
-<!--    <div class="chips {{item.groupName.toLowerCase()}}">-->
-<!--      <span class="ng-value-label">{{item.groupName}}: {{item.filterName}}</span>-->
-<!--      <button class="close-button" (click)="toggleItem(item)" aria-hidden="true">-->
-<!--        <i class="fa fa-times" aria-hidden="true"></i>-->
-<!--      </button>-->
+<!--<ng-select [items]="autocomplete"-->
+<!--           [(ngModel)]="selected"-->
+<!--           [multiple]="true"-->
+<!--           [searchFn]="autocompleteSearch"-->
+<!--           (change)="groupSelected()"-->
+<!--           (add)="changeFilterState($event)"-->
+<!--           (clear)="resetAll()"-->
+<!--           bindLabel="filterName"-->
+<!--           clearAllText="Reset"-->
+<!--           placeholder="Search by..."-->
+<!--           class="pmm-select pmm-select&#45;&#45;search">-->
+<!--  <ng-template ng-multi-label-tmp let-items="items">-->
+<!--    &lt;!&ndash;<perfect-scrollbar [config]="scrollbarConfig" class="pmm-scrollbar pmm-select__pmm-scrollbar">&ndash;&gt;-->
+<!--    <div class="ng-value" *ngFor="let item of items">-->
+<!--      <div class="chips {{item.groupName.toLowerCase()}}">-->
+<!--        <span class="ng-value-label">{{item.groupName.toLowerCase()}}: {{item.filterName}}</span>-->
+<!--        <button class="close-button" (click)="toggleItem(item)" aria-hidden="true">-->
+<!--          <i class="fa fa-times" aria-hidden="true"></i>-->
+<!--        </button>-->
+<!--      </div>-->
 <!--    </div>-->
+<!--    &lt;!&ndash;</perfect-scrollbar>&ndash;&gt;-->
 <!--  </ng-template>-->
-  <!--Group template-->
-  <!--<ng-template ng-optgroup-tmp let-item="item">-->
-  <!--<span class="{{item.groupName.toLowerCase()}}">{{item.groupName}}</span>-->
-  <!--</ng-template>-->
-  <ng-template ng-option-tmp let-item="item" let-index="index" let-search="searchTerm">
-    <span class="pmm-select__option {{item.groupName.toLowerCase()}}">{{item.groupName}}: {{item.filterName}}</span>
-  </ng-template>
-</ng-select>
+<!--  &lt;!&ndash;  <ng-template ng-label-tmp let-item="item">&ndash;&gt;-->
+<!--  &lt;!&ndash;    <div class="chips {{item.groupName.toLowerCase()}}">&ndash;&gt;-->
+<!--  &lt;!&ndash;      <span class="ng-value-label">{{item.groupName}}: {{item.filterName}}</span>&ndash;&gt;-->
+<!--  &lt;!&ndash;      <button class="close-button" (click)="toggleItem(item)" aria-hidden="true">&ndash;&gt;-->
+<!--  &lt;!&ndash;        <i class="fa fa-times" aria-hidden="true"></i>&ndash;&gt;-->
+<!--  &lt;!&ndash;      </button>&ndash;&gt;-->
+<!--  &lt;!&ndash;    </div>&ndash;&gt;-->
+<!--  &lt;!&ndash;  </ng-template>&ndash;&gt;-->
+<!--  &lt;!&ndash;Group template&ndash;&gt;-->
+<!--  &lt;!&ndash;<ng-template ng-optgroup-tmp let-item="item">&ndash;&gt;-->
+<!--  &lt;!&ndash;<span class="{{item.groupName.toLowerCase()}}">{{item.groupName}}</span>&ndash;&gt;-->
+<!--  &lt;!&ndash;</ng-template>&ndash;&gt;-->
+<!--  <ng-template ng-option-tmp let-item="item" let-index="index" let-search="searchTerm">-->
+<!--    <ng-container *ngFor="let filter of item.items">-->
+<!--      <span class="pmm-select__option">{{item.filterGroup}}: {{filter.value}}</span>-->
+<!--    </ng-container>-->
+<!--  </ng-template>-->
+<!--</ng-select>-->
+
+
+<section class="select">
+  <div class="options">
+
+  </div>
+  <input type="text">
+</section>
+<section class="autocomplete-dropdown">
+
+</section>

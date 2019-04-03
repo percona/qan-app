@@ -18,6 +18,11 @@ export interface GetProfileBody {
   period_start_to?: string
 }
 
+export interface TimeRange {
+  period_start_from: string,
+  period_start_to: string
+}
+
 export interface LabelsProfile {
   key: string;
   value: string[];
@@ -31,17 +36,24 @@ export class QanTableService {
   private groupValue: SelectOptionModel;
   private filtersState: FiltersSearchModel[][];
   private profileParams = new Subject<GetProfileBody>();
+  private timeRange = new Subject<TimeRange>();
   private defaultColumns: string[] = ['load', 'count', 'latancy'];
   private profileParamsState: GetProfileBody = {
     order_by: 'num_queries',
     group_by: 'queryid',
-    columns: ['load', 'count', 'latancy']
+    columns: ['load', 'count', 'latancy'],
+    labels: []
   };
 
-  constructor() { }
+  constructor() {
+  }
 
   updateProfileParams(params: GetProfileBody) {
     this.profileParams.next(params)
+  }
+
+  updateTimeRange(range: TimeRange) {
+    this.timeRange.next(range)
   }
 
   set setGroupByValue(group_by) {
@@ -64,11 +76,7 @@ export class QanTableService {
     return this.defaultColumns;
   }
 
-  get getFiltersState(): FiltersSearchModel[][] {
-    return this.filtersState;
-  }
-
-  set setFiltersState(filters: FiltersSearchModel[][]) {
-    this.filtersState = filters;
+  get getTimeRange(): Subject<TimeRange> {
+    return this.timeRange
   }
 }

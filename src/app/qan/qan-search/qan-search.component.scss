@@ -109,3 +109,17 @@
     }
   }
 }
+
+.section {
+  display: flex;
+  min-height: 70px;
+  border: 1px solid black;
+
+  .options {
+    display: flex;
+    flex-wrap: wrap;
+  }
+
+  input {
+  }
+}
