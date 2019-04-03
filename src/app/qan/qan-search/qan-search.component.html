@@ -1,32 +1,30 @@
-<ng-select [items]="filters"
+<ng-select [items]="autocomplete"
            [(ngModel)]="selected"
            [multiple]="true"
            [searchFn]="autocompleteSearch"
            (change)="groupSelected()"
            (add)="changeFilterState($event, true)"
-           (clear)="changeFilterState()"
-           (remove)="changeFilterState($event.value)"
            bindLabel="filterName"
            clearAllText="Reset"
            placeholder="Search by..."
            class="pmm-select pmm-select--search"
            role="combobox">
-  <ng-template ng-multi-label-tmp let-items="items" let-clear="clear">
+  <ng-template ng-multi-label-tmp let-items="items">
     <!--<perfect-scrollbar [config]="scrollbarConfig" class="pmm-scrollbar pmm-select__pmm-scrollbar">-->
       <div class="ng-value" *ngFor="let item of items">
         <div class="chips {{item.groupName.toLowerCase()}}">
           <span class="ng-value-label">{{item.groupName.toLowerCase()}}: {{item.filterName}}</span>
-          <button class="close-button" (click)="clear(item)" aria-hidden="true">
+          <button class="close-button" (click)="toggleItem(item)" aria-hidden="true">
             <i class="fa fa-times" aria-hidden="true"></i>
           </button>
         </div>
       </div>
     <!--</perfect-scrollbar>-->
   </ng-template>
-  <ng-template ng-label-tmp let-item="item" let-clear="clear">
+  <ng-template ng-label-tmp let-item="item">
     <div class="chips {{item.groupName.toLowerCase()}}">
       <span class="ng-value-label">{{item.groupName}}: {{item.filterName}}</span>
-      <button class="close-button" (click)="clear(item)" aria-hidden="true">
+      <button class="close-button" (click)="toggleItem(item)" aria-hidden="true">
         <i class="fa fa-times" aria-hidden="true"></i>
       </button>
     </div>

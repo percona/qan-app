@@ -6,6 +6,7 @@ import { GetProfileBody, QanTableService } from '../qan-table/qan-table.service'
 import { Subscription } from 'rxjs/internal/Subscription';
 import { map, switchMap } from 'rxjs/operators';
 import { FilterGroupModel } from './models/filter-group.model';
+import { FiltersSearchModel } from './models/filters-search.model';
 
 @Component({
   selector: 'app-qan-filter',
@@ -21,7 +22,7 @@ export class QanFilterComponent implements OnInit, OnDestroy, OnChanges {
   public limits = {};
   public defaultLimit = 4;
   private filterSubscription: any;
-  public filters: FilterGroupModel[];
+  public filters: FiltersSearchModel[][];
 
   constructor(private qanFilterService: QanFilterService,
     private filterService: FiltersService,
@@ -36,15 +37,24 @@ export class QanFilterComponent implements OnInit, OnDestroy, OnChanges {
         })),
       switchMap(timeRange => this.filterService.Get(timeRange)
         .pipe(
-          map(response => Object.entries(response.labels)))
+          map(response => {
+            const entries = Object.entries(response.labels);
+            const groups = entries.map(entire => new FilterGroupModel(entire));
+            return groups.map(group => group.items.map(item => new FiltersSearchModel(group.filterGroup, item)));
+          }))
       )
     ).subscribe(
       response => {
-        this.filters = response.map(responseItem => new FilterGroupModel(responseItem));
-        this.qanTableService.setFiltersState = this.filters;
-        this.qanFilterService.updateFilterConfigs(this.filters);
+        console.log('response - ', response);
+        this.qanFilterService.updateFilterConfigs(response);
       }
-    )
+    );
+
+    this.qanFilterService.filterSource.subscribe(
+      filters => {
+        this.filters = filters;
+        this.qanTableService.setFiltersState = this.filters;
+      });
   }
 
   ngOnInit() {
@@ -61,8 +71,16 @@ export class QanFilterComponent implements OnInit, OnDestroy, OnChanges {
     this.limits[group.name] = this.limits[group.name] <= this.defaultLimit ? group.values.length - 1 : this.defaultLimit;
   }
 
+  // checkFilterGroup(index: number, filter: FiltersSearchModel): boolean {
+  //   if (!(index - 1)) {
+  //     return true
+  //   } else {
+  //     return filter.groupName !== this.filters[index - 1].groupName
+  //   }
+  // }
+
   //
   setConfigs() {
-    setTimeout(() => this.qanFilterService.updateFilterConfigs(this.filters), 0);
+    this.qanFilterService.updateFilterConfigs(this.filters);
   }
 }

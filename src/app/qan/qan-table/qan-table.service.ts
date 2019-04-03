@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { Subject } from 'rxjs/internal/Subject';
 import { SelectOptionModel } from '../qan-table-header-cell/modesl/select-option.model';
 import { FilterGroupModel } from '../qan-filter/models/filter-group.model';
+import { FiltersSearchModel } from '../qan-filter/models/filters-search.model';
 
 export interface GetProfileBody {
   columns?: string[];
@@ -28,7 +29,7 @@ export interface LabelsProfile {
 })
 export class QanTableService {
   private groupValue: SelectOptionModel;
-  private filtersState: FilterGroupModel[];
+  private filtersState: FiltersSearchModel[][];
   private profileParams = new Subject<GetProfileBody>();
   private defaultColumns: string[] = ['load', 'count', 'latancy'];
   private profileParamsState: GetProfileBody = {
@@ -63,11 +64,11 @@ export class QanTableService {
     return this.defaultColumns;
   }
 
-  get getFiltersState(): FilterGroupModel[] {
+  get getFiltersState(): FiltersSearchModel[][] {
     return this.filtersState;
   }
 
-  set setFiltersState(filters: FilterGroupModel[]) {
+  set setFiltersState(filters: FiltersSearchModel[][]) {
     this.filtersState = filters;
   }
 }
