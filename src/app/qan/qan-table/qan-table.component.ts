@@ -36,6 +36,23 @@ export class QanTableComponent implements OnInit, OnDestroy {
   public metrics: SelectOptionModel[];
   private parseQueryParamDatePipe = new ParseQueryParamDatePipe();
 
+  public selectedOption: any;
+  public selectedPaginationOption: any = 10;
+
+  public isSearchable = false;
+  public page = 1;
+  public selectPaginationConfig = [10, 50, 100];
+  public paginationConfig = {
+    itemsPerPage: this.selectedPaginationOption,
+    currentPage: 1,
+    totalItems: 0
+  };
+  public paginationControlsConfig = {
+    isAutoHide: true,
+    previousLabel: '',
+    nextLabel: ''
+  };
+
   constructor(
     private route: ActivatedRoute,
     private router: Router,
