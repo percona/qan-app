@@ -102,10 +102,13 @@ export class QanTableComponent implements OnInit, OnDestroy {
     this.iframeQueryParams = this.route.snapshot.queryParams as QueryParams;
     const from = this.parseQueryParamDatePipe.transform(this.iframeQueryParams.from, 'from');
     const to = this.parseQueryParamDatePipe.transform(this.iframeQueryParams.to, 'to');
+    const fromUTC = from.utc().format('YYYY-MM-DDTHH:mm:ssZ');
+    const toUTC = to.utc().format('YYYY-MM-DDTHH:mm:ssZ');
 
-    this.profileParams.period_start_from = from.utc().format('YYYY-MM-DDTHH:mm:ssZ');
-    this.profileParams.period_start_to = to.utc().format('YYYY-MM-DDTHH:mm:ssZ');
+    this.profileParams.period_start_from = fromUTC;
+    this.profileParams.period_start_to = toUTC;
     this.qanTableService.updateProfileParams(this.profileParams);
+    this.qanTableService.updateTimeRange({ period_start_from: fromUTC, period_start_to: toUTC })
   }
 
   setTableData(data) {

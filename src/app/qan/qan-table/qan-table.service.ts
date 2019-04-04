@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Subject } from 'rxjs/internal/Subject';
 import { SelectOptionModel } from '../qan-table-header-cell/modesl/select-option.model';
+import { FiltersSearchModel } from '../qan-filter/models/filters-search.model';
 
 export interface GetProfileBody {
   columns?: string[];
@@ -16,6 +17,11 @@ export interface GetProfileBody {
   period_start_to?: string
 }
 
+export interface TimeRange {
+  period_start_from: string,
+  period_start_to: string
+}
+
 export interface LabelsProfile {
   key: string;
   value: string[];
@@ -27,18 +33,26 @@ export interface LabelsProfile {
 })
 export class QanTableService {
   private groupValue: SelectOptionModel;
+  private filtersState: FiltersSearchModel[][];
   private profileParams = new Subject<GetProfileBody>();
-  private defaultColumns: string[] = ['load', 'count', 'latancy'];
+  private timeRange = new Subject<TimeRange>();
+  private defaultColumns: string[] = ['load', 'count', 'latency'];
   private profileParamsState: GetProfileBody = {
     order_by: 'num_queries',
     group_by: 'queryid',
-    columns: ['load', 'count', 'latancy']
+    columns: ['load', 'count', 'latency'],
+    labels: []
   };
 
-  constructor() { }
+  constructor() {
+  }
 
   updateProfileParams(params: GetProfileBody) {
     this.profileParams.next(params)
+  }
+
+  updateTimeRange(range: TimeRange) {
+    this.timeRange.next(range)
   }
 
   set setGroupByValue(group_by) {
@@ -59,5 +73,9 @@ export class QanTableService {
 
   get getDefaultColumns(): string[] {
     return this.defaultColumns;
+  }
+
+  get getTimeRange(): Subject<TimeRange> {
+    return this.timeRange
   }
 }

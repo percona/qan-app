@@ -1,5 +1,6 @@
 .aside {
-  height: auto;
+  height: 100%;
+  overflow-y: scroll;
   font-size: 0.9em;
   border: 1px solid var(--main-border-color);
   background-color: transparent;
@@ -8,7 +9,7 @@
 .aside__filter-group {
   --filter-group-indent: 5px;
 
-  padding: 10px;
+  padding: 10px 15px;
 
   &:not(:last-child) {
     border-bottom: 1px solid var(--main-border-color);
@@ -29,8 +30,14 @@
 }
 
 .filter-group__filters {
-  display: inline-grid;
+  display: grid;
+  grid-template-columns: repeat(2, auto);
   grid-row-gap: var(--filter-group-indent);
+  justify-content: space-between;
+}
+
+.filters__count {
+  text-align: right;
 }
 
 .checkbox-container__label-text {

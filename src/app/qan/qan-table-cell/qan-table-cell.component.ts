@@ -46,7 +46,7 @@ export class QanTableCellComponent implements OnInit {
         this.measurement = 'number';
         this.pipeType = 'number';
         break;
-      case 'latancy':
+      case 'latency':
         this.yKey = 'm_query_time_avg';
         this.measurement = 'time';
         break;
