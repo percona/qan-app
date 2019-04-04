@@ -36,11 +36,11 @@ export class QanTableService {
   private filtersState: FiltersSearchModel[][];
   private profileParams = new Subject<GetProfileBody>();
   private timeRange = new Subject<TimeRange>();
-  private defaultColumns: string[] = ['load', 'count', 'latancy'];
+  private defaultColumns: string[] = ['load', 'count', 'latency'];
   private profileParamsState: GetProfileBody = {
     order_by: 'num_queries',
     group_by: 'queryid',
-    columns: ['load', 'count', 'latancy'],
+    columns: ['load', 'count', 'latency'],
     labels: []
   };
 

@@ -48,7 +48,6 @@ export class QanFilterService {
 
   set setAutocomplete(config) {
     this.autocomplete = config.map(group => group.items.map(item => new FiltersSearchModel(group.filterGroup, item)));
-    console.log('this.autocomplete set - ', this.autocomplete);
   }
 
   get getAutocomplete() {

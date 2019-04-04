@@ -9,7 +9,7 @@ export class TableDataModel {
   rank: number;
   load: number;
   count: number;
-  latancy: number;
+  latency: number;
 
   constructor(row) {
     row.metrics = row.metrics || {};
@@ -25,7 +25,7 @@ export class TableDataModel {
       }
     };
 
-    row.metrics.latancy = {
+    row.metrics.latency = {
       stats: {
         sum: row.qps
       }
@@ -38,6 +38,6 @@ export class TableDataModel {
     this.rank = row.rank || 0;
     this.load = row.load || '';
     this.count = row.num_queries || '';
-    this.latancy = row.qps || '';
+    this.latency = row.qps || '';
   }
 }
