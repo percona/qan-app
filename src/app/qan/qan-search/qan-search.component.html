@@ -2,8 +2,9 @@
            [multiple]="true"
            [virtualScroll]="true"
            [(ngModel)]="selected"
-           (add)="toggleItem($event)"
-           (remove)="toggleItem($event.value)"
+           (add)="changeFilterState($event)"
+           (remove)="changeFilterState($event.value)"
+           (clear)="changeFilterState($event)"
            bindLabel="filterName"
            clearAllText="Reset"
            placeholder="Search by..."
@@ -22,18 +23,6 @@
     </div>
     <!--</perfect-scrollbar>-->
   </ng-template>
-  <!--  <ng-template ng-label-tmp let-item="item">-->
-  <!--    <div class="chips {{item.groupName.toLowerCase()}}">-->
-  <!--      <span class="ng-value-label">{{item.groupName}}: {{item.filterName}}</span>-->
-  <!--      <button class="close-button" (click)="toggleItem(item)" aria-hidden="true">-->
-  <!--        <i class="fa fa-times" aria-hidden="true"></i>-->
-  <!--      </button>-->
-  <!--    </div>-->
-  <!--  </ng-template>-->
-  <!--Group template-->
-  <!--<ng-template ng-optgroup-tmp let-item="item">-->
-  <!--<span class="{{item.groupName.toLowerCase()}}">{{item.groupName}}</span>-->
-  <!--</ng-template>-->
   <ng-template ng-option-tmp let-item="item" let-index="index" let-search="searchTerm">
     <span class="pmm-select__option">{{item.groupName}}: {{item.filterName}}</span>
   </ng-template>

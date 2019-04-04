@@ -1,11 +1,9 @@
-import { Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
-import { NgbTabset } from '@ng-bootstrap/ng-bootstrap';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { QanFilterService } from '../qan-filter/qan-filter.service';
 import { FilterSearchService } from '../../core/services/filter-search.service';
 import { map } from 'rxjs/operators';
 import { Subscription } from 'rxjs/internal/Subscription';
 import { GetProfileBody, QanTableService } from '../qan-table/qan-table.service';
-import { FilterLabelModel } from './filter-label.model';
 import { FiltersSearchModel } from '../qan-filter/models/filters-search.model';
 
 @Component({
@@ -31,13 +29,6 @@ export class QanSearchComponent implements OnInit, OnDestroy {
     private filterSearchService: FilterSearchService) {
     this.profileParams = this.qanTableService.getProfileParamsState;
 
-    // this.filterSubscription$ = this.qanFilterService.filterSource.subscribe(items => {
-    //   this.filters = items;
-    //   console.log('filters - ', this.filters);
-    //   // this.profileParams.labels = this.filters.map(filter => new FilterLabelModel(filter));
-    //   // this.autocomplete = [].concat(...items);
-    // });
-
     this.qanFilterService.filterSource.pipe(
       map(response => {
         this.filters = response;
@@ -47,17 +38,9 @@ export class QanSearchComponent implements OnInit, OnDestroy {
     ).subscribe(configs => {
       this.autocomplete = configs;
       this.selected = configs.filter(group => group.state);
+      console.log('this.selected subsc - ', this.selected);
       this.autocompleteBuffer = this.autocomplete.slice(0, this.bufferSize);
-      console.log('this.autocomplete - ', this.autocomplete);
-      console.log('this.autocompleteBuffer - ', this.autocompleteBuffer);
     });
-    //
-    // this.qanFilterService.filterSource.pipe(
-    //   map(groups => [].concat(...groups).filter(group => group.state))
-    // ).subscribe(selected => {
-    //   this.selected = selected;
-    //   console.log('selected - ', this.selected);
-    // })
   }
 
   ngOnInit() {
@@ -91,25 +74,33 @@ export class QanSearchComponent implements OnInit, OnDestroy {
     this.selected = [...this.selected.sort((a, b) => a['groupName'].localeCompare(b['groupName']))];
   }
 
-  changeFilterState(event: any) {
-    console.log('event - ', event);
-    if (event.filterName) {
+  // toggleItem(event) {
+  //   if (event.groupName) {
+  //     const group = this.filters.find(filter => event.groupName === filter.filterGroup);
+  //     const itemS = group.items.find(groupItem => groupItem.value === event.filterName);
+  //     itemS.state = !itemS.state;
+  //     this.qanFilterService.updateFilterConfigs(this.filters);
+  //   }
+  // }
+
+  changeFilterState(event: any = false) {
+    if (!event) {
+      this.resetAll();
+    }
+    if (event && event.groupName) {
       this.toggleItem(event);
     }
+    this.qanFilterService.updateFilterConfigs(this.filters);
   }
 
-  toggleItem(event) {
-    if (event.groupName) {
-      const group = this.filters.find(filter => event.groupName === filter.filterGroup);
-      const itemS = group.items.find(groupItem => groupItem.value === event.filterName);
-      itemS.state = !itemS.state;
-      this.qanFilterService.updateFilterConfigs(this.filters);
-    }
+  toggleItem(item) {
+    const group = this.filters.find(filter => item.groupName === filter.filterGroup);
+    const itemS = group.items.find(groupItem => groupItem.value === item.filterName);
+    itemS.state = !itemS.state;
   }
 
   resetAll() {
-    console.log('this.qanFilterService.getFilterInitialState - ', this.qanFilterService.getFilterInitialState);
-    this.qanFilterService.updateFilterConfigs(this.qanFilterService.getFilterInitialState);
+    this.filters.forEach(filter => filter.items.forEach(item => item.state = false));
   }
 
   autocompleteSearch = (term: string, item: any) => {
