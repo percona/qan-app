@@ -32,6 +32,10 @@
     }
   }
 
+  .ng-dropdown-panel {
+    width: 100%;
+  }
+
   .ng-select-container {
     min-height: 0;
     border: 1px solid var(--main-border-color);
@@ -118,6 +122,8 @@
   .options {
     display: flex;
     flex-wrap: wrap;
+    max-height: 250px;
+    overflow-y: scroll;
   }
 
   input {

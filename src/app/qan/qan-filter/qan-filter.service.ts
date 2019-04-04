@@ -38,7 +38,7 @@ export class QanFilterService {
     return this.filtersConfigsSource;
   }
 
-  set setFiltersInitialState(state: FiltersSearchModel[][]) {
+  set setFiltersInitialState(state: any) {
     this.filtersInitialSource = state;
   }
 

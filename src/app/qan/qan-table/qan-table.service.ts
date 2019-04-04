@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Subject } from 'rxjs/internal/Subject';
 import { SelectOptionModel } from '../qan-table-header-cell/modesl/select-option.model';
-import { FilterGroupModel } from '../qan-filter/models/filter-group.model';
 import { FiltersSearchModel } from '../qan-filter/models/filters-search.model';
 
 export interface GetProfileBody {
