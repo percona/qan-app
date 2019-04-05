@@ -14,8 +14,8 @@
   <input type="text" id="search-input">
   <section *ngIf="!noQueryError" class="pmm-qan">
     <app-qan-search class="pmm-qan__search"></app-qan-search>
-    <app-qan-filter class="pmm-qan__filter"></app-qan-filter>
-    <app-qan-table class="pmm-qan__table"></app-qan-table>
+    <app-qan-filter class="pmm-qan__filter" #filter></app-qan-filter>
+    <app-qan-table class="pmm-qan__table" #table></app-qan-table>
 
     <div *ngIf="!!noQueryError" class="text-center alert alert-danger w-75 mx-auto wrong-configuration-message" role="alert">
       {{ noQueryError }}

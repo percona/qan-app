@@ -29,28 +29,21 @@ export class QanTableComponent implements OnInit, OnDestroy {
   public iframeQueryParams: QueryParams;
   public profileParams: GetProfileBody;
   public tableData: TableDataModel[];
-  public totalRows: number;
   public defaultColumns: string[];
   public report$: Subscription;
   public metrics$: Subscription;
   public metrics: SelectOptionModel[];
   private parseQueryParamDatePipe = new ParseQueryParamDatePipe();
 
-  public selectedOption: any;
   public selectedPaginationOption: any = 10;
 
-  public isSearchable = false;
   public page = 1;
   public selectPaginationConfig = [10, 50, 100];
   public paginationConfig = {
+    id: 'qan-table-pagination',
     itemsPerPage: this.selectedPaginationOption,
     currentPage: 1,
-    totalItems: 0
-  };
-  public paginationControlsConfig = {
-    isAutoHide: true,
-    previousLabel: '',
-    nextLabel: ''
+    totalItems: 0,
   };
 
   constructor(
@@ -134,8 +127,8 @@ export class QanTableComponent implements OnInit, OnDestroy {
       row.metrics = row.metrics.filter(metric => this.profileParams.columns.includes(metric.metricName));
       row.metrics = this.mapOrder(row.metrics, this.profileParams.columns, 'metricName');
     });
-    this.totalRows = data['total_rows'];
-    console.log('tableData - ', this.tableData);
+    this.paginationConfig.totalItems = data['total_rows'];
+    this.paginationConfig.currentPage = data['offset'] || 1;
   }
 
 
@@ -161,19 +154,11 @@ export class QanTableComponent implements OnInit, OnDestroy {
     }
   }
 
-  // /**
-  //  * Set router parameters if query is checked in main qan-table
-  //  * @param queryID - checked queries' id
-  //  * @return query params of current query
-  //  */
-  // composeQueryParamsForGrid(queryID: string = ''): QueryParams {
-  //   const queryParams: QueryParams = Object.assign({}, this.queryParams);
-  //   queryParams.queryID = queryID || 'TOTAL';
-  //   return queryParams;
-  // }
-  //
-  // onChangeParams(params) {
-  //
-  // }
+  pageChanged(event) {
+    this.profileParams.offset = event;
+    this.qanTableService.updateProfileParams(this.profileParams);
+    console.log('event - ', event);
+    console.log('paginationConfig - ', this.paginationConfig);
+  }
 
 }
