@@ -27,24 +27,12 @@
 
 .pmm-qan {
   --grid-gap: 10px;
-  --row-heigth: auto;
+
   display: grid;
   grid-template-areas: 'search search' 'filter table';
   grid-template-columns: 300px minmax(1000px, 1fr);
-  //grid-template-rows: auto minmax(480px, auto);
-  grid-template-rows: auto auto;
+  grid-template-rows: repeat(2, auto);
 }
-
-//.pmm-qan {
-//  display: flex;
-//  flex-direction: row;
-//  align-items: flex-start;
-//
-//  & > *:first-child {
-//    width: 300px;
-//    margin-right: 15px;
-//  }
-//}
 
 .pmm-qan__search {
   grid-area: search;

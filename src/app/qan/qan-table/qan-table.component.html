@@ -5,7 +5,7 @@
         <div class="table-wrapper--inner">
           <table class="qan-table" id="qanTable">
             <ng-container (domChange)="onDomChange($event)"
-              *ngFor="let row of tableData | paginate: paginationConfig; let index = index;">
+                          *ngFor="let row of tableData | paginate: paginationConfig; let index = index;">
               <tr *ngIf="!index" class="qan-table__row qan-table__row--heading">
                 <th class="qan-table__cell qan-table__cell--fixed qan-table__cell--first-c">#</th>
                 <th class="qan-table__cell qan-table__cell--fixed qan-table__cell--second-c">
@@ -52,19 +52,6 @@
     </button>
   </div>
   <div *ngIf="paginationConfig.totalItems > 10" class="pagination-tools">
-    <!--    <pagination-controls id="some_id"-->
-    <!--                         (pageChange)="pageChanged($event)"-->
-    <!--                         [autoHide]="paginationControlsConfig.isAutoHide"-->
-    <!--                         [previousLabel]="paginationControlsConfig.previousLabel"-->
-    <!--                         [nextLabel]="paginationControlsConfig.nextLabel"-->
-    <!--                         [maxSize]="5"-->
-    <!--                         directionLinks="true"-->
-    <!--                         responsive="true"-->
-    <!--                         screenReaderPaginationLabel="Pagination"-->
-    <!--                         screenReaderPageLabel="page"-->
-    <!--                         screenReaderCurrentLabel="You're on page"-->
-    <!--                         class="pmm-pagination">-->
-    <!--    </pagination-controls>-->
     <pagination-controls id="qan-table-pagination"
                          class="pmm-pagination"
                          autoHide="true"

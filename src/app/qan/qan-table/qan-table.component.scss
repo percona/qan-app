@@ -139,8 +139,31 @@ th.qan-table__cell--fixed {
 
   width: 100%;
   height: auto;
+  margin-top: var(--main-bottom-indent);
 }
 
+.results-per-page {
+  display: flex;
+  justify-content: space-between;
+  width: max-content;
+  margin-right: 20px;
+  border-radius: 2px;
+  overflow: hidden;
+  border: 1px solid var(--main-border-color);
+  border-right: none;
+
+  .pmm-select {
+    width: max-content;
+    min-width: 60px;
+  }
+
+  span {
+    display: flex;
+    align-items: center;
+    padding: 0 10px;
+    background-color: rgb(32, 34, 39);
+  }
+}
 
 .pmm-pagination::ng-deep .ngx-pagination .pagination-next a::after,
 .pmm-pagination::ng-deep .ngx-pagination .pagination-next.disabled::after {
@@ -162,6 +185,7 @@ th.qan-table__cell--fixed {
 .pmm-pagination::ng-deep .ngx-pagination {
   display: flex;
   align-items: center;
+  margin-bottom: 0;
 }
 
 .pmm-pagination::ng-deep .ngx-pagination li {
