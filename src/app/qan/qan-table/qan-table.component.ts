@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { Component, OnDestroy, OnInit, Output, ViewChild } from '@angular/core';
 import { PerfectScrollbarComponent, PerfectScrollbarConfigInterface } from 'ngx-perfect-scrollbar';
 import { QueryParams } from '../../core/core.component';
 import { SelectOptionModel } from '../qan-table-header-cell/modesl/select-option.model';
@@ -34,6 +34,8 @@ export class QanTableComponent implements OnInit, OnDestroy {
   public metrics$: Subscription;
   public metrics: SelectOptionModel[];
   private parseQueryParamDatePipe = new ParseQueryParamDatePipe();
+
+  private changes: MutationObserver;
 
   public selectedPaginationOption: any = 10;
 
@@ -159,6 +161,16 @@ export class QanTableComponent implements OnInit, OnDestroy {
     this.qanTableService.updateProfileParams(this.profileParams);
     console.log('event - ', event);
     console.log('paginationConfig - ', this.paginationConfig);
+  }
+
+  onChangePerPage(event) {
+    this.profileParams.limit = event;
+    this.qanTableService.updateProfileParams(this.profileParams);
+    console.log('perPage - ', event);
+  }
+
+  onDomChange(event) {
+    console.log('event - ', event);
   }
 
 }

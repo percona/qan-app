@@ -1,21 +1,25 @@
 <!--<div *ngIf="isQueryDataAbsent" class="alert alert-warning w-75 mx-auto text-center wrap no-data-message" role="alert">-->
-  <!--There is no any data from this host for this period. Maybe monitoring wasn't available at this moment. Please select-->
-  <!--wider period of time or wait for several minutes to collect some data-->
+<!--There is no any data from this host for this period. Maybe monitoring wasn't available at this moment. Please select-->
+<!--wider period of time or wait for several minutes to collect some data-->
 <!--</div>-->
 <!--<div *ngIf="isNotExistSelected" class="alert alert-warning w-75 mx-auto text-center wrap invalid-name-message" role="alert">-->
-  <!--Host name is not valid, please click the Host dropdown and select a valid host. If the Host list is empty, use-->
-  <!--<code>pmm-admin add</code> to add a monitoring service and check again. For more information on how to add a-->
-  <!--monitoring service,-->
-  <!--consult-->
-  <!--<a href="https://www.percona.com/doc/percona-monitoring-and-management/pmm-admin.html#adding-monitoring-services"-->
-     <!--target="blank">PMM documentation.</a>-->
+<!--Host name is not valid, please click the Host dropdown and select a valid host. If the Host list is empty, use-->
+<!--<code>pmm-admin add</code> to add a monitoring service and check again. For more information on how to add a-->
+<!--monitoring service,-->
+<!--consult-->
+<!--<a href="https://www.percona.com/doc/percona-monitoring-and-management/pmm-admin.html#adding-monitoring-services"-->
+<!--target="blank">PMM documentation.</a>-->
 <!--</div>-->
 <div class="content-wrapper">
   <input type="text" id="search-input">
-  <section *ngIf="!noQueryError" class="pmm-qan">
+  <section *ngIf="!noQueryError" class="pmm-qan" #pmmQanWrapper>
     <app-qan-search class="pmm-qan__search"></app-qan-search>
-    <app-qan-filter class="pmm-qan__filter" #filter></app-qan-filter>
-    <app-qan-table class="pmm-qan__table" #table></app-qan-table>
+    <div class="pmm-qan__filter" #filter>
+      <app-qan-filter></app-qan-filter>
+    </div>
+    <div class="pmm-qan__table" #table>
+      <app-qan-table></app-qan-table>
+    </div>
 
     <div *ngIf="!!noQueryError" class="text-center alert alert-danger w-75 mx-auto wrong-configuration-message" role="alert">
       {{ noQueryError }}

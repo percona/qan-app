@@ -13,16 +13,17 @@ import { TruncateRootPipe } from './truncate-root.pipe';
 import { ParseQueryParamDatePipe } from './parse-query-param-date.pipe';
 import { SortingTablePipe } from './sorting-table.pipe';
 import { TableHeadersToMultiplePipe } from './table-headers-to-multiple.pipe';
+import { DomChangeDirective } from './dom-change.directive';
 
 @NgModule({
   imports: [
     CommonModule
   ],
   declarations: [HumanizePipe, LatencyChartDirective, LoadSparklinesDirective,
-    MapToIterablePipe, MomentFormatPipe, TruncateRootPipe, ParseQueryParamDatePipe, SortingTablePipe, TableHeadersToMultiplePipe],
+    MapToIterablePipe, MomentFormatPipe, TruncateRootPipe, ParseQueryParamDatePipe, SortingTablePipe, TableHeadersToMultiplePipe, DomChangeDirective],
   exports: [MapToIterablePipe, MomentFormatPipe, TruncateRootPipe, HumanizePipe,
     LatencyChartDirective, LoadSparklinesDirective, SortingTablePipe, TableHeadersToMultiplePipe,
-    CommonModule, FormsModule, HttpClientModule, NgbModule, RouterModule]
+    CommonModule, FormsModule, HttpClientModule, NgbModule, RouterModule, DomChangeDirective]
 })
 export class SharedModule {
   static forRoot() {

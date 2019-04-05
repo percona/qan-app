@@ -1,8 +1,7 @@
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { AfterContentChecked, AfterViewChecked, Component, ElementRef, OnInit, ViewChild, } from '@angular/core';
 import { InstanceService } from '../../core/services/instance.service';
 import { QueryProfileService } from './query-profile.service';
 import { Router, ActivatedRoute } from '@angular/router';
-import { MetricsNamesService } from '../../inventory-api/services/metrics-names.service';
 const queryProfileError = 'No data. Please check pmm-client and database configurations on selected instance.';
 
 @Component({
@@ -10,10 +9,11 @@ const queryProfileError = 'No data. Please check pmm-client and database configu
   templateUrl: 'query-profile.component.html',
   styleUrls: ['./query-profile.component.scss'],
 })
-export class QueryProfileComponent implements OnInit {
+export class QueryProfileComponent implements OnInit, AfterViewChecked {
   // @ViewChild('qanTable') table: ElementRef;
   @ViewChild('filter') filter: ElementRef;
   @ViewChild('table') table: ElementRef;
+  @ViewChild('pmmQanWrapper') pmmQanWrapper: ElementRef;
 
   public queryProfile: Array<{}>;
   public profileTotal;
@@ -37,6 +37,11 @@ export class QueryProfileComponent implements OnInit {
   ngOnInit() {
     console.log('table - ', this.table);
     console.log('filter - ', this.filter);
+  }
+
+  ngAfterViewChecked() {
+    const height = this.table.nativeElement.offsetHeight;
+    this.filter.nativeElement.style.height = `${height}px`;
   }
 
   // /**
