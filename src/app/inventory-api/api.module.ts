@@ -9,9 +9,9 @@ import { ServicesService } from './services/services.service';
 import { MySQLService } from './services/my-sql.service';
 import { NodeService } from './services/node.service';
 import { FiltersService } from './services/filters.service';
-import { MetricsService } from './services/metrics.service';
 import { MetricsNamesService } from './services/metrics-names.service';
 import { ProfileService } from './services/profile.service';
+import { MetricsService } from './services/metrics.service';
 import { ServerService } from './services/server.service';
 
 /**
@@ -33,9 +33,9 @@ import { ServerService } from './services/server.service';
     MySQLService,
     NodeService,
     FiltersService,
-    MetricsService,
     MetricsNamesService,
     ProfileService,
+    MetricsService,
     ServerService
   ],
 })
