@@ -16,6 +16,8 @@ export class QueryProfileComponent implements OnInit, AfterViewChecked {
   @ViewChild('pmmQanWrapper') pmmQanWrapper: ElementRef;
 
   public queryProfile: Array<{}>;
+  public selectPaginationConfig = [10, 50, 100];
+  public selectedPaginationOption: any = 10;
   public profileTotal;
   public offset: number;
   public totalAmountOfQueries: number;
@@ -92,4 +94,7 @@ export class QueryProfileComponent implements OnInit, AfterViewChecked {
   //   this.router.navigate(['profile'], {queryParams: params});
   //   this.isQueryLoading = false;
   // }
+  onChangePerPage(event) {
+    console.log(event);
+  }
 }

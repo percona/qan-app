@@ -47,7 +47,7 @@
 
   margin-top: -1px;
   margin-left: calc(var(--first-c-width) + var(--second-c-width));
-  margin-bottom: var(--main-bottom-indent);
+  padding-bottom: var(--main-bottom-indent);
 }
 
 .qan-table {
@@ -148,7 +148,6 @@ th.qan-table__cell--fixed {
   width: max-content;
   margin-right: 20px;
   border-radius: 2px;
-  overflow: hidden;
   border: 1px solid var(--main-border-color);
   border-right: none;
 
