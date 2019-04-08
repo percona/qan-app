@@ -35,12 +35,9 @@ export class QanTableComponent implements OnInit, OnDestroy {
   public metrics: SelectOptionModel[];
   private parseQueryParamDatePipe = new ParseQueryParamDatePipe();
 
-  private changes: MutationObserver;
-
-  public selectedPaginationOption: any = 10;
-
   public page = 1;
   public selectPaginationConfig = [10, 50, 100];
+  public selectedPaginationOption = this.selectPaginationConfig[0];
   public paginationConfig = {
     id: 'qan-table-pagination',
     itemsPerPage: this.selectedPaginationOption,
@@ -159,18 +156,12 @@ export class QanTableComponent implements OnInit, OnDestroy {
   pageChanged(event) {
     this.profileParams.offset = event;
     this.qanTableService.updateProfileParams(this.profileParams);
-    console.log('event - ', event);
-    console.log('paginationConfig - ', this.paginationConfig);
   }
 
   onChangePerPage(event) {
     this.profileParams.limit = event;
+    this.paginationConfig.itemsPerPage = event;
     this.qanTableService.updateProfileParams(this.profileParams);
-    console.log('perPage - ', event);
-  }
-
-  onDomChange(event) {
-    console.log('event - ', event);
   }
 
 }

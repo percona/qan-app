@@ -37,8 +37,6 @@ export class QueryProfileComponent implements OnInit, AfterViewChecked {
   }
 
   ngOnInit() {
-    console.log('table - ', this.table);
-    console.log('filter - ', this.filter);
   }
 
   ngAfterViewChecked() {

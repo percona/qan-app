@@ -38,7 +38,6 @@ export class QanSearchComponent implements OnInit, OnDestroy {
     ).subscribe(configs => {
       this.autocomplete = configs;
       this.selected = configs.filter(group => group.state);
-      console.log('this.selected subsc - ', this.selected);
       this.autocompleteBuffer = this.autocomplete.slice(0, this.bufferSize);
     });
   }
