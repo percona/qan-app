@@ -18,11 +18,32 @@ import { TableHeadersToMultiplePipe } from './table-headers-to-multiple.pipe';
   imports: [
     CommonModule
   ],
-  declarations: [HumanizePipe, LatencyChartDirective, LoadSparklinesDirective,
-    MapToIterablePipe, MomentFormatPipe, TruncateRootPipe, ParseQueryParamDatePipe, SortingTablePipe, TableHeadersToMultiplePipe],
-  exports: [MapToIterablePipe, MomentFormatPipe, TruncateRootPipe, HumanizePipe,
-    LatencyChartDirective, LoadSparklinesDirective, SortingTablePipe, TableHeadersToMultiplePipe,
-    CommonModule, FormsModule, HttpClientModule, NgbModule, RouterModule]
+  declarations: [
+    HumanizePipe,
+    LatencyChartDirective,
+    LoadSparklinesDirective,
+    MapToIterablePipe,
+    MomentFormatPipe,
+    TruncateRootPipe,
+    ParseQueryParamDatePipe,
+    SortingTablePipe,
+    TableHeadersToMultiplePipe,
+  ],
+  exports: [
+    MapToIterablePipe,
+    MomentFormatPipe,
+    TruncateRootPipe,
+    HumanizePipe,
+    LatencyChartDirective,
+    LoadSparklinesDirective,
+    SortingTablePipe,
+    TableHeadersToMultiplePipe,
+    CommonModule,
+    FormsModule,
+    HttpClientModule,
+    NgbModule,
+    RouterModule,
+  ]
 })
 export class SharedModule {
   static forRoot() {

@@ -40,6 +40,7 @@
     "jszip": "^3.2.0",
     "moment": "^2.24.0",
     "ngx-clipboard": "^11.1.9",
+    "ngx-pagination": "^3.2.1",
     "ngx-perfect-scrollbar": "^7.2.1",
     "numeral": "2.0.6",
     "renderjson": "github:caldwell/renderjson",

@@ -46,7 +46,6 @@ export class QanFilterComponent implements OnInit, OnDestroy, OnChanges {
     this.qanFilterService.filterSource.subscribe(
       filters => {
         this.filters = filters;
-        console.log('this.filters filter component - ', this.filters);
         const filtered = this.filters.map(filtersItem => new FilterLabelModel(filtersItem.filterGroup, filtersItem.items));
         this.profileParams.labels = filtered.filter(filteredItem => filteredItem.value.length);
         this.qanTableService.updateProfileParams(this.profileParams);

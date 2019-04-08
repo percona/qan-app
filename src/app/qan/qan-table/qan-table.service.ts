@@ -41,7 +41,9 @@ export class QanTableService {
     order_by: 'num_queries',
     group_by: 'queryid',
     columns: ['load', 'count', 'latency'],
-    labels: []
+    labels: [],
+    limit: 0,
+    offset: 0,
   };
 
   constructor() {

@@ -38,6 +38,7 @@ import { QanTableCellComponent } from '../qan/qan-table-cell/qan-table-cell.comp
 import { QanTableComponent } from '../qan/qan-table/qan-table.component';
 import { QanTableHeaderCellComponent } from '../qan/qan-table-header-cell/qan-table-header-cell.component';
 import { MainCellComponent } from '../qan/main-cell/main-cell.component';
+import { NgxPaginationModule } from 'ngx-pagination';
 
 @NgModule({
   imports: [
@@ -45,6 +46,7 @@ import { MainCellComponent } from '../qan/main-cell/main-cell.component';
     SharedModule,
     ClipboardModule,
     NgSelectModule,
+    NgxPaginationModule,
     PerfectScrollbarModule,
     ApiModule
   ],
