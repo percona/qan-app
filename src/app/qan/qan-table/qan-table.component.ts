@@ -93,6 +93,17 @@ export class QanTableComponent implements OnInit, OnDestroy {
     this.report$.unsubscribe();
   }
 
+  showDetails(filter_by) {
+    this.qanTableService.updateObjectDetails({
+      filter_by: filter_by,
+      group_by: this.profileParams.group_by,
+      labels: this.profileParams.labels,
+      period_start_from: this.profileParams.period_start_from,
+      period_start_to: this.profileParams.period_start_to
+    });
+    console.log('filter_by - ', filter_by);
+  }
+
   mapOrder(array, order, key) {
     array.sort((a, b) => {
       const A = a[key];
@@ -117,7 +128,7 @@ export class QanTableComponent implements OnInit, OnDestroy {
     this.profileParams.period_start_from = fromUTC;
     this.profileParams.period_start_to = toUTC;
     this.qanTableService.updateProfileParams(this.profileParams);
-    this.qanTableService.updateTimeRange({ period_start_from: fromUTC, period_start_to: toUTC })
+    this.qanTableService.updateTimeRange({ period_start_from: fromUTC, period_start_to: toUTC });
   }
 
   setTableData(data) {
