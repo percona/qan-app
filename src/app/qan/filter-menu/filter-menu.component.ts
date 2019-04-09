@@ -1,19 +1,19 @@
 import { Component, OnChanges, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { NgbTabset } from '@ng-bootstrap/ng-bootstrap';
-import { QanFilterService } from './qan-filter.service';
-import { FiltersService } from '../../inventory-api/services/filters.service';
-import { GetProfileBody, QanTableService } from '../profile-table/qan-table.service';
+import { FilterMenuService } from './filter-menu.service';
+import { FiltersService } from '../../pmm-api-services/services/filters.service';
+import { GetProfileBody, ProfileTableService } from '../profile-table/profile-table.service';
 import { Subscription } from 'rxjs/internal/Subscription';
 import { map, switchMap } from 'rxjs/operators';
 import { FilterGroupModel } from './models/filter-group.model';
-import { FilterLabelModel } from '../search-autocomplete/filter-label.model';
+import { FilterLabelModel } from '../search-autocomplete/models/filter-label.model';
 
 @Component({
   selector: 'app-qan-filter',
-  templateUrl: './qan-filter.component.html',
-  styleUrls: ['./qan-filter.component.scss']
+  templateUrl: './filter-menu.component.html',
+  styleUrls: ['./filter-menu.component.scss']
 })
-export class QanFilterComponent implements OnInit, OnDestroy, OnChanges {
+export class FilterMenuComponent implements OnInit, OnDestroy, OnChanges {
 
   @ViewChild('tabs') tabs: NgbTabset;
 
@@ -24,9 +24,9 @@ export class QanFilterComponent implements OnInit, OnDestroy, OnChanges {
   private filterSubscription: any;
   public filters: any;
 
-  constructor(private qanFilterService: QanFilterService,
+  constructor(private filterMenuService: FilterMenuService,
     private filterService: FiltersService,
-    private qanTableService: QanTableService,
+    private qanTableService: ProfileTableService,
   ) {
     this.profileParams = this.qanTableService.getProfileParamsState;
     this.qanTableService.getTimeRange.pipe(
@@ -39,11 +39,11 @@ export class QanFilterComponent implements OnInit, OnDestroy, OnChanges {
       )
     ).subscribe(
       response => {
-        this.qanFilterService.updateFilterConfigs(response);
+        this.filterMenuService.updateFilterConfigs(response);
       }
     );
 
-    this.qanFilterService.filterSource.subscribe(
+    this.filterMenuService.filterSource.subscribe(
       filters => {
         this.filters = filters;
         const filtered = this.filters.map(filtersItem => new FilterLabelModel(filtersItem.filterGroup, filtersItem.items));
@@ -67,6 +67,6 @@ export class QanFilterComponent implements OnInit, OnDestroy, OnChanges {
   }
 
   setConfigs(filter, group) {
-    this.qanFilterService.updateFilterConfigs(this.filters);
+    this.filterMenuService.updateFilterConfigs(this.filters);
   }
 }

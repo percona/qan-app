@@ -1,15 +1,15 @@
 import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { SelectOptionModel } from './modesl/select-option.model';
-import { GetProfileBody, QanTableService } from '../profile-table/qan-table.service';
+import { GetProfileBody, ProfileTableService } from '../profile-table/profile-table.service';
 import { Subscription } from 'rxjs/internal/Subscription';
 import { map } from 'rxjs/operators';
 
 @Component({
   selector: 'app-qan-table-header-cell',
-  templateUrl: './qan-table-header-cell.component.html',
-  styleUrls: ['./qan-table-header-cell.component.scss']
+  templateUrl: './table-header-cell.component.html',
+  styleUrls: ['./table-header-cell.component.scss']
 })
-export class QanTableHeaderCellComponent implements OnInit, OnDestroy {
+export class TableHeaderCellComponent implements OnInit, OnDestroy {
   @Input() currentColumnName: any;
   @Input() fullData: any;
   @Input() metrics: Array<SelectOptionModel>;
@@ -22,7 +22,7 @@ export class QanTableHeaderCellComponent implements OnInit, OnDestroy {
   public isDESC = false;
   public isNotDefaultIcon = false;
 
-  constructor(private qanTableService: QanTableService) {
+  constructor(private qanTableService: ProfileTableService) {
     this.profileParams = this.qanTableService.getProfileParamsState;
   }
 

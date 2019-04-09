@@ -3,7 +3,7 @@ import { Subject } from 'rxjs/internal/Subject';
 import { FiltersSearchModel } from './models/filters-search.model';
 
 @Injectable()
-export class QanFilterService {
+export class FilterMenuService {
 
   private filtersConfigsSource = new Subject<any>();
   private autocompleteSource = new Subject();

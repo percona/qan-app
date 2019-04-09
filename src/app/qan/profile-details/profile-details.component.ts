@@ -4,21 +4,21 @@ import * as hljs from 'highlight.js';
 import * as vkbeautify from 'vkbeautify';
 import { CoreComponent, QueryParams } from '../../core/core.component';
 import { InstanceService } from '../../core/services/instance.service';
-import { QueryDetails, QueryDetailsService } from './query-details.service';
+import { QueryDetails, ProfileDetailsService } from './profile-details.service';
 import { Component, OnInit } from '@angular/core';
-import { QanTableService } from '../profile-table/qan-table.service';
+import { ProfileTableService } from '../profile-table/profile-table.service';
 import { catchError, retryWhen, switchMap } from 'rxjs/operators';
-import { MetricsService } from '../../inventory-api/services/metrics.service';
+import { MetricsService } from '../../pmm-api-services/services/metrics.service';
 import { throwError } from 'rxjs/internal/observable/throwError';
 
 @Component({
   moduleId: module.id,
   selector: 'app-query-details',
-  templateUrl: './query-details.component.html',
-  styleUrls: ['./query-details.component.scss']
+  templateUrl: './profile-details.component.html',
+  styleUrls: ['./profile-details.component.scss']
 })
 
-export class QueryDetailsComponent implements OnInit {
+export class ProfileDetailsComponent implements OnInit {
   public queryDetails: any | QueryDetails;
   protected dbName: string;
   protected newDBTblNames: string;
@@ -68,9 +68,9 @@ export class QueryDetailsComponent implements OnInit {
 
   constructor(protected route: ActivatedRoute,
     protected router: Router,
-    protected qanTableService: QanTableService,
+    protected qanTableService: ProfileTableService,
     protected metricsService: MetricsService,
-    public queryDetailsService: QueryDetailsService) {
+    public queryDetailsService: ProfileDetailsService) {
     console.log('query details constructor');
     console.log('time range - ', this.qanTableService.getTimeRange);
     this.qanTableService.objectDetailsSource.pipe(

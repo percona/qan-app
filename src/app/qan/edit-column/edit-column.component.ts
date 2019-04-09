@@ -1,14 +1,14 @@
 import { Component, EventEmitter, Input, OnChanges, OnDestroy, OnInit, Output } from '@angular/core';
 import { FilterSearchService } from '../../core/services/filter-search.service';
-import { QanEditColumnService } from './qan-edit-column.service';
+import { EditColumnService } from './qan-edit-column.service';
 import { PerfectScrollbarConfigInterface } from 'ngx-perfect-scrollbar';
 
 @Component({
   selector: 'app-qan-edit-column',
-  templateUrl: './qan-edit-column.component.html',
-  styleUrls: ['./qan-edit-column.component.scss']
+  templateUrl: './edit-column.component.html',
+  styleUrls: ['./edit-column.component.scss']
 })
-export class QanEditColumnComponent implements OnInit, OnDestroy, OnChanges {
+export class EditColumnComponent implements OnInit, OnDestroy, OnChanges {
 
   @Input() isEditColumnDisplays: boolean;
   @Output() editColumnToggle = new EventEmitter();
@@ -23,9 +23,10 @@ export class QanEditColumnComponent implements OnInit, OnDestroy, OnChanges {
   public configSearchValues = [];
   public scrollbarConfig: PerfectScrollbarConfigInterface = {};
 
-  constructor(private configService: QanEditColumnService, private filterSearchService: FilterSearchService) {
-    this.configService.getConfigs();
-    this.subscription = this.configService.source.subscribe(items => {
+  constructor(private editColumnService: EditColumnService,
+    private filterSearchService: FilterSearchService) {
+    this.editColumnService.getConfigs();
+    this.subscription = this.editColumnService.source.subscribe(items => {
       this.configs = items;
       this.configs.forEach(config => localStorage.setItem(config.name, JSON.stringify(config)));
     });
@@ -67,7 +68,7 @@ export class QanEditColumnComponent implements OnInit, OnDestroy, OnChanges {
       currentConfig.columns.forEach(column => column.value = true);
     }
 
-    this.configService.setConfig(this.configs);
+    this.editColumnService.setConfig(this.configs);
   }
 
   /**

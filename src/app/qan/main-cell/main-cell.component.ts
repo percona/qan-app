@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { SelectOptionModel } from '../table-header-cell/modesl/select-option.model';
-import { GetProfileBody, QanTableService } from '../profile-table/qan-table.service';
+import { GetProfileBody, ProfileTableService } from '../profile-table/profile-table.service';
 import { GroupByMock } from './mock/group-by.mock';
 
 @Component({
@@ -14,7 +14,7 @@ export class MainCellComponent implements OnInit {
   public groupBy: SelectOptionModel;
   public profileParams: GetProfileBody;
 
-  constructor(private qanTableService: QanTableService) {
+  constructor(private qanTableService: ProfileTableService) {
     this.groupByItems = Object.entries(this.groupByData).map(metric => new SelectOptionModel(metric));
     this.profileParams = this.qanTableService.getProfileParamsState;
     this.groupBy = this.qanTableService.getGroupByValue || this.groupByItems[0];

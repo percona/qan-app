@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { QanFilterComponent } from './qan-filter.component';
+import { SearchAutocompleteComponent } from './search-autocomplete.component';
 
-describe('QanFilterComponent', () => {
-  let component: QanFilterComponent;
-  let fixture: ComponentFixture<QanFilterComponent>;
+describe('SearchAutocompleteComponent', () => {
+  let component: SearchAutocompleteComponent;
+  let fixture: ComponentFixture<SearchAutocompleteComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [QanFilterComponent]
+      declarations: [SearchAutocompleteComponent]
     })
       .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(QanFilterComponent);
+    fixture = TestBed.createComponent(SearchAutocompleteComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

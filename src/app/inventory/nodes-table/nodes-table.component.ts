@@ -1,5 +1,5 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { NodesService } from '../../inventory-api/services/nodes.service';
+import { NodesService } from '../../pmm-api-services/services/nodes.service';
 import { InventoryService } from '../inventory.service';
 import { NodesTableService } from './nodes-table.service';
 

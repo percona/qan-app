@@ -4,11 +4,11 @@ import { QueryParams } from '../../core/core.component';
 import { SelectOptionModel } from '../table-header-cell/modesl/select-option.model';
 import { TableDataModel } from './models/table-data.model';
 import { MetricModel } from './models/metric.model';
-import { ProfileService } from '../../inventory-api/services/profile.service';
+import { ProfileService } from '../../pmm-api-services/services/profile.service';
 import { Subscription } from 'rxjs/internal/Subscription';
 import { catchError, filter, map, retryWhen, switchMap } from 'rxjs/operators';
-import { MetricsNamesService } from '../../inventory-api/services/metrics-names.service';
-import { GetProfileBody, QanTableService } from './qan-table.service';
+import { MetricsNamesService } from '../../pmm-api-services/services/metrics-names.service';
+import { GetProfileBody, ProfileTableService } from './profile-table.service';
 import { ParseQueryParamDatePipe } from '../../shared/parse-query-param-date.pipe';
 import { ActivatedRoute, Router } from '@angular/router';
 import * as moment from 'moment';
@@ -16,10 +16,10 @@ import { throwError } from 'rxjs/internal/observable/throwError';
 
 @Component({
   selector: 'app-qan-table',
-  templateUrl: './qan-table.component.html',
-  styleUrls: ['./qan-table.component.scss']
+  templateUrl: './profile-table.component.html',
+  styleUrls: ['./proflie-table.component.scss']
 })
-export class QanTableComponent implements OnInit, OnDestroy {
+export class ProfileTableComponent implements OnInit, OnDestroy {
   @ViewChild(PerfectScrollbarComponent) componentRef?: PerfectScrollbarComponent;
 
   public scrollbarConfig: PerfectScrollbarConfigInterface = {
@@ -50,7 +50,7 @@ export class QanTableComponent implements OnInit, OnDestroy {
     private router: Router,
     private profileService: ProfileService,
     private metricsNamesService: MetricsNamesService,
-    private qanTableService: QanTableService
+    private qanTableService: ProfileTableService
   ) {
     this.profileParams = this.qanTableService.getProfileParamsState;
     this.defaultColumns = this.qanTableService.getDefaultColumns;

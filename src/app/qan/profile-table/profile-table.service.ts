@@ -40,7 +40,7 @@ export interface LabelsProfile {
 @Injectable({
   providedIn: 'root'
 })
-export class QanTableService {
+export class ProfileTableService {
   private groupValue: SelectOptionModel;
   private profileParams = new Subject<GetProfileBody>();
   private objectDetails = new Subject<ObjectDetails>();

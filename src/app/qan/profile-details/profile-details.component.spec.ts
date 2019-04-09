@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { QanTableHeaderCellComponent } from './qan-table-header-cell.component';
+import { ProfileDetailsComponent } from './profile-details.component';
 
-describe('QanTableHeaderCellComponent', () => {
-  let component: QanTableHeaderCellComponent;
-  let fixture: ComponentFixture<QanTableHeaderCellComponent>;
+fdescribe('ProfileDetailsComponent', () => {
+  let component: ProfileDetailsComponent;
+  let fixture: ComponentFixture<ProfileDetailsComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [QanTableHeaderCellComponent]
+      declarations: [ProfileDetailsComponent]
     })
       .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(QanTableHeaderCellComponent);
+    fixture = TestBed.createComponent(ProfileDetailsComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

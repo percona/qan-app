@@ -1,11 +1,10 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { SelectOptionModel } from '../table-header-cell/modesl/select-option.model';
 import { Subject } from 'rxjs/internal/Subject';
-import { GetProfileBody, ObjectDetails, TimeRange } from '../profile-table/qan-table.service';
+import { GetProfileBody, ObjectDetails, TimeRange } from '../profile-table/profile-table.service';
 
 @Injectable()
-export class QueryProfileService {
+export class ProfileService {
   private groupValue: SelectOptionModel;
   private profileParams = new Subject<GetProfileBody>();
   private objectDetails = new Subject<ObjectDetails>();

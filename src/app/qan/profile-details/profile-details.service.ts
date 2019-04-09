@@ -40,7 +40,7 @@ export interface ServerSummary {
 }
 
 @Injectable()
-export class QueryDetailsService {
+export class ProfileDetailsService {
 
   private httpHeaders = new HttpHeaders({ 'Content-Type': 'application/json' });
 

@@ -1,13 +1,13 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { MetricModel } from '../profile-table/models/metric.model';
-import { QanTableService } from '../profile-table/qan-table.service';
+import { ProfileTableService } from '../profile-table/profile-table.service';
 
 @Component({
   selector: 'app-qan-table-cell',
-  templateUrl: './qan-table-cell.component.html',
-  styleUrls: ['./qan-table-cell.component.css']
+  templateUrl: './table-cell.component.html',
+  styleUrls: ['./table-cell.component.css']
 })
-export class QanTableCellComponent implements OnInit {
+export class TableCellComponent implements OnInit {
   @Input() metricData: MetricModel;
   @Input() sparklineData: any;
   @Input() totalSum: any;
@@ -20,7 +20,7 @@ export class QanTableCellComponent implements OnInit {
   public isLatency: boolean;
   public profileParams: any;
 
-  constructor(private qanTableService: QanTableService) {
+  constructor(private qanTableService: ProfileTableService) {
     this.profileParams = this.qanTableService.getProfileParamsState;
   }
 

@@ -3,7 +3,7 @@ import { BehaviorSubject } from 'rxjs';
 import { ColumnConfigModel } from '../../core/models/column-config.model';
 
 @Injectable()
-export class QanEditColumnService {
+export class EditColumnService {
   private cellConfigSource = new BehaviorSubject([]);
 
   constructor() {

@@ -1,12 +1,12 @@
 import { TestBed } from '@angular/core/testing';
 
-import { QanTableService } from './qan-table.service';
+import { ProfileTableService } from './profile-table.service';
 
-describe('QanTableService', () => {
+describe('ProfileTableService', () => {
   beforeEach(() => TestBed.configureTestingModule({}));
 
   it('should be created', () => {
-    const service: QanTableService = TestBed.get(QanTableService);
+    const service: ProfileTableService = TestBed.get(ProfileTableService);
     expect(service).toBeTruthy();
   });
 });

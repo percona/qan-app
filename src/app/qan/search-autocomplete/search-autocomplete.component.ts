@@ -1,17 +1,17 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { QanFilterService } from '../filter-menu/qan-filter.service';
+import { FilterMenuService } from '../filter-menu/filter-menu.service';
 import { FilterSearchService } from '../../core/services/filter-search.service';
 import { map } from 'rxjs/operators';
 import { Subscription } from 'rxjs/internal/Subscription';
-import { GetProfileBody, QanTableService } from '../profile-table/qan-table.service';
+import { GetProfileBody, ProfileTableService } from '../profile-table/profile-table.service';
 import { FiltersSearchModel } from '../filter-menu/models/filters-search.model';
 
 @Component({
   selector: 'app-qan-search',
-  templateUrl: './qan-search.component.html',
-  styleUrls: ['./qan-search.component.scss']
+  templateUrl: './search-autocomplete.component.html',
+  styleUrls: ['./search-autocomplete.component.scss']
 })
-export class QanSearchComponent implements OnInit, OnDestroy {
+export class SearchAutocompleteComponent implements OnInit, OnDestroy {
 
   public selected: Array<{}> = [];
   private filterSubscription$: Subscription;
@@ -24,8 +24,8 @@ export class QanSearchComponent implements OnInit, OnDestroy {
   numberOfItemsFromEndBeforeFetchingMore = 10;
   loading = false;
 
-  constructor(private qanFilterService: QanFilterService,
-    private qanTableService: QanTableService,
+  constructor(private qanFilterService: FilterMenuService,
+    private qanTableService: ProfileTableService,
     private filterSearchService: FilterSearchService) {
     this.profileParams = this.qanTableService.getProfileParamsState;
 

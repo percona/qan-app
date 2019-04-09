@@ -4,7 +4,7 @@ import { TestBed, async, inject, fakeAsync, tick } from '@angular/core/testing';
 import { BaseRequestOptions, ConnectionBackend, Http, HttpModule, RequestOptions } from '@angular/http';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { MockBackend } from '@angular/http/testing';
-import { QueryProfileService } from './query-profile.service';
+import { QueryProfileService } from './profile.service';
 
 describe('QueryProfileService', () => {
   let service: QueryProfileService;
