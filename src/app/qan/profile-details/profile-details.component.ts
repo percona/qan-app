@@ -17,17 +17,16 @@ export class ProfileDetailsComponent implements OnInit {
   public fingerprint: string;
   event = new Event('showSuccessNotification');
 
-  constructor(protected route: ActivatedRoute,
+  constructor(
+    protected route: ActivatedRoute,
     protected router: Router,
     protected qanProfileService: QanProfileService,
-    protected metricsService: MetricsService) {
-    this.qanProfileService.objectDetailsSource.pipe(
+    protected metricsService: MetricsService
+  ) {
+    this.qanProfileService.getProfileInfo.details.pipe(
       switchMap(parsedParams => this.metricsService.GetMetrics(parsedParams)
         .pipe(
-          catchError(err => {
-            console.log('catch err details - ', err);
-            return throwError(err)
-          }),
+          catchError(err => throwError(err))
         )),
       retryWhen(error => error)
     ).subscribe(
@@ -36,5 +35,6 @@ export class ProfileDetailsComponent implements OnInit {
     )
   }
 
-  ngOnInit() { }
+  ngOnInit() {
+  }
 }

@@ -3,9 +3,8 @@ import { FilterMenuService } from '../filter-menu/filter-menu.service';
 import { FilterSearchService } from '../../core/services/filter-search.service';
 import { map } from 'rxjs/operators';
 import { Subscription } from 'rxjs/internal/Subscription';
-import { GetProfileBody } from '../profile-table/profile-table.service';
 import { FiltersSearchModel } from '../filter-menu/models/filters-search.model';
-import { QanProfileService } from '../profile/qan-profile.service';
+import { GetProfileBody, QanProfileService } from '../profile/qan-profile.service';
 
 @Component({
   selector: 'app-qan-search',

@@ -12,8 +12,7 @@ import { ParseQueryParamDatePipe } from '../../shared/parse-query-param-date.pip
 import { ActivatedRoute, Router } from '@angular/router';
 import * as moment from 'moment';
 import { throwError } from 'rxjs/internal/observable/throwError';
-import { QanProfileService } from '../profile/qan-profile.service';
-import { GetProfileBody } from './profile-table.service';
+import { GetProfileBody, QanProfileService } from '../profile/qan-profile.service';
 
 @Component({
   selector: 'app-qan-table',
@@ -54,27 +53,17 @@ export class ProfileTableComponent implements OnInit, OnDestroy {
     private metricsNamesService: MetricsNamesService,
   ) {
     this.profileParams = this.qanProfileService.getProfileParamsState;
-    this.defaultColumns = this.qanProfileService.getDefaultColumns;
+    this.defaultColumns = this.qanProfileService.getProfileInfo.defaultColumns;
 
     this.metrics$ = this.metricsNamesService.GetMetricsNames({})
-      .pipe(map(metrics => metrics.data))
-      .subscribe(metrics => this.metrics = Object.entries(metrics).map(metric => new SelectOptionModel(metric)));
+      .pipe(map(metrics => this.generateMetricsNames(metrics)))
+      .subscribe(metrics => this.metrics = metrics);
 
-    this.report$ = this.qanProfileService.profileParamsSource
+    this.report$ = this.qanProfileService.getProfileInfo.profile
       .pipe(
-        map(params => {
-          const parsedParams = JSON.parse(JSON.stringify(params));
-          // Remove default columns
-          parsedParams.columns = parsedParams.columns.filter(column => !this.defaultColumns.includes(column));
-          return parsedParams
-        }),
+        map(params => this.removeDefaultColumns(params)),
         switchMap(parsedParams => this.profileService.GetReport(parsedParams)
-          .pipe(
-            catchError(err => {
-              console.log('catch err - ', err);
-              return throwError(err)
-            }),
-          )
+          .pipe(catchError(err => throwError(err)))
         ),
         retryWhen(error => error)
       )
@@ -102,7 +91,6 @@ export class ProfileTableComponent implements OnInit, OnDestroy {
       period_start_from: this.profileParams.period_start_from,
       period_start_to: this.profileParams.period_start_to
     });
-    console.log('filter_by - ', filter_by);
   }
 
   mapOrder(array, order, key) {
@@ -118,6 +106,16 @@ export class ProfileTableComponent implements OnInit, OnDestroy {
 
     return array;
   };
+
+  removeDefaultColumns(params) {
+    const parsedParams = JSON.parse(JSON.stringify(params));
+    parsedParams.columns = parsedParams.columns.filter(column => !this.defaultColumns.includes(column));
+    return parsedParams
+  }
+
+  generateMetricsNames(metrics) {
+    return Object.entries(metrics.data).map(metric => new SelectOptionModel(metric));
+  }
 
   setTimeRange() {
     this.iframeQueryParams = this.route.snapshot.queryParams as QueryParams;

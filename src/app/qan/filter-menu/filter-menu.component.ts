@@ -1,12 +1,11 @@
 import { Component, OnChanges, OnDestroy, OnInit } from '@angular/core';
 import { FilterMenuService } from './filter-menu.service';
 import { FiltersService } from '../../pmm-api-services/services/filters.service';
-import { GetProfileBody } from '../profile-table/profile-table.service';
 import { Subscription } from 'rxjs/internal/Subscription';
 import { map, switchMap } from 'rxjs/operators';
 import { FilterGroupModel } from './models/filter-group.model';
 import { FilterLabelModel } from '../search-autocomplete/models/filter-label.model';
-import { QanProfileService } from '../profile/qan-profile.service';
+import { GetProfileBody, QanProfileService } from '../profile/qan-profile.service';
 
 @Component({
   selector: 'app-qan-filter',
@@ -26,19 +25,16 @@ export class FilterMenuComponent implements OnInit, OnDestroy, OnChanges {
     private qanProfileService: QanProfileService,
   ) {
     this.profileParams = this.qanProfileService.getProfileParamsState;
-    this.qanProfileService.getTimeRange.pipe(
-      switchMap(timeRange => this.filterService.Get(timeRange)
-        .pipe(
-          map(response => {
-            const entries = Object.entries(response.labels);
-            return entries.map(entire => new FilterGroupModel(entire));
-          }))
+    this.qanProfileService.getProfileInfo.timeRange
+      .pipe(
+        switchMap(timeRange => this.filterService.Get(timeRange)
+          .pipe(
+            map(response => this.generateFilterGroup(response))
+          ))
       )
-    ).subscribe(
-      response => {
-        this.filterMenuService.updateFilterConfigs(response);
-      }
-    );
+      .subscribe(
+        response => this.filterMenuService.updateFilterConfigs(response)
+      );
 
     this.filterMenuService.filterSource.subscribe(
       filters => {
@@ -61,6 +57,10 @@ export class FilterMenuComponent implements OnInit, OnDestroy, OnChanges {
 
   getAll(group) {
     this.limits[group.name] = this.limits[group.name] <= this.defaultLimit ? group.values.length - 1 : this.defaultLimit;
+  }
+
+  generateFilterGroup(group) {
+    return Object.entries(group.labels).map(entire => new FilterGroupModel(entire));
   }
 
   setConfigs(filter, group) {

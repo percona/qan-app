@@ -1,9 +1,8 @@
 import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { SelectOptionModel } from './modesl/select-option.model';
-import { GetProfileBody } from '../profile-table/profile-table.service';
 import { Subscription } from 'rxjs/internal/Subscription';
 import { map } from 'rxjs/operators';
-import { QanProfileService } from '../profile/qan-profile.service';
+import { GetProfileBody, QanProfileService } from '../profile/qan-profile.service';
 
 @Component({
   selector: 'app-qan-table-header-cell',
@@ -29,11 +28,12 @@ export class TableHeaderCellComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.selectedQueryColumn = this.metrics.filter(option => option.name === this.currentColumnName)[0];
-    this.params$ = this.qanProfileService.profileParamsSource.pipe(
+    this.params$ = this.qanProfileService.getProfileInfo.profile.pipe(
       map(params => params.order_by)
     ).subscribe(
       order => {
         this.isNotDefaultIcon = this.currentColumnName === order || `-${this.currentColumnName}` === order;
+        console.log('profileParamsSource');
       })
   }
 

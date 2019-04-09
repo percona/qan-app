@@ -10,7 +10,6 @@ import { AddAmazonRDSComponent } from './add-amazon-rds/add-amazon-rds.component
 import { InstanceService } from './core/services/instance.service';
 import { AddRemoteInstanceComponent } from './add-remote-instances/add-remote-instance.component';
 import { RemoteInstancesListComponent } from './remote-instances-list/remote-instances-list.component';
-import { ProfileDetailsComponent } from './qan/profile-details/profile-details.component';
 import { InventoryComponent } from './inventory/inventory.component';
 
 @Injectable()
@@ -31,11 +30,7 @@ export class RegisteredInstanceGuard implements CanActivate {
 
 const routes: Routes = [
   { path: '', redirectTo: 'profile', pathMatch: 'full', canActivate: [RegisteredInstanceGuard] },
-  {
-    path: 'profile', component: QanProfileComponent, children: [
-      { path: 'report/:dimension', component: ProfileDetailsComponent },
-    ]
-  },
+  { path: 'profile', component: QanProfileComponent },
   { path: 'sys-summary', component: SummaryComponent, pathMatch: 'full', canActivate: [RegisteredInstanceGuard] },
   { path: 'settings', component: SettingsComponent, pathMatch: 'full', canActivate: [RegisteredInstanceGuard] },
   { path: 'add-instance', component: AddInstanceComponent, pathMatch: 'full' },
