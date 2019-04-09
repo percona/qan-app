@@ -2,10 +2,10 @@ import { AfterViewChecked, Component, ElementRef, OnInit, ViewChild, } from '@an
 
 @Component({
   moduleId: module.id,
-  templateUrl: 'profile.component.html',
-  styleUrls: ['./profile.component.scss'],
+  templateUrl: 'qan-profile.component.html',
+  styleUrls: ['./qan-profile.component.scss'],
 })
-export class ProfileComponent implements OnInit, AfterViewChecked {
+export class QanProfileComponent implements OnInit, AfterViewChecked {
   @ViewChild('filter') filter: ElementRef;
   @ViewChild('table') table: ElementRef;
 

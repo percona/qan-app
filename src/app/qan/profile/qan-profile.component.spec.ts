@@ -3,13 +3,13 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { CUSTOM_ELEMENTS_SCHEMA, DebugElement, PipeTransform } from '@angular/core';
 
-import { ProfileComponent } from './profile.component';
+import { QanProfileComponent } from './qan-profile.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { FormsModule } from '@angular/forms';
 import { RouterTestingModule } from '@angular/router/testing';
 import { ClipboardModule } from 'ngx-clipboard';
 import { InstanceService } from '../../core/services/instance.service';
-import { QueryProfileService } from './profile.service';
+import { QueryProfileService } from './qan-profile.service';
 import { LoadSparklinesDirective } from '../../shared/load-sparklines.directive';
 import { HumanizePipe } from '../../shared/humanize.pipe';
 import { LatencyChartDirective } from '../../shared/latency-chart.directive';
@@ -18,9 +18,9 @@ import { ParseQueryParamDatePipe } from '../../shared/parse-query-param-date.pip
 import { ActivatedRoute } from '@angular/router';
 import { HttpClientModule } from '@angular/common/http';
 
-fdescribe('ProfileComponent', () => {
-  let component: ProfileComponent;
-  let fixture: ComponentFixture<ProfileComponent>;
+fdescribe('QanProfileComponent', () => {
+  let component: QanProfileComponent;
+  let fixture: ComponentFixture<QanProfileComponent>;
   const queryProfileJson = require('../../mock-data/queryProfile-mock.json');
   const queryProfileResponse = Object.assign({}, queryProfileJson);
 
@@ -28,7 +28,7 @@ fdescribe('ProfileComponent', () => {
     TestBed.configureTestingModule({
       declarations: [
         MomentFormatPipe,
-        ProfileComponent,
+        QanProfileComponent,
         ParseQueryParamDatePipe,
         HumanizePipe,
         LoadSparklinesDirective,
@@ -82,7 +82,7 @@ fdescribe('ProfileComponent', () => {
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(ProfileComponent);
+    fixture = TestBed.createComponent(QanProfileComponent);
     component = fixture.componentInstance;
     component.dbServer = {
       Agent: {

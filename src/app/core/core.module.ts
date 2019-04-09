@@ -4,8 +4,8 @@ import { SharedModule } from '../shared/shared.module';
 import { JSONTreeComponent } from './json-tree/json-tree.component';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 import { InstanceService } from './services/instance.service';
-import { ProfileComponent } from '../qan/profile/profile.component';
-import { ProfileService } from '../qan/profile/profile.service';
+import { QanProfileComponent } from '../qan/profile/qan-profile.component';
+import { QanProfileService } from '../qan/profile/qan-profile.service';
 import { SummaryComponent } from '../summary/summary.component';
 import { SummaryService } from '../summary/summary.service';
 import { SettingsComponent } from '../settings/settings.component';
@@ -52,7 +52,7 @@ import { NgxPaginationModule } from 'ngx-pagination';
   ],
   declarations: [
     PageNotFoundComponent,
-    ProfileComponent,
+    QanProfileComponent,
     FilterMenuComponent,
     SummaryComponent,
     SettingsComponent,
@@ -72,7 +72,7 @@ import { NgxPaginationModule } from 'ngx-pagination';
   ],
   exports: [
     PageNotFoundComponent,
-    ProfileComponent,
+    QanProfileComponent,
     FilterMenuComponent,
     SummaryComponent,
     SettingsComponent,
@@ -88,7 +88,7 @@ import { NgxPaginationModule } from 'ngx-pagination';
   ],
   providers: [
     InstanceService,
-    ProfileService,
+    QanProfileService,
     SummaryService,
     SettingsService,
     AddAmazonRDSService,

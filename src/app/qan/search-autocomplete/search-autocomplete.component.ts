@@ -3,8 +3,9 @@ import { FilterMenuService } from '../filter-menu/filter-menu.service';
 import { FilterSearchService } from '../../core/services/filter-search.service';
 import { map } from 'rxjs/operators';
 import { Subscription } from 'rxjs/internal/Subscription';
-import { GetProfileBody, ProfileTableService } from '../profile-table/profile-table.service';
+import { GetProfileBody } from '../profile-table/profile-table.service';
 import { FiltersSearchModel } from '../filter-menu/models/filters-search.model';
+import { QanProfileService } from '../profile/qan-profile.service';
 
 @Component({
   selector: 'app-qan-search',
@@ -25,7 +26,7 @@ export class SearchAutocompleteComponent implements OnInit, OnDestroy {
   loading = false;
 
   constructor(private qanFilterService: FilterMenuService,
-    private qanTableService: ProfileTableService,
+    private qanTableService: QanProfileService,
     private filterSearchService: FilterSearchService) {
     this.profileParams = this.qanTableService.getProfileParamsState;
 
@@ -72,15 +73,6 @@ export class SearchAutocompleteComponent implements OnInit, OnDestroy {
   groupSelected() {
     this.selected = [...this.selected.sort((a, b) => a['groupName'].localeCompare(b['groupName']))];
   }
-
-  // toggleItem(event) {
-  //   if (event.groupName) {
-  //     const group = this.filters.find(filter => event.groupName === filter.filterGroup);
-  //     const itemS = group.items.find(groupItem => groupItem.value === event.filterName);
-  //     itemS.state = !itemS.state;
-  //     this.qanFilterService.updateFilterConfigs(this.filters);
-  //   }
-  // }
 
   changeFilterState(event: any = false) {
     if (!event) {

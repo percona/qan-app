@@ -2,7 +2,7 @@ import { NgModule, Injectable } from '@angular/core';
 import { Routes, Router, RouterModule, CanActivate } from '@angular/router';
 import { PageNotFoundComponent } from './core/page-not-found/page-not-found.component';
 
-import { ProfileComponent } from './qan/profile/profile.component';
+import { QanProfileComponent } from './qan/profile/qan-profile.component';
 import { SummaryComponent } from './summary/summary.component';
 import { SettingsComponent } from './settings/settings.component';
 import { AddInstanceComponent } from './add-instance/add-instance.component';
@@ -32,7 +32,7 @@ export class RegisteredInstanceGuard implements CanActivate {
 const routes: Routes = [
   { path: '', redirectTo: 'profile', pathMatch: 'full', canActivate: [RegisteredInstanceGuard] },
   {
-    path: 'profile', component: ProfileComponent, children: [
+    path: 'profile', component: QanProfileComponent, children: [
       { path: 'report/:dimension', component: ProfileDetailsComponent },
     ]
   },

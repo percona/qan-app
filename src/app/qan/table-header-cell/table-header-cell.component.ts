@@ -1,8 +1,9 @@
 import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { SelectOptionModel } from './modesl/select-option.model';
-import { GetProfileBody, ProfileTableService } from '../profile-table/profile-table.service';
+import { GetProfileBody } from '../profile-table/profile-table.service';
 import { Subscription } from 'rxjs/internal/Subscription';
 import { map } from 'rxjs/operators';
+import { QanProfileService } from '../profile/qan-profile.service';
 
 @Component({
   selector: 'app-qan-table-header-cell',
@@ -22,13 +23,13 @@ export class TableHeaderCellComponent implements OnInit, OnDestroy {
   public isDESC = false;
   public isNotDefaultIcon = false;
 
-  constructor(private qanTableService: ProfileTableService) {
-    this.profileParams = this.qanTableService.getProfileParamsState;
+  constructor(private qanProfileService: QanProfileService) {
+    this.profileParams = this.qanProfileService.getProfileParamsState;
   }
 
   ngOnInit() {
     this.selectedQueryColumn = this.metrics.filter(option => option.name === this.currentColumnName)[0];
-    this.params$ = this.qanTableService.profileParamsSource.pipe(
+    this.params$ = this.qanProfileService.profileParamsSource.pipe(
       map(params => params.order_by)
     ).subscribe(
       order => {
@@ -52,12 +53,12 @@ export class TableHeaderCellComponent implements OnInit, OnDestroy {
 
     this.profileParams.columns[this.index] = value.name;
     this.profileParams.columns = this.profileParams.columns.filter(item => !!item);
-    this.qanTableService.updateProfileParams(this.profileParams);
+    this.qanProfileService.updateProfileParams(this.profileParams);
   }
 
   sortBy(selectedColumn) {
     this.isDESC = !this.isDESC;
     this.profileParams.order_by = this.isDESC ? selectedColumn.name : `-${selectedColumn.name}`;
-    this.qanTableService.updateProfileParams(this.profileParams);
+    this.qanProfileService.updateProfileParams(this.profileParams);
   }
 }

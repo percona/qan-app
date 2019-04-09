@@ -1,12 +1,12 @@
-import { Component, OnChanges, OnDestroy, OnInit, ViewChild } from '@angular/core';
-import { NgbTabset } from '@ng-bootstrap/ng-bootstrap';
+import { Component, OnChanges, OnDestroy, OnInit } from '@angular/core';
 import { FilterMenuService } from './filter-menu.service';
 import { FiltersService } from '../../pmm-api-services/services/filters.service';
-import { GetProfileBody, ProfileTableService } from '../profile-table/profile-table.service';
+import { GetProfileBody } from '../profile-table/profile-table.service';
 import { Subscription } from 'rxjs/internal/Subscription';
 import { map, switchMap } from 'rxjs/operators';
 import { FilterGroupModel } from './models/filter-group.model';
 import { FilterLabelModel } from '../search-autocomplete/models/filter-label.model';
+import { QanProfileService } from '../profile/qan-profile.service';
 
 @Component({
   selector: 'app-qan-filter',
@@ -14,22 +14,19 @@ import { FilterLabelModel } from '../search-autocomplete/models/filter-label.mod
   styleUrls: ['./filter-menu.component.scss']
 })
 export class FilterMenuComponent implements OnInit, OnDestroy, OnChanges {
-
-  @ViewChild('tabs') tabs: NgbTabset;
-
-  private filter$: Subscription;
   public profileParams: GetProfileBody;
   public limits = {};
   public defaultLimit = 4;
-  private filterSubscription: any;
+  private filterSubscription: Subscription;
   public filters: any;
 
-  constructor(private filterMenuService: FilterMenuService,
+  constructor(
+    private filterMenuService: FilterMenuService,
     private filterService: FiltersService,
-    private qanTableService: ProfileTableService,
+    private qanProfileService: QanProfileService,
   ) {
-    this.profileParams = this.qanTableService.getProfileParamsState;
-    this.qanTableService.getTimeRange.pipe(
+    this.profileParams = this.qanProfileService.getProfileParamsState;
+    this.qanProfileService.getTimeRange.pipe(
       switchMap(timeRange => this.filterService.Get(timeRange)
         .pipe(
           map(response => {
@@ -48,7 +45,7 @@ export class FilterMenuComponent implements OnInit, OnDestroy, OnChanges {
         this.filters = filters;
         const filtered = this.filters.map(filtersItem => new FilterLabelModel(filtersItem.filterGroup, filtersItem.items));
         this.profileParams.labels = filtered.filter(filteredItem => filteredItem.value.length);
-        this.qanTableService.updateProfileParams(this.profileParams);
+        this.qanProfileService.updateProfileParams(this.profileParams);
       });
   }
 

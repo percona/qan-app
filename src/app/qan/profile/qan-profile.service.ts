@@ -4,7 +4,7 @@ import { Subject } from 'rxjs/internal/Subject';
 import { GetProfileBody, ObjectDetails, TimeRange } from '../profile-table/profile-table.service';
 
 @Injectable()
-export class ProfileService {
+export class QanProfileService {
   private groupValue: SelectOptionModel;
   private profileParams = new Subject<GetProfileBody>();
   private objectDetails = new Subject<ObjectDetails>();

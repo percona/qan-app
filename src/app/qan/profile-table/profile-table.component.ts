@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit, Output, ViewChild } from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { PerfectScrollbarComponent, PerfectScrollbarConfigInterface } from 'ngx-perfect-scrollbar';
 import { QueryParams } from '../../core/core.component';
 import { SelectOptionModel } from '../table-header-cell/modesl/select-option.model';
@@ -6,18 +6,19 @@ import { TableDataModel } from './models/table-data.model';
 import { MetricModel } from './models/metric.model';
 import { ProfileService } from '../../pmm-api-services/services/profile.service';
 import { Subscription } from 'rxjs/internal/Subscription';
-import { catchError, filter, map, retryWhen, switchMap } from 'rxjs/operators';
+import { catchError, map, retryWhen, switchMap } from 'rxjs/operators';
 import { MetricsNamesService } from '../../pmm-api-services/services/metrics-names.service';
-import { GetProfileBody, ProfileTableService } from './profile-table.service';
 import { ParseQueryParamDatePipe } from '../../shared/parse-query-param-date.pipe';
 import { ActivatedRoute, Router } from '@angular/router';
 import * as moment from 'moment';
 import { throwError } from 'rxjs/internal/observable/throwError';
+import { QanProfileService } from '../profile/qan-profile.service';
+import { GetProfileBody } from './profile-table.service';
 
 @Component({
   selector: 'app-qan-table',
   templateUrl: './profile-table.component.html',
-  styleUrls: ['./proflie-table.component.scss']
+  styleUrls: ['./profile-table.component.scss']
 })
 export class ProfileTableComponent implements OnInit, OnDestroy {
   @ViewChild(PerfectScrollbarComponent) componentRef?: PerfectScrollbarComponent;
@@ -48,18 +49,18 @@ export class ProfileTableComponent implements OnInit, OnDestroy {
   constructor(
     private route: ActivatedRoute,
     private router: Router,
+    private qanProfileService: QanProfileService,
     private profileService: ProfileService,
     private metricsNamesService: MetricsNamesService,
-    private qanTableService: ProfileTableService
   ) {
-    this.profileParams = this.qanTableService.getProfileParamsState;
-    this.defaultColumns = this.qanTableService.getDefaultColumns;
+    this.profileParams = this.qanProfileService.getProfileParamsState;
+    this.defaultColumns = this.qanProfileService.getDefaultColumns;
 
     this.metrics$ = this.metricsNamesService.GetMetricsNames({})
       .pipe(map(metrics => metrics.data))
       .subscribe(metrics => this.metrics = Object.entries(metrics).map(metric => new SelectOptionModel(metric)));
 
-    this.report$ = this.qanTableService.profileParamsSource
+    this.report$ = this.qanProfileService.profileParamsSource
       .pipe(
         map(params => {
           const parsedParams = JSON.parse(JSON.stringify(params));
@@ -94,7 +95,7 @@ export class ProfileTableComponent implements OnInit, OnDestroy {
   }
 
   showDetails(filter_by) {
-    this.qanTableService.updateObjectDetails({
+    this.qanProfileService.updateObjectDetails({
       filter_by: filter_by,
       group_by: this.profileParams.group_by,
       labels: this.profileParams.labels,
@@ -127,8 +128,8 @@ export class ProfileTableComponent implements OnInit, OnDestroy {
 
     this.profileParams.period_start_from = fromUTC;
     this.profileParams.period_start_to = toUTC;
-    this.qanTableService.updateProfileParams(this.profileParams);
-    this.qanTableService.updateTimeRange({ period_start_from: fromUTC, period_start_to: toUTC });
+    this.qanProfileService.updateProfileParams(this.profileParams);
+    this.qanProfileService.updateTimeRange({ period_start_from: fromUTC, period_start_to: toUTC });
   }
 
   setTableData(data) {
@@ -166,13 +167,13 @@ export class ProfileTableComponent implements OnInit, OnDestroy {
 
   pageChanged(event) {
     this.profileParams.offset = event;
-    this.qanTableService.updateProfileParams(this.profileParams);
+    this.qanProfileService.updateProfileParams(this.profileParams);
   }
 
   onChangePerPage(event) {
     this.profileParams.limit = event;
     this.paginationConfig.itemsPerPage = event;
-    this.qanTableService.updateProfileParams(this.profileParams);
+    this.qanProfileService.updateProfileParams(this.profileParams);
   }
 
 }

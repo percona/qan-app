@@ -1,6 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { MetricModel } from '../profile-table/models/metric.model';
-import { ProfileTableService } from '../profile-table/profile-table.service';
+import { QanProfileService } from '../profile/qan-profile.service';
 
 @Component({
   selector: 'app-qan-table-cell',
@@ -20,8 +20,8 @@ export class TableCellComponent implements OnInit {
   public isLatency: boolean;
   public profileParams: any;
 
-  constructor(private qanTableService: ProfileTableService) {
-    this.profileParams = this.qanTableService.getProfileParamsState;
+  constructor(private qanProfileService: QanProfileService) {
+    this.profileParams = this.qanProfileService.getProfileParamsState;
   }
 
   ngOnInit() {

@@ -77,7 +77,6 @@
 .qan-table__cell {
   height: var(--row-heigth);
   white-space: nowrap;
-  //border-bottom: 1px solid var(--main-border-color);
 }
 
 .qan-table__cell--fixed {
@@ -85,7 +84,6 @@
   z-index: 2;
   left: 0;
   width: 30px;
-  //margin-top: 1px;
   background-color: inherit;
 }
 
