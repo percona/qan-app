@@ -1,7 +1,7 @@
 import { Component, OnDestroy, OnInit, Output, ViewChild } from '@angular/core';
 import { PerfectScrollbarComponent, PerfectScrollbarConfigInterface } from 'ngx-perfect-scrollbar';
 import { QueryParams } from '../../core/core.component';
-import { SelectOptionModel } from '../qan-table-header-cell/modesl/select-option.model';
+import { SelectOptionModel } from '../table-header-cell/modesl/select-option.model';
 import { TableDataModel } from './models/table-data.model';
 import { MetricModel } from './models/metric.model';
 import { ProfileService } from '../../inventory-api/services/profile.service';

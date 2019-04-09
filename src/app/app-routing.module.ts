@@ -2,7 +2,7 @@ import { NgModule, Injectable } from '@angular/core';
 import { Routes, Router, RouterModule, CanActivate } from '@angular/router';
 import { PageNotFoundComponent } from './core/page-not-found/page-not-found.component';
 
-import { QueryProfileComponent } from './qan/query-profile/query-profile.component';
+import { QueryProfileComponent } from './qan/profile/query-profile.component';
 import { SummaryComponent } from './summary/summary.component';
 import { SettingsComponent } from './settings/settings.component';
 import { AddInstanceComponent } from './add-instance/add-instance.component';
@@ -10,7 +10,7 @@ import { AddAmazonRDSComponent } from './add-amazon-rds/add-amazon-rds.component
 import { InstanceService } from './core/services/instance.service';
 import { AddRemoteInstanceComponent } from './add-remote-instances/add-remote-instance.component';
 import { RemoteInstancesListComponent } from './remote-instances-list/remote-instances-list.component';
-import { QueryDetailsComponent } from './qan/query-details/query-details.component';
+import { QueryDetailsComponent } from './qan/profile-details/query-details.component';
 import { InventoryComponent } from './inventory/inventory.component';
 
 @Injectable()

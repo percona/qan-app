@@ -2,11 +2,11 @@ import { Component, OnChanges, OnDestroy, OnInit, ViewChild } from '@angular/cor
 import { NgbTabset } from '@ng-bootstrap/ng-bootstrap';
 import { QanFilterService } from './qan-filter.service';
 import { FiltersService } from '../../inventory-api/services/filters.service';
-import { GetProfileBody, QanTableService } from '../qan-table/qan-table.service';
+import { GetProfileBody, QanTableService } from '../profile-table/qan-table.service';
 import { Subscription } from 'rxjs/internal/Subscription';
 import { map, switchMap } from 'rxjs/operators';
 import { FilterGroupModel } from './models/filter-group.model';
-import { FilterLabelModel } from '../qan-search/filter-label.model';
+import { FilterLabelModel } from '../search-autocomplete/filter-label.model';
 
 @Component({
   selector: 'app-qan-filter',

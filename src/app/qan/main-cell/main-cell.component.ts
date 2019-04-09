@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { SelectOptionModel } from '../qan-table-header-cell/modesl/select-option.model';
-import { GetProfileBody, QanTableService } from '../qan-table/qan-table.service';
+import { SelectOptionModel } from '../table-header-cell/modesl/select-option.model';
+import { GetProfileBody, QanTableService } from '../profile-table/qan-table.service';
 import { GroupByMock } from './mock/group-by.mock';
 
 @Component({

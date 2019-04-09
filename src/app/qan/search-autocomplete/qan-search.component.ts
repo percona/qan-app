@@ -1,10 +1,10 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { QanFilterService } from '../qan-filter/qan-filter.service';
+import { QanFilterService } from '../filter-menu/qan-filter.service';
 import { FilterSearchService } from '../../core/services/filter-search.service';
 import { map } from 'rxjs/operators';
 import { Subscription } from 'rxjs/internal/Subscription';
-import { GetProfileBody, QanTableService } from '../qan-table/qan-table.service';
-import { FiltersSearchModel } from '../qan-filter/models/filters-search.model';
+import { GetProfileBody, QanTableService } from '../profile-table/qan-table.service';
+import { FiltersSearchModel } from '../filter-menu/models/filters-search.model';
 
 @Component({
   selector: 'app-qan-search',

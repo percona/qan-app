@@ -6,7 +6,7 @@ import { CoreComponent, QueryParams } from '../../core/core.component';
 import { InstanceService } from '../../core/services/instance.service';
 import { QueryDetails, QueryDetailsService } from './query-details.service';
 import { Component, OnInit } from '@angular/core';
-import { QanTableService } from '../qan-table/qan-table.service';
+import { QanTableService } from '../profile-table/qan-table.service';
 import { catchError, retryWhen, switchMap } from 'rxjs/operators';
 import { MetricsService } from '../../inventory-api/services/metrics.service';
 import { throwError } from 'rxjs/internal/observable/throwError';

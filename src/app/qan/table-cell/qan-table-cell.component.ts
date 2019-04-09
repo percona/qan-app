@@ -1,6 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { MetricModel } from '../qan-table/models/metric.model';
-import { QanTableService } from '../qan-table/qan-table.service';
+import { MetricModel } from '../profile-table/models/metric.model';
+import { QanTableService } from '../profile-table/qan-table.service';
 
 @Component({
   selector: 'app-qan-table-cell',

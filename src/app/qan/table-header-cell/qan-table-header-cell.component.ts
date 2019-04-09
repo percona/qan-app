@@ -1,6 +1,6 @@
 import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { SelectOptionModel } from './modesl/select-option.model';
-import { GetProfileBody, QanTableService } from '../qan-table/qan-table.service';
+import { GetProfileBody, QanTableService } from '../profile-table/qan-table.service';
 import { Subscription } from 'rxjs/internal/Subscription';
 import { map } from 'rxjs/operators';
 

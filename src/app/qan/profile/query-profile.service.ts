@@ -1,46 +1,11 @@
 import { Injectable } from '@angular/core';
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
+import { SelectOptionModel } from '../table-header-cell/modesl/select-option.model';
 import { Subject } from 'rxjs/internal/Subject';
-import { SelectOptionModel } from '../qan-table-header-cell/modesl/select-option.model';
-import { FiltersSearchModel } from '../qan-filter/models/filters-search.model';
+import { GetProfileBody, ObjectDetails, TimeRange } from '../profile-table/qan-table.service';
 
-export interface GetProfileBody {
-  columns?: string[];
-  first_seen?: boolean;
-  group_by?: string,
-  include_only_fields?: string[]
-  keyword?: string,
-  labels?: LabelsProfile[],
-  limit?: number,
-  offset?: number,
-  order_by?: string,
-  period_start_from?: string,
-  period_start_to?: string
-}
-
-export interface ObjectDetails {
-  filter_by?: string,
-  group_by?: string,
-  include_only_fields?: string[]
-  labels?: LabelsProfile[],
-  period_start_from?: string,
-  period_start_to?: string
-}
-
-export interface TimeRange {
-  period_start_from: string,
-  period_start_to: string
-}
-
-export interface LabelsProfile {
-  key: string;
-  value: string[];
-}
-
-
-@Injectable({
-  providedIn: 'root'
-})
-export class QanTableService {
+@Injectable()
+export class QueryProfileService {
   private groupValue: SelectOptionModel;
   private profileParams = new Subject<GetProfileBody>();
   private objectDetails = new Subject<ObjectDetails>();
@@ -54,6 +19,7 @@ export class QanTableService {
     limit: 0,
     offset: 0,
   };
+
 
   constructor() {
   }
