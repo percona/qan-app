@@ -4,7 +4,7 @@
       <perfect-scrollbar [config]="scrollbarConfig" class="pmm-scrollbar">
         <div class="table-wrapper--inner">
           <table class="qan-table" id="qanTable">
-            <ng-container *ngFor="let row:  of tableData | paginate: paginationConfig; let index = index;">
+            <ng-container *ngFor="let row of tableData | paginate: paginationConfig; let index = index;">
               <tr *ngIf="!index" class="qan-table__row qan-table__row--heading">
                 <th class="qan-table__cell qan-table__cell--fixed qan-table__cell--first-c">#</th>
                 <th class="qan-table__cell qan-table__cell--fixed qan-table__cell--second-c">
@@ -19,7 +19,9 @@
                   </app-qan-table-header-cell>
                 </ng-container>
               </tr>
-              <tr (click)="showDetails(row.fingerprint || row.dimension)" class="qan-table__row qan-table--body">
+              <tr (click)="showDetails(row.dimension)"
+                  [routerLink]="['/profile', 'report', row.dimension]"
+                  routerLinkActive="qan-table__row--active" class="qan-table__row qan-table--body">
                 <td class="qan-table__cell qan-table__cell--first-c qan-table__cell--fixed">
                   {{index || ''}}
                 </td>
@@ -70,4 +72,3 @@
     </div>
   </div>
 </div>
-<router-outlet></router-outlet>

@@ -33,8 +33,7 @@ const routes: Routes = [
   { path: '', redirectTo: 'profile', pathMatch: 'full', canActivate: [RegisteredInstanceGuard] },
   {
     path: 'profile', component: QueryProfileComponent, children: [
-      { path: 'report/mysql', component: QueryDetailsComponent },
-      { path: 'report/mongo', component: QueryDetailsComponent }
+      { path: 'report/:dimension', component: QueryDetailsComponent },
     ]
   },
   { path: 'sys-summary', component: SummaryComponent, pathMatch: 'full', canActivate: [RegisteredInstanceGuard] },

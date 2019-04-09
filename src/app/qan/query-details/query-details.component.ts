@@ -71,6 +71,7 @@ export class QueryDetailsComponent implements OnInit {
     protected qanTableService: QanTableService,
     protected metricsService: MetricsService,
     public queryDetailsService: QueryDetailsService) {
+    console.log('query details constructor');
     console.log('time range - ', this.qanTableService.getTimeRange);
     this.qanTableService.objectDetailsSource.pipe(
       switchMap(parsedParams => this.metricsService.GetMetrics(parsedParams)
