@@ -16,7 +16,7 @@ export class MainCellComponent implements OnInit {
 
   constructor(private qanProfileService: QanProfileService) {
     this.groupByItems = Object.entries(this.groupByData).map(metric => new SelectOptionModel(metric));
-    this.currentParams = JSON.parse(JSON.stringify(this.qanProfileService.getProfileParams.getValue()));
+    this.currentParams = this.qanProfileService.getProfileParams.getValue();
     this.groupBy = this.groupByItems[0];
     this.qanProfileService.getProfileInfo.groupValue.subscribe(group_by => this.groupBy = group_by);
   }
@@ -27,6 +27,6 @@ export class MainCellComponent implements OnInit {
   onChangeGroupBy(value) {
     this.qanProfileService.updateGroupByValue(value);
     this.currentParams.group_by = value.name;
-    // this.qanProfileService.updateProfileParams(this.currentParams);
+    this.qanProfileService.updateProfileParams(this.currentParams);
   }
 }

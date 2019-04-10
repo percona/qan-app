@@ -23,7 +23,7 @@ export class TableHeaderCellComponent implements OnInit, OnDestroy {
   public isNotDefaultIcon = false;
 
   constructor(private qanProfileService: QanProfileService) {
-    this.currentParams = JSON.parse(JSON.stringify(this.qanProfileService.getProfileParams.getValue()));
+    this.currentParams = this.qanProfileService.getProfileParams.getValue();
   }
 
   ngOnInit() {
@@ -33,7 +33,6 @@ export class TableHeaderCellComponent implements OnInit, OnDestroy {
     ).subscribe(
       order => {
         this.isNotDefaultIcon = this.currentColumnName === order || `-${this.currentColumnName}` === order;
-        console.log('profileParamsSource');
       })
   }
 
@@ -53,12 +52,12 @@ export class TableHeaderCellComponent implements OnInit, OnDestroy {
 
     this.currentParams.columns[this.index] = value.name;
     this.currentParams.columns = this.currentParams.columns.filter(item => !!item);
-    // this.qanProfileService.updateProfileParams(this.currentParams);
+    this.qanProfileService.updateProfileParams(this.currentParams);
   }
 
   sortBy(selectedColumn) {
     this.isDESC = !this.isDESC;
     this.currentParams.order_by = this.isDESC ? selectedColumn.name : `-${selectedColumn.name}`;
-    // this.qanProfileService.updateProfileParams(this.currentParams);
+    this.qanProfileService.updateProfileParams(this.currentParams);
   }
 }

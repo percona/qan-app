@@ -27,7 +27,7 @@ export class SearchAutocompleteComponent implements OnInit, OnDestroy {
   constructor(private qanFilterService: FilterMenuService,
     private qanProfileService: QanProfileService,
     private filterSearchService: FilterSearchService) {
-    this.currentParams = JSON.parse(JSON.stringify(this.qanProfileService.getProfileParams.getValue()));
+    this.currentParams = this.qanProfileService.getProfileParams.getValue();
 
     this.qanFilterService.filterSource.pipe(
       map(response => {

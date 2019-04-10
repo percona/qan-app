@@ -21,8 +21,7 @@ export class TableCellComponent implements OnInit {
   public currentParams: any;
 
   constructor(private qanProfileService: QanProfileService) {
-    this.currentParams =
-      JSON.parse(JSON.stringify(this.qanProfileService.getProfileParams.getValue()));
+    this.currentParams = this.qanProfileService.getProfileParams.getValue();
   }
 
   ngOnInit() {

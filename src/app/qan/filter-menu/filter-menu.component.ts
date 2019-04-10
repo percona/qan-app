@@ -24,7 +24,7 @@ export class FilterMenuComponent implements OnInit, OnDestroy, OnChanges {
     private filterService: FiltersService,
     private qanProfileService: QanProfileService,
   ) {
-    this.currentParams = JSON.parse(JSON.stringify(this.qanProfileService.getProfileParams.getValue()));
+    this.currentParams = this.qanProfileService.getProfileParams.getValue();
 
     this.filterService.Get({
       period_start_from: this.currentParams.period_start_from,
@@ -39,7 +39,7 @@ export class FilterMenuComponent implements OnInit, OnDestroy, OnChanges {
       filters => {
         this.filters = filters;
         this.currentParams.labels = this.prepareLabels(filters);
-        // this.qanProfileService.updateProfileParams(this.currentParams);
+        this.qanProfileService.updateProfileParams(this.currentParams);
       });
   }
 

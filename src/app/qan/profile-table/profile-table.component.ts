@@ -57,7 +57,7 @@ export class ProfileTableComponent implements OnInit, OnDestroy {
     private profileService: ProfileService,
     private metricsNamesService: MetricsNamesService,
   ) {
-    this.defaultColumns = this.qanProfileService.getProfileParams.getValue().columns.slice(0, 3);
+    this.defaultColumns = ['load', 'count', 'latency'];
 
     this.report$ = this.qanProfileService.getProfileParams.pipe(
       map(params => {
@@ -128,12 +128,10 @@ export class ProfileTableComponent implements OnInit, OnDestroy {
     this.paginationConfig.totalItems = data['total_rows'];
     this.paginationConfig.currentPage = data['offset'] || 1;
     const tableRows = data['rows'].map(row => new TableDataModel(row));
-    console.log('tableRows gen - ', tableRows);
     tableRows.forEach(row => {
       row.metrics = row.metrics.filter(metric => this.currentParams.columns.includes(metric.metricName));
       row.metrics = this.mapOrder(row.metrics, this.currentParams.columns, 'metricName');
     });
-    console.log('tableRows - ', tableRows);
     return tableRows;
   }
 
