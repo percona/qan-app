@@ -8,6 +8,7 @@ export interface ProfileInfo {
   details: Subject<ObjectDetails>,
   groupValue?: SelectOptionModel,
   detailsBy?: string,
+  fingerprint?: string,
   defaultColumns: string[]
 }
 
@@ -72,6 +73,10 @@ export class QanProfileService {
 
   updateObjectDetails(params: ObjectDetails) {
     this.profileInfo.details.next(params);
+  }
+
+  set setFingerprint(fingerprint: string) {
+    this.profileInfo.fingerprint = fingerprint;
   }
 
   set setGroupByValue(group_by: SelectOptionModel) {

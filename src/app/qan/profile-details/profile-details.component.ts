@@ -34,6 +34,7 @@ export class ProfileDetailsComponent implements OnInit, AfterViewChecked {
       response => {
         console.log('response details - ', response);
         this.dimension = this.qanProfileService.getProfileInfo.detailsBy;
+        this.fingerprint = this.qanProfileService.getProfileInfo.fingerprint
       },
       err => console.log('err details - ', err)
     )

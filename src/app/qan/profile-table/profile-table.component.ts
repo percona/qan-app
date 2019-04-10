@@ -85,8 +85,9 @@ export class ProfileTableComponent implements OnInit, OnDestroy {
     this.report$.unsubscribe();
   }
 
-  showDetails(filter_by) {
+  showDetails(filter_by, fingerPrint = '') {
     this.qanProfileService.setDetailsByValue = this.detailsBy = filter_by;
+    this.qanProfileService.setFingerprint = fingerPrint;
     this.qanProfileService.updateObjectDetails({
       filter_by: filter_by,
       group_by: this.profileParams.group_by,
