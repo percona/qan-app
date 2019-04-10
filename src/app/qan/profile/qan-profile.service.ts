@@ -7,6 +7,7 @@ export interface ProfileInfo {
   profile: Subject<GetProfileBody>,
   details: Subject<ObjectDetails>,
   groupValue?: SelectOptionModel,
+  detailsBy?: string,
   defaultColumns: string[]
 }
 
@@ -75,6 +76,10 @@ export class QanProfileService {
 
   set setGroupByValue(group_by: SelectOptionModel) {
     this.profileInfo.groupValue = group_by;
+  }
+
+  set setDetailsByValue(details_by: string) {
+    this.profileInfo.detailsBy = details_by;
   }
 
   get getProfileInfo() {

@@ -19,7 +19,9 @@
                   </app-qan-table-header-cell>
                 </ng-container>
               </tr>
-              <tr (click)="showDetails(row.dimension)" class="qan-table__row qan-table--body">
+              <tr (click)="showDetails(row.dimension)"
+                  [class.qan-table__row--active]="row.dimension === detailsBy"
+                  class="qan-table__row qan-table--body">
                 <td class="qan-table__cell qan-table__cell--first-c qan-table__cell--fixed">
                   {{index || ''}}
                 </td>

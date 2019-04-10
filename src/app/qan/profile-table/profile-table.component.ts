@@ -30,6 +30,7 @@ export class ProfileTableComponent implements OnInit, OnDestroy {
   public profileParams: GetProfileBody;
   public tableData: TableDataModel[];
   public defaultColumns: string[];
+  public detailsBy: string;
   public report$: Subscription;
   public metrics$: Subscription;
   public metrics: SelectOptionModel[];
@@ -54,6 +55,7 @@ export class ProfileTableComponent implements OnInit, OnDestroy {
   ) {
     this.profileParams = this.qanProfileService.getProfileParamsState;
     this.defaultColumns = this.qanProfileService.getProfileInfo.defaultColumns;
+    this.detailsBy = this.qanProfileService.getProfileInfo.detailsBy || '';
 
     this.metrics$ = this.metricsNamesService.GetMetricsNames({})
       .pipe(map(metrics => this.generateMetricsNames(metrics)))
@@ -84,6 +86,7 @@ export class ProfileTableComponent implements OnInit, OnDestroy {
   }
 
   showDetails(filter_by) {
+    this.qanProfileService.setDetailsByValue = this.detailsBy = filter_by;
     this.qanProfileService.updateObjectDetails({
       filter_by: filter_by,
       group_by: this.profileParams.group_by,

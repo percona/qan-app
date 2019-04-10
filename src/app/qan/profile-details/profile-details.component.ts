@@ -1,5 +1,5 @@
 import { ActivatedRoute, Router } from '@angular/router';
-import { Component, OnInit } from '@angular/core';
+import { AfterViewChecked, Component, OnInit } from '@angular/core';
 import { catchError, retryWhen, switchMap } from 'rxjs/operators';
 import { MetricsService } from '../../pmm-api-services/services/metrics.service';
 import { throwError } from 'rxjs/internal/observable/throwError';
@@ -12,9 +12,10 @@ import { QanProfileService } from '../profile/qan-profile.service';
   styleUrls: ['./profile-details.component.scss']
 })
 
-export class ProfileDetailsComponent implements OnInit {
+export class ProfileDetailsComponent implements OnInit, AfterViewChecked {
   protected dbName: string;
   public fingerprint: string;
+  public dimension: string;
   event = new Event('showSuccessNotification');
 
   constructor(
@@ -30,11 +31,17 @@ export class ProfileDetailsComponent implements OnInit {
         )),
       retryWhen(error => error)
     ).subscribe(
-      response => console.log('response details - ', response),
+      response => {
+        console.log('response details - ', response);
+        this.dimension = this.qanProfileService.getProfileInfo.detailsBy;
+      },
       err => console.log('err details - ', err)
     )
   }
 
   ngOnInit() {
+  }
+
+  ngAfterViewChecked() {
   }
 }
