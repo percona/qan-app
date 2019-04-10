@@ -2,7 +2,7 @@ import { Component, OnChanges, OnDestroy, OnInit } from '@angular/core';
 import { FilterMenuService } from './filter-menu.service';
 import { FiltersService } from '../../pmm-api-services/services/filters.service';
 import { Subscription } from 'rxjs/internal/Subscription';
-import { map, switchMap } from 'rxjs/operators';
+import { map } from 'rxjs/operators';
 import { FilterGroupModel } from './models/filter-group.model';
 import { FilterLabelModel } from '../search-autocomplete/models/filter-label.model';
 import { GetProfileBody, QanProfileService } from '../profile/qan-profile.service';
@@ -13,7 +13,7 @@ import { GetProfileBody, QanProfileService } from '../profile/qan-profile.servic
   styleUrls: ['./filter-menu.component.scss']
 })
 export class FilterMenuComponent implements OnInit, OnDestroy, OnChanges {
-  public profileParams: GetProfileBody;
+  public currentParams: GetProfileBody;
   public limits = {};
   public defaultLimit = 4;
   private filterSubscription: Subscription;
@@ -24,24 +24,22 @@ export class FilterMenuComponent implements OnInit, OnDestroy, OnChanges {
     private filterService: FiltersService,
     private qanProfileService: QanProfileService,
   ) {
-    this.profileParams = this.qanProfileService.getProfileParamsState;
-    this.qanProfileService.getProfileInfo.timeRange
-      .pipe(
-        switchMap(timeRange => this.filterService.Get(timeRange)
-          .pipe(
-            map(response => this.generateFilterGroup(response))
-          ))
-      )
-      .subscribe(
-        response => this.filterMenuService.updateFilterConfigs(response)
-      );
+    this.currentParams = JSON.parse(JSON.stringify(this.qanProfileService.getProfileParams.getValue()));
+
+    this.filterService.Get({
+      period_start_from: this.currentParams.period_start_from,
+      period_start_to: this.currentParams.period_start_to
+    }).pipe(
+      map(response => this.generateFilterGroup(response))
+    ).subscribe(
+      response => this.filterMenuService.updateFilterConfigs(response)
+    );
 
     this.filterMenuService.filterSource.subscribe(
       filters => {
         this.filters = filters;
-        const filtered = this.filters.map(filtersItem => new FilterLabelModel(filtersItem.filterGroup, filtersItem.items));
-        this.profileParams.labels = filtered.filter(filteredItem => filteredItem.value.length);
-        this.qanProfileService.updateProfileParams(this.profileParams);
+        this.currentParams.labels = this.prepareLabels(filters);
+        // this.qanProfileService.updateProfileParams(this.currentParams);
       });
   }
 
@@ -53,6 +51,11 @@ export class FilterMenuComponent implements OnInit, OnDestroy, OnChanges {
 
   ngOnDestroy() {
     this.filterSubscription.unsubscribe();
+  }
+
+  prepareLabels(filters) {
+    const filtered = filters.map(filtersItem => new FilterLabelModel(filtersItem.filterGroup, filtersItem.items));
+    return filtered.filter(filteredItem => filteredItem.value.length);
   }
 
   getAll(group) {

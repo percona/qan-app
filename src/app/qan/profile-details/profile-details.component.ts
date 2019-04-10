@@ -4,6 +4,7 @@ import { catchError, retryWhen, switchMap } from 'rxjs/operators';
 import { MetricsService } from '../../pmm-api-services/services/metrics.service';
 import { throwError } from 'rxjs/internal/observable/throwError';
 import { QanProfileService } from '../profile/qan-profile.service';
+import { FilterMenuService } from '../filter-menu/filter-menu.service';
 
 @Component({
   moduleId: module.id,
@@ -15,29 +16,29 @@ import { QanProfileService } from '../profile/qan-profile.service';
 export class ProfileDetailsComponent implements OnInit, AfterViewChecked {
   protected dbName: string;
   public fingerprint: string;
+  public currentParams: any;
   public dimension: string;
+  public details: any;
   event = new Event('showSuccessNotification');
 
   constructor(
     protected route: ActivatedRoute,
     protected router: Router,
     protected qanProfileService: QanProfileService,
-    protected metricsService: MetricsService
+    protected metricsService: MetricsService,
   ) {
     this.qanProfileService.getProfileInfo.details.pipe(
-      switchMap(parsedParams => this.metricsService.GetMetrics(parsedParams)
-        .pipe(
+      switchMap(parsedParams => {
+        this.currentParams = parsedParams;
+        this.dimension = this.currentParams.filter_by;
+        return this.metricsService.GetMetrics(parsedParams).pipe(
           catchError(err => throwError(err))
-        )),
+        )
+      }),
       retryWhen(error => error)
-    ).subscribe(
-      response => {
-        console.log('response details - ', response);
-        this.dimension = this.qanProfileService.getProfileInfo.detailsBy;
-        this.fingerprint = this.qanProfileService.getProfileInfo.fingerprint
-      },
-      err => console.log('err details - ', err)
-    )
+    ).subscribe(response => this.details = response);
+
+    this.qanProfileService.getProfileInfo.fingerprint.subscribe(fingerprint => this.fingerprint = fingerprint);
   }
 
   ngOnInit() {

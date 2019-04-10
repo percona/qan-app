@@ -13,6 +13,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import * as moment from 'moment';
 import { throwError } from 'rxjs/internal/observable/throwError';
 import { GetProfileBody, QanProfileService } from '../profile/qan-profile.service';
+import { fingerprint } from '@angular/compiler/src/i18n/digest';
 
 @Component({
   selector: 'app-qan-table',
@@ -29,8 +30,11 @@ export class ProfileTableComponent implements OnInit, OnDestroy {
   public iframeQueryParams: QueryParams;
   public profileParams: GetProfileBody;
   public tableData: TableDataModel[];
+  public tableData$: any;
+  public currentParams: any;
   public defaultColumns: string[];
-  public detailsBy: string;
+  public detailsBy = '';
+  public fingerprint = '';
   public report$: Subscription;
   public metrics$: Subscription;
   public metrics: SelectOptionModel[];
@@ -53,31 +57,30 @@ export class ProfileTableComponent implements OnInit, OnDestroy {
     private profileService: ProfileService,
     private metricsNamesService: MetricsNamesService,
   ) {
-    this.profileParams = this.qanProfileService.getProfileParamsState;
-    this.defaultColumns = this.qanProfileService.getProfileInfo.defaultColumns;
-    this.detailsBy = this.qanProfileService.getProfileInfo.detailsBy || '';
+    this.defaultColumns = this.qanProfileService.getProfileParams.getValue().columns.slice(0, 3);
 
-    this.metrics$ = this.metricsNamesService.GetMetricsNames({})
-      .pipe(map(metrics => this.generateMetricsNames(metrics)))
-      .subscribe(metrics => this.metrics = metrics);
+    this.report$ = this.qanProfileService.getProfileParams.pipe(
+      map(params => {
+        this.currentParams = params;
+        return this.removeDefaultColumns(params)
+      }),
+      switchMap(parsedParams => this.profileService.GetReport(parsedParams).pipe(
+        map(data => this.generateTableData(data)),
+        catchError(err => throwError(err)))),
+    ).subscribe(data => {
+      this.tableData = data;
+      console.log('data - ', data);
+    });
 
-    this.report$ = this.qanProfileService.getProfileInfo.profile
-      .pipe(
-        map(params => this.removeDefaultColumns(params)),
-        switchMap(parsedParams => this.profileService.GetReport(parsedParams)
-          .pipe(catchError(err => throwError(err)))
-        ),
-        retryWhen(error => error)
-      )
-      .subscribe(
-        data => {
-          this.setTableData(data);
-        }
-      );
+    this.metrics$ = this.metricsNamesService.GetMetricsNames({}).pipe(
+      map(metrics => this.generateMetricsNames(metrics))
+    ).subscribe(metrics => this.metrics = metrics);
+
+    this.qanProfileService.getProfileInfo.detailsBy.subscribe(details_by => this.detailsBy = details_by);
+    this.qanProfileService.getProfileInfo.fingerprint.subscribe(details_by => this.fingerprint = details_by);
   }
 
   ngOnInit() {
-    this.setTimeRange();
   }
 
   ngOnDestroy() {
@@ -86,14 +89,14 @@ export class ProfileTableComponent implements OnInit, OnDestroy {
   }
 
   showDetails(filter_by, fingerPrint = '') {
-    this.qanProfileService.setDetailsByValue = this.detailsBy = filter_by;
-    this.qanProfileService.setFingerprint = fingerPrint;
+    this.qanProfileService.updateDetailsByValue(filter_by);
+    this.qanProfileService.updateFingerprint(fingerPrint);
     this.qanProfileService.updateObjectDetails({
       filter_by: filter_by,
-      group_by: this.profileParams.group_by,
-      labels: this.profileParams.labels,
-      period_start_from: this.profileParams.period_start_from,
-      period_start_to: this.profileParams.period_start_to
+      group_by: this.currentParams.group_by,
+      labels: this.currentParams.labels,
+      period_start_from: this.currentParams.period_start_from,
+      period_start_to: this.currentParams.period_start_to
     });
   }
 
@@ -121,27 +124,17 @@ export class ProfileTableComponent implements OnInit, OnDestroy {
     return Object.entries(metrics.data).map(metric => new SelectOptionModel(metric));
   }
 
-  setTimeRange() {
-    this.iframeQueryParams = this.route.snapshot.queryParams as QueryParams;
-    const from = this.parseQueryParamDatePipe.transform(this.iframeQueryParams.from, 'from');
-    const to = this.parseQueryParamDatePipe.transform(this.iframeQueryParams.to, 'to');
-    const fromUTC = from.utc().format('YYYY-MM-DDTHH:mm:ssZ');
-    const toUTC = to.utc().format('YYYY-MM-DDTHH:mm:ssZ');
-
-    this.profileParams.period_start_from = fromUTC;
-    this.profileParams.period_start_to = toUTC;
-    this.qanProfileService.updateProfileParams(this.profileParams);
-    this.qanProfileService.updateTimeRange({ period_start_from: fromUTC, period_start_to: toUTC });
-  }
-
-  setTableData(data) {
-    this.tableData = data['rows'].map(row => new TableDataModel(row));
-    this.tableData.forEach(row => {
-      row.metrics = row.metrics.filter(metric => this.profileParams.columns.includes(metric.metricName));
-      row.metrics = this.mapOrder(row.metrics, this.profileParams.columns, 'metricName');
-    });
+  generateTableData(data) {
     this.paginationConfig.totalItems = data['total_rows'];
     this.paginationConfig.currentPage = data['offset'] || 1;
+    const tableRows = data['rows'].map(row => new TableDataModel(row));
+    console.log('tableRows gen - ', tableRows);
+    tableRows.forEach(row => {
+      row.metrics = row.metrics.filter(metric => this.currentParams.columns.includes(metric.metricName));
+      row.metrics = this.mapOrder(row.metrics, this.currentParams.columns, 'metricName');
+    });
+    console.log('tableRows - ', tableRows);
+    return tableRows;
   }
 
 
@@ -168,12 +161,12 @@ export class ProfileTableComponent implements OnInit, OnDestroy {
   }
 
   pageChanged(event) {
-    this.profileParams.offset = event;
+    this.currentParams.offset = event;
     this.qanProfileService.updateProfileParams(this.profileParams);
   }
 
   onChangePerPage(event) {
-    this.profileParams.limit = event;
+    this.currentParams.limit = event;
     this.paginationConfig.itemsPerPage = event;
     this.qanProfileService.updateProfileParams(this.profileParams);
   }

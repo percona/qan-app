@@ -18,15 +18,16 @@ export class TableCellComponent implements OnInit {
   public isStats: boolean;
   public isDefaultColumn: boolean;
   public isLatency: boolean;
-  public profileParams: any;
+  public currentParams: any;
 
   constructor(private qanProfileService: QanProfileService) {
-    this.profileParams = this.qanProfileService.getProfileParamsState;
+    this.currentParams =
+      JSON.parse(JSON.stringify(this.qanProfileService.getProfileParams.getValue()));
   }
 
   ngOnInit() {
     this.isStats = Object.keys(this.metricData.stats).includes('min' && 'max');
-    this.isDefaultColumn = this.profileParams.columns.includes(this.metricData.metricName);
+    this.isDefaultColumn = this.currentParams.columns.includes(this.metricData.metricName);
     this.setCurrentSparkline(this.metricData.metricName);
   }
 

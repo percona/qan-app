@@ -12,20 +12,21 @@ export class MainCellComponent implements OnInit {
   public groupByData = GroupByMock;
   public groupByItems: SelectOptionModel[];
   public groupBy: any;
-  public profileParams: GetProfileBody;
+  public currentParams: GetProfileBody;
 
   constructor(private qanProfileService: QanProfileService) {
     this.groupByItems = Object.entries(this.groupByData).map(metric => new SelectOptionModel(metric));
-    this.profileParams = this.qanProfileService.getProfileParamsState;
-    this.groupBy = this.qanProfileService.getProfileInfo.groupValue || this.groupByItems[0];
+    this.currentParams = JSON.parse(JSON.stringify(this.qanProfileService.getProfileParams.getValue()));
+    this.groupBy = this.groupByItems[0];
+    this.qanProfileService.getProfileInfo.groupValue.subscribe(group_by => this.groupBy = group_by);
   }
 
   ngOnInit() {
   }
 
   onChangeGroupBy(value) {
-    this.qanProfileService.setGroupByValue = value;
-    this.profileParams.group_by = value.name;
-    this.qanProfileService.updateProfileParams(this.profileParams);
+    this.qanProfileService.updateGroupByValue(value);
+    this.currentParams.group_by = value.name;
+    // this.qanProfileService.updateProfileParams(this.currentParams);
   }
 }

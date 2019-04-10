@@ -18,17 +18,17 @@ export class TableHeaderCellComponent implements OnInit, OnDestroy {
 
   private params$: Subscription;
   public selectedQueryColumn: SelectOptionModel;
-  public profileParams: GetProfileBody;
+  public currentParams: GetProfileBody;
   public isDESC = false;
   public isNotDefaultIcon = false;
 
   constructor(private qanProfileService: QanProfileService) {
-    this.profileParams = this.qanProfileService.getProfileParamsState;
+    this.currentParams = JSON.parse(JSON.stringify(this.qanProfileService.getProfileParams.getValue()));
   }
 
   ngOnInit() {
     this.selectedQueryColumn = this.metrics.filter(option => option.name === this.currentColumnName)[0];
-    this.params$ = this.qanProfileService.getProfileInfo.profile.pipe(
+    this.params$ = this.qanProfileService.getProfileParams.pipe(
       map(params => params.order_by)
     ).subscribe(
       order => {
@@ -43,7 +43,7 @@ export class TableHeaderCellComponent implements OnInit, OnDestroy {
 
   removeColumn() {
     this.fullData.forEach(item => item.metrics.splice(this.index, 1));
-    this.profileParams.columns.splice(this.index, 1);
+    this.currentParams.columns.splice(this.index, 1);
   }
 
   setMetricColumn(value) {
@@ -51,14 +51,14 @@ export class TableHeaderCellComponent implements OnInit, OnDestroy {
       return;
     }
 
-    this.profileParams.columns[this.index] = value.name;
-    this.profileParams.columns = this.profileParams.columns.filter(item => !!item);
-    this.qanProfileService.updateProfileParams(this.profileParams);
+    this.currentParams.columns[this.index] = value.name;
+    this.currentParams.columns = this.currentParams.columns.filter(item => !!item);
+    // this.qanProfileService.updateProfileParams(this.currentParams);
   }
 
   sortBy(selectedColumn) {
     this.isDESC = !this.isDESC;
-    this.profileParams.order_by = this.isDESC ? selectedColumn.name : `-${selectedColumn.name}`;
-    this.qanProfileService.updateProfileParams(this.profileParams);
+    this.currentParams.order_by = this.isDESC ? selectedColumn.name : `-${selectedColumn.name}`;
+    // this.qanProfileService.updateProfileParams(this.currentParams);
   }
 }

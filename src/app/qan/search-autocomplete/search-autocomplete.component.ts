@@ -16,7 +16,7 @@ export class SearchAutocompleteComponent implements OnInit, OnDestroy {
   public selected: Array<{}> = [];
   private filterSubscription$: Subscription;
   public filters: any;
-  public profileParams: GetProfileBody;
+  public currentParams: GetProfileBody;
 
   autocomplete = [];
   autocompleteBuffer = [];
@@ -25,9 +25,9 @@ export class SearchAutocompleteComponent implements OnInit, OnDestroy {
   loading = false;
 
   constructor(private qanFilterService: FilterMenuService,
-    private qanTableService: QanProfileService,
+    private qanProfileService: QanProfileService,
     private filterSearchService: FilterSearchService) {
-    this.profileParams = this.qanTableService.getProfileParamsState;
+    this.currentParams = JSON.parse(JSON.stringify(this.qanProfileService.getProfileParams.getValue()));
 
     this.qanFilterService.filterSource.pipe(
       map(response => {

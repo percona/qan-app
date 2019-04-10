@@ -1,16 +1,10 @@
 import { Injectable } from '@angular/core';
 import { SelectOptionModel } from '../table-header-cell/modesl/select-option.model';
 import { Subject } from 'rxjs/internal/Subject';
-
-export interface ProfileInfo {
-  timeRange: Subject<TimeRange>,
-  profile: Subject<GetProfileBody>,
-  details: Subject<ObjectDetails>,
-  groupValue?: SelectOptionModel,
-  detailsBy?: string,
-  fingerprint?: string,
-  defaultColumns: string[]
-}
+import { BehaviorSubject } from 'rxjs/internal/BehaviorSubject';
+import { QueryParams } from '../../core/core.component';
+import { ActivatedRoute } from '@angular/router';
+import { ParseQueryParamDatePipe } from '../../shared/parse-query-param-date.pipe';
 
 export interface GetProfileBody {
   columns?: string[];
@@ -45,53 +39,80 @@ export interface LabelsProfile {
   value: string[];
 }
 
+export interface ProfileInfo {
+  timeRange: Subject<TimeRange>,
+  profile: Subject<GetProfileBody>,
+  details: Subject<ObjectDetails>,
+  groupValue: Subject<SelectOptionModel>,
+  detailsBy: Subject<string>,
+  fingerprint: Subject<string>,
+  defaultColumns: string[]
+}
+
 @Injectable()
 export class QanProfileService {
+  private iframeQueryParams = this.route.snapshot.queryParams as QueryParams;
+  private parseQueryParamDatePipe = new ParseQueryParamDatePipe();
+
   private profileInfo: ProfileInfo = {
     timeRange: new Subject<TimeRange>(),
     profile: new Subject<GetProfileBody>(),
     details: new Subject<ObjectDetails>(),
+    groupValue: new Subject<SelectOptionModel>(),
+    detailsBy: new BehaviorSubject<string>(''),
+    fingerprint: new BehaviorSubject<string>(''),
     defaultColumns: ['load', 'count', 'latency'],
   };
 
-  private profileParamsState: GetProfileBody = {
-    order_by: 'num_queries',
-    group_by: 'queryid',
+  private profileParams = new BehaviorSubject<GetProfileBody>({
     columns: ['load', 'count', 'latency'],
-  };
+    first_seen: false,
+    group_by: 'queryid',
+    include_only_fields: [],
+    keyword: '',
+    labels: [],
+    limit: 0,
+    offset: 0,
+    order_by: 'num_queries',
+    period_start_from: this.setTimeRange('from'),
+    period_start_to: this.setTimeRange('to')
+  });
 
-  constructor() {
+
+  constructor(private route: ActivatedRoute) {
+
+  }
+
+  setTimeRange(value): string {
+    const processed = this.parseQueryParamDatePipe.transform(this.iframeQueryParams[value], value);
+    return processed.utc().format('YYYY-MM-DDTHH:mm:ssZ');
   }
 
   updateProfileParams(params: GetProfileBody) {
-    this.profileInfo.profile.next(params)
-  }
-
-  updateTimeRange(range: TimeRange) {
-    this.profileInfo.timeRange.next(range)
+    this.profileParams.next(params);
   }
 
   updateObjectDetails(params: ObjectDetails) {
     this.profileInfo.details.next(params);
   }
 
-  set setFingerprint(fingerprint: string) {
-    this.profileInfo.fingerprint = fingerprint;
+  updateFingerprint(fingerprint: string) {
+    this.profileInfo.fingerprint.next(fingerprint);
   }
 
-  set setGroupByValue(group_by: SelectOptionModel) {
-    this.profileInfo.groupValue = group_by;
+  updateGroupByValue(group_by: SelectOptionModel) {
+    this.profileInfo.groupValue.next(group_by);
   }
 
-  set setDetailsByValue(details_by: string) {
-    this.profileInfo.detailsBy = details_by;
+  updateDetailsByValue(details_by: string) {
+    this.profileInfo.detailsBy.next(details_by);
+  }
+
+  get getProfileParams(): BehaviorSubject<GetProfileBody> {
+    return this.profileParams;
   }
 
   get getProfileInfo() {
     return this.profileInfo
-  }
-
-  get getProfileParamsState(): GetProfileBody {
-    return this.profileParamsState;
   }
 }
