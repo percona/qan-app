@@ -20,7 +20,7 @@
         "tags": [
           "Agents"
         ],
-        "summary": "AddExternalExporter adds External Agent.",
+        "summary": "AddExte rnalExporter adds External Agent.",
         "operationId": "AddExternalExporter",
         "parameters": [
           {

@@ -14,6 +14,7 @@
   grid-template-columns: 300px minmax(1000px, 1fr);
   grid-template-rows: repeat(2, auto);
   align-items: flex-start;
+  margin-bottom: var(--main-bottom-indent);
 }
 
 .pmm-qan__search {

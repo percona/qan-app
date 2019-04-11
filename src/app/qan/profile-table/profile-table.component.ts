@@ -13,7 +13,6 @@ import { ActivatedRoute, Router } from '@angular/router';
 import * as moment from 'moment';
 import { throwError } from 'rxjs/internal/observable/throwError';
 import { GetProfileBody, QanProfileService } from '../profile/qan-profile.service';
-import { fingerprint } from '@angular/compiler/src/i18n/digest';
 
 @Component({
   selector: 'app-qan-table',
@@ -30,7 +29,6 @@ export class ProfileTableComponent implements OnInit, OnDestroy {
   public iframeQueryParams: QueryParams;
   public profileParams: GetProfileBody;
   public tableData: TableDataModel[];
-  public tableData$: any;
   public currentParams: any;
   public defaultColumns: string[];
   public detailsBy = '';
@@ -38,7 +36,6 @@ export class ProfileTableComponent implements OnInit, OnDestroy {
   public report$: Subscription;
   public metrics$: Subscription;
   public metrics: SelectOptionModel[];
-  private parseQueryParamDatePipe = new ParseQueryParamDatePipe();
 
   public page = 1;
   public selectPaginationConfig = [10, 50, 100];
@@ -89,7 +86,6 @@ export class ProfileTableComponent implements OnInit, OnDestroy {
   }
 
   showDetails(filter_by, fingerPrint = '') {
-    this.qanProfileService.updateDetailsByValue(filter_by);
     this.qanProfileService.updateFingerprint(fingerPrint);
     this.qanProfileService.updateObjectDetails({
       filter_by: filter_by,

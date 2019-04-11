@@ -1,0 +1,19 @@
+:host {
+  display: grid;
+  grid-template-columns: repeat(2, 2fr) 3fr 2fr;
+  align-items: center;
+  background-color: var(--row-background, transparent);
+  outline: none;
+  word-break: break-all;
+}
+
+:host > * {
+  display: flex;
+  align-items: center;
+  height: 100%;
+  padding: 0 10px;
+
+  &:not(:last-child) {
+     border-right: 1px solid var(--main-border-color);
+   }
+}

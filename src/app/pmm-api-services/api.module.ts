@@ -11,7 +11,7 @@ import { NodeService } from './services/node.service';
 import { FiltersService } from './services/filters.service';
 import { MetricsNamesService } from './services/metrics-names.service';
 import { ProfileService } from './services/profile.service';
-import { MetricsService } from './services/metrics.service';
+import { ObjectDetailsService } from './services/object-details.service';
 import { ServerService } from './services/server.service';
 
 /**
@@ -35,7 +35,7 @@ import { ServerService } from './services/server.service';
     FiltersService,
     MetricsNamesService,
     ProfileService,
-    MetricsService,
+    ObjectDetailsService,
     ServerService
   ],
 })

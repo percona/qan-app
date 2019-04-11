@@ -6,5 +6,5 @@ export { NodeService } from './services/node.service';
 export { FiltersService } from './services/filters.service';
 export { MetricsNamesService } from './services/metrics-names.service';
 export { ProfileService } from './services/profile.service';
-export { MetricsService } from './services/metrics.service';
+export { ObjectDetailsService } from './services/object-details.service';
 export { ServerService } from './services/server.service';

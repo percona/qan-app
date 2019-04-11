@@ -1,4 +1,4 @@
-import { NgModule, Optional, SkipSelf } from '@angular/core';
+import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { SharedModule } from '../shared/shared.module';
 import { JSONTreeComponent } from './json-tree/json-tree.component';
@@ -39,6 +39,7 @@ import { ProfileTableComponent } from '../qan/profile-table/profile-table.compon
 import { TableHeaderCellComponent } from '../qan/table-header-cell/table-header-cell.component';
 import { MainCellComponent } from '../qan/main-cell/main-cell.component';
 import { NgxPaginationModule } from 'ngx-pagination';
+import { DetailsRowComponent } from '../qan/profile-details/details-row/details-row.component';
 
 @NgModule({
   imports: [
@@ -68,7 +69,8 @@ import { NgxPaginationModule } from 'ngx-pagination';
     ProfileTableComponent,
     TableHeaderCellComponent,
     TableCellComponent,
-    MainCellComponent
+    MainCellComponent,
+    DetailsRowComponent,
   ],
   exports: [
     PageNotFoundComponent,
@@ -85,6 +87,7 @@ import { NgxPaginationModule } from 'ngx-pagination';
     ServicesTableComponent,
     AgentsTableComponent,
     NodesTableComponent,
+    DetailsRowComponent,
   ],
   providers: [
     InstanceService,

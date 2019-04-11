@@ -30,7 +30,7 @@ class NodesService extends __BaseService {
    * @param body undefined
    * @return A successful response.
    */
-  AddContainerNodeResponse(body: { custom_labels?: { [key: string]: string }, docker_container_id?: string, docker_container_name?: string, machine_id?: string, node_name?: string }): __Observable<__StrictHttpResponse<{ container?: { address?: string, custom_labels?: { [key: string]: string }, docker_container_id?: string, docker_container_name?: string, machine_id?: string, node_id?: string, node_name?: string } }>> {
+  AddContainerNodeResponse(body: { address?: string, custom_labels?: { [key: string]: string }, docker_container_id?: string, docker_container_name?: string, machine_id?: string, node_name?: string }): __Observable<__StrictHttpResponse<{ container?: { address?: string, custom_labels?: { [key: string]: string }, docker_container_id?: string, docker_container_name?: string, machine_id?: string, node_id?: string, node_name?: string } }>> {
     let __params = this.newParams();
     let __headers = new HttpHeaders();
     let __body: any = null;
@@ -56,7 +56,7 @@ class NodesService extends __BaseService {
    * @param body undefined
    * @return A successful response.
    */
-  AddContainerNode(body: { custom_labels?: { [key: string]: string }, docker_container_id?: string, docker_container_name?: string, machine_id?: string, node_name?: string }): __Observable<{ container?: { address?: string, custom_labels?: { [key: string]: string }, docker_container_id?: string, docker_container_name?: string, machine_id?: string, node_id?: string, node_name?: string } }> {
+  AddContainerNode(body: { address?: string, custom_labels?: { [key: string]: string }, docker_container_id?: string, docker_container_name?: string, machine_id?: string, node_name?: string }): __Observable<{ container?: { address?: string, custom_labels?: { [key: string]: string }, docker_container_id?: string, docker_container_name?: string, machine_id?: string, node_id?: string, node_name?: string } }> {
     return this.AddContainerNodeResponse(body).pipe(
       __map(_r => _r.body as { container?: { address?: string, custom_labels?: { [key: string]: string }, docker_container_id?: string, docker_container_name?: string, machine_id?: string, node_id?: string, node_name?: string } })
     );

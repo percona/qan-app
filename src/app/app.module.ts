@@ -24,7 +24,7 @@ export function getInstances(instanceService: InstanceService) {
     AppComponent,
     AddAmazonRDSComponent,
     AddRemoteInstanceComponent,
-    AddInstanceComponent,
+    AddInstanceComponent
   ],
   imports: [
     AppRoutingModule,
