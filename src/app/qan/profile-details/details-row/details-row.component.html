@@ -1,8 +1,7 @@
 <span>{{currentMetric.metricName}}</span>
 <div class="row__cells">
   <span class="unit unit--per-sec">
-<!--    {{ currentMetric.stats.rate | humanize : 'number' }}-->
-    {{ currentMetric.stats.rate }}
+    {{ currentMetric.stats.rate | humanize: pipeType }}
   </span>
 <!--  <div [appLoadSparklines]="queryDetails?.Sparks2" class="scaling-svg-container app-tooltip"-->
 <!--       data-tooltip="Loading..." xkey="Ts" ykey="Query_count_per_sec" measurement="number">-->
@@ -10,17 +9,15 @@
 </div>
 <div>
   <span>
-<!--    {{ currentMetric.stats.sum | humanize : 'number' }}-->
-    {{ currentMetric.stats.sum }}
+    {{ currentMetric.stats.sum | humanize: pipeType }}
 <!--    <small *ngIf="!isSummary" class="highlight-content">-->
-<!--                  {{ queryDetails?.Metrics2?.Query_count_of_total | humanize : 'percent' }} of total-->
-<!--                </small>-->
+<!--      {{ queryDetails?.Metrics2?.Query_count_of_total | humanize : 'percent' }} of total-->
+<!--    </small>-->
   </span>
 </div>
 <div class="row__cells">
   <span class="unit unit--avg">
-<!--    {{ queryDetails?.Metrics2?.Query_time_avg | humanize : 'time' }}-->
-    {{ currentMetric.stats.avg }}
+    {{ currentMetric.stats.avg | humanize: additionalPipeType || pipeType }}
   </span>
   <div class="scaling-svg-container app-tooltip"
        data-tooltip="Loading..."
