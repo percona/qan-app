@@ -39,7 +39,6 @@ export class FilterMenuComponent implements OnInit, OnDestroy, OnChanges {
       filters => {
         this.currentFilters = filters;
         this.currentParams.labels = this.prepareLabels(filters);
-        console.log('filters - ', filters);
         this.qanProfileService.updateProfileParams(this.currentParams);
       });
   }

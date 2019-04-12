@@ -1,5 +1,4 @@
 import { Injectable } from '@angular/core';
-import { SelectOptionModel } from '../table-header-cell/modesl/select-option.model';
 import { Subject } from 'rxjs/internal/Subject';
 import { BehaviorSubject } from 'rxjs/internal/BehaviorSubject';
 import { QueryParams } from '../../core/core.component';
@@ -43,7 +42,6 @@ export interface ProfileInfo {
   timeRange: Subject<TimeRange>,
   profile: Subject<GetProfileBody>,
   details: Subject<ObjectDetails>,
-  groupValue: Subject<SelectOptionModel>,
   detailsBy: Subject<string>,
   fingerprint: Subject<string>,
   defaultColumns: string[]
@@ -58,7 +56,6 @@ export class QanProfileService {
     timeRange: new Subject<TimeRange>(),
     profile: new Subject<GetProfileBody>(),
     details: new Subject<ObjectDetails>(),
-    groupValue: new Subject<SelectOptionModel>(),
     detailsBy: new BehaviorSubject<string>('default'),
     fingerprint: new BehaviorSubject<string>(''),
     defaultColumns: ['load', 'count', 'latency'],
@@ -98,10 +95,6 @@ export class QanProfileService {
 
   updateFingerprint(fingerprint: string) {
     this.profileInfo.fingerprint.next(fingerprint);
-  }
-
-  updateGroupByValue(group_by: SelectOptionModel) {
-    this.profileInfo.groupValue.next(group_by);
   }
 
   updateDetailsByValue(details_by: string) {

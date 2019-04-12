@@ -72,14 +72,8 @@ export class ProfileTableComponent implements OnInit, OnDestroy {
       map(metrics => this.generateMetricsNames(metrics))
     ).subscribe(metrics => this.metrics = metrics);
 
-    this.qanProfileService.getProfileInfo.detailsBy.subscribe(details_by => {
-      console.log('details_by - ', details_by);
-      this.detailsBy = details_by
-    });
-    this.qanProfileService.getProfileInfo.fingerprint.subscribe(fingerprint => {
-      console.log('fingerprint - ', fingerprint);
-      this.fingerprint = fingerprint
-    });
+    this.qanProfileService.getProfileInfo.detailsBy.subscribe(details_by => this.detailsBy = details_by);
+    this.qanProfileService.getProfileInfo.fingerprint.subscribe(fingerprint => this.fingerprint = fingerprint);
   }
 
   ngOnInit() {
