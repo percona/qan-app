@@ -1,6 +1,6 @@
 <aside class="aside">
   <perfect-scrollbar class="pmm-scrollbar">
-    <div *ngFor="let filterGroup of filters; let index = index" class="aside__filter-group">
+    <div *ngFor="let filterGroup of currentFilters; let index = index" class="aside__filter-group">
       <div class="filter-group__title">
         <span class="title__text">{{filterGroup.filterGroup}}</span>
 <!--        <span *ngIf="checkFilterGroup(index, filter)" class="title__text">{{filter.groupName}}</span>-->
@@ -12,7 +12,7 @@
         <ng-container *ngFor="let filter of filterGroup.items; let index = index">
           <label class="checkbox-container">
             <!--        <label *ngIf="index <= limits[filterGroup.filterGroup]" class="checkbox-container">-->
-            <input (change)="setConfigs(filter, filterGroup.filterGroup)"
+            <input (change)="setConfigs()"
                    [(ngModel)]="filter.state"
                    type="checkbox">
             <span class="checkbox-container__checkmark"></span>

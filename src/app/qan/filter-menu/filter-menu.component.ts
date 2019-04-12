@@ -17,7 +17,7 @@ export class FilterMenuComponent implements OnInit, OnDestroy, OnChanges {
   public limits = {};
   public defaultLimit = 4;
   private filterSubscription: Subscription;
-  public filters: any;
+  public currentFilters: any;
 
   constructor(
     private filterMenuService: FilterMenuService,
@@ -37,8 +37,9 @@ export class FilterMenuComponent implements OnInit, OnDestroy, OnChanges {
 
     this.filterMenuService.filterSource.subscribe(
       filters => {
-        this.filters = filters;
+        this.currentFilters = filters;
         this.currentParams.labels = this.prepareLabels(filters);
+        console.log('filters - ', filters);
         this.qanProfileService.updateProfileParams(this.currentParams);
       });
   }
@@ -66,7 +67,7 @@ export class FilterMenuComponent implements OnInit, OnDestroy, OnChanges {
     return Object.entries(group.labels).map(entire => new FilterGroupModel(entire));
   }
 
-  setConfigs(filter, group) {
-    this.filterMenuService.updateFilterConfigs(this.filters);
+  setConfigs() {
+    this.filterMenuService.updateFilterConfigs(this.currentFilters);
   }
 }
