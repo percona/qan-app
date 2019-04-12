@@ -6,11 +6,7 @@ node_js:
   - "8"
 
 addons:
-  apt:
-    sources:
-      - chrome
-    packages:
-      - chrome-stable
+  chrome: stable
 
 cache:
   directories:
