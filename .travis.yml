@@ -8,9 +8,9 @@ node_js:
 addons:
   apt:
     sources:
-      - google-chrome
+      - chrome
     packages:
-      - google-chrome-stable
+      - chrome-stable
 
 cache:
   directories:
