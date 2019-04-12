@@ -1,18 +1,23 @@
-<ng-container>
-  {{dimension}}
-  {{fingerprint}}
-  <ngb-tabset *ngIf="details.length" class="pmm-tabset pmm-tabset--theme-details">
+<ng-container  *ngIf="details.length">
+  <div class="query-info">
+    <span class="query-info__item">{{dimension}}</span>
+    <span class="query-info__item">{{fingerprint}}</span>
+  </div>
+  <ngb-tabset class="pmm-tabset pmm-tabset--theme-details">
     <ngb-tab>
       <ng-template ngbTabTitle>Details</ng-template>
       <ng-template ngbTabContent>
-        <section class="grid-table">
-          <header class="grid-table__row grid-table__row--metrics">
-            <span>Metrics</span>
-            <span>Rate/Sec</span>
-            <span>Sum</span>
-            <span>Per Query Stats</span>
-          </header>
-          <app-details-row *ngFor="let detail of details" [currentMetric]="detail"></app-details-row>
+        <section class="details-output">
+          <div class="grid-table">
+            <header class="grid-table__row grid-table__row--metrics">
+              <span>Metrics</span>
+              <span>Rate/Sec</span>
+              <span>Sum</span>
+              <span>Per Query Stats</span>
+            </header>
+            <app-details-row *ngFor="let detail of details" [currentMetric]="detail"></app-details-row>
+          </div>
+          <app-details-labels></app-details-labels>
         </section>
       </ng-template>
     </ngb-tab>

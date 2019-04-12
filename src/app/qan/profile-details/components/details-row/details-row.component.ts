@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { MetricModel } from '../../profile-table/models/metric.model';
+import { MetricModel } from '../../../profile-table/models/metric.model';
 
 @Component({
   selector: 'app-details-row',

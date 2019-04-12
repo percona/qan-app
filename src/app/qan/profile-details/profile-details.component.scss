@@ -2,3 +2,22 @@
   width: max-content;
   margin-bottom: var(--main-bottom-indent);
 }
+
+.details-output {
+  display: grid;
+  grid-template-columns: 5fr 1fr;
+  grid-column-gap: 20px;
+}
+
+.query-info {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 21px;
+  padding: 0 10px;
+  margin-bottom: var(--main-bottom-indent);
+}
+
+.query-info__item:not(:first-child) {
+  color: var(--main-highlight-color);
+}

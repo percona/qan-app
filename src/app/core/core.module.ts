@@ -39,7 +39,8 @@ import { ProfileTableComponent } from '../qan/profile-table/profile-table.compon
 import { TableHeaderCellComponent } from '../qan/table-header-cell/table-header-cell.component';
 import { MainCellComponent } from '../qan/main-cell/main-cell.component';
 import { NgxPaginationModule } from 'ngx-pagination';
-import { DetailsRowComponent } from '../qan/profile-details/details-row/details-row.component';
+import { DetailsRowComponent } from '../qan/profile-details/components/details-row/details-row.component';
+import { DetailsLabelsComponent } from '../qan/profile-details/components/details-labels/details-labels.component';
 
 @NgModule({
   imports: [
@@ -71,6 +72,7 @@ import { DetailsRowComponent } from '../qan/profile-details/details-row/details-
     TableCellComponent,
     MainCellComponent,
     DetailsRowComponent,
+    DetailsLabelsComponent
   ],
   exports: [
     PageNotFoundComponent,
@@ -88,6 +90,7 @@ import { DetailsRowComponent } from '../qan/profile-details/details-row/details-
     AgentsTableComponent,
     NodesTableComponent,
     DetailsRowComponent,
+    DetailsLabelsComponent
   ],
   providers: [
     InstanceService,
