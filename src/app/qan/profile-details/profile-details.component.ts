@@ -40,7 +40,6 @@ export class ProfileDetailsComponent implements OnInit, AfterViewChecked {
       retryWhen(error => error)
     ).subscribe(response => {
       this.details = response.filter(item => Object.keys(item.stats).length > 0);
-      console.log('details - ', this.details);
     });
 
     this.qanProfileService.getProfileInfo.fingerprint.subscribe(fingerprint => this.fingerprint = fingerprint);

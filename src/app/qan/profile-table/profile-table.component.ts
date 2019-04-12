@@ -31,8 +31,8 @@ export class ProfileTableComponent implements OnInit, OnDestroy {
   public tableData: TableDataModel[];
   public currentParams: any;
   public defaultColumns: string[];
-  public detailsBy = '';
-  public fingerprint = '';
+  public detailsBy: string;
+  public fingerprint: string;
   public report$: Subscription;
   public metrics$: Subscription;
   public metrics: SelectOptionModel[];
@@ -66,15 +66,20 @@ export class ProfileTableComponent implements OnInit, OnDestroy {
         catchError(err => throwError(err)))),
     ).subscribe(data => {
       this.tableData = data;
-      console.log('data - ', data);
     });
 
     this.metrics$ = this.metricsNamesService.GetMetricsNames({}).pipe(
       map(metrics => this.generateMetricsNames(metrics))
     ).subscribe(metrics => this.metrics = metrics);
 
-    this.qanProfileService.getProfileInfo.detailsBy.subscribe(details_by => this.detailsBy = details_by);
-    this.qanProfileService.getProfileInfo.fingerprint.subscribe(details_by => this.fingerprint = details_by);
+    this.qanProfileService.getProfileInfo.detailsBy.subscribe(details_by => {
+      console.log('details_by - ', details_by);
+      this.detailsBy = details_by
+    });
+    this.qanProfileService.getProfileInfo.fingerprint.subscribe(fingerprint => {
+      console.log('fingerprint - ', fingerprint);
+      this.fingerprint = fingerprint
+    });
   }
 
   ngOnInit() {
@@ -87,6 +92,7 @@ export class ProfileTableComponent implements OnInit, OnDestroy {
 
   showDetails(filter_by, fingerPrint = '') {
     this.qanProfileService.updateFingerprint(fingerPrint);
+    this.qanProfileService.updateDetailsByValue(filter_by);
     this.qanProfileService.updateObjectDetails({
       filter_by: filter_by,
       group_by: this.currentParams.group_by,

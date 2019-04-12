@@ -59,7 +59,7 @@ export class QanProfileService {
     profile: new Subject<GetProfileBody>(),
     details: new Subject<ObjectDetails>(),
     groupValue: new Subject<SelectOptionModel>(),
-    detailsBy: new BehaviorSubject<string>(''),
+    detailsBy: new BehaviorSubject<string>('default'),
     fingerprint: new BehaviorSubject<string>(''),
     defaultColumns: ['load', 'count', 'latency'],
   };
