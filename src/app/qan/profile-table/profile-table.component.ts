@@ -8,7 +8,6 @@ import { ProfileService } from '../../pmm-api-services/services/profile.service'
 import { Subscription } from 'rxjs/internal/Subscription';
 import { catchError, map, retryWhen, switchMap } from 'rxjs/operators';
 import { MetricsNamesService } from '../../pmm-api-services/services/metrics-names.service';
-import { ParseQueryParamDatePipe } from '../../shared/parse-query-param-date.pipe';
 import { ActivatedRoute, Router } from '@angular/router';
 import * as moment from 'moment';
 import { throwError } from 'rxjs/internal/observable/throwError';
@@ -27,9 +26,8 @@ export class ProfileTableComponent implements OnInit, OnDestroy {
   };
 
   public iframeQueryParams: QueryParams;
-  public profileParams: GetProfileBody;
   public tableData: TableDataModel[];
-  public currentParams: any;
+  public currentParams: GetProfileBody;
   public defaultColumns: string[];
   public detailsBy: string;
   public fingerprint: string;
@@ -63,7 +61,8 @@ export class ProfileTableComponent implements OnInit, OnDestroy {
       }),
       switchMap(parsedParams => this.profileService.GetReport(parsedParams).pipe(
         map(data => this.generateTableData(data)),
-        catchError(err => throwError(err)))),
+        catchError(err => throwError(err)),
+        retryWhen(error => error))),
     ).subscribe(data => {
       this.tableData = data;
     });
@@ -156,13 +155,13 @@ export class ProfileTableComponent implements OnInit, OnDestroy {
 
   pageChanged(event) {
     this.currentParams.offset = event;
-    this.qanProfileService.updateProfileParams(this.profileParams);
+    this.qanProfileService.updateProfileParams(this.currentParams);
   }
 
   onChangePerPage(event) {
     this.currentParams.limit = event;
     this.paginationConfig.itemsPerPage = event;
-    this.qanProfileService.updateProfileParams(this.profileParams);
+    this.qanProfileService.updateProfileParams(this.currentParams);
   }
 
 }
