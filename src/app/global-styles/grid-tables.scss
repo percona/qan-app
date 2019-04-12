@@ -73,9 +73,9 @@
   word-break: keep-all;
 }
 
-//MySQL and Mongo query details metrics table
+//Query details metrics table
 .grid-table__row--metrics {
-  grid-template-columns: repeat(2, 2fr) 3fr 2fr;
+  grid-template-columns: repeat(4, 2fr);
 }
 
 .grid-table__row--two-columns {

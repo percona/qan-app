@@ -6,11 +6,7 @@ node_js:
   - "8"
 
 addons:
-  apt:
-    sources:
-      - google-chrome
-    packages:
-      - google-chrome-stable
+  chrome: stable
 
 cache:
   directories:
@@ -21,7 +17,7 @@ install:
 
 script:
   # Use Chromium instead of Chrome.
-  - export CHROME_BIN=google-chrome
+  - export CHROME_BIN=chrome
   - export PATH=$(npm bin):$PATH
   - xvfb-run -a npm run lint
     #  - xvfb-run -a npm run test -- --single-run --no-progress

@@ -1,0 +1,21 @@
+:host {
+  display: grid;
+  grid-template-columns: repeat(4, 2fr);
+  align-items: center;
+  height: 100%;
+  color: inherit;
+  background-color: var(--row-background, transparent);
+  outline: none;
+  word-break: break-all;
+}
+
+.row__item {
+  display: flex;
+  align-items: center;
+  height: 100%;
+  padding: 0 10px;
+}
+
+.row__item:not(:last-child) {
+  border-right: 1px solid var(--main-border-color);
+}
