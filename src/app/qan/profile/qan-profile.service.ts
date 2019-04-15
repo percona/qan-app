@@ -21,7 +21,6 @@ export interface GetProfileBody {
 
 export interface ObjectDetails {
   filter_by?: string,
-
   group_by?: string,
   include_only_fields?: string[]
   labels?: LabelsProfile[],

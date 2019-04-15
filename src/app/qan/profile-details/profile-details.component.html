@@ -1,6 +1,6 @@
 <ng-container  *ngIf="details.length">
   <div class="query-info">
-    <span class="query-info__item">{{dimension}}</span>
+    <span class="query-info__item">{{dimension || 'TOTAL'}}</span>
     <span class="query-info__item">{{fingerprint}}</span>
   </div>
   <ngb-tabset class="pmm-tabset pmm-tabset--theme-details">
