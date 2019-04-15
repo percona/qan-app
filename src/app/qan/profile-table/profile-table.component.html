@@ -35,8 +35,9 @@
                     </span>
                   </div>
                 </td>
-                <ng-container *ngFor="let metric of row.metrics;">
+                <ng-container *ngFor="let metric of row.metrics; let index = index">
                   <app-qan-table-cell [metricData]="metric"
+                                      [isSparkline]="!index"
                                       [sparklineData]="row.sparkline"
                                       [totalSum]="tableData[0][metric.metricName]">
                   </app-qan-table-cell>

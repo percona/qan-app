@@ -1,6 +1,6 @@
 <div class="cell-inner">
   <ng-container *ngIf="isDefaultColumn">
-    <div *ngIf="metricData?.metricName" class="scaling-svg-container app-tooltip"
+    <div *ngIf="metricData?.metricName && isSparkline" class="scaling-svg-container scaling-svg-container--x2 app-tooltip"
          [appLoadSparklines]="sparklineData"
          data-tooltip="Loading..."
          xkey="timestamp" ykey="{{yKey}}"
@@ -17,7 +17,7 @@
   </ng-container>
 
   <ng-container *ngIf="!isDefaultColumn">
-    <div *ngIf="metricData?.metricName" class="scaling-svg-container app-tooltip"
+    <div *ngIf="metricData?.metricName && isSparkline" class="scaling-svg-container app-tooltip"
          [appLoadSparklines]="sparklineData"
          data-tooltip="Loading..."
          xkey="timestamp" ykey="{{yKey}}"
