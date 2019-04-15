@@ -1,3 +1,10 @@
-<p>
-  details-examples works!
-</p>
+<pre class="example-output">
+  <code [innerHTML]="highlightExampleQuery(exampleParam.example)"></code>
+</pre>
+<button class="copy-button"
+        id="copyQueryExample"
+        ngxClipboard
+        (cbOnSuccess)="showSuccessNotification()"
+        [class.copy-button--active]="isCopied"
+        [cbContent]="exampleParam.example">Copy to clipboard
+</button>
