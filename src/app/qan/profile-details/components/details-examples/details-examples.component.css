@@ -1,0 +1,29 @@
+:host {
+  display: flex;
+  align-items: flex-start;
+}
+
+.example-output {
+  display: flex;
+  padding-left: 10px;
+  color: inherit;
+}
+
+.copy-button {
+  position: fixed;
+  right: 15px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 5px 15px;
+  font-size: .9rem;
+  color: #fff;
+  cursor: pointer;
+  box-sizing: border-box;
+  border: 1px solid #292929;
+  background-color: #1a1919;
+}
+
+.copy-button--active {
+  background-color: rgb(51, 51, 51);
+}

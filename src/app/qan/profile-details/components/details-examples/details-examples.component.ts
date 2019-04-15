@@ -1,20 +1,36 @@
-import { Component, Input, OnInit } from '@angular/core';
-import { ObjectDetailsService } from '../../../../pmm-api-services/services/object-details.service';
+import { Component, Input } from '@angular/core';
+import * as hljs from 'highlight.js';
+import * as vkbeautify from 'vkbeautify';
 
 @Component({
   selector: 'app-details-examples',
   templateUrl: './details-examples.component.html',
   styleUrls: ['./details-examples.component.css']
 })
-export class DetailsExamplesComponent implements OnInit {
-  @Input() params: any;
+export class DetailsExamplesComponent {
+  @Input() exampleParam: any;
 
-  constructor(protected objectDetailsService: ObjectDetailsService) {
+  public isCopied = false;
+  event = new Event('showSuccessNotification');
 
+  constructor() { }
+
+  /**
+   * Fix beautify dispalying text, will be delete after approve https://github.com/vkiryukhin/vkBeautify/pull/25
+   * @param {string} text
+   * @returns {string}
+   */
+  fixBeautifyText(text: string): string {
+    return vkbeautify.sql(text.toLowerCase()).replace('explain', 'EXPLAIN ').replace('  ', ' ');
   }
 
-  ngOnInit() {
-    this.objectDetailsService.GetQueryExample(this.params).subscribe(console.log);
+  highlightExampleQuery(exampleText) {
+    return hljs.highlight('sql', this.fixBeautifyText(exampleText)).value;
   }
 
+  showSuccessNotification() {
+    this.isCopied = true;
+    window.parent.document.dispatchEvent(this.event);
+    setTimeout(() => { this.isCopied = false }, 3000);
+  }
 }
