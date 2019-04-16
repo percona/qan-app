@@ -19,7 +19,7 @@ export class TableHeaderCellComponent implements OnInit, OnDestroy {
   private params$: Subscription;
   public selectedQueryColumn: SelectOptionModel;
   public currentParams: GetProfileBody;
-  public isDESC = false;
+  public isASC = false;
   public isNotDefaultIcon = false;
 
   constructor(private qanProfileService: QanProfileService) {
@@ -33,6 +33,7 @@ export class TableHeaderCellComponent implements OnInit, OnDestroy {
     ).subscribe(
       order => {
         this.isNotDefaultIcon = this.currentColumnName === order || `-${this.currentColumnName}` === order;
+        this.isASC = !(`-${this.currentColumnName}` === order);
       })
   }
 
@@ -56,8 +57,8 @@ export class TableHeaderCellComponent implements OnInit, OnDestroy {
   }
 
   sortBy(selectedColumn) {
-    this.isDESC = !this.isDESC;
-    this.currentParams.order_by = this.isDESC ? selectedColumn.name : `-${selectedColumn.name}`;
+    this.isASC = !this.isASC;
+    this.currentParams.order_by = this.isASC ? selectedColumn.name : `-${selectedColumn.name}`;
     this.qanProfileService.updateProfileParams(this.currentParams);
   }
 }
