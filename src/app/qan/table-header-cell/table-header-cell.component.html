@@ -4,6 +4,7 @@
              [items]="metrics"
              (change)="setMetricColumn($event)"
              [clearable]="false"
+             (open)="addCustomScroll()"
              bindLabel="humanizeName"
              #column
              class="pmm-select pmm-select--column">

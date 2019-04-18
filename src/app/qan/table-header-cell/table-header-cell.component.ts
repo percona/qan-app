@@ -3,6 +3,7 @@ import { SelectOptionModel } from './modesl/select-option.model';
 import { Subscription } from 'rxjs/internal/Subscription';
 import { map } from 'rxjs/operators';
 import { GetProfileBody, QanProfileService } from '../profile/qan-profile.service';
+import PerfectScrollbar from 'perfect-scrollbar';
 
 @Component({
   selector: 'app-qan-table-header-cell',
@@ -60,5 +61,9 @@ export class TableHeaderCellComponent implements OnInit, OnDestroy {
     this.isASC = !this.isASC;
     this.currentParams.order_by = this.isASC ? selectedColumn.name : `-${selectedColumn.name}`;
     this.qanProfileService.updateProfileParams(this.currentParams);
+  }
+
+  addCustomScroll() {
+    setTimeout(() => { let ps = new PerfectScrollbar('.ng-dropdown-panel-items') }, 0)
   }
 }
