@@ -17,12 +17,12 @@
            (add)="changeFilterState($event)"
            (remove)="changeFilterState($event.value)"
            (clear)="changeFilterState($event)"
+           (open)="addCustomScroll()"
            bindLabel="filterName"
            clearAllText="Reset"
            placeholder="Search by..."
            class="pmm-select pmm-select--search">
   <ng-template ng-multi-label-tmp let-items="items" let-clear="clear">
-    <!--<perfect-scrollbar [config]="scrollbarConfig" class="pmm-scrollbar pmm-select__pmm-scrollbar">-->
     <div class="ng-value" *ngFor="let item of items">
       <div class="chips">
         <span class="ng-value-label">{{item.groupName}}: {{item.filterName}}</span>
@@ -31,9 +31,8 @@
         </button>
       </div>
     </div>
-    <!--</perfect-scrollbar>-->
   </ng-template>
-  <ng-template ng-option-tmp let-item="item" let-index="index" let-search="searchTerm">
-    <span class="pmm-select__option">{{item.groupName}}: {{item.filterName}}</span>
-  </ng-template>
+    <ng-template ng-option-tmp let-item="item" let-index="index" let-search="searchTerm">
+      <span class="pmm-select__option">{{item.groupName}}: {{item.filterName}}</span>
+    </ng-template>
 </ng-select>
