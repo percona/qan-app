@@ -64,6 +64,6 @@ export class TableHeaderCellComponent implements OnInit, OnDestroy {
   }
 
   addCustomScroll() {
-    setTimeout(() => { let ps = new PerfectScrollbar('.ng-dropdown-panel-items') }, 0)
+    setTimeout(() => new PerfectScrollbar('.ng-dropdown-panel-items'), 0)
   }
 }
