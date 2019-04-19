@@ -35,6 +35,20 @@ body {
   background-color: var(--page-background, transparent);
 }
 
+.bar {
+  stroke: none;
+  fill: #6ed0e0;
+}
+
+.axis path, .axis line {
+  fill: none;
+  stroke: #333;
+}
+.axis .grid-line {
+  stroke: #000;
+  stroke-opacity: 0.2;
+}
+
 .center-children {
   display: flex;
   align-items: center;
