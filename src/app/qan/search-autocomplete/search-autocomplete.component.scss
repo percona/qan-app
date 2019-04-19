@@ -33,7 +33,27 @@
   }
 
   .ng-dropdown-panel {
-    width: 100%;
+    width: auto;
+
+    .ng-dropdown-panel-items {
+      display: inline-block;
+      width: auto;
+    }
+
+    .ng-dropdown-panel-items.ps {
+      .ps__rail-x:hover,
+      .ps__rail-y:hover,
+      .ps__rail-x:focus,
+      .ps__rail-y:focus,
+      .ps__rail-x.ps--clicking,
+      .ps__rail-y.ps--clicking {
+        background-color: transparent !important;
+      }
+    }
+
+    &.scroll-host {
+      overflow: hidden !important;
+    }
   }
 
   .ng-select-container {
@@ -113,4 +133,3 @@
     }
   }
 }
-

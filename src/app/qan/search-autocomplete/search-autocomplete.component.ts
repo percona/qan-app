@@ -5,6 +5,8 @@ import { map } from 'rxjs/operators';
 import { Subscription } from 'rxjs/internal/Subscription';
 import { FiltersSearchModel } from '../filter-menu/models/filters-search.model';
 import { GetProfileBody, QanProfileService } from '../profile/qan-profile.service';
+import { PerfectScrollbarConfigInterface } from 'ngx-perfect-scrollbar';
+import PerfectScrollbar from 'perfect-scrollbar';
 
 @Component({
   selector: 'app-qan-search',
@@ -17,6 +19,7 @@ export class SearchAutocompleteComponent implements OnInit, OnDestroy {
   private filterSubscription$: Subscription;
   public filters: any;
   public currentParams: GetProfileBody;
+  public scrollbarConfig: PerfectScrollbarConfigInterface = {};
 
   autocomplete = [];
   autocompleteBuffer = [];
@@ -97,4 +100,8 @@ export class SearchAutocompleteComponent implements OnInit, OnDestroy {
     return this.filterSearchService.findBySearch(item.filterName, term)
       || this.filterSearchService.findBySearch(item.groupName, term);
   };
+
+  addCustomScroll() {
+    setTimeout(() => new PerfectScrollbar('.ng-dropdown-panel-items'), 0)
+  }
 }
