@@ -13,6 +13,8 @@ import { TruncateRootPipe } from './truncate-root.pipe';
 import { ParseQueryParamDatePipe } from './parse-query-param-date.pipe';
 import { SortingTablePipe } from './sorting-table.pipe';
 import { TableHeadersToMultiplePipe } from './table-headers-to-multiple.pipe';
+import { LoadBarChartDirective } from './load-bar-chart.directive';
+import { LoadPolygonChartDirective } from './load-polygon-chart.directive';
 
 @NgModule({
   imports: [
@@ -28,6 +30,8 @@ import { TableHeadersToMultiplePipe } from './table-headers-to-multiple.pipe';
     ParseQueryParamDatePipe,
     SortingTablePipe,
     TableHeadersToMultiplePipe,
+    LoadBarChartDirective,
+    LoadPolygonChartDirective,
   ],
   exports: [
     MapToIterablePipe,
@@ -36,6 +40,8 @@ import { TableHeadersToMultiplePipe } from './table-headers-to-multiple.pipe';
     HumanizePipe,
     LatencyChartDirective,
     LoadSparklinesDirective,
+    LoadBarChartDirective,
+    LoadPolygonChartDirective,
     SortingTablePipe,
     TableHeadersToMultiplePipe,
     CommonModule,
