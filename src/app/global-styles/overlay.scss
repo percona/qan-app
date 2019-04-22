@@ -20,6 +20,7 @@
   display: inline-block;
   text-overflow: ellipsis;
   white-space: nowrap;
+  border: 1px solid transparent;
 }
 
 .overlay-container:hover .overlay-container__item {
@@ -29,5 +30,6 @@
   align-items: center;
   height: 100%;
   padding-right: 5px;
+  border: 1px solid;
   text-overflow: initial;
 }
