@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, Input, OnDestroy, OnInit, QueryList, ViewChild, ViewChildren } from '@angular/core';
 import { PerfectScrollbarComponent, PerfectScrollbarConfigInterface } from 'ngx-perfect-scrollbar';
 import { QueryParams } from '../../core/core.component';
 import { SelectOptionModel } from '../table-header-cell/modesl/select-option.model';
@@ -18,8 +18,9 @@ import { GetProfileBody, QanProfileService } from '../profile/qan-profile.servic
   templateUrl: './profile-table.component.html',
   styleUrls: ['./profile-table.component.scss']
 })
-export class ProfileTableComponent implements OnInit, OnDestroy {
+export class ProfileTableComponent implements OnInit, OnDestroy, AfterViewInit {
   @ViewChild(PerfectScrollbarComponent) componentRef?: PerfectScrollbarComponent;
+  @ViewChildren('tableRows') tableRows: QueryList<any>;
 
   public scrollbarConfig: PerfectScrollbarConfigInterface = {
     suppressScrollY: false
@@ -78,9 +79,19 @@ export class ProfileTableComponent implements OnInit, OnDestroy {
   ngOnInit() {
   }
 
+  ngAfterViewInit() {
+    this.tableRows.changes.subscribe(() => {
+      this.ngForRendered();
+    })
+  }
+
   ngOnDestroy() {
     this.metrics$.unsubscribe();
     this.report$.unsubscribe();
+  }
+
+  ngForRendered() {
+    this.componentRef.directiveRef.scrollToRight();
   }
 
   showDetails(filter_by, fingerPrint = '') {
