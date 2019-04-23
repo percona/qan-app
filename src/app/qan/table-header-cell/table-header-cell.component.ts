@@ -35,7 +35,7 @@ export class TableHeaderCellComponent implements OnInit, OnDestroy {
       order => {
         this.isNotDefaultIcon = this.currentColumnName === order || `-${this.currentColumnName}` === order;
         this.isASC = !(`-${this.currentColumnName}` === order);
-      })
+      });
   }
 
   ngOnDestroy() {
