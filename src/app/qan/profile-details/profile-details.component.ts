@@ -1,10 +1,11 @@
 import { ActivatedRoute, Router } from '@angular/router';
-import { AfterViewChecked, Component, OnInit } from '@angular/core';
-import { catchError, map, mergeAll, retryWhen, switchMap } from 'rxjs/operators';
+import { AfterViewChecked, Component, OnDestroy, OnInit } from '@angular/core';
+import { catchError, map, retryWhen, switchMap } from 'rxjs/operators';
 import { throwError } from 'rxjs/internal/observable/throwError';
 import { QanProfileService } from '../profile/qan-profile.service';
 import { ObjectDetailsService } from '../../pmm-api-services/services/object-details.service';
 import { MetricModel } from '../profile-table/models/metric.model';
+import { Subscription } from 'rxjs/internal/Subscription';
 
 @Component({
   moduleId: module.id,
@@ -13,13 +14,16 @@ import { MetricModel } from '../profile-table/models/metric.model';
   styleUrls: ['./profile-details.component.scss']
 })
 
-export class ProfileDetailsComponent implements OnInit, AfterViewChecked {
+export class ProfileDetailsComponent implements OnInit, AfterViewChecked, OnDestroy {
   protected dbName: string;
   public fingerprint: string;
   public currentParams: any;
   public exampleParams: any;
   public dimension: string;
   public details: MetricModel[] = [];
+  private fingerprint$: Subscription;
+  private example$: Subscription;
+  private details$: Subscription;
 
   constructor(
     protected route: ActivatedRoute,
@@ -27,7 +31,7 @@ export class ProfileDetailsComponent implements OnInit, AfterViewChecked {
     protected qanProfileService: QanProfileService,
     protected objectDetailsService: ObjectDetailsService,
   ) {
-    this.qanProfileService.getProfileInfo.details.pipe(
+    this.details$ = this.qanProfileService.getProfileInfo.details.pipe(
       switchMap(parsedParams => {
         this.currentParams = parsedParams;
         this.dimension = this.currentParams.filter_by;
@@ -41,7 +45,7 @@ export class ProfileDetailsComponent implements OnInit, AfterViewChecked {
       this.details = response.filter(item => Object.keys(item.stats).length > 0);
     });
 
-    this.qanProfileService.getProfileInfo.details.pipe(
+    this.example$ = this.qanProfileService.getProfileInfo.details.pipe(
       switchMap(parsedParams => {
         return this.objectDetailsService.GetQueryExample(parsedParams).pipe(
           map(response => response.query_examples),
@@ -52,12 +56,20 @@ export class ProfileDetailsComponent implements OnInit, AfterViewChecked {
     ).subscribe(response => {
       this.exampleParams = response;
     });
-    this.qanProfileService.getProfileInfo.fingerprint.subscribe(fingerprint => this.fingerprint = fingerprint);
+
+    this.fingerprint$ = this.qanProfileService.getProfileInfo.fingerprint
+      .subscribe(fingerprint => this.fingerprint = fingerprint);
   }
 
   ngOnInit() {
   }
 
   ngAfterViewChecked() {
+  }
+
+  ngOnDestroy() {
+    this.fingerprint$.unsubscribe();
+    this.example$.unsubscribe();
+    this.details$.unsubscribe();
   }
 }

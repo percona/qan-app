@@ -12,6 +12,8 @@ import { ActivatedRoute, Router } from '@angular/router';
 import * as moment from 'moment';
 import { throwError } from 'rxjs/internal/observable/throwError';
 import { GetProfileBody, QanProfileService } from '../profile/qan-profile.service';
+import { of } from 'rxjs/internal/observable/of';
+import { tap } from 'rxjs/internal/operators/tap';
 
 @Component({
   selector: 'app-qan-table',
@@ -27,13 +29,15 @@ export class ProfileTableComponent implements OnInit, OnDestroy, AfterViewInit {
   };
 
   public iframeQueryParams: QueryParams;
-  public tableData: TableDataModel[];
+  public tableData: TableDataModel[] | any;
   public currentParams: GetProfileBody;
   public defaultColumns: string[];
   public detailsBy: string;
   public fingerprint: string;
   public report$: Subscription;
   public metrics$: Subscription;
+  public detailsBy$: Subscription;
+  public fingerprint$: Subscription;
   public metrics: SelectOptionModel[];
 
   public page = 1;
@@ -61,19 +65,27 @@ export class ProfileTableComponent implements OnInit, OnDestroy, AfterViewInit {
         return this.removeDefaultColumns(params)
       }),
       switchMap(parsedParams => this.profileService.GetReport(parsedParams).pipe(
+        catchError(() => {
+          return of([])
+        }),
         map(data => this.generateTableData(data)),
-        catchError(err => throwError(err)),
-        retryWhen(error => error))),
-    ).subscribe(data => {
-      this.tableData = data;
-    });
+        catchError(() => {
+          return of([])
+        }))),
+    ).subscribe(
+      data => {
+        this.tableData = data;
+      },
+      err => {
+        console.log('error - ', err)
+      });
 
     this.metrics$ = this.metricsNamesService.GetMetricsNames({}).pipe(
       map(metrics => this.generateMetricsNames(metrics))
     ).subscribe(metrics => this.metrics = metrics);
 
-    this.qanProfileService.getProfileInfo.detailsBy.subscribe(details_by => this.detailsBy = details_by);
-    this.qanProfileService.getProfileInfo.fingerprint.subscribe(fingerprint => this.fingerprint = fingerprint);
+    this.detailsBy$ = this.qanProfileService.getProfileInfo.detailsBy.subscribe(details_by => this.detailsBy = details_by);
+    this.fingerprint$ = this.qanProfileService.getProfileInfo.fingerprint.subscribe(fingerprint => this.fingerprint = fingerprint);
   }
 
   ngOnInit() {
@@ -88,6 +100,8 @@ export class ProfileTableComponent implements OnInit, OnDestroy, AfterViewInit {
   ngOnDestroy() {
     this.metrics$.unsubscribe();
     this.report$.unsubscribe();
+    this.detailsBy$.unsubscribe();
+    this.fingerprint$.unsubscribe();
   }
 
   ngForRendered() {
