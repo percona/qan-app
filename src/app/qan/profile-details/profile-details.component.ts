@@ -1,11 +1,11 @@
 import { ActivatedRoute, Router } from '@angular/router';
 import { AfterViewChecked, Component, OnDestroy, OnInit } from '@angular/core';
-import { catchError, map, retryWhen, switchMap } from 'rxjs/operators';
-import { throwError } from 'rxjs/internal/observable/throwError';
+import { catchError, map, switchMap } from 'rxjs/operators';
 import { QanProfileService } from '../profile/qan-profile.service';
 import { ObjectDetailsService } from '../../pmm-api-services/services/object-details.service';
 import { MetricModel } from '../profile-table/models/metric.model';
 import { Subscription } from 'rxjs/internal/Subscription';
+import { of } from 'rxjs/internal/observable/of';
 
 @Component({
   moduleId: module.id,
@@ -36,11 +36,11 @@ export class ProfileDetailsComponent implements OnInit, AfterViewChecked, OnDest
         this.currentParams = parsedParams;
         this.dimension = this.currentParams.filter_by;
         return this.objectDetailsService.GetMetrics(parsedParams).pipe(
+          catchError(err => of({ metrics: [] })),
           map(metrics => Object.entries(metrics.metrics).map(detail => new MetricModel(detail))),
-          catchError(err => throwError(err))
+          catchError(err => of([]))
         )
       }),
-      retryWhen(error => error)
     ).subscribe(response => {
       this.details = response.filter(item => Object.keys(item.stats).length > 0);
     });
@@ -48,11 +48,11 @@ export class ProfileDetailsComponent implements OnInit, AfterViewChecked, OnDest
     this.example$ = this.qanProfileService.getProfileInfo.details.pipe(
       switchMap(parsedParams => {
         return this.objectDetailsService.GetQueryExample(parsedParams).pipe(
+          catchError(err => of({ query_examples: [] })),
           map(response => response.query_examples),
-          catchError(err => throwError(err))
+          catchError(err => of([])),
         )
       }),
-      retryWhen(error => error)
     ).subscribe(response => {
       this.exampleParams = response;
     });

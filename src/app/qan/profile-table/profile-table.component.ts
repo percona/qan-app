@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, Input, OnDestroy, OnInit, QueryList, ViewChild, ViewChildren } from '@angular/core';
+import { AfterViewInit, Component, OnDestroy, OnInit, QueryList, ViewChild, ViewChildren } from '@angular/core';
 import { PerfectScrollbarComponent, PerfectScrollbarConfigInterface } from 'ngx-perfect-scrollbar';
 import { QueryParams } from '../../core/core.component';
 import { SelectOptionModel } from '../table-header-cell/modesl/select-option.model';
@@ -6,14 +6,12 @@ import { TableDataModel } from './models/table-data.model';
 import { MetricModel } from './models/metric.model';
 import { ProfileService } from '../../pmm-api-services/services/profile.service';
 import { Subscription } from 'rxjs/internal/Subscription';
-import { catchError, map, retryWhen, switchMap } from 'rxjs/operators';
+import { catchError, map, switchMap } from 'rxjs/operators';
 import { MetricsNamesService } from '../../pmm-api-services/services/metrics-names.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import * as moment from 'moment';
-import { throwError } from 'rxjs/internal/observable/throwError';
 import { GetProfileBody, QanProfileService } from '../profile/qan-profile.service';
 import { of } from 'rxjs/internal/observable/of';
-import { tap } from 'rxjs/internal/operators/tap';
 
 @Component({
   selector: 'app-qan-table',
@@ -65,13 +63,10 @@ export class ProfileTableComponent implements OnInit, OnDestroy, AfterViewInit {
         return this.removeDefaultColumns(params)
       }),
       switchMap(parsedParams => this.profileService.GetReport(parsedParams).pipe(
-        catchError(() => {
-          return of([])
-        }),
+        catchError(() => of([])),
         map(data => this.generateTableData(data)),
-        catchError(() => {
-          return of([])
-        }))),
+        catchError(() => of([]))
+      )),
     ).subscribe(
       data => {
         this.tableData = data;
