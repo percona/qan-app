@@ -4,8 +4,13 @@
   height: max-content;
 }
 
+.content-table-wrapper {
+  min-height: var(--min-qan-height);
+}
+
 .main-wrapper {
   position: relative;
+  min-height: inherit;
 }
 
 .add-column-btn {

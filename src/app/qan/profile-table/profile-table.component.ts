@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, OnDestroy, OnInit, QueryList, ViewChild, ViewChildren } from '@angular/core';
+import { AfterViewInit, Component, EventEmitter, OnDestroy, OnInit, Output, QueryList, ViewChild, ViewChildren } from '@angular/core';
 import { PerfectScrollbarComponent, PerfectScrollbarConfigInterface } from 'ngx-perfect-scrollbar';
 import { QueryParams } from '../../core/core.component';
 import { SelectOptionModel } from '../table-header-cell/modesl/select-option.model';
@@ -19,6 +19,7 @@ import { of } from 'rxjs/internal/observable/of';
   styleUrls: ['./profile-table.component.scss']
 })
 export class ProfileTableComponent implements OnInit, OnDestroy, AfterViewInit {
+  @Output() finishRender = new EventEmitter();
   @ViewChild(PerfectScrollbarComponent) componentRef?: PerfectScrollbarComponent;
   @ViewChildren('tableRows') tableRows: QueryList<any>;
 
@@ -35,6 +36,7 @@ export class ProfileTableComponent implements OnInit, OnDestroy, AfterViewInit {
   public report$: Subscription;
   public metrics$: Subscription;
   public detailsBy$: Subscription;
+  public tableRows$: Subscription;
   public fingerprint$: Subscription;
   public metrics: SelectOptionModel[];
 
@@ -89,6 +91,7 @@ export class ProfileTableComponent implements OnInit, OnDestroy, AfterViewInit {
   ngAfterViewInit() {
     this.tableRows.changes.subscribe(() => {
       this.ngForRendered();
+      this.finishRender.emit(true);
     })
   }
 
@@ -97,6 +100,7 @@ export class ProfileTableComponent implements OnInit, OnDestroy, AfterViewInit {
     this.report$.unsubscribe();
     this.detailsBy$.unsubscribe();
     this.fingerprint$.unsubscribe();
+    this.tableRows$.unsubscribe();
   }
 
   ngForRendered() {
