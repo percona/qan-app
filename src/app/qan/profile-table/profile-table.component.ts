@@ -184,8 +184,7 @@ export class ProfileTableComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   onChangePerPage(event) {
-    this.currentParams.limit = this.paginationConfig.itemsPerPage = event;
-    this.perPage = event;
+    this.currentParams.limit = this.perPage = this.paginationConfig.itemsPerPage = event;
     this.qanProfileService.updateProfileParams(this.currentParams);
   }
 
