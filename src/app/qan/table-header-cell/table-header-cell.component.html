@@ -9,7 +9,7 @@
              #column
              class="pmm-select pmm-select--column">
     <ng-template ng-header-tmp>
-      <input (input)="column.filter($event.target.value)" class="input-field" placeholder="Type to search">
+      <input (input)="column.filter($event.target.value)" class="input-field" appAutofocus  placeholder="Type to search">
       <button><img src="assets/search.svg" alt="search"></button>
     </ng-template>
     <ng-template ng-footer-tmp>

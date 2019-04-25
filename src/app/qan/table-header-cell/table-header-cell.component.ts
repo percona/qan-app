@@ -1,9 +1,10 @@
-import { Component, HostBinding, Input, OnDestroy, OnInit } from '@angular/core';
+import { Component, HostBinding, Input, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { SelectOptionModel } from './modesl/select-option.model';
 import { Subscription } from 'rxjs/internal/Subscription';
 import { map } from 'rxjs/operators';
 import { GetProfileBody, QanProfileService } from '../profile/qan-profile.service';
 import PerfectScrollbar from 'perfect-scrollbar';
+import { NgSelectComponent } from '@ng-select/ng-select';
 
 @Component({
   selector: 'app-qan-table-header-cell',
@@ -16,6 +17,7 @@ export class TableHeaderCellComponent implements OnInit, OnDestroy {
   @Input() metrics: Array<SelectOptionModel>;
   @Input() index: any;
   @Input() rowMetrics: any;
+  @ViewChild('column') column: NgSelectComponent;
 
   private params$: Subscription;
   public selectedQueryColumn: SelectOptionModel;
@@ -38,6 +40,9 @@ export class TableHeaderCellComponent implements OnInit, OnDestroy {
         this.isNotDefaultIcon = this.currentColumnName === order || `-${this.currentColumnName}` === order;
         this.isASC = !(`-${this.currentColumnName}` === order);
       });
+    if (this.isEmpty) {
+      this.column.open();
+    }
   }
 
   ngOnDestroy() {
