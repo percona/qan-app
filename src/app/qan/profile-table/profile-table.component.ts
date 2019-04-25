@@ -145,7 +145,8 @@ export class ProfileTableComponent implements OnInit, OnDestroy, AfterViewInit {
 
   generateTableData(data) {
     this.paginationConfig.totalItems = data['total_rows'];
-    this.currentPage = this.paginationConfig.currentPage = data['offset'] || 1;
+    this.paginationConfig.itemsPerPage = data['limit'];
+    this.currentPage = this.paginationConfig.currentPage = data['offset'] ? data['offset'] / data['limit'] + 1 : 1;
     const tableRows = data['rows'].map(row => new TableDataModel(row));
     tableRows.forEach(row => {
       row.metrics = row.metrics.filter(metric => this.currentParams.columns.includes(metric.metricName));
@@ -178,7 +179,7 @@ export class ProfileTableComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   pageChanged(event) {
-    this.currentParams.offset = event;
+    this.currentParams.offset = this.perPage * (event - 1);
     this.qanProfileService.updateProfileParams(this.currentParams);
   }
 
