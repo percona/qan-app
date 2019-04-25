@@ -16,7 +16,7 @@ import PerfectScrollbar from 'perfect-scrollbar';
 export class SearchAutocompleteComponent implements OnInit, OnDestroy {
 
   public selected: Array<{}> = [];
-  private filterSubscription$: Subscription;
+  private autocomplete$: Subscription;
   public filters: any;
   public currentParams: GetProfileBody;
   public scrollbarConfig: PerfectScrollbarConfigInterface = {};
@@ -32,7 +32,7 @@ export class SearchAutocompleteComponent implements OnInit, OnDestroy {
     private filterSearchService: FilterSearchService) {
     this.currentParams = this.qanProfileService.getProfileParams.getValue();
 
-    this.qanFilterService.filterSource.pipe(
+    this.autocomplete$ = this.qanFilterService.filterSource.pipe(
       map(response => {
         this.filters = response;
         const modif = response.map(responseItem => responseItem.items.map(item => new FiltersSearchModel(responseItem.filterGroup, item)));
@@ -69,7 +69,7 @@ export class SearchAutocompleteComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    this.filterSubscription$.unsubscribe();
+    this.autocomplete$.unsubscribe();
   }
 
   groupSelected() {

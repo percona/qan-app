@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, Input, OnDestroy, OnInit, QueryList, ViewChild, ViewChildren } from '@angular/core';
+import { AfterViewInit, Component, EventEmitter, OnDestroy, OnInit, Output, QueryList, ViewChild, ViewChildren } from '@angular/core';
 import { PerfectScrollbarComponent, PerfectScrollbarConfigInterface } from 'ngx-perfect-scrollbar';
 import { QueryParams } from '../../core/core.component';
 import { SelectOptionModel } from '../table-header-cell/modesl/select-option.model';
@@ -6,12 +6,12 @@ import { TableDataModel } from './models/table-data.model';
 import { MetricModel } from './models/metric.model';
 import { ProfileService } from '../../pmm-api-services/services/profile.service';
 import { Subscription } from 'rxjs/internal/Subscription';
-import { catchError, map, retryWhen, switchMap } from 'rxjs/operators';
+import { catchError, map, switchMap } from 'rxjs/operators';
 import { MetricsNamesService } from '../../pmm-api-services/services/metrics-names.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import * as moment from 'moment';
-import { throwError } from 'rxjs/internal/observable/throwError';
 import { GetProfileBody, QanProfileService } from '../profile/qan-profile.service';
+import { of } from 'rxjs/internal/observable/of';
 
 @Component({
   selector: 'app-qan-table',
@@ -19,6 +19,7 @@ import { GetProfileBody, QanProfileService } from '../profile/qan-profile.servic
   styleUrls: ['./profile-table.component.scss']
 })
 export class ProfileTableComponent implements OnInit, OnDestroy, AfterViewInit {
+  @Output() finishRender = new EventEmitter();
   @ViewChild(PerfectScrollbarComponent) componentRef?: PerfectScrollbarComponent;
   @ViewChildren('tableRows') tableRows: QueryList<any>;
 
@@ -27,13 +28,16 @@ export class ProfileTableComponent implements OnInit, OnDestroy, AfterViewInit {
   };
 
   public iframeQueryParams: QueryParams;
-  public tableData: TableDataModel[];
+  public tableData: TableDataModel[] | any;
   public currentParams: GetProfileBody;
   public defaultColumns: string[];
   public detailsBy: string;
   public fingerprint: string;
   public report$: Subscription;
   public metrics$: Subscription;
+  public detailsBy$: Subscription;
+  public tableRows$: Subscription;
+  public fingerprint$: Subscription;
   public metrics: SelectOptionModel[];
 
   public page = 1;
@@ -61,19 +65,24 @@ export class ProfileTableComponent implements OnInit, OnDestroy, AfterViewInit {
         return this.removeDefaultColumns(params)
       }),
       switchMap(parsedParams => this.profileService.GetReport(parsedParams).pipe(
+        catchError(() => of([])),
         map(data => this.generateTableData(data)),
-        catchError(err => throwError(err)),
-        retryWhen(error => error))),
-    ).subscribe(data => {
-      this.tableData = data;
-    });
+        catchError(() => of([]))
+      )),
+    ).subscribe(
+      data => {
+        this.tableData = data;
+      },
+      err => {
+        console.log('error - ', err)
+      });
 
     this.metrics$ = this.metricsNamesService.GetMetricsNames({}).pipe(
       map(metrics => this.generateMetricsNames(metrics))
     ).subscribe(metrics => this.metrics = metrics);
 
-    this.qanProfileService.getProfileInfo.detailsBy.subscribe(details_by => this.detailsBy = details_by);
-    this.qanProfileService.getProfileInfo.fingerprint.subscribe(fingerprint => this.fingerprint = fingerprint);
+    this.detailsBy$ = this.qanProfileService.getProfileInfo.detailsBy.subscribe(details_by => this.detailsBy = details_by);
+    this.fingerprint$ = this.qanProfileService.getProfileInfo.fingerprint.subscribe(fingerprint => this.fingerprint = fingerprint);
   }
 
   ngOnInit() {
@@ -82,12 +91,16 @@ export class ProfileTableComponent implements OnInit, OnDestroy, AfterViewInit {
   ngAfterViewInit() {
     this.tableRows.changes.subscribe(() => {
       this.ngForRendered();
+      this.finishRender.emit(true);
     })
   }
 
   ngOnDestroy() {
     this.metrics$.unsubscribe();
     this.report$.unsubscribe();
+    this.detailsBy$.unsubscribe();
+    this.fingerprint$.unsubscribe();
+    this.tableRows$.unsubscribe();
   }
 
   ngForRendered() {
