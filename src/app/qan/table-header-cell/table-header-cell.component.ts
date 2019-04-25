@@ -1,4 +1,4 @@
-import { Component, Input, OnDestroy, OnInit } from '@angular/core';
+import { Component, HostBinding, Input, OnDestroy, OnInit } from '@angular/core';
 import { SelectOptionModel } from './modesl/select-option.model';
 import { Subscription } from 'rxjs/internal/Subscription';
 import { map } from 'rxjs/operators';
@@ -20,6 +20,7 @@ export class TableHeaderCellComponent implements OnInit, OnDestroy {
   private params$: Subscription;
   public selectedQueryColumn: SelectOptionModel;
   public currentParams: GetProfileBody;
+  public isEmpty: boolean;
   public isASC = false;
   public isNotDefaultIcon = false;
 
@@ -28,6 +29,7 @@ export class TableHeaderCellComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
+    this.isEmpty = !this.currentColumnName;
     this.selectedQueryColumn = this.metrics.filter(option => option.name === this.currentColumnName)[0];
     this.params$ = this.qanProfileService.getProfileParams.pipe(
       map(params => params.order_by)

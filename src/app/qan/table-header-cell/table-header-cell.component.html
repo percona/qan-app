@@ -1,4 +1,4 @@
-<div class="cell_inner">
+<div class="cell__inner" [class.cell__inner--empty]="!currentColumnName">
   <ng-select [searchable]="false"
              [(ngModel)]="selectedQueryColumn"
              [items]="metrics"
