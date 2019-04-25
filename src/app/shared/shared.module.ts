@@ -13,6 +13,7 @@ import { TruncateRootPipe } from './truncate-root.pipe';
 import { ParseQueryParamDatePipe } from './parse-query-param-date.pipe';
 import { SortingTablePipe } from './sorting-table.pipe';
 import { TableHeadersToMultiplePipe } from './table-headers-to-multiple.pipe';
+import { AutofocusDirective } from './autofocus.directive';
 
 @NgModule({
   imports: [
@@ -28,6 +29,7 @@ import { TableHeadersToMultiplePipe } from './table-headers-to-multiple.pipe';
     ParseQueryParamDatePipe,
     SortingTablePipe,
     TableHeadersToMultiplePipe,
+    AutofocusDirective,
   ],
   exports: [
     MapToIterablePipe,
@@ -38,6 +40,7 @@ import { TableHeadersToMultiplePipe } from './table-headers-to-multiple.pipe';
     LoadSparklinesDirective,
     SortingTablePipe,
     TableHeadersToMultiplePipe,
+    AutofocusDirective,
     CommonModule,
     FormsModule,
     HttpClientModule,
