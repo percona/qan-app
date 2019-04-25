@@ -40,15 +40,16 @@ export class ProfileTableComponent implements OnInit, OnDestroy, AfterViewInit {
   public fingerprint$: Subscription;
   public metrics: SelectOptionModel[];
 
-  public page = 1;
   public selectPaginationConfig = [10, 50, 100];
-  public selectedPaginationOption = this.selectPaginationConfig[0];
   public paginationConfig = {
     id: 'qan-table-pagination',
-    itemsPerPage: this.selectedPaginationOption,
+    itemsPerPage: this.selectPaginationConfig[0],
     currentPage: 1,
     totalItems: 0,
   };
+
+  public currentPage = this.paginationConfig.currentPage;
+  public perPage = this.paginationConfig.itemsPerPage;
 
   constructor(
     private route: ActivatedRoute,
@@ -144,7 +145,7 @@ export class ProfileTableComponent implements OnInit, OnDestroy, AfterViewInit {
 
   generateTableData(data) {
     this.paginationConfig.totalItems = data['total_rows'];
-    this.paginationConfig.currentPage = data['offset'] || 1;
+    this.currentPage = this.paginationConfig.currentPage = data['offset'] || 1;
     const tableRows = data['rows'].map(row => new TableDataModel(row));
     tableRows.forEach(row => {
       row.metrics = row.metrics.filter(metric => this.currentParams.columns.includes(metric.metricName));
@@ -182,8 +183,7 @@ export class ProfileTableComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   onChangePerPage(event) {
-    this.currentParams.limit = event;
-    this.paginationConfig.itemsPerPage = event;
+    this.currentParams.limit = this.perPage = this.paginationConfig.itemsPerPage = event;
     this.qanProfileService.updateProfileParams(this.currentParams);
   }
 
