@@ -20,7 +20,7 @@ export class LoadPolygonChartDirective implements OnChanges {
   public _measurement: string;
 
   public height = 30;
-  public width = 150;
+  public width = 300;
   public margin = 0;
   public padding = 0;
   public data = [];

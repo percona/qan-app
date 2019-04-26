@@ -1,7 +1,7 @@
 <div class="cell-inner">
   <ng-container *ngIf="isDefaultColumn">
-    <div *ngIf="metricData?.metricName && isSparkline" class="scaling-svg-container scaling-svg-container--x2 app-tooltip"
-         [appLoadSparklines]="sparklineData"
+    <div *ngIf="metricData?.metricName && isSparkline" class="app-tooltip"
+         [appLoadPolygonChart]="sparklineData"
          data-tooltip="Loading..."
          xkey="timestamp" ykey="{{yKey}}"
          measurement="{{measurement}}">
@@ -11,14 +11,16 @@
       {{metricData.stats.sum | humanize : pipeType}}
     </div>
 
-    <div *ngIf="isStats" class="scaling-svg-container app-tooltip" data-tooltip="Loading..." [measurement]="pipeType"
-         [appLatencyChart]="metricData?.stats" metricPrefix="Rows_sent">
+    <div *ngIf="isStats" class="app-tooltip" data-tooltip="Loading..."
+         [measurement]="pipeType"
+         [appLatencyChart]="metricData?.stats"
+         metricPrefix="Rows_sent">
     </div>
   </ng-container>
 
   <ng-container *ngIf="!isDefaultColumn">
-    <div *ngIf="metricData?.metricName && isSparkline" class="scaling-svg-container app-tooltip"
-         [appLoadSparklines]="sparklineData"
+    <div *ngIf="metricData?.metricName && isSparkline" class="app-tooltip"
+         [appLoadPolygonChart]="sparklineData"
          data-tooltip="Loading..."
          xkey="timestamp" ykey="{{yKey}}"
          measurement="{{measurement}}">
@@ -32,8 +34,11 @@
       {{percentFromNumber(totalSum, metricData.stats.sum) | humanize : 'percent'}}
     </div>
 
-    <div *ngIf="isStats" class="scaling-svg-container app-tooltip" data-tooltip="Loading..." [measurement]="pipeType"
-         [appLatencyChart]="metricData?.stats" metricPrefix="Rows_sent">
+    <div *ngIf="isStats" class="app-tooltip"
+         [measurement]="pipeType"
+         [appLatencyChart]="metricData?.stats"
+         data-tooltip="Loading..."
+         metricPrefix="Rows_sent">
     </div>
   </ng-container>
 </div>
