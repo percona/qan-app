@@ -6,20 +6,31 @@
   border-right: 1px solid var(--main-border-color);
 }
 
-.cell_inner {
+:host.cell--empty {
+  width: 200px;
+}
+
+.cell__inner {
+  position: relative;
   display: flex;
   justify-content: space-between;
   align-items: center;
   width: 100%;
   height: 100%;
-  padding-right: 10px;
 }
 
-.pmm-select--column {
-  margin-right: 10px;
+
+.cell__inner--empty {
+  width: 200px;
+
+  .ng-dropdown-panel {
+    width: auto !important;
+  }
 }
 
 .sort-icon {
+  position: absolute;
+  right: 10px;
   color: inherit;
   font-size: 20px;
   cursor: pointer;
@@ -83,6 +94,21 @@
           border-bottom-left-radius: 0;
         }
       }
+    }
+
+    .ng-dropdown-panel-items.ps {
+      .ps__rail-x:hover,
+      .ps__rail-y:hover,
+      .ps__rail-x:focus,
+      .ps__rail-y:focus,
+      .ps__rail-x.ps--clicking,
+      .ps__rail-y.ps--clicking {
+        background-color: transparent !important;
+      }
+    }
+
+    &.scroll-host {
+      overflow: hidden !important;
     }
 
     .ng-dropdown-header {

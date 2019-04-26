@@ -1,11 +1,11 @@
-import { AfterViewChecked, Component, ElementRef, OnInit, ViewChild, } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild, } from '@angular/core';
 
 @Component({
   moduleId: module.id,
   templateUrl: 'qan-profile.component.html',
   styleUrls: ['./qan-profile.component.scss'],
 })
-export class QanProfileComponent implements OnInit, AfterViewChecked {
+export class QanProfileComponent implements OnInit {
   @ViewChild('filter') filter: ElementRef;
   @ViewChild('table') table: ElementRef;
 
@@ -28,8 +28,9 @@ export class QanProfileComponent implements OnInit, AfterViewChecked {
   ngOnInit() {
   }
 
-  ngAfterViewChecked() {
+  checkRender() {
     const height = this.table.nativeElement.offsetHeight;
+    console.log('height - ', height);
     this.filter.nativeElement.style.height = `${height}px`;
   }
 }

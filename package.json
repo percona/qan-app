@@ -1,6 +1,6 @@
 {
   "name": "qan-app",
-  "version": "v2.0.0-pre-0315",
+  "version": "v2.0.0-alpha1",
   "license": "AGPL-3.0",
   "angular-cli": {},
   "scripts": {
@@ -43,6 +43,7 @@
     "ngx-pagination": "^3.2.1",
     "ngx-perfect-scrollbar": "^7.2.1",
     "numeral": "2.0.6",
+    "perfect-scrollbar": "^1.4.0",
     "renderjson": "github:caldwell/renderjson",
     "rxjs": "^6.4.0",
     "stream": "0.0.2",

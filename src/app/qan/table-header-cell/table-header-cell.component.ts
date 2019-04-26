@@ -1,8 +1,10 @@
-import { Component, Input, OnDestroy, OnInit } from '@angular/core';
+import { Component, HostBinding, Input, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { SelectOptionModel } from './modesl/select-option.model';
 import { Subscription } from 'rxjs/internal/Subscription';
 import { map } from 'rxjs/operators';
 import { GetProfileBody, QanProfileService } from '../profile/qan-profile.service';
+import PerfectScrollbar from 'perfect-scrollbar';
+import { NgSelectComponent } from '@ng-select/ng-select';
 
 @Component({
   selector: 'app-qan-table-header-cell',
@@ -15,11 +17,13 @@ export class TableHeaderCellComponent implements OnInit, OnDestroy {
   @Input() metrics: Array<SelectOptionModel>;
   @Input() index: any;
   @Input() rowMetrics: any;
+  @ViewChild('column') column: NgSelectComponent;
 
   private params$: Subscription;
   public selectedQueryColumn: SelectOptionModel;
   public currentParams: GetProfileBody;
-  public isDESC = false;
+  public isEmpty: boolean;
+  public isASC = false;
   public isNotDefaultIcon = false;
 
   constructor(private qanProfileService: QanProfileService) {
@@ -27,13 +31,18 @@ export class TableHeaderCellComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
+    this.isEmpty = !this.currentColumnName;
     this.selectedQueryColumn = this.metrics.filter(option => option.name === this.currentColumnName)[0];
     this.params$ = this.qanProfileService.getProfileParams.pipe(
       map(params => params.order_by)
     ).subscribe(
       order => {
         this.isNotDefaultIcon = this.currentColumnName === order || `-${this.currentColumnName}` === order;
-      })
+        this.isASC = !(`-${this.currentColumnName}` === order);
+      });
+    if (this.isEmpty) {
+      this.column.open();
+    }
   }
 
   ngOnDestroy() {
@@ -56,8 +65,12 @@ export class TableHeaderCellComponent implements OnInit, OnDestroy {
   }
 
   sortBy(selectedColumn) {
-    this.isDESC = !this.isDESC;
-    this.currentParams.order_by = this.isDESC ? selectedColumn.name : `-${selectedColumn.name}`;
+    this.isASC = !this.isASC;
+    this.currentParams.order_by = this.isASC ? selectedColumn.name : `-${selectedColumn.name}`;
     this.qanProfileService.updateProfileParams(this.currentParams);
+  }
+
+  addCustomScroll() {
+    setTimeout(() => new PerfectScrollbar('.ng-dropdown-panel-items'), 0)
   }
 }

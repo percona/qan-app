@@ -1,14 +1,15 @@
-<div class="cell_inner">
+<div class="cell__inner" [class.cell__inner--empty]="!currentColumnName">
   <ng-select [searchable]="false"
              [(ngModel)]="selectedQueryColumn"
              [items]="metrics"
              (change)="setMetricColumn($event)"
              [clearable]="false"
+             (open)="addCustomScroll()"
              bindLabel="humanizeName"
              #column
              class="pmm-select pmm-select--column">
     <ng-template ng-header-tmp>
-      <input (input)="column.filter($event.target.value)" class="input-field" placeholder="Type to search">
+      <input (input)="column.filter($event.target.value)" class="input-field" appAutofocus  placeholder="Type to search">
       <button><img src="assets/search.svg" alt="search"></button>
     </ng-template>
     <ng-template ng-footer-tmp>
@@ -17,7 +18,7 @@
   </ng-select>
 
   <button (click)="sortBy(selectedQueryColumn)" class="sort-icon">
-    <i class="fa" [ngClass]="isNotDefaultIcon ? (isDESC ? 'fa-sort-desc' : 'fa-sort-asc') : 'fa-sort'"
+    <i class="fa" [ngClass]="isNotDefaultIcon ? (isASC ? 'fa-sort-asc' : 'fa-sort-desc') : 'fa-sort'"
       aria-hidden="true">
     </i>
   </button>

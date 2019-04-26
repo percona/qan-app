@@ -4,11 +4,18 @@
   height: max-content;
 }
 
+.content-table-wrapper {
+  min-height: var(--min-qan-height);
+}
+
 .main-wrapper {
   position: relative;
+  min-height: inherit;
 }
 
 .add-column-btn {
+  --button-color: #a8a8a8;
+
   position: absolute;
   top: 0;
   right: 0;
@@ -17,7 +24,7 @@
   justify-content: center;
   height: 40px;
   font-size: 20px;
-  color: var(--main-border-color);
+  color: var(--button-color);
   cursor: pointer;
   border: none;
   background-color: transparent;
@@ -126,7 +133,6 @@ th.qan-table__cell--fixed {
   cursor: pointer;
   color: var(--main-highlight-color);
   text-align: left;
-  border: none;
   background-color: inherit;
 }
 

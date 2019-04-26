@@ -18,7 +18,7 @@
       <app-qan-filter></app-qan-filter>
     </div>
     <div class="pmm-qan__table" #table>
-      <app-qan-table></app-qan-table>
+      <app-qan-table (finishRender)="checkRender()"></app-qan-table>
     </div>
 
     <div *ngIf="!!noQueryError" class="text-center alert alert-danger w-75 mx-auto wrong-configuration-message" role="alert">
