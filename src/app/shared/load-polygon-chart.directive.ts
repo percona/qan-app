@@ -111,7 +111,7 @@ export class LoadPolygonChartDirective implements OnChanges {
     const g = svg.append('g');
     g.append('path')
       .attr('d', areaBar(this.data))
-      .style('fill', 'lightblue');
+      .style('fill', '#d9721f');
   }
 
   drawHeadLine() {
