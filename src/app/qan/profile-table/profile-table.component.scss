@@ -4,8 +4,13 @@
   height: max-content;
 }
 
+.content-table-wrapper {
+  min-height: var(--min-qan-height);
+}
+
 .main-wrapper {
   position: relative;
+  min-height: inherit;
 }
 
 .add-column-btn {
@@ -128,7 +133,6 @@ th.qan-table__cell--fixed {
   cursor: pointer;
   color: var(--main-highlight-color);
   text-align: left;
-  border: none;
   background-color: inherit;
 }
 

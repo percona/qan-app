@@ -67,7 +67,7 @@ export class QanProfileService {
     include_only_fields: [],
     keyword: '',
     labels: [],
-    limit: 0,
+    limit: 10,
     offset: 0,
     order_by: 'num_queries',
     period_start_from: this.setTimeRange('from'),

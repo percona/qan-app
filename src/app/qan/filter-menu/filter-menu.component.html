@@ -1,28 +1,30 @@
 <aside class="aside">
   <perfect-scrollbar class="pmm-scrollbar">
-    <div *ngFor="let filterGroup of currentFilters; let index = index" class="aside__filter-group">
-      <div class="filter-group__title">
-        <span class="title__text">{{filterGroup.filterGroup}}</span>
-<!--        <span *ngIf="checkFilterGroup(index, filter)" class="title__text">{{filter.groupName}}</span>-->
-        <!--      <button *ngIf="filterGroup.items.length > defaultLimit" (click)="getAll(filterGroup)" class="filter-group__see-all">-->
-        <!--        {{limits[filterGroup.filterGroup] <= defaultLimit ? 'See all' : 'Show less'}}-->
-        <!--      </button>-->
-      </div>
-      <div class="filter-group__filters">
-        <ng-container *ngFor="let filter of filterGroup.items; let index = index">
-          <label class="checkbox-container">
-            <!--        <label *ngIf="index <= limits[filterGroup.filterGroup]" class="checkbox-container">-->
-            <input (change)="setConfigs()"
-                   [(ngModel)]="filter.state"
-                   type="checkbox">
-            <span class="checkbox-container__checkmark"></span>
-            <span class="checkbox-container__label-text">{{filter.value}}</span>
-          </label>
-          <span class="filters__count">
+    <ng-container *ngFor="let filterGroup of currentFilters; let index = index">
+      <section *ngIf="filterGroup.items.length" class="aside__filter-group">
+        <div class="filter-group__title">
+          <span class="title__text">{{filterGroup.filterGroup}}</span>
+          <!--        <span *ngIf="checkFilterGroup(index, filter)" class="title__text">{{filter.groupName}}</span>-->
+          <!--      <button *ngIf="filterGroup.items.length > defaultLimit" (click)="getAll(filterGroup)" class="filter-group__see-all">-->
+          <!--        {{limits[filterGroup.filterGroup] <= defaultLimit ? 'See all' : 'Show less'}}-->
+          <!--      </button>-->
+        </div>
+        <div class="filter-group__filters">
+          <ng-container *ngFor="let filter of filterGroup.items; let index = index">
+            <label class="checkbox-container">
+              <!--        <label *ngIf="index <= limits[filterGroup.filterGroup]" class="checkbox-container">-->
+              <input (change)="setConfigs()"
+                     [(ngModel)]="filter.state"
+                     type="checkbox">
+              <span class="checkbox-container__checkmark"></span>
+              <span class="checkbox-container__label-text">{{filter.value}}</span>
+            </label>
+            <span class="filters__count">
           {{filter.count}}
         </span>
-        </ng-container>
-      </div>
-    </div>
+          </ng-container>
+        </div>
+      </section>
+    </ng-container>
   </perfect-scrollbar>
 </aside>

@@ -71,15 +71,13 @@ export class LoadSparklinesDirective implements OnChanges {
 
     const yDomain = extent(data.map(d => ykey in d ? d[ykey] : 0));
 
-    const yScale = scaleLinear().range([height, 2]).domain(yDomain).clamp(true);
+    const yScale = scaleLinear().range([height, 2]).domain(yDomain.every(item => !item) ? [0, 1] : yDomain).clamp(true);
 
     const svgLine = line()
-      .defined(d => !d['NoData'])
       .x(d => xScale(moment.utc(d[xkey])))
       .y(d => yScale(d[ykey] === undefined ? 0 : d[ykey]));
 
     const svgArea = area()
-      .defined(d => !d['NoData'])
       .x(d => xScale(moment.utc(d[xkey])))
       .y0(d => yScale(d[ykey] === undefined ? 0 : d[ykey]))
       .y1(height - 1);

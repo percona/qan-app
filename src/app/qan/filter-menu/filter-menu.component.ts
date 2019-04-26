@@ -16,7 +16,8 @@ export class FilterMenuComponent implements OnInit, OnDestroy, OnChanges {
   public currentParams: GetProfileBody;
   public limits = {};
   public defaultLimit = 4;
-  private filterSubscription: Subscription;
+  private filterSubscription$: Subscription;
+  private getFilters$: Subscription;
   public currentFilters: any;
 
   constructor(
@@ -26,16 +27,20 @@ export class FilterMenuComponent implements OnInit, OnDestroy, OnChanges {
   ) {
     this.currentParams = this.qanProfileService.getProfileParams.getValue();
 
-    this.filterService.Get({
+    this.getFilters$ = this.filterService.Get({
       period_start_from: this.currentParams.period_start_from,
       period_start_to: this.currentParams.period_start_to
     }).pipe(
       map(response => this.generateFilterGroup(response))
     ).subscribe(
-      response => this.filterMenuService.updateFilterConfigs(response)
+      response => {
+        if (response.length) {
+          this.filterMenuService.updateFilterConfigs(response)
+        }
+      }
     );
 
-    this.filterMenuService.filterSource.subscribe(
+    this.filterSubscription$ = this.filterMenuService.filterSource.subscribe(
       filters => {
         this.currentFilters = filters;
         this.currentParams.labels = this.prepareLabels(filters);
@@ -50,7 +55,8 @@ export class FilterMenuComponent implements OnInit, OnDestroy, OnChanges {
   }
 
   ngOnDestroy() {
-    this.filterSubscription.unsubscribe();
+    this.getFilters$.unsubscribe();
+    this.filterSubscription$.unsubscribe();
   }
 
   prepareLabels(filters) {
@@ -63,10 +69,15 @@ export class FilterMenuComponent implements OnInit, OnDestroy, OnChanges {
   }
 
   generateFilterGroup(group) {
-    return Object.entries(group.labels).map(entire => new FilterGroupModel(entire));
+    const filters = Object.entries(group.labels).map(entire => !this.isEmptyObject(entire[1]) ? new FilterGroupModel(entire) : {});
+    return filters.filter(item => !this.isEmptyObject(item));
   }
 
   setConfigs() {
     this.filterMenuService.updateFilterConfigs(this.currentFilters);
+  }
+
+  isEmptyObject(obj) {
+    return !Object.keys(obj).length
   }
 }

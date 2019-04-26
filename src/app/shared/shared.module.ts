@@ -13,6 +13,7 @@ import { TruncateRootPipe } from './truncate-root.pipe';
 import { ParseQueryParamDatePipe } from './parse-query-param-date.pipe';
 import { SortingTablePipe } from './sorting-table.pipe';
 import { TableHeadersToMultiplePipe } from './table-headers-to-multiple.pipe';
+import { AutofocusDirective } from './autofocus.directive';
 import { LoadBarChartDirective } from './load-bar-chart.directive';
 import { LoadPolygonChartDirective } from './load-polygon-chart.directive';
 
@@ -32,6 +33,7 @@ import { LoadPolygonChartDirective } from './load-polygon-chart.directive';
     TableHeadersToMultiplePipe,
     LoadBarChartDirective,
     LoadPolygonChartDirective,
+    AutofocusDirective,
   ],
   exports: [
     MapToIterablePipe,
@@ -44,6 +46,7 @@ import { LoadPolygonChartDirective } from './load-polygon-chart.directive';
     LoadPolygonChartDirective,
     SortingTablePipe,
     TableHeadersToMultiplePipe,
+    AutofocusDirective,
     CommonModule,
     FormsModule,
     HttpClientModule,

@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, EventEmitter, OnDestroy, OnInit, Output, QueryList, ViewChild, ViewChildren } from '@angular/core';
 import { PerfectScrollbarComponent, PerfectScrollbarConfigInterface } from 'ngx-perfect-scrollbar';
 import { QueryParams } from '../../core/core.component';
 import { SelectOptionModel } from '../table-header-cell/modesl/select-option.model';
@@ -6,44 +6,50 @@ import { TableDataModel } from './models/table-data.model';
 import { MetricModel } from './models/metric.model';
 import { ProfileService } from '../../pmm-api-services/services/profile.service';
 import { Subscription } from 'rxjs/internal/Subscription';
-import { catchError, map, retryWhen, switchMap } from 'rxjs/operators';
+import { catchError, map, switchMap } from 'rxjs/operators';
 import { MetricsNamesService } from '../../pmm-api-services/services/metrics-names.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import * as moment from 'moment';
-import { throwError } from 'rxjs/internal/observable/throwError';
 import { GetProfileBody, QanProfileService } from '../profile/qan-profile.service';
+import { of } from 'rxjs/internal/observable/of';
 
 @Component({
   selector: 'app-qan-table',
   templateUrl: './profile-table.component.html',
   styleUrls: ['./profile-table.component.scss']
 })
-export class ProfileTableComponent implements OnInit, OnDestroy {
+export class ProfileTableComponent implements OnInit, OnDestroy, AfterViewInit {
+  @Output() finishRender = new EventEmitter();
   @ViewChild(PerfectScrollbarComponent) componentRef?: PerfectScrollbarComponent;
+  @ViewChildren('tableRows') tableRows: QueryList<any>;
 
   public scrollbarConfig: PerfectScrollbarConfigInterface = {
     suppressScrollY: false
   };
 
   public iframeQueryParams: QueryParams;
-  public tableData: TableDataModel[];
+  public tableData: TableDataModel[] | any;
   public currentParams: GetProfileBody;
   public defaultColumns: string[];
   public detailsBy: string;
   public fingerprint: string;
   public report$: Subscription;
   public metrics$: Subscription;
+  public detailsBy$: Subscription;
+  public tableRows$: Subscription;
+  public fingerprint$: Subscription;
   public metrics: SelectOptionModel[];
 
-  public page = 1;
   public selectPaginationConfig = [10, 50, 100];
-  public selectedPaginationOption = this.selectPaginationConfig[0];
   public paginationConfig = {
     id: 'qan-table-pagination',
-    itemsPerPage: this.selectedPaginationOption,
+    itemsPerPage: this.selectPaginationConfig[0],
     currentPage: 1,
     totalItems: 0,
   };
+
+  public currentPage = this.paginationConfig.currentPage;
+  public perPage = this.paginationConfig.itemsPerPage;
 
   constructor(
     private route: ActivatedRoute,
@@ -60,27 +66,46 @@ export class ProfileTableComponent implements OnInit, OnDestroy {
         return this.removeDefaultColumns(params)
       }),
       switchMap(parsedParams => this.profileService.GetReport(parsedParams).pipe(
+        catchError(() => of([])),
         map(data => this.generateTableData(data)),
-        catchError(err => throwError(err)),
-        retryWhen(error => error))),
-    ).subscribe(data => {
-      this.tableData = data;
-    });
+        catchError(() => of([]))
+      )),
+    ).subscribe(
+      data => {
+        this.tableData = data;
+      },
+      err => {
+        console.log('error - ', err)
+      });
 
     this.metrics$ = this.metricsNamesService.GetMetricsNames({}).pipe(
       map(metrics => this.generateMetricsNames(metrics))
     ).subscribe(metrics => this.metrics = metrics);
 
-    this.qanProfileService.getProfileInfo.detailsBy.subscribe(details_by => this.detailsBy = details_by);
-    this.qanProfileService.getProfileInfo.fingerprint.subscribe(fingerprint => this.fingerprint = fingerprint);
+    this.detailsBy$ = this.qanProfileService.getProfileInfo.detailsBy.subscribe(details_by => this.detailsBy = details_by);
+    this.fingerprint$ = this.qanProfileService.getProfileInfo.fingerprint.subscribe(fingerprint => this.fingerprint = fingerprint);
   }
 
   ngOnInit() {
   }
 
+  ngAfterViewInit() {
+    this.tableRows.changes.subscribe(() => {
+      this.ngForRendered();
+      this.finishRender.emit(true);
+    })
+  }
+
   ngOnDestroy() {
     this.metrics$.unsubscribe();
     this.report$.unsubscribe();
+    this.detailsBy$.unsubscribe();
+    this.fingerprint$.unsubscribe();
+    this.tableRows$.unsubscribe();
+  }
+
+  ngForRendered() {
+    this.componentRef.directiveRef.scrollToRight();
   }
 
   showDetails(filter_by, fingerPrint = '') {
@@ -120,7 +145,8 @@ export class ProfileTableComponent implements OnInit, OnDestroy {
 
   generateTableData(data) {
     this.paginationConfig.totalItems = data['total_rows'];
-    this.paginationConfig.currentPage = data['offset'] || 1;
+    this.paginationConfig.itemsPerPage = data['limit'];
+    this.currentPage = this.paginationConfig.currentPage = data['offset'] ? data['offset'] / data['limit'] + 1 : 1;
     const tableRows = data['rows'].map(row => new TableDataModel(row));
     tableRows.forEach(row => {
       row.metrics = row.metrics.filter(metric => this.currentParams.columns.includes(metric.metricName));
@@ -153,13 +179,12 @@ export class ProfileTableComponent implements OnInit, OnDestroy {
   }
 
   pageChanged(event) {
-    this.currentParams.offset = event;
+    this.currentParams.offset = this.perPage * (event - 1);
     this.qanProfileService.updateProfileParams(this.currentParams);
   }
 
   onChangePerPage(event) {
-    this.currentParams.limit = event;
-    this.paginationConfig.itemsPerPage = event;
+    this.currentParams.limit = this.perPage = this.paginationConfig.itemsPerPage = event;
     this.qanProfileService.updateProfileParams(this.currentParams);
   }
 

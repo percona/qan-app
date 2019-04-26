@@ -4,7 +4,8 @@
       <perfect-scrollbar [config]="scrollbarConfig" class="pmm-scrollbar">
         <div class="table-wrapper--inner">
           <table class="qan-table" id="qanTable">
-            <ng-container *ngFor="let row of tableData | paginate: paginationConfig; let index = index;">
+            <ng-container
+              *ngFor="let row of tableData | paginate: paginationConfig; let index = index; let last = last" #tableRows>
               <tr *ngIf="!index" class="qan-table__row qan-table__row--heading">
                 <th class="qan-table__cell qan-table__cell--fixed qan-table__cell--first-c">#</th>
                 <th class="qan-table__cell qan-table__cell--fixed qan-table__cell--second-c">
@@ -23,7 +24,7 @@
                   [class.qan-table__row--active]="row.dimension === detailsBy"
                   class="qan-table__row qan-table--body">
                 <td class="qan-table__cell qan-table__cell--first-c qan-table__cell--fixed">
-                  {{index || ''}}
+                  {{index ? currentPage * perPage - perPage + index : ''}}
                 </td>
                 <td class="qan-table__cell qan-table__cell--second-c qan-table__cell--fixed ">
                   <div class="overlay-container">
@@ -63,7 +64,7 @@
     <div class="results-per-page">
       <span>Results per page</span>
       <ng-select [searchable]="false"
-                 [(ngModel)]="selectedPaginationOption"
+                 [(ngModel)]="perPage"
                  [items]="selectPaginationConfig"
                  [clearable]="false"
                  (change)="onChangePerPage($event)"

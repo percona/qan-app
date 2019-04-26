@@ -1,9 +1,10 @@
-import { Component, Input, OnDestroy, OnInit } from '@angular/core';
+import { Component, HostBinding, Input, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { SelectOptionModel } from './modesl/select-option.model';
 import { Subscription } from 'rxjs/internal/Subscription';
 import { map } from 'rxjs/operators';
 import { GetProfileBody, QanProfileService } from '../profile/qan-profile.service';
 import PerfectScrollbar from 'perfect-scrollbar';
+import { NgSelectComponent } from '@ng-select/ng-select';
 
 @Component({
   selector: 'app-qan-table-header-cell',
@@ -16,10 +17,12 @@ export class TableHeaderCellComponent implements OnInit, OnDestroy {
   @Input() metrics: Array<SelectOptionModel>;
   @Input() index: any;
   @Input() rowMetrics: any;
+  @ViewChild('column') column: NgSelectComponent;
 
   private params$: Subscription;
   public selectedQueryColumn: SelectOptionModel;
   public currentParams: GetProfileBody;
+  public isEmpty: boolean;
   public isASC = false;
   public isNotDefaultIcon = false;
 
@@ -28,6 +31,7 @@ export class TableHeaderCellComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
+    this.isEmpty = !this.currentColumnName;
     this.selectedQueryColumn = this.metrics.filter(option => option.name === this.currentColumnName)[0];
     this.params$ = this.qanProfileService.getProfileParams.pipe(
       map(params => params.order_by)
@@ -35,7 +39,10 @@ export class TableHeaderCellComponent implements OnInit, OnDestroy {
       order => {
         this.isNotDefaultIcon = this.currentColumnName === order || `-${this.currentColumnName}` === order;
         this.isASC = !(`-${this.currentColumnName}` === order);
-      })
+      });
+    if (this.isEmpty) {
+      this.column.open();
+    }
   }
 
   ngOnDestroy() {

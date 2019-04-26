@@ -6,13 +6,26 @@
   border-right: 1px solid var(--main-border-color);
 }
 
-.cell_inner {
+:host.cell--empty {
+  width: 200px;
+}
+
+.cell__inner {
   position: relative;
   display: flex;
   justify-content: space-between;
   align-items: center;
   width: 100%;
   height: 100%;
+}
+
+
+.cell__inner--empty {
+  width: 200px;
+
+  .ng-dropdown-panel {
+    width: auto !important;
+  }
 }
 
 .sort-icon {
