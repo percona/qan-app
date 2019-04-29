@@ -5,6 +5,7 @@ export class PmmAgentModel {
   runs_on_node_id: string;
   agentType: string;
   isDeleted: boolean;
+
   constructor(params, type) {
     this.agent_id = params.agent_id || '';
     this.connected = params.connected || '';
