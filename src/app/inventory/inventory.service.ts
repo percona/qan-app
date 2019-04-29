@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { ExternalExporterModel } from './agents-table/models/external-exporter.model';
-import { MongodbExporterModel } from './agents-table/models/mongodb-exporter.model';
+import { MongoMysqlExporterModel } from './agents-table/models/mongo-mysql-exporter.model';
 import { NodeExporterModel } from './agents-table/models/node-exporter.model';
 import { PmmAgentModel } from './agents-table/models/pmm-agent.model';
 import { RdsExporterModel } from './agents-table/models/rds-exporter.model';
@@ -8,8 +8,8 @@ import { ContainerModel } from './nodes-table/models/container.model';
 import { GenericModel } from './nodes-table/models/generic.model';
 import { RemoteModel } from './nodes-table/models/remote.model';
 import { RemoteAmazonRdsModel } from './nodes-table/models/remote-amazon-rds.model';
-import { ServicesModel } from './services-table/models/services.model';
-import { QanMysqlPerfschemaAgentModel } from './agents-table/models/qan-mysql-perfschema-agent.model';
+import { ServicesGeneralModel } from './services-table/models/services-general.model';
+import { GeneralAgentModel } from './agents-table/models/general-agent.model';
 import { PostgresExporterModel } from './agents-table/models/postgres-exporter.model';
 
 @Injectable({
@@ -32,7 +32,7 @@ export class InventoryService {
         return new ExternalExporterModel(params, 'External exporter');
       case 'mongodb_exporter':
       case 'mysqld_exporter':
-        return new MongodbExporterModel(params, 'MongoDB');
+        return new MongoMysqlExporterModel(params, 'MongoDB');
       case 'node_exporter':
         return new NodeExporterModel(params, 'Node exporter');
       case 'pmm_agent':
@@ -42,7 +42,7 @@ export class InventoryService {
       case 'qan_mysql_perfschema_agent':
       case 'qan_mongodb_profiler_agent':
       case 'qan_mysql_slowlog_agent':
-        return new QanMysqlPerfschemaAgentModel(params, 'Qan MySQL Perfschema Agent');
+        return new GeneralAgentModel(params, 'Qan MySQL Perfschema Agent');
       case 'rds_exporter':
         return new RdsExporterModel(params, 'RDS exporter');
       case 'container':
@@ -57,7 +57,7 @@ export class InventoryService {
       case 'mongodb':
       case 'mysql':
       case 'postgresql':
-        return new ServicesModel(params, 'Amazon RDS MySQL');
+        return new ServicesGeneralModel(params, 'Amazon RDS MySQL');
       default:
         return {}
     }
