@@ -20,7 +20,7 @@
         "tags": [
           "Agents"
         ],
-        "summary": "AddExte rnalExporter adds External Agent.",
+        "summary": "AddExternalExporter adds External Agent.",
         "operationId": "AddExternalExporter",
         "parameters": [
           {
@@ -676,6 +676,130 @@
         }
       }
     },
+    "/v1/inventory/Agents/AddQANMongoDBProfilerAgent": {
+      "post": {
+        "tags": [
+          "Agents"
+        ],
+        "summary": "AddQANMongoDBProfilerAgent adds MongoDB Profiler QAN Agent.",
+        "operationId": "AddQANMongoDBProfilerAgent",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "custom_labels": {
+                  "description": "Custom user-assigned labels.",
+                  "type": "object",
+                  "additionalProperties": {
+                    "type": "string"
+                  }
+                },
+                "password": {
+                  "description": "MongoDB password for getting profile data.",
+                  "type": "string"
+                },
+                "pmm_agent_id": {
+                  "description": "The pmm-agent identifier which runs this instance.",
+                  "type": "string"
+                },
+                "service_id": {
+                  "description": "Service identifier.",
+                  "type": "string"
+                },
+                "username": {
+                  "description": "MongoDB username for getting profile data.",
+                  "type": "string"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "qan_mongodb_profiler_agent": {
+                  "description": "QANMongoDBProfilerAgent runs within pmm-agent and sends MongoDB Query Analytics data to the PMM Server.",
+                  "type": "object",
+                  "properties": {
+                    "agent_id": {
+                      "description": "Unique randomly generated instance identifier.",
+                      "type": "string"
+                    },
+                    "custom_labels": {
+                      "description": "Custom user-assigned labels.",
+                      "type": "object",
+                      "additionalProperties": {
+                        "type": "string"
+                      }
+                    },
+                    "disabled": {
+                      "description": "Desired Agent status: enabled (false) or disabled (true).",
+                      "type": "boolean",
+                      "format": "boolean"
+                    },
+                    "password": {
+                      "description": "MongoDB password for getting profiler data.",
+                      "type": "string"
+                    },
+                    "pmm_agent_id": {
+                      "description": "The pmm-agent identifier which runs this instance.",
+                      "type": "string"
+                    },
+                    "service_id": {
+                      "description": "Service identifier.",
+                      "type": "string"
+                    },
+                    "status": {
+                      "description": "AgentStatus represents actual Agent status.",
+                      "type": "string",
+                      "default": "AGENT_STATUS_INVALID",
+                      "enum": [
+                        "AGENT_STATUS_INVALID",
+                        "STARTING",
+                        "RUNNING",
+                        "WAITING",
+                        "STOPPING",
+                        "DONE"
+                      ]
+                    },
+                    "username": {
+                      "description": "MongoDB username for getting profiler data.",
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "An error response.",
+            "schema": {
+              "description": "ErrorResponse is a message returned on HTTP error.",
+              "type": "object",
+              "properties": {
+                "code": {
+                  "type": "integer",
+                  "format": "int32"
+                },
+                "error": {
+                  "type": "string"
+                },
+                "message": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/v1/inventory/Agents/AddQANMySQLPerfSchemaAgent": {
       "post": {
         "tags": [
@@ -726,6 +850,130 @@
               "properties": {
                 "qan_mysql_perfschema_agent": {
                   "description": "QANMySQLPerfSchemaAgent runs within pmm-agent and sends MySQL Query Analytics data to the PMM Server.",
+                  "type": "object",
+                  "properties": {
+                    "agent_id": {
+                      "description": "Unique randomly generated instance identifier.",
+                      "type": "string"
+                    },
+                    "custom_labels": {
+                      "description": "Custom user-assigned labels.",
+                      "type": "object",
+                      "additionalProperties": {
+                        "type": "string"
+                      }
+                    },
+                    "disabled": {
+                      "description": "Desired Agent status: enabled (false) or disabled (true).",
+                      "type": "boolean",
+                      "format": "boolean"
+                    },
+                    "password": {
+                      "description": "MySQL password for getting performance data.",
+                      "type": "string"
+                    },
+                    "pmm_agent_id": {
+                      "description": "The pmm-agent identifier which runs this instance.",
+                      "type": "string"
+                    },
+                    "service_id": {
+                      "description": "Service identifier.",
+                      "type": "string"
+                    },
+                    "status": {
+                      "description": "AgentStatus represents actual Agent status.",
+                      "type": "string",
+                      "default": "AGENT_STATUS_INVALID",
+                      "enum": [
+                        "AGENT_STATUS_INVALID",
+                        "STARTING",
+                        "RUNNING",
+                        "WAITING",
+                        "STOPPING",
+                        "DONE"
+                      ]
+                    },
+                    "username": {
+                      "description": "MySQL username for getting performance data.",
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "An error response.",
+            "schema": {
+              "description": "ErrorResponse is a message returned on HTTP error.",
+              "type": "object",
+              "properties": {
+                "code": {
+                  "type": "integer",
+                  "format": "int32"
+                },
+                "error": {
+                  "type": "string"
+                },
+                "message": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/inventory/Agents/AddQANMySQLSlowlogAgent": {
+      "post": {
+        "tags": [
+          "Agents"
+        ],
+        "summary": "AddQANMySQLSlowlogAgent adds MySQL PerfSchema QAN Agent.",
+        "operationId": "AddQANMySQLSlowlogAgent",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "custom_labels": {
+                  "description": "Custom user-assigned labels.",
+                  "type": "object",
+                  "additionalProperties": {
+                    "type": "string"
+                  }
+                },
+                "password": {
+                  "description": "MySQL password for getting slowlog data.",
+                  "type": "string"
+                },
+                "pmm_agent_id": {
+                  "description": "The pmm-agent identifier which runs this instance.",
+                  "type": "string"
+                },
+                "service_id": {
+                  "description": "Service identifier.",
+                  "type": "string"
+                },
+                "username": {
+                  "description": "MySQL username for getting slowlog data.",
+                  "type": "string"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "qan_mysql_slowlog_agent": {
+                  "description": "QANMySQLSlowlogAgent runs within pmm-agent and sends MySQL Query Analytics data to the PMM Server.",
                   "type": "object",
                   "properties": {
                     "agent_id": {
@@ -1561,6 +1809,130 @@
         }
       }
     },
+    "/v1/inventory/Agents/ChangeQANMongoDBProfilerAgent": {
+      "post": {
+        "tags": [
+          "Agents"
+        ],
+        "summary": "ChangeQANMongoDBProfilerAgent changes MongoDB Profiler QAN Agent.",
+        "operationId": "ChangeQANMongoDBProfilerAgent",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "agent_id": {
+                  "type": "string"
+                },
+                "custom_labels": {
+                  "description": "Replace all custom user-assigned labels.",
+                  "type": "object",
+                  "additionalProperties": {
+                    "type": "string"
+                  }
+                },
+                "disabled": {
+                  "type": "boolean",
+                  "format": "boolean"
+                },
+                "enabled": {
+                  "type": "boolean",
+                  "format": "boolean"
+                },
+                "remove_custom_labels": {
+                  "description": "Remove all custom user-assigned labels.",
+                  "type": "boolean",
+                  "format": "boolean"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "qan_mongodb_profiler_agent": {
+                  "description": "QANMongoDBProfilerAgent runs within pmm-agent and sends MongoDB Query Analytics data to the PMM Server.",
+                  "type": "object",
+                  "properties": {
+                    "agent_id": {
+                      "description": "Unique randomly generated instance identifier.",
+                      "type": "string"
+                    },
+                    "custom_labels": {
+                      "description": "Custom user-assigned labels.",
+                      "type": "object",
+                      "additionalProperties": {
+                        "type": "string"
+                      }
+                    },
+                    "disabled": {
+                      "description": "Desired Agent status: enabled (false) or disabled (true).",
+                      "type": "boolean",
+                      "format": "boolean"
+                    },
+                    "password": {
+                      "description": "MongoDB password for getting profiler data.",
+                      "type": "string"
+                    },
+                    "pmm_agent_id": {
+                      "description": "The pmm-agent identifier which runs this instance.",
+                      "type": "string"
+                    },
+                    "service_id": {
+                      "description": "Service identifier.",
+                      "type": "string"
+                    },
+                    "status": {
+                      "description": "AgentStatus represents actual Agent status.",
+                      "type": "string",
+                      "default": "AGENT_STATUS_INVALID",
+                      "enum": [
+                        "AGENT_STATUS_INVALID",
+                        "STARTING",
+                        "RUNNING",
+                        "WAITING",
+                        "STOPPING",
+                        "DONE"
+                      ]
+                    },
+                    "username": {
+                      "description": "MongoDB username for getting profiler data.",
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "An error response.",
+            "schema": {
+              "description": "ErrorResponse is a message returned on HTTP error.",
+              "type": "object",
+              "properties": {
+                "code": {
+                  "type": "integer",
+                  "format": "int32"
+                },
+                "error": {
+                  "type": "string"
+                },
+                "message": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/v1/inventory/Agents/ChangeQANMySQLPerfSchemaAgent": {
       "post": {
         "tags": [
@@ -1611,6 +1983,130 @@
               "properties": {
                 "qan_mysql_perfschema_agent": {
                   "description": "QANMySQLPerfSchemaAgent runs within pmm-agent and sends MySQL Query Analytics data to the PMM Server.",
+                  "type": "object",
+                  "properties": {
+                    "agent_id": {
+                      "description": "Unique randomly generated instance identifier.",
+                      "type": "string"
+                    },
+                    "custom_labels": {
+                      "description": "Custom user-assigned labels.",
+                      "type": "object",
+                      "additionalProperties": {
+                        "type": "string"
+                      }
+                    },
+                    "disabled": {
+                      "description": "Desired Agent status: enabled (false) or disabled (true).",
+                      "type": "boolean",
+                      "format": "boolean"
+                    },
+                    "password": {
+                      "description": "MySQL password for getting performance data.",
+                      "type": "string"
+                    },
+                    "pmm_agent_id": {
+                      "description": "The pmm-agent identifier which runs this instance.",
+                      "type": "string"
+                    },
+                    "service_id": {
+                      "description": "Service identifier.",
+                      "type": "string"
+                    },
+                    "status": {
+                      "description": "AgentStatus represents actual Agent status.",
+                      "type": "string",
+                      "default": "AGENT_STATUS_INVALID",
+                      "enum": [
+                        "AGENT_STATUS_INVALID",
+                        "STARTING",
+                        "RUNNING",
+                        "WAITING",
+                        "STOPPING",
+                        "DONE"
+                      ]
+                    },
+                    "username": {
+                      "description": "MySQL username for getting performance data.",
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "An error response.",
+            "schema": {
+              "description": "ErrorResponse is a message returned on HTTP error.",
+              "type": "object",
+              "properties": {
+                "code": {
+                  "type": "integer",
+                  "format": "int32"
+                },
+                "error": {
+                  "type": "string"
+                },
+                "message": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/inventory/Agents/ChangeQANMySQLSlowlogAgent": {
+      "post": {
+        "tags": [
+          "Agents"
+        ],
+        "summary": "ChangeQANMySQLSlowlogAgent changes MySQL PerfSchema QAN Agent.",
+        "operationId": "ChangeQANMySQLSlowlogAgent",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "agent_id": {
+                  "type": "string"
+                },
+                "custom_labels": {
+                  "description": "Replace all custom user-assigned labels.",
+                  "type": "object",
+                  "additionalProperties": {
+                    "type": "string"
+                  }
+                },
+                "disabled": {
+                  "type": "boolean",
+                  "format": "boolean"
+                },
+                "enabled": {
+                  "type": "boolean",
+                  "format": "boolean"
+                },
+                "remove_custom_labels": {
+                  "description": "Remove all custom user-assigned labels.",
+                  "type": "boolean",
+                  "format": "boolean"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "qan_mysql_slowlog_agent": {
+                  "description": "QANMySQLSlowlogAgent runs within pmm-agent and sends MySQL Query Analytics data to the PMM Server.",
                   "type": "object",
                   "properties": {
                     "agent_id": {
@@ -2067,8 +2563,110 @@
                     }
                   }
                 },
+                "qan_mongodb_profiler_agent": {
+                  "description": "QANMongoDBProfilerAgent runs within pmm-agent and sends MongoDB Query Analytics data to the PMM Server.",
+                  "type": "object",
+                  "properties": {
+                    "agent_id": {
+                      "description": "Unique randomly generated instance identifier.",
+                      "type": "string"
+                    },
+                    "custom_labels": {
+                      "description": "Custom user-assigned labels.",
+                      "type": "object",
+                      "additionalProperties": {
+                        "type": "string"
+                      }
+                    },
+                    "disabled": {
+                      "description": "Desired Agent status: enabled (false) or disabled (true).",
+                      "type": "boolean",
+                      "format": "boolean"
+                    },
+                    "password": {
+                      "description": "MongoDB password for getting profiler data.",
+                      "type": "string"
+                    },
+                    "pmm_agent_id": {
+                      "description": "The pmm-agent identifier which runs this instance.",
+                      "type": "string"
+                    },
+                    "service_id": {
+                      "description": "Service identifier.",
+                      "type": "string"
+                    },
+                    "status": {
+                      "description": "AgentStatus represents actual Agent status.",
+                      "type": "string",
+                      "default": "AGENT_STATUS_INVALID",
+                      "enum": [
+                        "AGENT_STATUS_INVALID",
+                        "STARTING",
+                        "RUNNING",
+                        "WAITING",
+                        "STOPPING",
+                        "DONE"
+                      ]
+                    },
+                    "username": {
+                      "description": "MongoDB username for getting profiler data.",
+                      "type": "string"
+                    }
+                  }
+                },
                 "qan_mysql_perfschema_agent": {
                   "description": "QANMySQLPerfSchemaAgent runs within pmm-agent and sends MySQL Query Analytics data to the PMM Server.",
+                  "type": "object",
+                  "properties": {
+                    "agent_id": {
+                      "description": "Unique randomly generated instance identifier.",
+                      "type": "string"
+                    },
+                    "custom_labels": {
+                      "description": "Custom user-assigned labels.",
+                      "type": "object",
+                      "additionalProperties": {
+                        "type": "string"
+                      }
+                    },
+                    "disabled": {
+                      "description": "Desired Agent status: enabled (false) or disabled (true).",
+                      "type": "boolean",
+                      "format": "boolean"
+                    },
+                    "password": {
+                      "description": "MySQL password for getting performance data.",
+                      "type": "string"
+                    },
+                    "pmm_agent_id": {
+                      "description": "The pmm-agent identifier which runs this instance.",
+                      "type": "string"
+                    },
+                    "service_id": {
+                      "description": "Service identifier.",
+                      "type": "string"
+                    },
+                    "status": {
+                      "description": "AgentStatus represents actual Agent status.",
+                      "type": "string",
+                      "default": "AGENT_STATUS_INVALID",
+                      "enum": [
+                        "AGENT_STATUS_INVALID",
+                        "STARTING",
+                        "RUNNING",
+                        "WAITING",
+                        "STOPPING",
+                        "DONE"
+                      ]
+                    },
+                    "username": {
+                      "description": "MySQL username for getting performance data.",
+                      "type": "string"
+                    }
+                  }
+                },
+                "qan_mysql_slowlog_agent": {
+                  "description": "QANMySQLSlowlogAgent runs within pmm-agent and sends MySQL Query Analytics data to the PMM Server.",
                   "type": "object",
                   "properties": {
                     "agent_id": {
@@ -2503,10 +3101,118 @@
                     }
                   }
                 },
+                "qan_mongodb_profiler_agent": {
+                  "type": "array",
+                  "items": {
+                    "description": "QANMongoDBProfilerAgent runs within pmm-agent and sends MongoDB Query Analytics data to the PMM Server.",
+                    "type": "object",
+                    "properties": {
+                      "agent_id": {
+                        "description": "Unique randomly generated instance identifier.",
+                        "type": "string"
+                      },
+                      "custom_labels": {
+                        "description": "Custom user-assigned labels.",
+                        "type": "object",
+                        "additionalProperties": {
+                          "type": "string"
+                        }
+                      },
+                      "disabled": {
+                        "description": "Desired Agent status: enabled (false) or disabled (true).",
+                        "type": "boolean",
+                        "format": "boolean"
+                      },
+                      "password": {
+                        "description": "MongoDB password for getting profiler data.",
+                        "type": "string"
+                      },
+                      "pmm_agent_id": {
+                        "description": "The pmm-agent identifier which runs this instance.",
+                        "type": "string"
+                      },
+                      "service_id": {
+                        "description": "Service identifier.",
+                        "type": "string"
+                      },
+                      "status": {
+                        "description": "AgentStatus represents actual Agent status.",
+                        "type": "string",
+                        "default": "AGENT_STATUS_INVALID",
+                        "enum": [
+                          "AGENT_STATUS_INVALID",
+                          "STARTING",
+                          "RUNNING",
+                          "WAITING",
+                          "STOPPING",
+                          "DONE"
+                        ]
+                      },
+                      "username": {
+                        "description": "MongoDB username for getting profiler data.",
+                        "type": "string"
+                      }
+                    }
+                  }
+                },
                 "qan_mysql_perfschema_agent": {
                   "type": "array",
                   "items": {
                     "description": "QANMySQLPerfSchemaAgent runs within pmm-agent and sends MySQL Query Analytics data to the PMM Server.",
+                    "type": "object",
+                    "properties": {
+                      "agent_id": {
+                        "description": "Unique randomly generated instance identifier.",
+                        "type": "string"
+                      },
+                      "custom_labels": {
+                        "description": "Custom user-assigned labels.",
+                        "type": "object",
+                        "additionalProperties": {
+                          "type": "string"
+                        }
+                      },
+                      "disabled": {
+                        "description": "Desired Agent status: enabled (false) or disabled (true).",
+                        "type": "boolean",
+                        "format": "boolean"
+                      },
+                      "password": {
+                        "description": "MySQL password for getting performance data.",
+                        "type": "string"
+                      },
+                      "pmm_agent_id": {
+                        "description": "The pmm-agent identifier which runs this instance.",
+                        "type": "string"
+                      },
+                      "service_id": {
+                        "description": "Service identifier.",
+                        "type": "string"
+                      },
+                      "status": {
+                        "description": "AgentStatus represents actual Agent status.",
+                        "type": "string",
+                        "default": "AGENT_STATUS_INVALID",
+                        "enum": [
+                          "AGENT_STATUS_INVALID",
+                          "STARTING",
+                          "RUNNING",
+                          "WAITING",
+                          "STOPPING",
+                          "DONE"
+                        ]
+                      },
+                      "username": {
+                        "description": "MySQL username for getting performance data.",
+                        "type": "string"
+                      }
+                    }
+                  }
+                },
+                "qan_mysql_slowlog_agent": {
+                  "type": "array",
+                  "items": {
+                    "description": "QANMySQLSlowlogAgent runs within pmm-agent and sends MySQL Query Analytics data to the PMM Server.",
                     "type": "object",
                     "properties": {
                       "agent_id": {
@@ -2701,6 +3407,18 @@
                   "type": "string",
                   "title": "Address FIXME https://jira.percona.com/browse/PMM-3786"
                 },
+                "az": {
+                  "description": "Node availability zone. Auto-detected and auto-updated.",
+                  "type": "string"
+                },
+                "container_id": {
+                  "description": "Container identifier. If specified, must be a unique Docker container identifier.",
+                  "type": "string"
+                },
+                "container_name": {
+                  "description": "Container name.",
+                  "type": "string"
+                },
                 "custom_labels": {
                   "description": "Custom user-assigned labels.",
                   "type": "object",
@@ -2708,20 +3426,20 @@
                     "type": "string"
                   }
                 },
-                "docker_container_id": {
-                  "description": "Docker container identifier. If specified, must be a unique Docker container identifier.",
-                  "type": "string"
-                },
-                "docker_container_name": {
-                  "description": "Container name.",
-                  "type": "string"
-                },
                 "machine_id": {
-                  "description": "Linux machine-id of the Generic Node where this Container Node runs. If defined, Generic Node with that machine_id must exist.",
+                  "description": "Linux machine-id of the Generic Node where this Container Node runs. Auto-detected and auto-updated.\nIf defined, Generic Node with that machine_id must exist.",
+                  "type": "string"
+                },
+                "node_model": {
+                  "description": "Node model. Auto-detected and auto-updated.",
                   "type": "string"
                 },
                 "node_name": {
-                  "description": "Unique across all Nodes user-defined name.",
+                  "description": "Unique across all Nodes user-defined name. Can't be changed.",
+                  "type": "string"
+                },
+                "region": {
+                  "description": "Node region. Auto-detected and auto-updated.",
                   "type": "string"
                 }
               }
@@ -2742,31 +3460,43 @@
                       "type": "string",
                       "title": "Address FIXME https://jira.percona.com/browse/PMM-3786"
                     },
+                    "az": {
+                      "description": "Node availability zone. Auto-detected and auto-updated.",
+                      "type": "string"
+                    },
+                    "container_id": {
+                      "description": "Container identifier. If specified, must be a unique Docker container identifier.\nAuto-detected and auto-updated.",
+                      "type": "string"
+                    },
+                    "container_name": {
+                      "description": "Container name. Auto-detected and auto-updated.",
+                      "type": "string"
+                    },
                     "custom_labels": {
-                      "description": "Custom user-assigned labels. Can be changed.",
+                      "description": "Custom user-assigned labels.",
                       "type": "object",
                       "additionalProperties": {
                         "type": "string"
                       }
                     },
-                    "docker_container_id": {
-                      "description": "Docker container identifier. If specified, must be a unique Docker container identifier. Can't be changed.",
-                      "type": "string"
-                    },
-                    "docker_container_name": {
-                      "description": "Container name. Can be changed.",
-                      "type": "string"
-                    },
                     "machine_id": {
-                      "description": "Linux machine-id of the Generic Node where this Container Node runs. If defined, Generic Node with that machine_id must exist. Can't be changed.",
+                      "description": "Linux machine-id of the Generic Node where this Container Node runs. Auto-detected and auto-updated.\nIf defined, Generic Node with that machine_id must exist.",
                       "type": "string"
                     },
                     "node_id": {
-                      "description": "Unique randomly generated instance identifier, can't be changed.",
+                      "description": "Unique randomly generated instance identifier. Can't be changed.",
+                      "type": "string"
+                    },
+                    "node_model": {
+                      "description": "Node model. Auto-detected and auto-updated.",
                       "type": "string"
                     },
                     "node_name": {
-                      "description": "Unique across all Nodes user-defined name, can be changed.",
+                      "description": "Unique across all Nodes user-defined name. Can't be changed.",
+                      "type": "string"
+                    },
+                    "region": {
+                      "description": "Node region. Auto-detected and auto-updated.",
                       "type": "string"
                     }
                   }
@@ -2812,7 +3542,11 @@
               "type": "object",
               "properties": {
                 "address": {
-                  "description": "Address FIXME.",
+                  "type": "string",
+                  "title": "Address FIXME https://jira.percona.com/browse/PMM-3786"
+                },
+                "az": {
+                  "description": "Node availability zone. Auto-detected and auto-updated.",
                   "type": "string"
                 },
                 "custom_labels": {
@@ -2823,19 +3557,23 @@
                   }
                 },
                 "distro": {
-                  "description": "Linux distribution (if any).",
-                  "type": "string"
-                },
-                "distro_version": {
-                  "description": "Linux distribution version (if any).",
+                  "description": "Linux distribution name and version. Auto-detected and auto-updated.",
                   "type": "string"
                 },
                 "machine_id": {
-                  "description": "Linux machine-id. Must be unique across all Generic Nodes if specified.",
+                  "description": "Linux machine-id. Auto-detected and auto-updated.\nMust be unique across all Generic Nodes if specified.",
+                  "type": "string"
+                },
+                "node_model": {
+                  "description": "Node model. Auto-detected and auto-updated.",
                   "type": "string"
                 },
                 "node_name": {
-                  "description": "Unique across all Nodes user-defined name.",
+                  "description": "Unique across all Nodes user-defined name. Can't be changed.",
+                  "type": "string"
+                },
+                "region": {
+                  "description": "Node region. Auto-detected and auto-updated.",
                   "type": "string"
                 }
               }
@@ -2856,6 +3594,10 @@
                       "type": "string",
                       "title": "Address FIXME https://jira.percona.com/browse/PMM-3786"
                     },
+                    "az": {
+                      "description": "Node availability zone. Auto-detected and auto-updated.",
+                      "type": "string"
+                    },
                     "custom_labels": {
                       "description": "Custom user-assigned labels. Can be changed.",
                       "type": "object",
@@ -2864,23 +3606,27 @@
                       }
                     },
                     "distro": {
-                      "description": "Linux distribution (if any). Can be changed.",
-                      "type": "string"
-                    },
-                    "distro_version": {
-                      "description": "Linux distribution version (if any). Can be changed.",
+                      "description": "Linux distribution name and version. Auto-detected and auto-updated.",
                       "type": "string"
                     },
                     "machine_id": {
-                      "description": "Linux machine-id. Can't be changed. Must be unique across all Generic Nodes if specified.",
+                      "description": "Linux machine-id. Auto-detected and auto-updated.\nMust be unique across all Generic Nodes if specified.",
                       "type": "string"
                     },
                     "node_id": {
-                      "description": "Unique randomly generated instance identifier, can't be changed.",
+                      "description": "Unique randomly generated instance identifier. Can't be changed.",
+                      "type": "string"
+                    },
+                    "node_model": {
+                      "description": "Node model. Auto-detected and auto-updated.",
                       "type": "string"
                     },
                     "node_name": {
-                      "description": "Unique across all Nodes user-defined name, can be changed.",
+                      "description": "Unique across all Nodes user-defined name. Can't be changed.",
+                      "type": "string"
+                    },
+                    "region": {
+                      "description": "Node region. Auto-detected and auto-updated.",
                       "type": "string"
                     }
                   }
@@ -2933,7 +3679,7 @@
                   }
                 },
                 "node_name": {
-                  "description": "Unique across all Nodes user-defined name.",
+                  "description": "Unique across all Nodes user-defined name. Can't be changed.",
                   "type": "string"
                 }
               }
@@ -2958,11 +3704,11 @@
                       }
                     },
                     "node_id": {
-                      "description": "Unique randomly generated instance identifier, can't be changed.",
+                      "description": "Unique randomly generated instance identifier. Can't be changed.",
                       "type": "string"
                     },
                     "node_name": {
-                      "description": "Unique across all Nodes user-defined name, can be changed.",
+                      "description": "Unique across all Nodes user-defined name. Can't be changed.",
                       "type": "string"
                     }
                   }
@@ -3019,7 +3765,7 @@
                   "type": "string"
                 },
                 "node_name": {
-                  "description": "Unique across all Nodes user-defined name.",
+                  "description": "Unique across all Nodes user-defined name. Can't be changed.",
                   "type": "string"
                 },
                 "region": {
@@ -3052,11 +3798,11 @@
                       "type": "string"
                     },
                     "node_id": {
-                      "description": "Unique randomly generated instance identifier, can't be changed.",
+                      "description": "Unique randomly generated instance identifier. Can't be changed.",
                       "type": "string"
                     },
                     "node_name": {
-                      "description": "Unique across all Nodes user-defined name, can be changed.",
+                      "description": "Unique across all Nodes user-defined name. Can't be changed.",
                       "type": "string"
                     },
                     "region": {
@@ -3127,31 +3873,43 @@
                       "type": "string",
                       "title": "Address FIXME https://jira.percona.com/browse/PMM-3786"
                     },
+                    "az": {
+                      "description": "Node availability zone. Auto-detected and auto-updated.",
+                      "type": "string"
+                    },
+                    "container_id": {
+                      "description": "Container identifier. If specified, must be a unique Docker container identifier.\nAuto-detected and auto-updated.",
+                      "type": "string"
+                    },
+                    "container_name": {
+                      "description": "Container name. Auto-detected and auto-updated.",
+                      "type": "string"
+                    },
                     "custom_labels": {
-                      "description": "Custom user-assigned labels. Can be changed.",
+                      "description": "Custom user-assigned labels.",
                       "type": "object",
                       "additionalProperties": {
                         "type": "string"
                       }
                     },
-                    "docker_container_id": {
-                      "description": "Docker container identifier. If specified, must be a unique Docker container identifier. Can't be changed.",
-                      "type": "string"
-                    },
-                    "docker_container_name": {
-                      "description": "Container name. Can be changed.",
-                      "type": "string"
-                    },
                     "machine_id": {
-                      "description": "Linux machine-id of the Generic Node where this Container Node runs. If defined, Generic Node with that machine_id must exist. Can't be changed.",
+                      "description": "Linux machine-id of the Generic Node where this Container Node runs. Auto-detected and auto-updated.\nIf defined, Generic Node with that machine_id must exist.",
                       "type": "string"
                     },
                     "node_id": {
-                      "description": "Unique randomly generated instance identifier, can't be changed.",
+                      "description": "Unique randomly generated instance identifier. Can't be changed.",
+                      "type": "string"
+                    },
+                    "node_model": {
+                      "description": "Node model. Auto-detected and auto-updated.",
                       "type": "string"
                     },
                     "node_name": {
-                      "description": "Unique across all Nodes user-defined name, can be changed.",
+                      "description": "Unique across all Nodes user-defined name. Can't be changed.",
+                      "type": "string"
+                    },
+                    "region": {
+                      "description": "Node region. Auto-detected and auto-updated.",
                       "type": "string"
                     }
                   }
@@ -3164,6 +3922,10 @@
                       "type": "string",
                       "title": "Address FIXME https://jira.percona.com/browse/PMM-3786"
                     },
+                    "az": {
+                      "description": "Node availability zone. Auto-detected and auto-updated.",
+                      "type": "string"
+                    },
                     "custom_labels": {
                       "description": "Custom user-assigned labels. Can be changed.",
                       "type": "object",
@@ -3172,23 +3934,27 @@
                       }
                     },
                     "distro": {
-                      "description": "Linux distribution (if any). Can be changed.",
-                      "type": "string"
-                    },
-                    "distro_version": {
-                      "description": "Linux distribution version (if any). Can be changed.",
+                      "description": "Linux distribution name and version. Auto-detected and auto-updated.",
                       "type": "string"
                     },
                     "machine_id": {
-                      "description": "Linux machine-id. Can't be changed. Must be unique across all Generic Nodes if specified.",
+                      "description": "Linux machine-id. Auto-detected and auto-updated.\nMust be unique across all Generic Nodes if specified.",
                       "type": "string"
                     },
                     "node_id": {
-                      "description": "Unique randomly generated instance identifier, can't be changed.",
+                      "description": "Unique randomly generated instance identifier. Can't be changed.",
+                      "type": "string"
+                    },
+                    "node_model": {
+                      "description": "Node model. Auto-detected and auto-updated.",
                       "type": "string"
                     },
                     "node_name": {
-                      "description": "Unique across all Nodes user-defined name, can be changed.",
+                      "description": "Unique across all Nodes user-defined name. Can't be changed.",
+                      "type": "string"
+                    },
+                    "region": {
+                      "description": "Node region. Auto-detected and auto-updated.",
                       "type": "string"
                     }
                   }
@@ -3205,11 +3971,11 @@
                       }
                     },
                     "node_id": {
-                      "description": "Unique randomly generated instance identifier, can't be changed.",
+                      "description": "Unique randomly generated instance identifier. Can't be changed.",
                       "type": "string"
                     },
                     "node_name": {
-                      "description": "Unique across all Nodes user-defined name, can be changed.",
+                      "description": "Unique across all Nodes user-defined name. Can't be changed.",
                       "type": "string"
                     }
                   }
@@ -3230,11 +3996,11 @@
                       "type": "string"
                     },
                     "node_id": {
-                      "description": "Unique randomly generated instance identifier, can't be changed.",
+                      "description": "Unique randomly generated instance identifier. Can't be changed.",
                       "type": "string"
                     },
                     "node_name": {
-                      "description": "Unique across all Nodes user-defined name, can be changed.",
+                      "description": "Unique across all Nodes user-defined name. Can't be changed.",
                       "type": "string"
                     },
                     "region": {
@@ -3301,31 +4067,43 @@
                         "type": "string",
                         "title": "Address FIXME https://jira.percona.com/browse/PMM-3786"
                       },
+                      "az": {
+                        "description": "Node availability zone. Auto-detected and auto-updated.",
+                        "type": "string"
+                      },
+                      "container_id": {
+                        "description": "Container identifier. If specified, must be a unique Docker container identifier.\nAuto-detected and auto-updated.",
+                        "type": "string"
+                      },
+                      "container_name": {
+                        "description": "Container name. Auto-detected and auto-updated.",
+                        "type": "string"
+                      },
                       "custom_labels": {
-                        "description": "Custom user-assigned labels. Can be changed.",
+                        "description": "Custom user-assigned labels.",
                         "type": "object",
                         "additionalProperties": {
                           "type": "string"
                         }
                       },
-                      "docker_container_id": {
-                        "description": "Docker container identifier. If specified, must be a unique Docker container identifier. Can't be changed.",
-                        "type": "string"
-                      },
-                      "docker_container_name": {
-                        "description": "Container name. Can be changed.",
-                        "type": "string"
-                      },
                       "machine_id": {
-                        "description": "Linux machine-id of the Generic Node where this Container Node runs. If defined, Generic Node with that machine_id must exist. Can't be changed.",
+                        "description": "Linux machine-id of the Generic Node where this Container Node runs. Auto-detected and auto-updated.\nIf defined, Generic Node with that machine_id must exist.",
                         "type": "string"
                       },
                       "node_id": {
-                        "description": "Unique randomly generated instance identifier, can't be changed.",
+                        "description": "Unique randomly generated instance identifier. Can't be changed.",
+                        "type": "string"
+                      },
+                      "node_model": {
+                        "description": "Node model. Auto-detected and auto-updated.",
                         "type": "string"
                       },
                       "node_name": {
-                        "description": "Unique across all Nodes user-defined name, can be changed.",
+                        "description": "Unique across all Nodes user-defined name. Can't be changed.",
+                        "type": "string"
+                      },
+                      "region": {
+                        "description": "Node region. Auto-detected and auto-updated.",
                         "type": "string"
                       }
                     }
@@ -3341,6 +4119,10 @@
                         "type": "string",
                         "title": "Address FIXME https://jira.percona.com/browse/PMM-3786"
                       },
+                      "az": {
+                        "description": "Node availability zone. Auto-detected and auto-updated.",
+                        "type": "string"
+                      },
                       "custom_labels": {
                         "description": "Custom user-assigned labels. Can be changed.",
                         "type": "object",
@@ -3349,23 +4131,27 @@
                         }
                       },
                       "distro": {
-                        "description": "Linux distribution (if any). Can be changed.",
-                        "type": "string"
-                      },
-                      "distro_version": {
-                        "description": "Linux distribution version (if any). Can be changed.",
+                        "description": "Linux distribution name and version. Auto-detected and auto-updated.",
                         "type": "string"
                       },
                       "machine_id": {
-                        "description": "Linux machine-id. Can't be changed. Must be unique across all Generic Nodes if specified.",
+                        "description": "Linux machine-id. Auto-detected and auto-updated.\nMust be unique across all Generic Nodes if specified.",
                         "type": "string"
                       },
                       "node_id": {
-                        "description": "Unique randomly generated instance identifier, can't be changed.",
+                        "description": "Unique randomly generated instance identifier. Can't be changed.",
+                        "type": "string"
+                      },
+                      "node_model": {
+                        "description": "Node model. Auto-detected and auto-updated.",
                         "type": "string"
                       },
                       "node_name": {
-                        "description": "Unique across all Nodes user-defined name, can be changed.",
+                        "description": "Unique across all Nodes user-defined name. Can't be changed.",
+                        "type": "string"
+                      },
+                      "region": {
+                        "description": "Node region. Auto-detected and auto-updated.",
                         "type": "string"
                       }
                     }
@@ -3385,11 +4171,11 @@
                         }
                       },
                       "node_id": {
-                        "description": "Unique randomly generated instance identifier, can't be changed.",
+                        "description": "Unique randomly generated instance identifier. Can't be changed.",
                         "type": "string"
                       },
                       "node_name": {
-                        "description": "Unique across all Nodes user-defined name, can be changed.",
+                        "description": "Unique across all Nodes user-defined name. Can't be changed.",
                         "type": "string"
                       }
                     }
@@ -3413,11 +4199,11 @@
                         "type": "string"
                       },
                       "node_id": {
-                        "description": "Unique randomly generated instance identifier, can't be changed.",
+                        "description": "Unique randomly generated instance identifier. Can't be changed.",
                         "type": "string"
                       },
                       "node_name": {
-                        "description": "Unique across all Nodes user-defined name, can be changed.",
+                        "description": "Unique across all Nodes user-defined name. Can't be changed.",
                         "type": "string"
                       },
                       "region": {
@@ -3530,6 +4316,10 @@
                     "type": "string"
                   }
                 },
+                "environment": {
+                  "description": "Environment name.",
+                  "type": "string"
+                },
                 "node_id": {
                   "description": "Node identifier where this instance runs. Required.",
                   "type": "string"
@@ -3567,6 +4357,10 @@
                       "additionalProperties": {
                         "type": "string"
                       }
+                    },
+                    "environment": {
+                      "description": "Environment name.",
+                      "type": "string"
                     },
                     "node_id": {
                       "description": "Node identifier where this instance runs.",
@@ -3631,12 +4425,20 @@
                   "description": "Access address (DNS name or IP). Required.",
                   "type": "string"
                 },
+                "cluster": {
+                  "description": "Cluster name.",
+                  "type": "string"
+                },
                 "custom_labels": {
                   "description": "Custom user-assigned labels.",
                   "type": "object",
                   "additionalProperties": {
                     "type": "string"
                   }
+                },
+                "environment": {
+                  "description": "Environment name.",
+                  "type": "string"
                 },
                 "node_id": {
                   "description": "Node identifier where this instance runs. Required.",
@@ -3646,6 +4448,10 @@
                   "description": "Access port. Required.",
                   "type": "integer",
                   "format": "int64"
+                },
+                "replication_set": {
+                  "description": "Replication set name.",
+                  "type": "string"
                 },
                 "service_name": {
                   "description": "Unique across all Services user-defined name. Required.",
@@ -3669,12 +4475,20 @@
                       "description": "Access address (DNS name or IP).",
                       "type": "string"
                     },
+                    "cluster": {
+                      "description": "Cluster name.",
+                      "type": "string"
+                    },
                     "custom_labels": {
                       "description": "Custom user-assigned labels.",
                       "type": "object",
                       "additionalProperties": {
                         "type": "string"
                       }
+                    },
+                    "environment": {
+                      "description": "Environment name.",
+                      "type": "string"
                     },
                     "node_id": {
                       "description": "Node identifier where this instance runs.",
@@ -3684,6 +4498,10 @@
                       "description": "Access port.",
                       "type": "integer",
                       "format": "int64"
+                    },
+                    "replication_set": {
+                      "description": "Replication set name.",
+                      "type": "string"
                     },
                     "service_id": {
                       "description": "Unique randomly generated instance identifier.",
@@ -3739,12 +4557,20 @@
                   "description": "Access address (DNS name or IP). Required.",
                   "type": "string"
                 },
+                "cluster": {
+                  "description": "Cluster name.",
+                  "type": "string"
+                },
                 "custom_labels": {
                   "description": "Custom user-assigned labels.",
                   "type": "object",
                   "additionalProperties": {
                     "type": "string"
                   }
+                },
+                "environment": {
+                  "description": "Environment name.",
+                  "type": "string"
                 },
                 "node_id": {
                   "description": "Node identifier where this instance runs. Required.",
@@ -3754,6 +4580,10 @@
                   "description": "Access port. Required.",
                   "type": "integer",
                   "format": "int64"
+                },
+                "replication_set": {
+                  "description": "Replication set name.",
+                  "type": "string"
                 },
                 "service_name": {
                   "description": "Unique across all Services user-defined name. Required.",
@@ -3777,12 +4607,20 @@
                       "description": "Access address (DNS name or IP).",
                       "type": "string"
                     },
+                    "cluster": {
+                      "description": "Cluster name.",
+                      "type": "string"
+                    },
                     "custom_labels": {
                       "description": "Custom user-assigned labels.",
                       "type": "object",
                       "additionalProperties": {
                         "type": "string"
                       }
+                    },
+                    "environment": {
+                      "description": "Environment name.",
+                      "type": "string"
                     },
                     "node_id": {
                       "description": "Node identifier where this instance runs.",
@@ -3792,6 +4630,10 @@
                       "description": "Access port.",
                       "type": "integer",
                       "format": "int64"
+                    },
+                    "replication_set": {
+                      "description": "Replication set name.",
+                      "type": "string"
                     },
                     "service_id": {
                       "description": "Unique randomly generated instance identifier.",
@@ -3854,6 +4696,10 @@
                     "type": "string"
                   }
                 },
+                "environment": {
+                  "description": "Environment name.",
+                  "type": "string"
+                },
                 "node_id": {
                   "description": "Node identifier where this instance runs. Required.",
                   "type": "string"
@@ -3891,6 +4737,10 @@
                       "additionalProperties": {
                         "type": "string"
                       }
+                    },
+                    "environment": {
+                      "description": "Environment name.",
+                      "type": "string"
                     },
                     "node_id": {
                       "description": "Node identifier where this instance runs.",
@@ -3980,6 +4830,10 @@
                         "type": "string"
                       }
                     },
+                    "environment": {
+                      "description": "Environment name.",
+                      "type": "string"
+                    },
                     "node_id": {
                       "description": "Node identifier where this instance runs.",
                       "type": "string"
@@ -4007,12 +4861,20 @@
                       "description": "Access address (DNS name or IP).",
                       "type": "string"
                     },
+                    "cluster": {
+                      "description": "Cluster name.",
+                      "type": "string"
+                    },
                     "custom_labels": {
                       "description": "Custom user-assigned labels.",
                       "type": "object",
                       "additionalProperties": {
                         "type": "string"
                       }
+                    },
+                    "environment": {
+                      "description": "Environment name.",
+                      "type": "string"
                     },
                     "node_id": {
                       "description": "Node identifier where this instance runs.",
@@ -4022,6 +4884,10 @@
                       "description": "Access port.",
                       "type": "integer",
                       "format": "int64"
+                    },
+                    "replication_set": {
+                      "description": "Replication set name.",
+                      "type": "string"
                     },
                     "service_id": {
                       "description": "Unique randomly generated instance identifier.",
@@ -4041,12 +4907,20 @@
                       "description": "Access address (DNS name or IP).",
                       "type": "string"
                     },
+                    "cluster": {
+                      "description": "Cluster name.",
+                      "type": "string"
+                    },
                     "custom_labels": {
                       "description": "Custom user-assigned labels.",
                       "type": "object",
                       "additionalProperties": {
                         "type": "string"
                       }
+                    },
+                    "environment": {
+                      "description": "Environment name.",
+                      "type": "string"
                     },
                     "node_id": {
                       "description": "Node identifier where this instance runs.",
@@ -4056,6 +4930,10 @@
                       "description": "Access port.",
                       "type": "integer",
                       "format": "int64"
+                    },
+                    "replication_set": {
+                      "description": "Replication set name.",
+                      "type": "string"
                     },
                     "service_id": {
                       "description": "Unique randomly generated instance identifier.",
@@ -4081,6 +4959,10 @@
                       "additionalProperties": {
                         "type": "string"
                       }
+                    },
+                    "environment": {
+                      "description": "Environment name.",
+                      "type": "string"
                     },
                     "node_id": {
                       "description": "Node identifier where this instance runs.",
@@ -4172,6 +5054,10 @@
                           "type": "string"
                         }
                       },
+                      "environment": {
+                        "description": "Environment name.",
+                        "type": "string"
+                      },
                       "node_id": {
                         "description": "Node identifier where this instance runs.",
                         "type": "string"
@@ -4202,12 +5088,20 @@
                         "description": "Access address (DNS name or IP).",
                         "type": "string"
                       },
+                      "cluster": {
+                        "description": "Cluster name.",
+                        "type": "string"
+                      },
                       "custom_labels": {
                         "description": "Custom user-assigned labels.",
                         "type": "object",
                         "additionalProperties": {
                           "type": "string"
                         }
+                      },
+                      "environment": {
+                        "description": "Environment name.",
+                        "type": "string"
                       },
                       "node_id": {
                         "description": "Node identifier where this instance runs.",
@@ -4217,6 +5111,10 @@
                         "description": "Access port.",
                         "type": "integer",
                         "format": "int64"
+                      },
+                      "replication_set": {
+                        "description": "Replication set name.",
+                        "type": "string"
                       },
                       "service_id": {
                         "description": "Unique randomly generated instance identifier.",
@@ -4239,12 +5137,20 @@
                         "description": "Access address (DNS name or IP).",
                         "type": "string"
                       },
+                      "cluster": {
+                        "description": "Cluster name.",
+                        "type": "string"
+                      },
                       "custom_labels": {
                         "description": "Custom user-assigned labels.",
                         "type": "object",
                         "additionalProperties": {
                           "type": "string"
                         }
+                      },
+                      "environment": {
+                        "description": "Environment name.",
+                        "type": "string"
                       },
                       "node_id": {
                         "description": "Node identifier where this instance runs.",
@@ -4254,6 +5160,10 @@
                         "description": "Access port.",
                         "type": "integer",
                         "format": "int64"
+                      },
+                      "replication_set": {
+                        "description": "Replication set name.",
+                        "type": "string"
                       },
                       "service_id": {
                         "description": "Unique randomly generated instance identifier.",
@@ -4282,6 +5192,10 @@
                         "additionalProperties": {
                           "type": "string"
                         }
+                      },
+                      "environment": {
+                        "description": "Environment name.",
+                        "type": "string"
                       },
                       "node_id": {
                         "description": "Node identifier where this instance runs.",
@@ -4399,6 +5313,14 @@
                   "description": "Node and Service access address (DNS name or IP). Required.",
                   "type": "string"
                 },
+                "cluster": {
+                  "description": "Cluster name.",
+                  "type": "string"
+                },
+                "environment": {
+                  "description": "Environment name.",
+                  "type": "string"
+                },
                 "mysqld_exporter": {
                   "description": "If true, adds mysqld_exporter for provided service.",
                   "type": "boolean",
@@ -4426,6 +5348,11 @@
                   "type": "boolean",
                   "format": "boolean"
                 },
+                "qan_mysql_slowlog": {
+                  "description": "If true, adds qan-mysql-slowlog-agent for provided service.",
+                  "type": "boolean",
+                  "format": "boolean"
+                },
                 "qan_password": {
                   "type": "string",
                   "title": "FIXME remove"
@@ -4433,6 +5360,10 @@
                 "qan_username": {
                   "type": "string",
                   "title": "FIXME remove"
+                },
+                "replication_set": {
+                  "description": "Replication set name.",
+                  "type": "string"
                 },
                 "service_name": {
                   "description": "Unique across all Services user-defined name. Required.",
@@ -4559,12 +5490,12 @@
                     }
                   }
                 },
-                "service": {
-                  "description": "MySQLService represents a generic MySQL instance.",
+                "qan_mysql_slowlog": {
+                  "description": "QANMySQLSlowlogAgent runs within pmm-agent and sends MySQL Query Analytics data to the PMM Server.",
                   "type": "object",
                   "properties": {
-                    "address": {
-                      "description": "Access address (DNS name or IP).",
+                    "agent_id": {
+                      "description": "Unique randomly generated instance identifier.",
                       "type": "string"
                     },
                     "custom_labels": {
@@ -4574,6 +5505,65 @@
                         "type": "string"
                       }
                     },
+                    "disabled": {
+                      "description": "Desired Agent status: enabled (false) or disabled (true).",
+                      "type": "boolean",
+                      "format": "boolean"
+                    },
+                    "password": {
+                      "description": "MySQL password for getting performance data.",
+                      "type": "string"
+                    },
+                    "pmm_agent_id": {
+                      "description": "The pmm-agent identifier which runs this instance.",
+                      "type": "string"
+                    },
+                    "service_id": {
+                      "description": "Service identifier.",
+                      "type": "string"
+                    },
+                    "status": {
+                      "description": "AgentStatus represents actual Agent status.",
+                      "type": "string",
+                      "default": "AGENT_STATUS_INVALID",
+                      "enum": [
+                        "AGENT_STATUS_INVALID",
+                        "STARTING",
+                        "RUNNING",
+                        "WAITING",
+                        "STOPPING",
+                        "DONE"
+                      ]
+                    },
+                    "username": {
+                      "description": "MySQL username for getting performance data.",
+                      "type": "string"
+                    }
+                  }
+                },
+                "service": {
+                  "description": "MySQLService represents a generic MySQL instance.",
+                  "type": "object",
+                  "properties": {
+                    "address": {
+                      "description": "Access address (DNS name or IP).",
+                      "type": "string"
+                    },
+                    "cluster": {
+                      "description": "Cluster name.",
+                      "type": "string"
+                    },
+                    "custom_labels": {
+                      "description": "Custom user-assigned labels.",
+                      "type": "object",
+                      "additionalProperties": {
+                        "type": "string"
+                      }
+                    },
+                    "environment": {
+                      "description": "Environment name.",
+                      "type": "string"
+                    },
                     "node_id": {
                       "description": "Node identifier where this instance runs.",
                       "type": "string"
@@ -4582,6 +5572,10 @@
                       "description": "Access port.",
                       "type": "integer",
                       "format": "int64"
+                    },
+                    "replication_set": {
+                      "description": "Replication set name.",
+                      "type": "string"
                     },
                     "service_id": {
                       "description": "Unique randomly generated instance identifier.",
@@ -4623,7 +5617,7 @@
         "tags": [
           "Node"
         ],
-        "summary": "Register do node registration.",
+        "summary": "Register registers a new Node and pmm-agent, or updates the existing one by name.",
         "operationId": "Register",
         "parameters": [
           {
@@ -4637,39 +5631,43 @@
                   "type": "string",
                   "title": "Address FIXME https://jira.percona.com/browse/PMM-3786"
                 },
+                "az": {
+                  "description": "Node availability zone. Auto-detected and auto-updated.",
+                  "type": "string"
+                },
                 "container_id": {
-                  "description": "Сontainer identifier. Only for Container Nodes (optional).",
+                  "description": "Container identifier. If specified, must be a unique Docker container identifier.\nAuto-detected and auto-updated.",
                   "type": "string"
                 },
                 "container_name": {
-                  "description": "Сontainer name. Only for Container Nodes (optional).",
+                  "description": "Container name. Auto-detected and auto-updated.",
                   "type": "string"
                 },
                 "custom_labels": {
-                  "description": "Custom user-assigned labels for node (optional).",
+                  "description": "Custom user-assigned labels.",
                   "type": "object",
                   "additionalProperties": {
                     "type": "string"
                   }
                 },
                 "distro": {
-                  "description": "Linux distribution. For Generic nodes (optional).",
-                  "type": "string"
-                },
-                "distro_version": {
-                  "description": "Linux distribution version. For Generic nodes (optional).",
+                  "description": "Linux distribution name and version. Auto-detected and auto-updated.",
                   "type": "string"
                 },
                 "machine_id": {
-                  "description": "Linux machine-id. Can't be changed. Must be unique across all Generic Nodes if specified (optional).",
+                  "description": "Linux machine-id. Auto-detected and auto-updated.\nMust be unique across all Generic Nodes if specified.",
+                  "type": "string"
+                },
+                "node_model": {
+                  "description": "Node model. Auto-detected and auto-updated.",
                   "type": "string"
                 },
                 "node_name": {
-                  "description": "Unique across all Nodes user-defined name, can be changed.",
+                  "description": "Unique across all Nodes user-defined name. Can't be changed.",
                   "type": "string"
                 },
                 "node_type": {
-                  "description": "NodeType describes supported node types.",
+                  "description": "NodeType describes supported Node types.",
                   "type": "string",
                   "default": "NODE_TYPE_INVALID",
                   "enum": [
@@ -4679,6 +5677,10 @@
                     "REMOTE_NODE",
                     "REMOTE_AMAZON_RDS_NODE"
                   ]
+                },
+                "region": {
+                  "description": "Node region. Auto-detected and auto-updated.",
+                  "type": "string"
                 }
               }
             }
@@ -4698,31 +5700,43 @@
                       "type": "string",
                       "title": "Address FIXME https://jira.percona.com/browse/PMM-3786"
                     },
+                    "az": {
+                      "description": "Node availability zone. Auto-detected and auto-updated.",
+                      "type": "string"
+                    },
+                    "container_id": {
+                      "description": "Container identifier. If specified, must be a unique Docker container identifier.\nAuto-detected and auto-updated.",
+                      "type": "string"
+                    },
+                    "container_name": {
+                      "description": "Container name. Auto-detected and auto-updated.",
+                      "type": "string"
+                    },
                     "custom_labels": {
-                      "description": "Custom user-assigned labels. Can be changed.",
+                      "description": "Custom user-assigned labels.",
                       "type": "object",
                       "additionalProperties": {
                         "type": "string"
                       }
                     },
-                    "docker_container_id": {
-                      "description": "Docker container identifier. If specified, must be a unique Docker container identifier. Can't be changed.",
-                      "type": "string"
-                    },
-                    "docker_container_name": {
-                      "description": "Container name. Can be changed.",
-                      "type": "string"
-                    },
                     "machine_id": {
-                      "description": "Linux machine-id of the Generic Node where this Container Node runs. If defined, Generic Node with that machine_id must exist. Can't be changed.",
+                      "description": "Linux machine-id of the Generic Node where this Container Node runs. Auto-detected and auto-updated.\nIf defined, Generic Node with that machine_id must exist.",
                       "type": "string"
                     },
                     "node_id": {
-                      "description": "Unique randomly generated instance identifier, can't be changed.",
+                      "description": "Unique randomly generated instance identifier. Can't be changed.",
+                      "type": "string"
+                    },
+                    "node_model": {
+                      "description": "Node model. Auto-detected and auto-updated.",
                       "type": "string"
                     },
                     "node_name": {
-                      "description": "Unique across all Nodes user-defined name, can be changed.",
+                      "description": "Unique across all Nodes user-defined name. Can't be changed.",
+                      "type": "string"
+                    },
+                    "region": {
+                      "description": "Node region. Auto-detected and auto-updated.",
                       "type": "string"
                     }
                   }
@@ -4735,6 +5749,10 @@
                       "type": "string",
                       "title": "Address FIXME https://jira.percona.com/browse/PMM-3786"
                     },
+                    "az": {
+                      "description": "Node availability zone. Auto-detected and auto-updated.",
+                      "type": "string"
+                    },
                     "custom_labels": {
                       "description": "Custom user-assigned labels. Can be changed.",
                       "type": "object",
@@ -4743,23 +5761,27 @@
                       }
                     },
                     "distro": {
-                      "description": "Linux distribution (if any). Can be changed.",
-                      "type": "string"
-                    },
-                    "distro_version": {
-                      "description": "Linux distribution version (if any). Can be changed.",
+                      "description": "Linux distribution name and version. Auto-detected and auto-updated.",
                       "type": "string"
                     },
                     "machine_id": {
-                      "description": "Linux machine-id. Can't be changed. Must be unique across all Generic Nodes if specified.",
+                      "description": "Linux machine-id. Auto-detected and auto-updated.\nMust be unique across all Generic Nodes if specified.",
                       "type": "string"
                     },
                     "node_id": {
-                      "description": "Unique randomly generated instance identifier, can't be changed.",
+                      "description": "Unique randomly generated instance identifier. Can't be changed.",
+                      "type": "string"
+                    },
+                    "node_model": {
+                      "description": "Node model. Auto-detected and auto-updated.",
                       "type": "string"
                     },
                     "node_name": {
-                      "description": "Unique across all Nodes user-defined name, can be changed.",
+                      "description": "Unique across all Nodes user-defined name. Can't be changed.",
+                      "type": "string"
+                    },
+                    "region": {
+                      "description": "Node region. Auto-detected and auto-updated.",
                       "type": "string"
                     }
                   }
@@ -4791,6 +5813,74 @@
                   }
                 }
               }
+            }
+          },
+          "default": {
+            "description": "An error response.",
+            "schema": {
+              "description": "ErrorResponse is a message returned on HTTP error.",
+              "type": "object",
+              "properties": {
+                "code": {
+                  "type": "integer",
+                  "format": "int32"
+                },
+                "error": {
+                  "type": "string"
+                },
+                "message": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/management/Service/Remove": {
+      "post": {
+        "tags": [
+          "Service"
+        ],
+        "summary": "RemoveService removes Service with Agents.",
+        "operationId": "RemoveServiceMixin1",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "service_id": {
+                  "description": "Service ID or Service Name is required.\nUnique randomly generated instance identifier.",
+                  "type": "string"
+                },
+                "service_name": {
+                  "description": "Unique across all Services user-defined name.",
+                  "type": "string"
+                },
+                "service_type": {
+                  "description": "ServiceType describes supported Service types.",
+                  "type": "string",
+                  "default": "SERVICE_TYPE_INVALID",
+                  "enum": [
+                    "SERVICE_TYPE_INVALID",
+                    "MYSQL_SERVICE",
+                    "AMAZON_RDS_MYSQL_SERVICE",
+                    "MONGODB_SERVICE",
+                    "POSTGRESQL_SERVICE"
+                  ]
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "type": "object"
             }
           },
           "default": {

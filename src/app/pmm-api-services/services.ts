@@ -3,6 +3,7 @@ export { NodesService } from './services/nodes.service';
 export { ServicesService } from './services/services.service';
 export { MySQLService } from './services/my-sql.service';
 export { NodeService } from './services/node.service';
+export { ServiceService } from './services/service.service';
 export { FiltersService } from './services/filters.service';
 export { MetricsNamesService } from './services/metrics-names.service';
 export { ProfileService } from './services/profile.service';
