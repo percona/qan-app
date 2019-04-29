@@ -1,4 +1,4 @@
-export class MysqlModel {
+export class ServicesModel {
   address: string;
   custom_labels: Array<string>;
   node_id: string;
