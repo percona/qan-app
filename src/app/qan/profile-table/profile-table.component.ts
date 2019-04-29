@@ -66,9 +66,15 @@ export class ProfileTableComponent implements OnInit, OnDestroy, AfterViewInit {
         return this.removeDefaultColumns(params)
       }),
       switchMap(parsedParams => this.profileService.GetReport(parsedParams).pipe(
-        catchError(() => of([])),
+        catchError(err => {
+          console.log('error - ', err);
+          return of([])
+        }),
         map(data => this.generateTableData(data)),
-        catchError(() => of([]))
+        catchError(err => {
+          console.log('error - ', err);
+          return of([])
+        })
       )),
     ).subscribe(
       data => {
