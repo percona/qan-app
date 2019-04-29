@@ -1,4 +1,15 @@
-import { AfterViewInit, Component, EventEmitter, OnDestroy, OnInit, Output, QueryList, ViewChild, ViewChildren } from '@angular/core';
+import {
+  AfterViewInit,
+  Component,
+  ElementRef,
+  EventEmitter,
+  OnDestroy,
+  OnInit,
+  Output,
+  QueryList,
+  ViewChild,
+  ViewChildren
+} from '@angular/core';
 import { PerfectScrollbarComponent, PerfectScrollbarConfigInterface } from 'ngx-perfect-scrollbar';
 import { QueryParams } from '../../core/core.component';
 import { SelectOptionModel } from '../table-header-cell/modesl/select-option.model';
@@ -21,10 +32,12 @@ import { of } from 'rxjs/internal/observable/of';
 export class ProfileTableComponent implements OnInit, OnDestroy, AfterViewInit {
   @Output() finishRender = new EventEmitter();
   @ViewChild(PerfectScrollbarComponent) componentRef?: PerfectScrollbarComponent;
+  @ViewChild('qanTable') qanTable: ElementRef;
+  @ViewChild('mainTableWrapper') mainTableWrapper: ElementRef;
   @ViewChildren('tableRows') tableRows: QueryList<any>;
 
   public scrollbarConfig: PerfectScrollbarConfigInterface = {
-    suppressScrollY: false
+    suppressScrollY: true
   };
 
   public iframeQueryParams: QueryParams;
@@ -105,7 +118,10 @@ export class ProfileTableComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   ngForRendered() {
+    const tableHeight = this.qanTable.nativeElement.offsetHeight;
     this.componentRef.directiveRef.scrollToRight();
+    this.mainTableWrapper.nativeElement.style.setProperty('--table-height', `${tableHeight}px`);
+    console.log('tableHeight - ', tableHeight);
   }
 
   showDetails(filter_by, fingerPrint = '') {
