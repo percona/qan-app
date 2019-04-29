@@ -35,9 +35,8 @@ export class InventoryService {
       case 'external_exporter':
         return new ExternalExporterModel(params, 'External exporter');
       case 'mongodb_exporter':
-        return new MongodbExporterModel(params, 'MongoDB');
       case 'mysqld_exporter':
-        return new MysqlExporterModel(params, 'MySQL exporter');
+        return new MongodbExporterModel(params, 'MongoDB');
       case 'node_exporter':
         return new NodeExporterModel(params, 'Node exporter');
       case 'pmm_agent':
@@ -45,6 +44,8 @@ export class InventoryService {
       case 'postgres_exporter':
         return new PostgresExporterModel(params, 'Postgres exporter');
       case 'qan_mysql_perfschema_agent':
+      case 'qan_mongodb_profiler_agent':
+      case 'qan_mysql_slowlog_agent':
         return new QanMysqlPerfschemaAgentModel(params, 'Qan MySQL Perfschema Agent');
       case 'rds_exporter':
         return new RdsExporterModel(params, 'RDS exporter');
@@ -57,13 +58,10 @@ export class InventoryService {
       case 'remote_amazon_rds':
         return new RemoteAmazonRdsModel(params, 'Remote Amazon RDS');
       case 'amazon_rds_mysql':
-        return new AmazonRdsMysqlModel(params, 'Amazon RDS MySQL');
       case 'mongodb':
-        return new MongodbModel(params, 'MongoDB');
       case 'mysql':
-        return new MysqlModel(params, 'MySQL');
       case 'postgresql':
-        return new PostgreSQLModel(params, 'PostgreSQL');
+        return new AmazonRdsMysqlModel(params, 'Amazon RDS MySQL');
       default:
         return {}
     }

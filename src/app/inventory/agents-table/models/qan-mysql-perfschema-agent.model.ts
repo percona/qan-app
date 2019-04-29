@@ -23,4 +23,3 @@ export class QanMysqlPerfschemaAgentModel {
     this.isDeleted = false;
   }
 }
-
