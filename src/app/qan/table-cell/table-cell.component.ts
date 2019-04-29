@@ -1,6 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { MetricModel } from '../profile-table/models/metric.model';
 import { QanProfileService } from '../profile/qan-profile.service';
+import { DataFormatService } from '../services/data-format.service';
 
 @Component({
   selector: 'app-qan-table-cell',
@@ -12,6 +13,7 @@ export class TableCellComponent implements OnInit {
   @Input() sparklineData: any;
   @Input() totalSum: any;
 
+  private defaultColumns = ['load', 'count', 'latency'];
   public yKey: string;
   public measurement: string;
   public pipeType: string;
@@ -20,13 +22,16 @@ export class TableCellComponent implements OnInit {
   public isLatency: boolean;
   public currentParams: any;
 
-  constructor(private qanProfileService: QanProfileService) {
+  constructor(
+    private qanProfileService: QanProfileService,
+    private dataFormat: DataFormatService
+  ) {
     this.currentParams = this.qanProfileService.getProfileParams.getValue();
   }
 
   ngOnInit() {
     this.isStats = Object.keys(this.metricData.stats).includes('min' && 'max');
-    this.isDefaultColumn = this.currentParams.columns.includes(this.metricData.metricName);
+    this.isDefaultColumn = this.defaultColumns.includes(this.metricData.metricName);
     this.setCurrentSparkline(this.metricData.metricName);
   }
 
@@ -35,54 +40,35 @@ export class TableCellComponent implements OnInit {
    * @param name - checked column-type name
    */
   setCurrentSparkline(name: string) {
-    switch (name) {
-      case 'load':
-        this.yKey = 'm_query_load';
-        this.measurement = 'number';
-        this.pipeType = 'number';
-        break;
-      case 'count':
-        this.yKey = 'num_queries_sum';
-        this.measurement = 'number';
-        this.pipeType = 'number';
-        break;
-      case 'latency':
-        this.yKey = 'm_query_time_avg';
-        this.measurement = 'time';
-        break;
-      case 'bytes_sent':
-        this.yKey = 'm_bytes_sent_sum';
-        this.measurement = 'size';
-        this.pipeType = 'size';
-        break;
-      case 'lock_time':
-        this.yKey = 'm_lock_time_sum';
-        this.measurement = 'number';
-        this.pipeType = 'time';
-        break;
-      case 'query_time':
-        this.yKey = 'm_query_time_avg';
-        this.measurement = 'time';
-        this.pipeType = 'time';
-        break;
-      case 'rows_sent':
-        this.yKey = 'm_rows_sent_sum';
-        this.measurement = 'number';
-        this.pipeType = 'number';
-        break;
-      case 'rows_examined':
-        this.yKey = 'm_rows_examined_sum';
-        this.measurement = 'number';
-        break;
-      default: {
-        this.yKey = '';
-        this.measurement = '';
-        break;
-      }
-    }
+    const { sumPipe = '', sparklineType = '' } = name ? this.dataFormat.setDataFormat(name) : {};
+
+    this.pipeType = sumPipe;
+    this.measurement = sparklineType;
+    this.yKey = this.setKeyForSparkline(name);
   }
 
   percentFromNumber(total, current) {
     return +(current / total)
+  }
+
+  setKeyForSparkline(name: string): string {
+    if (this.isDefaultColumn) {
+      return this.setKeyForDefaultSparkline(name);
+    } else {
+      return `m_${name}_sum`
+    }
+  }
+
+  setKeyForDefaultSparkline(name: string): string {
+    switch (name) {
+      case 'load':
+        return 'm_query_load';
+      case 'count':
+        return 'num_queries_sum';
+      case 'latency':
+        return 'm_query_time_avg';
+      default:
+        return ''
+    }
   }
 }
