@@ -1,5 +1,9 @@
 <div class="cell-inner">
   <ng-container *ngIf="isDefaultColumn">
+    <div *ngIf="isCount" class="unit unit--qps">
+      {{metricData.stats.qps | humanize : 'number'}}
+    </div>
+
     <div *ngIf="metricData?.metricName" class="scaling-svg-container app-tooltip"
          [appLoadSparklines]="sparklineData"
          data-tooltip="Loading..."
