@@ -19,6 +19,7 @@ export class TableCellComponent implements OnInit {
   public pipeType: string;
   public isStats: boolean;
   public isDefaultColumn: boolean;
+  public isCount: boolean;
   public isLatency: boolean;
   public currentParams: any;
 
@@ -32,6 +33,7 @@ export class TableCellComponent implements OnInit {
   ngOnInit() {
     this.isStats = Object.keys(this.metricData.stats).includes('min' && 'max');
     this.isDefaultColumn = this.defaultColumns.includes(this.metricData.metricName);
+    this.isCount = this.metricData.metricName === 'count';
     this.setCurrentSparkline(this.metricData.metricName);
   }
 
