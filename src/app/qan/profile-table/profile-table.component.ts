@@ -86,7 +86,6 @@ export class ProfileTableComponent implements OnInit, OnDestroy, AfterViewInit {
     ).subscribe(
       data => {
         this.tableData = data;
-        // this.tableData = [];
       },
       err => {
         console.log('error - ', err)
