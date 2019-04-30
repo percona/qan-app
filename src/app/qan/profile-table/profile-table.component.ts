@@ -86,6 +86,7 @@ export class ProfileTableComponent implements OnInit, OnDestroy, AfterViewInit {
     ).subscribe(
       data => {
         this.tableData = data;
+        // this.tableData = [];
       },
       err => {
         console.log('error - ', err)
@@ -121,7 +122,6 @@ export class ProfileTableComponent implements OnInit, OnDestroy, AfterViewInit {
     const tableHeight = this.qanTable.nativeElement.offsetHeight;
     this.componentRef.directiveRef.scrollToRight();
     this.mainTableWrapper.nativeElement.style.setProperty('--table-height', `${tableHeight}px`);
-    console.log('tableHeight - ', tableHeight);
   }
 
   showDetails(filter_by, fingerPrint = '') {

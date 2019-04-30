@@ -8,6 +8,7 @@
 
 .pmm-qan {
   --grid-gap: 10px;
+  --filter-height: 0;
 
   display: grid;
   grid-template-areas: 'search search' 'filter table';
@@ -24,6 +25,8 @@
 
 .pmm-qan__filter {
   grid-area: filter;
+  height: var(--filter-height);
+  min-height: var(--min-qan-height);
 }
 
 .pmm-qan__table {
