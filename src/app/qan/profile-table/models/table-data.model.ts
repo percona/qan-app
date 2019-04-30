@@ -31,8 +31,12 @@ export class TableDataModel {
       }
     };
     this.metrics = Object.entries(row.metrics).map(item => new MetricModel(item));
-    this.sparkline = row.sparkline.map(sparklineValue => sparklineValue.values);
-    this.sparkline.forEach(item => item['timestamp'] = moment.unix(item['timestamp']).format('YYYY-MM-DDTHH:mm:ssZ'));
+    this.sparkline = row.sparkline ? row.sparkline.map(sparklineValue => sparklineValue.values) : [];
+    if (this.sparkline.length) {
+      this.sparkline.forEach(item =>
+        item['timestamp'] = moment.unix(item['timestamp']).format('YYYY-MM-DDTHH:mm:ssZ')
+      );
+    }
     this.dimension = row.dimension || '';
     this.fingerprint = row.fingerprint || '';
     this.rank = row.rank || 0;
