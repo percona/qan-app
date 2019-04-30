@@ -9,6 +9,8 @@
 }
 
 .main-wrapper {
+  --table-height: 0;
+
   position: relative;
   min-height: inherit;
 }
@@ -32,19 +34,30 @@
 
 .table-wrapper--outer {
   position: relative;
+  min-height: 400px;
   margin-right: 20px;
   border-top: 1px solid var(--main-border-color);
   background-color: var(--page-background);
 
   .right-table-border {
     position: absolute;
+    z-index: 1;
     top: 0;
     right: 0;
     display: block;
     width: 1px;
-    height: calc(100% - var(--main-bottom-indent));
+    height: var(--table-height);
     background-color: var(--main-border-color);
   }
+}
+
+.pmm-scrollbar,
+::ng-deep .pmm-scrollbar > .ps {
+  min-height: inherit !important;
+}
+
+::ng-deep .pmm-scrollbar > .ps.ps--active-x > .ps__rail-x {
+  top: calc(var(--table-height) + (var(--main-bottom-indent) / 2)) !important;
 }
 
 .table-wrapper--inner {
