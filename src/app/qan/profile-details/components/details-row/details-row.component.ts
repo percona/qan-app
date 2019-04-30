@@ -15,12 +15,20 @@ export class DetailsRowComponent implements OnInit {
   public sumPipe: string;
   public subSumPipe: string;
   public perQueryStatsPipe: string;
+  public isLatencyChart: boolean;
+  public isRate: boolean;
+  public isSum: boolean;
+  public isStats: boolean;
 
   constructor(private dataFormat: DataFormatService) {
   }
 
   ngOnInit() {
     this.setDataFormat(this.currentMetric.metricName);
+    this.isLatencyChart = this.currentMetric.stats.min && this.currentMetric.stats.max;
+    this.isRate = this.currentMetric.stats.rate >= 0;
+    this.isSum = this.currentMetric.stats.sum >= 0;
+    this.isStats = this.currentMetric.stats.avg >= 0;
   }
 
   setDataFormat(name: string) {

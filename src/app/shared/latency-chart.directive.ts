@@ -13,7 +13,6 @@ export class LatencyChartDirective {
   @HostBinding('attr.data-tooltip')
   @Input() dataTooltip: string;
   @Input() measurement = 'time';
-  @Input() metricPrefix = '';
 
   @Input() set appLatencyChart(data: {}) {
     if (data !== null) {
