@@ -18,6 +18,7 @@ export class TableCellComponent implements OnInit {
   public measurement: string;
   public pipeType: string;
   public isStats: boolean;
+  public isSum: boolean;
   public isDefaultColumn: boolean;
   public isCount: boolean;
   public isLatency: boolean;
@@ -32,8 +33,10 @@ export class TableCellComponent implements OnInit {
 
   ngOnInit() {
     this.isStats = Object.keys(this.metricData.stats).includes('min' && 'max');
+    this.isSum = this.metricData.stats.sum >= 0;
     this.isDefaultColumn = this.defaultColumns.includes(this.metricData.metricName);
     this.isCount = this.metricData.metricName === 'count';
+    this.isLatency = this.metricData.metricName === 'latency';
     this.setCurrentSparkline(this.metricData.metricName);
   }
 
@@ -50,7 +53,7 @@ export class TableCellComponent implements OnInit {
   }
 
   percentFromNumber(total, current) {
-    return +(current / total)
+    return ((+current / +total) * 100).toFixed(2)
   }
 
   setKeyForSparkline(name: string): string {
