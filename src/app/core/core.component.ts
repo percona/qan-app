@@ -46,8 +46,6 @@ export abstract class CoreComponent implements OnDestroy {
     protected instanceService: InstanceService) {
     this.isDemo = environment.demoHosts.includes(location.hostname);
     this.dbServer = instanceService.dbServers[0];
-    console.log('this.instanceService - ', this.instanceService);
-    console.log('this.dbServer - ', this.dbServer);
     this.agent = instanceService.dbServers[0].Agent;
     this.dbServers = instanceService.dbServers;
     this.dbServerMap = instanceService.dbServerMap;
