@@ -12,10 +12,13 @@
          [measurement]="measurement">
     </div>
 
-    <div *ngIf="metricData?.stats?.sum">
+    <div *ngIf="isSum">
       {{metricData.stats.sum | humanize : pipeType}}
     </div>
 
+    <div *ngIf="!isLatency && isSum" class="unit unit--percent">
+      {{percentFromNumber(totalSum, metricData.stats.sum)}}
+    </div>
     <div *ngIf="isStats" class="scaling-svg-container app-tooltip" data-tooltip="Loading..."
          [measurement]="pipeType"
          [appLatencyChart]="metricData?.stats">

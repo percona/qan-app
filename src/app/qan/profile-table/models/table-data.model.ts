@@ -7,6 +7,8 @@ export class TableDataModel {
   dimension: string;
   fingerprint: string;
   rank: number;
+  count: number;
+  load: number;
 
   constructor(row) {
     row.metrics = row.metrics || {};
@@ -25,7 +27,7 @@ export class TableDataModel {
 
     row.metrics.latency = {
       stats: {
-        sum: row.latency || ''
+        sum: row.latency || -1
       }
     };
     this.metrics = Object.entries(row.metrics).map(item => new MetricModel(item));
@@ -38,5 +40,7 @@ export class TableDataModel {
     this.dimension = row.dimension || '';
     this.fingerprint = row.fingerprint || '';
     this.rank = row.rank || 0;
+    this.count = row.num_queries;
+    this.load = row.load;
   }
 }
