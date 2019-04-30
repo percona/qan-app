@@ -19,10 +19,10 @@
     <span class="unit unit--avg">
       {{ currentMetric?.stats?.avg | humanize: perQueryStatsPipe }}
     </span>
-    <div class="scaling-svg-container app-tooltip"
-       data-tooltip="Loading..."
+  <div *ngIf="isLatencyChart"
        [appLatencyChart]="currentMetric.stats"
        [measurement]="perQueryStatsPipe"
-       metricPrefix="Query_time">
-    </div>
+       class="scaling-svg-container app-tooltip"
+       data-tooltip="Loading...">
+  </div>
 </div>
