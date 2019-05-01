@@ -22,6 +22,7 @@ export class ProfileDetailsComponent implements OnInit, AfterViewChecked, OnDest
   public dimension: string;
   public details: MetricModel[] = [];
   private fingerprint$: Subscription;
+  private group_by$: Subscription;
   private example$: Subscription;
   private details$: Subscription;
 
@@ -34,7 +35,6 @@ export class ProfileDetailsComponent implements OnInit, AfterViewChecked, OnDest
     this.details$ = this.qanProfileService.getProfileInfo.details.pipe(
       switchMap(parsedParams => {
         this.currentParams = parsedParams;
-        this.dimension = this.currentParams.filter_by;
         return this.objectDetailsService.GetMetrics(parsedParams).pipe(
           catchError(err => of({ metrics: [] })),
           map(metrics => Object.entries(metrics.metrics).map(detail => new MetricModel(detail))),
@@ -53,12 +53,13 @@ export class ProfileDetailsComponent implements OnInit, AfterViewChecked, OnDest
           catchError(err => of([])),
         )
       }),
-    ).subscribe(response => {
-      this.exampleParams = response;
-    });
+    ).subscribe(response => this.exampleParams = response);
 
     this.fingerprint$ = this.qanProfileService.getProfileInfo.fingerprint
       .subscribe(fingerprint => this.fingerprint = fingerprint);
+
+    this.group_by$ = this.qanProfileService.getGroupBy
+      .subscribe(() => this.details = [])
   }
 
   ngOnInit() {
@@ -71,5 +72,6 @@ export class ProfileDetailsComponent implements OnInit, AfterViewChecked, OnDest
     this.fingerprint$.unsubscribe();
     this.example$.unsubscribe();
     this.details$.unsubscribe();
+    this.group_by$.unsubscribe();
   }
 }

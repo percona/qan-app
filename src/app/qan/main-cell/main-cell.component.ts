@@ -28,5 +28,6 @@ export class MainCellComponent implements OnInit {
   onChangeGroupBy(value) {
     this.currentParams.group_by = value.name;
     this.qanProfileService.updateProfileParams(this.currentParams);
+    this.qanProfileService.updateGroupBy(this.currentParams.group_by);
   }
 }
