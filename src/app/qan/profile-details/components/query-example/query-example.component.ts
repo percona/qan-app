@@ -1,13 +1,13 @@
 import { Component, Input } from '@angular/core';
-import * as hljs from 'highlight.js';
 import * as vkbeautify from 'vkbeautify';
+import * as hljs from 'highlight.js';
 
 @Component({
-  selector: 'app-details-examples',
-  templateUrl: './details-examples.component.html',
-  styleUrls: ['./details-examples.component.css']
+  selector: 'app-query-example',
+  templateUrl: './query-example.component.html',
+  styleUrls: ['./query-example.component.css']
 })
-export class DetailsExamplesComponent {
+export class QueryExampleComponent {
   @Input() exampleParam: any;
 
   public isCopied = false;
