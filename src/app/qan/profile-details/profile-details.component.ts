@@ -18,12 +18,10 @@ export class ProfileDetailsComponent implements OnInit, AfterViewChecked, OnDest
   protected dbName: string;
   public fingerprint: string;
   public currentParams: any;
-  public exampleParams: any;
   public dimension: string;
   public details: MetricModel[] = [];
   private fingerprint$: Subscription;
   private group_by$: Subscription;
-  private example$: Subscription;
   private details$: Subscription;
 
   constructor(
@@ -45,16 +43,6 @@ export class ProfileDetailsComponent implements OnInit, AfterViewChecked, OnDest
       this.details = response.filter(item => Object.keys(item.stats).length > 0);
     });
 
-    this.example$ = this.qanProfileService.getProfileInfo.details.pipe(
-      switchMap(parsedParams => {
-        return this.objectDetailsService.GetQueryExample(parsedParams).pipe(
-          catchError(err => of({ query_examples: [] })),
-          map(response => response.query_examples),
-          catchError(err => of([])),
-        )
-      }),
-    ).subscribe(response => this.exampleParams = response);
-
     this.fingerprint$ = this.qanProfileService.getProfileInfo.fingerprint
       .subscribe(fingerprint => this.fingerprint = fingerprint);
 
@@ -70,7 +58,6 @@ export class ProfileDetailsComponent implements OnInit, AfterViewChecked, OnDest
 
   ngOnDestroy() {
     this.fingerprint$.unsubscribe();
-    this.example$.unsubscribe();
     this.details$.unsubscribe();
     this.group_by$.unsubscribe();
   }

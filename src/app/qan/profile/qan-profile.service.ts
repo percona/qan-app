@@ -51,6 +51,7 @@ export class QanProfileService {
   private iframeQueryParams = this.route.snapshot.queryParams as QueryParams;
   private parseQueryParamDatePipe = new ParseQueryParamDatePipe();
   private defaultGroupBy = 'queryid';
+  private currentDetails: ObjectDetails = {};
 
   private profileInfo: ProfileInfo = {
     timeRange: new Subject<TimeRange>(),
@@ -93,6 +94,7 @@ export class QanProfileService {
 
   updateObjectDetails(params: ObjectDetails) {
     this.profileInfo.details.next(params);
+    this.currentDetails = params;
   }
 
   updateFingerprint(fingerprint: string) {
@@ -111,11 +113,15 @@ export class QanProfileService {
     return this.profileParams;
   }
 
-  get getProfileInfo() {
+  get getProfileInfo(): ProfileInfo {
     return this.profileInfo;
   }
 
-  get getGroupBy() {
+  get getGroupBy(): BehaviorSubject<string> {
     return this.group_by;
+  }
+
+  get getCurrentDetails(): ObjectDetails {
+    return this.currentDetails;
   }
 }
