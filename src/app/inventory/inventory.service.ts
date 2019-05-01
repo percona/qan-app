@@ -32,7 +32,7 @@ export class InventoryService {
         return new ExternalExporterModel(params, 'External exporter');
       case 'mongodb_exporter':
       case 'mysqld_exporter':
-        return new MongoMysqlExporterModel(params, 'MongoDB');
+        return new MongoMysqlExporterModel(params, this.humanizeType(type));
       case 'node_exporter':
         return new NodeExporterModel(params, 'Node exporter');
       case 'pmm_agent':
@@ -42,7 +42,7 @@ export class InventoryService {
       case 'qan_mysql_perfschema_agent':
       case 'qan_mongodb_profiler_agent':
       case 'qan_mysql_slowlog_agent':
-        return new GeneralAgentModel(params, 'Qan MySQL Perfschema Agent');
+        return new GeneralAgentModel(params, this.humanizeType(type));
       case 'rds_exporter':
         return new RdsExporterModel(params, 'RDS exporter');
       case 'container':
@@ -57,9 +57,34 @@ export class InventoryService {
       case 'mongodb':
       case 'mysql':
       case 'postgresql':
-        return new ServicesGeneralModel(params, 'Amazon RDS MySQL');
+        return new ServicesGeneralModel(params, this.humanizeType(type));
       default:
         return {}
+    }
+  }
+
+  humanizeType(type: string) {
+    switch (type) {
+      case 'mongodb_exporter':
+        return 'MongoDB';
+      case 'mysqld_exporter':
+        return 'MySQL exporter';
+      case 'qan_mysql_perfschema_agent':
+        return 'Qan MySQL Perfschema Agent';
+      case 'qan_mongodb_profiler_agent':
+        return 'Qan MongoDB Profiler Agent';
+      case 'qan_mysql_slowlog_agent':
+        return 'Qan MySQL Slowlog Agent';
+      case 'amazon_rds_mysql':
+        return 'Amazon RDS MySQL';
+      case 'mongodb':
+        return 'MongoDB';
+      case 'mysql':
+        return 'MySQL';
+      case 'postgresql':
+        return 'PostgreSQL';
+      default:
+        return '';
     }
   }
 }
