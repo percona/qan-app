@@ -11,7 +11,7 @@ import { map as __map, filter as __filter } from 'rxjs/operators';
   providedIn: 'root',
 })
 class FiltersService extends __BaseService {
-  static readonly GetPath = '/v1/qan/Filters/Get';
+  static readonly GetPath = '/v0/qan/Filters/Get';
 
   constructor(
     config: __Configuration,
@@ -31,7 +31,7 @@ class FiltersService extends __BaseService {
     __body = body;
     let req = new HttpRequest<any>(
       'POST',
-      this.rootUrl + `/v1/qan/Filters/Get`,
+      this.rootUrl + `/v0/qan/Filters/Get`,
       __body,
       {
         headers: __headers,

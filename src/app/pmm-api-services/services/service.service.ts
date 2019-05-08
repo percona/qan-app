@@ -11,7 +11,7 @@ import { map as __map, filter as __filter } from 'rxjs/operators';
   providedIn: 'root',
 })
 class ServiceService extends __BaseService {
-  static readonly RemoveServiceMixin1Path = '/v1/management/Service/Remove';
+  static readonly RemoveServiceMixin1Path = '/v0/management/Service/Remove';
 
   constructor(
     config: __Configuration,
@@ -31,7 +31,7 @@ class ServiceService extends __BaseService {
     __body = body;
     let req = new HttpRequest<any>(
       'POST',
-      this.rootUrl + `/v1/management/Service/Remove`,
+      this.rootUrl + `/v0/management/Service/Remove`,
       __body,
       {
         headers: __headers,

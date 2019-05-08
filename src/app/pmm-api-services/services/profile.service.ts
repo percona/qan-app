@@ -11,7 +11,7 @@ import { map as __map, filter as __filter } from 'rxjs/operators';
   providedIn: 'root',
 })
 class ProfileService extends __BaseService {
-  static readonly GetReportPath = '/v1/qan/GetReport';
+  static readonly GetReportPath = '/v0/qan/GetReport';
 
   constructor(
     config: __Configuration,
@@ -31,7 +31,7 @@ class ProfileService extends __BaseService {
     __body = body;
     let req = new HttpRequest<any>(
       'POST',
-      this.rootUrl + `/v1/qan/GetReport`,
+      this.rootUrl + `/v0/qan/GetReport`,
       __body,
       {
         headers: __headers,

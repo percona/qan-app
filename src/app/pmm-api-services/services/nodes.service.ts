@@ -11,13 +11,13 @@ import { map as __map, filter as __filter } from 'rxjs/operators';
   providedIn: 'root',
 })
 class NodesService extends __BaseService {
-  static readonly AddContainerNodePath = '/v1/inventory/Nodes/AddContainer';
-  static readonly AddGenericNodePath = '/v1/inventory/Nodes/AddGeneric';
-  static readonly AddRemoteNodePath = '/v1/inventory/Nodes/AddRemote';
-  static readonly AddRemoteAmazonRDSNodePath = '/v1/inventory/Nodes/AddRemoteAmazonRDS';
-  static readonly GetNodePath = '/v1/inventory/Nodes/Get';
-  static readonly ListNodesPath = '/v1/inventory/Nodes/List';
-  static readonly RemoveNodePath = '/v1/inventory/Nodes/Remove';
+  static readonly AddContainerNodePath = '/v0/inventory/Nodes/AddContainer';
+  static readonly AddGenericNodePath = '/v0/inventory/Nodes/AddGeneric';
+  static readonly AddRemoteNodePath = '/v0/inventory/Nodes/AddRemote';
+  static readonly AddRemoteAmazonRDSNodePath = '/v0/inventory/Nodes/AddRemoteAmazonRDS';
+  static readonly GetNodePath = '/v0/inventory/Nodes/Get';
+  static readonly ListNodesPath = '/v0/inventory/Nodes/List';
+  static readonly RemoveNodePath = '/v0/inventory/Nodes/Remove';
 
   constructor(
     config: __Configuration,
@@ -37,7 +37,7 @@ class NodesService extends __BaseService {
     __body = body;
     let req = new HttpRequest<any>(
       'POST',
-      this.rootUrl + `/v1/inventory/Nodes/AddContainer`,
+      this.rootUrl + `/v0/inventory/Nodes/AddContainer`,
       __body,
       {
         headers: __headers,
@@ -73,7 +73,7 @@ class NodesService extends __BaseService {
     __body = body;
     let req = new HttpRequest<any>(
       'POST',
-      this.rootUrl + `/v1/inventory/Nodes/AddGeneric`,
+      this.rootUrl + `/v0/inventory/Nodes/AddGeneric`,
       __body,
       {
         headers: __headers,
@@ -109,7 +109,7 @@ class NodesService extends __BaseService {
     __body = body;
     let req = new HttpRequest<any>(
       'POST',
-      this.rootUrl + `/v1/inventory/Nodes/AddRemote`,
+      this.rootUrl + `/v0/inventory/Nodes/AddRemote`,
       __body,
       {
         headers: __headers,
@@ -145,7 +145,7 @@ class NodesService extends __BaseService {
     __body = body;
     let req = new HttpRequest<any>(
       'POST',
-      this.rootUrl + `/v1/inventory/Nodes/AddRemoteAmazonRDS`,
+      this.rootUrl + `/v0/inventory/Nodes/AddRemoteAmazonRDS`,
       __body,
       {
         headers: __headers,
@@ -181,7 +181,7 @@ class NodesService extends __BaseService {
     __body = body;
     let req = new HttpRequest<any>(
       'POST',
-      this.rootUrl + `/v1/inventory/Nodes/Get`,
+      this.rootUrl + `/v0/inventory/Nodes/Get`,
       __body,
       {
         headers: __headers,
@@ -217,7 +217,7 @@ class NodesService extends __BaseService {
     __body = body;
     let req = new HttpRequest<any>(
       'POST',
-      this.rootUrl + `/v1/inventory/Nodes/List`,
+      this.rootUrl + `/v0/inventory/Nodes/List`,
       __body,
       {
         headers: __headers,
@@ -253,7 +253,7 @@ class NodesService extends __BaseService {
     __body = body;
     let req = new HttpRequest<any>(
       'POST',
-      this.rootUrl + `/v1/inventory/Nodes/Remove`,
+      this.rootUrl + `/v0/inventory/Nodes/Remove`,
       __body,
       {
         headers: __headers,

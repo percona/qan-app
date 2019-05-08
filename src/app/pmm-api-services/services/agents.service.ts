@@ -11,29 +11,29 @@ import { map as __map, filter as __filter } from 'rxjs/operators';
   providedIn: 'root',
 })
 class AgentsService extends __BaseService {
-  static readonly AddExternalExporterPath = '/v1/inventory/Agents/AddExternalExporter';
-  static readonly AddMongoDBExporterPath = '/v1/inventory/Agents/AddMongoDBExporter';
-  static readonly AddMySQLdExporterPath = '/v1/inventory/Agents/AddMySQLdExporter';
-  static readonly AddNodeExporterPath = '/v1/inventory/Agents/AddNodeExporter';
-  static readonly AddPMMAgentPath = '/v1/inventory/Agents/AddPMMAgent';
-  static readonly AddPostgresExporterPath = '/v1/inventory/Agents/AddPostgresExporter';
-  static readonly AddQANMongoDBProfilerAgentPath = '/v1/inventory/Agents/AddQANMongoDBProfilerAgent';
-  static readonly AddQANMySQLPerfSchemaAgentPath = '/v1/inventory/Agents/AddQANMySQLPerfSchemaAgent';
-  static readonly AddQANMySQLSlowlogAgentPath = '/v1/inventory/Agents/AddQANMySQLSlowlogAgent';
-  static readonly AddRDSExporterPath = '/v1/inventory/Agents/AddRDSExporter';
-  static readonly ChangeExternalExporterPath = '/v1/inventory/Agents/ChangeExternalExporter';
-  static readonly ChangeMongoDBExporterPath = '/v1/inventory/Agents/ChangeMongoDBExporter';
-  static readonly ChangeMySQLdExporterPath = '/v1/inventory/Agents/ChangeMySQLdExporter';
-  static readonly ChangeNodeExporterPath = '/v1/inventory/Agents/ChangeNodeExporter';
-  static readonly ChangePMMAgentPath = '/v1/inventory/Agents/ChangePMMAgent';
-  static readonly ChangePostgresExporterPath = '/v1/inventory/Agents/ChangePostgresExporter';
-  static readonly ChangeQANMongoDBProfilerAgentPath = '/v1/inventory/Agents/ChangeQANMongoDBProfilerAgent';
-  static readonly ChangeQANMySQLPerfSchemaAgentPath = '/v1/inventory/Agents/ChangeQANMySQLPerfSchemaAgent';
-  static readonly ChangeQANMySQLSlowlogAgentPath = '/v1/inventory/Agents/ChangeQANMySQLSlowlogAgent';
-  static readonly ChangeRDSExporterPath = '/v1/inventory/Agents/ChangeRDSExporter';
-  static readonly GetAgentPath = '/v1/inventory/Agents/Get';
-  static readonly ListAgentsPath = '/v1/inventory/Agents/List';
-  static readonly RemoveAgentPath = '/v1/inventory/Agents/Remove';
+  static readonly AddExternalExporterPath = '/v0/inventory/Agents/AddExternalExporter';
+  static readonly AddMongoDBExporterPath = '/v0/inventory/Agents/AddMongoDBExporter';
+  static readonly AddMySQLdExporterPath = '/v0/inventory/Agents/AddMySQLdExporter';
+  static readonly AddNodeExporterPath = '/v0/inventory/Agents/AddNodeExporter';
+  static readonly AddPMMAgentPath = '/v0/inventory/Agents/AddPMMAgent';
+  static readonly AddPostgresExporterPath = '/v0/inventory/Agents/AddPostgresExporter';
+  static readonly AddQANMongoDBProfilerAgentPath = '/v0/inventory/Agents/AddQANMongoDBProfilerAgent';
+  static readonly AddQANMySQLPerfSchemaAgentPath = '/v0/inventory/Agents/AddQANMySQLPerfSchemaAgent';
+  static readonly AddQANMySQLSlowlogAgentPath = '/v0/inventory/Agents/AddQANMySQLSlowlogAgent';
+  static readonly AddRDSExporterPath = '/v0/inventory/Agents/AddRDSExporter';
+  static readonly ChangeExternalExporterPath = '/v0/inventory/Agents/ChangeExternalExporter';
+  static readonly ChangeMongoDBExporterPath = '/v0/inventory/Agents/ChangeMongoDBExporter';
+  static readonly ChangeMySQLdExporterPath = '/v0/inventory/Agents/ChangeMySQLdExporter';
+  static readonly ChangeNodeExporterPath = '/v0/inventory/Agents/ChangeNodeExporter';
+  static readonly ChangePMMAgentPath = '/v0/inventory/Agents/ChangePMMAgent';
+  static readonly ChangePostgresExporterPath = '/v0/inventory/Agents/ChangePostgresExporter';
+  static readonly ChangeQANMongoDBProfilerAgentPath = '/v0/inventory/Agents/ChangeQANMongoDBProfilerAgent';
+  static readonly ChangeQANMySQLPerfSchemaAgentPath = '/v0/inventory/Agents/ChangeQANMySQLPerfSchemaAgent';
+  static readonly ChangeQANMySQLSlowlogAgentPath = '/v0/inventory/Agents/ChangeQANMySQLSlowlogAgent';
+  static readonly ChangeRDSExporterPath = '/v0/inventory/Agents/ChangeRDSExporter';
+  static readonly GetAgentPath = '/v0/inventory/Agents/Get';
+  static readonly ListAgentsPath = '/v0/inventory/Agents/List';
+  static readonly RemoveAgentPath = '/v0/inventory/Agents/Remove';
 
   constructor(
     config: __Configuration,
@@ -53,7 +53,7 @@ class AgentsService extends __BaseService {
     __body = body;
     let req = new HttpRequest<any>(
       'POST',
-      this.rootUrl + `/v1/inventory/Agents/AddExternalExporter`,
+      this.rootUrl + `/v0/inventory/Agents/AddExternalExporter`,
       __body,
       {
         headers: __headers,
@@ -89,7 +89,7 @@ class AgentsService extends __BaseService {
     __body = body;
     let req = new HttpRequest<any>(
       'POST',
-      this.rootUrl + `/v1/inventory/Agents/AddMongoDBExporter`,
+      this.rootUrl + `/v0/inventory/Agents/AddMongoDBExporter`,
       __body,
       {
         headers: __headers,
@@ -125,7 +125,7 @@ class AgentsService extends __BaseService {
     __body = body;
     let req = new HttpRequest<any>(
       'POST',
-      this.rootUrl + `/v1/inventory/Agents/AddMySQLdExporter`,
+      this.rootUrl + `/v0/inventory/Agents/AddMySQLdExporter`,
       __body,
       {
         headers: __headers,
@@ -161,7 +161,7 @@ class AgentsService extends __BaseService {
     __body = body;
     let req = new HttpRequest<any>(
       'POST',
-      this.rootUrl + `/v1/inventory/Agents/AddNodeExporter`,
+      this.rootUrl + `/v0/inventory/Agents/AddNodeExporter`,
       __body,
       {
         headers: __headers,
@@ -197,7 +197,7 @@ class AgentsService extends __BaseService {
     __body = body;
     let req = new HttpRequest<any>(
       'POST',
-      this.rootUrl + `/v1/inventory/Agents/AddPMMAgent`,
+      this.rootUrl + `/v0/inventory/Agents/AddPMMAgent`,
       __body,
       {
         headers: __headers,
@@ -233,7 +233,7 @@ class AgentsService extends __BaseService {
     __body = body;
     let req = new HttpRequest<any>(
       'POST',
-      this.rootUrl + `/v1/inventory/Agents/AddPostgresExporter`,
+      this.rootUrl + `/v0/inventory/Agents/AddPostgresExporter`,
       __body,
       {
         headers: __headers,
@@ -269,7 +269,7 @@ class AgentsService extends __BaseService {
     __body = body;
     let req = new HttpRequest<any>(
       'POST',
-      this.rootUrl + `/v1/inventory/Agents/AddQANMongoDBProfilerAgent`,
+      this.rootUrl + `/v0/inventory/Agents/AddQANMongoDBProfilerAgent`,
       __body,
       {
         headers: __headers,
@@ -305,7 +305,7 @@ class AgentsService extends __BaseService {
     __body = body;
     let req = new HttpRequest<any>(
       'POST',
-      this.rootUrl + `/v1/inventory/Agents/AddQANMySQLPerfSchemaAgent`,
+      this.rootUrl + `/v0/inventory/Agents/AddQANMySQLPerfSchemaAgent`,
       __body,
       {
         headers: __headers,
@@ -341,7 +341,7 @@ class AgentsService extends __BaseService {
     __body = body;
     let req = new HttpRequest<any>(
       'POST',
-      this.rootUrl + `/v1/inventory/Agents/AddQANMySQLSlowlogAgent`,
+      this.rootUrl + `/v0/inventory/Agents/AddQANMySQLSlowlogAgent`,
       __body,
       {
         headers: __headers,
@@ -377,7 +377,7 @@ class AgentsService extends __BaseService {
     __body = body;
     let req = new HttpRequest<any>(
       'POST',
-      this.rootUrl + `/v1/inventory/Agents/AddRDSExporter`,
+      this.rootUrl + `/v0/inventory/Agents/AddRDSExporter`,
       __body,
       {
         headers: __headers,
@@ -413,7 +413,7 @@ class AgentsService extends __BaseService {
     __body = body;
     let req = new HttpRequest<any>(
       'POST',
-      this.rootUrl + `/v1/inventory/Agents/ChangeExternalExporter`,
+      this.rootUrl + `/v0/inventory/Agents/ChangeExternalExporter`,
       __body,
       {
         headers: __headers,
@@ -449,7 +449,7 @@ class AgentsService extends __BaseService {
     __body = body;
     let req = new HttpRequest<any>(
       'POST',
-      this.rootUrl + `/v1/inventory/Agents/ChangeMongoDBExporter`,
+      this.rootUrl + `/v0/inventory/Agents/ChangeMongoDBExporter`,
       __body,
       {
         headers: __headers,
@@ -485,7 +485,7 @@ class AgentsService extends __BaseService {
     __body = body;
     let req = new HttpRequest<any>(
       'POST',
-      this.rootUrl + `/v1/inventory/Agents/ChangeMySQLdExporter`,
+      this.rootUrl + `/v0/inventory/Agents/ChangeMySQLdExporter`,
       __body,
       {
         headers: __headers,
@@ -521,7 +521,7 @@ class AgentsService extends __BaseService {
     __body = body;
     let req = new HttpRequest<any>(
       'POST',
-      this.rootUrl + `/v1/inventory/Agents/ChangeNodeExporter`,
+      this.rootUrl + `/v0/inventory/Agents/ChangeNodeExporter`,
       __body,
       {
         headers: __headers,
@@ -557,7 +557,7 @@ class AgentsService extends __BaseService {
     __body = body;
     let req = new HttpRequest<any>(
       'POST',
-      this.rootUrl + `/v1/inventory/Agents/ChangePMMAgent`,
+      this.rootUrl + `/v0/inventory/Agents/ChangePMMAgent`,
       __body,
       {
         headers: __headers,
@@ -593,7 +593,7 @@ class AgentsService extends __BaseService {
     __body = body;
     let req = new HttpRequest<any>(
       'POST',
-      this.rootUrl + `/v1/inventory/Agents/ChangePostgresExporter`,
+      this.rootUrl + `/v0/inventory/Agents/ChangePostgresExporter`,
       __body,
       {
         headers: __headers,
@@ -629,7 +629,7 @@ class AgentsService extends __BaseService {
     __body = body;
     let req = new HttpRequest<any>(
       'POST',
-      this.rootUrl + `/v1/inventory/Agents/ChangeQANMongoDBProfilerAgent`,
+      this.rootUrl + `/v0/inventory/Agents/ChangeQANMongoDBProfilerAgent`,
       __body,
       {
         headers: __headers,
@@ -665,7 +665,7 @@ class AgentsService extends __BaseService {
     __body = body;
     let req = new HttpRequest<any>(
       'POST',
-      this.rootUrl + `/v1/inventory/Agents/ChangeQANMySQLPerfSchemaAgent`,
+      this.rootUrl + `/v0/inventory/Agents/ChangeQANMySQLPerfSchemaAgent`,
       __body,
       {
         headers: __headers,
@@ -701,7 +701,7 @@ class AgentsService extends __BaseService {
     __body = body;
     let req = new HttpRequest<any>(
       'POST',
-      this.rootUrl + `/v1/inventory/Agents/ChangeQANMySQLSlowlogAgent`,
+      this.rootUrl + `/v0/inventory/Agents/ChangeQANMySQLSlowlogAgent`,
       __body,
       {
         headers: __headers,
@@ -737,7 +737,7 @@ class AgentsService extends __BaseService {
     __body = body;
     let req = new HttpRequest<any>(
       'POST',
-      this.rootUrl + `/v1/inventory/Agents/ChangeRDSExporter`,
+      this.rootUrl + `/v0/inventory/Agents/ChangeRDSExporter`,
       __body,
       {
         headers: __headers,
@@ -773,7 +773,7 @@ class AgentsService extends __BaseService {
     __body = body;
     let req = new HttpRequest<any>(
       'POST',
-      this.rootUrl + `/v1/inventory/Agents/Get`,
+      this.rootUrl + `/v0/inventory/Agents/Get`,
       __body,
       {
         headers: __headers,
@@ -809,7 +809,7 @@ class AgentsService extends __BaseService {
     __body = body;
     let req = new HttpRequest<any>(
       'POST',
-      this.rootUrl + `/v1/inventory/Agents/List`,
+      this.rootUrl + `/v0/inventory/Agents/List`,
       __body,
       {
         headers: __headers,
@@ -845,7 +845,7 @@ class AgentsService extends __BaseService {
     __body = body;
     let req = new HttpRequest<any>(
       'POST',
-      this.rootUrl + `/v1/inventory/Agents/Remove`,
+      this.rootUrl + `/v0/inventory/Agents/Remove`,
       __body,
       {
         headers: __headers,
