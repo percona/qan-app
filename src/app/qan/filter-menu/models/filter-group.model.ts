@@ -9,6 +9,6 @@ export class FilterGroupModel {
     const itemsArray = itemsGroup.name.map(item => new FilterModel(item));
 
     this.filterGroup = filterGroup;
-    this.items = itemsArray.filter(item => !!item.value);
+    this.items = itemsArray;
   }
 }
