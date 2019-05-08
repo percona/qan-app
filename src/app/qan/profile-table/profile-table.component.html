@@ -1,9 +1,9 @@
 <div class="content-table-wrapper">
-  <div class="main-wrapper">
+  <div class="main-wrapper" #mainTableWrapper>
     <div class="table-wrapper--outer">
       <perfect-scrollbar [config]="scrollbarConfig" class="pmm-scrollbar">
         <div class="table-wrapper--inner">
-          <table class="qan-table" id="qanTable">
+          <table class="qan-table" #qanTable>
             <ng-container
               *ngFor="let row of tableData | paginate: paginationConfig; let index = index; let last = last" #tableRows>
               <tr *ngIf="!index" class="qan-table__row qan-table__row--heading">

@@ -7,6 +7,7 @@ import { Component, ElementRef, OnInit, ViewChild, } from '@angular/core';
 })
 export class QanProfileComponent implements OnInit {
   @ViewChild('filter') filter: ElementRef;
+  @ViewChild('pmmQanWrapper') qanWrapper: ElementRef;
   @ViewChild('table') table: ElementRef;
 
   public queryProfile: Array<{}>;
@@ -30,7 +31,6 @@ export class QanProfileComponent implements OnInit {
 
   checkRender() {
     const height = this.table.nativeElement.offsetHeight;
-    console.log('height - ', height);
-    this.filter.nativeElement.style.height = `${height}px`;
+    this.qanWrapper.nativeElement.style.setProperty('--filter-height', `${height}px`);
   }
 }

@@ -11,7 +11,7 @@ import { map as __map, filter as __filter } from 'rxjs/operators';
   providedIn: 'root',
 })
 class NodeService extends __BaseService {
-  static readonly RegisterPath = '/v1/management/Node/Register';
+  static readonly RegisterPath = '/v0/management/Node/Register';
 
   constructor(
     config: __Configuration,
@@ -24,14 +24,14 @@ class NodeService extends __BaseService {
    * @param body undefined
    * @return A successful response.
    */
-  RegisterResponse(body: { address?: string, container_id?: string, container_name?: string, custom_labels?: { [key: string]: string }, distro?: string, distro_version?: string, machine_id?: string, node_name?: string, node_type?: 'NODE_TYPE_INVALID' | 'GENERIC_NODE' | 'CONTAINER_NODE' | 'REMOTE_NODE' | 'REMOTE_AMAZON_RDS_NODE' }): __Observable<__StrictHttpResponse<{ container_node?: { address?: string, custom_labels?: { [key: string]: string }, docker_container_id?: string, docker_container_name?: string, machine_id?: string, node_id?: string, node_name?: string }, generic_node?: { address?: string, custom_labels?: { [key: string]: string }, distro?: string, distro_version?: string, machine_id?: string, node_id?: string, node_name?: string }, pmm_agent?: { agent_id?: string, connected?: boolean, custom_labels?: { [key: string]: string }, runs_on_node_id?: string } }>> {
+  RegisterResponse(body: { address?: string, az?: string, container_id?: string, container_name?: string, custom_labels?: { [key: string]: string }, distro?: string, machine_id?: string, node_model?: string, node_name?: string, node_type?: 'NODE_TYPE_INVALID' | 'GENERIC_NODE' | 'CONTAINER_NODE' | 'REMOTE_NODE' | 'REMOTE_AMAZON_RDS_NODE', region?: string }): __Observable<__StrictHttpResponse<{ container_node?: { address?: string, az?: string, container_id?: string, container_name?: string, custom_labels?: { [key: string]: string }, machine_id?: string, node_id?: string, node_model?: string, node_name?: string, region?: string }, generic_node?: { address?: string, az?: string, custom_labels?: { [key: string]: string }, distro?: string, machine_id?: string, node_id?: string, node_model?: string, node_name?: string, region?: string }, pmm_agent?: { agent_id?: string, connected?: boolean, custom_labels?: { [key: string]: string }, runs_on_node_id?: string } }>> {
     let __params = this.newParams();
     let __headers = new HttpHeaders();
     let __body: any = null;
     __body = body;
     let req = new HttpRequest<any>(
       'POST',
-      this.rootUrl + `/v1/management/Node/Register`,
+      this.rootUrl + `/v0/management/Node/Register`,
       __body,
       {
         headers: __headers,
@@ -42,7 +42,7 @@ class NodeService extends __BaseService {
     return this.http.request<any>(req).pipe(
       __filter(_r => _r instanceof HttpResponse),
       __map((_r) => {
-        return _r as __StrictHttpResponse<{ container_node?: { address?: string, custom_labels?: { [key: string]: string }, docker_container_id?: string, docker_container_name?: string, machine_id?: string, node_id?: string, node_name?: string }, generic_node?: { address?: string, custom_labels?: { [key: string]: string }, distro?: string, distro_version?: string, machine_id?: string, node_id?: string, node_name?: string }, pmm_agent?: { agent_id?: string, connected?: boolean, custom_labels?: { [key: string]: string }, runs_on_node_id?: string } }>;
+        return _r as __StrictHttpResponse<{ container_node?: { address?: string, az?: string, container_id?: string, container_name?: string, custom_labels?: { [key: string]: string }, machine_id?: string, node_id?: string, node_model?: string, node_name?: string, region?: string }, generic_node?: { address?: string, az?: string, custom_labels?: { [key: string]: string }, distro?: string, machine_id?: string, node_id?: string, node_model?: string, node_name?: string, region?: string }, pmm_agent?: { agent_id?: string, connected?: boolean, custom_labels?: { [key: string]: string }, runs_on_node_id?: string } }>;
       })
     );
   }
@@ -50,9 +50,9 @@ class NodeService extends __BaseService {
    * @param body undefined
    * @return A successful response.
    */
-  Register(body: { address?: string, container_id?: string, container_name?: string, custom_labels?: { [key: string]: string }, distro?: string, distro_version?: string, machine_id?: string, node_name?: string, node_type?: 'NODE_TYPE_INVALID' | 'GENERIC_NODE' | 'CONTAINER_NODE' | 'REMOTE_NODE' | 'REMOTE_AMAZON_RDS_NODE' }): __Observable<{ container_node?: { address?: string, custom_labels?: { [key: string]: string }, docker_container_id?: string, docker_container_name?: string, machine_id?: string, node_id?: string, node_name?: string }, generic_node?: { address?: string, custom_labels?: { [key: string]: string }, distro?: string, distro_version?: string, machine_id?: string, node_id?: string, node_name?: string }, pmm_agent?: { agent_id?: string, connected?: boolean, custom_labels?: { [key: string]: string }, runs_on_node_id?: string } }> {
+  Register(body: { address?: string, az?: string, container_id?: string, container_name?: string, custom_labels?: { [key: string]: string }, distro?: string, machine_id?: string, node_model?: string, node_name?: string, node_type?: 'NODE_TYPE_INVALID' | 'GENERIC_NODE' | 'CONTAINER_NODE' | 'REMOTE_NODE' | 'REMOTE_AMAZON_RDS_NODE', region?: string }): __Observable<{ container_node?: { address?: string, az?: string, container_id?: string, container_name?: string, custom_labels?: { [key: string]: string }, machine_id?: string, node_id?: string, node_model?: string, node_name?: string, region?: string }, generic_node?: { address?: string, az?: string, custom_labels?: { [key: string]: string }, distro?: string, machine_id?: string, node_id?: string, node_model?: string, node_name?: string, region?: string }, pmm_agent?: { agent_id?: string, connected?: boolean, custom_labels?: { [key: string]: string }, runs_on_node_id?: string } }> {
     return this.RegisterResponse(body).pipe(
-      __map(_r => _r.body as { container_node?: { address?: string, custom_labels?: { [key: string]: string }, docker_container_id?: string, docker_container_name?: string, machine_id?: string, node_id?: string, node_name?: string }, generic_node?: { address?: string, custom_labels?: { [key: string]: string }, distro?: string, distro_version?: string, machine_id?: string, node_id?: string, node_name?: string }, pmm_agent?: { agent_id?: string, connected?: boolean, custom_labels?: { [key: string]: string }, runs_on_node_id?: string } })
+      __map(_r => _r.body as { container_node?: { address?: string, az?: string, container_id?: string, container_name?: string, custom_labels?: { [key: string]: string }, machine_id?: string, node_id?: string, node_model?: string, node_name?: string, region?: string }, generic_node?: { address?: string, az?: string, custom_labels?: { [key: string]: string }, distro?: string, machine_id?: string, node_id?: string, node_model?: string, node_name?: string, region?: string }, pmm_agent?: { agent_id?: string, connected?: boolean, custom_labels?: { [key: string]: string }, runs_on_node_id?: string } })
     );
   }
 }

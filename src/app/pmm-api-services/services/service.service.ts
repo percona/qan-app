@@ -10,8 +10,8 @@ import { map as __map, filter as __filter } from 'rxjs/operators';
 @Injectable({
   providedIn: 'root',
 })
-class FiltersService extends __BaseService {
-  static readonly GetPath = '/v0/qan/Filters/Get';
+class ServiceService extends __BaseService {
+  static readonly RemoveServiceMixin1Path = '/v0/management/Service/Remove';
 
   constructor(
     config: __Configuration,
@@ -24,14 +24,14 @@ class FiltersService extends __BaseService {
    * @param body undefined
    * @return A successful response.
    */
-  GetResponse(body: { period_start_from?: string, period_start_to?: string }): __Observable<__StrictHttpResponse<{ labels?: { [key: string]: { name?: Array<{ count?: string, value?: string }> } } }>> {
+  RemoveServiceMixin1Response(body: { service_id?: string, service_name?: string, service_type?: 'SERVICE_TYPE_INVALID' | 'MYSQL_SERVICE' | 'AMAZON_RDS_MYSQL_SERVICE' | 'MONGODB_SERVICE' | 'POSTGRESQL_SERVICE' }): __Observable<__StrictHttpResponse<{}>> {
     let __params = this.newParams();
     let __headers = new HttpHeaders();
     let __body: any = null;
     __body = body;
     let req = new HttpRequest<any>(
       'POST',
-      this.rootUrl + `/v0/qan/Filters/Get`,
+      this.rootUrl + `/v0/management/Service/Remove`,
       __body,
       {
         headers: __headers,
@@ -42,7 +42,7 @@ class FiltersService extends __BaseService {
     return this.http.request<any>(req).pipe(
       __filter(_r => _r instanceof HttpResponse),
       __map((_r) => {
-        return _r as __StrictHttpResponse<{ labels?: { [key: string]: { name?: Array<{ count?: string, value?: string }> } } }>;
+        return _r as __StrictHttpResponse<{}>;
       })
     );
   }
@@ -50,14 +50,14 @@ class FiltersService extends __BaseService {
    * @param body undefined
    * @return A successful response.
    */
-  Get(body: { period_start_from?: string, period_start_to?: string }): __Observable<{ labels?: { [key: string]: { name?: Array<{ count?: string, value?: string }> } } }> {
-    return this.GetResponse(body).pipe(
-      __map(_r => _r.body as { labels?: { [key: string]: { name?: Array<{ count?: string, value?: string }> } } })
+  RemoveServiceMixin1(body: { service_id?: string, service_name?: string, service_type?: 'SERVICE_TYPE_INVALID' | 'MYSQL_SERVICE' | 'AMAZON_RDS_MYSQL_SERVICE' | 'MONGODB_SERVICE' | 'POSTGRESQL_SERVICE' }): __Observable<{}> {
+    return this.RemoveServiceMixin1Response(body).pipe(
+      __map(_r => _r.body as {})
     );
   }
 }
 
-module FiltersService {
+module ServiceService {
 }
 
-export { FiltersService }
+export { ServiceService }

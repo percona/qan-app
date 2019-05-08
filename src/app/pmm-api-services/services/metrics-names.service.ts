@@ -11,7 +11,7 @@ import { map as __map, filter as __filter } from 'rxjs/operators';
   providedIn: 'root',
 })
 class MetricsNamesService extends __BaseService {
-  static readonly GetMetricsNamesPath = '/v1/qan/GetMetricsNames';
+  static readonly GetMetricsNamesPath = '/v0/qan/GetMetricsNames';
 
   constructor(
     config: __Configuration,
@@ -31,7 +31,7 @@ class MetricsNamesService extends __BaseService {
     __body = body;
     let req = new HttpRequest<any>(
       'POST',
-      this.rootUrl + `/v1/qan/GetMetricsNames`,
+      this.rootUrl + `/v0/qan/GetMetricsNames`,
       __body,
       {
         headers: __headers,

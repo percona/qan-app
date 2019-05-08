@@ -50,6 +50,8 @@ export interface ProfileInfo {
 export class QanProfileService {
   private iframeQueryParams = this.route.snapshot.queryParams as QueryParams;
   private parseQueryParamDatePipe = new ParseQueryParamDatePipe();
+  private defaultGroupBy = 'queryid';
+  private currentDetails: ObjectDetails = {};
 
   private profileInfo: ProfileInfo = {
     timeRange: new Subject<TimeRange>(),
@@ -63,16 +65,18 @@ export class QanProfileService {
   private profileParams = new BehaviorSubject<GetProfileBody>({
     columns: ['load', 'count', 'latency'],
     first_seen: false,
-    group_by: 'queryid',
+    group_by: this.defaultGroupBy,
     include_only_fields: [],
     keyword: '',
     labels: [],
     limit: 10,
     offset: 0,
-    order_by: 'num_queries',
+    order_by: '-load',
     period_start_from: this.setTimeRange('from'),
     period_start_to: this.setTimeRange('to')
   });
+
+  private group_by = new BehaviorSubject<string>(this.defaultGroupBy);
 
 
   constructor(private route: ActivatedRoute) {
@@ -90,10 +94,15 @@ export class QanProfileService {
 
   updateObjectDetails(params: ObjectDetails) {
     this.profileInfo.details.next(params);
+    this.currentDetails = params;
   }
 
   updateFingerprint(fingerprint: string) {
     this.profileInfo.fingerprint.next(fingerprint);
+  }
+
+  updateGroupBy(group_by: string) {
+    this.group_by.next(group_by);
   }
 
   updateDetailsByValue(details_by: string) {
@@ -104,7 +113,15 @@ export class QanProfileService {
     return this.profileParams;
   }
 
-  get getProfileInfo() {
-    return this.profileInfo
+  get getProfileInfo(): ProfileInfo {
+    return this.profileInfo;
+  }
+
+  get getGroupBy(): BehaviorSubject<string> {
+    return this.group_by;
+  }
+
+  get getCurrentDetails(): ObjectDetails {
+    return this.currentDetails;
   }
 }

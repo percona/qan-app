@@ -1,16 +1,24 @@
 <div class="cell-inner">
   <ng-container *ngIf="isDefaultColumn">
+    <div *ngIf="isCount" class="unit unit--qps">
+      {{metricData.stats.qps | humanize : 'number'}}
+    </div>
+
     <div *ngIf="metricData?.metricName && isSparkline" class="app-tooltip"
          [appLoadPolygonChart]="sparklineData"
          data-tooltip="Loading..."
-         xkey="timestamp" ykey="{{yKey}}"
-         measurement="{{measurement}}">
+         xkey="timestamp"
+         [ykey]="yKey"
+         [measurement]="measurement">
     </div>
 
-    <div *ngIf="metricData?.stats?.sum">
+    <div *ngIf="isSum">
       {{metricData.stats.sum | humanize : pipeType}}
     </div>
 
+    <div *ngIf="!isLatency && isSum" class="unit unit--percent">
+      {{percentFromNumber(totalSum, metricData.stats.sum)}}
+    </div>
     <div *ngIf="isStats" class="app-tooltip" data-tooltip="Loading..."
          [measurement]="pipeType"
          [appLatencyChart]="metricData?.stats"
@@ -22,8 +30,9 @@
     <div *ngIf="metricData?.metricName && isSparkline" class="app-tooltip"
          [appLoadPolygonChart]="sparklineData"
          data-tooltip="Loading..."
-         xkey="timestamp" ykey="{{yKey}}"
-         measurement="{{measurement}}">
+         xkey="timestamp"
+         [ykey]="yKey"
+         [measurement]="measurement">
     </div>
 
     <div *ngIf="metricData?.stats?.sum">
