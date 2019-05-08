@@ -11,13 +11,13 @@ import { map as __map, filter as __filter } from 'rxjs/operators';
   providedIn: 'root',
 })
 class ServicesService extends __BaseService {
-  static readonly AddAmazonRDSMySQLServicePath = '/v1/inventory/Services/AddAmazonRDSMySQL';
-  static readonly AddMongoDBServicePath = '/v1/inventory/Services/AddMongoDB';
-  static readonly AddMySQLServicePath = '/v1/inventory/Services/AddMySQL';
-  static readonly AddPostgreSQLServicePath = '/v1/inventory/Services/AddPostgreSQL';
-  static readonly GetServicePath = '/v1/inventory/Services/Get';
-  static readonly ListServicesPath = '/v1/inventory/Services/List';
-  static readonly RemoveServicePath = '/v1/inventory/Services/Remove';
+  static readonly AddAmazonRDSMySQLServicePath = '/v0/inventory/Services/AddAmazonRDSMySQL';
+  static readonly AddMongoDBServicePath = '/v0/inventory/Services/AddMongoDB';
+  static readonly AddMySQLServicePath = '/v0/inventory/Services/AddMySQL';
+  static readonly AddPostgreSQLServicePath = '/v0/inventory/Services/AddPostgreSQL';
+  static readonly GetServicePath = '/v0/inventory/Services/Get';
+  static readonly ListServicesPath = '/v0/inventory/Services/List';
+  static readonly RemoveServicePath = '/v0/inventory/Services/Remove';
 
   constructor(
     config: __Configuration,
@@ -37,7 +37,7 @@ class ServicesService extends __BaseService {
     __body = body;
     let req = new HttpRequest<any>(
       'POST',
-      this.rootUrl + `/v1/inventory/Services/AddAmazonRDSMySQL`,
+      this.rootUrl + `/v0/inventory/Services/AddAmazonRDSMySQL`,
       __body,
       {
         headers: __headers,
@@ -73,7 +73,7 @@ class ServicesService extends __BaseService {
     __body = body;
     let req = new HttpRequest<any>(
       'POST',
-      this.rootUrl + `/v1/inventory/Services/AddMongoDB`,
+      this.rootUrl + `/v0/inventory/Services/AddMongoDB`,
       __body,
       {
         headers: __headers,
@@ -109,7 +109,7 @@ class ServicesService extends __BaseService {
     __body = body;
     let req = new HttpRequest<any>(
       'POST',
-      this.rootUrl + `/v1/inventory/Services/AddMySQL`,
+      this.rootUrl + `/v0/inventory/Services/AddMySQL`,
       __body,
       {
         headers: __headers,
@@ -145,7 +145,7 @@ class ServicesService extends __BaseService {
     __body = body;
     let req = new HttpRequest<any>(
       'POST',
-      this.rootUrl + `/v1/inventory/Services/AddPostgreSQL`,
+      this.rootUrl + `/v0/inventory/Services/AddPostgreSQL`,
       __body,
       {
         headers: __headers,
@@ -181,7 +181,7 @@ class ServicesService extends __BaseService {
     __body = body;
     let req = new HttpRequest<any>(
       'POST',
-      this.rootUrl + `/v1/inventory/Services/Get`,
+      this.rootUrl + `/v0/inventory/Services/Get`,
       __body,
       {
         headers: __headers,
@@ -217,7 +217,7 @@ class ServicesService extends __BaseService {
     __body = body;
     let req = new HttpRequest<any>(
       'POST',
-      this.rootUrl + `/v1/inventory/Services/List`,
+      this.rootUrl + `/v0/inventory/Services/List`,
       __body,
       {
         headers: __headers,
@@ -253,7 +253,7 @@ class ServicesService extends __BaseService {
     __body = body;
     let req = new HttpRequest<any>(
       'POST',
-      this.rootUrl + `/v1/inventory/Services/Remove`,
+      this.rootUrl + `/v0/inventory/Services/Remove`,
       __body,
       {
         headers: __headers,

@@ -1,13 +1,15 @@
 /* tslint:disable */
-import { NgModule } from '@angular/core';
+import { NgModule, ModuleWithProviders } from '@angular/core';
 import { HttpClientModule } from '@angular/common/http';
-import { ApiConfiguration } from './api-configuration';
+import { ApiConfiguration, ApiConfigurationInterface } from './api-configuration';
 
 import { AgentsService } from './services/agents.service';
 import { NodesService } from './services/nodes.service';
 import { ServicesService } from './services/services.service';
+import { MongoDBService } from './services/mongo-db.service';
 import { MySQLService } from './services/my-sql.service';
 import { NodeService } from './services/node.service';
+import { PostgreSQLService } from './services/postgre-sql.service';
 import { ServiceService } from './services/service.service';
 import { FiltersService } from './services/filters.service';
 import { MetricsNamesService } from './services/metrics-names.service';
@@ -31,8 +33,10 @@ import { ServerService } from './services/server.service';
     AgentsService,
     NodesService,
     ServicesService,
+    MongoDBService,
     MySQLService,
     NodeService,
+    PostgreSQLService,
     ServiceService,
     FiltersService,
     MetricsNamesService,
@@ -41,4 +45,16 @@ import { ServerService } from './services/server.service';
     ServerService
   ],
 })
-export class ApiModule { }
+export class ApiModule {
+  static forRoot(customParams: ApiConfigurationInterface): ModuleWithProviders {
+    return {
+      ngModule: ApiModule,
+      providers: [
+        {
+          provide: ApiConfiguration,
+          useValue: { rootUrl: customParams.rootUrl }
+        }
+      ]
+    }
+  }
+}
