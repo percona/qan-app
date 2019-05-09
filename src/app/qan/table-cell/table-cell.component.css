@@ -1,4 +1,6 @@
 :host {
+  --sparkline-width: 130px;
+
   display: table-cell;
   height: var(--row-heigth);
   white-space: nowrap;
@@ -19,4 +21,14 @@
 
 .cell-inner > *:not(:last-child) {
   margin-right: 15px;
+}
+
+.scaling-svg-container {
+  width: var(--sparkline-width);
+
+  background-color: rgb(31, 29, 29);
+}
+
+.scaling-svg-container--x2 {
+  width: calc(2 * var(--sparkline-width));
 }

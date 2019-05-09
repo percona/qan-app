@@ -14,6 +14,8 @@ import { ParseQueryParamDatePipe } from './parse-query-param-date.pipe';
 import { SortingTablePipe } from './sorting-table.pipe';
 import { TableHeadersToMultiplePipe } from './table-headers-to-multiple.pipe';
 import { AutofocusDirective } from './autofocus.directive';
+import { LoadBarChartDirective } from './load-bar-chart.directive';
+import { LoadPolygonChartDirective } from './load-polygon-chart.directive';
 
 @NgModule({
   imports: [
@@ -29,6 +31,8 @@ import { AutofocusDirective } from './autofocus.directive';
     ParseQueryParamDatePipe,
     SortingTablePipe,
     TableHeadersToMultiplePipe,
+    LoadBarChartDirective,
+    LoadPolygonChartDirective,
     AutofocusDirective,
   ],
   exports: [
@@ -38,6 +42,8 @@ import { AutofocusDirective } from './autofocus.directive';
     HumanizePipe,
     LatencyChartDirective,
     LoadSparklinesDirective,
+    LoadBarChartDirective,
+    LoadPolygonChartDirective,
     SortingTablePipe,
     TableHeadersToMultiplePipe,
     AutofocusDirective,

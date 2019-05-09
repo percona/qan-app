@@ -12,6 +12,7 @@ export class TableCellComponent implements OnInit {
   @Input() metricData: MetricModel;
   @Input() sparklineData: any;
   @Input() totalSum: any;
+  @Input() isSparkline = false;
 
   private defaultColumns = ['load', 'count', 'latency'];
   public yKey: string;
