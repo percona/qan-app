@@ -17,26 +17,20 @@ export class FilterMenuComponent implements OnInit, OnChanges {
   ) {
     this.filterMenuService.getSelected.subscribe(response => {
       this.selected = response;
-      console.log('selected component - ', this.selected);
-      console.log('selected currentFilters - ', this.currentFilters);
     });
-    console.log('currentFilters component - ', this.currentFilters);
   }
 
   ngOnInit() {
-    console.log('currentFilters component init - ', this.currentFilters);
   }
 
   ngOnChanges() {
-    if (this.currentFilters.length && this.selected.length) {
-      this.currentFilters.forEach(item => {
-        if (this.selected.includes(selectedItem => selectedItem.groupName === item.filterGroup)) {
-          console.log('selectedItem.groupName - ', item.filterGroup);
-        }
-      });
-      // this.selected.forEach(item => )
-    }
-    console.log('currentFilters component changes - ', this.currentFilters);
+  }
+
+  checkIfSelected(filter) {
+    this.selected.includes(selectedItem => {
+      return selectedItem.filterName === filter.value
+    });
+    return this.selected.includes(selectedItem => selectedItem.filterName === filter.value);
   }
 
   getAll(group) {

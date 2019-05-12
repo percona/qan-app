@@ -48,7 +48,6 @@ export class SearchAutocompleteComponent implements OnInit, OnDestroy {
 
     this.qanFilterService.getSelected.subscribe(response => {
       this.selected = response;
-      console.log('selected autocomplete - ', this.selected);
     });
   }
 
@@ -84,23 +83,21 @@ export class SearchAutocompleteComponent implements OnInit, OnDestroy {
   }
 
   addToSelected(item) {
-    console.log('addToSelected');
     item.state = true;
     this.selected.push(item);
     this.qanFilterService.updateSelected(this.selected);
   }
 
   removeAllFromSelected() {
-    console.log('removeAllFromSelected');
     this.selected = [];
     this.qanFilterService.updateSelected(this.selected);
   }
 
   removeFromSelected(filter) {
-    console.log('removeFromSelected');
     filter.state = false;
     this.selected = this.selected.filter(item => item['filterName'] !== filter.filterName);
     this.selected.forEach(item => item['state'] = true);
+    console.log('this.selected autocomplete - ', this.selected);
     this.qanFilterService.updateSelected(this.selected);
   }
 
