@@ -43,6 +43,7 @@ import { DetailsRowComponent } from '../qan/profile-details/components/details-r
 import { DetailsLabelsComponent } from '../qan/profile-details/components/details-labels/details-labels.component';
 import { ExamplesViewerComponent } from '../qan/profile-details/components/examples-viewer/examples-viewer.component';
 import { QueryExampleComponent } from '../qan/profile-details/components/query-example/query-example.component';
+import { FilterMenuViewerComponent } from '../qan/filter-menu-viewer/filter-menu-viewer.component';
 
 @NgModule({
   imports: [
@@ -77,6 +78,7 @@ import { QueryExampleComponent } from '../qan/profile-details/components/query-e
     DetailsLabelsComponent,
     ExamplesViewerComponent,
     QueryExampleComponent,
+    FilterMenuViewerComponent,
   ],
   exports: [
     PageNotFoundComponent,
@@ -97,6 +99,7 @@ import { QueryExampleComponent } from '../qan/profile-details/components/query-e
     DetailsLabelsComponent,
     ExamplesViewerComponent,
     QueryExampleComponent,
+    FilterMenuViewerComponent,
   ],
   providers: [
     InstanceService,

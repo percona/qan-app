@@ -13,7 +13,7 @@
           <ng-container *ngFor="let filter of filterGroup.items; let index = index">
             <label class="checkbox-container">
               <!--        <label *ngIf="index <= limits[filterGroup.filterGroup]" class="checkbox-container">-->
-              <input (change)="setConfigs()"
+              <input (change)="setConfigs({filterName: filter.value, groupName: filterGroup.filterGroup, state: filter.state, count: filter.count})"
                      [(ngModel)]="filter.state"
                      type="checkbox">
               <span class="checkbox-container__checkmark"></span>

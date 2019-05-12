@@ -27,9 +27,11 @@ export class SearchAutocompleteComponent implements OnInit, OnDestroy {
   numberOfItemsFromEndBeforeFetchingMore = 10;
   loading = false;
 
-  constructor(private qanFilterService: FilterMenuService,
+  constructor(
+    private qanFilterService: FilterMenuService,
     private qanProfileService: QanProfileService,
-    private filterSearchService: FilterSearchService) {
+    private filterSearchService: FilterSearchService
+  ) {
     this.currentParams = this.qanProfileService.getProfileParams.getValue();
 
     this.autocomplete$ = this.qanFilterService.filterSource.pipe(
@@ -40,8 +42,13 @@ export class SearchAutocompleteComponent implements OnInit, OnDestroy {
       })
     ).subscribe(configs => {
       this.autocomplete = configs;
-      this.selected = configs.filter(group => group.state);
+      // this.selected = configs.filter(group => group.state);
       this.autocompleteBuffer = this.autocomplete.slice(0, this.bufferSize);
+    });
+
+    this.qanFilterService.getSelected.subscribe(response => {
+      this.selected = response;
+      console.log('selected autocomplete - ', this.selected);
     });
   }
 
@@ -76,14 +83,25 @@ export class SearchAutocompleteComponent implements OnInit, OnDestroy {
     this.selected = [...this.selected.sort((a, b) => a['groupName'].localeCompare(b['groupName']))];
   }
 
-  changeFilterState(event: any = false) {
-    if (!event) {
-      this.resetAll();
-    }
-    if (event && event.groupName) {
-      this.toggleItem(event);
-    }
-    this.qanFilterService.updateFilterConfigs(this.filters);
+  addToSelected(item) {
+    console.log('addToSelected');
+    item.state = true;
+    this.selected.push(item);
+    this.qanFilterService.updateSelected(this.selected);
+  }
+
+  removeAllFromSelected() {
+    console.log('removeAllFromSelected');
+    this.selected = [];
+    this.qanFilterService.updateSelected(this.selected);
+  }
+
+  removeFromSelected(filter) {
+    console.log('removeFromSelected');
+    filter.state = false;
+    this.selected = this.selected.filter(item => item['filterName'] !== filter.filterName);
+    this.selected.forEach(item => item['state'] = true);
+    this.qanFilterService.updateSelected(this.selected);
   }
 
   toggleItem(item) {

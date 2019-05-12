@@ -15,7 +15,7 @@
   <section *ngIf="!noQueryError" class="pmm-qan" #pmmQanWrapper>
     <app-qan-search class="pmm-qan__search"></app-qan-search>
     <div class="pmm-qan__filter" #filter>
-      <app-qan-filter></app-qan-filter>
+      <app-filter-menu-viewer></app-filter-menu-viewer>
     </div>
     <div class="pmm-qan__table" #table>
       <app-qan-table (finishRender)="checkRender()"></app-qan-table>
