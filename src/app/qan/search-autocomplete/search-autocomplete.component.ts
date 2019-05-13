@@ -15,13 +15,11 @@ import PerfectScrollbar from 'perfect-scrollbar';
 })
 export class SearchAutocompleteComponent implements OnInit, OnDestroy {
 
-  public selected: Array<{}> = [];
+  public selected: any = [];
   private autocomplete$: Subscription;
-  public filters: any;
-  public currentParams: GetProfileBody;
   public scrollbarConfig: PerfectScrollbarConfigInterface = {};
 
-  autocomplete = [];
+  autocomplete: any = [];
   autocompleteBuffer = [];
   bufferSize = 50;
   numberOfItemsFromEndBeforeFetchingMore = 10;
@@ -30,21 +28,13 @@ export class SearchAutocompleteComponent implements OnInit, OnDestroy {
   constructor(
     private qanFilterService: FilterMenuService,
     private qanProfileService: QanProfileService,
-    private filterSearchService: FilterSearchService
+    private filterSearchService: FilterSearchService,
   ) {
-    this.currentParams = this.qanProfileService.getProfileParams.getValue();
-
-    this.autocomplete$ = this.qanFilterService.filterSource.pipe(
-      map(response => {
-        this.filters = response;
-        const modif = response.map(responseItem => responseItem.items.map(item => new FiltersSearchModel(responseItem.filterGroup, item)));
-        return [].concat(...modif)
-      })
-    ).subscribe(configs => {
-      this.autocomplete = configs;
-      // this.selected = configs.filter(group => group.state);
-      this.autocompleteBuffer = this.autocomplete.slice(0, this.bufferSize);
-    });
+    this.autocomplete$ = this.qanFilterService.getAutocompleteFilters
+      .subscribe(configs => {
+        this.autocomplete = configs;
+        this.autocompleteBuffer = this.autocomplete.slice(0, this.bufferSize);
+      });
 
     this.qanFilterService.getSelected.subscribe(response => {
       this.selected = response;
@@ -98,16 +88,6 @@ export class SearchAutocompleteComponent implements OnInit, OnDestroy {
     this.selected = this.selected.filter(item => item['filterName'] !== filter.filterName);
     this.selected.forEach(item => item['state'] = true);
     this.qanFilterService.updateSelected(this.selected);
-  }
-
-  toggleItem(item) {
-    const group = this.filters.find(filter => item.groupName === filter.filterGroup);
-    const itemS = group.items.find(groupItem => groupItem.value === item.filterName);
-    itemS.state = !itemS.state;
-  }
-
-  resetAll() {
-    this.filters.forEach(filter => filter.items.forEach(item => item.state = false));
   }
 
   autocompleteSearch = (term: string, item: any) => {

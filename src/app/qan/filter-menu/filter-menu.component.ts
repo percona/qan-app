@@ -10,11 +10,9 @@ export class FilterMenuComponent implements OnInit, OnChanges {
   @Input() currentFilters: any = [];
   public limits = {};
   public defaultLimit = 4;
-  public selected = [];
+  public selected: any = [];
 
-  constructor(
-    private filterMenuService: FilterMenuService,
-  ) {
+  constructor(private filterMenuService: FilterMenuService) {
     this.filterMenuService.getSelected.subscribe(response => {
       this.selected = response;
     });
@@ -26,13 +24,6 @@ export class FilterMenuComponent implements OnInit, OnChanges {
   ngOnChanges() {
   }
 
-  checkIfSelected(filter) {
-    this.selected.includes(selectedItem => {
-      return selectedItem.filterName === filter.value
-    });
-    return this.selected.includes(selectedItem => selectedItem.filterName === filter.value);
-  }
-
   getAll(group) {
     this.limits[group.name] = this.limits[group.name] <= this.defaultLimit ? group.values.length - 1 : this.defaultLimit;
   }
@@ -40,7 +31,6 @@ export class FilterMenuComponent implements OnInit, OnChanges {
   setConfigs(selectedFilter) {
     this.selected = this.makeSelectedArray(selectedFilter);
     this.filterMenuService.updateSelected(this.selected);
-    // this.filterMenuService.updateFilterConfigs(this.currentFilters);
   }
 
   makeSelectedArray(filter) {
