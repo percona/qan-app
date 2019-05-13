@@ -22,10 +22,7 @@ export class FilterMenuComponent implements OnInit, OnChanges {
 
   constructor(private filterMenuService: FilterMenuService) {
     this.filterMenuService.getSelected.pipe(
-      catchError(err => {
-        console.log('err selected- ', err);
-        return of([])
-      })
+      catchError(err => of([]))
     ).subscribe(response => {
       this.selected = response;
       this.toggleLabels();

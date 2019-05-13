@@ -38,12 +38,9 @@ export class DetailsLabelsComponent implements OnInit, OnDestroy {
 
   getLabels(responseParams) {
     return this.objectDetailsService.GetLabels(responseParams).pipe(
-      catchError(err => {
-        console.log('err - labels response - ', err);
-        return of([])
-      }),
+      catchError(err => of([])),
       map(response => this.filterMenuService.generateFilterGroup(response)),
-      catchError(err => of({ query_examples: [] }))
+      catchError(err => of([]))
     )
   }
 
