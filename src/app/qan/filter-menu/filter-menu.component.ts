@@ -1,5 +1,7 @@
 import { Component, Input, OnChanges, OnInit } from '@angular/core';
 import { FilterMenuService } from './filter-menu.service';
+import { catchError } from 'rxjs/operators';
+import { of } from 'rxjs/internal/observable/of';
 
 @Component({
   selector: 'app-qan-filter',
@@ -7,21 +9,26 @@ import { FilterMenuService } from './filter-menu.service';
   styleUrls: ['./filter-menu.component.scss']
 })
 export class FilterMenuComponent implements OnInit, OnChanges {
-  @Input() currentFilters: any = [];
+  public currentFilters: any = [];
+
+  @Input() set processLabels(filters: any) {
+    this.currentFilters = filters || [];
+    this.toggleLabels();
+  }
+
   public limits = {};
   public defaultLimit = 4;
   public selected: any = this.filterMenuService.getSelected.getValue();
 
   constructor(private filterMenuService: FilterMenuService) {
-    this.filterMenuService.getSelected.subscribe(response => {
+    this.filterMenuService.getSelected.pipe(
+      catchError(err => {
+        console.log('err selected- ', err);
+        return of([])
+      })
+    ).subscribe(response => {
       this.selected = response;
-      // todo: Add check when filters are coming
-      if (this.currentFilters.length) {
-        this.resetAllFilters();
-        if (this.selected.length) {
-          this.checkSelectedFilters();
-        }
-      }
+      this.toggleLabels();
     });
   }
 
@@ -72,5 +79,14 @@ export class FilterMenuComponent implements OnInit, OnChanges {
         }
       }
     });
+  }
+
+  toggleLabels() {
+    if (this.currentFilters.length) {
+      this.resetAllFilters();
+      if (this.selected.length) {
+        this.checkSelectedFilters();
+      }
+    }
   }
 }

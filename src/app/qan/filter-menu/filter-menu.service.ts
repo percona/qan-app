@@ -3,7 +3,7 @@ import { Subject } from 'rxjs/internal/Subject';
 import { FilterGroupModel } from './models/filter-group.model';
 import { FiltersSearchModel } from './models/filters-search.model';
 import { QanProfileService } from '../profile/qan-profile.service';
-import {BehaviorSubject} from 'rxjs/internal/BehaviorSubject';
+import { BehaviorSubject } from 'rxjs/internal/BehaviorSubject';
 
 @Injectable()
 export class FilterMenuService {

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ObjectDetailsService } from '../../../../pmm-api-services/services/object-details.service';
 import { catchError, map, switchMap, take } from 'rxjs/operators';
 import { of } from 'rxjs/internal/observable/of';
@@ -11,11 +11,11 @@ import { FilterMenuService } from '../../../filter-menu/filter-menu.service';
   templateUrl: './details-labels.component.html',
   styleUrls: ['./details-labels.component.scss']
 })
-export class DetailsLabelsComponent implements OnInit {
+export class DetailsLabelsComponent implements OnInit, OnDestroy {
   private details$: Subscription;
   private defaultLabels$: Subscription;
   public currentDetails: any;
-  public labels: any;
+  public labels: any = [];
 
   constructor(
     private objectDetailsService: ObjectDetailsService,
@@ -38,8 +38,17 @@ export class DetailsLabelsComponent implements OnInit {
 
   getLabels(responseParams) {
     return this.objectDetailsService.GetLabels(responseParams).pipe(
+      catchError(err => {
+        console.log('err - labels response - ', err);
+        return of([])
+      }),
       map(response => this.filterMenuService.generateFilterGroup(response)),
       catchError(err => of({ query_examples: [] }))
     )
+  }
+
+  ngOnDestroy() {
+    this.defaultLabels$.unsubscribe();
+    this.details$.unsubscribe();
   }
 }
