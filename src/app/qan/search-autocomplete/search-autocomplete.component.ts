@@ -97,7 +97,6 @@ export class SearchAutocompleteComponent implements OnInit, OnDestroy {
     filter.state = false;
     this.selected = this.selected.filter(item => item['filterName'] !== filter.filterName);
     this.selected.forEach(item => item['state'] = true);
-    console.log('this.selected autocomplete - ', this.selected);
     this.qanFilterService.updateSelected(this.selected);
   }
 
