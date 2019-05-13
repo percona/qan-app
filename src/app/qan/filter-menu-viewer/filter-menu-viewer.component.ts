@@ -13,10 +13,8 @@ import { map } from 'rxjs/operators';
 export class FilterMenuViewerComponent implements OnInit, OnDestroy {
 
   public currentParams: GetProfileBody;
-  public selectedArray: any = [];
   private filterSubscription$: Subscription;
   private getFilters$: Subscription;
-  public filters$: any = [];
   public filters: any = [];
 
   constructor(
@@ -26,15 +24,6 @@ export class FilterMenuViewerComponent implements OnInit, OnDestroy {
     private qanProfileService: QanProfileService,
   ) {
     this.currentParams = this.qanProfileService.getProfileParams.getValue();
-    this.qanFilterService.getSelected.subscribe(response => {
-      this.selectedArray = response;
-      if (this.filters.length) {
-        this.resetAllFilters();
-        if (this.selectedArray.length) {
-          this.checkSelectedFilters();
-        }
-      }
-    });
 
     this.getFilters$ = this.filterService.Get(
       {
@@ -57,21 +46,5 @@ export class FilterMenuViewerComponent implements OnInit, OnDestroy {
   ngOnDestroy() {
     this.getFilters$.unsubscribe();
     this.filterSubscription$.unsubscribe();
-  }
-
-  resetAllFilters() {
-    this.filters.forEach(group => group.items.forEach(item => item.state = false));
-  }
-
-  checkSelectedFilters() {
-    this.selectedArray.forEach(selectedItem => {
-      const group = this.filters.find(filterGroup => filterGroup.filterGroup === selectedItem.groupName);
-      if (group) {
-        const filter = group.items.find(item => item.value === selectedItem.filterName);
-        if (filter) {
-          filter.state = true;
-        }
-      }
-    });
   }
 }

@@ -3,10 +3,11 @@ import { Subject } from 'rxjs/internal/Subject';
 import { FilterGroupModel } from './models/filter-group.model';
 import { FiltersSearchModel } from './models/filters-search.model';
 import { QanProfileService } from '../profile/qan-profile.service';
+import {BehaviorSubject} from 'rxjs/internal/BehaviorSubject';
 
 @Injectable()
 export class FilterMenuService {
-  private selected = new Subject();
+  private selected = new BehaviorSubject([]);
   private autocompleteFilters = new Subject();
 
   constructor(private qanProfileService: QanProfileService) {

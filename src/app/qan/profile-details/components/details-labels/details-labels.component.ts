@@ -21,7 +21,6 @@ export class DetailsLabelsComponent implements OnInit {
     private objectDetailsService: ObjectDetailsService,
     private qanProfileService: QanProfileService,
     private filterMenuService: FilterMenuService,
-    private qanFilterService: FilterMenuService,
   ) {
     this.currentDetails = this.qanProfileService.getCurrentDetails;
     this.details$ = this.qanProfileService.getProfileInfo.details.pipe(
@@ -29,7 +28,6 @@ export class DetailsLabelsComponent implements OnInit {
       .subscribe(
         response => this.labels = response
       );
-    this.qanFilterService.getSelected.subscribe(response => console.log('details - ', response));
   }
 
   ngOnInit() {
@@ -42,30 +40,6 @@ export class DetailsLabelsComponent implements OnInit {
     return this.objectDetailsService.GetLabels(responseParams).pipe(
       map(response => this.filterMenuService.generateFilterGroup(response)),
       catchError(err => of({ query_examples: [] }))
-      // map(response => response.query_examples),
-      // catchError(err => of([])))
     )
   }
-
-  // this.getFilters$ = this.filterService.Get({
-  //   period_start_from: this.currentParams.period_start_from,
-  //   period_start_to: this.currentParams.period_start_to
-  // }).pipe(
-  //   map(response => this.filterMenuService.generateFilterGroup(response))
-  // ).subscribe(
-  //   response => {
-  //     if (response.length) {
-  //       this.filterMenuService.updateFilterConfigs(response)
-  //     }
-  //   }
-  // );
-
-  // this.filterSubscription$ = this.filterMenuService.filterSource.subscribe(
-  //   filters => {
-  //     this.filters = filters;
-  //     this.currentParams.labels = this.filterMenuService.prepareLabels(filters);
-  //     this.qanProfileService.updateProfileParams(this.currentParams);
-  //   });
-  // }
-
 }
