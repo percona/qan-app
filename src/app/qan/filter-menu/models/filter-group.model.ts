@@ -6,8 +6,12 @@ export class FilterGroupModel {
 
   constructor(group) {
     const [filterGroup, itemsGroup] = group;
-    const itemsArray = itemsGroup.name.map(item => new FilterModel(item));
-
+    let itemsArray;
+    if (itemsGroup.values) {
+      itemsArray = itemsGroup.values.map(item => new FilterModel(item));
+    } else {
+      itemsArray = itemsGroup.name.map(item => new FilterModel(item));
+    }
     this.filterGroup = filterGroup;
     this.items = itemsArray;
   }

@@ -1,51 +1,32 @@
-import { Component, OnChanges, OnDestroy, OnInit } from '@angular/core';
+import { Component, Input, OnChanges, OnInit } from '@angular/core';
 import { FilterMenuService } from './filter-menu.service';
-import { FiltersService } from '../../pmm-api-services/services/filters.service';
-import { Subscription } from 'rxjs/internal/Subscription';
-import { map } from 'rxjs/operators';
-import { FilterGroupModel } from './models/filter-group.model';
-import { FilterLabelModel } from '../search-autocomplete/models/filter-label.model';
-import { GetProfileBody, QanProfileService } from '../profile/qan-profile.service';
+import { catchError } from 'rxjs/operators';
+import { of } from 'rxjs/internal/observable/of';
 
 @Component({
   selector: 'app-qan-filter',
   templateUrl: './filter-menu.component.html',
   styleUrls: ['./filter-menu.component.scss']
 })
-export class FilterMenuComponent implements OnInit, OnDestroy, OnChanges {
-  public currentParams: GetProfileBody;
+export class FilterMenuComponent implements OnInit, OnChanges {
+  public currentFilters: any = [];
+
+  @Input() set processLabels(filters: any) {
+    this.currentFilters = filters || [];
+    this.toggleLabels();
+  }
+
   public limits = {};
   public defaultLimit = 4;
-  private filterSubscription$: Subscription;
-  private getFilters$: Subscription;
-  public currentFilters: any;
+  public selected: any = this.filterMenuService.getSelected.getValue();
 
-  constructor(
-    private filterMenuService: FilterMenuService,
-    private filterService: FiltersService,
-    private qanProfileService: QanProfileService,
-  ) {
-    this.currentParams = this.qanProfileService.getProfileParams.getValue();
-
-    this.getFilters$ = this.filterService.Get({
-      period_start_from: this.currentParams.period_start_from,
-      period_start_to: this.currentParams.period_start_to
-    }).pipe(
-      map(response => this.generateFilterGroup(response))
-    ).subscribe(
-      response => {
-        if (response.length) {
-          this.filterMenuService.updateFilterConfigs(response)
-        }
-      }
-    );
-
-    this.filterSubscription$ = this.filterMenuService.filterSource.subscribe(
-      filters => {
-        this.currentFilters = filters;
-        this.currentParams.labels = this.prepareLabels(filters);
-        this.qanProfileService.updateProfileParams(this.currentParams);
-      });
+  constructor(private filterMenuService: FilterMenuService) {
+    this.filterMenuService.getSelected.pipe(
+      catchError(err => of([]))
+    ).subscribe(response => {
+      this.selected = response;
+      this.toggleLabels();
+    });
   }
 
   ngOnInit() {
@@ -54,30 +35,55 @@ export class FilterMenuComponent implements OnInit, OnDestroy, OnChanges {
   ngOnChanges() {
   }
 
-  ngOnDestroy() {
-    this.getFilters$.unsubscribe();
-    this.filterSubscription$.unsubscribe();
-  }
-
-  prepareLabels(filters) {
-    const filtered = filters.map(filtersItem => new FilterLabelModel(filtersItem.filterGroup, filtersItem.items));
-    return filtered.filter(filteredItem => filteredItem.value.length);
-  }
-
   getAll(group) {
     this.limits[group.name] = this.limits[group.name] <= this.defaultLimit ? group.values.length - 1 : this.defaultLimit;
   }
 
-  generateFilterGroup(group) {
-    const filters = Object.entries(group.labels).map(entire => !this.isEmptyObject(entire[1]) ? new FilterGroupModel(entire) : {});
-    return filters.filter(item => !this.isEmptyObject(item));
+  setConfigs(selectedFilter) {
+    this.selected = this.makeSelectedArray(selectedFilter);
+    this.filterMenuService.updateSelected(this.selected);
   }
 
-  setConfigs() {
-    this.filterMenuService.updateFilterConfigs(this.currentFilters);
+  makeSelectedArray(filter) {
+    if (filter.state) {
+      this.selected.push(filter);
+      return this.getUnique(this.selected, 'filterName');
+    } else {
+      return this.selected.filter(item => item.filterName !== filter.filterName);
+    }
   }
 
-  isEmptyObject(obj) {
-    return !Object.keys(obj).length
+  getUnique(arr, comp) {
+    return arr
+      .map(e => e[comp])
+      // store the keys of the unique objects
+      .map((e, i, final) => final.indexOf(e) === i && i)
+      // eliminate the dead keys & store unique objects
+      .filter(e => arr[e]).map(e => arr[e]);
+  }
+
+  resetAllFilters() {
+    this.currentFilters.forEach(group => group.items.forEach(item => item.state = false));
+  }
+
+  checkSelectedFilters() {
+    this.selected.forEach(selectedItem => {
+      const group = this.currentFilters.find(filterGroup => filterGroup.filterGroup === selectedItem.groupName);
+      if (group) {
+        const filter = group.items.find(item => item.value === selectedItem.filterName);
+        if (filter) {
+          filter.state = true;
+        }
+      }
+    });
+  }
+
+  toggleLabels() {
+    if (this.currentFilters.length) {
+      this.resetAllFilters();
+      if (this.selected.length) {
+        this.checkSelectedFilters();
+      }
+    }
   }
 }

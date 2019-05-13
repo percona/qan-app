@@ -1,25 +1,69 @@
 import { Injectable } from '@angular/core';
 import { Subject } from 'rxjs/internal/Subject';
+import { FilterGroupModel } from './models/filter-group.model';
+import { FiltersSearchModel } from './models/filters-search.model';
+import { QanProfileService } from '../profile/qan-profile.service';
+import { BehaviorSubject } from 'rxjs/internal/BehaviorSubject';
 
 @Injectable()
 export class FilterMenuService {
-  private filtersConfigsSource = new Subject<any>();
+  private selected = new BehaviorSubject([]);
+  private autocompleteFilters = new Subject();
 
-  constructor() {
+  constructor(private qanProfileService: QanProfileService) {
   }
 
-  /**
-   * Set current state of filter config
-   * @param configs - collection of filter config
-   */
-  updateFilterConfigs(configs: any) {
-    this.filtersConfigsSource.next(configs)
+  get getAutocompleteFilters() {
+    return this.autocompleteFilters;
   }
 
-  /**
-   * Provide access for private variable
-   */
-  get filterSource() {
-    return this.filtersConfigsSource;
+  get getSelected() {
+    return this.selected;
+  }
+
+  updateSelected(newSelected) {
+    this.selected.next(newSelected);
+    this.addSelectedToResponse(newSelected);
+  }
+
+  updateAutocompleteFilters(autocomplete) {
+    const generated = this.generateAutocomplete(autocomplete);
+    this.autocompleteFilters.next(generated);
+  }
+
+  generateFilterGroup(group) {
+    const filters = Object.entries(group.labels).map(entire => !this.isEmptyObject(entire[1]) ? new FilterGroupModel(entire) : {});
+    return filters.filter(item => !this.isEmptyObject(item));
+  }
+
+  generateAutocomplete(filters) {
+    const generated = filters.map(responseItem =>
+      responseItem.items.map(item =>
+        new FiltersSearchModel(responseItem.filterGroup, item)
+      ));
+    return [].concat(...generated)
+  }
+
+  isEmptyObject(obj) {
+    return !Object.keys(obj).length
+  }
+
+  prepareLabels(filters) {
+    const arr = [];
+    filters.forEach(item => {
+      const existed = arr.find(it => it.key === item.groupName);
+      if (!existed) {
+        arr.push({ key: item.groupName, value: [item.filterName] })
+      } else {
+        existed.value.push(item.filterName);
+      }
+    });
+    return arr
+  }
+
+  addSelectedToResponse(selected) {
+    const currentUrlParams = this.qanProfileService.getProfileParams.getValue();
+    currentUrlParams.labels = this.prepareLabels(selected);
+    this.qanProfileService.updateProfileParams(currentUrlParams);
   }
 }

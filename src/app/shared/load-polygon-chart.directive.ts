@@ -94,7 +94,6 @@ export class LoadPolygonChartDirective implements OnChanges {
         x: scaleX(moment.utc(item[this._xkey])),
         y: scaleY(item[this._ykey] || 0) + this.margin
       }));
-    console.log(this.data);
 
     const areaBar = area<DataType>().curve(curveStepAfter)
       .x(d => d.x)
