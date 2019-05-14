@@ -3,9 +3,9 @@
     <span [class.unit.unit--per-sec]="isRate">
       {{ isRate ? (currentMetric?.stats?.rate | humanize: ratePipe) : '-' }}
     </span>
-  <!--  <div [appLoadSparklines]="queryDetails?.Sparks2" class="scaling-svg-container app-tooltip"-->
-  <!--       data-tooltip="Loading..." xkey="Ts" ykey="Query_count_per_sec" measurement="number">-->
-  <!--  </div>-->
+    <div [appLoadPolygonChart]="currentMetric.sparkline" class="scaling-svg-container app-tooltip"
+         xkey="timestamp" ykey="pointValue" measurement="number">
+    </div>
 </div>
 <div class="row__item">
     <span>
