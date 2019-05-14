@@ -246,7 +246,7 @@ class ServicesService extends __BaseService {
    * @param body undefined
    * @return A successful response.
    */
-  RemoveServiceResponse(body: { service_id?: string }): __Observable<__StrictHttpResponse<{}>> {
+  RemoveServiceResponse(body: { force?: boolean, service_id?: string }): __Observable<__StrictHttpResponse<{}>> {
     let __params = this.newParams();
     let __headers = new HttpHeaders();
     let __body: any = null;
@@ -272,7 +272,7 @@ class ServicesService extends __BaseService {
    * @param body undefined
    * @return A successful response.
    */
-  RemoveService(body: { service_id?: string }): __Observable<{}> {
+  RemoveService(body: { force?: boolean, service_id?: string }): __Observable<{}> {
     return this.RemoveServiceResponse(body).pipe(
       __map(_r => _r.body as {})
     );
