@@ -13,6 +13,8 @@ export class LatencyChartDirective {
   @HostBinding('attr.data-tooltip')
   @Input() dataTooltip: string;
   @Input() measurement = 'time';
+  @Input() width = 150;
+  @Input() height = 30;
 
   @Input() set appLatencyChart(data: {}) {
     if (data !== null) {
@@ -26,18 +28,14 @@ export class LatencyChartDirective {
   drawChart(data: any) {
     const chart = select(this.elementRef.nativeElement);
     chart.selectAll('*').remove();
-    const svg: any = chart.append('svg')
-      .attr('height', '20')
-      .attr('width', '100')
-      .attr('class', 'scaling-svg')
-      .attr('viewBox', '0 0 100 20');
 
-    const width = Math.floor(svg.node().getBoundingClientRect().width);
-    svg.attr('width', width).attr('viewBox', '0 0 ' + width + ' 20');
+    const svg = chart.append('svg')
+      .attr('height', '20')
+      .attr('width', this.width);
 
     const x = scaleLog()
       .domain([0.00001, 10000])
-      .range([2, width - 2])
+      .range([2, this.width - 2])
       .clamp(true)
       .nice();
 
@@ -60,7 +58,7 @@ export class LatencyChartDirective {
       .attr('x1', '0')
       .attr('stroke-dasharray', '1, 1')
       .attr('y1', '13px')
-      .attr('x2', width)
+      .attr('x2', this.width)
       .attr('y2', '13px');
 
     // hrLine
