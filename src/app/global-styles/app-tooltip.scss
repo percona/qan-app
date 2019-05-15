@@ -1,3 +1,7 @@
+.app-tooltip {
+  position: relative;
+}
+
 div.app-tooltip::before {
   content: attr(data-tooltip);
   position: absolute;
