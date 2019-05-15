@@ -19,3 +19,12 @@
 .row__item:not(:last-child) {
   border-right: 1px solid var(--main-border-color);
 }
+
+.row__cells--sparkline {
+  display: flex;
+  justify-content: space-between;
+}
+
+.row__cells--sparkline >:not(:last-child) {
+
+}

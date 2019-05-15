@@ -6,6 +6,7 @@ import { ObjectDetailsService } from '../../pmm-api-services/services/object-det
 import { MetricModel } from '../profile-table/models/metric.model';
 import { Subscription } from 'rxjs/internal/Subscription';
 import { of } from 'rxjs/internal/observable/of';
+import { DetailsSparklineModel } from './models/details-sparkline.model';
 
 @Component({
   moduleId: module.id,
@@ -34,13 +35,19 @@ export class ProfileDetailsComponent implements OnInit, AfterViewChecked, OnDest
       switchMap(parsedParams => {
         this.currentParams = parsedParams;
         return this.objectDetailsService.GetMetrics(parsedParams).pipe(
-          catchError(err => of({ metrics: [] })),
-          map(metrics => Object.entries(metrics.metrics).map(detail => new MetricModel(detail))),
+          catchError(err => of({ metrics: [], sparkline: [] })),
+          map(response => {
+            const withData = Object.entries(response.metrics).filter(metricData => Object.keys(metricData[1]).length);
+            return withData.map(withDataItem => {
+              const sparklineData = this.createSparklineModel(response.sparkline, withDataItem[0]);
+              return new MetricModel(withDataItem, sparklineData)
+            });
+          }),
           catchError(err => of([]))
         )
       }),
     ).subscribe(response => {
-      this.details = response.filter(item => Object.keys(item.stats).length > 0);
+      this.details = response;
     });
 
     this.fingerprint$ = this.qanProfileService.getProfileInfo.fingerprint
@@ -54,6 +61,10 @@ export class ProfileDetailsComponent implements OnInit, AfterViewChecked, OnDest
   }
 
   ngAfterViewChecked() {
+  }
+
+  createSparklineModel(sparklines, name) {
+    return sparklines.map(item => new DetailsSparklineModel(item.values, name))
   }
 
   ngOnDestroy() {

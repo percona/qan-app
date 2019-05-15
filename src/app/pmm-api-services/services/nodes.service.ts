@@ -246,7 +246,7 @@ class NodesService extends __BaseService {
    * @param body undefined
    * @return A successful response.
    */
-  RemoveNodeResponse(body: { node_id?: string }): __Observable<__StrictHttpResponse<{}>> {
+  RemoveNodeResponse(body: { force?: boolean, node_id?: string }): __Observable<__StrictHttpResponse<{}>> {
     let __params = this.newParams();
     let __headers = new HttpHeaders();
     let __body: any = null;
@@ -272,7 +272,7 @@ class NodesService extends __BaseService {
    * @param body undefined
    * @return A successful response.
    */
-  RemoveNode(body: { node_id?: string }): __Observable<{}> {
+  RemoveNode(body: { force?: boolean, node_id?: string }): __Observable<{}> {
     return this.RemoveNodeResponse(body).pipe(
       __map(_r => _r.body as {})
     );
