@@ -1,6 +1,6 @@
 export class DetailsSparklineModel {
-  pointOrder: any = false;
-  pointValue: any = false;
+  pointOrder: number;
+  pointValue: number;
   time_frame = 0;
   timestamp = 0;
 

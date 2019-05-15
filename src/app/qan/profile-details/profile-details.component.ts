@@ -46,7 +46,10 @@ export class ProfileDetailsComponent implements OnInit, AfterViewChecked, OnDest
           catchError(err => of([]))
         )
       }),
-    ).subscribe(response => this.details = response);
+    ).subscribe(response => {
+      this.details = response;
+      console.log('this.details - ', this.details);
+    });
 
     this.fingerprint$ = this.qanProfileService.getProfileInfo.fingerprint
       .subscribe(fingerprint => this.fingerprint = fingerprint);

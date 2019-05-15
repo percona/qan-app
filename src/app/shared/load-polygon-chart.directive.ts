@@ -14,12 +14,6 @@ export interface DataType {
   selector: '[appLoadPolygonChart]'
 })
 export class LoadPolygonChartDirective implements OnChanges {
-  public _xkey: number;
-  public _ykey: string;
-  public _measurement: string;
-
-  public height = 30;
-  public width = 300;
   public margin = 0;
   public padding = 0;
   public data = [];
@@ -29,20 +23,13 @@ export class LoadPolygonChartDirective implements OnChanges {
   @HostBinding('attr.data-tooltip')
   @Input() dataTooltip: string;
   @Input() appLoadPolygonChart: Array<{}>;
+  @Input() xkey: string;
+  @Input() ykey: string;
+  @Input() measurement: string;
+  @Input() width = 300;
+  @Input() height = 30;
 
   constructor(public elementRef: ElementRef) {
-  }
-
-  @Input() set xkey(xkey: number) {
-    this._xkey = xkey;
-  }
-
-  @Input() set ykey(ykey: string) {
-    this._ykey = ykey;
-  }
-
-  @Input() set measurement(measurement: string) {
-    this._measurement = measurement;
   }
 
   ngOnChanges() {
@@ -50,22 +37,22 @@ export class LoadPolygonChartDirective implements OnChanges {
   }
 
   findHighestY() {
-    const values = this.appLoadPolygonChart.map(data => +data[this._ykey] || 0);
+    const values = this.appLoadPolygonChart.map(data => +data[this.ykey] || 0);
     return Math.max(...values);
   }
 
   findMinY() {
-    const values = this.appLoadPolygonChart.map(data => +data[this._ykey] || 0);
+    const values = this.appLoadPolygonChart.map(data => +data[this.ykey] || 0);
     return Math.min(...values);
   }
 
   findHighestX() {
-    const values = this.appLoadPolygonChart.map(data => +moment.utc(data[this._xkey]) || 0);
+    const values = this.appLoadPolygonChart.map(data => +moment.utc(data[this.xkey]) || 0);
     return Math.max(...values);
   }
 
   findMinX() {
-    const values = this.appLoadPolygonChart.map(data => +moment.utc(data[this._xkey]) || 0);
+    const values = this.appLoadPolygonChart.map(data => +moment.utc(data[this.xkey]) || 0);
     return Math.min(...values);
   }
 
@@ -91,8 +78,8 @@ export class LoadPolygonChartDirective implements OnChanges {
 
     this.data = this.appLoadPolygonChart.map(item =>
       new Object({
-        x: scaleX(moment.utc(item[this._xkey])),
-        y: scaleY(item[this._ykey] || 0) + this.margin
+        x: scaleX(moment.utc(item[this.xkey])),
+        y: scaleY(item[this.ykey] || 0) + this.margin
       }));
 
     const areaBar = area<DataType>().curve(curveStepAfter)
