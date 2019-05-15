@@ -8,6 +8,6 @@ export class MetricModel {
 
     this.metricName = metricName;
     this.stats = stats.stats || stats;
-    this.sparkline = sparkline.every(sparklinePoint => sparklinePoint.pointValue) ? sparkline : [];
+    this.sparkline = sparkline.some(sparklinePoint => sparklinePoint.pointValue) ? sparkline : [];
   }
 }
