@@ -13,10 +13,6 @@ export class GenericModel {
   isDeleted: boolean;
 
   constructor(params, type) {
-    params.custom_labels = {
-      mongokey: 'value1',
-      mongokey2: 'value2',
-    };
     this.address = params.address || '';
     this.az = params.az || '';
     this.custom_labels = params.custom_labels && Object.keys(params.custom_labels).length ?
