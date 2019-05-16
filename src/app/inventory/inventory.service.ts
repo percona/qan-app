@@ -39,8 +39,8 @@ export class InventoryService {
         return new PmmAgentModel(params, 'PMM Agent');
       case 'postgres_exporter':
         return new PostgresExporterModel(params, 'Postgres exporter');
-      case 'qan_mysql_perfschema_agent':
       case 'qan_mongodb_profiler_agent':
+      case 'qan_mysql_perfschema_agent':
       case 'qan_mysql_slowlog_agent':
         return new GeneralAgentModel(params, this.humanizeType(type));
       case 'rds_exporter':

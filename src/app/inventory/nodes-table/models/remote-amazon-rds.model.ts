@@ -1,5 +1,7 @@
+import { CustomLabelsModel } from '../../custom-labels.model';
+
 export class RemoteAmazonRdsModel {
-  custom_labels: Array<string>;
+  custom_labels: Array<CustomLabelsModel>;
   instance: string;
   node_id: string;
   node_name: string;
@@ -8,7 +10,8 @@ export class RemoteAmazonRdsModel {
   isDeleted: boolean;
 
   constructor(params, type) {
-    this.custom_labels = params.custom_labels && Object.keys(params.custom_labels).length ? Object.values(params.custom_labels) : [];
+    this.custom_labels = params.custom_labels && Object.keys(params.custom_labels).length ?
+      Object.entries(params.custom_labels).map(item => new CustomLabelsModel(item)) : [];
     this.instance = params.instance || '';
     this.node_id = params.node_id || '';
     this.node_name = params.node_name || '';
