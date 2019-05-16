@@ -37,3 +37,15 @@ button {
   display: flex;
   flex-direction: column;
 }
+
+.point {
+  display: inline-flex;
+}
+
+.point:not(:last-child) {
+  margin-right: 5px;
+}
+
+.point:not(:last-child):after {
+  content: ','
+}

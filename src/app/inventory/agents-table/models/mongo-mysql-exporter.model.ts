@@ -1,6 +1,8 @@
+import { CustomLabelsModel } from '../../custom-labels.model';
+
 export class MongoMysqlExporterModel {
   agent_id: string;
-  custom_labels: Array<string>;
+  custom_labels: Array<CustomLabelsModel>;
   disabled: boolean | string;
   listen_port: number;
   username: string;
@@ -13,7 +15,8 @@ export class MongoMysqlExporterModel {
 
   constructor(params, type) {
     this.agent_id = params.agent_id || '';
-    this.custom_labels = params.custom_labels && Object.keys(params.custom_labels).length ? Object.values(params.custom_labels) : [];
+    this.custom_labels = params.custom_labels && Object.keys(params.custom_labels).length ?
+      Object.entries(params.custom_labels).map(item => new CustomLabelsModel(item)) : [];
     this.disabled = params.disabled || '';
     this.listen_port = params.listen_port || '';
     this.username = params.username || '';
