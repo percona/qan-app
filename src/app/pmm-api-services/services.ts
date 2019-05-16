@@ -1,6 +1,7 @@
 export { AgentsService } from './services/agents.service';
 export { NodesService } from './services/nodes.service';
 export { ServicesService } from './services/services.service';
+export { ActionsService } from './services/actions.service';
 export { MongoDBService } from './services/mongo-db.service';
 export { MySQLService } from './services/my-sql.service';
 export { NodeService } from './services/node.service';

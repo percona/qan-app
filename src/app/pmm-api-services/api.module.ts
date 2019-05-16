@@ -6,6 +6,7 @@ import { ApiConfiguration, ApiConfigurationInterface } from './api-configuration
 import { AgentsService } from './services/agents.service';
 import { NodesService } from './services/nodes.service';
 import { ServicesService } from './services/services.service';
+import { ActionsService } from './services/actions.service';
 import { MongoDBService } from './services/mongo-db.service';
 import { MySQLService } from './services/my-sql.service';
 import { NodeService } from './services/node.service';
@@ -33,6 +34,7 @@ import { ServerService } from './services/server.service';
     AgentsService,
     NodesService,
     ServicesService,
+    ActionsService,
     MongoDBService,
     MySQLService,
     NodeService,
