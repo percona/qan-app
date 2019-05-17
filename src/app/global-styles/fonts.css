@@ -1,0 +1,17 @@
+.font--medium-dark {
+  font-family: var(--main-qan-font), inherit, sans-serif;
+  font-size: 18px;
+  font-weight: 400;
+  color: var(--dark-text-color);
+}
+
+.font--qan-table {
+  font-family: var(--main-qan-font), inherit, sans-serif;
+  font-size: 18px;
+  font-weight: bold;
+  color: var(--dark-text-color);
+}
+
+.text-color--dark {
+  color: var(--dark-text-color);
+}

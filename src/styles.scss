@@ -31,6 +31,7 @@
 }
 
 body {
+  font-family: var(--main-qan-font), inherit, sans-serif;
   color: var(--main-text-color, rgb(211, 211, 211));
   background-color: var(--page-background, transparent);
 }

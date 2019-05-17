@@ -1,3 +1,4 @@
+
 .cell-inner {
   height: 100%;
 }
@@ -15,5 +16,11 @@
     height: inherit;
     border-radius: 0;
     border-right: 1px solid var(--main-border-color);
+
+    .ng-value-container {
+      .ng-value {
+        color: var(--main-qan-font);
+      }
+    }
   }
 }

@@ -103,6 +103,10 @@
         top: 8px;
         padding-bottom: 0;
         padding-left: 0;
+        font-family: var(--main-qan-font), inherit, sans-serif;
+        font-size: 16px;
+        font-weight: 400;
+        color: var(--dark-text-color);
       }
 
       .ng-input {

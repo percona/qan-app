@@ -7,7 +7,7 @@
             <ng-container
               *ngFor="let row of tableData | paginate: paginationConfig; let index = index; let last = last" #tableRows>
               <tr *ngIf="!index" class="qan-table__row qan-table__row--heading">
-                <th class="qan-table__cell qan-table__cell--fixed qan-table__cell--first-c">#</th>
+                <th class="text-color--dark qan-table__cell qan-table__cell--fixed qan-table__cell--first-c">#</th>
                 <th class="qan-table__cell qan-table__cell--fixed qan-table__cell--second-c">
                   <app-main-cell></app-main-cell>
                 </th>
@@ -28,10 +28,10 @@
                 </td>
                 <td class="qan-table__cell qan-table__cell--second-c qan-table__cell--fixed ">
                   <div class="overlay-container">
-                    <span *ngIf="!row.fingerprint" class="overlay-container__item qan-table__abstract">
+                    <span *ngIf="!row.fingerprint" [class.qan-table__abstract--bold]="!index" class="overlay-container__item qan-table__abstract">
                       {{row.dimension || 'TOTAL'}}
                     </span>
-                    <span *ngIf="row.fingerprint" class="overlay-container__item qan-table__abstract">
+                    <span *ngIf="row.fingerprint" [class.qan-table__abstract--bold]="!index" class="overlay-container__item qan-table__abstract">
                       {{index ? row.fingerprint : 'TOTAL'}}
                     </span>
                   </div>

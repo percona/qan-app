@@ -4,7 +4,7 @@ import { ElementRef } from '@angular/core';
 import * as moment from 'moment';
 import { select } from 'd3-selection';
 import { scaleLinear, scaleTime } from 'd3-scale';
-import { isoParse, utcFormat, extent, line, area, bisector } from 'd3';
+import { isoParse, extent, line, area, bisector } from 'd3';
 import { event as currentEvent, mouse } from 'd3-selection';
 
 import { HumanizePipe } from './humanize.pipe';
