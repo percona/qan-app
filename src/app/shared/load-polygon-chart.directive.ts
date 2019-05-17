@@ -95,12 +95,12 @@ export class LoadPolygonChartDirective implements OnChanges {
       .attr('d', areaBar(this.data))
       .style('fill', '#d9721f');
 
-
-    const focus = g.append('g').style('display', 'none');
-
-    focus.append('line')
-      .attr('id', 'focusLineX')
-      .attr('class', 'focusLine');
+    //
+    // const focus = g.append('g').style('display', 'none');
+    //
+    // focus.append('line')
+    //   .attr('id', 'focusLineX')
+    //   .attr('class', 'focusLine');
 
     // focus.append('circle')
     //   .attr('id', 'focusCircle')
@@ -114,6 +114,47 @@ export class LoadPolygonChartDirective implements OnChanges {
     //   .attr('y', 8);
 
     // const bisectDate = bisector((d, x) => +moment.utc(d[this.xkey]).isBefore(x)).right;
+    //
+    // const rect = g.append('rect')
+    //   .attr('class', 'overlay')
+    //   .attr('width', this.width)
+    //   .attr('height', this.height)
+    //   .on('mouseover', () => focus.style('display', null))
+    //   .on('mouseout', () => focus.style('display', 'none'));
+    //
+    // rect.on('mousemove', (p, e) => {
+    //   const coords = mouse(currentEvent.currentTarget);
+    //   const bisectDate = bisector((fullData, x) => {
+    //     // console.log('+moment.utc(fullData[this.xkey]).isBefore(x) - ', +moment.utc(fullData[this.xkey]).isBefore(x));
+    //     // console.log('+moment.utc(fullData[this.xkey]) - ', +moment.utc(fullData[this.xkey]));
+    //     // console.log('fullData[this.xkey] - ', fullData[this.xkey]);
+    //     console.log('fullData - ', fullData);
+    //     console.log('this.xkey - ', this.xkey);
+    //     console.log('x- ', x);
+    //     return fullData[this.xkey] ? +moment.utc(fullData[this.xkey]).isBefore(x) : 0
+    //   }).right;
+    //   const mouseData: any = +moment.utc(scaleX.invert(coords[0]));
+    // });
+
+    const focus = g.append('g').style('display', 'none');
+
+    focus.append('line')
+      .attr('id', 'focusLineX')
+      .attr('class', 'focusLine');
+
+    focus.append('circle')
+      .attr('id', 'focusCircle')
+      .attr('r', 1.5)
+      .attr('class', 'circle focusCircle');
+
+    focus.append('text')
+      .attr('id', 'focusText')
+      .attr('font-size', '10')
+      .attr('x', 1)
+      .attr('y', 8);
+
+    // @ts-ignore TS2345
+    const bisectDate = bisector((d, x) => +moment.utc(d[this.xkey]).isBefore(x)).right;
 
     const rect = g.append('rect')
       .attr('class', 'overlay')
@@ -124,70 +165,41 @@ export class LoadPolygonChartDirective implements OnChanges {
 
     rect.on('mousemove', (p, e) => {
       const coords = mouse(currentEvent.currentTarget);
-      const bisectDate = bisector((fullData, x) => +moment.utc(fullData[this.xkey]).isBefore(x)).right;
-      const mouseData: any = +moment.utc(scaleX(coords[0]));
-      console.log('mouseData - ', mouseData);
-      console.log('bisectDate(this.data, mouseData) - ', bisectDate(this.data, mouseData));
 
+      const mouseDate: any = moment.utc(scaleX.invert(coords[0]));
       // returns the index to the current data item
-      const i = Math.min(Math.max(bisectDate(this.data, mouseData), 0), this.data.length - 1);
-      console.log('i - ', i);
-      const d = this.data[i];
-      console.log('d - ', d);
+      const i = Math.min(Math.max(bisectDate(this.appLoadPolygonChart, mouseDate), 0), this.appLoadPolygonChart.length - 1);
+      const d = this.appLoadPolygonChart[i];
 
-      // const xCoor = scaleX(coords[0]);
-      // const yCoor = scaleY(coords[1]);
-      // console.log('x - ', xCoor);
-      // console.log('y - ', yCoor);
-
-      // focus.select('#focusLineX')
-      //   .attr('x1', xCoor)
-      //   .attr('y1', scaleY(this.findMinY()))
-      //   .attr('x2', xCoor)
-      //   .attr('y2', scaleY(this.findHighestY()));
-
-      // const mouseData: any = +moment.utc(scaleX.invert(coords[0]));
-      // console.log('mouseDate - ', mouseData);
-      // returns the index to the current data item
-      // const i = Math.min(Math.max(bisectDate(this.data, mouseData), 0), this.data.length - 1);
-      // const d = this.data[i];
-
-      // correction bisector to use data[0] on right edge of sparkline.
+      // // correction bisector to use data[0] on right edge of sparkline.
       // if (i === 1) {
-      //   const d0 = moment.utc(this.data[0][this.xkey]);
-      //   const d1 = moment.utc(this.data[1][this.xkey]);
+      //   const d0 = moment.utc(this.appLoadPolygonChart[0][this.xkey]);
+      //   const d1 = moment.utc(this.appLoadPolygonChart[1][this.xkey]);
       //   if (mouseDate.diff(d1) > 0 && d0.diff(mouseDate) < mouseDate.diff(d1)) {
-      //     d = this.data[0];
+      //     d = this.appLoadPolygonChart[0];
       //   }
       // }
 
-      // const x = scaleX(isoParse(d[this.xkey]));
-      // const y = scaleY(d[this.ykey] === undefined ? 0 : d[this.ykey]);
-      // console.log('x - ', x);
-      // console.log('y - ', y);
+      const x = scaleX(isoParse(d[this.xkey]));
+      const y = scaleY(d[this.ykey] === undefined ? 0 : d[this.ykey]);
 
-      // const xDomain = extent(this.data.map(xDom => moment.utc(xDom[this.xkey])));
-      // const yDomain = extent(this.data.map(yDom => this.ykey in yDom ? yDom[this.ykey] : 0));
+      const MIN = 0, MAX = 1;
 
-      // const MIN = 0, MAX = 1;
+      focus.select('#focusCircle')
+        .attr('cx', x)
+        .attr('cy', y);
 
-      // focus.select('#focusCircle')
-      //   .attr('cx', x)
-      //   .attr('cy', y);
-      // focus.select('#focusLineX')
-      //   .attr('x1', x).attr('y1', scaleY(this.findMinY()))
-      //   .attr('x2', x).attr('y2', scaleY(this.findHighestY()));
-      //
-      // const value = d[this.ykey] === undefined ? 0 : d[this.ykey];
-      // const load = this.humanize.transform(value, this.measurement);
-      //
-      // const dateToShow = this.dateFormat.transform(moment(d[this.xkey]).utc());
-      // console.log('value - ', value);
-      // console.log('measurement - ', this.measurement);
-      // console.log('load - ', load);
-      // console.log('dateToShow - ', dateToShow);
-      //
-      // this.dataTooltip = d['NoData'] ? `No data at ${dateToShow}` : `${load} at ${dateToShow}`;
+      focus.select('#focusLineX')
+        .attr('x1', x)
+        .attr('y1', scaleY(this.findMinY()))
+        .attr('x2', x)
+        .attr('y2', scaleY(this.findHighestY()));
+
+      const value = d[this.ykey] === undefined ? 0 : d[this.ykey];
+      const load = this.humanize.transform(value, this.measurement);
+
+      const dateToShow = this.dateFormat.transform(moment(d[this.xkey]).utc());
+      this.dataTooltip = d['NoData'] ? `No data at ${dateToShow}` : `${load} at ${dateToShow}`;
     });
   }
 }
