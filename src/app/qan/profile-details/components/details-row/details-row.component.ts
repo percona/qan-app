@@ -34,6 +34,7 @@ export class DetailsRowComponent implements OnInit {
   setDataFormat(name: string) {
     const { ratePipe = '', sumPipe = '', subSumPipe = '', perQueryStatsPipe = '' } = this.dataFormat.setDataFormat(name);
 
+    console.log(`name - ${name}, pipe - ${sumPipe}`);
     this.ratePipe = ratePipe;
     this.sumPipe = sumPipe;
     this.subSumPipe = subSumPipe;
