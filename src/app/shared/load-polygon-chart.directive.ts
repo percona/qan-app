@@ -2,11 +2,12 @@ import { Directive, ElementRef, HostBinding, Input, OnChanges } from '@angular/c
 import { HumanizePipe } from './humanize.pipe';
 import { area, curveStepAfter } from 'd3-shape';
 import * as moment from 'moment';
-import { scaleLinear, scaleTime } from 'd3-scale';
+import { scaleLinear } from 'd3-scale';
 import { event as currentEvent, mouse, select } from 'd3-selection';
 import { isoParse } from 'd3-time-format';
-import { bisector, extent } from 'd3-array';
+import { bisector } from 'd3-array';
 import { MomentFormatPipe } from './moment-format.pipe';
+import { axisBottom } from 'd3-axis';
 
 export interface DataType {
   x: any,
@@ -95,47 +96,6 @@ export class LoadPolygonChartDirective implements OnChanges {
       .attr('d', areaBar(this.data))
       .style('fill', '#d9721f');
 
-    //
-    // const focus = g.append('g').style('display', 'none');
-    //
-    // focus.append('line')
-    //   .attr('id', 'focusLineX')
-    //   .attr('class', 'focusLine');
-
-    // focus.append('circle')
-    //   .attr('id', 'focusCircle')
-    //   .attr('r', 1.5)
-    //   .attr('class', 'circle focusCircle');
-    //
-    // focus.append('text')
-    //   .attr('id', 'focusText')
-    //   .attr('font-size', '10')
-    //   .attr('x', 1)
-    //   .attr('y', 8);
-
-    // const bisectDate = bisector((d, x) => +moment.utc(d[this.xkey]).isBefore(x)).right;
-    //
-    // const rect = g.append('rect')
-    //   .attr('class', 'overlay')
-    //   .attr('width', this.width)
-    //   .attr('height', this.height)
-    //   .on('mouseover', () => focus.style('display', null))
-    //   .on('mouseout', () => focus.style('display', 'none'));
-    //
-    // rect.on('mousemove', (p, e) => {
-    //   const coords = mouse(currentEvent.currentTarget);
-    //   const bisectDate = bisector((fullData, x) => {
-    //     // console.log('+moment.utc(fullData[this.xkey]).isBefore(x) - ', +moment.utc(fullData[this.xkey]).isBefore(x));
-    //     // console.log('+moment.utc(fullData[this.xkey]) - ', +moment.utc(fullData[this.xkey]));
-    //     // console.log('fullData[this.xkey] - ', fullData[this.xkey]);
-    //     console.log('fullData - ', fullData);
-    //     console.log('this.xkey - ', this.xkey);
-    //     console.log('x- ', x);
-    //     return fullData[this.xkey] ? +moment.utc(fullData[this.xkey]).isBefore(x) : 0
-    //   }).right;
-    //   const mouseData: any = +moment.utc(scaleX.invert(coords[0]));
-    // });
-
     const focus = g.append('g').style('display', 'none');
 
     focus.append('line')
@@ -163,7 +123,7 @@ export class LoadPolygonChartDirective implements OnChanges {
       .on('mouseover', () => focus.style('display', null))
       .on('mouseout', () => focus.style('display', 'none'));
 
-    rect.on('mousemove', (p, e) => {
+    rect.on('mousemove', () => {
       const coords = mouse(currentEvent.currentTarget);
 
       const mouseDate: any = moment.utc(scaleX.invert(coords[0]));
@@ -171,19 +131,8 @@ export class LoadPolygonChartDirective implements OnChanges {
       const i = Math.min(Math.max(bisectDate(this.appLoadPolygonChart, mouseDate), 0), this.appLoadPolygonChart.length - 1);
       const d = this.appLoadPolygonChart[i];
 
-      // // correction bisector to use data[0] on right edge of sparkline.
-      // if (i === 1) {
-      //   const d0 = moment.utc(this.appLoadPolygonChart[0][this.xkey]);
-      //   const d1 = moment.utc(this.appLoadPolygonChart[1][this.xkey]);
-      //   if (mouseDate.diff(d1) > 0 && d0.diff(mouseDate) < mouseDate.diff(d1)) {
-      //     d = this.appLoadPolygonChart[0];
-      //   }
-      // }
-
       const x = scaleX(isoParse(d[this.xkey]));
       const y = scaleY(d[this.ykey] === undefined ? 0 : d[this.ykey]);
-
-      const MIN = 0, MAX = 1;
 
       focus.select('#focusCircle')
         .attr('cx', x)
@@ -201,5 +150,14 @@ export class LoadPolygonChartDirective implements OnChanges {
       const dateToShow = this.dateFormat.transform(moment(d[this.xkey]).utc());
       this.dataTooltip = d['NoData'] ? `No data at ${dateToShow}` : `${load} at ${dateToShow}`;
     });
+
+    // Create X axis
+    const xAxis = axisBottom(scaleX);
+
+    svg.append('g')
+      .attr('class', 'x-axis')
+      .attr('transform',
+        `translate(${this.margin},${this.height - this.margin - 1})`)
+      .call(xAxis);
   }
 }
