@@ -20,6 +20,7 @@ export class ProfileDetailsComponent implements OnInit, AfterViewChecked, OnDest
   public fingerprint: string;
   public currentParams: any;
   public dimension: string;
+  public isTotal = false;
   public details: MetricModel[] = [];
   private fingerprint$: Subscription;
   private group_by$: Subscription;
@@ -48,6 +49,7 @@ export class ProfileDetailsComponent implements OnInit, AfterViewChecked, OnDest
       }),
     ).subscribe(response => {
       this.details = response;
+      this.isTotal = !this.currentParams.filter_by;
     });
 
     this.fingerprint$ = this.qanProfileService.getProfileInfo.fingerprint

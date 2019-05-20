@@ -20,7 +20,7 @@
         </section>
       </ng-template>
     </ngb-tab>
-    <ngb-tab title="Examples">
+    <ngb-tab *ngIf="!isTotal" title="Examples">
       <ng-template ngbTabContent>
         <app-examples-viewer></app-examples-viewer>
       </ng-template>
