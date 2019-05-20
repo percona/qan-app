@@ -63,7 +63,12 @@ export class FilterMenuService {
 
   addSelectedToResponse(selected) {
     const currentUrlParams = this.qanProfileService.getProfileParams.getValue();
+    const detailsUrlParams = this.qanProfileService.getCurrentDetails;
     currentUrlParams.labels = this.prepareLabels(selected);
     this.qanProfileService.updateProfileParams(currentUrlParams);
+    if (detailsUrlParams.hasOwnProperty('filter_by')) {
+      detailsUrlParams.labels = this.prepareLabels(selected);
+      this.qanProfileService.updateObjectDetails(detailsUrlParams);
+    }
   }
 }

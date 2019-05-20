@@ -135,6 +135,7 @@ export class ProfileTableComponent implements OnInit, OnDestroy, AfterViewInit {
     this.qanProfileService.updateObjectDetails({
       filter_by: filter_by,
       group_by: this.currentParams.group_by,
+      labels: this.currentParams.labels,
       period_start_from: this.currentParams.period_start_from,
       period_start_to: this.currentParams.period_start_to
     });
