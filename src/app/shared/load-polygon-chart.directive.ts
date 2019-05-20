@@ -148,7 +148,7 @@ export class LoadPolygonChartDirective implements OnChanges {
       const load = this.humanize.transform(value, this.measurement);
 
       const dateToShow = this.dateFormat.transform(moment(d[this.xkey]).utc());
-      this.dataTooltip = d['NoData'] ? `No data at ${dateToShow}` : `${load} at ${dateToShow}`;
+      this.dataTooltip = !value ? `No data at ${dateToShow}` : `${load} at ${dateToShow}`;
     });
 
     // Create X axis
