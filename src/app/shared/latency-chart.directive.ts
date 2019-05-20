@@ -46,7 +46,7 @@ export class LatencyChartDirective {
     const minStr = `⌜ Min: ${humanize.transform(min, this.measurement)}`;
     const maxStr = `⌟ Max: ${humanize.transform(max, this.measurement)}`;
     const avgStr = `◦ Avg: ${humanize.transform(avg, this.measurement)}`;
-    const p99Str = `${p99 ? `• 95%: ${humanize.transform(p99, this.measurement)}` : ''}`;
+    const p99Str = `${p99 ? `• 99%: ${humanize.transform(p99, this.measurement)}` : ''}`;
 
     this.dataTooltip = `${minStr}\n${maxStr}\n${avgStr}\n${p99Str}`.trim();
 
