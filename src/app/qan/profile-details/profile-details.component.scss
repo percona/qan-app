@@ -26,3 +26,13 @@
 .example-output {
   color: inherit;
 }
+
+.labels-wrapper {
+  --labels-height: auto;
+
+  height: var(--labels-height);
+}
+
+.labels-wrapper app-details-labels::ng-deep .aside {
+  min-height: auto !important;
+}
