@@ -85,8 +85,6 @@ export class LoadPolygonChartDirective implements OnChanges {
         y: scaleY(item[this.ykey] || 0) + this.margin
       }));
 
-    console.log('this.appLoadPolygonChart - ', this.appLoadPolygonChart);
-
     const areaBar = area<DataType>().curve(curveStepAfter)
       .x(d => d.x)
       .y0(this.height - this.margin)
@@ -96,14 +94,16 @@ export class LoadPolygonChartDirective implements OnChanges {
     const focusG = svg.append('g')
       .style('display', 'none');
 
+    g.on('mouseover', () => focusG.style('display', null));
+    // .on('mouseout', () => focusG.style('display', 'none'));
+
     g.append('path')
       .attr('d', areaBar(this.data))
-      .style('fill', '#d9721f')
-      .on('mouseover', () => focusG.style('display', null))
-      .on('mouseout', () => focusG.style('display', 'none'));
+      .style('fill', '#d9721f');
 
     const focusBar = focusG
       .append('path')
+      .attr('class', 'active-rect')
       .style('fill', 'white');
 
     focusBar.append('text')
@@ -128,26 +128,23 @@ export class LoadPolygonChartDirective implements OnChanges {
         this.appLoadPolygonChart.length - 1
       );
       const hoveredPoint = this.appLoadPolygonChart[indexOfStartPoint];
-      const hoveredRange = this.appLoadPolygonChart.filter(item => hoveredPoint[this.xkey] === item[this.xkey]);
-      const nextPointFromHover = [...this.appLoadPolygonChart].slice(0, indexOfStartPoint).reverse();
-      const endPoint = nextPointFromHover.find((item) => item[this.xkey] !== hoveredPoint[this.xkey]);
-      const startMaxPoint = hoveredRange.reduce(
-        (prev, current) => +moment.utc(prev[this.xkey]) > +moment.utc(current[this.xkey]) ? prev : current);
+      const endPoint = this.appLoadPolygonChart[indexOfStartPoint - 1];
 
-      const focusPointsRange = [startMaxPoint, endPoint];
+      const focusPointsRange = [hoveredPoint, endPoint];
 
       activeArea = focusPointsRange.map(item => new Object(
         {
-          x: scaleX(moment.utc(item[this.xkey])),
-          y: scaleY(item[this.ykey] || 0) + this.margin
+          x: scaleX(moment.utc(item[this.xkey])) || 0,
+          y: scaleY(endPoint[this.ykey] || 0) + this.margin
         }));
 
       focusBar.attr('d', areaBar(activeArea));
 
-      console.log('focusPointsRange - ', focusPointsRange);
-      console.log('activeArea - ', activeArea);
+      console.log('this.appLoadPolygonChart - ', this.appLoadPolygonChart);
+      console.log('indexOfStartPoint - ', indexOfStartPoint);
       console.log('hoveredPoint - ', hoveredPoint);
-      console.log('hoveredRange - ', hoveredRange);
+      console.log('endPoint - ', endPoint);
+      console.log('activeArea - ', activeArea);
 
 
 

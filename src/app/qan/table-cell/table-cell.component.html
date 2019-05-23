@@ -40,7 +40,7 @@
     </div>
 
     <div *ngIf="metricData?.stats?.sum && isDefaultColumn && !isLatency">
-      {{percentFromNumber(totalSum, metricData.stats.sum) | humanize : 'percent'}}
+      {{+percentFromNumber(totalSum, metricData.stats.sum) | humanize : 'percent'}}
     </div>
 
     <div *ngIf="isStats" class="app-tooltip"

@@ -68,7 +68,7 @@ export class TableCellComponent implements OnInit {
   setKeyForDefaultSparkline(name: string): string {
     switch (name) {
       case 'load':
-        return 'm_query_load';
+        return 'm_query_time_sum_per_sec';
       case 'count':
         return 'num_queries_sum';
       case 'latency':
