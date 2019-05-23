@@ -81,7 +81,7 @@ class AgentsService extends __BaseService {
    * @param body undefined
    * @return A successful response.
    */
-  AddMongoDBExporterResponse(body: { custom_labels?: { [key: string]: string }, password?: string, pmm_agent_id?: string, service_id?: string, username?: string }): __Observable<__StrictHttpResponse<{ mongodb_exporter?: { agent_id?: string, custom_labels?: { [key: string]: string }, disabled?: boolean, listen_port?: number, password?: string, pmm_agent_id?: string, service_id?: string, status?: 'AGENT_STATUS_INVALID' | 'STARTING' | 'RUNNING' | 'WAITING' | 'STOPPING' | 'DONE', username?: string } }>> {
+  AddMongoDBExporterResponse(body: { custom_labels?: { [key: string]: string }, password?: string, pmm_agent_id?: string, service_id?: string, skip_connection_check?: boolean, username?: string }): __Observable<__StrictHttpResponse<{ mongodb_exporter?: { agent_id?: string, custom_labels?: { [key: string]: string }, disabled?: boolean, listen_port?: number, password?: string, pmm_agent_id?: string, service_id?: string, status?: 'AGENT_STATUS_INVALID' | 'STARTING' | 'RUNNING' | 'WAITING' | 'STOPPING' | 'DONE', username?: string } }>> {
     let __params = this.newParams();
     let __headers = new HttpHeaders();
     let __body: any = null;
@@ -107,7 +107,7 @@ class AgentsService extends __BaseService {
    * @param body undefined
    * @return A successful response.
    */
-  AddMongoDBExporter(body: { custom_labels?: { [key: string]: string }, password?: string, pmm_agent_id?: string, service_id?: string, username?: string }): __Observable<{ mongodb_exporter?: { agent_id?: string, custom_labels?: { [key: string]: string }, disabled?: boolean, listen_port?: number, password?: string, pmm_agent_id?: string, service_id?: string, status?: 'AGENT_STATUS_INVALID' | 'STARTING' | 'RUNNING' | 'WAITING' | 'STOPPING' | 'DONE', username?: string } }> {
+  AddMongoDBExporter(body: { custom_labels?: { [key: string]: string }, password?: string, pmm_agent_id?: string, service_id?: string, skip_connection_check?: boolean, username?: string }): __Observable<{ mongodb_exporter?: { agent_id?: string, custom_labels?: { [key: string]: string }, disabled?: boolean, listen_port?: number, password?: string, pmm_agent_id?: string, service_id?: string, status?: 'AGENT_STATUS_INVALID' | 'STARTING' | 'RUNNING' | 'WAITING' | 'STOPPING' | 'DONE', username?: string } }> {
     return this.AddMongoDBExporterResponse(body).pipe(
       __map(_r => _r.body as { mongodb_exporter?: { agent_id?: string, custom_labels?: { [key: string]: string }, disabled?: boolean, listen_port?: number, password?: string, pmm_agent_id?: string, service_id?: string, status?: 'AGENT_STATUS_INVALID' | 'STARTING' | 'RUNNING' | 'WAITING' | 'STOPPING' | 'DONE', username?: string } })
     );
@@ -117,7 +117,7 @@ class AgentsService extends __BaseService {
    * @param body undefined
    * @return A successful response.
    */
-  AddMySQLdExporterResponse(body: { custom_labels?: { [key: string]: string }, password?: string, pmm_agent_id?: string, service_id?: string, username?: string }): __Observable<__StrictHttpResponse<{ mysqld_exporter?: { agent_id?: string, custom_labels?: { [key: string]: string }, disabled?: boolean, listen_port?: number, password?: string, pmm_agent_id?: string, service_id?: string, status?: 'AGENT_STATUS_INVALID' | 'STARTING' | 'RUNNING' | 'WAITING' | 'STOPPING' | 'DONE', username?: string } }>> {
+  AddMySQLdExporterResponse(body: { custom_labels?: { [key: string]: string }, password?: string, pmm_agent_id?: string, service_id?: string, skip_connection_check?: boolean, username?: string }): __Observable<__StrictHttpResponse<{ mysqld_exporter?: { agent_id?: string, custom_labels?: { [key: string]: string }, disabled?: boolean, listen_port?: number, password?: string, pmm_agent_id?: string, service_id?: string, status?: 'AGENT_STATUS_INVALID' | 'STARTING' | 'RUNNING' | 'WAITING' | 'STOPPING' | 'DONE', username?: string } }>> {
     let __params = this.newParams();
     let __headers = new HttpHeaders();
     let __body: any = null;
@@ -143,7 +143,7 @@ class AgentsService extends __BaseService {
    * @param body undefined
    * @return A successful response.
    */
-  AddMySQLdExporter(body: { custom_labels?: { [key: string]: string }, password?: string, pmm_agent_id?: string, service_id?: string, username?: string }): __Observable<{ mysqld_exporter?: { agent_id?: string, custom_labels?: { [key: string]: string }, disabled?: boolean, listen_port?: number, password?: string, pmm_agent_id?: string, service_id?: string, status?: 'AGENT_STATUS_INVALID' | 'STARTING' | 'RUNNING' | 'WAITING' | 'STOPPING' | 'DONE', username?: string } }> {
+  AddMySQLdExporter(body: { custom_labels?: { [key: string]: string }, password?: string, pmm_agent_id?: string, service_id?: string, skip_connection_check?: boolean, username?: string }): __Observable<{ mysqld_exporter?: { agent_id?: string, custom_labels?: { [key: string]: string }, disabled?: boolean, listen_port?: number, password?: string, pmm_agent_id?: string, service_id?: string, status?: 'AGENT_STATUS_INVALID' | 'STARTING' | 'RUNNING' | 'WAITING' | 'STOPPING' | 'DONE', username?: string } }> {
     return this.AddMySQLdExporterResponse(body).pipe(
       __map(_r => _r.body as { mysqld_exporter?: { agent_id?: string, custom_labels?: { [key: string]: string }, disabled?: boolean, listen_port?: number, password?: string, pmm_agent_id?: string, service_id?: string, status?: 'AGENT_STATUS_INVALID' | 'STARTING' | 'RUNNING' | 'WAITING' | 'STOPPING' | 'DONE', username?: string } })
     );
@@ -225,7 +225,7 @@ class AgentsService extends __BaseService {
    * @param body undefined
    * @return A successful response.
    */
-  AddPostgresExporterResponse(body: { custom_labels?: { [key: string]: string }, password?: string, pmm_agent_id?: string, service_id?: string, username?: string }): __Observable<__StrictHttpResponse<{ postgres_exporter?: { agent_id?: string, custom_labels?: { [key: string]: string }, disabled?: boolean, listen_port?: number, password?: string, pmm_agent_id?: string, service_id?: string, status?: 'AGENT_STATUS_INVALID' | 'STARTING' | 'RUNNING' | 'WAITING' | 'STOPPING' | 'DONE', username?: string } }>> {
+  AddPostgresExporterResponse(body: { custom_labels?: { [key: string]: string }, password?: string, pmm_agent_id?: string, service_id?: string, skip_connection_check?: boolean, username?: string }): __Observable<__StrictHttpResponse<{ postgres_exporter?: { agent_id?: string, custom_labels?: { [key: string]: string }, disabled?: boolean, listen_port?: number, password?: string, pmm_agent_id?: string, service_id?: string, status?: 'AGENT_STATUS_INVALID' | 'STARTING' | 'RUNNING' | 'WAITING' | 'STOPPING' | 'DONE', username?: string } }>> {
     let __params = this.newParams();
     let __headers = new HttpHeaders();
     let __body: any = null;
@@ -251,7 +251,7 @@ class AgentsService extends __BaseService {
    * @param body undefined
    * @return A successful response.
    */
-  AddPostgresExporter(body: { custom_labels?: { [key: string]: string }, password?: string, pmm_agent_id?: string, service_id?: string, username?: string }): __Observable<{ postgres_exporter?: { agent_id?: string, custom_labels?: { [key: string]: string }, disabled?: boolean, listen_port?: number, password?: string, pmm_agent_id?: string, service_id?: string, status?: 'AGENT_STATUS_INVALID' | 'STARTING' | 'RUNNING' | 'WAITING' | 'STOPPING' | 'DONE', username?: string } }> {
+  AddPostgresExporter(body: { custom_labels?: { [key: string]: string }, password?: string, pmm_agent_id?: string, service_id?: string, skip_connection_check?: boolean, username?: string }): __Observable<{ postgres_exporter?: { agent_id?: string, custom_labels?: { [key: string]: string }, disabled?: boolean, listen_port?: number, password?: string, pmm_agent_id?: string, service_id?: string, status?: 'AGENT_STATUS_INVALID' | 'STARTING' | 'RUNNING' | 'WAITING' | 'STOPPING' | 'DONE', username?: string } }> {
     return this.AddPostgresExporterResponse(body).pipe(
       __map(_r => _r.body as { postgres_exporter?: { agent_id?: string, custom_labels?: { [key: string]: string }, disabled?: boolean, listen_port?: number, password?: string, pmm_agent_id?: string, service_id?: string, status?: 'AGENT_STATUS_INVALID' | 'STARTING' | 'RUNNING' | 'WAITING' | 'STOPPING' | 'DONE', username?: string } })
     );
@@ -261,7 +261,7 @@ class AgentsService extends __BaseService {
    * @param body undefined
    * @return A successful response.
    */
-  AddQANMongoDBProfilerAgentResponse(body: { custom_labels?: { [key: string]: string }, password?: string, pmm_agent_id?: string, service_id?: string, username?: string }): __Observable<__StrictHttpResponse<{ qan_mongodb_profiler_agent?: { agent_id?: string, custom_labels?: { [key: string]: string }, disabled?: boolean, password?: string, pmm_agent_id?: string, service_id?: string, status?: 'AGENT_STATUS_INVALID' | 'STARTING' | 'RUNNING' | 'WAITING' | 'STOPPING' | 'DONE', username?: string } }>> {
+  AddQANMongoDBProfilerAgentResponse(body: { custom_labels?: { [key: string]: string }, password?: string, pmm_agent_id?: string, service_id?: string, skip_connection_check?: boolean, username?: string }): __Observable<__StrictHttpResponse<{ qan_mongodb_profiler_agent?: { agent_id?: string, custom_labels?: { [key: string]: string }, disabled?: boolean, password?: string, pmm_agent_id?: string, service_id?: string, status?: 'AGENT_STATUS_INVALID' | 'STARTING' | 'RUNNING' | 'WAITING' | 'STOPPING' | 'DONE', username?: string } }>> {
     let __params = this.newParams();
     let __headers = new HttpHeaders();
     let __body: any = null;
@@ -287,7 +287,7 @@ class AgentsService extends __BaseService {
    * @param body undefined
    * @return A successful response.
    */
-  AddQANMongoDBProfilerAgent(body: { custom_labels?: { [key: string]: string }, password?: string, pmm_agent_id?: string, service_id?: string, username?: string }): __Observable<{ qan_mongodb_profiler_agent?: { agent_id?: string, custom_labels?: { [key: string]: string }, disabled?: boolean, password?: string, pmm_agent_id?: string, service_id?: string, status?: 'AGENT_STATUS_INVALID' | 'STARTING' | 'RUNNING' | 'WAITING' | 'STOPPING' | 'DONE', username?: string } }> {
+  AddQANMongoDBProfilerAgent(body: { custom_labels?: { [key: string]: string }, password?: string, pmm_agent_id?: string, service_id?: string, skip_connection_check?: boolean, username?: string }): __Observable<{ qan_mongodb_profiler_agent?: { agent_id?: string, custom_labels?: { [key: string]: string }, disabled?: boolean, password?: string, pmm_agent_id?: string, service_id?: string, status?: 'AGENT_STATUS_INVALID' | 'STARTING' | 'RUNNING' | 'WAITING' | 'STOPPING' | 'DONE', username?: string } }> {
     return this.AddQANMongoDBProfilerAgentResponse(body).pipe(
       __map(_r => _r.body as { qan_mongodb_profiler_agent?: { agent_id?: string, custom_labels?: { [key: string]: string }, disabled?: boolean, password?: string, pmm_agent_id?: string, service_id?: string, status?: 'AGENT_STATUS_INVALID' | 'STARTING' | 'RUNNING' | 'WAITING' | 'STOPPING' | 'DONE', username?: string } })
     );
@@ -297,7 +297,7 @@ class AgentsService extends __BaseService {
    * @param body undefined
    * @return A successful response.
    */
-  AddQANMySQLPerfSchemaAgentResponse(body: { custom_labels?: { [key: string]: string }, password?: string, pmm_agent_id?: string, service_id?: string, username?: string }): __Observable<__StrictHttpResponse<{ qan_mysql_perfschema_agent?: { agent_id?: string, custom_labels?: { [key: string]: string }, disabled?: boolean, password?: string, pmm_agent_id?: string, service_id?: string, status?: 'AGENT_STATUS_INVALID' | 'STARTING' | 'RUNNING' | 'WAITING' | 'STOPPING' | 'DONE', username?: string } }>> {
+  AddQANMySQLPerfSchemaAgentResponse(body: { custom_labels?: { [key: string]: string }, password?: string, pmm_agent_id?: string, service_id?: string, skip_connection_check?: boolean, username?: string }): __Observable<__StrictHttpResponse<{ qan_mysql_perfschema_agent?: { agent_id?: string, custom_labels?: { [key: string]: string }, disabled?: boolean, password?: string, pmm_agent_id?: string, service_id?: string, status?: 'AGENT_STATUS_INVALID' | 'STARTING' | 'RUNNING' | 'WAITING' | 'STOPPING' | 'DONE', username?: string } }>> {
     let __params = this.newParams();
     let __headers = new HttpHeaders();
     let __body: any = null;
@@ -323,7 +323,7 @@ class AgentsService extends __BaseService {
    * @param body undefined
    * @return A successful response.
    */
-  AddQANMySQLPerfSchemaAgent(body: { custom_labels?: { [key: string]: string }, password?: string, pmm_agent_id?: string, service_id?: string, username?: string }): __Observable<{ qan_mysql_perfschema_agent?: { agent_id?: string, custom_labels?: { [key: string]: string }, disabled?: boolean, password?: string, pmm_agent_id?: string, service_id?: string, status?: 'AGENT_STATUS_INVALID' | 'STARTING' | 'RUNNING' | 'WAITING' | 'STOPPING' | 'DONE', username?: string } }> {
+  AddQANMySQLPerfSchemaAgent(body: { custom_labels?: { [key: string]: string }, password?: string, pmm_agent_id?: string, service_id?: string, skip_connection_check?: boolean, username?: string }): __Observable<{ qan_mysql_perfschema_agent?: { agent_id?: string, custom_labels?: { [key: string]: string }, disabled?: boolean, password?: string, pmm_agent_id?: string, service_id?: string, status?: 'AGENT_STATUS_INVALID' | 'STARTING' | 'RUNNING' | 'WAITING' | 'STOPPING' | 'DONE', username?: string } }> {
     return this.AddQANMySQLPerfSchemaAgentResponse(body).pipe(
       __map(_r => _r.body as { qan_mysql_perfschema_agent?: { agent_id?: string, custom_labels?: { [key: string]: string }, disabled?: boolean, password?: string, pmm_agent_id?: string, service_id?: string, status?: 'AGENT_STATUS_INVALID' | 'STARTING' | 'RUNNING' | 'WAITING' | 'STOPPING' | 'DONE', username?: string } })
     );
@@ -333,7 +333,7 @@ class AgentsService extends __BaseService {
    * @param body undefined
    * @return A successful response.
    */
-  AddQANMySQLSlowlogAgentResponse(body: { custom_labels?: { [key: string]: string }, password?: string, pmm_agent_id?: string, service_id?: string, username?: string }): __Observable<__StrictHttpResponse<{ qan_mysql_slowlog_agent?: { agent_id?: string, custom_labels?: { [key: string]: string }, disabled?: boolean, password?: string, pmm_agent_id?: string, service_id?: string, status?: 'AGENT_STATUS_INVALID' | 'STARTING' | 'RUNNING' | 'WAITING' | 'STOPPING' | 'DONE', username?: string } }>> {
+  AddQANMySQLSlowlogAgentResponse(body: { custom_labels?: { [key: string]: string }, password?: string, pmm_agent_id?: string, service_id?: string, skip_connection_check?: boolean, username?: string }): __Observable<__StrictHttpResponse<{ qan_mysql_slowlog_agent?: { agent_id?: string, custom_labels?: { [key: string]: string }, disabled?: boolean, password?: string, pmm_agent_id?: string, service_id?: string, status?: 'AGENT_STATUS_INVALID' | 'STARTING' | 'RUNNING' | 'WAITING' | 'STOPPING' | 'DONE', username?: string } }>> {
     let __params = this.newParams();
     let __headers = new HttpHeaders();
     let __body: any = null;
@@ -359,7 +359,7 @@ class AgentsService extends __BaseService {
    * @param body undefined
    * @return A successful response.
    */
-  AddQANMySQLSlowlogAgent(body: { custom_labels?: { [key: string]: string }, password?: string, pmm_agent_id?: string, service_id?: string, username?: string }): __Observable<{ qan_mysql_slowlog_agent?: { agent_id?: string, custom_labels?: { [key: string]: string }, disabled?: boolean, password?: string, pmm_agent_id?: string, service_id?: string, status?: 'AGENT_STATUS_INVALID' | 'STARTING' | 'RUNNING' | 'WAITING' | 'STOPPING' | 'DONE', username?: string } }> {
+  AddQANMySQLSlowlogAgent(body: { custom_labels?: { [key: string]: string }, password?: string, pmm_agent_id?: string, service_id?: string, skip_connection_check?: boolean, username?: string }): __Observable<{ qan_mysql_slowlog_agent?: { agent_id?: string, custom_labels?: { [key: string]: string }, disabled?: boolean, password?: string, pmm_agent_id?: string, service_id?: string, status?: 'AGENT_STATUS_INVALID' | 'STARTING' | 'RUNNING' | 'WAITING' | 'STOPPING' | 'DONE', username?: string } }> {
     return this.AddQANMySQLSlowlogAgentResponse(body).pipe(
       __map(_r => _r.body as { qan_mysql_slowlog_agent?: { agent_id?: string, custom_labels?: { [key: string]: string }, disabled?: boolean, password?: string, pmm_agent_id?: string, service_id?: string, status?: 'AGENT_STATUS_INVALID' | 'STARTING' | 'RUNNING' | 'WAITING' | 'STOPPING' | 'DONE', username?: string } })
     );

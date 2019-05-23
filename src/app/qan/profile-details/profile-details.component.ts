@@ -70,7 +70,7 @@ export class ProfileDetailsComponent implements OnInit, OnDestroy {
   }
 
   createSparklineModel(sparklines, name) {
-    return sparklines.map(item => new DetailsSparklineModel(item.values, name))
+    return sparklines.map(item => new DetailsSparklineModel(item, name))
   }
 
   ngOnDestroy() {
