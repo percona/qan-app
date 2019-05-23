@@ -13,14 +13,15 @@
           <ng-container *ngFor="let filter of filterGroup.items; let index = index">
             <label class="checkbox-container">
               <!--        <label *ngIf="index <= limits[filterGroup.filterGroup]" class="checkbox-container">-->
-              <input (change)="setConfigs({filterName: filter.value, groupName: filterGroup.filterGroup, state: filter.state, count: filter.count})"
-                     [(ngModel)]="filter.state"
-                     type="checkbox">
+              <input
+                (change)="setConfigs({filterName: filter.value, groupName: filterGroup.filterGroup, state: filter.state, count: filter.count})"
+                [(ngModel)]="filter.state"
+                type="checkbox">
               <span class="checkbox-container__checkmark"></span>
               <span class="checkbox-container__label-text">{{filter.value}}</span>
             </label>
             <span class="filters__count">
-              {{filter.main_metric_percent | humanize: 'percent'}}
+              {{filter.main_metric_percent ? (filter.main_metric_percent | humanize: 'percent') : ''}}
             </span>
           </ng-container>
         </div>
