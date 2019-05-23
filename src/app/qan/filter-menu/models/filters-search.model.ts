@@ -4,12 +4,12 @@ export class FiltersSearchModel {
   filterName: string;
   groupName: string;
   state: boolean;
-  count: string;
+  main_metric_percent: string;
 
   constructor(group: string, item: FilterModel) {
     this.groupName = group;
     this.filterName = item.value;
     this.state = item.state;
-    this.count = item.count || '';
+    this.main_metric_percent = item.main_metric_percent || '';
   }
 }

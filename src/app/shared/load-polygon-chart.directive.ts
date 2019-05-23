@@ -91,11 +91,7 @@ export class LoadPolygonChartDirective implements OnChanges {
       .y1(d => d.y);
 
     const g = svg.append('g');
-    const focusG = svg.append('g')
-      .style('display', 'none');
-
-    g.on('mouseover', () => focusG.style('display', null));
-    // .on('mouseout', () => focusG.style('display', 'none'));
+    const focusG = svg.append('g').style('display', 'none');
 
     g.append('path')
       .attr('d', areaBar(this.data))
@@ -104,7 +100,8 @@ export class LoadPolygonChartDirective implements OnChanges {
     const focusBar = focusG
       .append('path')
       .attr('class', 'active-rect')
-      .style('fill', 'white');
+      .style('fill', 'white')
+      .on('mouseout', () => focusG.style('display', 'none'));
 
     focusBar.append('text')
       .attr('id', 'focusText')
@@ -115,10 +112,9 @@ export class LoadPolygonChartDirective implements OnChanges {
     // @ts-ignore TS2345
     const bisectDate = bisector((d, x) => +moment.utc(d[this.xkey]).isBefore(x)).right;
 
-    g.on('mousemove', () => {
+    svg.on('mousemove', () => {
       const coords = mouse(currentEvent.currentTarget);
       const mouseDate: any = moment.utc(scaleX.invert(coords[0]));
-      let activeArea = [];
 
       const indexOfStartPoint = Math.min(
         Math.max(
@@ -129,34 +125,21 @@ export class LoadPolygonChartDirective implements OnChanges {
       );
       const hoveredPoint = this.appLoadPolygonChart[indexOfStartPoint];
       const endPoint = this.appLoadPolygonChart[indexOfStartPoint - 1];
-
       const focusPointsRange = [hoveredPoint, endPoint];
-
-      activeArea = focusPointsRange.map(item => new Object(
+      const activeArea: any = focusPointsRange.map(item => new Object(
         {
           x: scaleX(moment.utc(item[this.xkey])) || 0,
           y: scaleY(endPoint[this.ykey] || 0) + this.margin
         }));
+      const value = endPoint[this.ykey] === undefined ? 0 : endPoint[this.ykey];
+      const load = this.humanize.transform(value, this.measurement);
+      const dateToShow = this.dateFormat.transform(moment(endPoint[this.xkey]).utc());
 
       focusBar.attr('d', areaBar(activeArea));
-
-      console.log('this.appLoadPolygonChart - ', this.appLoadPolygonChart);
-      console.log('indexOfStartPoint - ', indexOfStartPoint);
-      console.log('hoveredPoint - ', hoveredPoint);
-      console.log('endPoint - ', endPoint);
-      console.log('activeArea - ', activeArea);
-
-
-
-      // focusBar.attr('d', areaBar(activeArea));
-      // console.log('***********');
-
-      // const value = hoveredPoint[this.ykey] === undefined ? 0 : hoveredPoint[this.ykey];
-      // const load = this.humanize.transform(value, this.measurement);
-      // const dateToShow = this.dateFormat.transform(moment(hoveredPoint[this.xkey]).utc());
-      //
-      // this.dataTooltip = !value ? `No data at ${dateToShow}` : `${load} at ${dateToShow}`;
+      this.dataTooltip = !value ? `No data at ${dateToShow}` : `${load} at ${dateToShow}`;
     });
+    svg.on('mouseover', () => focusG.style('display', null));
+    svg.on('mouseout', () => focusG.style('display', 'none'));
 
     // Create X axis
     const xAxis = axisBottom(scaleX);

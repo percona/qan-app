@@ -8,7 +8,7 @@ export class DetailsSparklineModel {
     this.pointOrder = data['point'] || 0;
     this.time_frame = data.time_frame;
     this.timestamp = data.timestamp;
-    this.pointValue = data[this.makeCorrectName(name)];
+    this.pointValue = data[this.makeCorrectName(name)] || 0;
   }
 
   makeCorrectName(name) {
