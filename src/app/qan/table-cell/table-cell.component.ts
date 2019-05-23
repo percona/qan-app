@@ -39,9 +39,9 @@ export class TableCellComponent implements OnInit {
     this.isCount = this.metricData.metricName === 'count';
     this.isLatency = this.metricData.metricName === 'latency';
     this.isSparkline = this.sparklineData.some(item => item[this.setKeyForSparkline(this.metricData.metricName)]);
-    this.setCurrentSparkline(this.metricData.metricName);
-
-    console.log('sparklineData - ', this.sparklineData);
+    if (this.isSparkline) {
+      this.setCurrentSparkline(this.metricData.metricName);
+    }
   }
 
   /**
