@@ -38,7 +38,10 @@ export class TableCellComponent implements OnInit {
     this.isDefaultColumn = this.defaultColumns.includes(this.metricData.metricName);
     this.isCount = this.metricData.metricName === 'count';
     this.isLatency = this.metricData.metricName === 'latency';
-    this.setCurrentSparkline(this.metricData.metricName);
+    this.isSparkline = this.sparklineData.some(item => item[this.setKeyForSparkline(this.metricData.metricName)]);
+    if (this.isSparkline) {
+      this.setCurrentSparkline(this.metricData.metricName);
+    }
   }
 
   /**
@@ -61,7 +64,7 @@ export class TableCellComponent implements OnInit {
     if (this.isDefaultColumn) {
       return this.setKeyForDefaultSparkline(name);
     } else {
-      return `m_${name}_sum`
+      return `m_${name}_sum_per_sec`
     }
   }
 
