@@ -1,5 +1,4 @@
 import { MetricModel } from './metric.model';
-import * as moment from 'moment';
 
 export class TableDataModel {
   metrics: Array<MetricModel>;
@@ -32,13 +31,6 @@ export class TableDataModel {
     // };
     this.metrics = Object.entries(row.metrics).map(item => new MetricModel(item));
     this.sparkline = row.sparkline || [];
-    // console.log('row.sparkline - ', row.sparkline);
-    // console.log('this.sparkline model - ', this.sparkline);
-    // if (this.sparkline.length) {
-    //   this.sparkline.forEach(item =>
-    //     item['timestamp'] = moment.unix(item['timestamp']).format('YYYY-MM-DDTHH:mm:ssZ')
-    //   );
-    // }
     this.dimension = row.dimension || '';
     this.fingerprint = row.fingerprint || '';
     this.rank = row.rank || 0;

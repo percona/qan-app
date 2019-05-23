@@ -170,13 +170,11 @@ export class ProfileTableComponent implements OnInit, OnDestroy, AfterViewInit {
     this.paginationConfig.itemsPerPage = data['limit'];
     this.currentPage = this.paginationConfig.currentPage = data['offset'] ? data['offset'] / data['limit'] + 1 : 1;
     const tableRows = data['rows'].map(row => new TableDataModel(row));
-    console.log('tableRows gened model- ', tableRows);
 
     tableRows.forEach(row => {
       row.metrics = row.metrics.filter(metric => this.currentParams.columns.includes(metric.metricName));
       row.metrics = this.mapOrder(row.metrics, this.currentParams.columns, 'metricName');
     });
-    console.log('tableRows - ', tableRows);
     return tableRows;
   }
 

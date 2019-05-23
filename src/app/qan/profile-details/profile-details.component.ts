@@ -64,7 +64,7 @@ export class ProfileDetailsComponent implements OnInit, AfterViewChecked, OnDest
   }
 
   createSparklineModel(sparklines, name) {
-    return sparklines.map(item => new DetailsSparklineModel(item.values, name))
+    return sparklines.map(item => new DetailsSparklineModel(item, name))
   }
 
   ngOnDestroy() {
