@@ -136,7 +136,7 @@ export class LoadPolygonChartDirective implements OnChanges {
       const dateToShow = this.dateFormat.transform(moment(endPoint[this.xkey]).utc());
 
       focusBar.attr('d', areaBar(activeArea));
-      this.dataTooltip = !value ? `No data at ${dateToShow}` : `${load} at ${dateToShow}`;
+      this.dataTooltip = !value ? `NA at ${dateToShow}` : `${load} at ${dateToShow}`;
     });
     svg.on('mouseover', () => focusG.style('display', null));
     svg.on('mouseout', () => focusG.style('display', 'none'));
