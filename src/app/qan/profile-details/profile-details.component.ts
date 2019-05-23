@@ -1,5 +1,5 @@
 import { ActivatedRoute, Router } from '@angular/router';
-import { AfterViewChecked, Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, ElementRef, OnDestroy, OnInit, QueryList, ViewChild, ViewChildren } from '@angular/core';
 import { catchError, map, switchMap } from 'rxjs/operators';
 import { QanProfileService } from '../profile/qan-profile.service';
 import { ObjectDetailsService } from '../../pmm-api-services/services/object-details.service';
@@ -15,11 +15,15 @@ import { DetailsSparklineModel } from './models/details-sparkline.model';
   styleUrls: ['./profile-details.component.scss']
 })
 
-export class ProfileDetailsComponent implements OnInit, AfterViewChecked, OnDestroy {
+export class ProfileDetailsComponent implements OnInit, OnDestroy {
+  @ViewChild('detailsTable') detailsTable: ElementRef;
+  @ViewChildren('detailsTableRows') tableRows: QueryList<any>;
+  @ViewChild('labels') labelsFilters: ElementRef;
   protected dbName: string;
   public fingerprint: string;
   public currentParams: any;
   public dimension: string;
+  public isTotal = false;
   public details: MetricModel[] = [];
   private fingerprint$: Subscription;
   private group_by$: Subscription;
@@ -48,6 +52,11 @@ export class ProfileDetailsComponent implements OnInit, AfterViewChecked, OnDest
       }),
     ).subscribe(response => {
       this.details = response;
+      this.isTotal = !this.currentParams.filter_by;
+
+      if (this.details.length) {
+        setTimeout(() => this.setLabelsHeight(), 0);
+      }
     });
 
     this.fingerprint$ = this.qanProfileService.getProfileInfo.fingerprint
@@ -60,9 +69,6 @@ export class ProfileDetailsComponent implements OnInit, AfterViewChecked, OnDest
   ngOnInit() {
   }
 
-  ngAfterViewChecked() {
-  }
-
   createSparklineModel(sparklines, name) {
     return sparklines.map(item => new DetailsSparklineModel(item, name))
   }
@@ -71,5 +77,10 @@ export class ProfileDetailsComponent implements OnInit, AfterViewChecked, OnDest
     this.fingerprint$.unsubscribe();
     this.details$.unsubscribe();
     this.group_by$.unsubscribe();
+  }
+
+  setLabelsHeight() {
+    const tableHeight = this.detailsTable.nativeElement.offsetHeight;
+    this.labelsFilters.nativeElement.style.setProperty('--labels-height', `${tableHeight}px`);
   }
 }
