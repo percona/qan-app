@@ -9,10 +9,14 @@ import { DataFormatService } from '../services/data-format.service';
   styleUrls: ['./table-cell.component.css']
 })
 export class TableCellComponent implements OnInit {
+  public isSparkline: boolean;
   @Input() metricData: MetricModel;
   @Input() sparklineData: any;
   @Input() totalSum: any;
-  @Input() isSparkline = false;
+  @Input() set checkSparkline(state) {
+    this.isDefaultColumn = this.defaultColumns.includes(this.metricData.metricName);
+    this.isSparkline = state && this.sparklineData.some(item => item[this.setKeyForSparkline(this.metricData.metricName)]);
+  }
 
   private defaultColumns = ['load', 'count', 'latency'];
   public yKey: string;
@@ -35,10 +39,8 @@ export class TableCellComponent implements OnInit {
   ngOnInit() {
     this.isStats = Object.keys(this.metricData.stats).includes('min' && 'max');
     this.isSum = this.metricData.stats.sum >= 0;
-    this.isDefaultColumn = this.defaultColumns.includes(this.metricData.metricName);
     this.isCount = this.metricData.metricName === 'count';
     this.isLatency = this.metricData.metricName === 'latency';
-    this.isSparkline = this.sparklineData.some(item => item[this.setKeyForSparkline(this.metricData.metricName)]);
     if (this.isSparkline) {
       this.setCurrentSparkline(this.metricData.metricName);
     }
