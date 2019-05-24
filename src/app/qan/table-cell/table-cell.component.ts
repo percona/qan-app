@@ -13,6 +13,7 @@ export class TableCellComponent implements OnInit {
   @Input() metricData: MetricModel;
   @Input() sparklineData: any;
   @Input() totalSum: any;
+
   @Input() set checkSparkline(state) {
     this.isDefaultColumn = this.defaultColumns.includes(this.metricData.metricName);
     this.isSparkline = state && this.sparklineData.some(item => item[this.setKeyForSparkline(this.metricData.metricName)]);
@@ -41,16 +42,14 @@ export class TableCellComponent implements OnInit {
     this.isSum = this.metricData.stats.sum >= 0;
     this.isCount = this.metricData.metricName === 'count';
     this.isLatency = this.metricData.metricName === 'latency';
-    if (this.isSparkline) {
-      this.setCurrentSparkline(this.metricData.metricName);
-    }
+    this.setValuesTypes(this.metricData.metricName);
   }
 
   /**
    * Set sparkline type and display column for config parameters
    * @param name - checked column-type name
    */
-  setCurrentSparkline(name: string) {
+  setValuesTypes(name: string) {
     const { sumPipe = '', sparklineType = '' } = name ? this.dataFormat.setDataFormat(name) : {};
 
     this.pipeType = sumPipe;
