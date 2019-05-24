@@ -74,7 +74,7 @@ export class TableCellComponent implements OnInit {
       case 'load':
         return 'm_query_time_sum_per_sec';
       case 'count':
-        return 'num_queries_sum';
+        return 'num_queries_per_sec';
       case 'latency':
         return 'm_query_time_avg';
       default:
