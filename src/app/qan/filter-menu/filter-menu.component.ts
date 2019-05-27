@@ -40,7 +40,12 @@ export class FilterMenuComponent implements OnInit, OnChanges {
   }
 
   setConfigs(selectedFilter) {
-    this.selected = this.makeSelectedArray(selectedFilter);
+    this.selected = this.makeSelectedArray(selectedFilter)
+      .map(item => {
+        console.log('item - ', item);
+        return item
+      });
+    console.log('selected - ', this.selected);
     this.filterMenuService.updateSelected(this.selected);
   }
 
