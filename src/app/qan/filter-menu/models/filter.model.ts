@@ -5,9 +5,9 @@ export class FilterModel {
 
   constructor(item) {
     if (typeof (item) === 'object') {
-      const { value, main_metric_percent } = item;
-      this.value = value || 'n/a';
-      this.main_metric_percent = main_metric_percent || '';
+      const { value = '', main_metric_percent = '' } = item;
+      this.value = value;
+      this.main_metric_percent = main_metric_percent;
     } else {
       this.value = item
     }
