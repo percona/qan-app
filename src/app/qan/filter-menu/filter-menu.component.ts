@@ -19,6 +19,7 @@ export class FilterMenuComponent implements OnInit, OnChanges {
   public limits = {};
   public defaultLimit = 4;
   public selected: any = this.filterMenuService.getSelected.getValue();
+  public hidedFilterGroups = ['agent_id', 'agent_type', 'machine_id', 'node_id', 'service_id', 'node_type'];
 
   constructor(private filterMenuService: FilterMenuService) {
     this.filterMenuService.getSelected.pipe(
@@ -85,5 +86,9 @@ export class FilterMenuComponent implements OnInit, OnChanges {
         this.checkSelectedFilters();
       }
     }
+  }
+
+  isIncludes(filterGroup) {
+    return this.hidedFilterGroups.includes(filterGroup.filterGroup)
   }
 }
