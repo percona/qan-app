@@ -43,7 +43,9 @@ import { DetailsRowComponent } from '../qan/profile-details/components/details-r
 import { DetailsLabelsComponent } from '../qan/profile-details/components/details-labels/details-labels.component';
 import { ExamplesViewerComponent } from '../qan/profile-details/components/examples-viewer/examples-viewer.component';
 import { QueryExampleComponent } from '../qan/profile-details/components/query-example/query-example.component';
+import { ExplainComponent } from '../qan/profile-details/components/explain/explain.component';
 import { FilterMenuViewerComponent } from '../qan/filter-menu-viewer/filter-menu-viewer.component';
+import { ActionsService } from '../pmm-api-services/services/actions.service';
 
 @NgModule({
   imports: [
@@ -78,6 +80,7 @@ import { FilterMenuViewerComponent } from '../qan/filter-menu-viewer/filter-menu
     DetailsLabelsComponent,
     ExamplesViewerComponent,
     QueryExampleComponent,
+    ExplainComponent,
     FilterMenuViewerComponent,
   ],
   exports: [
@@ -99,6 +102,7 @@ import { FilterMenuViewerComponent } from '../qan/filter-menu-viewer/filter-menu
     DetailsLabelsComponent,
     ExamplesViewerComponent,
     QueryExampleComponent,
+    ExplainComponent,
     FilterMenuViewerComponent,
   ],
   providers: [
@@ -116,7 +120,8 @@ import { FilterMenuViewerComponent } from '../qan/filter-menu-viewer/filter-menu
     InventoryService,
     NodesService,
     ServicesService,
-    AgentsService
+    AgentsService,
+    ActionsService,
   ]
 })
 export class CoreModule { }

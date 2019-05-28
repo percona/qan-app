@@ -14,6 +14,7 @@ class ActionsService extends __BaseService {
   static readonly CancelActionPath = '/v0/management/Actions/Cancel';
   static readonly GetActionPath = '/v0/management/Actions/Get';
   static readonly StartMySQLExplainActionPath = '/v0/management/Actions/StartMySQLExplain';
+  static readonly StartMySQLExplainJSONActionPath = '/v0/management/Actions/StartMySQLExplainJSON';
   static readonly StartPTMySQLSummaryActionPath = '/v0/management/Actions/StartPTMySQLSummary';
   static readonly StartPTSummaryActionPath = '/v0/management/Actions/StartPTSummary';
 
@@ -100,7 +101,7 @@ class ActionsService extends __BaseService {
    * @param body undefined
    * @return A successful response.
    */
-  StartMySQLExplainActionResponse(body: { pmm_agent_id?: string, service_id?: string }): __Observable<__StrictHttpResponse<{ action_id?: string, pmm_agent_id?: string }>> {
+  StartMySQLExplainActionResponse(body: { database?: string, pmm_agent_id?: string, query?: string, service_id?: string }): __Observable<__StrictHttpResponse<{ action_id?: string, pmm_agent_id?: string }>> {
     let __params = this.newParams();
     let __headers = new HttpHeaders();
     let __body: any = null;
@@ -126,8 +127,44 @@ class ActionsService extends __BaseService {
    * @param body undefined
    * @return A successful response.
    */
-  StartMySQLExplainAction(body: { pmm_agent_id?: string, service_id?: string }): __Observable<{ action_id?: string, pmm_agent_id?: string }> {
+  StartMySQLExplainAction(body: { database?: string, pmm_agent_id?: string, query?: string, service_id?: string }): __Observable<{ action_id?: string, pmm_agent_id?: string }> {
     return this.StartMySQLExplainActionResponse(body).pipe(
+      __map(_r => _r.body as { action_id?: string, pmm_agent_id?: string })
+    );
+  }
+
+  /**
+   * @param body undefined
+   * @return A successful response.
+   */
+  StartMySQLExplainJSONActionResponse(body: { database?: string, pmm_agent_id?: string, query?: string, service_id?: string }): __Observable<__StrictHttpResponse<{ action_id?: string, pmm_agent_id?: string }>> {
+    let __params = this.newParams();
+    let __headers = new HttpHeaders();
+    let __body: any = null;
+    __body = body;
+    let req = new HttpRequest<any>(
+      'POST',
+      this.rootUrl + `/v0/management/Actions/StartMySQLExplainJSON`,
+      __body,
+      {
+        headers: __headers,
+        params: __params,
+        responseType: 'json'
+      });
+
+    return this.http.request<any>(req).pipe(
+      __filter(_r => _r instanceof HttpResponse),
+      __map((_r) => {
+        return _r as __StrictHttpResponse<{ action_id?: string, pmm_agent_id?: string }>;
+      })
+    );
+  }
+  /**
+   * @param body undefined
+   * @return A successful response.
+   */
+  StartMySQLExplainJSONAction(body: { database?: string, pmm_agent_id?: string, query?: string, service_id?: string }): __Observable<{ action_id?: string, pmm_agent_id?: string }> {
+    return this.StartMySQLExplainJSONActionResponse(body).pipe(
       __map(_r => _r.body as { action_id?: string, pmm_agent_id?: string })
     );
   }

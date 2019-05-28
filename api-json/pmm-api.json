@@ -4737,6 +4737,10 @@
                   "description": "Access address (DNS name or IP). Required.",
                   "type": "string"
                 },
+                "cluster": {
+                  "description": "Cluster name.",
+                  "type": "string"
+                },
                 "custom_labels": {
                   "description": "Custom user-assigned labels.",
                   "type": "object",
@@ -4756,6 +4760,10 @@
                   "description": "Access port. Required.",
                   "type": "integer",
                   "format": "int64"
+                },
+                "replication_set": {
+                  "description": "Replication set name.",
+                  "type": "string"
                 },
                 "service_name": {
                   "description": "Unique across all Services user-defined name. Required.",
@@ -4779,6 +4787,10 @@
                       "description": "Access address (DNS name or IP).",
                       "type": "string"
                     },
+                    "cluster": {
+                      "description": "Cluster name.",
+                      "type": "string"
+                    },
                     "custom_labels": {
                       "description": "Custom user-assigned labels.",
                       "type": "object",
@@ -4798,6 +4810,10 @@
                       "description": "Access port.",
                       "type": "integer",
                       "format": "int64"
+                    },
+                    "replication_set": {
+                      "description": "Replication set name.",
+                      "type": "string"
                     },
                     "service_id": {
                       "description": "Unique randomly generated instance identifier.",
@@ -5001,6 +5017,10 @@
                       "description": "Access address (DNS name or IP).",
                       "type": "string"
                     },
+                    "cluster": {
+                      "description": "Cluster name.",
+                      "type": "string"
+                    },
                     "custom_labels": {
                       "description": "Custom user-assigned labels.",
                       "type": "object",
@@ -5020,6 +5040,10 @@
                       "description": "Access port.",
                       "type": "integer",
                       "format": "int64"
+                    },
+                    "replication_set": {
+                      "description": "Replication set name.",
+                      "type": "string"
                     },
                     "service_id": {
                       "description": "Unique randomly generated instance identifier.",
@@ -5234,6 +5258,10 @@
                         "description": "Access address (DNS name or IP).",
                         "type": "string"
                       },
+                      "cluster": {
+                        "description": "Cluster name.",
+                        "type": "string"
+                      },
                       "custom_labels": {
                         "description": "Custom user-assigned labels.",
                         "type": "object",
@@ -5253,6 +5281,10 @@
                         "description": "Access port.",
                         "type": "integer",
                         "format": "int64"
+                      },
+                      "replication_set": {
+                        "description": "Replication set name.",
+                        "type": "string"
                       },
                       "service_id": {
                         "description": "Unique randomly generated instance identifier.",
@@ -5489,8 +5521,90 @@
             "schema": {
               "type": "object",
               "properties": {
+                "database": {
+                  "description": "The database name for EXPLAIN query.",
+                  "type": "string"
+                },
                 "pmm_agent_id": {
                   "description": "pmm-agent ID where to run this Action.",
+                  "type": "string"
+                },
+                "query": {
+                  "description": "query example.",
+                  "type": "string"
+                },
+                "service_id": {
+                  "description": "Service ID for this Action.",
+                  "type": "string"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "action_id": {
+                  "description": "Unique Action ID.",
+                  "type": "string"
+                },
+                "pmm_agent_id": {
+                  "description": "pmm-agent ID where to this Action was started.",
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "An error response.",
+            "schema": {
+              "description": "ErrorResponse is a message returned on HTTP error.",
+              "type": "object",
+              "properties": {
+                "code": {
+                  "type": "integer",
+                  "format": "int32"
+                },
+                "error": {
+                  "type": "string"
+                },
+                "message": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v0/management/Actions/StartMySQLExplainJSON": {
+      "post": {
+        "tags": [
+          "Actions"
+        ],
+        "summary": "StartMySQLExplainJSONAction starts MySQL JSON EXPLAIN Action.",
+        "operationId": "StartMySQLExplainJSONAction",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "database": {
+                  "description": "The database name for EXPLAIN query.",
+                  "type": "string"
+                },
+                "pmm_agent_id": {
+                  "description": "pmm-agent ID where to run this Action.",
+                  "type": "string"
+                },
+                "query": {
+                  "description": "query example.",
                   "type": "string"
                 },
                 "service_id": {
@@ -6499,6 +6613,10 @@
                   "description": "Node and Service access address (DNS name or IP). Required.",
                   "type": "string"
                 },
+                "cluster": {
+                  "description": "Cluster name.",
+                  "type": "string"
+                },
                 "custom_labels": {
                   "description": "Custom user-assigned labels.",
                   "type": "object",
@@ -6526,6 +6644,10 @@
                   "description": "Service Access port. Required.",
                   "type": "integer",
                   "format": "int64"
+                },
+                "replication_set": {
+                  "description": "Replication set name.",
+                  "type": "string"
                 },
                 "service_name": {
                   "description": "Unique across all Services user-defined name. Required.",
@@ -6614,6 +6736,10 @@
                       "description": "Access address (DNS name or IP).",
                       "type": "string"
                     },
+                    "cluster": {
+                      "description": "Cluster name.",
+                      "type": "string"
+                    },
                     "custom_labels": {
                       "description": "Custom user-assigned labels.",
                       "type": "object",
@@ -6633,6 +6759,10 @@
                       "description": "Access port.",
                       "type": "integer",
                       "format": "int64"
+                    },
+                    "replication_set": {
+                      "description": "Replication set name.",
+                      "type": "string"
                     },
                     "service_id": {
                       "description": "Unique randomly generated instance identifier.",
@@ -6753,6 +6883,9 @@
               "description": "FiltersRequest contains period for which we need filters.",
               "type": "object",
               "properties": {
+                "main_metric_name": {
+                  "type": "string"
+                },
                 "period_start_from": {
                   "type": "string",
                   "format": "date-time"
@@ -6781,12 +6914,16 @@
                       "name": {
                         "type": "array",
                         "items": {
-                          "description": "ValueAndCount is label values and how many times this value occur.",
+                          "description": "Values is label values and main metric percent and per second.",
                           "type": "object",
                           "properties": {
-                            "count": {
-                              "type": "string",
-                              "format": "int64"
+                            "main_metric_per_sec": {
+                              "type": "number",
+                              "format": "float"
+                            },
+                            "main_metric_percent": {
+                              "type": "number",
+                              "format": "float"
                             },
                             "value": {
                               "type": "string"
@@ -7819,7 +7956,17 @@
             "schema": {
               "type": "object",
               "properties": {
+                "pmm_managed_commit": {
+                  "description": "pmm-managed commit.",
+                  "type": "string"
+                },
+                "timestamp": {
+                  "description": "Build timestamp.",
+                  "type": "string",
+                  "format": "date-time"
+                },
                 "version": {
+                  "description": "Full PMM version.",
                   "type": "string"
                 }
               }
