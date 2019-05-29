@@ -16,6 +16,9 @@ import { TableHeadersToMultiplePipe } from './table-headers-to-multiple.pipe';
 import { AutofocusDirective } from './autofocus.directive';
 import { LoadBarChartDirective } from './load-bar-chart.directive';
 import { LoadPolygonChartDirective } from './load-polygon-chart.directive';
+import { MiddleEllipsisDirective } from './middle-ellipsis.directive';
+import { EllipsisMiddlePipe } from '../src/app/shared/ellipsis-middle.pipe';
+
 
 @NgModule({
   imports: [
@@ -34,6 +37,8 @@ import { LoadPolygonChartDirective } from './load-polygon-chart.directive';
     LoadBarChartDirective,
     LoadPolygonChartDirective,
     AutofocusDirective,
+    MiddleEllipsisDirective,
+    EllipsisMiddlePipe
   ],
   exports: [
     MapToIterablePipe,
@@ -44,14 +49,16 @@ import { LoadPolygonChartDirective } from './load-polygon-chart.directive';
     LoadSparklinesDirective,
     LoadBarChartDirective,
     LoadPolygonChartDirective,
+    MiddleEllipsisDirective,
     SortingTablePipe,
+    EllipsisMiddlePipe,
     TableHeadersToMultiplePipe,
     AutofocusDirective,
     CommonModule,
     FormsModule,
     HttpClientModule,
     NgbModule,
-    RouterModule,
+    RouterModule
   ]
 })
 export class SharedModule {
