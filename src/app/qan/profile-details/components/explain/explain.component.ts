@@ -47,9 +47,9 @@ export class ExplainComponent implements OnInit, OnDestroy {
 
   private startClassic(value) {
     this.classicStart$ = this.actionsService.StartMySQLExplainAction({
-      service_id: '/service_id/67812f44-c8a7-4703-8bfa-acc3309bad95',
+      service_id: value.service_id,
       query: value.example,
-      database: 'test',
+      database: value.schema,
     }).subscribe(item => {
       const explainResultObservable = interval(1000)
         .pipe(
@@ -69,9 +69,9 @@ export class ExplainComponent implements OnInit, OnDestroy {
 
   private startJson(value) {
     this.jsonStart$ = this.actionsService.StartMySQLExplainJSONAction({
-      service_id: '/service_id/67812f44-c8a7-4703-8bfa-acc3309bad95',
+      service_id: value.service_id,
       query: value.example,
-      database: 'test',
+      database: value.schema,
     }).subscribe(item => {
       const explainResultObservable = interval(1000)
         .pipe(
