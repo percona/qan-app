@@ -50,20 +50,13 @@ export class ExplainComponent implements OnInit, OnDestroy {
       service_id: value.service_id,
       query: value.example,
       database: value.schema,
-    }).subscribe(item => {
-      const explainResultObservable = interval(1000)
-        .pipe(
-          startWith(0),
-          switchMap(() => this.actionsService.GetAction({ action_id: item.action_id }))
-        )
-        .subscribe(res => {
-          if (res.done) {
-            this.classicOutput = res.output;
-            if (explainResultObservable) {
-              explainResultObservable.unsubscribe()
-            }
-          }
-        });
+    }).pipe(switchMap((item) => this.getActionResult(item))).subscribe(res => {
+      if (res.done) {
+        this.classicOutput = res.output;
+        if (this.classicStart$) {
+          this.classicStart$.unsubscribe()
+        }
+      }
     });
   }
 
@@ -72,21 +65,22 @@ export class ExplainComponent implements OnInit, OnDestroy {
       service_id: value.service_id,
       query: value.example,
       database: value.schema,
-    }).subscribe(item => {
-      const explainResultObservable = interval(1000)
-        .pipe(
-          startWith(0),
-          switchMap(() => this.actionsService.GetAction({ action_id: item.action_id }))
-        )
-        .subscribe(res => {
-          if (res.done) {
-            this.jsonOutput = res.output;
-            if (explainResultObservable) {
-              explainResultObservable.unsubscribe()
-            }
-          }
-        });
+    }).pipe(switchMap((item) => this.getActionResult(item))).subscribe(res => {
+      if (res.done) {
+        this.jsonOutput = res.output;
+        if (this.jsonStart$) {
+          this.jsonStart$.unsubscribe()
+        }
+      }
     });
+  }
+
+  private getActionResult(item) {
+    return interval(1000)
+      .pipe(
+        startWith(0),
+        switchMap(() => this.actionsService.GetAction({ action_id: item.action_id }))
+      );
   }
 
   getExample(responseParams) {
@@ -99,6 +93,9 @@ export class ExplainComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     if (this.classicStart$) {
       this.classicStart$.unsubscribe()
+    }
+    if (this.jsonStart$) {
+      this.jsonStart$.unsubscribe()
     }
     this.example$.unsubscribe();
     this.defaultExample$.unsubscribe();
