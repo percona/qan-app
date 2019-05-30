@@ -18,7 +18,7 @@
                 [(ngModel)]="filter.state"
                 type="checkbox">
               <span class="checkbox-container__checkmark"></span>
-              <span class="checkbox-container__label-text">{{index < 10 ? '/agent_id/c30346f9-9267-4ed4-b5bf-f8a4fc028c25' : filter.value}}</span>
+              <span class="checkbox-container__label-text">{{filter.value}}</span>
             </label>
             <span class="filters__count">
               {{filter.main_metric_percent ? (filter.main_metric_percent | humanize: 'percent') : ''}}
