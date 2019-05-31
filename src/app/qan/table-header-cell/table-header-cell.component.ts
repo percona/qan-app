@@ -88,11 +88,10 @@ export class TableHeaderCellComponent implements OnInit, OnDestroy {
   changeDefaultName(name) {
     switch (name) {
       case 'load':
-        return 'm_query_time_sum_per_sec';
-      case 'count':
-        return 'num_queries';
       case 'latency':
         return 'm_query_time_sum';
+      case 'count':
+        return 'num_queries';
       default:
         return `m_${name}_sum`
     }

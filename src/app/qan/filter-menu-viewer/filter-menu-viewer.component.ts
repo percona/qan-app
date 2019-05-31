@@ -3,7 +3,8 @@ import { GetProfileBody, QanProfileService } from '../profile/qan-profile.servic
 import { Subscription } from 'rxjs/internal/Subscription';
 import { FilterMenuService } from '../filter-menu/filter-menu.service';
 import { FiltersService } from '../../pmm-api-services/services/filters.service';
-import { map, switchMap } from 'rxjs/operators';
+import { catchError, map, switchMap } from 'rxjs/operators';
+import { of } from 'rxjs/internal/observable/of';
 
 export interface FiltersGetParams {
   main_metric_name: string,
@@ -39,7 +40,9 @@ export class FilterMenuViewerComponent implements OnInit, OnDestroy {
           period_start_from: this.currentParams.period_start_from,
           period_start_to: this.currentParams.period_start_to
         }).pipe(
-          map(response => this.filterMenuService.generateFilterGroup(response))
+          catchError(err => of({ error: err.error })),
+          map(response =>
+            response['error'] ? [] : this.filterMenuService.generateFilterGroup(response))
         )))
       .subscribe(
         filters => {
@@ -47,21 +50,6 @@ export class FilterMenuViewerComponent implements OnInit, OnDestroy {
           this.filterMenuService.updateAutocompleteFilters(filters)
         }
       );
-
-    // this.getFilters$ = this.filterService.Get(
-    //   {
-    //     main_metric_name: group_by
-    //     period_start_from: this.currentParams.period_start_from,
-    //     period_start_to: this.currentParams.period_start_to
-    //   }
-    // ).pipe(
-    //   map(response => this.filterMenuService.generateFilterGroup(response))
-    // ).subscribe(
-    //   filters => {
-    //     this.filters = filters;
-    //     this.filterMenuService.updateAutocompleteFilters(filters)
-    //   }
-    // );
   }
 
   ngOnInit() {
