@@ -12,10 +12,18 @@ import { NgSelectComponent } from '@ng-select/ng-select';
   styleUrls: ['./table-header-cell.component.scss']
 })
 export class TableHeaderCellComponent implements OnInit, OnDestroy {
+  public index: number;
+  public isMainColumn: boolean;
+
   @Input() currentColumnName: any;
   @Input() fullData: any;
   @Input() metrics: Array<SelectOptionModel>;
-  @Input() index: any;
+
+  @Input() set processIndex(index: number) {
+    this.index = index;
+    this.isMainColumn = !this.index;
+  };
+
   @Input() rowMetrics: any;
   @ViewChild('column') column: NgSelectComponent;
 
@@ -58,10 +66,14 @@ export class TableHeaderCellComponent implements OnInit, OnDestroy {
     if (!value.name) {
       return;
     }
-
     this.currentParams.columns[this.index] = value.name;
     this.currentParams.columns = this.currentParams.columns.filter(item => !!item);
     this.qanProfileService.updateProfileParams(this.currentParams);
+
+    if (this.isMainColumn) {
+      console.log('value.name - ', value.name);
+      this.qanProfileService.updateDefaultMainMetric(this.changeDefaultName(value.name));
+    }
   }
 
   sortBy(selectedColumn) {
@@ -72,5 +84,18 @@ export class TableHeaderCellComponent implements OnInit, OnDestroy {
 
   addCustomScroll() {
     setTimeout(() => new PerfectScrollbar('.ng-dropdown-panel-items'), 0)
+  }
+
+  changeDefaultName(name) {
+    switch (name) {
+      case 'load':
+        return 'm_query_time_sum_per_sec';
+      case 'count':
+        return 'num_queries';
+      case 'latency':
+        return 'm_query_time_sum';
+      default:
+        return `m_${name}_sum`
+    }
   }
 }

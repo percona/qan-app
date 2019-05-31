@@ -32,10 +32,10 @@ export class FilterMenuViewerComponent implements OnInit, OnDestroy {
   ) {
     this.currentParams = this.qanProfileService.getProfileParams.getValue();
 
-    this.getFilters$ = this.qanProfileService.getGroupBy.pipe(
-      switchMap(group_by => this.filterService.Get(
+    this.getFilters$ = this.qanProfileService.getDefaultMainMetric.pipe(
+      switchMap(metricName => this.filterService.Get(
         {
-          main_metric_name: group_by,
+          main_metric_name: metricName,
           period_start_from: this.currentParams.period_start_from,
           period_start_to: this.currentParams.period_start_to
         }).pipe(
