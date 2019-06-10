@@ -6,7 +6,8 @@
   </ngb-panel>
   <ngb-panel title="JSON">
     <ng-template ngbPanelContent>
-      <pre>{{ jsonOutput }}</pre>
+      <i *ngIf="isExplainLoading" class="fa fa-spinner fa-pulse fa-3x fa-fw loading"></i>
+      <app-json-tree [json]="jsonOutput" *ngIf="!isExplainLoading"></app-json-tree>
     </ng-template>
   </ngb-panel>
   <ngb-panel title="Visual" >

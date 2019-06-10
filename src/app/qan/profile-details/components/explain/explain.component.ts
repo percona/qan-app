@@ -20,12 +20,14 @@ export class ExplainComponent implements OnInit, OnDestroy {
   public classicOutput: string;
   public jsonOutput: string;
   public visualOutput: string;
+  public isExplainLoading: boolean;
 
   constructor(
     private actionsService: ActionsService,
     protected objectDetailsService: ObjectDetailsService,
     protected qanProfileService: QanProfileService,
   ) {
+    this.isExplainLoading = true;
     this.currentDetails = this.qanProfileService.getCurrentDetails;
     this.example$ = this.qanProfileService.getProfileInfo.details.pipe(
       switchMap(parsedParams => this.getExample(parsedParams)))
@@ -67,10 +69,11 @@ export class ExplainComponent implements OnInit, OnDestroy {
       database: value.schema,
     }).pipe(switchMap((item) => this.getActionResult(item))).subscribe(res => {
       if (res.done) {
-        this.jsonOutput = res.output;
+        this.jsonOutput = JSON.parse(res.output);
         if (this.jsonStart$) {
           this.jsonStart$.unsubscribe()
         }
+        this.isExplainLoading = false;
       }
     });
   }
