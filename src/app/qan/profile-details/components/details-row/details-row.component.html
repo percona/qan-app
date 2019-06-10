@@ -1,4 +1,4 @@
-<span class="row__item">{{currentMetric.metricName}}</span>
+<span class="row__item">{{currentMetric.humanizeMetricName}}</span>
 <div class="row__item row__cells">
   <span [class.unit.unit--per-sec]="isRate">
     {{ isRate ? (currentMetric?.stats?.rate | humanize: ratePipe) : '-' }}

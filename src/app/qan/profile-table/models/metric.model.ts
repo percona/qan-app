@@ -5,6 +5,7 @@ export interface DetailsMetricNames {
 
 export class MetricModel {
   metricName: string;
+  humanizeMetricName: string;
   tooltipText: string;
   stats: any;
   sparkline: any;
@@ -15,8 +16,8 @@ export class MetricModel {
 
     ({ tableMetricName, tooltipText } = this.checkMetricName(metricName));
 
-    this.metricName = tableMetricName;
     this.metricName = metricName;
+    this.humanizeMetricName = tableMetricName;
     this.tooltipText = tooltipText;
     this.stats = stats.stats || stats;
     this.sparkline = sparkline.some(sparklinePoint => sparklinePoint.pointValue) ? sparkline : [];
