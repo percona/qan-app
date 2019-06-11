@@ -3,9 +3,11 @@ import { ActionsService } from '../../../../pmm-api-services/services/actions.se
 import { ObjectDetailsService } from '../../../../pmm-api-services/services/object-details.service';
 import { ObjectDetails, QanProfileService } from '../../../profile/qan-profile.service';
 import { Subscription } from 'rxjs/internal/Subscription';
-import { catchError, map, startWith, switchMap, take } from 'rxjs/operators';
+import { catchError, filter, map, startWith, switchMap, take, takeUntil } from 'rxjs/operators';
 import { interval } from 'rxjs/internal/observable/interval';
 import { of } from 'rxjs/internal/observable/of';
+import { BehaviorSubject } from 'rxjs/internal/BehaviorSubject';
+import { Subject } from 'rxjs/internal/Subject';
 
 @Component({
   selector: 'app-tables',
@@ -13,15 +15,23 @@ import { of } from 'rxjs/internal/observable/of';
   styleUrls: ['./tables.component.css']
 })
 export class TablesComponent implements OnInit, OnDestroy {
+  public tablesNames = new BehaviorSubject([]);
+  public globalConfig: any;
+
   private example$: Subscription;
   private defaultExample$: Subscription;
   private classicStart$: Subscription;
-  private jsonStart$: Subscription;
+  private status$: Subscription;
+  private startShowCreateTable$ = new Subject();
+  private startMySQLShowTableStatus$ = new Subject();
+  private table$: Subscription;
 
   public currentDetails: ObjectDetails;
-  public classicOutput: string;
-  public jsonOutput: string;
-  public visualOutput: string;
+  public classicOutput: any;
+  public createTableOutput = [];
+  public showTableStatusOutput: string;
+  public classicError = '';
+  public unsubscribe = false;
   public isExplainLoading: boolean;
 
   constructor(
@@ -38,43 +48,87 @@ export class TablesComponent implements OnInit, OnDestroy {
       );
     this.defaultExample$ = this.getExample(this.currentDetails)
       .pipe(take(1))
-      .subscribe(response => this.startTablesActions(response[0]))
+      .subscribe(response => this.startTablesActions(response[0]));
+
+    this.tablesNames.pipe(filter(names => !!names.length)).subscribe(names => {
+      names.forEach(tableName => {
+        this.startShowCreateTable(this.globalConfig, tableName);
+        this.startMySQLShowTableStatus(this.globalConfig, tableName);
+      });
+    })
   }
 
   ngOnInit() {
   }
 
   private startTablesActions(value) {
-    this.startShowCreateTable(value);
-    this.startMySQLShowTableStatus(value);
+    this.globalConfig = value;
+    this.startClassic(value);
   }
 
-  private startShowCreateTable(value) {
-    this.classicStart$ = this.actionsService.StartMySQLShowCreateTableAction({
+  private startShowCreateTable(value, tableName) {
+    this.table$ = this.actionsService.StartMySQLShowCreateTableAction({
       service_id: value.service_id,
       database: value.schema,
-    }).pipe(switchMap((item) => this.getActionResult(item))).subscribe(res => {
-      console.log('ShowCreateTable');
+      table_name: tableName
+    }
+    ).pipe(
+      switchMap((item) => this.getActionResult(item)),
+      takeUntil(this.startShowCreateTable$),
+    ).subscribe(res => {
       if (res.done) {
-        this.classicOutput = res.output;
-        if (this.classicStart$) {
-          this.classicStart$.unsubscribe()
-        }
+        this.createTableOutput.push(res.output);
+        this.startShowCreateTable$.next(true);
+        this.table$.unsubscribe();
       }
     });
   }
 
-  private startMySQLShowTableStatus(value) {
-    this.jsonStart$ = this.actionsService.StartMySQLShowCreateTableAction({
+  private startMySQLShowTableStatus(value, tableName) {
+    this.status$ = this.actionsService.StartMySQLShowTableStatusAction({
       service_id: value.service_id,
+      database: value.schema,
+      table_name: tableName
+    }
+    ).pipe(
+      switchMap((item) => this.getActionResult(item)),
+      takeUntil(this.startMySQLShowTableStatus$)
+    ).subscribe(res => {
+      if (res.done) {
+        this.showTableStatusOutput = res.output;
+        this.startMySQLShowTableStatus$.next(true);
+        this.status$.unsubscribe();
+        this.isExplainLoading = false;
+      }
+    });
+  }
+
+  private startClassic(value) {
+    this.classicStart$ = this.actionsService.StartMySQLExplainTraditionalJSONAction({
+      service_id: value.service_id,
+      query: value.example,
       database: value.schema,
     }).pipe(switchMap((item) => this.getActionResult(item))).subscribe(res => {
       if (res.done) {
-        this.jsonOutput = res.output;
-        if (this.jsonStart$) {
-          this.jsonStart$.unsubscribe()
+        const names = [];
+        if (!res.error) {
+          let indexOfName;
+
+          this.classicOutput = JSON.parse(res.output);
+          this.classicOutput.forEach((row, index) => {
+            if (!index) {
+              indexOfName = row.indexOf('table');
+            } else {
+              names.push(row[indexOfName]);
+            }
+          })
+        } else {
+          this.classicError = res.error;
         }
-        this.isExplainLoading = false;
+        if (this.classicStart$) {
+          this.tablesNames.next(names);
+          this.classicStart$.unsubscribe()
+        }
       }
     });
   }
@@ -98,8 +152,13 @@ export class TablesComponent implements OnInit, OnDestroy {
     if (this.classicStart$) {
       this.classicStart$.unsubscribe()
     }
-    if (this.jsonStart$) {
-      this.jsonStart$.unsubscribe()
+
+    if (this.table$) {
+      this.table$.unsubscribe()
+    }
+
+    if (this.status$) {
+      this.status$.unsubscribe()
     }
     this.example$.unsubscribe();
     this.defaultExample$.unsubscribe();

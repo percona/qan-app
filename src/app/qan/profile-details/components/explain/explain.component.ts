@@ -31,6 +31,7 @@ export class ExplainComponent implements OnInit, OnDestroy {
   ) {
     this.isExplainLoading = true;
     this.currentDetails = this.qanProfileService.getCurrentDetails;
+    // todo: Add trigger when selected query changes
     this.example$ = this.qanProfileService.getProfileInfo.details.pipe(
       switchMap(parsedParams => this.getExample(parsedParams)))
       .subscribe(
@@ -56,7 +57,6 @@ export class ExplainComponent implements OnInit, OnDestroy {
       query: value.example,
       database: value.schema,
     }).pipe(switchMap((item) => this.getActionResult(item))).subscribe(res => {
-      console.log('startClassic');
       if (res.done) {
         if (!res.error) {
           this.classicOutput = JSON.parse(res.output);
