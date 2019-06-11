@@ -1,5 +1,5 @@
 import { ActivatedRoute, Router } from '@angular/router';
-import { Component, ElementRef, OnDestroy, OnInit, QueryList, ViewChild, ViewChildren } from '@angular/core';
+import { AfterViewChecked, Component, ElementRef, OnDestroy, OnInit, QueryList, ViewChild, ViewChildren } from '@angular/core';
 import { catchError, map, switchMap } from 'rxjs/operators';
 import { QanProfileService } from '../profile/qan-profile.service';
 import { ObjectDetailsService } from '../../pmm-api-services/services/object-details.service';
@@ -15,7 +15,7 @@ import { DetailsSparklineModel } from './models/details-sparkline.model';
   styleUrls: ['./profile-details.component.scss']
 })
 
-export class ProfileDetailsComponent implements OnInit, OnDestroy {
+export class ProfileDetailsComponent implements OnInit, OnDestroy, AfterViewChecked {
   @ViewChild('detailsTable') detailsTable: ElementRef;
   @ViewChildren('detailsTableRows') tableRows: QueryList<any>;
   @ViewChild('labels') labelsFilters: ElementRef;
@@ -77,6 +77,10 @@ export class ProfileDetailsComponent implements OnInit, OnDestroy {
     this.fingerprint$.unsubscribe();
     this.details$.unsubscribe();
     this.group_by$.unsubscribe();
+  }
+
+  ngAfterViewChecked() {
+    this.setLabelsHeight();
   }
 
   setLabelsHeight() {

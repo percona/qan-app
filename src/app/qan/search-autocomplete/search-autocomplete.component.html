@@ -25,7 +25,7 @@
   <ng-template ng-multi-label-tmp let-items="items" let-clear="clear">
     <div class="ng-value" *ngFor="let item of items">
       <div class="chips">
-        <span class="ng-value-label">{{item.groupName}}: {{item.filterName}}</span>
+        <span class="ng-value-label">{{humanizeLabelGroup(item.groupName)}}: {{item.filterName}}</span>
         <button class="close-button" (click)="clear(item)" aria-hidden="true">
           <i class="fa fa-times" aria-hidden="true"></i>
         </button>
@@ -33,6 +33,6 @@
     </div>
   </ng-template>
   <ng-template ng-option-tmp let-item="item" let-index="index" let-search="searchTerm">
-    <span class="pmm-select__option">{{item.groupName}}: {{item.filterName}}</span>
+    <span class="pmm-select__option">{{humanizeLabelGroup(item.groupName)}}: {{item.filterName}}</span>
   </ng-template>
 </ng-select>
