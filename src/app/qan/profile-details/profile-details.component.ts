@@ -19,6 +19,7 @@ export class ProfileDetailsComponent implements OnInit, OnDestroy, AfterViewChec
   @ViewChild('detailsTable') detailsTable: ElementRef;
   @ViewChildren('detailsTableRows') tableRows: QueryList<any>;
   @ViewChild('labels') labelsFilters: ElementRef;
+
   protected dbName: string;
   public fingerprint: string;
   public currentParams: any;
