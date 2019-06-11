@@ -94,7 +94,7 @@ export class ProfileDetailsComponent implements OnInit, OnDestroy, AfterViewChec
 
 
   sortDetails(a, b) {
-    const order = ['query_count', 'query_time', 'lock_time', 'rows_sent', 'rows_examined', ''];
+    const order = ['num_queries', 'num_queries_with_errors', 'query_time', 'lock_time', 'rows_sent', 'rows_examined', ''];
 
     let indA = order.indexOf(a['metricName']);
     let indB = order.indexOf(b['metricName']);
