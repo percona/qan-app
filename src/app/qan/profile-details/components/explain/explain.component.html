@@ -1,18 +1,33 @@
 <ngb-accordion #acc="ngbAccordion">
-  <ngb-panel title="Classic">
+  <ngb-panel>
+    <ng-template ngbPanelTitle>
+        <h5 class="card-header__title">CLASSIC</h5>
+    </ng-template>
     <ng-template ngbPanelContent>
-      <pre>{{ classicOutput }}</pre>
+      <div class="card-body__content">
+        <pre>{{ classicOutput }}</pre>
+      </div>
     </ng-template>
   </ngb-panel>
-  <ngb-panel title="JSON">
-    <ng-template ngbPanelContent>
-      <i *ngIf="isExplainLoading" class="fa fa-spinner fa-pulse fa-3x fa-fw loading"></i>
-      <app-json-tree [json]="jsonOutput" *ngIf="!isExplainLoading"></app-json-tree>
+  <ngb-panel>
+    <ng-template ngbPanelTitle>
+      <h5 class="card-header__title">JSON</h5>
+    </ng-template>
+    <ng-template ngbPanelContent class="card-body">
+      <div class="card-body__content">
+        <i *ngIf="isExplainLoading" class="fa fa-spinner fa-pulse fa-3x fa-fw loading"></i>
+        <app-json-tree [json]="jsonOutput" *ngIf="!isExplainLoading"></app-json-tree>
+      </div>
     </ng-template>
   </ngb-panel>
-  <ngb-panel title="Visual" >
+  <ngb-panel>
+    <ng-template ngbPanelTitle>
+      <h5 class="card-header__title">Visual</h5>
+    </ng-template>
     <ng-template ngbPanelContent>
-      <pre>{{ visualOutput }}</pre>
+      <div class="card-body__content">
+        <pre>{{ visualOutput }}</pre>
+      </div>
     </ng-template>
   </ngb-panel>
 </ngb-accordion>

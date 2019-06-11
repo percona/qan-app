@@ -50,6 +50,10 @@
 }
 
 .card-header__title {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  padding: 15px;
   margin-bottom: 0;
   color: inherit;
 }
@@ -58,11 +62,12 @@
   margin-right: 7px;
   font-size: 1rem;
   font-family: FontAwesome;
-  content: "\f054";
+  content: "\f078";
+
 }
 
 .btn.btn-link.collapsed .card-header__title::before {
-  content: "\f078";
+  content: "\f054";
 }
 
 .card-body {
