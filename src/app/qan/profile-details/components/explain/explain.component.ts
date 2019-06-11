@@ -1,7 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActionsService } from '../../../../pmm-api-services/services/actions.service';
 import { interval, of, Subscription } from 'rxjs';
-import { catchError, map, startWith, switchMap, take } from 'rxjs/operators';
+import { catchError, finalize, map, startWith, switchMap, take } from 'rxjs/operators';
 import { ObjectDetails, QanProfileService } from '../../../profile/qan-profile.service';
 import { ObjectDetailsService } from '../../../../pmm-api-services/services/object-details.service';
 
@@ -55,7 +55,7 @@ export class ExplainComponent implements OnInit, OnDestroy {
     }).pipe(switchMap((item) => this.getActionResult(item))).subscribe(res => {
       console.log('startClassic');
       if (res.done) {
-        this.classicOutput = res.output;
+        this.classicOutput = JSON.parse(res.output);
         if (this.classicStart$) {
           this.classicStart$.unsubscribe()
         }
@@ -68,15 +68,20 @@ export class ExplainComponent implements OnInit, OnDestroy {
       service_id: value.service_id,
       query: value.example,
       database: value.schema,
-    }).pipe(switchMap((item) => this.getActionResult(item))).subscribe(res => {
-      if (res.done) {
-        this.jsonOutput = JSON.parse(res.output);
-        if (this.jsonStart$) {
-          this.jsonStart$.unsubscribe()
+    }).pipe(switchMap((item) => this.getActionResult(item))).subscribe(
+      res => {
+        if (res.done) {
+          this.jsonOutput = JSON.parse(res.output);
+          if (this.jsonStart$) {
+            this.isExplainLoading = false;
+            this.jsonStart$.unsubscribe();
+          }
         }
-        this.isExplainLoading = false;
+      },
+      err => {
+        console.log('error - ', err)
       }
-    });
+    );
   }
 
   private getActionResult(item) {

@@ -1,11 +1,15 @@
 <ngb-accordion #acc="ngbAccordion">
   <ngb-panel>
     <ng-template ngbPanelTitle>
-        <h5 class="card-header__title">CLASSIC</h5>
+      <h5 class="card-header__title">CLASSIC</h5>
     </ng-template>
     <ng-template ngbPanelContent>
-      <div class="card-body__content">
-        <pre>{{ classicOutput }}</pre>
+      <div class="card-body__content card-body__table">
+        <table>
+          <tr *ngFor="let row of classicOutput">
+            <td *ngFor="let col of row">{{col + ''}}</td>
+          </tr>
+        </table>
       </div>
     </ng-template>
   </ngb-panel>
@@ -20,14 +24,14 @@
       </div>
     </ng-template>
   </ngb-panel>
-<!--  <ngb-panel>-->
-<!--    <ng-template ngbPanelTitle>-->
-<!--      <h5 class="card-header__title">Visual</h5>-->
-<!--    </ng-template>-->
-<!--    <ng-template ngbPanelContent>-->
-<!--      <div class="card-body__content">-->
-<!--        <pre>{{ visualOutput }}</pre>-->
-<!--      </div>-->
-<!--    </ng-template>-->
-<!--  </ngb-panel>-->
+  <!--  <ngb-panel>-->
+  <!--    <ng-template ngbPanelTitle>-->
+  <!--      <h5 class="card-header__title">Visual</h5>-->
+  <!--    </ng-template>-->
+  <!--    <ng-template ngbPanelContent>-->
+  <!--      <div class="card-body__content">-->
+  <!--        <pre>{{ visualOutput }}</pre>-->
+  <!--      </div>-->
+  <!--    </ng-template>-->
+  <!--  </ngb-panel>-->
 </ngb-accordion>
