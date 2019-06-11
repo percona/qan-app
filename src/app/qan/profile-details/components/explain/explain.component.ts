@@ -69,7 +69,6 @@ export class ExplainComponent implements OnInit, OnDestroy {
       query: value.example,
       database: value.schema,
     }).pipe(switchMap((item) => this.getActionResult(item))).subscribe(res => {
-      console.log('startJson');
       if (res.done) {
         this.jsonOutput = JSON.parse(res.output);
         if (this.jsonStart$) {
