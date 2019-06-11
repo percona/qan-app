@@ -18,7 +18,9 @@ export class ExplainComponent implements OnInit, OnDestroy {
 
   public currentDetails: ObjectDetails;
   public classicOutput: string;
+  public classicError = '';
   public jsonOutput: string;
+  public jsonError = '';
   public visualOutput: string;
   public isExplainLoading: boolean;
 
@@ -34,6 +36,7 @@ export class ExplainComponent implements OnInit, OnDestroy {
       .subscribe(
         response => this.startExplainActions(response[0])
       );
+
     this.defaultExample$ = this.getExample(this.currentDetails)
       .pipe(take(1))
       .subscribe(response => this.startExplainActions(response[0]))
@@ -55,7 +58,11 @@ export class ExplainComponent implements OnInit, OnDestroy {
     }).pipe(switchMap((item) => this.getActionResult(item))).subscribe(res => {
       console.log('startClassic');
       if (res.done) {
-        this.classicOutput = JSON.parse(res.output);
+        if (!res.error) {
+          this.classicOutput = JSON.parse(res.output);
+        } else {
+          this.classicError = res.error;
+        }
         if (this.classicStart$) {
           this.classicStart$.unsubscribe()
         }
@@ -71,7 +78,11 @@ export class ExplainComponent implements OnInit, OnDestroy {
     }).pipe(switchMap((item) => this.getActionResult(item))).subscribe(
       res => {
         if (res.done) {
-          this.jsonOutput = JSON.parse(res.output);
+          if (!res.error) {
+            this.jsonOutput = JSON.parse(res.output);
+          } else {
+            this.jsonError = res.error;
+          }
           if (this.jsonStart$) {
             this.isExplainLoading = false;
             this.jsonStart$.unsubscribe();

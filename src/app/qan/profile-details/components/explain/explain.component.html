@@ -5,7 +5,8 @@
     </ng-template>
     <ng-template ngbPanelContent>
       <div class="card-body__content card-body__table">
-        <table>
+        <span *ngIf="classicError" class="error-with-margin">{{classicError}}</span>
+        <table *ngIf="!classicError">
           <tr *ngFor="let row of classicOutput">
             <td *ngFor="let col of row">{{col + ''}}</td>
           </tr>
@@ -20,7 +21,8 @@
     <ng-template ngbPanelContent class="card-body">
       <div class="card-body__content">
 <!--        <i *ngIf="isExplainLoading" class="fa fa-spinner fa-pulse fa-3x fa-fw loading"></i>-->
-        <app-json-tree [json]="jsonOutput" *ngIf="!isExplainLoading"></app-json-tree>
+        <span *ngIf="!isExplainLoading && jsonError">{{jsonError}}</span>
+        <app-json-tree *ngIf="!isExplainLoading && !jsonError" [json]="jsonOutput"></app-json-tree>
       </div>
     </ng-template>
   </ngb-panel>

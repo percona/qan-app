@@ -7,6 +7,10 @@ pre {
   margin: 0;
 }
 
+.error-with-margin {
+  margin: var(--accordion-inner-indent);
+}
+
 table {
   width: 100%;
   border-collapse: collapse;
