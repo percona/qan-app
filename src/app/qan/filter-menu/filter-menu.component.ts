@@ -86,4 +86,8 @@ export class FilterMenuComponent implements OnInit, OnChanges {
       }
     }
   }
+
+  humanizeLabels(groupName) {
+    return this.filterMenuService.humanNamesForGroup(groupName);
+  }
 }

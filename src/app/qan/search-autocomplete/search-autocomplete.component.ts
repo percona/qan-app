@@ -1,10 +1,8 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FilterMenuService } from '../filter-menu/filter-menu.service';
 import { FilterSearchService } from '../../core/services/filter-search.service';
-import { map } from 'rxjs/operators';
 import { Subscription } from 'rxjs/internal/Subscription';
-import { FiltersSearchModel } from '../filter-menu/models/filters-search.model';
-import { GetProfileBody, QanProfileService } from '../profile/qan-profile.service';
+import { QanProfileService } from '../profile/qan-profile.service';
 import { PerfectScrollbarConfigInterface } from 'ngx-perfect-scrollbar';
 import PerfectScrollbar from 'perfect-scrollbar';
 
@@ -97,5 +95,9 @@ export class SearchAutocompleteComponent implements OnInit, OnDestroy {
 
   addCustomScroll() {
     setTimeout(() => new PerfectScrollbar('.ng-dropdown-panel-items'), 0)
+  }
+
+  humanizeLabelGroup(groupName) {
+    return this.qanFilterService.humanNamesForGroup(groupName);
   }
 }
