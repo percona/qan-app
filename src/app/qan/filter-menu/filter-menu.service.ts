@@ -80,16 +80,24 @@ export class FilterMenuService {
         return 'Cluster';
       case 'replication_set':
         return 'Replication Set';
-      case 'd_database':
+      case 'database':
         return 'Database';
-      case 'd_schema':
+      case 'schema':
         return 'Schema';
-      case 'd_server':
+      case 'server':
         return 'Server';
-      case 'd_client_host':
+      case 'client_host':
         return 'Client Host';
-      case 'd_username':
-        return 'User Name';
+      case 'service_type':
+        return 'Service type';
+      case 'az':
+        return 'Availability zone';
+      case 'region':
+        return 'Region Name';
+      case 'node_model':
+        return 'Node model';
+      case 'container_name':
+        return 'Container name';
       default:
         return groupName
     }
