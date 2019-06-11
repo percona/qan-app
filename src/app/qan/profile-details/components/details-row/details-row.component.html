@@ -1,4 +1,11 @@
-<span class="row__item">{{currentMetric.metricName}}</span>
+<div class="row__item">
+<!--  <div class="row__content">-->
+    <span>{{currentMetric.humanizeMetricName}}</span>
+    <i class="fa fa-question-circle tooltip-question" aria-hidden="true"
+       placement="top" [ngbTooltip]="currentMetric.tooltipText">
+    </i>
+<!--  </div>-->
+</div>
 <div class="row__item row__cells">
   <span [class.unit.unit--per-sec]="isRate">
     {{ isRate ? (currentMetric?.stats?.rate | humanize: ratePipe) : '-' }}
@@ -9,7 +16,7 @@
        class="scaling-svg-container app-tooltip"
        xkey="timestamp" ykey="pointValue"
        measurement="number">
-<!--    todo: check measurement type-->
+    <!--    todo: check measurement type-->
   </div>
 </div>
 <div class="row__item">
