@@ -29,7 +29,6 @@ export class DetailsRowComponent implements OnInit {
     this.isRate = this.currentMetric.stats.rate >= 0;
     this.isSum = this.currentMetric.stats.sum >= 0;
     this.isStats = this.currentMetric.stats.avg >= 0;
-    console.log('currentMetric - ', this.currentMetric);
   }
 
   setDataFormat(name: string) {
