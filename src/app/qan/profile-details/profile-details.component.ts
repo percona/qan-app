@@ -52,8 +52,7 @@ export class ProfileDetailsComponent implements OnInit, OnDestroy, AfterViewChec
         )
       }),
     ).subscribe(response => {
-      this.details = response;
-      console.log('this.details - ', this.details);
+      this.details = this.detailsTableOrder(response);
       this.isTotal = !this.currentParams.filter_by;
 
       if (this.details.length) {
@@ -88,5 +87,27 @@ export class ProfileDetailsComponent implements OnInit, OnDestroy, AfterViewChec
   setLabelsHeight() {
     const tableHeight = this.detailsTable.nativeElement.offsetHeight;
     this.labelsFilters.nativeElement.style.setProperty('--labels-height', `${tableHeight}px`);
+  }
+
+  detailsTableOrder(detailsTableData) {
+    return detailsTableData.sort((a, b) => this.sortDetails(a, b));
+  }
+
+
+  sortDetails(a, b) {
+    const order = ['num_queries', 'num_queries_with_errors', 'query_time', 'lock_time', 'rows_sent', 'rows_examined', ''];
+
+    let indA = order.indexOf(a['metricName']);
+    let indB = order.indexOf(b['metricName']);
+
+    if (indA === -1) {
+      indA = order.length - 1;
+    }
+
+    if (indB === -1) {
+      indB = order.length - 1;
+    }
+
+    return indA < indB ? -1 : 1;
   }
 }
