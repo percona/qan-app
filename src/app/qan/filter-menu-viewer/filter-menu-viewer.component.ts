@@ -47,6 +47,7 @@ export class FilterMenuViewerComponent implements OnInit, OnDestroy {
       .subscribe(
         filters => {
           this.filters = filters;
+          console.log('this.filters - ', this.filters);
           this.filterMenuService.updateAutocompleteFilters(filters)
         }
       );
