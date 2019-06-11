@@ -71,4 +71,27 @@ export class FilterMenuService {
       this.qanProfileService.updateObjectDetails(detailsUrlParams);
     }
   }
+
+  humanNamesForGroup(groupName) {
+    switch (groupName) {
+      case 'environment':
+        return 'Environment';
+      case 'cluster':
+        return 'Cluster';
+      case 'replication_set':
+        return 'Replication Set';
+      case 'database':
+        return 'Database';
+      case 'schema':
+        return 'Schema';
+      case 'server':
+        return 'Server';
+      case 'client_host':
+        return 'Client Host';
+      case 'username':
+        return 'User Name';
+      default:
+        return groupName
+    }
+  }
 }
