@@ -51,10 +51,7 @@ export class ProfileDetailsComponent implements OnInit, OnDestroy, AfterViewChec
         )
       }),
     ).subscribe(response => {
-      console.log('response - ', response);
-      // this.details = response;
       this.details = this.detailsTableOrder(response);
-      console.log('this.details - ', this.details);
       this.isTotal = !this.currentParams.filter_by;
 
       if (this.details.length) {
