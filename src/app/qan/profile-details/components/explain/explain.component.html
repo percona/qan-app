@@ -15,19 +15,19 @@
     </ng-template>
     <ng-template ngbPanelContent class="card-body">
       <div class="card-body__content">
-        <i *ngIf="isExplainLoading" class="fa fa-spinner fa-pulse fa-3x fa-fw loading"></i>
+<!--        <i *ngIf="isExplainLoading" class="fa fa-spinner fa-pulse fa-3x fa-fw loading"></i>-->
         <app-json-tree [json]="jsonOutput" *ngIf="!isExplainLoading"></app-json-tree>
       </div>
     </ng-template>
   </ngb-panel>
-  <ngb-panel>
-    <ng-template ngbPanelTitle>
-      <h5 class="card-header__title">Visual</h5>
-    </ng-template>
-    <ng-template ngbPanelContent>
-      <div class="card-body__content">
-        <pre>{{ visualOutput }}</pre>
-      </div>
-    </ng-template>
-  </ngb-panel>
+<!--  <ngb-panel>-->
+<!--    <ng-template ngbPanelTitle>-->
+<!--      <h5 class="card-header__title">Visual</h5>-->
+<!--    </ng-template>-->
+<!--    <ng-template ngbPanelContent>-->
+<!--      <div class="card-body__content">-->
+<!--        <pre>{{ visualOutput }}</pre>-->
+<!--      </div>-->
+<!--    </ng-template>-->
+<!--  </ngb-panel>-->
 </ngb-accordion>

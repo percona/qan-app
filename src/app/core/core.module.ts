@@ -46,6 +46,7 @@ import { QueryExampleComponent } from '../qan/profile-details/components/query-e
 import { ExplainComponent } from '../qan/profile-details/components/explain/explain.component';
 import { FilterMenuViewerComponent } from '../qan/filter-menu-viewer/filter-menu-viewer.component';
 import { ActionsService } from '../pmm-api-services/services/actions.service';
+import { TablesComponent } from '../qan/profile-details/components/tables/tables.component';
 
 @NgModule({
   imports: [
@@ -82,6 +83,7 @@ import { ActionsService } from '../pmm-api-services/services/actions.service';
     QueryExampleComponent,
     ExplainComponent,
     FilterMenuViewerComponent,
+    TablesComponent
   ],
   exports: [
     PageNotFoundComponent,
@@ -104,6 +106,7 @@ import { ActionsService } from '../pmm-api-services/services/actions.service';
     QueryExampleComponent,
     ExplainComponent,
     FilterMenuViewerComponent,
+    TablesComponent,
   ],
   providers: [
     InstanceService,
