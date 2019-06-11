@@ -52,7 +52,7 @@ export class ProfileTableComponent implements OnInit, OnDestroy, AfterViewInit {
   public tableRows$: Subscription;
   public fingerprint$: Subscription;
   public metrics: SelectOptionModel[];
-  public isFirstRender = true;
+  public isNeedScroll = false;
 
   public selectPaginationConfig = [10, 50, 100];
   public paginationConfig = {
@@ -126,11 +126,11 @@ export class ProfileTableComponent implements OnInit, OnDestroy, AfterViewInit {
 
   ngForRendered() {
     const tableHeight = this.qanTable.nativeElement.offsetHeight;
-    if (!this.isFirstRender) {
+    if (this.isNeedScroll) {
       this.componentRef.directiveRef.scrollToRight();
     }
     this.mainTableWrapper.nativeElement.style.setProperty('--table-height', `${tableHeight}px`);
-    this.isFirstRender = false;
+    this.isNeedScroll = false;
   }
 
   showDetails(filter_by, fingerPrint = '') {
@@ -186,6 +186,7 @@ export class ProfileTableComponent implements OnInit, OnDestroy, AfterViewInit {
   addColumn() {
     this.tableData.forEach(query => query.metrics.push(new MetricModel()));
     setTimeout(() => this.componentRef.directiveRef.scrollToRight(), 100);
+    this.isNeedScroll = true;
   }
 
   /**
