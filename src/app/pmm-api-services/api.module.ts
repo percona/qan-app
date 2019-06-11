@@ -11,6 +11,7 @@ import { MongoDBService } from './services/mongo-db.service';
 import { MySQLService } from './services/my-sql.service';
 import { NodeService } from './services/node.service';
 import { PostgreSQLService } from './services/postgre-sql.service';
+import { ProxySQLService } from './services/proxy-sql.service';
 import { ServiceService } from './services/service.service';
 import { FiltersService } from './services/filters.service';
 import { MetricsNamesService } from './services/metrics-names.service';
@@ -39,6 +40,7 @@ import { ServerService } from './services/server.service';
     MySQLService,
     NodeService,
     PostgreSQLService,
+    ProxySQLService,
     ServiceService,
     FiltersService,
     MetricsNamesService,

@@ -52,6 +52,7 @@ export class QanProfileService {
   private iframeQueryParams = this.route.snapshot.queryParams as QueryParams;
   private parseQueryParamDatePipe = new ParseQueryParamDatePipe();
   private defaultGroupBy = 'queryid';
+  private defaultMainMetric = new BehaviorSubject('');
   private currentDetails: ObjectDetails = {};
 
   private profileInfo: ProfileInfo = {
@@ -106,6 +107,10 @@ export class QanProfileService {
     this.group_by.next(group_by);
   }
 
+  updateDefaultMainMetric(metric: string) {
+    this.defaultMainMetric.next(metric)
+  }
+
   updateDetailsByValue(details_by: string) {
     this.profileInfo.detailsBy.next(details_by);
   }
@@ -124,5 +129,9 @@ export class QanProfileService {
 
   get getCurrentDetails(): ObjectDetails {
     return this.currentDetails;
+  }
+
+  get getDefaultMainMetric(): BehaviorSubject<string> {
+    return this.defaultMainMetric
   }
 }
