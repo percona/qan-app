@@ -4,7 +4,7 @@ import { ObjectDetails, QanProfileService } from '../../../profile/qan-profile.s
 import { ObjectDetailsService } from '../../../../pmm-api-services/services/object-details.service';
 import { Subscription } from 'rxjs/internal/Subscription';
 import { of } from 'rxjs/internal/observable/of';
-import {ProfileDetailsService} from '../../profile-details.service';
+import { ProfileDetailsService } from '../../profile-details.service';
 
 @Component({
   selector: 'app-examples-viewer',

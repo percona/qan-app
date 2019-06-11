@@ -48,7 +48,7 @@ export class ExplainComponent implements OnInit, OnDestroy {
   }
 
   private startClassic(value) {
-    this.classicStart$ = this.actionsService.StartMySQLExplainAction({
+    this.classicStart$ = this.actionsService.StartMySQLExplainTraditionalJSONAction({
       service_id: value.service_id,
       query: value.example,
       database: value.schema,
