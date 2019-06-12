@@ -1,8 +1,8 @@
 <ngb-tabset class="pmm-grafana-tabset">
   <ngb-tab *ngFor="let tableName of tablesNames$ | async" [title]="tableName">
     <ng-template ngbTabContent>
-      <ngb-accordion #acc="ngbAccordion">
-        <ngb-panel>
+      <ngb-accordion #acc="ngbAccordion" activeIds="createTale">
+        <ngb-panel id="createTale">
           <ng-template ngbPanelTitle>
             <h5 class="card-header__title">Table</h5>
           </ng-template>
