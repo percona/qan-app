@@ -11,8 +11,8 @@ import { ActionsService } from '../../../../../../pmm-api-services/services/acti
   styleUrls: ['./table-status.component.css']
 })
 export class TableStatusComponent implements OnInit, OnDestroy {
-  @Input('tableName') table: string;
-  @Input('globalConfig') config: any;
+  @Input() tableName: string;
+  @Input() globalConfig: any;
 
 
   private status$: Subscription;
@@ -28,7 +28,7 @@ export class TableStatusComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    this.startMySQLShowTableStatus(this.config, this.table);
+    this.startMySQLShowTableStatus(this.globalConfig, this.tableName);
   }
 
   ngOnDestroy() {

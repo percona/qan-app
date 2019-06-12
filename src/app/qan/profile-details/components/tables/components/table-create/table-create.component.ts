@@ -11,8 +11,8 @@ import { ActionsService } from '../../../../../../pmm-api-services/services/acti
   styleUrls: ['./table-create.component.css']
 })
 export class TableCreateComponent implements OnInit, OnDestroy {
-  @Input('tableName') table: string;
-  @Input('globalConfig') config: any;
+  @Input() tableName: string;
+  @Input() globalConfig: any;
 
   private table$: Subscription;
 
@@ -28,7 +28,7 @@ export class TableCreateComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    this.startShowCreateTable(this.config, this.table);
+    this.startShowCreateTable(this.globalConfig, this.tableName);
   }
 
   ngOnDestroy() {
