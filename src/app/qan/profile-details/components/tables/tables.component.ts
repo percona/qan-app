@@ -3,11 +3,10 @@ import { ActionsService } from '../../../../pmm-api-services/services/actions.se
 import { ObjectDetailsService } from '../../../../pmm-api-services/services/object-details.service';
 import { ObjectDetails, QanProfileService } from '../../../profile/qan-profile.service';
 import { Subscription } from 'rxjs/internal/Subscription';
-import { catchError, filter, map, startWith, switchMap, take, takeUntil } from 'rxjs/operators';
+import { catchError, filter, map, startWith, switchMap, take } from 'rxjs/operators';
 import { interval } from 'rxjs/internal/observable/interval';
 import { of } from 'rxjs/internal/observable/of';
 import { BehaviorSubject } from 'rxjs/internal/BehaviorSubject';
-import { Subject } from 'rxjs/internal/Subject';
 
 @Component({
   selector: 'app-tables',
@@ -21,15 +20,9 @@ export class TablesComponent implements OnInit, OnDestroy {
   private example$: Subscription;
   private defaultExample$: Subscription;
   private classicStart$: Subscription;
-  private status$: Subscription;
-  private startShowCreateTable$ = new Subject();
-  private startMySQLShowTableStatus$ = new Subject();
-  private table$: Subscription;
 
   public currentDetails: ObjectDetails;
   public classicOutput: any;
-  public createTableOutput = [];
-  public showTableStatusOutput: string;
   public classicError = '';
   public unsubscribe = false;
   public isExplainLoading: boolean;
@@ -51,12 +44,6 @@ export class TablesComponent implements OnInit, OnDestroy {
       .subscribe(response => this.startTablesActions(response[0]));
 
     this.tablesNames$.pipe(filter(names => !!names.length))
-    // .subscribe(names => {
-    // names.forEach(tableName => {
-    //   this.startShowCreateTable(this.globalConfig, tableName);
-    //   this.startMySQLShowTableStatus(this.globalConfig, tableName);
-    // });
-    // })
   }
 
   ngOnInit() {
@@ -117,13 +104,6 @@ export class TablesComponent implements OnInit, OnDestroy {
       this.classicStart$.unsubscribe()
     }
 
-    if (this.table$) {
-      this.table$.unsubscribe()
-    }
-
-    if (this.status$) {
-      this.status$.unsubscribe()
-    }
     this.example$.unsubscribe();
     this.defaultExample$.unsubscribe();
   }

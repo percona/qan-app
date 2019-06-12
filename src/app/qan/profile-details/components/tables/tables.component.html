@@ -1,5 +1,4 @@
 <ngb-tabset class="pmm-grafana-tabset">
-<!--  todo add component for table and generate it with ngFor-->
   <ngb-tab *ngFor="let tableName of tablesNames$ | async" [title]="tableName">
     <ng-template ngbTabContent>
       <ngb-accordion #acc="ngbAccordion">

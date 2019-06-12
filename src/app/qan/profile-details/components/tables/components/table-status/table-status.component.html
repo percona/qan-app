@@ -1,2 +1,4 @@
-<span *ngIf="statusTableError">{{statusTableError}}</span>
-<span *ngIf="!statusTableError">{{showTableStatusOutput}}</span>
+<span *ngIf="statusTableError && isError; else showOutput">{{statusTableError}}</span>
+<ng-template #showOutput>
+  <span *ngIf="isError">{{showTableStatusOutput}}</span>
+</ng-template>

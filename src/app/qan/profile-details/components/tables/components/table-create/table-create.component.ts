@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { startWith, switchMap } from 'rxjs/operators';
 import { Subscription } from 'rxjs/internal/Subscription';
 import { QanProfileService } from '../../../../../profile/qan-profile.service';
@@ -10,7 +10,7 @@ import { ActionsService } from '../../../../../../pmm-api-services/services/acti
   templateUrl: './table-create.component.html',
   styleUrls: ['./table-create.component.css']
 })
-export class TableCreateComponent implements OnInit {
+export class TableCreateComponent implements OnInit, OnDestroy {
   @Input('tableName') table: string;
   @Input('globalConfig') config: any;
 
@@ -18,15 +18,23 @@ export class TableCreateComponent implements OnInit {
 
   public createTableOutput: any;
   public createTableError = '';
+  public isError = false;
   public unsubscribe = false;
 
   constructor(
     private actionsService: ActionsService,
     protected qanProfileService: QanProfileService,
-  ) { }
+  ) {
+  }
 
   ngOnInit() {
     this.startShowCreateTable(this.config, this.table);
+  }
+
+  ngOnDestroy() {
+    if (this.table$) {
+      this.table$.unsubscribe();
+    }
   }
 
   private startShowCreateTable(value, tableName) {
@@ -43,6 +51,7 @@ export class TableCreateComponent implements OnInit {
           this.createTableOutput = res.output;
         } else {
           this.createTableError = res.error;
+          this.isError = true;
         }
         this.table$.unsubscribe();
       }

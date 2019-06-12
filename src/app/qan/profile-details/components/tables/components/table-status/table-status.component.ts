@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { startWith, switchMap } from 'rxjs/operators';
 import { Subscription } from 'rxjs/internal/Subscription';
 import { QanProfileService } from '../../../../../profile/qan-profile.service';
@@ -10,7 +10,7 @@ import { ActionsService } from '../../../../../../pmm-api-services/services/acti
   templateUrl: './table-status.component.html',
   styleUrls: ['./table-status.component.css']
 })
-export class TableStatusComponent implements OnInit {
+export class TableStatusComponent implements OnInit, OnDestroy {
   @Input('tableName') table: string;
   @Input('globalConfig') config: any;
 
@@ -18,7 +18,7 @@ export class TableStatusComponent implements OnInit {
   private status$: Subscription;
   public showTableStatusOutput: string;
   public statusTableError = '';
-  public unsubscribe = false;
+  public isError = false;
   public isExplainLoading: boolean;
 
   constructor(
@@ -29,6 +29,12 @@ export class TableStatusComponent implements OnInit {
 
   ngOnInit() {
     this.startMySQLShowTableStatus(this.config, this.table);
+  }
+
+  ngOnDestroy() {
+    if (this.status$) {
+      this.status$.unsubscribe()
+    }
   }
 
   private startMySQLShowTableStatus(value, tableName) {
@@ -45,6 +51,7 @@ export class TableStatusComponent implements OnInit {
           this.showTableStatusOutput = res.output;
         } else {
           this.statusTableError = res.error;
+          this.isError = true;
         }
 
         this.status$.unsubscribe();
