@@ -46,7 +46,7 @@ export class FilterMenuViewerComponent implements OnInit, OnDestroy {
         )))
       .subscribe(
         filters => {
-          this.filters = filters;
+          this.filters = this.filtersOrder(filters);
           console.log('this.filters - ', this.filters);
           this.filterMenuService.updateAutocompleteFilters(filters)
         }
@@ -64,7 +64,6 @@ export class FilterMenuViewerComponent implements OnInit, OnDestroy {
   filtersOrder(detailsTableData) {
     return detailsTableData.sort((a, b) => this.sortFilters(a, b));
   }
-
 
   sortFilters(a, b) {
     const order = ['environment', 'cluster', 'replication_set', 'database', 'schema', 'server', 'client_host', 'user_name', ''];
