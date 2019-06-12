@@ -15,7 +15,7 @@ import { Subject } from 'rxjs/internal/Subject';
   styleUrls: ['./tables.component.css']
 })
 export class TablesComponent implements OnInit, OnDestroy {
-  public tablesNames = new BehaviorSubject([]);
+  public tablesNames$ = new BehaviorSubject([]);
   public globalConfig: any;
 
   private example$: Subscription;
@@ -50,12 +50,13 @@ export class TablesComponent implements OnInit, OnDestroy {
       .pipe(take(1))
       .subscribe(response => this.startTablesActions(response[0]));
 
-    this.tablesNames.pipe(filter(names => !!names.length)).subscribe(names => {
-      names.forEach(tableName => {
-        this.startShowCreateTable(this.globalConfig, tableName);
-        this.startMySQLShowTableStatus(this.globalConfig, tableName);
-      });
-    })
+    this.tablesNames$.pipe(filter(names => !!names.length))
+    // .subscribe(names => {
+    // names.forEach(tableName => {
+    //   this.startShowCreateTable(this.globalConfig, tableName);
+    //   this.startMySQLShowTableStatus(this.globalConfig, tableName);
+    // });
+    // })
   }
 
   ngOnInit() {
@@ -64,43 +65,6 @@ export class TablesComponent implements OnInit, OnDestroy {
   private startTablesActions(value) {
     this.globalConfig = value;
     this.startClassic(value);
-  }
-
-  private startShowCreateTable(value, tableName) {
-    this.table$ = this.actionsService.StartMySQLShowCreateTableAction({
-      service_id: value.service_id,
-      database: value.schema,
-      table_name: tableName
-    }
-    ).pipe(
-      switchMap((item) => this.getActionResult(item)),
-      takeUntil(this.startShowCreateTable$),
-    ).subscribe(res => {
-      if (res.done) {
-        this.createTableOutput.push(res.output);
-        this.startShowCreateTable$.next(true);
-        this.table$.unsubscribe();
-      }
-    });
-  }
-
-  private startMySQLShowTableStatus(value, tableName) {
-    this.status$ = this.actionsService.StartMySQLShowTableStatusAction({
-      service_id: value.service_id,
-      database: value.schema,
-      table_name: tableName
-    }
-    ).pipe(
-      switchMap((item) => this.getActionResult(item)),
-      takeUntil(this.startMySQLShowTableStatus$)
-    ).subscribe(res => {
-      if (res.done) {
-        this.showTableStatusOutput = res.output;
-        this.startMySQLShowTableStatus$.next(true);
-        this.status$.unsubscribe();
-        this.isExplainLoading = false;
-      }
-    });
   }
 
   private startClassic(value) {
@@ -126,7 +90,7 @@ export class TablesComponent implements OnInit, OnDestroy {
           this.classicError = res.error;
         }
         if (this.classicStart$) {
-          this.tablesNames.next(names);
+          this.tablesNames$.next(names);
           this.classicStart$.unsubscribe()
         }
       }

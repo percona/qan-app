@@ -1,6 +1,6 @@
 <ngb-tabset class="pmm-grafana-tabset">
 <!--  todo add component for table and generate it with ngFor-->
-  <ngb-tab title="Table 1">
+  <ngb-tab *ngFor="let tableName of tablesNames$ | async" [title]="tableName">
     <ng-template ngbTabContent>
       <ngb-accordion #acc="ngbAccordion">
         <ngb-panel>
@@ -9,6 +9,7 @@
           </ng-template>
           <ng-template ngbPanelContent>
             <div class="card-body__content">
+              <app-table-create [tableName]="tableName" [globalConfig]="globalConfig"></app-table-create>
             </div>
           </ng-template>
         </ngb-panel>
@@ -18,6 +19,7 @@
           </ng-template>
           <ng-template ngbPanelContent class="card-body">
             <div class="card-body__content">
+              <app-table-status [tableName]="tableName" [globalConfig]="globalConfig"></app-table-status>
             </div>
           </ng-template>
         </ngb-panel>

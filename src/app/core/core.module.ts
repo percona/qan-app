@@ -47,6 +47,8 @@ import { ExplainComponent } from '../qan/profile-details/components/explain/expl
 import { FilterMenuViewerComponent } from '../qan/filter-menu-viewer/filter-menu-viewer.component';
 import { ActionsService } from '../pmm-api-services/services/actions.service';
 import { TablesComponent } from '../qan/profile-details/components/tables/tables.component';
+import { TableCreateComponent } from '../qan/profile-details/components/tables/components/table-create/table-create.component';
+import { TableStatusComponent } from '../qan/profile-details/components/tables/components/table-status/table-status.component';
 
 @NgModule({
   imports: [
@@ -83,7 +85,9 @@ import { TablesComponent } from '../qan/profile-details/components/tables/tables
     QueryExampleComponent,
     ExplainComponent,
     FilterMenuViewerComponent,
-    TablesComponent
+    TablesComponent,
+    TableCreateComponent,
+    TableStatusComponent,
   ],
   exports: [
     PageNotFoundComponent,
@@ -107,6 +111,8 @@ import { TablesComponent } from '../qan/profile-details/components/tables/tables
     ExplainComponent,
     FilterMenuViewerComponent,
     TablesComponent,
+    TableCreateComponent,
+    TableStatusComponent,
   ],
   providers: [
     InstanceService,
