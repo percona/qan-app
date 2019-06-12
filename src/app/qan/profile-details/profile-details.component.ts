@@ -55,7 +55,7 @@ export class ProfileDetailsComponent implements OnInit, OnDestroy, AfterViewChec
       this.details = this.detailsTableOrder(response);
       this.isTotal = !this.currentParams.filter_by;
 
-      if (this.details.length) {
+      if (this.details.length && this.detailsTable) {
         setTimeout(() => this.setLabelsHeight(), 0);
       }
     });
@@ -81,7 +81,9 @@ export class ProfileDetailsComponent implements OnInit, OnDestroy, AfterViewChec
   }
 
   ngAfterViewChecked() {
-    this.setLabelsHeight();
+    if (this.details.length && this.detailsTable) {
+      this.setLabelsHeight();
+    }
   }
 
   setLabelsHeight() {

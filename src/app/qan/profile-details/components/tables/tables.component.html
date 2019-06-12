@@ -1,0 +1,28 @@
+<ngb-tabset class="pmm-grafana-tabset">
+  <ngb-tab *ngFor="let tableName of tablesNames$ | async" [title]="tableName">
+    <ng-template ngbTabContent>
+      <ngb-accordion #acc="ngbAccordion" activeIds="createTale">
+        <ngb-panel id="createTale">
+          <ng-template ngbPanelTitle>
+            <h5 class="card-header__title">Table</h5>
+          </ng-template>
+          <ng-template ngbPanelContent>
+            <div class="card-body__content">
+              <app-table-create [tableName]="tableName" [globalConfig]="globalConfig"></app-table-create>
+            </div>
+          </ng-template>
+        </ngb-panel>
+        <ngb-panel>
+          <ng-template ngbPanelTitle>
+            <h5 class="card-header__title">Status</h5>
+          </ng-template>
+          <ng-template ngbPanelContent class="card-body">
+            <div class="card-body__content">
+              <app-table-status [tableName]="tableName" [globalConfig]="globalConfig"></app-table-status>
+            </div>
+          </ng-template>
+        </ngb-panel>
+      </ngb-accordion>
+    </ng-template>
+  </ngb-tab>
+</ngb-tabset>

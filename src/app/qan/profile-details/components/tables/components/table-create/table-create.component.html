@@ -1,0 +1,4 @@
+<span *ngIf="createTableError && isError; else showExample">{{createTableError}}</span>
+<ng-template #showExample>
+  <app-query-example *ngIf="isError" [exampleParam]="createTableOutput"></app-query-example>
+</ng-template>
