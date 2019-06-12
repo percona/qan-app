@@ -47,7 +47,7 @@ export class FilterMenuViewerComponent implements OnInit, OnDestroy {
       .subscribe(
         filters => {
           this.filters = this.filtersOrder(filters);
-          console.log('this.filters - ', this.filters);
+          this.sortEmptyValues(filters);
           this.filterMenuService.updateAutocompleteFilters(filters)
         }
       );
@@ -80,5 +80,22 @@ export class FilterMenuViewerComponent implements OnInit, OnDestroy {
     }
 
     return indA < indB ? -1 : 1;
+  }
+
+  sortEmptyValues(array) {
+    array.sort((a, b) => {
+      if (a.items.every(item => item.value === '') || a.items.every(item => item.value === null)) {
+        return 1
+      }
+      if (b.items.every(item => item.value === '') || b.items.every(item => item.value === null)) {
+        return -1
+      }
+      // if (a === b) {
+      //   return 0
+      // }
+      // return a < b ? -1 : 1;
+    });
+
+    console.log('array - ', array);
   }
 }
