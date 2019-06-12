@@ -50,7 +50,7 @@ export class TableStatusComponent implements OnInit, OnDestroy {
         if (!res.error) {
           this.statusTableError = '';
           this.isError = false;
-          this.showTableStatusOutput = res.output;
+          this.showTableStatusOutput = JSON.parse(res.output);
         } else {
           this.statusTableError = res.error;
           this.isError = true;

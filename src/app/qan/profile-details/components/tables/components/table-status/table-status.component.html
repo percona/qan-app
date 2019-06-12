@@ -1,4 +1,8 @@
 <span *ngIf="statusTableError && isError; else showOutput">{{statusTableError}}</span>
 <ng-template #showOutput>
-  <span *ngIf="isError">{{showTableStatusOutput}}</span>
+  <table *ngIf="!classicError">
+    <tr *ngFor="let row of showTableStatusOutput">
+      <td *ngFor="let col of row">{{col + ''}}</td>
+    </tr>
+  </table>
 </ng-template>
