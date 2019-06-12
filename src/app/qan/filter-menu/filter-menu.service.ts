@@ -98,6 +98,18 @@ export class FilterMenuService {
         return 'Node model';
       case 'container_name':
         return 'Container name';
+      case 'username':
+        return 'User Name';
+      case 'agent_id':
+        return 'Agent id';
+      case 'agent_type':
+        return 'Agent type';
+      case 'node_id':
+        return 'Node id';
+      case 'node_name':
+        return 'Node name';
+      case 'service_id':
+        return 'Service id';
       default:
         return groupName
     }

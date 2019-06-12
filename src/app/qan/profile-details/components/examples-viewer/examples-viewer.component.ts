@@ -4,6 +4,7 @@ import { ObjectDetails, QanProfileService } from '../../../profile/qan-profile.s
 import { ObjectDetailsService } from '../../../../pmm-api-services/services/object-details.service';
 import { Subscription } from 'rxjs/internal/Subscription';
 import { of } from 'rxjs/internal/observable/of';
+import { ProfileDetailsService } from '../../profile-details.service';
 
 @Component({
   selector: 'app-examples-viewer',
@@ -19,19 +20,26 @@ export class ExamplesViewerComponent implements OnInit, OnDestroy {
   constructor(
     protected qanProfileService: QanProfileService,
     protected objectDetailsService: ObjectDetailsService,
+    protected profileDetailsService: ProfileDetailsService
   ) {
     this.currentDetails = this.qanProfileService.getCurrentDetails;
     this.example$ = this.qanProfileService.getProfileInfo.details.pipe(
       switchMap(parsedParams => this.getExample(parsedParams)))
       .subscribe(
-        response => this.exampleParams = response
+        response => {
+          this.exampleParams = response;
+          this.profileDetailsService.updateExamples(this.exampleParams);
+        }
       );
   }
 
   ngOnInit() {
     this.defaultExample$ = this.getExample(this.currentDetails)
       .pipe(take(1))
-      .subscribe(response => this.exampleParams = response)
+      .subscribe(response => {
+        this.exampleParams = response;
+        this.profileDetailsService.updateExamples(this.exampleParams);
+      })
   }
 
   ngOnDestroy() {

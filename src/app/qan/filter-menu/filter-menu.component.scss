@@ -31,9 +31,10 @@
 
 .filter-group__filters {
   display: grid;
-  grid-template-columns: repeat(2, auto);
+  grid-template-columns: 1fr auto;
   grid-row-gap: var(--filter-group-indent);
   justify-content: space-between;
+  grid-column-gap: 10px;
 }
 
 .filters__count {
