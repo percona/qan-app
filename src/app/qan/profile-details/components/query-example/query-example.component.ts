@@ -9,6 +9,7 @@ import * as hljs from 'highlight.js';
 })
 export class QueryExampleComponent {
   @Input() exampleParam: any;
+  @Input() beatify: boolean;
 
   public isCopied = false;
   event = new Event('showSuccessNotification');
@@ -25,7 +26,10 @@ export class QueryExampleComponent {
   }
 
   highlightExampleQuery(exampleText) {
-    return hljs.highlight('sql', this.fixBeautifyText(exampleText)).value;
+    if (this.beatify) {
+      exampleText = this.fixBeautifyText(exampleText);
+    }
+    return hljs.highlight('sql', exampleText).value;
   }
 
   showSuccessNotification() {
