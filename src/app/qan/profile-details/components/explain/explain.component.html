@@ -1,16 +1,18 @@
-<ngb-accordion #acc="ngbAccordion">
-  <ngb-panel>
+<ngb-accordion #acc="ngbAccordion" activeIds="classicPanel">
+  <ngb-panel id="classicPanel">
     <ng-template ngbPanelTitle>
       <h5 class="card-header__title">CLASSIC</h5>
     </ng-template>
     <ng-template ngbPanelContent>
       <div class="card-body__content card-body__table">
-        <span *ngIf="classicError" class="error-with-margin">{{classicError}}</span>
-        <table *ngIf="!classicError">
-          <tr *ngFor="let row of classicOutput">
-            <td *ngFor="let col of row">{{col + ''}}</td>
-          </tr>
-        </table>
+        <span *ngIf="classicError; else table" class="error-with-margin">{{classicError}}</span>
+        <ng-template #table>
+          <table *ngIf="!classicError">
+            <tr *ngFor="let row of classicOutput">
+              <td *ngFor="let col of row">{{col + ''}}</td>
+            </tr>
+          </table>
+        </ng-template>
       </div>
     </ng-template>
   </ngb-panel>
@@ -20,7 +22,7 @@
     </ng-template>
     <ng-template ngbPanelContent class="card-body">
       <div class="card-body__content">
-<!--        <i *ngIf="isExplainLoading" class="fa fa-spinner fa-pulse fa-3x fa-fw loading"></i>-->
+        <!--        <i *ngIf="isExplainLoading" class="fa fa-spinner fa-pulse fa-3x fa-fw loading"></i>-->
         <span *ngIf="!isExplainLoading && jsonError">{{jsonError}}</span>
         <app-json-tree *ngIf="!isExplainLoading && !jsonError" [json]="jsonOutput"></app-json-tree>
       </div>
