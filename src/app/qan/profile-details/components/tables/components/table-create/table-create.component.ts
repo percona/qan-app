@@ -48,6 +48,8 @@ export class TableCreateComponent implements OnInit, OnDestroy {
     ).subscribe(res => {
       if (res.done) {
         if (!res.error) {
+          this.createTableError = '';
+          this.isError = false;
           this.createTableOutput = res.output;
         } else {
           this.createTableError = res.error;

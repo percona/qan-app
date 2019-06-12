@@ -31,11 +31,14 @@ export class ExplainComponent implements OnInit, OnDestroy {
   ) {
     this.isExplainLoading = true;
     this.currentDetails = this.qanProfileService.getCurrentDetails;
-    // todo: Add trigger when selected query changes
     this.example$ = this.qanProfileService.getProfileInfo.details.pipe(
-      switchMap(parsedParams => this.getExample(parsedParams)))
+      switchMap(parsedParams => {
+        return this.getExample(parsedParams)
+      }))
       .subscribe(
-        response => this.startExplainActions(response[0])
+        response => {
+          this.startExplainActions(response[0])
+        }
       );
 
     this.defaultExample$ = this.getExample(this.currentDetails)
@@ -59,6 +62,7 @@ export class ExplainComponent implements OnInit, OnDestroy {
     }).pipe(switchMap((item) => this.getActionResult(item))).subscribe(res => {
       if (res.done) {
         if (!res.error) {
+          this.classicError = '';
           this.classicOutput = JSON.parse(res.output);
         } else {
           this.classicError = res.error;
@@ -79,6 +83,7 @@ export class ExplainComponent implements OnInit, OnDestroy {
       res => {
         if (res.done) {
           if (!res.error) {
+            this.jsonError = '';
             this.jsonOutput = JSON.parse(res.output);
           } else {
             this.jsonError = res.error;
