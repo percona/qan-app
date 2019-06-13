@@ -5,7 +5,7 @@ import { map } from 'rxjs/operators';
 import { GetProfileBody, QanProfileService } from '../profile/qan-profile.service';
 import PerfectScrollbar from 'perfect-scrollbar';
 import { NgSelectComponent } from '@ng-select/ng-select';
-import { metricsNames } from './mock-data/metricks-names-mock';
+import { metricsNames } from './data/metricks-names-data';
 
 @Component({
   selector: 'app-qan-table-header-cell',
