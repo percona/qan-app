@@ -88,8 +88,28 @@ export class FilterMenuService {
         return 'Server';
       case 'client_host':
         return 'Client Host';
+      case 'service_type':
+        return 'Service type';
+      case 'az':
+        return 'Availability zone';
+      case 'region':
+        return 'Region Name';
+      case 'node_model':
+        return 'Node model';
+      case 'container_name':
+        return 'Container name';
       case 'username':
         return 'User Name';
+      case 'agent_id':
+        return 'Agent id';
+      case 'agent_type':
+        return 'Agent type';
+      case 'node_id':
+        return 'Node id';
+      case 'node_name':
+        return 'Node name';
+      case 'service_id':
+        return 'Service id';
       default:
         return groupName
     }
