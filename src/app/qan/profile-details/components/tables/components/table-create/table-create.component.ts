@@ -1,9 +1,10 @@
 import { Component, Input, OnDestroy, OnInit } from '@angular/core';
-import { startWith, switchMap } from 'rxjs/operators';
+import { catchError, startWith, switchMap } from 'rxjs/operators';
 import { Subscription } from 'rxjs/internal/Subscription';
 import { QanProfileService } from '../../../../../profile/qan-profile.service';
 import { interval } from 'rxjs/internal/observable/interval';
 import { ActionsService } from '../../../../../../pmm-api-services/services/actions.service';
+import { of } from 'rxjs/internal/observable/of';
 
 @Component({
   selector: 'app-table-create',
@@ -44,7 +45,11 @@ export class TableCreateComponent implements OnInit, OnDestroy {
       table_name: tableName
     }
     ).pipe(
-      switchMap((item) => this.getActionResult(item)),
+      catchError(error => {
+        error.error.done = true;
+        return of(error.error)
+      }),
+      switchMap((item) => !item.error ? this.getActionResult(item) : of(item))
     ).subscribe(res => {
       if (res.done) {
         if (!res.error) {

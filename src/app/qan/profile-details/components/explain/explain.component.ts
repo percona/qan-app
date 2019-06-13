@@ -32,9 +32,7 @@ export class ExplainComponent implements OnInit, OnDestroy {
     this.isExplainLoading = true;
     this.currentDetails = this.qanProfileService.getCurrentDetails;
     this.example$ = this.qanProfileService.getProfileInfo.details.pipe(
-      switchMap(parsedParams => {
-        return this.getExample(parsedParams)
-      }))
+      switchMap(parsedParams => this.getExample(parsedParams)))
       .subscribe(
         response => {
           this.startExplainActions(response[0])
@@ -59,7 +57,13 @@ export class ExplainComponent implements OnInit, OnDestroy {
       service_id: value.service_id,
       query: value.example,
       database: value.schema,
-    }).pipe(switchMap((item) => this.getActionResult(item))).subscribe(res => {
+    }).pipe(
+      catchError(error => {
+        error.error.done = true;
+        return of(error.error)
+      }),
+      switchMap((item) => !item.error ? this.getActionResult(item) : of(item))
+    ).subscribe(res => {
       if (res.done) {
         if (!res.error) {
           this.classicError = '';
@@ -79,7 +83,13 @@ export class ExplainComponent implements OnInit, OnDestroy {
       service_id: value.service_id,
       query: value.example,
       database: value.schema,
-    }).pipe(switchMap((item) => this.getActionResult(item))).subscribe(
+    }).pipe(
+      catchError(error => {
+        error.error.done = true;
+        return of(error.error)
+      }),
+      switchMap((item) => !item.error ? this.getActionResult(item) : of(item))
+    ).subscribe(
       res => {
         if (res.done) {
           if (!res.error) {

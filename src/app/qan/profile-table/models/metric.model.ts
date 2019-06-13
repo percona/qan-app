@@ -30,10 +30,20 @@ export class MetricModel {
           tableMetricName: 'Bytes Sent',
           tooltipText: 'The number of bytes sent to all clients.'
         };
-      case 'count':
+      case 'num_queries':
         return {
-          tableMetricName: 'Count',
+          tableMetricName: 'Query count',
           tooltipText: 'Count'
+        };
+      case 'num_queries_with_errors':
+        return {
+          tableMetricName: 'Query Count with errors',
+          tooltipText: 'Query Count with errors'
+        };
+      case 'num_queries_with_warnings':
+        return {
+          tableMetricName: 'Query Count with warnings',
+          tooltipText: 'Query Count with warnings'
         };
       case 'docs_returned':
         return {
