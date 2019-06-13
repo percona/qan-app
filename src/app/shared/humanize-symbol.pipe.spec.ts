@@ -1,4 +1,4 @@
-import { HumanLabelsPipe } from './human-labels.pipe';
+import { HumanLabelsPipe } from './humanize-symbol-pipe';
 
 describe('HumanLabelsPipe', () => {
   it('create an instance', () => {

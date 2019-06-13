@@ -1,16 +1,16 @@
 import { Pipe, PipeTransform } from '@angular/core';
 
 @Pipe({
-  name: 'humanLabels'
+  name: 'humanizeSymbolPipe'
 })
-export class HumanLabelsPipe implements PipeTransform {
-  public lablesNames = {
+export class HumanizeSymbolPipe implements PipeTransform {
+  public names = {
     'qan-mysql-perfschema-agent': 'MySQL Performance Schema',
     'mysql': 'MySQL'
   };
 
   transform(value: any, args?: any): any {
-    return value in this.lablesNames ? this.lablesNames[value] : value
+    return value in this.names ? this.names[value] : value
   }
 
 }

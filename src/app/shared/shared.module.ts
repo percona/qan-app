@@ -16,7 +16,7 @@ import { TableHeadersToMultiplePipe } from './table-headers-to-multiple.pipe';
 import { AutofocusDirective } from './autofocus.directive';
 import { LoadBarChartDirective } from './load-bar-chart.directive';
 import { LoadPolygonChartDirective } from './load-polygon-chart.directive';
-import { HumanLabelsPipe } from './human-labels.pipe';
+import { HumanizeSymbolPipe } from './humanize-symbol-pipe';
 
 @NgModule({
   imports: [
@@ -35,13 +35,13 @@ import { HumanLabelsPipe } from './human-labels.pipe';
     LoadBarChartDirective,
     LoadPolygonChartDirective,
     AutofocusDirective,
-    HumanLabelsPipe,
+    HumanizeSymbolPipe,
   ],
   exports: [
     MapToIterablePipe,
     MomentFormatPipe,
     TruncateRootPipe,
-    HumanLabelsPipe,
+    HumanizeSymbolPipe,
     HumanizePipe,
     LatencyChartDirective,
     LoadSparklinesDirective,
