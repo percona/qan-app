@@ -90,12 +90,6 @@ export class FilterMenuViewerComponent implements OnInit, OnDestroy {
       if (b.items.every(item => item.value === '') || b.items.every(item => item.value === null)) {
         return -1
       }
-      // if (a === b) {
-      //   return 0
-      // }
-      // return a < b ? -1 : 1;
     });
-
-    console.log('array - ', array);
   }
 }
