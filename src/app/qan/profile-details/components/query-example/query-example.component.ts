@@ -14,7 +14,8 @@ export class QueryExampleComponent {
   public isCopied = false;
   event = new Event('showSuccessNotification');
 
-  constructor() { }
+  constructor() {
+  }
 
   /**
    * Fix beautify dispalying text, will be delete after approve https://github.com/vkiryukhin/vkBeautify/pull/25
@@ -35,6 +36,8 @@ export class QueryExampleComponent {
   showSuccessNotification() {
     this.isCopied = true;
     window.parent.document.dispatchEvent(this.event);
-    setTimeout(() => { this.isCopied = false }, 3000);
+    setTimeout(() => {
+      this.isCopied = false
+    }, 3000);
   }
 }

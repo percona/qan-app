@@ -1,4 +1,4 @@
-<ngb-tabset class="pmm-grafana-tabset">
+<ngb-tabset *ngIf="!tablesError; else alertMessage" class="pmm-grafana-tabset">
   <ngb-tab *ngFor="let tableName of tablesNames$ | async" [title]="tableName">
     <ng-template ngbTabContent>
       <ngb-accordion #acc="ngbAccordion" activeIds="createTale">
@@ -26,3 +26,6 @@
     </ng-template>
   </ngb-tab>
 </ngb-tabset>
+<ng-template #alertMessage>
+  <ngb-alert [type]="'warning'">{{ tablesError }}</ngb-alert>
+</ng-template>

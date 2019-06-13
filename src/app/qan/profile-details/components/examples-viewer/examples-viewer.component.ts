@@ -49,7 +49,9 @@ export class ExamplesViewerComponent implements OnInit, OnDestroy {
 
   getExample(responseParams) {
     return this.objectDetailsService.GetQueryExample(responseParams).pipe(
-      catchError(err => of({ query_examples: [] })),
+      catchError(err => {
+        return of({ query_examples: [] })
+      }),
       map(response => response.query_examples),
       catchError(err => of([])))
   }
