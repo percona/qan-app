@@ -14,7 +14,6 @@
                 <ng-container *ngFor="let metric of row.metrics; let indexMetrics = index">
                   <app-qan-table-header-cell [currentColumnName]="metric.metricName"
                                              [fullData]="tableData"
-                                             [metrics]="metrics"
                                              [processIndex]="indexMetrics"
                                              [rowMetrics]="row.metrics">
                   </app-qan-table-header-cell>

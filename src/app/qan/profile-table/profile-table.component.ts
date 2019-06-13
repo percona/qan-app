@@ -98,9 +98,15 @@ export class ProfileTableComponent implements OnInit, OnDestroy, AfterViewInit {
         console.log('error - ', err)
       });
 
-    this.metrics$ = this.metricsNamesService.GetMetricsNames({}).pipe(
-      map(metrics => this.generateMetricsNames(metrics))
-    ).subscribe(metrics => this.metrics = metrics);
+    // this.metrics$ = this.metricsNamesService.GetMetricsNames({}).pipe(
+    //   map(metrics => {
+    //     console.log('str - ', JSON.stringify(metrics));
+    //     return this.generateMetricsNames(metrics)
+    //   })
+    // ).subscribe(metrics => {
+    //   this.metrics = metrics;
+    //   console.log('JSON stringify - ', JSON.stringify(this.metrics));
+    // });
 
     this.detailsBy$ = this.qanProfileService.getProfileInfo.detailsBy.subscribe(details_by => this.detailsBy = details_by);
     this.fingerprint$ = this.qanProfileService.getProfileInfo.fingerprint.subscribe(fingerprint => this.fingerprint = fingerprint);
