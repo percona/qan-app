@@ -23,7 +23,7 @@ export class TablesComponent implements OnInit, OnDestroy {
 
   public currentDetails: ObjectDetails;
   public classicOutput: any;
-  public classicError = '';
+  public tablesError = '';
   public unsubscribe = false;
   public isExplainLoading: boolean;
 
@@ -59,12 +59,18 @@ export class TablesComponent implements OnInit, OnDestroy {
       service_id: value.service_id,
       query: value.example,
       database: value.schema,
-    }).pipe(switchMap((item) => this.getActionResult(item))).subscribe(res => {
+    }).pipe(
+      catchError(error => {
+        error.error.done = true;
+        return of(error.error)
+      }),
+      switchMap((item) => !item.error ? this.getActionResult(item) : of(item))
+    ).subscribe(res => {
       if (res.done) {
         const names = [];
         if (!res.error) {
           let indexOfName;
-
+          this.tablesError = '';
           this.classicOutput = JSON.parse(res.output);
           this.classicOutput.forEach((row, index) => {
             if (!index) {
@@ -74,7 +80,7 @@ export class TablesComponent implements OnInit, OnDestroy {
             }
           })
         } else {
-          this.classicError = res.error;
+          this.tablesError = res.error;
         }
         if (this.classicStart$) {
           this.tablesNames$.next(names);
