@@ -89,27 +89,31 @@ export class FilterMenuService {
       case 'client_host':
         return 'Client Host';
       case 'service_type':
-        return 'Service type';
+        return 'Service Type';
       case 'az':
-        return 'Availability zone';
+        return 'Availability Zone';
       case 'region':
         return 'Region Name';
       case 'node_model':
-        return 'Node model';
+        return 'Node Model';
       case 'container_name':
-        return 'Container name';
+        return 'Container Name';
       case 'username':
         return 'User Name';
       case 'agent_id':
-        return 'Agent id';
+        return 'Agent ID';
       case 'agent_type':
-        return 'Agent type';
+        return 'Agent Type';
       case 'node_id':
-        return 'Node id';
+        return 'Node ID';
+      case 'node_type':
+        return 'Node Type';
       case 'node_name':
-        return 'Node name';
+        return 'Node Name';
       case 'service_id':
-        return 'Service id';
+        return 'Service ID';
+      case 'machine_id':
+        return 'Machine ID';
       default:
         return groupName
     }
