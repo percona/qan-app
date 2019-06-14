@@ -1,6 +1,6 @@
 import { CustomLabelsModel } from '../../custom-labels.model';
 
-export class MongoMysqlExporterModel {
+export class GeneralDbExporterModel {
   agent_id: string;
   custom_labels: Array<CustomLabelsModel>;
   disabled: boolean | string;
