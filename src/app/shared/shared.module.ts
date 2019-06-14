@@ -18,7 +18,7 @@ import { LoadBarChartDirective } from './load-bar-chart.directive';
 import { LoadPolygonChartDirective } from './load-polygon-chart.directive';
 import { MiddleEllipsisDirective } from './middle-ellipsis.directive';
 import { EllipsisMiddlePipe } from '../src/app/shared/ellipsis-middle.pipe';
-
+import { HumanizeSymbolPipe } from './humanize-symbol-pipe';
 
 @NgModule({
   imports: [
@@ -37,6 +37,7 @@ import { EllipsisMiddlePipe } from '../src/app/shared/ellipsis-middle.pipe';
     LoadBarChartDirective,
     LoadPolygonChartDirective,
     AutofocusDirective,
+    HumanizeSymbolPipe,
     MiddleEllipsisDirective,
     EllipsisMiddlePipe
   ],
@@ -44,6 +45,7 @@ import { EllipsisMiddlePipe } from '../src/app/shared/ellipsis-middle.pipe';
     MapToIterablePipe,
     MomentFormatPipe,
     TruncateRootPipe,
+    HumanizeSymbolPipe,
     HumanizePipe,
     LatencyChartDirective,
     LoadSparklinesDirective,
@@ -58,7 +60,7 @@ import { EllipsisMiddlePipe } from '../src/app/shared/ellipsis-middle.pipe';
     FormsModule,
     HttpClientModule,
     NgbModule,
-    RouterModule
+    RouterModule,
   ]
 })
 export class SharedModule {

@@ -1,1 +1,3 @@
-<app-query-example *ngFor="let exampleParam of exampleParams" [exampleParam]="exampleParam"></app-query-example>
+<ng-container *ngFor="let exampleParam of exampleParams">
+  <app-query-example *ngIf="exampleParam?.example" [exampleParam]="exampleParam?.example" [beatify]="true"></app-query-example>
+</ng-container>

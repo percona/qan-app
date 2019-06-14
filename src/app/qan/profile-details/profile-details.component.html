@@ -27,5 +27,15 @@
         <app-examples-viewer></app-examples-viewer>
       </ng-template>
     </ngb-tab>
+    <ngb-tab *ngIf="!isTotal" title="Explain">
+      <ng-template ngbTabContent>
+        <app-explain></app-explain>
+      </ng-template>
+    </ngb-tab>
+    <ngb-tab *ngIf="!isTotal" title="Tables">
+      <ng-template ngbTabContent>
+        <app-tables></app-tables>
+      </ng-template>
+    </ngb-tab>
   </ngb-tabset>
 </ng-container>

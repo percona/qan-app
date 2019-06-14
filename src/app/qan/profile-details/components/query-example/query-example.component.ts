@@ -9,11 +9,13 @@ import * as hljs from 'highlight.js';
 })
 export class QueryExampleComponent {
   @Input() exampleParam: any;
+  @Input() beatify: boolean;
 
   public isCopied = false;
   event = new Event('showSuccessNotification');
 
-  constructor() { }
+  constructor() {
+  }
 
   /**
    * Fix beautify dispalying text, will be delete after approve https://github.com/vkiryukhin/vkBeautify/pull/25
@@ -25,12 +27,17 @@ export class QueryExampleComponent {
   }
 
   highlightExampleQuery(exampleText) {
-    return hljs.highlight('sql', this.fixBeautifyText(exampleText)).value;
+    if (this.beatify) {
+      exampleText = this.fixBeautifyText(exampleText);
+    }
+    return hljs.highlight('sql', exampleText).value;
   }
 
   showSuccessNotification() {
     this.isCopied = true;
     window.parent.document.dispatchEvent(this.event);
-    setTimeout(() => { this.isCopied = false }, 3000);
+    setTimeout(() => {
+      this.isCopied = false
+    }, 3000);
   }
 }
