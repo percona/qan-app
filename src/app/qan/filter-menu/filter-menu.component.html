@@ -18,9 +18,8 @@
                 [(ngModel)]="filter.state"
                 type="checkbox">
               <span class="checkbox-container__checkmark"></span>
-              <span class="checkbox-container__label-text">{{filter.value ? (filter.value | humanizeSymbolPipe) : 'n/a'}}</span>
-              <span class="checkbox-container__label-text" autoClose="false" [placement]="index > 10 ? 'top-left' : 'bottom-left'" [ngbTooltip]="'/agent_id/c30346f9-9267-4ed4-b5bf-f8a4fc028c25'" tooltipClass="pmm-tooltip">
-                {{ index > 10 ? (filter.value | ellipsisMiddle) : filter.value }}
+              <span class="checkbox-container__label-text" closeDelay="5000000" [placement]="index > 10 ? 'top-left' : 'bottom-left'" [ngbTooltip]="filter.value" tooltipClass="pmm-tooltip">
+                {{ filter.value | ellipsisMiddle }}
               </span>
             </label>
             <span class="filters__count">

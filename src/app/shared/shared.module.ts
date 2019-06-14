@@ -61,6 +61,9 @@ import { HumanizeSymbolPipe } from './humanize-symbol-pipe';
     HttpClientModule,
     NgbModule,
     RouterModule,
+  ],
+  providers: [
+    HumanizeSymbolPipe
   ]
 })
 export class SharedModule {
