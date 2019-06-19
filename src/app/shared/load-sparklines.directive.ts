@@ -150,14 +150,17 @@ export class LoadSparklinesDirective implements OnChanges {
       const x = xScale(isoParse(d[xkey]));
       const y = yScale(d[ykey] === undefined ? 0 : d[ykey]);
 
-      const MIN = 0,
-        MAX = 1;
+      const MIN = 0, MAX = 1;
+
       focus.select('#focusCircle')
         .attr('cx', x)
         .attr('cy', y);
+
       focus.select('#focusLineX')
-        .attr('x1', x).attr('y1', yScale(yDomain[MIN]))
-        .attr('x2', x).attr('y2', yScale(yDomain[MAX]));
+        .attr('x1', x)
+        .attr('y1', yScale(yDomain[MIN]))
+        .attr('x2', x)
+        .attr('y2', yScale(yDomain[MAX]));
 
       const value = d[ykey] === undefined ? 0 : d[ykey];
       const load = this.humanize.transform(value, measurement);

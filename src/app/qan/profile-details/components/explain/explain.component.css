@@ -1,0 +1,22 @@
+pre {
+  font-size: inherit;
+  color: inherit;
+}
+
+.card-body__table {
+  margin: 0;
+}
+
+.error-with-margin {
+  margin: var(--accordion-inner-indent);
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+th, td {
+  padding: 5px;
+  border: 1px solid var(--border-color);
+}

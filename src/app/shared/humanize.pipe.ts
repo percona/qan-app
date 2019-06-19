@@ -3,9 +3,9 @@ import * as moment from 'moment';
 import * as numeral from 'numeral';
 
 /**
-   * @desc humanize time duration
-   * @example <div>{{ duration | humanize }}</div>
-   */
+ * @desc humanize time duration
+ * @example <div>{{ duration | humanize }}</div>
+ */
 @Pipe({ name: 'humanize' })
 export class HumanizePipe implements PipeTransform {
 
@@ -77,6 +77,9 @@ export class HumanizePipe implements PipeTransform {
       case name.indexOf('percent') > -1:
         if (input !== 0 && input < 0.0001) {
           res = '<0.01';
+        }
+        if (input === 1) {
+          res = '100%'
         } else {
           res = numeral(input).format('0.00%');
         }

@@ -96,4 +96,8 @@ export class SearchAutocompleteComponent implements OnInit, OnDestroy {
   addCustomScroll() {
     setTimeout(() => new PerfectScrollbar('.ng-dropdown-panel-items'), 0)
   }
+
+  humanizeLabelGroup(groupName) {
+    return this.qanFilterService.humanNamesForGroup(groupName);
+  }
 }

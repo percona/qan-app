@@ -9,10 +9,15 @@ import { DataFormatService } from '../services/data-format.service';
   styleUrls: ['./table-cell.component.css']
 })
 export class TableCellComponent implements OnInit {
+  public isSparkline: boolean;
   @Input() metricData: MetricModel;
   @Input() sparklineData: any;
   @Input() totalSum: any;
-  @Input() isSparkline = false;
+
+  @Input() set checkSparkline(state) {
+    this.isDefaultColumn = this.defaultColumns.includes(this.metricData.metricName);
+    this.isSparkline = state && this.sparklineData.some(item => item[this.setKeyForSparkline(this.metricData.metricName)]);
+  }
 
   private defaultColumns = ['load', 'count', 'latency'];
   public yKey: string;
@@ -35,17 +40,16 @@ export class TableCellComponent implements OnInit {
   ngOnInit() {
     this.isStats = Object.keys(this.metricData.stats).includes('min' && 'max');
     this.isSum = this.metricData.stats.sum >= 0;
-    this.isDefaultColumn = this.defaultColumns.includes(this.metricData.metricName);
     this.isCount = this.metricData.metricName === 'count';
     this.isLatency = this.metricData.metricName === 'latency';
-    this.setCurrentSparkline(this.metricData.metricName);
+    this.setValuesTypes(this.metricData.metricName);
   }
 
   /**
    * Set sparkline type and display column for config parameters
    * @param name - checked column-type name
    */
-  setCurrentSparkline(name: string) {
+  setValuesTypes(name: string) {
     const { sumPipe = '', sparklineType = '' } = name ? this.dataFormat.setDataFormat(name) : {};
 
     this.pipeType = sumPipe;
@@ -61,16 +65,16 @@ export class TableCellComponent implements OnInit {
     if (this.isDefaultColumn) {
       return this.setKeyForDefaultSparkline(name);
     } else {
-      return `m_${name}_sum`
+      return `m_${name}_sum_per_sec`
     }
   }
 
   setKeyForDefaultSparkline(name: string): string {
     switch (name) {
       case 'load':
-        return 'm_query_load';
+        return 'm_query_time_sum_per_sec';
       case 'count':
-        return 'num_queries_sum';
+        return 'num_queries_per_sec';
       case 'latency':
         return 'm_query_time_avg';
       default:

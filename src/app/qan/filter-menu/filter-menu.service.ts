@@ -63,7 +63,59 @@ export class FilterMenuService {
 
   addSelectedToResponse(selected) {
     const currentUrlParams = this.qanProfileService.getProfileParams.getValue();
+    const detailsUrlParams = this.qanProfileService.getCurrentDetails;
     currentUrlParams.labels = this.prepareLabels(selected);
     this.qanProfileService.updateProfileParams(currentUrlParams);
+    if (detailsUrlParams.hasOwnProperty('filter_by')) {
+      detailsUrlParams.labels = this.prepareLabels(selected);
+      this.qanProfileService.updateObjectDetails(detailsUrlParams);
+    }
+  }
+
+  humanNamesForGroup(groupName) {
+    switch (groupName) {
+      case 'environment':
+        return 'Environment';
+      case 'cluster':
+        return 'Cluster';
+      case 'replication_set':
+        return 'Replication Set';
+      case 'database':
+        return 'Database';
+      case 'schema':
+        return 'Schema';
+      case 'server':
+        return 'Server';
+      case 'client_host':
+        return 'Client Host';
+      case 'service_type':
+        return 'Service Type';
+      case 'az':
+        return 'Availability Zone';
+      case 'region':
+        return 'Region Name';
+      case 'node_model':
+        return 'Node Model';
+      case 'container_name':
+        return 'Container Name';
+      case 'username':
+        return 'User Name';
+      case 'agent_id':
+        return 'Agent ID';
+      case 'agent_type':
+        return 'Agent Type';
+      case 'node_id':
+        return 'Node ID';
+      case 'node_type':
+        return 'Node Type';
+      case 'node_name':
+        return 'Node Name';
+      case 'service_id':
+        return 'Service ID';
+      case 'machine_id':
+        return 'Machine ID';
+      default:
+        return groupName
+    }
   }
 }

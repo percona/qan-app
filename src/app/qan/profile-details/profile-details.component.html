@@ -7,22 +7,34 @@
     <ngb-tab title="Details">
       <ng-template ngbTabContent>
         <section class="details-output">
-          <div class="grid-table">
+          <div class="grid-table" #detailsTable>
             <header class="grid-table__row grid-table__row--metrics">
               <span>Metric</span>
               <span>Rate/Second</span>
               <span>Total</span>
               <span>Per Query Stats</span>
             </header>
-            <app-details-row *ngFor="let detail of details" [currentMetric]="detail"></app-details-row>
+            <app-details-row *ngFor="let detail of details" [currentMetric]="detail" #detailsTableRows></app-details-row>
           </div>
-          <app-details-labels></app-details-labels>
+          <div class="labels-wrapper" #labels>
+            <app-details-labels></app-details-labels>
+          </div>
         </section>
       </ng-template>
     </ngb-tab>
-    <ngb-tab title="Examples">
+    <ngb-tab *ngIf="!isTotal" title="Examples">
       <ng-template ngbTabContent>
         <app-examples-viewer></app-examples-viewer>
+      </ng-template>
+    </ngb-tab>
+    <ngb-tab *ngIf="!isTotal" title="Explain">
+      <ng-template ngbTabContent>
+        <app-explain></app-explain>
+      </ng-template>
+    </ngb-tab>
+    <ngb-tab *ngIf="!isTotal" title="Tables">
+      <ng-template ngbTabContent>
+        <app-tables></app-tables>
       </ng-template>
     </ngb-tab>
   </ngb-tabset>

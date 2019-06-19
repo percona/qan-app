@@ -14,8 +14,7 @@
                 <ng-container *ngFor="let metric of row.metrics; let indexMetrics = index">
                   <app-qan-table-header-cell [currentColumnName]="metric.metricName"
                                              [fullData]="tableData"
-                                             [metrics]="metrics"
-                                             [index]="indexMetrics"
+                                             [processIndex]="indexMetrics"
                                              [rowMetrics]="row.metrics">
                   </app-qan-table-header-cell>
                 </ng-container>
@@ -38,8 +37,8 @@
                 </td>
                 <ng-container *ngFor="let metric of row.metrics; let index = index">
                   <app-qan-table-cell [metricData]="metric"
-                                      [isSparkline]="!index"
                                       [sparklineData]="row.sparkline"
+                                      [checkSparkline]="!index"
                                       [totalSum]="tableData[0][metric.metricName]">
                   </app-qan-table-cell>
                 </ng-container>

@@ -41,14 +41,26 @@ body {
   fill: #6ed0e0;
 }
 
-.axis path, .axis line {
-  fill: none;
-  stroke: none;
+.tick {
+  opacity: 0;
 }
-.axis .grid-line {
-  stroke: #000;
-  stroke-opacity: 0.2;
-}
+
+//svg .active-rect {
+//  display: none;
+//}
+//
+//svg:hover .active-rect {
+//  display: block;
+//}
+
+//.axis path, .axis line {
+//  fill: none;
+//  stroke: none;
+//}
+//.axis .grid-line {
+//  stroke: #000;
+//  stroke-opacity: 0.2;
+//}
 
 .center-children {
   display: flex;
@@ -104,19 +116,19 @@ footer {
   cursor: pointer;
 }
 
-.d_schema {
+.schema {
   color: var(--color-shemas);
 }
 
-.d_server {
+.server {
   color: var(--color-servers);
 }
 
-.d_username {
+.username {
   color: var(--color-users);
 }
 
-.d_client_host {
+.client_host {
   color: var(--color-hosts);
 }
 

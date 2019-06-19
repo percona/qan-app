@@ -136,6 +136,11 @@
                   "description": "Service identifier.",
                   "type": "string"
                 },
+                "skip_connection_check": {
+                  "description": "Skip connection check.",
+                  "type": "boolean",
+                  "format": "boolean"
+                },
                 "username": {
                   "description": "MongoDB username for scraping metrics.",
                   "type": "string"
@@ -264,6 +269,11 @@
                 "service_id": {
                   "description": "Service identifier.",
                   "type": "string"
+                },
+                "skip_connection_check": {
+                  "description": "Skip connection check.",
+                  "type": "boolean",
+                  "format": "boolean"
                 },
                 "username": {
                   "description": "MySQL username for scraping metrics.",
@@ -586,6 +596,11 @@
                   "description": "Service identifier.",
                   "type": "string"
                 },
+                "skip_connection_check": {
+                  "description": "Skip connection check.",
+                  "type": "boolean",
+                  "format": "boolean"
+                },
                 "username": {
                   "description": "PostgreSQL username for scraping metrics.",
                   "type": "string"
@@ -681,6 +696,140 @@
         }
       }
     },
+    "/v0/inventory/Agents/AddProxySQLExporter": {
+      "post": {
+        "tags": [
+          "Agents"
+        ],
+        "summary": "AddProxySQLExporter adds proxysql_exporter Agent.",
+        "operationId": "AddProxySQLExporter",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "custom_labels": {
+                  "description": "Custom user-assigned labels.",
+                  "type": "object",
+                  "additionalProperties": {
+                    "type": "string"
+                  }
+                },
+                "password": {
+                  "description": "ProxySQL password for scraping metrics.",
+                  "type": "string"
+                },
+                "pmm_agent_id": {
+                  "description": "The pmm-agent identifier which runs this instance.",
+                  "type": "string"
+                },
+                "service_id": {
+                  "description": "Service identifier.",
+                  "type": "string"
+                },
+                "skip_connection_check": {
+                  "description": "Skip connection check.",
+                  "type": "boolean",
+                  "format": "boolean"
+                },
+                "username": {
+                  "description": "ProxySQL username for scraping metrics.",
+                  "type": "string"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "proxysql_exporter": {
+                  "description": "ProxySQLExporter runs on Generic or Container Node and exposes MySQL and AmazonRDSMySQL Service metrics.",
+                  "type": "object",
+                  "properties": {
+                    "agent_id": {
+                      "description": "Unique randomly generated instance identifier.",
+                      "type": "string"
+                    },
+                    "custom_labels": {
+                      "description": "Custom user-assigned labels.",
+                      "type": "object",
+                      "additionalProperties": {
+                        "type": "string"
+                      }
+                    },
+                    "disabled": {
+                      "description": "Desired Agent status: enabled (false) or disabled (true).",
+                      "type": "boolean",
+                      "format": "boolean"
+                    },
+                    "listen_port": {
+                      "description": "Listen port for scraping metrics.",
+                      "type": "integer",
+                      "format": "int64"
+                    },
+                    "password": {
+                      "description": "ProxySQL password for scraping metrics.",
+                      "type": "string"
+                    },
+                    "pmm_agent_id": {
+                      "description": "The pmm-agent identifier which runs this instance.",
+                      "type": "string"
+                    },
+                    "service_id": {
+                      "description": "Service identifier.",
+                      "type": "string"
+                    },
+                    "status": {
+                      "description": "AgentStatus represents actual Agent status.",
+                      "type": "string",
+                      "default": "AGENT_STATUS_INVALID",
+                      "enum": [
+                        "AGENT_STATUS_INVALID",
+                        "STARTING",
+                        "RUNNING",
+                        "WAITING",
+                        "STOPPING",
+                        "DONE"
+                      ]
+                    },
+                    "username": {
+                      "description": "ProxySQL username for scraping metrics.",
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "An error response.",
+            "schema": {
+              "description": "ErrorResponse is a message returned on HTTP error.",
+              "type": "object",
+              "properties": {
+                "code": {
+                  "type": "integer",
+                  "format": "int32"
+                },
+                "error": {
+                  "type": "string"
+                },
+                "message": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/v0/inventory/Agents/AddQANMongoDBProfilerAgent": {
       "post": {
         "tags": [
@@ -714,6 +863,11 @@
                 "service_id": {
                   "description": "Service identifier.",
                   "type": "string"
+                },
+                "skip_connection_check": {
+                  "description": "Skip connection check.",
+                  "type": "boolean",
+                  "format": "boolean"
                 },
                 "username": {
                   "description": "MongoDB username for getting profile data.",
@@ -839,6 +993,11 @@
                   "description": "Service identifier.",
                   "type": "string"
                 },
+                "skip_connection_check": {
+                  "description": "Skip connection check.",
+                  "type": "boolean",
+                  "format": "boolean"
+                },
                 "username": {
                   "description": "MySQL username for getting performance data.",
                   "type": "string"
@@ -962,6 +1121,11 @@
                 "service_id": {
                   "description": "Service identifier.",
                   "type": "string"
+                },
+                "skip_connection_check": {
+                  "description": "Skip connection check.",
+                  "type": "boolean",
+                  "format": "boolean"
                 },
                 "username": {
                   "description": "MySQL username for getting slowlog data.",
@@ -1774,6 +1938,141 @@
         }
       }
     },
+    "/v0/inventory/Agents/ChangeProxySQLExporter": {
+      "post": {
+        "tags": [
+          "Agents"
+        ],
+        "summary": "ChangeProxySQLExporter changes proxysql_exporter Agent.",
+        "operationId": "ChangeProxySQLExporter",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "agent_id": {
+                  "type": "string"
+                },
+                "common": {
+                  "description": "ChangeCommonAgentParams contains parameters that can be changed for all Agents.",
+                  "type": "object",
+                  "properties": {
+                    "custom_labels": {
+                      "description": "Replace all custom user-assigned labels.",
+                      "type": "object",
+                      "additionalProperties": {
+                        "type": "string"
+                      }
+                    },
+                    "disabled": {
+                      "type": "boolean",
+                      "format": "boolean"
+                    },
+                    "enabled": {
+                      "type": "boolean",
+                      "format": "boolean"
+                    },
+                    "remove_custom_labels": {
+                      "description": "Remove all custom user-assigned labels.",
+                      "type": "boolean",
+                      "format": "boolean"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "proxysql_exporter": {
+                  "description": "ProxySQLExporter runs on Generic or Container Node and exposes MySQL and AmazonRDSMySQL Service metrics.",
+                  "type": "object",
+                  "properties": {
+                    "agent_id": {
+                      "description": "Unique randomly generated instance identifier.",
+                      "type": "string"
+                    },
+                    "custom_labels": {
+                      "description": "Custom user-assigned labels.",
+                      "type": "object",
+                      "additionalProperties": {
+                        "type": "string"
+                      }
+                    },
+                    "disabled": {
+                      "description": "Desired Agent status: enabled (false) or disabled (true).",
+                      "type": "boolean",
+                      "format": "boolean"
+                    },
+                    "listen_port": {
+                      "description": "Listen port for scraping metrics.",
+                      "type": "integer",
+                      "format": "int64"
+                    },
+                    "password": {
+                      "description": "ProxySQL password for scraping metrics.",
+                      "type": "string"
+                    },
+                    "pmm_agent_id": {
+                      "description": "The pmm-agent identifier which runs this instance.",
+                      "type": "string"
+                    },
+                    "service_id": {
+                      "description": "Service identifier.",
+                      "type": "string"
+                    },
+                    "status": {
+                      "description": "AgentStatus represents actual Agent status.",
+                      "type": "string",
+                      "default": "AGENT_STATUS_INVALID",
+                      "enum": [
+                        "AGENT_STATUS_INVALID",
+                        "STARTING",
+                        "RUNNING",
+                        "WAITING",
+                        "STOPPING",
+                        "DONE"
+                      ]
+                    },
+                    "username": {
+                      "description": "ProxySQL username for scraping metrics.",
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "An error response.",
+            "schema": {
+              "description": "ErrorResponse is a message returned on HTTP error.",
+              "type": "object",
+              "properties": {
+                "code": {
+                  "type": "integer",
+                  "format": "int32"
+                },
+                "error": {
+                  "type": "string"
+                },
+                "message": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/v0/inventory/Agents/ChangeQANMongoDBProfilerAgent": {
       "post": {
         "tags": [
@@ -2556,6 +2855,62 @@
                     }
                   }
                 },
+                "proxysql_exporter": {
+                  "description": "ProxySQLExporter runs on Generic or Container Node and exposes MySQL and AmazonRDSMySQL Service metrics.",
+                  "type": "object",
+                  "properties": {
+                    "agent_id": {
+                      "description": "Unique randomly generated instance identifier.",
+                      "type": "string"
+                    },
+                    "custom_labels": {
+                      "description": "Custom user-assigned labels.",
+                      "type": "object",
+                      "additionalProperties": {
+                        "type": "string"
+                      }
+                    },
+                    "disabled": {
+                      "description": "Desired Agent status: enabled (false) or disabled (true).",
+                      "type": "boolean",
+                      "format": "boolean"
+                    },
+                    "listen_port": {
+                      "description": "Listen port for scraping metrics.",
+                      "type": "integer",
+                      "format": "int64"
+                    },
+                    "password": {
+                      "description": "ProxySQL password for scraping metrics.",
+                      "type": "string"
+                    },
+                    "pmm_agent_id": {
+                      "description": "The pmm-agent identifier which runs this instance.",
+                      "type": "string"
+                    },
+                    "service_id": {
+                      "description": "Service identifier.",
+                      "type": "string"
+                    },
+                    "status": {
+                      "description": "AgentStatus represents actual Agent status.",
+                      "type": "string",
+                      "default": "AGENT_STATUS_INVALID",
+                      "enum": [
+                        "AGENT_STATUS_INVALID",
+                        "STARTING",
+                        "RUNNING",
+                        "WAITING",
+                        "STOPPING",
+                        "DONE"
+                      ]
+                    },
+                    "username": {
+                      "description": "ProxySQL username for scraping metrics.",
+                      "type": "string"
+                    }
+                  }
+                },
                 "qan_mongodb_profiler_agent": {
                   "description": "QANMongoDBProfilerAgent runs within pmm-agent and sends MongoDB Query Analytics data to the PMM Server.",
                   "type": "object",
@@ -3099,6 +3454,65 @@
                       },
                       "username": {
                         "description": "PostgreSQL username for scraping metrics.",
+                        "type": "string"
+                      }
+                    }
+                  }
+                },
+                "proxysql_exporter": {
+                  "type": "array",
+                  "items": {
+                    "description": "ProxySQLExporter runs on Generic or Container Node and exposes MySQL and AmazonRDSMySQL Service metrics.",
+                    "type": "object",
+                    "properties": {
+                      "agent_id": {
+                        "description": "Unique randomly generated instance identifier.",
+                        "type": "string"
+                      },
+                      "custom_labels": {
+                        "description": "Custom user-assigned labels.",
+                        "type": "object",
+                        "additionalProperties": {
+                          "type": "string"
+                        }
+                      },
+                      "disabled": {
+                        "description": "Desired Agent status: enabled (false) or disabled (true).",
+                        "type": "boolean",
+                        "format": "boolean"
+                      },
+                      "listen_port": {
+                        "description": "Listen port for scraping metrics.",
+                        "type": "integer",
+                        "format": "int64"
+                      },
+                      "password": {
+                        "description": "ProxySQL password for scraping metrics.",
+                        "type": "string"
+                      },
+                      "pmm_agent_id": {
+                        "description": "The pmm-agent identifier which runs this instance.",
+                        "type": "string"
+                      },
+                      "service_id": {
+                        "description": "Service identifier.",
+                        "type": "string"
+                      },
+                      "status": {
+                        "description": "AgentStatus represents actual Agent status.",
+                        "type": "string",
+                        "default": "AGENT_STATUS_INVALID",
+                        "enum": [
+                          "AGENT_STATUS_INVALID",
+                          "STARTING",
+                          "RUNNING",
+                          "WAITING",
+                          "STOPPING",
+                          "DONE"
+                        ]
+                      },
+                      "username": {
+                        "description": "ProxySQL username for scraping metrics.",
                         "type": "string"
                       }
                     }
@@ -4707,6 +5121,10 @@
                   "description": "Access address (DNS name or IP). Required.",
                   "type": "string"
                 },
+                "cluster": {
+                  "description": "Cluster name.",
+                  "type": "string"
+                },
                 "custom_labels": {
                   "description": "Custom user-assigned labels.",
                   "type": "object",
@@ -4726,6 +5144,10 @@
                   "description": "Access port. Required.",
                   "type": "integer",
                   "format": "int64"
+                },
+                "replication_set": {
+                  "description": "Replication set name.",
+                  "type": "string"
                 },
                 "service_name": {
                   "description": "Unique across all Services user-defined name. Required.",
@@ -4749,6 +5171,10 @@
                       "description": "Access address (DNS name or IP).",
                       "type": "string"
                     },
+                    "cluster": {
+                      "description": "Cluster name.",
+                      "type": "string"
+                    },
                     "custom_labels": {
                       "description": "Custom user-assigned labels.",
                       "type": "object",
@@ -4768,6 +5194,142 @@
                       "description": "Access port.",
                       "type": "integer",
                       "format": "int64"
+                    },
+                    "replication_set": {
+                      "description": "Replication set name.",
+                      "type": "string"
+                    },
+                    "service_id": {
+                      "description": "Unique randomly generated instance identifier.",
+                      "type": "string"
+                    },
+                    "service_name": {
+                      "description": "Unique across all Services user-defined name.",
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "An error response.",
+            "schema": {
+              "description": "ErrorResponse is a message returned on HTTP error.",
+              "type": "object",
+              "properties": {
+                "code": {
+                  "type": "integer",
+                  "format": "int32"
+                },
+                "error": {
+                  "type": "string"
+                },
+                "message": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v0/inventory/Services/AddProxySQL": {
+      "post": {
+        "tags": [
+          "Services"
+        ],
+        "summary": "AddProxySQLService adds ProxySQL Service.",
+        "operationId": "AddProxySQLService",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "address": {
+                  "description": "Access address (DNS name or IP). Required.",
+                  "type": "string"
+                },
+                "cluster": {
+                  "description": "Cluster name.",
+                  "type": "string"
+                },
+                "custom_labels": {
+                  "description": "Custom user-assigned labels.",
+                  "type": "object",
+                  "additionalProperties": {
+                    "type": "string"
+                  }
+                },
+                "environment": {
+                  "description": "Environment name.",
+                  "type": "string"
+                },
+                "node_id": {
+                  "description": "Node identifier where this instance runs. Required.",
+                  "type": "string"
+                },
+                "port": {
+                  "description": "Access port. Required.",
+                  "type": "integer",
+                  "format": "int64"
+                },
+                "replication_set": {
+                  "description": "Replication set name.",
+                  "type": "string"
+                },
+                "service_name": {
+                  "description": "Unique across all Services user-defined name. Required.",
+                  "type": "string"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "proxysql": {
+                  "description": "ProxySQLService represents a generic ProxySQL instance.",
+                  "type": "object",
+                  "properties": {
+                    "address": {
+                      "description": "Access address (DNS name or IP).",
+                      "type": "string"
+                    },
+                    "cluster": {
+                      "description": "Cluster name.",
+                      "type": "string"
+                    },
+                    "custom_labels": {
+                      "description": "Custom user-assigned labels.",
+                      "type": "object",
+                      "additionalProperties": {
+                        "type": "string"
+                      }
+                    },
+                    "environment": {
+                      "description": "Environment name.",
+                      "type": "string"
+                    },
+                    "node_id": {
+                      "description": "Node identifier where this instance runs.",
+                      "type": "string"
+                    },
+                    "port": {
+                      "description": "Access port.",
+                      "type": "integer",
+                      "format": "int64"
+                    },
+                    "replication_set": {
+                      "description": "Replication set name.",
+                      "type": "string"
                     },
                     "service_id": {
                       "description": "Unique randomly generated instance identifier.",
@@ -4971,6 +5533,10 @@
                       "description": "Access address (DNS name or IP).",
                       "type": "string"
                     },
+                    "cluster": {
+                      "description": "Cluster name.",
+                      "type": "string"
+                    },
                     "custom_labels": {
                       "description": "Custom user-assigned labels.",
                       "type": "object",
@@ -4990,6 +5556,56 @@
                       "description": "Access port.",
                       "type": "integer",
                       "format": "int64"
+                    },
+                    "replication_set": {
+                      "description": "Replication set name.",
+                      "type": "string"
+                    },
+                    "service_id": {
+                      "description": "Unique randomly generated instance identifier.",
+                      "type": "string"
+                    },
+                    "service_name": {
+                      "description": "Unique across all Services user-defined name.",
+                      "type": "string"
+                    }
+                  }
+                },
+                "proxysql": {
+                  "description": "ProxySQLService represents a generic ProxySQL instance.",
+                  "type": "object",
+                  "properties": {
+                    "address": {
+                      "description": "Access address (DNS name or IP).",
+                      "type": "string"
+                    },
+                    "cluster": {
+                      "description": "Cluster name.",
+                      "type": "string"
+                    },
+                    "custom_labels": {
+                      "description": "Custom user-assigned labels.",
+                      "type": "object",
+                      "additionalProperties": {
+                        "type": "string"
+                      }
+                    },
+                    "environment": {
+                      "description": "Environment name.",
+                      "type": "string"
+                    },
+                    "node_id": {
+                      "description": "Node identifier where this instance runs.",
+                      "type": "string"
+                    },
+                    "port": {
+                      "description": "Access port.",
+                      "type": "integer",
+                      "format": "int64"
+                    },
+                    "replication_set": {
+                      "description": "Replication set name.",
+                      "type": "string"
                     },
                     "service_id": {
                       "description": "Unique randomly generated instance identifier.",
@@ -5204,6 +5820,10 @@
                         "description": "Access address (DNS name or IP).",
                         "type": "string"
                       },
+                      "cluster": {
+                        "description": "Cluster name.",
+                        "type": "string"
+                      },
                       "custom_labels": {
                         "description": "Custom user-assigned labels.",
                         "type": "object",
@@ -5223,6 +5843,59 @@
                         "description": "Access port.",
                         "type": "integer",
                         "format": "int64"
+                      },
+                      "replication_set": {
+                        "description": "Replication set name.",
+                        "type": "string"
+                      },
+                      "service_id": {
+                        "description": "Unique randomly generated instance identifier.",
+                        "type": "string"
+                      },
+                      "service_name": {
+                        "description": "Unique across all Services user-defined name.",
+                        "type": "string"
+                      }
+                    }
+                  }
+                },
+                "proxysql": {
+                  "type": "array",
+                  "items": {
+                    "description": "ProxySQLService represents a generic ProxySQL instance.",
+                    "type": "object",
+                    "properties": {
+                      "address": {
+                        "description": "Access address (DNS name or IP).",
+                        "type": "string"
+                      },
+                      "cluster": {
+                        "description": "Cluster name.",
+                        "type": "string"
+                      },
+                      "custom_labels": {
+                        "description": "Custom user-assigned labels.",
+                        "type": "object",
+                        "additionalProperties": {
+                          "type": "string"
+                        }
+                      },
+                      "environment": {
+                        "description": "Environment name.",
+                        "type": "string"
+                      },
+                      "node_id": {
+                        "description": "Node identifier where this instance runs.",
+                        "type": "string"
+                      },
+                      "port": {
+                        "description": "Access port.",
+                        "type": "integer",
+                        "format": "int64"
+                      },
+                      "replication_set": {
+                        "description": "Replication set name.",
+                        "type": "string"
                       },
                       "service_id": {
                         "description": "Unique randomly generated instance identifier.",
@@ -5333,7 +6006,7 @@
               "type": "object",
               "properties": {
                 "action_id": {
-                  "description": "Unique Action ID.",
+                  "description": "Unique Action ID. Required.",
                   "type": "string"
                 }
               }
@@ -5449,7 +6122,7 @@
         "tags": [
           "Actions"
         ],
-        "summary": "StartMySQLExplainAction starts MySQL EXPLAIN Action.",
+        "summary": "StartMySQLExplainAction starts MySQL EXPLAIN Action with traditional output.",
         "operationId": "StartMySQLExplainAction",
         "parameters": [
           {
@@ -5459,12 +6132,390 @@
             "schema": {
               "type": "object",
               "properties": {
+                "database": {
+                  "description": "Database name. Required.",
+                  "type": "string"
+                },
+                "pmm_agent_id": {
+                  "description": "pmm-agent ID where to run this Action.",
+                  "type": "string"
+                },
+                "query": {
+                  "description": "SQL query. Required.",
+                  "type": "string"
+                },
+                "service_id": {
+                  "description": "Service ID for this Action.",
+                  "type": "string"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "action_id": {
+                  "description": "Unique Action ID.",
+                  "type": "string"
+                },
+                "pmm_agent_id": {
+                  "description": "pmm-agent ID where to this Action was started.",
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "An error response.",
+            "schema": {
+              "description": "ErrorResponse is a message returned on HTTP error.",
+              "type": "object",
+              "properties": {
+                "code": {
+                  "type": "integer",
+                  "format": "int32"
+                },
+                "error": {
+                  "type": "string"
+                },
+                "message": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v0/management/Actions/StartMySQLExplainJSON": {
+      "post": {
+        "tags": [
+          "Actions"
+        ],
+        "summary": "StartMySQLExplainJSONAction starts MySQL EXPLAIN Action with JSON output.",
+        "operationId": "StartMySQLExplainJSONAction",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "database": {
+                  "description": "Database name. Required.",
+                  "type": "string"
+                },
+                "pmm_agent_id": {
+                  "description": "pmm-agent ID where to run this Action.",
+                  "type": "string"
+                },
+                "query": {
+                  "description": "SQL query. Required.",
+                  "type": "string"
+                },
+                "service_id": {
+                  "description": "Service ID for this Action.",
+                  "type": "string"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "action_id": {
+                  "description": "Unique Action ID.",
+                  "type": "string"
+                },
+                "pmm_agent_id": {
+                  "description": "pmm-agent ID where to this Action was started.",
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "An error response.",
+            "schema": {
+              "description": "ErrorResponse is a message returned on HTTP error.",
+              "type": "object",
+              "properties": {
+                "code": {
+                  "type": "integer",
+                  "format": "int32"
+                },
+                "error": {
+                  "type": "string"
+                },
+                "message": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v0/management/Actions/StartMySQLExplainTraditionalJSON": {
+      "post": {
+        "tags": [
+          "Actions"
+        ],
+        "summary": "StartMySQLExplainTraditionalJSONAction starts MySQL EXPLAIN Action with traditional JSON output.",
+        "operationId": "StartMySQLExplainTraditionalJSONAction",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "database": {
+                  "description": "Database name. Required.",
+                  "type": "string"
+                },
+                "pmm_agent_id": {
+                  "description": "pmm-agent ID where to run this Action.",
+                  "type": "string"
+                },
+                "query": {
+                  "description": "SQL query. Required.",
+                  "type": "string"
+                },
+                "service_id": {
+                  "description": "Service ID for this Action.",
+                  "type": "string"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "action_id": {
+                  "description": "Unique Action ID.",
+                  "type": "string"
+                },
+                "pmm_agent_id": {
+                  "description": "pmm-agent ID where to this Action was started.",
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "An error response.",
+            "schema": {
+              "description": "ErrorResponse is a message returned on HTTP error.",
+              "type": "object",
+              "properties": {
+                "code": {
+                  "type": "integer",
+                  "format": "int32"
+                },
+                "error": {
+                  "type": "string"
+                },
+                "message": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v0/management/Actions/StartMySQLShowCreateTable": {
+      "post": {
+        "tags": [
+          "Actions"
+        ],
+        "summary": "StartMySQLShowCreateTableAction starts MySQL SHOW CREATE TABLE Action.",
+        "operationId": "StartMySQLShowCreateTableAction",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "database": {
+                  "description": "Database name. Required.",
+                  "type": "string"
+                },
                 "pmm_agent_id": {
                   "description": "pmm-agent ID where to run this Action.",
                   "type": "string"
                 },
                 "service_id": {
                   "description": "Service ID for this Action.",
+                  "type": "string"
+                },
+                "table_name": {
+                  "description": "Table name. Required.",
+                  "type": "string"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "action_id": {
+                  "description": "Unique Action ID.",
+                  "type": "string"
+                },
+                "pmm_agent_id": {
+                  "description": "pmm-agent ID where to this Action was started.",
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "An error response.",
+            "schema": {
+              "description": "ErrorResponse is a message returned on HTTP error.",
+              "type": "object",
+              "properties": {
+                "code": {
+                  "type": "integer",
+                  "format": "int32"
+                },
+                "error": {
+                  "type": "string"
+                },
+                "message": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v0/management/Actions/StartMySQLShowIndex": {
+      "post": {
+        "tags": [
+          "Actions"
+        ],
+        "summary": "StartMySQLShowIndexAction starts MySQL SHOW INDEX Action.",
+        "operationId": "StartMySQLShowIndexAction",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "database": {
+                  "description": "Database name. Required.",
+                  "type": "string"
+                },
+                "pmm_agent_id": {
+                  "description": "pmm-agent ID where to run this Action.",
+                  "type": "string"
+                },
+                "service_id": {
+                  "description": "Service ID for this Action.",
+                  "type": "string"
+                },
+                "table_name": {
+                  "description": "Table name. Required.",
+                  "type": "string"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "action_id": {
+                  "description": "Unique Action ID.",
+                  "type": "string"
+                },
+                "pmm_agent_id": {
+                  "description": "pmm-agent ID where to this Action was started.",
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "An error response.",
+            "schema": {
+              "description": "ErrorResponse is a message returned on HTTP error.",
+              "type": "object",
+              "properties": {
+                "code": {
+                  "type": "integer",
+                  "format": "int32"
+                },
+                "error": {
+                  "type": "string"
+                },
+                "message": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v0/management/Actions/StartMySQLShowTableStatus": {
+      "post": {
+        "tags": [
+          "Actions"
+        ],
+        "summary": "StartMySQLShowTableStatusAction starts MySQL SHOW TABLE STATUS Action.",
+        "operationId": "StartMySQLShowTableStatusAction",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "database": {
+                  "description": "Database name. Required.",
+                  "type": "string"
+                },
+                "pmm_agent_id": {
+                  "description": "pmm-agent ID where to run this Action.",
+                  "type": "string"
+                },
+                "service_id": {
+                  "description": "Service ID for this Action.",
+                  "type": "string"
+                },
+                "table_name": {
+                  "description": "Table name. Required.",
                   "type": "string"
                 }
               }
@@ -5705,6 +6756,11 @@
                 "service_name": {
                   "description": "Unique across all Services user-defined name. Required.",
                   "type": "string"
+                },
+                "skip_connection_check": {
+                  "description": "Skip connection check.",
+                  "type": "boolean",
+                  "format": "boolean"
                 },
                 "username": {
                   "description": "MongoDB username for exporter and QAN agent access.",
@@ -5966,6 +7022,11 @@
                 "service_name": {
                   "description": "Unique across all Services user-defined name. Required.",
                   "type": "string"
+                },
+                "skip_connection_check": {
+                  "description": "Skip connection check.",
+                  "type": "boolean",
+                  "format": "boolean"
                 },
                 "username": {
                   "description": "MySQL username for scraping metrics.",
@@ -6459,6 +7520,10 @@
                   "description": "Node and Service access address (DNS name or IP). Required.",
                   "type": "string"
                 },
+                "cluster": {
+                  "description": "Cluster name.",
+                  "type": "string"
+                },
                 "custom_labels": {
                   "description": "Custom user-assigned labels.",
                   "type": "object",
@@ -6487,9 +7552,18 @@
                   "type": "integer",
                   "format": "int64"
                 },
+                "replication_set": {
+                  "description": "Replication set name.",
+                  "type": "string"
+                },
                 "service_name": {
                   "description": "Unique across all Services user-defined name. Required.",
                   "type": "string"
+                },
+                "skip_connection_check": {
+                  "description": "Skip connection check.",
+                  "type": "boolean",
+                  "format": "boolean"
                 },
                 "username": {
                   "description": "PostgreSQL username for scraping metrics.",
@@ -6569,6 +7643,10 @@
                       "description": "Access address (DNS name or IP).",
                       "type": "string"
                     },
+                    "cluster": {
+                      "description": "Cluster name.",
+                      "type": "string"
+                    },
                     "custom_labels": {
                       "description": "Custom user-assigned labels.",
                       "type": "object",
@@ -6588,6 +7666,214 @@
                       "description": "Access port.",
                       "type": "integer",
                       "format": "int64"
+                    },
+                    "replication_set": {
+                      "description": "Replication set name.",
+                      "type": "string"
+                    },
+                    "service_id": {
+                      "description": "Unique randomly generated instance identifier.",
+                      "type": "string"
+                    },
+                    "service_name": {
+                      "description": "Unique across all Services user-defined name.",
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "An error response.",
+            "schema": {
+              "description": "ErrorResponse is a message returned on HTTP error.",
+              "type": "object",
+              "properties": {
+                "code": {
+                  "type": "integer",
+                  "format": "int32"
+                },
+                "error": {
+                  "type": "string"
+                },
+                "message": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v0/management/ProxySQL/Add": {
+      "post": {
+        "tags": [
+          "ProxySQL"
+        ],
+        "summary": "AddProxySQL adds ProxySQL Service and starts several Agents.\nIt automatically adds a service to inventory, which is running on provided \"node_id\",\nthen adds \"proxysql_exporter\" with provided \"pmm_agent_id\" and other parameters.",
+        "operationId": "AddProxySQL",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "address": {
+                  "description": "Node and Service access address (DNS name or IP). Required.",
+                  "type": "string"
+                },
+                "cluster": {
+                  "description": "Cluster name.",
+                  "type": "string"
+                },
+                "custom_labels": {
+                  "type": "object",
+                  "additionalProperties": {
+                    "type": "string"
+                  }
+                },
+                "environment": {
+                  "description": "Environment name.",
+                  "type": "string"
+                },
+                "node_id": {
+                  "description": "Node identifier on which a service is been running. Required.",
+                  "type": "string"
+                },
+                "password": {
+                  "description": "ProxySQL password for scraping metrics.",
+                  "type": "string"
+                },
+                "pmm_agent_id": {
+                  "description": "The \"pmm-agent\" identifier which should run agents. Required.",
+                  "type": "string"
+                },
+                "port": {
+                  "description": "Service Access port. Required.",
+                  "type": "integer",
+                  "format": "int64"
+                },
+                "replication_set": {
+                  "description": "Replication set name.",
+                  "type": "string"
+                },
+                "service_name": {
+                  "description": "Unique across all Services user-defined name. Required.",
+                  "type": "string"
+                },
+                "skip_connection_check": {
+                  "description": "Skip connection check.",
+                  "type": "boolean",
+                  "format": "boolean"
+                },
+                "username": {
+                  "description": "ProxySQL username for scraping metrics.",
+                  "type": "string"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "proxysql_exporter": {
+                  "description": "ProxySQLExporter runs on Generic or Container Node and exposes MySQL and AmazonRDSMySQL Service metrics.",
+                  "type": "object",
+                  "properties": {
+                    "agent_id": {
+                      "description": "Unique randomly generated instance identifier.",
+                      "type": "string"
+                    },
+                    "custom_labels": {
+                      "description": "Custom user-assigned labels.",
+                      "type": "object",
+                      "additionalProperties": {
+                        "type": "string"
+                      }
+                    },
+                    "disabled": {
+                      "description": "Desired Agent status: enabled (false) or disabled (true).",
+                      "type": "boolean",
+                      "format": "boolean"
+                    },
+                    "listen_port": {
+                      "description": "Listen port for scraping metrics.",
+                      "type": "integer",
+                      "format": "int64"
+                    },
+                    "password": {
+                      "description": "ProxySQL password for scraping metrics.",
+                      "type": "string"
+                    },
+                    "pmm_agent_id": {
+                      "description": "The pmm-agent identifier which runs this instance.",
+                      "type": "string"
+                    },
+                    "service_id": {
+                      "description": "Service identifier.",
+                      "type": "string"
+                    },
+                    "status": {
+                      "description": "AgentStatus represents actual Agent status.",
+                      "type": "string",
+                      "default": "AGENT_STATUS_INVALID",
+                      "enum": [
+                        "AGENT_STATUS_INVALID",
+                        "STARTING",
+                        "RUNNING",
+                        "WAITING",
+                        "STOPPING",
+                        "DONE"
+                      ]
+                    },
+                    "username": {
+                      "description": "ProxySQL username for scraping metrics.",
+                      "type": "string"
+                    }
+                  }
+                },
+                "service": {
+                  "description": "ProxySQLService represents a generic ProxySQL instance.",
+                  "type": "object",
+                  "properties": {
+                    "address": {
+                      "description": "Access address (DNS name or IP).",
+                      "type": "string"
+                    },
+                    "cluster": {
+                      "description": "Cluster name.",
+                      "type": "string"
+                    },
+                    "custom_labels": {
+                      "description": "Custom user-assigned labels.",
+                      "type": "object",
+                      "additionalProperties": {
+                        "type": "string"
+                      }
+                    },
+                    "environment": {
+                      "description": "Environment name.",
+                      "type": "string"
+                    },
+                    "node_id": {
+                      "description": "Node identifier where this instance runs.",
+                      "type": "string"
+                    },
+                    "port": {
+                      "description": "Access port.",
+                      "type": "integer",
+                      "format": "int64"
+                    },
+                    "replication_set": {
+                      "description": "Replication set name.",
+                      "type": "string"
                     },
                     "service_id": {
                       "description": "Unique randomly generated instance identifier.",
@@ -6656,7 +7942,8 @@
                     "MYSQL_SERVICE",
                     "AMAZON_RDS_MYSQL_SERVICE",
                     "MONGODB_SERVICE",
-                    "POSTGRESQL_SERVICE"
+                    "POSTGRESQL_SERVICE",
+                    "PROXYSQL_SERVICE"
                   ]
                 }
               }
@@ -6708,6 +7995,9 @@
               "description": "FiltersRequest contains period for which we need filters.",
               "type": "object",
               "properties": {
+                "main_metric_name": {
+                  "type": "string"
+                },
                 "period_start_from": {
                   "type": "string",
                   "format": "date-time"
@@ -6736,12 +8026,16 @@
                       "name": {
                         "type": "array",
                         "items": {
-                          "description": "ValueAndCount is label values and how many times this value occur.",
+                          "description": "Values is label values and main metric percent and per second.",
                           "type": "object",
                           "properties": {
-                            "count": {
-                              "type": "string",
-                              "format": "int64"
+                            "main_metric_per_sec": {
+                              "type": "number",
+                              "format": "float"
+                            },
+                            "main_metric_percent": {
+                              "type": "number",
+                              "format": "float"
                             },
                             "value": {
                               "type": "string"
@@ -6842,7 +8136,7 @@
                 "labels": {
                   "type": "array",
                   "items": {
-                    "description": "ReportMapFieldEntry allows to pass labels/dimentions in form like {\"d_server\": [\"db1\", \"db2\"...]}.",
+                    "description": "ReportMapFieldEntry allows to pass labels/dimentions in form like {\"server\": [\"db1\", \"db2\"...]}.",
                     "type": "object",
                     "properties": {
                       "key": {
@@ -6972,12 +8266,204 @@
                           "description": "Point contains values that represents abscissa (time) and ordinate (volume etc.)\nof every point in a coordinate system of Sparklines.",
                           "type": "object",
                           "properties": {
-                            "values": {
-                              "type": "object",
-                              "additionalProperties": {
-                                "type": "number",
-                                "format": "float"
-                              }
+                            "m_bytes_sent_sum_per_sec": {
+                              "description": "The number of bytes sent to all clients.",
+                              "type": "number",
+                              "format": "float"
+                            },
+                            "m_docs_returned_sum_per_sec": {
+                              "description": "MongoDB metrics.\n\nThe number of returned documents.",
+                              "type": "number",
+                              "format": "float"
+                            },
+                            "m_docs_scanned_sum_per_sec": {
+                              "description": "The number of scanned documents.",
+                              "type": "number",
+                              "format": "float"
+                            },
+                            "m_filesort_on_disk_sum_per_sec": {
+                              "description": "The filesort was performed on disk.",
+                              "type": "number",
+                              "format": "float"
+                            },
+                            "m_filesort_sum_per_sec": {
+                              "description": "The query used a filesort.",
+                              "type": "number",
+                              "format": "float"
+                            },
+                            "m_full_join_sum_per_sec": {
+                              "description": "The query performed a full join (a join without indexes).",
+                              "type": "number",
+                              "format": "float"
+                            },
+                            "m_full_scan_sum_per_sec": {
+                              "description": "The query performed a full table scan.",
+                              "type": "number",
+                              "format": "float"
+                            },
+                            "m_innodb_io_r_bytes_sum_per_sec": {
+                              "description": "Similar to innodb_IO_r_ops, but the unit is bytes.",
+                              "type": "number",
+                              "format": "float"
+                            },
+                            "m_innodb_io_r_ops_sum_per_sec": {
+                              "description": "Counts the number of page read operations scheduled.",
+                              "type": "number",
+                              "format": "float"
+                            },
+                            "m_innodb_io_r_wait_sum_per_sec": {
+                              "description": "Shows how long (in seconds) it took InnoDB to actually read the data from storage.",
+                              "type": "number",
+                              "format": "float"
+                            },
+                            "m_innodb_pages_distinct_sum_per_sec": {
+                              "description": "Counts approximately the number of unique pages the query accessed.",
+                              "type": "number",
+                              "format": "float"
+                            },
+                            "m_innodb_queue_wait_sum_per_sec": {
+                              "description": "Shows how long (in seconds) the query spent either waiting to enter the InnoDB queue or inside that queue waiting for execution.",
+                              "type": "number",
+                              "format": "float"
+                            },
+                            "m_innodb_rec_lock_wait_sum_per_sec": {
+                              "description": "Shows how long (in seconds) the query waited for row locks.",
+                              "type": "number",
+                              "format": "float"
+                            },
+                            "m_lock_time_sum_per_sec": {
+                              "description": "The time to acquire locks in seconds.",
+                              "type": "number",
+                              "format": "float"
+                            },
+                            "m_merge_passes_sum_per_sec": {
+                              "description": "The number of merge passes that the sort algorithm has had to do.",
+                              "type": "number",
+                              "format": "float"
+                            },
+                            "m_no_good_index_used_sum_per_sec": {
+                              "description": "The number of queries without good index.",
+                              "type": "number",
+                              "format": "float"
+                            },
+                            "m_no_index_used_sum_per_sec": {
+                              "description": "The number of queries without index.",
+                              "type": "number",
+                              "format": "float"
+                            },
+                            "m_qc_hit_sum_per_sec": {
+                              "description": "Boolean metrics:\n- *_sum_per_sec - how many times this matric was true.\n\nQuery Cache hits.",
+                              "type": "number",
+                              "format": "float"
+                            },
+                            "m_query_length_sum_per_sec": {
+                              "description": "Shows how long the query is.",
+                              "type": "number",
+                              "format": "float"
+                            },
+                            "m_query_time_sum_per_sec": {
+                              "description": "The statement execution time in seconds.",
+                              "type": "number",
+                              "format": "float"
+                            },
+                            "m_response_length_sum_per_sec": {
+                              "description": "The response length of the query result in bytes.",
+                              "type": "number",
+                              "format": "float"
+                            },
+                            "m_rows_affected_sum_per_sec": {
+                              "description": "Number of rows changed - UPDATE, DELETE, INSERT.",
+                              "type": "number",
+                              "format": "float"
+                            },
+                            "m_rows_examined_sum_per_sec": {
+                              "description": "Number of rows scanned - SELECT.",
+                              "type": "number",
+                              "format": "float"
+                            },
+                            "m_rows_read_sum_per_sec": {
+                              "description": "The number of rows read from tables.",
+                              "type": "number",
+                              "format": "float"
+                            },
+                            "m_rows_sent_sum_per_sec": {
+                              "description": "The number of rows sent to the client.",
+                              "type": "number",
+                              "format": "float"
+                            },
+                            "m_select_full_range_join_sum_per_sec": {
+                              "description": "The number of joins that used a range search on a reference table.",
+                              "type": "number",
+                              "format": "float"
+                            },
+                            "m_select_range_check_sum_per_sec": {
+                              "description": "The number of joins without keys that check for key usage after each row.",
+                              "type": "number",
+                              "format": "float"
+                            },
+                            "m_select_range_sum_per_sec": {
+                              "description": "The number of joins that used ranges on the first table.",
+                              "type": "number",
+                              "format": "float"
+                            },
+                            "m_sort_range_sum_per_sec": {
+                              "description": "The number of sorts that were done using ranges.",
+                              "type": "number",
+                              "format": "float"
+                            },
+                            "m_sort_rows_sum_per_sec": {
+                              "description": "The number of sorted rows.",
+                              "type": "number",
+                              "format": "float"
+                            },
+                            "m_sort_scan_sum_per_sec": {
+                              "description": "The number of sorts that were done by scanning the table.",
+                              "type": "number",
+                              "format": "float"
+                            },
+                            "m_tmp_disk_tables_sum_per_sec": {
+                              "description": "Number of temporary tables created on disk for the query.",
+                              "type": "number",
+                              "format": "float"
+                            },
+                            "m_tmp_table_on_disk_sum_per_sec": {
+                              "description": "The querys temporary table was stored on disk.",
+                              "type": "number",
+                              "format": "float"
+                            },
+                            "m_tmp_table_sizes_sum_per_sec": {
+                              "description": "Total Size in bytes for all temporary tables used in the query.",
+                              "type": "number",
+                              "format": "float"
+                            },
+                            "m_tmp_table_sum_per_sec": {
+                              "description": "The query created an implicit internal temporary table.",
+                              "type": "number",
+                              "format": "float"
+                            },
+                            "m_tmp_tables_sum_per_sec": {
+                              "description": "Number of temporary tables created on memory for the query.",
+                              "type": "number",
+                              "format": "float"
+                            },
+                            "num_queries_per_sec": {
+                              "description": "number of queries in bucket.",
+                              "type": "number",
+                              "format": "float"
+                            },
+                            "point": {
+                              "description": "The serial number of the chart point from the largest time in the time interval to the lowest time in the time range.",
+                              "type": "integer",
+                              "format": "int64"
+                            },
+                            "time_frame": {
+                              "description": "Duration beetween two points.",
+                              "type": "integer",
+                              "format": "int64"
+                            },
+                            "timestamp": {
+                              "description": "Time of point in format RFC3339.",
+                              "type": "string"
                             }
                           }
                         }
@@ -7130,7 +8616,7 @@
                 "labels": {
                   "type": "array",
                   "items": {
-                    "description": "MapFieldEntry allows to pass labels/dimensions in form like {\"d_server\": [\"db1\", \"db2\"...]}.",
+                    "description": "MapFieldEntry allows to pass labels/dimensions in form like {\"server\": [\"db1\", \"db2\"...]}.",
                     "type": "object",
                     "properties": {
                       "key": {
@@ -7211,12 +8697,204 @@
                     "description": "Point contains values that represents abscissa (time) and ordinate (volume etc.)\nof every point in a coordinate system of Sparklines.",
                     "type": "object",
                     "properties": {
-                      "values": {
-                        "type": "object",
-                        "additionalProperties": {
-                          "type": "number",
-                          "format": "float"
-                        }
+                      "m_bytes_sent_sum_per_sec": {
+                        "description": "The number of bytes sent to all clients.",
+                        "type": "number",
+                        "format": "float"
+                      },
+                      "m_docs_returned_sum_per_sec": {
+                        "description": "MongoDB metrics.\n\nThe number of returned documents.",
+                        "type": "number",
+                        "format": "float"
+                      },
+                      "m_docs_scanned_sum_per_sec": {
+                        "description": "The number of scanned documents.",
+                        "type": "number",
+                        "format": "float"
+                      },
+                      "m_filesort_on_disk_sum_per_sec": {
+                        "description": "The filesort was performed on disk.",
+                        "type": "number",
+                        "format": "float"
+                      },
+                      "m_filesort_sum_per_sec": {
+                        "description": "The query used a filesort.",
+                        "type": "number",
+                        "format": "float"
+                      },
+                      "m_full_join_sum_per_sec": {
+                        "description": "The query performed a full join (a join without indexes).",
+                        "type": "number",
+                        "format": "float"
+                      },
+                      "m_full_scan_sum_per_sec": {
+                        "description": "The query performed a full table scan.",
+                        "type": "number",
+                        "format": "float"
+                      },
+                      "m_innodb_io_r_bytes_sum_per_sec": {
+                        "description": "Similar to innodb_IO_r_ops, but the unit is bytes.",
+                        "type": "number",
+                        "format": "float"
+                      },
+                      "m_innodb_io_r_ops_sum_per_sec": {
+                        "description": "Counts the number of page read operations scheduled.",
+                        "type": "number",
+                        "format": "float"
+                      },
+                      "m_innodb_io_r_wait_sum_per_sec": {
+                        "description": "Shows how long (in seconds) it took InnoDB to actually read the data from storage.",
+                        "type": "number",
+                        "format": "float"
+                      },
+                      "m_innodb_pages_distinct_sum_per_sec": {
+                        "description": "Counts approximately the number of unique pages the query accessed.",
+                        "type": "number",
+                        "format": "float"
+                      },
+                      "m_innodb_queue_wait_sum_per_sec": {
+                        "description": "Shows how long (in seconds) the query spent either waiting to enter the InnoDB queue or inside that queue waiting for execution.",
+                        "type": "number",
+                        "format": "float"
+                      },
+                      "m_innodb_rec_lock_wait_sum_per_sec": {
+                        "description": "Shows how long (in seconds) the query waited for row locks.",
+                        "type": "number",
+                        "format": "float"
+                      },
+                      "m_lock_time_sum_per_sec": {
+                        "description": "The time to acquire locks in seconds.",
+                        "type": "number",
+                        "format": "float"
+                      },
+                      "m_merge_passes_sum_per_sec": {
+                        "description": "The number of merge passes that the sort algorithm has had to do.",
+                        "type": "number",
+                        "format": "float"
+                      },
+                      "m_no_good_index_used_sum_per_sec": {
+                        "description": "The number of queries without good index.",
+                        "type": "number",
+                        "format": "float"
+                      },
+                      "m_no_index_used_sum_per_sec": {
+                        "description": "The number of queries without index.",
+                        "type": "number",
+                        "format": "float"
+                      },
+                      "m_qc_hit_sum_per_sec": {
+                        "description": "Boolean metrics:\n- *_sum_per_sec - how many times this matric was true.\n\nQuery Cache hits.",
+                        "type": "number",
+                        "format": "float"
+                      },
+                      "m_query_length_sum_per_sec": {
+                        "description": "Shows how long the query is.",
+                        "type": "number",
+                        "format": "float"
+                      },
+                      "m_query_time_sum_per_sec": {
+                        "description": "The statement execution time in seconds.",
+                        "type": "number",
+                        "format": "float"
+                      },
+                      "m_response_length_sum_per_sec": {
+                        "description": "The response length of the query result in bytes.",
+                        "type": "number",
+                        "format": "float"
+                      },
+                      "m_rows_affected_sum_per_sec": {
+                        "description": "Number of rows changed - UPDATE, DELETE, INSERT.",
+                        "type": "number",
+                        "format": "float"
+                      },
+                      "m_rows_examined_sum_per_sec": {
+                        "description": "Number of rows scanned - SELECT.",
+                        "type": "number",
+                        "format": "float"
+                      },
+                      "m_rows_read_sum_per_sec": {
+                        "description": "The number of rows read from tables.",
+                        "type": "number",
+                        "format": "float"
+                      },
+                      "m_rows_sent_sum_per_sec": {
+                        "description": "The number of rows sent to the client.",
+                        "type": "number",
+                        "format": "float"
+                      },
+                      "m_select_full_range_join_sum_per_sec": {
+                        "description": "The number of joins that used a range search on a reference table.",
+                        "type": "number",
+                        "format": "float"
+                      },
+                      "m_select_range_check_sum_per_sec": {
+                        "description": "The number of joins without keys that check for key usage after each row.",
+                        "type": "number",
+                        "format": "float"
+                      },
+                      "m_select_range_sum_per_sec": {
+                        "description": "The number of joins that used ranges on the first table.",
+                        "type": "number",
+                        "format": "float"
+                      },
+                      "m_sort_range_sum_per_sec": {
+                        "description": "The number of sorts that were done using ranges.",
+                        "type": "number",
+                        "format": "float"
+                      },
+                      "m_sort_rows_sum_per_sec": {
+                        "description": "The number of sorted rows.",
+                        "type": "number",
+                        "format": "float"
+                      },
+                      "m_sort_scan_sum_per_sec": {
+                        "description": "The number of sorts that were done by scanning the table.",
+                        "type": "number",
+                        "format": "float"
+                      },
+                      "m_tmp_disk_tables_sum_per_sec": {
+                        "description": "Number of temporary tables created on disk for the query.",
+                        "type": "number",
+                        "format": "float"
+                      },
+                      "m_tmp_table_on_disk_sum_per_sec": {
+                        "description": "The querys temporary table was stored on disk.",
+                        "type": "number",
+                        "format": "float"
+                      },
+                      "m_tmp_table_sizes_sum_per_sec": {
+                        "description": "Total Size in bytes for all temporary tables used in the query.",
+                        "type": "number",
+                        "format": "float"
+                      },
+                      "m_tmp_table_sum_per_sec": {
+                        "description": "The query created an implicit internal temporary table.",
+                        "type": "number",
+                        "format": "float"
+                      },
+                      "m_tmp_tables_sum_per_sec": {
+                        "description": "Number of temporary tables created on memory for the query.",
+                        "type": "number",
+                        "format": "float"
+                      },
+                      "num_queries_per_sec": {
+                        "description": "number of queries in bucket.",
+                        "type": "number",
+                        "format": "float"
+                      },
+                      "point": {
+                        "description": "The serial number of the chart point from the largest time in the time interval to the lowest time in the time range.",
+                        "type": "integer",
+                        "format": "int64"
+                      },
+                      "time_frame": {
+                        "description": "Duration beetween two points.",
+                        "type": "integer",
+                        "format": "int64"
+                      },
+                      "timestamp": {
+                        "description": "Time of point in format RFC3339.",
+                        "type": "string"
                       }
                     }
                   }
@@ -7273,7 +8951,7 @@
                 "labels": {
                   "type": "array",
                   "items": {
-                    "description": "MapFieldEntry allows to pass labels/dimensions in form like {\"d_server\": [\"db1\", \"db2\"...]}.",
+                    "description": "MapFieldEntry allows to pass labels/dimensions in form like {\"server\": [\"db1\", \"db2\"...]}.",
                     "type": "object",
                     "properties": {
                       "key": {
@@ -7317,6 +8995,9 @@
                     "description": "QueryExample shows query examples and their metrics.",
                     "type": "object",
                     "properties": {
+                      "agent_id": {
+                        "type": "string"
+                      },
                       "example": {
                         "type": "string"
                       },
@@ -7348,6 +9029,12 @@
                       "is_truncated": {
                         "type": "integer",
                         "format": "int64"
+                      },
+                      "schema": {
+                        "type": "string"
+                      },
+                      "service_id": {
+                        "type": "string"
                       }
                     }
                   }
@@ -7390,7 +9077,17 @@
             "schema": {
               "type": "object",
               "properties": {
+                "pmm_managed_commit": {
+                  "description": "pmm-managed commit.",
+                  "type": "string"
+                },
+                "timestamp": {
+                  "description": "Build timestamp.",
+                  "type": "string",
+                  "format": "date-time"
+                },
                 "version": {
+                  "description": "Full PMM version.",
                   "type": "string"
                 }
               }

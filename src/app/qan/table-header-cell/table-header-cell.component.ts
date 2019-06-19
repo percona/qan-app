@@ -5,6 +5,7 @@ import { map } from 'rxjs/operators';
 import { GetProfileBody, QanProfileService } from '../profile/qan-profile.service';
 import PerfectScrollbar from 'perfect-scrollbar';
 import { NgSelectComponent } from '@ng-select/ng-select';
+import { metricsNames } from './data/metricks-names-data';
 
 @Component({
   selector: 'app-qan-table-header-cell',
@@ -12,14 +13,20 @@ import { NgSelectComponent } from '@ng-select/ng-select';
   styleUrls: ['./table-header-cell.component.scss']
 })
 export class TableHeaderCellComponent implements OnInit, OnDestroy {
+  public index: number;
+  public isMainColumn: boolean;
+
+  @ViewChild('column') column: NgSelectComponent;
   @Input() currentColumnName: any;
   @Input() fullData: any;
-  @Input() metrics: Array<SelectOptionModel>;
-  @Input() index: any;
   @Input() rowMetrics: any;
-  @ViewChild('column') column: NgSelectComponent;
+  @Input() set processIndex(index: number) {
+    this.index = index;
+    this.isMainColumn = !this.index;
+  };
 
   private params$: Subscription;
+  public metrics: SelectOptionModel[];
   public selectedQueryColumn: SelectOptionModel;
   public currentParams: GetProfileBody;
   public isEmpty: boolean;
@@ -27,6 +34,7 @@ export class TableHeaderCellComponent implements OnInit, OnDestroy {
   public isNotDefaultIcon = false;
 
   constructor(private qanProfileService: QanProfileService) {
+    this.metrics = metricsNames;
     this.currentParams = this.qanProfileService.getProfileParams.getValue();
   }
 
@@ -58,10 +66,13 @@ export class TableHeaderCellComponent implements OnInit, OnDestroy {
     if (!value.name) {
       return;
     }
-
     this.currentParams.columns[this.index] = value.name;
     this.currentParams.columns = this.currentParams.columns.filter(item => !!item);
     this.qanProfileService.updateProfileParams(this.currentParams);
+
+    if (this.isMainColumn) {
+      this.qanProfileService.updateDefaultMainMetric(this.changeDefaultName(value.name));
+    }
   }
 
   sortBy(selectedColumn) {
@@ -72,5 +83,17 @@ export class TableHeaderCellComponent implements OnInit, OnDestroy {
 
   addCustomScroll() {
     setTimeout(() => new PerfectScrollbar('.ng-dropdown-panel-items'), 0)
+  }
+
+  changeDefaultName(name) {
+    switch (name) {
+      case 'load':
+      case 'latency':
+        return 'm_query_time_sum';
+      case 'count':
+        return 'num_queries';
+      default:
+        return `m_${name}_sum`
+    }
   }
 }

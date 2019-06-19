@@ -3,7 +3,10 @@ import { HumanizePipe } from './humanize.pipe';
 import { area, curveStepAfter } from 'd3-shape';
 import * as moment from 'moment';
 import { scaleLinear } from 'd3-scale';
-import { select } from 'd3-selection';
+import { event as currentEvent, mouse, select } from 'd3-selection';
+import { bisector } from 'd3-array';
+import { MomentFormatPipe } from './moment-format.pipe';
+import { axisBottom } from 'd3-axis';
 
 export interface DataType {
   x: any,
@@ -16,8 +19,8 @@ export interface DataType {
 export class LoadPolygonChartDirective implements OnChanges {
   public margin = 0;
   public padding = 0;
-  public data = [];
-
+  public data: any = [];
+  dateFormat = new MomentFormatPipe();
   humanize = new HumanizePipe();
 
   @HostBinding('attr.data-tooltip')
@@ -36,23 +39,23 @@ export class LoadPolygonChartDirective implements OnChanges {
     this.drawPolygonChart();
   }
 
-  findHighestY() {
-    const values = this.appLoadPolygonChart.map(data => +data[this.ykey] || 0);
+  findHighestY(array) {
+    const values = array.map(data => +data[this.ykey] || 0);
     return Math.max(...values);
   }
 
-  findMinY() {
-    const values = this.appLoadPolygonChart.map(data => +data[this.ykey] || 0);
+  findMinY(array) {
+    const values = array.map(data => +data[this.ykey] || 0);
     return Math.min(...values);
   }
 
-  findHighestX() {
-    const values = this.appLoadPolygonChart.map(data => +moment.utc(data[this.xkey]) || 0);
+  findHighestX(array) {
+    const values = array.map(data => +moment.utc(data[this.xkey]) || 0);
     return Math.max(...values);
   }
 
-  findMinX() {
-    const values = this.appLoadPolygonChart.map(data => +moment.utc(data[this.xkey]) || 0);
+  findMinX(array) {
+    const values = array.map(data => +moment.utc(data[this.xkey]) || 0);
     return Math.min(...values);
   }
 
@@ -69,11 +72,11 @@ export class LoadPolygonChartDirective implements OnChanges {
     const yAxisLength = this.height - 2 * this.margin;
 
     const scaleX = scaleLinear()
-      .domain([this.findMinX(), this.findHighestX()])
+      .domain([this.findMinX(this.appLoadPolygonChart), this.findHighestX(this.appLoadPolygonChart)])
       .range([0, xAxisLength]);
 
     const scaleY = scaleLinear()
-      .domain([this.findHighestY(), this.findMinY()])
+      .domain([this.findHighestY(this.appLoadPolygonChart), this.findMinY(this.appLoadPolygonChart)])
       .range([0, yAxisLength]);
 
     this.data = this.appLoadPolygonChart.map(item =>
@@ -88,8 +91,63 @@ export class LoadPolygonChartDirective implements OnChanges {
       .y1(d => d.y);
 
     const g = svg.append('g');
+    const focusG = svg.append('g').style('display', 'none');
+
     g.append('path')
       .attr('d', areaBar(this.data))
       .style('fill', '#d9721f');
+
+    const focusBar = focusG
+      .append('path')
+      .attr('class', 'active-rect')
+      .style('fill', 'white')
+      .on('mouseout', () => focusG.style('display', 'none'));
+
+    focusBar.append('text')
+      .attr('id', 'focusText')
+      .attr('font-size', '10')
+      .attr('x', 1)
+      .attr('y', 8);
+
+    // @ts-ignore TS2345
+    const bisectDate = bisector((d, x) => +moment.utc(d[this.xkey]).isBefore(x)).right;
+
+    svg.on('mousemove', () => {
+      const coords = mouse(currentEvent.currentTarget);
+      const mouseDate: any = moment.utc(scaleX.invert(coords[0]));
+
+      const indexOfStartPoint = Math.min(
+        Math.max(
+          bisectDate(this.appLoadPolygonChart, mouseDate),
+          0
+        ),
+        this.appLoadPolygonChart.length - 1
+      );
+      const hoveredPoint = this.appLoadPolygonChart[indexOfStartPoint];
+      const endPoint = this.appLoadPolygonChart[indexOfStartPoint - 1];
+      const focusPointsRange = [hoveredPoint, endPoint];
+      const activeArea: any = focusPointsRange.map(item => new Object(
+        {
+          x: scaleX(moment.utc(item[this.xkey])) || 0,
+          y: scaleY(endPoint[this.ykey] || 0) + this.margin
+        }));
+      const value = endPoint[this.ykey] === undefined ? 0 : endPoint[this.ykey];
+      const load = this.humanize.transform(value, this.measurement);
+      const dateToShow = this.dateFormat.transform(moment(endPoint[this.xkey]).utc());
+
+      focusBar.attr('d', areaBar(activeArea));
+      this.dataTooltip = !value ? `NA at ${dateToShow}` : `${load} at ${dateToShow}`;
+    });
+    svg.on('mouseover', () => focusG.style('display', null));
+    svg.on('mouseout', () => focusG.style('display', 'none'));
+
+    // Create X axis
+    const xAxis = axisBottom(scaleX);
+
+    svg.append('g')
+      .attr('class', 'x-axis')
+      .attr('transform',
+        `translate(${this.margin},${this.height - this.margin - 1})`)
+      .call(xAxis);
   }
 }

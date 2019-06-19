@@ -36,7 +36,7 @@
 }
 
 .button--fixed {
-  position: sticky;
+  position: fixed;
 }
 
 .button--inside {
@@ -52,7 +52,7 @@
 }
 
 .button--expand {
-  right: calc(var(--inside-width) + calc(var(--accordion-inner-indent) * 2));
+  right: var(--accordion-inner-indent);
 }
 
 .button__remove {

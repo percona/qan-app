@@ -22,6 +22,7 @@ export interface GetProfileBody {
 export interface ObjectDetails {
   filter_by?: string,
   group_by?: string,
+  labels?: LabelsProfile[],
   include_only_fields?: string[]
   period_start_from?: string,
   period_start_to?: string
@@ -51,6 +52,7 @@ export class QanProfileService {
   private iframeQueryParams = this.route.snapshot.queryParams as QueryParams;
   private parseQueryParamDatePipe = new ParseQueryParamDatePipe();
   private defaultGroupBy = 'queryid';
+  private defaultMainMetric = new BehaviorSubject('');
   private currentDetails: ObjectDetails = {};
 
   private profileInfo: ProfileInfo = {
@@ -63,7 +65,7 @@ export class QanProfileService {
   };
 
   private profileParams = new BehaviorSubject<GetProfileBody>({
-    columns: ['load', 'count', 'latency'],
+    columns: ['load', 'count', 'query_time'],
     first_seen: false,
     group_by: this.defaultGroupBy,
     include_only_fields: [],
@@ -105,6 +107,10 @@ export class QanProfileService {
     this.group_by.next(group_by);
   }
 
+  updateDefaultMainMetric(metric: string) {
+    this.defaultMainMetric.next(metric)
+  }
+
   updateDetailsByValue(details_by: string) {
     this.profileInfo.detailsBy.next(details_by);
   }
@@ -123,5 +129,9 @@ export class QanProfileService {
 
   get getCurrentDetails(): ObjectDetails {
     return this.currentDetails;
+  }
+
+  get getDefaultMainMetric(): BehaviorSubject<string> {
+    return this.defaultMainMetric
   }
 }

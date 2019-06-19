@@ -1,5 +1,5 @@
 import { ActivatedRoute, Router } from '@angular/router';
-import { AfterViewChecked, Component, OnDestroy, OnInit } from '@angular/core';
+import { AfterViewChecked, Component, ElementRef, OnDestroy, OnInit, QueryList, ViewChild, ViewChildren } from '@angular/core';
 import { catchError, map, switchMap } from 'rxjs/operators';
 import { QanProfileService } from '../profile/qan-profile.service';
 import { ObjectDetailsService } from '../../pmm-api-services/services/object-details.service';
@@ -15,11 +15,16 @@ import { DetailsSparklineModel } from './models/details-sparkline.model';
   styleUrls: ['./profile-details.component.scss']
 })
 
-export class ProfileDetailsComponent implements OnInit, AfterViewChecked, OnDestroy {
+export class ProfileDetailsComponent implements OnInit, OnDestroy, AfterViewChecked {
+  @ViewChild('detailsTable') detailsTable: ElementRef;
+  @ViewChildren('detailsTableRows') tableRows: QueryList<any>;
+  @ViewChild('labels') labelsFilters: ElementRef;
+
   protected dbName: string;
   public fingerprint: string;
   public currentParams: any;
   public dimension: string;
+  public isTotal = false;
   public details: MetricModel[] = [];
   private fingerprint$: Subscription;
   private group_by$: Subscription;
@@ -47,7 +52,12 @@ export class ProfileDetailsComponent implements OnInit, AfterViewChecked, OnDest
         )
       }),
     ).subscribe(response => {
-      this.details = response;
+      this.details = this.detailsTableOrder(response);
+      this.isTotal = !this.currentParams.filter_by;
+
+      if (this.details.length && this.detailsTable) {
+        setTimeout(() => this.setLabelsHeight(), 0);
+      }
     });
 
     this.fingerprint$ = this.qanProfileService.getProfileInfo.fingerprint
@@ -60,16 +70,47 @@ export class ProfileDetailsComponent implements OnInit, AfterViewChecked, OnDest
   ngOnInit() {
   }
 
-  ngAfterViewChecked() {
-  }
-
   createSparklineModel(sparklines, name) {
-    return sparklines.map(item => new DetailsSparklineModel(item.values, name))
+    return sparklines.map(item => new DetailsSparklineModel(item, name))
   }
 
   ngOnDestroy() {
     this.fingerprint$.unsubscribe();
     this.details$.unsubscribe();
     this.group_by$.unsubscribe();
+  }
+
+  ngAfterViewChecked() {
+    if (this.details.length && this.detailsTable) {
+      this.setLabelsHeight();
+    }
+  }
+
+  setLabelsHeight() {
+    const tableHeight = this.detailsTable.nativeElement.offsetHeight;
+    this.labelsFilters.nativeElement.style.setProperty('--labels-height', `${tableHeight}px`);
+  }
+
+  detailsTableOrder(detailsTableData) {
+    return detailsTableData.sort((a, b) => this.sortDetails(a, b));
+  }
+
+
+  sortDetails(a, b) {
+    const order =
+      ['num_queries', 'num_queries_with_errors', 'num_queries_with_warnings', 'query_time', 'lock_time', 'rows_sent', 'rows_examined', ''];
+
+    let indA = order.indexOf(a['metricName']);
+    let indB = order.indexOf(b['metricName']);
+
+    if (indA === -1) {
+      indA = order.length - 1;
+    }
+
+    if (indB === -1) {
+      indB = order.length - 1;
+    }
+
+    return indA < indB ? -1 : 1;
   }
 }
