@@ -1,3 +1,33 @@
+@font-face {
+  font-family: 'Roboto Thin'; /*font-weight: 100*/
+  src: url('assets/fonts/Roboto/Roboto-Thin.ttf') format('ttf');
+}
+
+@font-face {
+  font-family: 'Roboto Light'; /*font-weight: 300*/
+  src: url('assets/fonts/Roboto/Roboto-Loght.ttf') format('ttf');
+}
+
+@font-face {
+  font-family: 'Roboto Regular'; /*font-weight: 400*/
+  src: url('assets/fonts/Roboto/Roboto-Regular.ttf') format('ttf');
+}
+
+@font-face {
+  font-family: 'Roboto Medium'; /*font-weight: 500*/
+  src: url('assets/fonts/Roboto/Roboto-Medium.ttf') format('ttf');
+}
+
+@font-face {
+  font-family: 'Roboto Bold'; /*font-weight: 700*/
+  src: url('assets/fonts/Roboto/Roboto-Bold.ttf') format('ttf');
+}
+
+@font-face {
+  font-family: 'Roboto Black'; /*font-weight: 900*/
+  src: url('assets/fonts/Roboto/Roboto-Black.ttf') format('ttf');
+}
+
 .font--medium-dark {
   font-family: var(--main-qan-font), inherit, sans-serif;
   font-size: 18px;
