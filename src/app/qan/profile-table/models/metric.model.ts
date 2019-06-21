@@ -32,7 +32,7 @@ export class MetricModel {
         };
       case 'num_queries':
         return {
-          tableMetricName: 'Query count',
+          tableMetricName: 'Query Count',
           tooltipText: 'Count'
         };
       case 'num_queries_with_errors':

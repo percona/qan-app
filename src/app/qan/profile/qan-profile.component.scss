@@ -3,7 +3,7 @@
   --filter-height: 0;
 
   display: grid;
-  grid-template-areas: 'search search' 'filter table';
+  grid-template-areas: 'search search' 'addColumn addColumn' 'filter table';
   grid-template-columns: 250px minmax(1000px, 1fr);
   grid-template-rows: repeat(2, auto);
   align-items: flex-start;
@@ -13,6 +13,34 @@
 .pmm-qan__search {
   grid-area: search;
   margin-bottom: var(--grid-gap);
+}
+
+.add-column-wrapper {
+  grid-area: addColumn;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.add-column-btn {
+  --button-color: #a8a8a8;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 40px;
+  font-size: 20px;
+  color: var(--button-color);
+  cursor: pointer;
+  border: none;
+  background-color: transparent;
+}
+
+.add-column-icon {
+  margin-right: 10px;
+}
+
+.add-column-title {
+  font-size: 14px;
 }
 
 .pmm-qan__filter {

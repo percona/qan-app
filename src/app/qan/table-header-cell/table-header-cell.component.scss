@@ -68,6 +68,10 @@
     .ng-value-container {
       padding-left: 5px;
 
+      .ng-value {
+        color: var(--main-qan-font);
+      }
+
       .ng-placeholder {
         padding-left: 5px;
         padding-right: 5px;
