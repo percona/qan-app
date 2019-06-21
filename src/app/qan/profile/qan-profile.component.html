@@ -14,11 +14,19 @@
   <input type="text" id="search-input">
   <section *ngIf="!noQueryError" class="pmm-qan" #pmmQanWrapper>
     <app-qan-search class="pmm-qan__search"></app-qan-search>
+    <div class="add-column-wrapper">
+      <button (click)="addColumn()" class="add-column-btn">
+        <i class="fa fa-plus-circle add-column-icon" aria-hidden="true"></i>
+        <span class="add-column-title">
+          Add column
+        </span>
+      </button>
+    </div>
     <div class="pmm-qan__filter" #filter>
       <app-filter-menu-viewer></app-filter-menu-viewer>
     </div>
     <div class="pmm-qan__table" #table>
-      <app-qan-table (finishRender)="checkRender()"></app-qan-table>
+      <app-qan-table (finishRender)="checkRender()" #tableLink></app-qan-table>
     </div>
 
     <div *ngIf="!!noQueryError" class="text-center alert alert-danger w-75 mx-auto wrong-configuration-message" role="alert">

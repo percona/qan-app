@@ -15,27 +15,9 @@
   min-height: inherit;
 }
 
-.add-column-btn {
-  --button-color: #a8a8a8;
-
-  position: absolute;
-  top: 0;
-  right: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  height: 40px;
-  font-size: 20px;
-  color: var(--button-color);
-  cursor: pointer;
-  border: none;
-  background-color: transparent;
-}
-
 .table-wrapper--outer {
   position: relative;
   min-height: 400px;
-  margin-right: 20px;
   border-top: 1px solid var(--main-border-color);
   background-color: var(--page-background);
 
@@ -72,6 +54,8 @@
 
 .qan-table {
   width: 100%;
+  font-size: var(--main-font-size);
+  font-weight: 100;
   border-collapse: collapse;
 }
 
@@ -147,6 +131,10 @@ th.qan-table__cell--fixed {
   color: var(--main-highlight-color);
   text-align: left;
   background-color: inherit;
+}
+
+.qan-table__abstract--bold {
+  font-weight: 500;
 }
 
 .pagination-tools {

@@ -1,7 +1,10 @@
+:host {
+  font-size: var(--main-font-size);
+}
+
 .aside {
   min-height: var(--min-qan-height);
   height: 100%;
-  font-size: 0.9em;
   border: 1px solid var(--main-border-color);
   background-color: transparent;
 }
@@ -26,7 +29,7 @@
 }
 
 .title__text {
-  font-weight: 600;
+  font-weight: bold;
 }
 
 .filter-group__filters {
@@ -42,7 +45,6 @@
 }
 
 .checkbox-container__label-text {
-  font-size: 1em;
   font-weight: 100;
 }
 
