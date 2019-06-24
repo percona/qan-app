@@ -18,7 +18,7 @@
                 [(ngModel)]="filter.state"
                 type="checkbox">
               <span class="checkbox-container__checkmark"></span>
-              <span class="checkbox-container__label-text" closeDelay="5000000" [placement]="index > 10 ? 'top-left' : 'bottom-left'" [ngbTooltip]="filter.value" tooltipClass="pmm-tooltip">
+              <span class="checkbox-container__label-text" [placement]="index > 10 ? 'top-left' : 'bottom-left'" [ngbTooltip]="filter.value" tooltipClass="pmm-tooltip">
                 {{ filter.value | ellipsisMiddle }}
               </span>
             </label>
