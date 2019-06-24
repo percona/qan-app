@@ -24,6 +24,7 @@ export class FilterMenuViewerComponent implements OnInit, OnDestroy {
   private filterSubscription$: Subscription;
   private getFilters$: Subscription;
   public filters: any = [];
+  public isLoading: boolean;
 
   constructor(
     private filterMenuService: FilterMenuService,
@@ -31,24 +32,39 @@ export class FilterMenuViewerComponent implements OnInit, OnDestroy {
     private qanFilterService: FilterMenuService,
     private qanProfileService: QanProfileService,
   ) {
+    this.isLoading = true;
     this.currentParams = this.qanProfileService.getProfileParams.getValue();
 
     this.getFilters$ = this.qanProfileService.getDefaultMainMetric.pipe(
-      switchMap(metricName => this.filterService.Get(
-        {
-          main_metric_name: metricName,
-          period_start_from: this.currentParams.period_start_from,
-          period_start_to: this.currentParams.period_start_to
-        }).pipe(
-          catchError(err => of({ error: err.error })),
-          map(response =>
-            response['error'] ? [] : this.filterMenuService.generateFilterGroup(response))
-        )))
+      switchMap(metricName => {
+        this.isLoading = true;
+        return this.filterService.Get(
+          {
+            main_metric_name: metricName,
+            period_start_from: this.currentParams.period_start_from,
+            period_start_to: this.currentParams.period_start_to
+          }).pipe(
+            catchError(err => of({ error: err.error })),
+            map(response =>
+              response['error'] ? [] : this.filterMenuService.generateFilterGroup(response))
+          )
+      }))
       .subscribe(
         filters => {
+          // this.isLoading = true;
           this.filters = this.filtersOrder(filters);
           this.sortEmptyValues(filters);
-          this.filterMenuService.updateAutocompleteFilters(filters)
+          this.filterMenuService.updateAutocompleteFilters(filters);
+          this.isLoading = false;
+          console.log('subscribe');
+          this.isLoading = false;
+        },
+        err => {
+          console.log('err filters - ', err);
+          this.isLoading = false;
+        },
+        () => {
+          console.log('complete');
         }
       );
   }
