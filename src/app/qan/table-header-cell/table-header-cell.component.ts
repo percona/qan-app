@@ -68,11 +68,12 @@ export class TableHeaderCellComponent implements OnInit, OnDestroy {
     }
     this.currentParams.columns[this.index] = value.name;
     this.currentParams.columns = this.currentParams.columns.filter(item => !!item);
-    this.qanProfileService.updateProfileParams(this.currentParams);
 
     if (this.isMainColumn) {
+      this.currentParams.order_by = value.name;
       this.qanProfileService.updateDefaultMainMetric(this.changeDefaultName(value.name));
     }
+    this.qanProfileService.updateProfileParams(this.currentParams);
   }
 
   sortBy(selectedColumn) {
