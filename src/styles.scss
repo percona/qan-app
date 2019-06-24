@@ -1,6 +1,7 @@
 /* You can add global styles to this file, and also import other style files */
 
 @import "app/global-styles/variables";
+@import "app/global-styles/fonts";
 @import "app/global-styles/themes/theme-dark";
 @import "app/global-styles/themes/theme-light";
 @import "app/global-styles/accordion";
@@ -32,6 +33,7 @@
 }
 
 body {
+  font-family: var(--main-qan-font), Arial, inherit, sans-serif;
   color: var(--main-text-color, rgb(211, 211, 211));
   background-color: var(--page-background, transparent);
 }
@@ -44,23 +46,6 @@ body {
 .tick {
   opacity: 0;
 }
-
-//svg .active-rect {
-//  display: none;
-//}
-//
-//svg:hover .active-rect {
-//  display: block;
-//}
-
-//.axis path, .axis line {
-//  fill: none;
-//  stroke: none;
-//}
-//.axis .grid-line {
-//  stroke: #000;
-//  stroke-opacity: 0.2;
-//}
 
 .center-children {
   display: flex;

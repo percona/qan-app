@@ -9,10 +9,10 @@
         <section class="details-output">
           <div class="grid-table" #detailsTable>
             <header class="grid-table__row grid-table__row--metrics">
-              <span>Metric</span>
-              <span>Rate/Second</span>
-              <span>Total</span>
-              <span>Per Query Stats</span>
+              <span class="grid-table__row--title">Metric</span>
+              <span class="grid-table__row--title">Rate/Second</span>
+              <span class="grid-table__row--title">Total</span>
+              <span class="grid-table__row--title">Per Query Stats</span>
             </header>
             <app-details-row *ngFor="let detail of details" [currentMetric]="detail" #detailsTableRows></app-details-row>
           </div>
