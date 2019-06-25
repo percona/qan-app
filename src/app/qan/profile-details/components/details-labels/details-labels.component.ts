@@ -16,12 +16,14 @@ export class DetailsLabelsComponent implements OnInit, OnDestroy {
   private defaultLabels$: Subscription;
   public currentDetails: any;
   public labels: any = [];
+  public isLoading: boolean;
 
   constructor(
     private objectDetailsService: ObjectDetailsService,
     private qanProfileService: QanProfileService,
     private filterMenuService: FilterMenuService,
   ) {
+    this.isLoading = true;
     this.currentDetails = this.qanProfileService.getCurrentDetails;
     this.details$ = this.qanProfileService.getProfileInfo.details.pipe(
       switchMap(parsedParams => this.getLabels(parsedParams)))
@@ -29,6 +31,7 @@ export class DetailsLabelsComponent implements OnInit, OnDestroy {
         response => {
           this.labels = this.filtersOrder(response);
           this.sortEmptyValues(this.labels);
+          this.isLoading = false;
         }
       );
   }
@@ -38,7 +41,8 @@ export class DetailsLabelsComponent implements OnInit, OnDestroy {
       .pipe(take(1))
       .subscribe(response => {
         this.labels = this.filtersOrder(response);
-        this.sortEmptyValues(this.labels);
+        this.sortIdsValues(this.labels);
+        this.isLoading = false;
       })
   }
 
@@ -85,5 +89,17 @@ export class DetailsLabelsComponent implements OnInit, OnDestroy {
         return -1
       }
     });
+  }
+
+  sortIdsValues(array) {
+    array.sort((a, b) => {
+      if (a.items.every(label => label.value.includes('_id'))) {
+        return 1
+      }
+
+      if (b.items.every(label => label.value.includes('_id'))) {
+        return -1
+      }
+    })
   }
 }

@@ -1,14 +1,11 @@
 :host {
   width: 100%;
-  font-size: var(--main-font-size);
-}
-
-.aside {
-  min-height: var(--min-qan-height);
   height: 100%;
-  border: 1px solid var(--main-border-color);
+  min-height: var(--min-qan-height);
+  font-size: var(--main-font-size);
   background-color: transparent;
 }
+
 
 .aside__filter-group {
   --filter-group-indent: 5px;
