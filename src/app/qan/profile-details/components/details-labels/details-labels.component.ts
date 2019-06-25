@@ -26,7 +26,10 @@ export class DetailsLabelsComponent implements OnInit, OnDestroy {
     this.isLoading = true;
     this.currentDetails = this.qanProfileService.getCurrentDetails;
     this.details$ = this.qanProfileService.getProfileInfo.details.pipe(
-      switchMap(parsedParams => this.getLabels(parsedParams)))
+      switchMap(parsedParams => {
+        this.isLoading = true;
+        return this.getLabels(parsedParams)
+      }))
       .subscribe(
         response => {
           this.labels = this.filtersOrder(response);
