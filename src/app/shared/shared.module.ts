@@ -16,6 +16,8 @@ import { TableHeadersToMultiplePipe } from './table-headers-to-multiple.pipe';
 import { AutofocusDirective } from './autofocus.directive';
 import { LoadBarChartDirective } from './load-bar-chart.directive';
 import { LoadPolygonChartDirective } from './load-polygon-chart.directive';
+import { MiddleEllipsisDirective } from './middle-ellipsis.directive';
+import { EllipsisMiddlePipe } from '../src/app/shared/ellipsis-middle.pipe';
 import { HumanizeSymbolPipe } from './humanize-symbol-pipe';
 
 @NgModule({
@@ -36,6 +38,8 @@ import { HumanizeSymbolPipe } from './humanize-symbol-pipe';
     LoadPolygonChartDirective,
     AutofocusDirective,
     HumanizeSymbolPipe,
+    MiddleEllipsisDirective,
+    EllipsisMiddlePipe
   ],
   exports: [
     MapToIterablePipe,
@@ -47,7 +51,9 @@ import { HumanizeSymbolPipe } from './humanize-symbol-pipe';
     LoadSparklinesDirective,
     LoadBarChartDirective,
     LoadPolygonChartDirective,
+    MiddleEllipsisDirective,
     SortingTablePipe,
+    EllipsisMiddlePipe,
     TableHeadersToMultiplePipe,
     AutofocusDirective,
     CommonModule,
@@ -55,6 +61,9 @@ import { HumanizeSymbolPipe } from './humanize-symbol-pipe';
     HttpClientModule,
     NgbModule,
     RouterModule,
+  ],
+  providers: [
+    HumanizeSymbolPipe
   ]
 })
 export class SharedModule {

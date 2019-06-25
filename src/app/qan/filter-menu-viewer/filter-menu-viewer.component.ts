@@ -51,12 +51,9 @@ export class FilterMenuViewerComponent implements OnInit, OnDestroy {
       }))
       .subscribe(
         filters => {
-          // this.isLoading = true;
           this.filters = this.filtersOrder(filters);
-          this.sortEmptyValues(filters);
+          this.sortIdsValues(this.filters);
           this.filterMenuService.updateAutocompleteFilters(filters);
-          this.isLoading = false;
-          console.log('subscribe');
           this.isLoading = false;
         },
         err => {
@@ -107,5 +104,17 @@ export class FilterMenuViewerComponent implements OnInit, OnDestroy {
         return -1
       }
     });
+  }
+
+  sortIdsValues(array) {
+    array.sort((a, b) => {
+      if (a.items.every(label => label.value.includes('_id'))) {
+        return 1
+      }
+
+      if (b.items.every(label => label.value.includes('_id'))) {
+        return -1
+      }
+    })
   }
 }

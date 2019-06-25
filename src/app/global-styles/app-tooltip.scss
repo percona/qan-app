@@ -2,7 +2,7 @@
   position: relative;
 }
 
-div.app-tooltip::before {
+.app-tooltip::before {
   content: attr(data-tooltip);
   position: absolute;
   bottom: -20px;
@@ -19,6 +19,6 @@ div.app-tooltip::before {
   text-align: left;
 }
 
-div.app-tooltip:hover::before {
+.app-tooltip:hover::before {
   display: inline-block;
 }

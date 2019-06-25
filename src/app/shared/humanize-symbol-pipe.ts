@@ -6,7 +6,8 @@ import { Pipe, PipeTransform } from '@angular/core';
 export class HumanizeSymbolPipe implements PipeTransform {
   public names = {
     'qan-mysql-perfschema-agent': 'MySQL Performance Schema',
-    'mysql': 'MySQL'
+    'mysql': 'MySQL',
+    '': 'n/a'
   };
 
   transform(value: any, args?: any): any {
