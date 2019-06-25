@@ -46,11 +46,6 @@ export class FilterMenuViewerComponent implements OnInit, OnDestroy {
         )))
       .subscribe(
         filters => {
-          filters.forEach((group, index) => {
-            if (index % 2 === 0) {
-              group['items'].forEach(label => label.value = '/agent_id/394-ifjuaisdj21312/wawdasoi')
-            }
-          });
           this.filters = this.filtersOrder(filters);
           this.sortIdsValues(this.filters);
           this.filterMenuService.updateAutocompleteFilters(filters)
