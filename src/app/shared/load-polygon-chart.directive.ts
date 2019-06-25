@@ -95,7 +95,7 @@ export class LoadPolygonChartDirective implements OnChanges {
 
     g.append('path')
       .attr('d', areaBar(this.data))
-      .style('fill', '#d9721f');
+      .style('fill', 'rgba(215, 114, 44, 0.6)');
 
     const focusBar = focusG
       .append('path')
