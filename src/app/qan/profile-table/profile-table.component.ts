@@ -40,6 +40,7 @@ export class ProfileTableComponent implements OnInit, OnDestroy, AfterViewInit {
     suppressScrollY: true
   };
 
+  public isLoading: boolean;
   public iframeQueryParams: QueryParams;
   public tableData: TableDataModel[] | any;
   public currentParams: GetProfileBody;
@@ -72,6 +73,7 @@ export class ProfileTableComponent implements OnInit, OnDestroy, AfterViewInit {
     private profileService: ProfileService,
     private metricsNamesService: MetricsNamesService,
   ) {
+    this.isLoading = true;
     this.defaultColumns = ['load', 'count', 'latency'];
 
     this.report$ = this.qanProfileService.getProfileParams.pipe(
@@ -79,34 +81,35 @@ export class ProfileTableComponent implements OnInit, OnDestroy, AfterViewInit {
         this.currentParams = params;
         return this.removeDefaultColumns(params)
       }),
-      switchMap(parsedParams => this.profileService.GetReport(parsedParams).pipe(
-        catchError(err => {
-          console.log('error - ', err);
-          return of([])
-        }),
-        map(data => this.generateTableData(data)),
-        catchError(err => {
-          console.log('error - ', err);
-          return of([])
-        })
-      )),
+      switchMap(parsedParams => {
+        this.isLoading = true;
+
+        return this.profileService.GetReport(parsedParams).pipe(
+          catchError(err => {
+            console.log('error - ', err);
+            return of([])
+          }),
+          map(data => this.generateTableData(data)),
+          catchError(err => {
+            console.log('error - ', err);
+            return of([])
+          })
+        )
+      }),
     ).subscribe(
       data => {
         this.tableData = data;
+        this.isLoading = false;
+        // this.tableRows.changes.subscribe(() => {
+
+        // })
       },
       err => {
         console.log('error - ', err)
+      },
+      () => {
+        console.log('complete');
       });
-
-    // this.metrics$ = this.metricsNamesService.GetMetricsNames({}).pipe(
-    //   map(metrics => {
-    //     console.log('str - ', JSON.stringify(metrics));
-    //     return this.generateMetricsNames(metrics)
-    //   })
-    // ).subscribe(metrics => {
-    //   this.metrics = metrics;
-    //   console.log('JSON stringify - ', JSON.stringify(this.metrics));
-    // });
 
     this.detailsBy$ = this.qanProfileService.getProfileInfo.detailsBy.subscribe(details_by => this.detailsBy = details_by);
     this.fingerprint$ = this.qanProfileService.getProfileInfo.fingerprint.subscribe(fingerprint => this.fingerprint = fingerprint);
@@ -131,11 +134,14 @@ export class ProfileTableComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   ngForRendered() {
+    console.log('ngForRendered');
     const tableHeight = this.qanTable.nativeElement.offsetHeight;
+    console.log('this.qanTable.nativeElement - ', this.qanTable.nativeElement);
     if (this.isNeedScroll) {
       this.componentRef.directiveRef.scrollToRight();
     }
     this.mainTableWrapper.nativeElement.style.setProperty('--table-height', `${tableHeight}px`);
+    console.log('this.mainTableWrapper.nativeElement - ', this.mainTableWrapper.nativeElement);
     this.isNeedScroll = false;
   }
 

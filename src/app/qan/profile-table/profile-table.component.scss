@@ -4,8 +4,18 @@
   height: max-content;
 }
 
+.spinner {
+  margin: auto;
+  font-size: 56px;
+}
+
 .content-table-wrapper {
   min-height: var(--min-qan-height);
+}
+
+.content-table-wrapper--border {
+  display: flex;
+  border: 1px solid var(--main-border-color);
 }
 
 .main-wrapper {
