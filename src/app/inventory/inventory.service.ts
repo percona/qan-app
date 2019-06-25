@@ -41,6 +41,7 @@ export class InventoryService {
       case 'qan_mongodb_profiler_agent':
       case 'qan_mysql_perfschema_agent':
       case 'qan_mysql_slowlog_agent':
+      case 'qan_postgresql_pgstatements_agent':
         return new GeneralQanAgentModel(params, this.humanizeType(type));
       case 'rds_exporter':
         return new RdsExporterModel(params, 'RDS exporter');
@@ -79,6 +80,8 @@ export class InventoryService {
         return 'Qan MongoDB Profiler Agent';
       case 'qan_mysql_slowlog_agent':
         return 'Qan MySQL Slowlog Agent';
+      case 'qan_postgresql_pgstatements_agent':
+        return 'QAN PostgreSQL PgStatements Agent';
       case 'amazon_rds_mysql':
         return 'Amazon RDS MySQL';
       case 'mongodb':
