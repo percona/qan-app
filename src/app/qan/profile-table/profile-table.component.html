@@ -50,7 +50,7 @@
         <span class="right-table-border"></span>
       </div>
     </div>
-  <div *ngIf="paginationConfig.totalItems > 10 || isLoading"class="pagination-tools">
+  <div *ngIf="paginationConfig.totalItems > 10 || !isLoading" class="pagination-tools">
       <pagination-controls id="qan-table-pagination"
                            class="pmm-pagination"
                            autoHide="true"
