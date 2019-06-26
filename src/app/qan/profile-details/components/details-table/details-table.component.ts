@@ -1,9 +1,19 @@
-import { AfterViewChecked, Component, ElementRef, EventEmitter, OnInit, Output, QueryList, ViewChild, ViewChildren } from '@angular/core';
+import {
+  AfterViewInit,
+  Component,
+  ElementRef,
+  EventEmitter,
+  OnInit,
+  Output,
+  QueryList,
+  ViewChild,
+  ViewChildren
+} from '@angular/core';
 import { catchError, map, switchMap } from 'rxjs/operators';
 import { of, Subscription } from 'rxjs';
 import { MetricModel } from '../../../profile-table/models/metric.model';
 import { Router } from '@angular/router';
-import { QanProfileService } from '../../../profile/qan-profile.service';
+import { ObjectDetails, QanProfileService } from '../../../profile/qan-profile.service';
 import { ObjectDetailsService } from '../../../../pmm-api-services/services/object-details.service';
 import { DetailsSparklineModel } from '../../models/details-sparkline.model';
 
@@ -12,7 +22,7 @@ import { DetailsSparklineModel } from '../../models/details-sparkline.model';
   templateUrl: './details-table.component.html',
   styleUrls: ['./details-table.component.css']
 })
-export class DetailsTableComponent implements OnInit, AfterViewChecked {
+export class DetailsTableComponent implements OnInit, AfterViewInit {
   @ViewChild('table') table: ElementRef;
   @ViewChildren('detailsTableRows') tableRows: QueryList<any>;
   @Output() finishRender = new EventEmitter();
@@ -26,6 +36,7 @@ export class DetailsTableComponent implements OnInit, AfterViewChecked {
   private fingerprint$: Subscription;
   private group_by$: Subscription;
   private details$: Subscription;
+  private firstDetails: ObjectDetails;
 
   constructor(
     protected router: Router,
@@ -50,10 +61,6 @@ export class DetailsTableComponent implements OnInit, AfterViewChecked {
     ).subscribe(response => {
       this.details = this.detailsTableOrder(response);
       this.isTotal = !this.currentParams.filter_by;
-
-      if (this.details.length) {
-        setTimeout(() => this.setLabelsHeight(), 0);
-      }
     });
 
     this.group_by$ = this.qanProfileService.getGroupBy
@@ -61,12 +68,16 @@ export class DetailsTableComponent implements OnInit, AfterViewChecked {
   }
 
   ngOnInit() {
+    this.firstDetails = this.qanProfileService.getCurrentDetails;
+    this.getDetailsData(this.firstDetails).subscribe(response => {
+      this.details = this.detailsTableOrder(response);
+    })
   }
 
-  ngAfterViewChecked() {
-    if (this.details.length && this.table) {
-      this.setLabelsHeight();
-    }
+  ngAfterViewInit() {
+    this.tableRows.changes.subscribe(() => {
+      this.setLabelsHeight()
+    })
   }
 
   createSparklineModel(sparklines, name) {
@@ -75,7 +86,6 @@ export class DetailsTableComponent implements OnInit, AfterViewChecked {
 
   setLabelsHeight() {
     const tableHeight = this.table.nativeElement.offsetHeight;
-    // this.labelsFilters.nativeElement.style.setProperty('--labels-height', `${tableHeight}px`);
     this.finishRender.emit(tableHeight);
   }
 
@@ -83,6 +93,18 @@ export class DetailsTableComponent implements OnInit, AfterViewChecked {
     return detailsTableData.sort((a, b) => this.sortDetails(a, b));
   }
 
+  getDetailsData(detailsParams) {
+    return this.objectDetailsService.GetMetrics(detailsParams).pipe(
+      catchError(err => of({ metrics: [], sparkline: [] })),
+      map(response => {
+        const withData = Object.entries(response.metrics).filter(metricData => Object.keys(metricData[1]).length);
+        return withData.map(withDataItem => {
+          const sparklineData = this.createSparklineModel(response.sparkline, withDataItem[0]);
+          return new MetricModel(withDataItem, sparklineData)
+        });
+      }),
+      catchError(err => of([])));
+  }
 
   sortDetails(a, b) {
     const order =
