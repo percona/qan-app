@@ -1,28 +1,26 @@
-import { ActivatedRoute, Router } from '@angular/router';
-import { AfterViewChecked, Component, ElementRef, OnDestroy, OnInit, QueryList, ViewChild, ViewChildren } from '@angular/core';
+import { AfterViewChecked, Component, ElementRef, EventEmitter, OnInit, Output, QueryList, ViewChild, ViewChildren } from '@angular/core';
 import { catchError, map, switchMap } from 'rxjs/operators';
-import { QanProfileService } from '../profile/qan-profile.service';
-import { ObjectDetailsService } from '../../pmm-api-services/services/object-details.service';
-import { MetricModel } from '../profile-table/models/metric.model';
-import { Subscription } from 'rxjs/internal/Subscription';
-import { of } from 'rxjs/internal/observable/of';
-import { DetailsSparklineModel } from './models/details-sparkline.model';
+import { of, Subscription } from 'rxjs';
+import { MetricModel } from '../../../profile-table/models/metric.model';
+import { Router } from '@angular/router';
+import { QanProfileService } from '../../../profile/qan-profile.service';
+import { ObjectDetailsService } from '../../../../pmm-api-services/services/object-details.service';
+import { DetailsSparklineModel } from '../../models/details-sparkline.model';
 
 @Component({
-  moduleId: module.id,
-  selector: 'app-query-details',
-  templateUrl: './profile-details.component.html',
-  styleUrls: ['./profile-details.component.scss']
+  selector: 'app-details-table',
+  templateUrl: './details-table.component.html',
+  styleUrls: ['./details-table.component.css']
 })
-
-export class ProfileDetailsComponent implements OnInit, OnDestroy, AfterViewChecked {
-  // @ViewChild('detailsTable') detailsTable: ElementRef;
-  // @ViewChildren('detailsTableRows') tableRows: QueryList<any>;
-  @ViewChild('labels') labelsFilters: ElementRef;
+export class DetailsTableComponent implements OnInit, AfterViewChecked {
+  @ViewChild('table') table: ElementRef;
+  @ViewChildren('detailsTableRows') tableRows: QueryList<any>;
+  @Output() finishRender = new EventEmitter();
 
   protected dbName: string;
   public fingerprint: string;
   public currentParams: any;
+  public dimension: string;
   public isTotal = false;
   public details: MetricModel[] = [];
   private fingerprint$: Subscription;
@@ -53,13 +51,10 @@ export class ProfileDetailsComponent implements OnInit, OnDestroy, AfterViewChec
       this.details = this.detailsTableOrder(response);
       this.isTotal = !this.currentParams.filter_by;
 
-      // if (this.details.length && this.detailsTable) {
-      // setTimeout(() => this.setLabelsHeight(), 0);
-      // }
+      if (this.details.length) {
+        setTimeout(() => this.setLabelsHeight(), 0);
+      }
     });
-
-    this.fingerprint$ = this.qanProfileService.getProfileInfo.fingerprint
-      .subscribe(fingerprint => this.fingerprint = fingerprint);
 
     this.group_by$ = this.qanProfileService.getGroupBy
       .subscribe(() => this.details = [])
@@ -68,30 +63,21 @@ export class ProfileDetailsComponent implements OnInit, OnDestroy, AfterViewChec
   ngOnInit() {
   }
 
-  onFinishDetailsTableRender(event) {
-    console.log('event - ', event);
+  ngAfterViewChecked() {
+    if (this.details.length && this.table) {
+      this.setLabelsHeight();
+    }
   }
 
   createSparklineModel(sparklines, name) {
     return sparklines.map(item => new DetailsSparklineModel(item, name))
   }
 
-  ngOnDestroy() {
-    this.fingerprint$.unsubscribe();
-    this.details$.unsubscribe();
-    this.group_by$.unsubscribe();
+  setLabelsHeight() {
+    const tableHeight = this.table.nativeElement.offsetHeight;
+    // this.labelsFilters.nativeElement.style.setProperty('--labels-height', `${tableHeight}px`);
+    this.finishRender.emit(tableHeight);
   }
-
-  ngAfterViewChecked() {
-    // if (this.details.length && this.detailsTable) {
-    //   this.setLabelsHeight();
-    // }
-  }
-
-  // setLabelsHeight() {
-  //   const tableHeight = this.detailsTable.nativeElement.offsetHeight;
-  //   this.labelsFilters.nativeElement.style.setProperty('--labels-height', `${tableHeight}px`);
-  // }
 
   detailsTableOrder(detailsTableData) {
     return detailsTableData.sort((a, b) => this.sortDetails(a, b));

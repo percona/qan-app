@@ -49,6 +49,8 @@ import { ActionsService } from '../pmm-api-services/services/actions.service';
 import { TablesComponent } from '../qan/profile-details/components/tables/tables.component';
 import { TableCreateComponent } from '../qan/profile-details/components/tables/components/table-create/table-create.component';
 import { TableStatusComponent } from '../qan/profile-details/components/tables/components/table-status/table-status.component';
+import { DetailsTableComponent } from '../qan/profile-details/components/details-table/details-table.component';
+import { DetailsFingerprintComponent } from '../qan/profile-details/components/details-fingerprint/details-fingerprint.component';
 
 @NgModule({
   imports: [
@@ -88,6 +90,8 @@ import { TableStatusComponent } from '../qan/profile-details/components/tables/c
     TablesComponent,
     TableCreateComponent,
     TableStatusComponent,
+    DetailsTableComponent,
+    DetailsFingerprintComponent,
   ],
   exports: [
     PageNotFoundComponent,
@@ -113,6 +117,8 @@ import { TableStatusComponent } from '../qan/profile-details/components/tables/c
     TablesComponent,
     TableCreateComponent,
     TableStatusComponent,
+    DetailsTableComponent,
+    DetailsFingerprintComponent,
   ],
   providers: [
     InstanceService,
