@@ -2,7 +2,7 @@ import {
   AfterViewInit,
   Component,
   ElementRef,
-  EventEmitter,
+  EventEmitter, HostBinding,
   OnInit,
   Output,
   QueryList,
@@ -25,6 +25,7 @@ import { DetailsSparklineModel } from '../../models/details-sparkline.model';
 export class DetailsTableComponent implements OnInit, AfterViewInit {
   @ViewChild('table') table: ElementRef;
   @ViewChildren('detailsTableRows') tableRows: QueryList<any>;
+  @HostBinding('class.frame') isLoading = true;
   @Output() finishRender = new EventEmitter();
 
   protected dbName: string;
@@ -43,8 +44,10 @@ export class DetailsTableComponent implements OnInit, AfterViewInit {
     protected qanProfileService: QanProfileService,
     protected objectDetailsService: ObjectDetailsService,
   ) {
+    this.isLoading = true;
     this.details$ = this.qanProfileService.getProfileInfo.details.pipe(
       switchMap(parsedParams => {
+        this.isLoading = true;
         this.currentParams = parsedParams;
         return this.objectDetailsService.GetMetrics(parsedParams).pipe(
           catchError(err => of({ metrics: [], sparkline: [] })),
@@ -61,6 +64,7 @@ export class DetailsTableComponent implements OnInit, AfterViewInit {
     ).subscribe(response => {
       this.details = this.detailsTableOrder(response);
       this.isTotal = !this.currentParams.filter_by;
+      this.isLoading = false;
     });
 
     this.group_by$ = this.qanProfileService.getGroupBy
@@ -71,6 +75,7 @@ export class DetailsTableComponent implements OnInit, AfterViewInit {
     this.firstDetails = this.qanProfileService.getCurrentDetails;
     this.getDetailsData(this.firstDetails).subscribe(response => {
       this.details = this.detailsTableOrder(response);
+      this.isLoading = false;
     })
   }
 

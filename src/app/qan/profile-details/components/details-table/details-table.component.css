@@ -1,3 +1,22 @@
+:host {
+  display: flex;
+  width: 100%;
+  min-height: 400px;
+}
+
+:host.frame {
+  border: 1px solid var(--main-border-color);
+}
+
+.grid-table {
+  width: 100%;
+}
+
+.spinner {
+  margin: auto;
+  font-size: 56px;
+}
+
 .search--modal {
   width: max-content;
   margin-bottom: var(--main-bottom-indent);
