@@ -1,0 +1,9 @@
+:host {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+.spinner {
+  margin: auto;
+  font-size: 56px;
+}
