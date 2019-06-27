@@ -47,18 +47,18 @@ export class HumanizePipe implements PipeTransform {
     }
 
     let res = '0';
-    switch (true) {
+    switch (name) {
       // "top 10"/profile queries no name parameters
-      case name === undefined:
+      case undefined:
         res = this.parceTime(input);
         break;
       // time
-      case name.indexOf('time') > -1:
+      case 'time':
         res = (input !== 0 && input < 0.00001) ? '<' : '';
         res += this.parceTime(input);
         break;
       // size
-      case name.indexOf('size') > -1:
+      case 'size':
         if (input !== 0 && input < 0.01) {
           res = '<0.01 B';
         } else {
@@ -67,20 +67,27 @@ export class HumanizePipe implements PipeTransform {
         res = res.replace(/([\d]) B/, '$1 Bytes');
         break;
       // ops
-      case name.indexOf('number') > -1:
+      case 'number':
         if (input !== 0 && input < 0.01) {
           res = '<0.01';
         } else {
           res = numeral(input).format('0.00a');
         }
         break;
-      case name.indexOf('percent') > -1:
+      case 'percent':
         if (input !== 0 && input < 0.0001) {
           res = '<0.01';
         } else if (input === 1) {
           res = '100%'
         } else {
           res = numeral(input).format('0.00%');
+        }
+        break;
+      case 'percentRounded':
+        if (input !== 0 && input < 0.0001) {
+          res = '<0.01';
+        } else {
+          res = numeral(input).format('0%');
         }
         break;
       // ops
