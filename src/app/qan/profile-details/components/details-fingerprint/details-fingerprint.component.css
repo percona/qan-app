@@ -1,0 +1,12 @@
+:host {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 21px;
+  padding: 0 10px;
+  margin-bottom: var(--main-bottom-indent);
+}
+
+.query-info__item:not(:first-child) {
+  color: var(--main-highlight-color);
+}

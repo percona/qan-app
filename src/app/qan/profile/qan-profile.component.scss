@@ -44,6 +44,7 @@
 }
 
 .pmm-qan__filter {
+  overflow: hidden;
   grid-area: filter;
   height: var(--filter-height);
   min-height: var(--min-qan-height);

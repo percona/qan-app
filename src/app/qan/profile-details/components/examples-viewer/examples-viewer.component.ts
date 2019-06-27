@@ -16,19 +16,25 @@ export class ExamplesViewerComponent implements OnInit, OnDestroy {
   private defaultExample$: Subscription;
   public exampleParams: any;
   public currentDetails: ObjectDetails;
+  public isLoading: boolean;
 
   constructor(
     protected qanProfileService: QanProfileService,
     protected objectDetailsService: ObjectDetailsService,
     protected profileDetailsService: ProfileDetailsService
   ) {
+    this.isLoading = true;
     this.currentDetails = this.qanProfileService.getCurrentDetails;
     this.example$ = this.qanProfileService.getProfileInfo.details.pipe(
-      switchMap(parsedParams => this.getExample(parsedParams)))
+      switchMap(parsedParams => {
+        this.isLoading = true;
+        return this.getExample(parsedParams)
+      }))
       .subscribe(
         response => {
           this.exampleParams = response;
           this.profileDetailsService.updateExamples(this.exampleParams);
+          this.isLoading = false;
         }
       );
   }
@@ -39,6 +45,7 @@ export class ExamplesViewerComponent implements OnInit, OnDestroy {
       .subscribe(response => {
         this.exampleParams = response;
         this.profileDetailsService.updateExamples(this.exampleParams);
+        this.isLoading = false;
       })
   }
 
