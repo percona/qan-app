@@ -18,6 +18,7 @@
            (remove)="removeFromSelected($event)"
            (clear)="removeAllFromSelected()"
            (open)="addCustomScroll()"
+           [searchFn]="autocompleteSearch"
            bindLabel="filterName"
            clearAllText="Reset"
            placeholder="Search by..."
