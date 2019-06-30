@@ -1,10 +1,10 @@
 :host {
   display: flex;
   width: 100%;
-  min-height: 400px;
 }
 
 :host.frame {
+  min-height: 400px;
   border: 1px solid var(--main-border-color);
 }
 
