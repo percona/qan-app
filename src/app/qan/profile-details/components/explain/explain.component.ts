@@ -22,17 +22,22 @@ export class ExplainComponent implements OnInit, OnDestroy {
   public jsonOutput: string;
   public jsonError = '';
   public visualOutput: string;
-  public isExplainLoading: boolean;
+  public isClassicLoading: boolean;
+  public isJsonLoading: boolean;
 
   constructor(
     private actionsService: ActionsService,
     protected objectDetailsService: ObjectDetailsService,
     protected qanProfileService: QanProfileService,
   ) {
-    this.isExplainLoading = true;
+    this.isClassicLoading = true;
     this.currentDetails = this.qanProfileService.getCurrentDetails;
     this.example$ = this.qanProfileService.getProfileInfo.details.pipe(
-      switchMap(parsedParams => this.getExample(parsedParams)))
+      switchMap(parsedParams => {
+        this.isClassicLoading = true;
+        this.isJsonLoading = true;
+        return this.getExample(parsedParams)
+      }))
       .subscribe(
         response => {
           this.startExplainActions(response[0])
@@ -71,6 +76,7 @@ export class ExplainComponent implements OnInit, OnDestroy {
         } else {
           this.classicError = res.error;
         }
+        this.isClassicLoading = false;
         if (this.classicStart$) {
           this.classicStart$.unsubscribe()
         }
@@ -98,13 +104,14 @@ export class ExplainComponent implements OnInit, OnDestroy {
           } else {
             this.jsonError = res.error;
           }
+          this.isJsonLoading = false;
           if (this.jsonStart$) {
-            this.isExplainLoading = false;
             this.jsonStart$.unsubscribe();
           }
         }
       },
       err => {
+        this.isJsonLoading = false;
         console.log('error - ', err)
       }
     );

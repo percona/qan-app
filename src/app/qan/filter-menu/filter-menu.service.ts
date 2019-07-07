@@ -9,6 +9,7 @@ import { BehaviorSubject } from 'rxjs/internal/BehaviorSubject';
 export class FilterMenuService {
   private selected = new BehaviorSubject([]);
   private autocompleteFilters = new Subject();
+  public charsLimit = 9;
 
   constructor(private qanProfileService: QanProfileService) {
   }
@@ -70,6 +71,10 @@ export class FilterMenuService {
       detailsUrlParams.labels = this.prepareLabels(selected);
       this.qanProfileService.updateObjectDetails(detailsUrlParams);
     }
+  }
+
+  checkForTooltip(value) {
+    return value.length > this.charsLimit && value.includes('id')
   }
 
   humanNamesForGroup(groupName) {

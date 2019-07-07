@@ -80,7 +80,6 @@ export class QanProfileService {
 
   private group_by = new BehaviorSubject<string>(this.defaultGroupBy);
 
-
   constructor(private route: ActivatedRoute) {
 
   }

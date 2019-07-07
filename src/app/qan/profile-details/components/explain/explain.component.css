@@ -3,6 +3,11 @@ pre {
   color: inherit;
 }
 
+.spinner {
+  margin: auto;
+  font-size: 56px;
+}
+
 .card-body__table {
   margin: 0;
 }

@@ -1,3 +1,22 @@
+:host {
+  display: flex;
+  width: 100%;
+}
+
+:host.frame {
+  min-height: 400px;
+  border: 1px solid var(--main-border-color);
+}
+
+.grid-table {
+  width: 100%;
+}
+
+.spinner {
+  margin: auto;
+  font-size: 56px;
+}
+
 .search--modal {
   width: max-content;
   margin-bottom: var(--main-bottom-indent);
@@ -8,7 +27,6 @@
   grid-template-columns: 5fr 1fr;
   grid-column-gap: 20px;
   align-items: flex-start;
-  overflow: hidden;
 }
 
 .query-info {

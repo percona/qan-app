@@ -28,6 +28,7 @@ export class TableCellComponent implements OnInit {
   public isDefaultColumn: boolean;
   public isCount: boolean;
   public isLatency: boolean;
+  public isNoData: boolean;
   public currentParams: any;
 
   constructor(
@@ -43,6 +44,7 @@ export class TableCellComponent implements OnInit {
     this.isCount = this.metricData.metricName === 'count';
     this.isLatency = this.metricData.metricName === 'latency';
     this.setValuesTypes(this.metricData.metricName);
+    this.isNoData = Object.keys(this.metricData.stats).length === 1 && Object.keys(this.metricData.stats)[0] === 'cnt';
   }
 
   /**
