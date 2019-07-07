@@ -1,1 +1,9 @@
-<app-query-example *ngFor="let exampleParam of exampleParams" [exampleParam]="exampleParam"></app-query-example>
+<ng-container *ngIf="!isLoading; else spinner">
+  <ng-container *ngFor="let exampleParam of exampleParams">
+    <app-query-example *ngIf="exampleParam?.example" [exampleParam]="exampleParam?.example"
+                       [beatify]="true"></app-query-example>
+  </ng-container>
+</ng-container>
+<ng-template #spinner>
+  <i class="fa fa-spinner fa-spin spinner"></i>
+</ng-template>

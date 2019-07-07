@@ -1,16 +1,16 @@
-.d_schema {
+.schema {
   color: var(--color-shemas);
 }
 
-.d_server {
+.server {
   color: var(--color-servers);
 }
 
-.d_username {
+.username {
   color: var(--color-users);
 }
 
-.d_client_host {
+.client_host {
   color: var(--color-hosts);
 }
 
@@ -103,6 +103,10 @@
         top: 8px;
         padding-bottom: 0;
         padding-left: 0;
+        font-family: var(--main-qan-font), inherit, sans-serif;
+        font-size: 16px;
+        font-weight: 400;
+        color: var(--dark-text-color);
       }
 
       .ng-input {

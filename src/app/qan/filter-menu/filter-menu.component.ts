@@ -1,7 +1,10 @@
-import { Component, Input, OnChanges, OnInit } from '@angular/core';
+import { Component, ElementRef, Input, OnChanges, OnInit, QueryList, ViewChildren } from '@angular/core';
 import { FilterMenuService } from './filter-menu.service';
 import { catchError } from 'rxjs/operators';
 import { of } from 'rxjs/internal/observable/of';
+import { PerfectScrollbarConfigInterface } from 'ngx-perfect-scrollbar';
+import PerfectScrollbar from 'perfect-scrollbar';
+// import PerfectScrollbar from '../table-header-cell/table-header-cell.component';
 
 @Component({
   selector: 'app-qan-filter',
@@ -10,7 +13,11 @@ import { of } from 'rxjs/internal/observable/of';
 })
 export class FilterMenuComponent implements OnInit, OnChanges {
   public currentFilters: any = [];
+  public filterScrollConfig: PerfectScrollbarConfigInterface = {
+    suppressScrollX: true
+  };
 
+  @ViewChildren('checkBoxText') checkBoxText: QueryList<ElementRef>;
   @Input() set processLabels(filters: any) {
     this.currentFilters = filters || [];
     this.toggleLabels();
@@ -30,6 +37,11 @@ export class FilterMenuComponent implements OnInit, OnChanges {
   }
 
   ngOnInit() {
+    // this.addCustomScroll();
+  }
+
+  addCustomScroll() {
+    setTimeout(() => new PerfectScrollbar('.aside'), 0)
   }
 
   ngOnChanges() {
@@ -85,5 +97,13 @@ export class FilterMenuComponent implements OnInit, OnChanges {
         this.checkSelectedFilters();
       }
     }
+  }
+
+  humanizeLabels(groupName) {
+    return this.filterMenuService.humanNamesForGroup(groupName);
+  }
+
+  isTooltip(value) {
+    return this.filterMenuService.checkForTooltip(value);
   }
 }

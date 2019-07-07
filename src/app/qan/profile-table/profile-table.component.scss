@@ -4,8 +4,18 @@
   height: max-content;
 }
 
+.spinner {
+  margin: auto;
+  font-size: 56px;
+}
+
 .content-table-wrapper {
   min-height: var(--min-qan-height);
+}
+
+.content-table-wrapper--border {
+  display: flex;
+  border: 1px solid var(--main-border-color);
 }
 
 .main-wrapper {
@@ -15,27 +25,9 @@
   min-height: inherit;
 }
 
-.add-column-btn {
-  --button-color: #a8a8a8;
-
-  position: absolute;
-  top: 0;
-  right: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  height: 40px;
-  font-size: 20px;
-  color: var(--button-color);
-  cursor: pointer;
-  border: none;
-  background-color: transparent;
-}
-
 .table-wrapper--outer {
   position: relative;
   min-height: 400px;
-  margin-right: 20px;
   border-top: 1px solid var(--main-border-color);
   background-color: var(--page-background);
 
@@ -72,6 +64,8 @@
 
 .qan-table {
   width: 100%;
+  font-size: var(--main-font-size);
+  font-weight: 100;
   border-collapse: collapse;
 }
 
@@ -149,6 +143,10 @@ th.qan-table__cell--fixed {
   background-color: inherit;
 }
 
+.qan-table__abstract--bold {
+  font-weight: 500;
+}
+
 .pagination-tools {
   display: flex;
   justify-content: space-between;
@@ -162,7 +160,6 @@ th.qan-table__cell--fixed {
   display: flex;
   justify-content: space-between;
   width: max-content;
-  margin-right: 20px;
   border-radius: 2px;
   border: 1px solid var(--main-border-color);
   border-right: none;

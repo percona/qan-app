@@ -610,6 +610,9 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 
 
+renderjson
+ISC
+
 resize-observer-polyfill
 MIT
 The MIT License (MIT)

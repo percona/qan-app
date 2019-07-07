@@ -11,6 +11,7 @@ import { InstanceService } from './core/services/instance.service';
 import { AddRemoteInstanceComponent } from './add-remote-instances/add-remote-instance.component';
 import { RemoteInstancesListComponent } from './remote-instances-list/remote-instances-list.component';
 import { InventoryComponent } from './inventory/inventory.component';
+import { ProfileDetailsComponent } from './qan/profile-details/profile-details.component';
 
 @Injectable()
 export class RegisteredInstanceGuard implements CanActivate {
@@ -20,6 +21,7 @@ export class RegisteredInstanceGuard implements CanActivate {
   constructor(public instanceService: InstanceService, public router: Router) {
     this.existsRegisteredInstances = instanceService.dbServers.length > 0;
   }
+
   canActivate() {
     if (!this.existsRegisteredInstances) {
       this.router.navigate(['add-instance']);
@@ -30,7 +32,11 @@ export class RegisteredInstanceGuard implements CanActivate {
 
 const routes: Routes = [
   { path: '', redirectTo: 'profile', pathMatch: 'full', canActivate: [RegisteredInstanceGuard] },
-  { path: 'profile', component: QanProfileComponent },
+  {
+    path: 'profile', component: QanProfileComponent, children: [
+      { path: 'details/:id', component: ProfileDetailsComponent }
+    ]
+  },
   { path: 'sys-summary', component: SummaryComponent, pathMatch: 'full', canActivate: [RegisteredInstanceGuard] },
   { path: 'settings', component: SettingsComponent, pathMatch: 'full', canActivate: [RegisteredInstanceGuard] },
   { path: 'add-instance', component: AddInstanceComponent, pathMatch: 'full' },
@@ -47,4 +53,5 @@ const routes: Routes = [
   providers: [RegisteredInstanceGuard],
   exports: [RouterModule]
 })
-export class AppRoutingModule { }
+export class AppRoutingModule {
+}

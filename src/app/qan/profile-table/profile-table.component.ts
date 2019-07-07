@@ -40,6 +40,7 @@ export class ProfileTableComponent implements OnInit, OnDestroy, AfterViewInit {
     suppressScrollY: true
   };
 
+  public isLoading: boolean;
   public iframeQueryParams: QueryParams;
   public tableData: TableDataModel[] | any;
   public currentParams: GetProfileBody;
@@ -52,7 +53,7 @@ export class ProfileTableComponent implements OnInit, OnDestroy, AfterViewInit {
   public tableRows$: Subscription;
   public fingerprint$: Subscription;
   public metrics: SelectOptionModel[];
-  public isFirstRender = true;
+  public isNeedScroll = false;
 
   public selectPaginationConfig = [10, 50, 100];
   public paginationConfig = {
@@ -72,6 +73,7 @@ export class ProfileTableComponent implements OnInit, OnDestroy, AfterViewInit {
     private profileService: ProfileService,
     private metricsNamesService: MetricsNamesService,
   ) {
+    this.isLoading = true;
     this.defaultColumns = ['load', 'count', 'latency'];
 
     this.report$ = this.qanProfileService.getProfileParams.pipe(
@@ -79,28 +81,35 @@ export class ProfileTableComponent implements OnInit, OnDestroy, AfterViewInit {
         this.currentParams = params;
         return this.removeDefaultColumns(params)
       }),
-      switchMap(parsedParams => this.profileService.GetReport(parsedParams).pipe(
-        catchError(err => {
-          console.log('error - ', err);
-          return of([])
-        }),
-        map(data => this.generateTableData(data)),
-        catchError(err => {
-          console.log('error - ', err);
-          return of([])
-        })
-      )),
+      switchMap(parsedParams => {
+        this.isLoading = true;
+
+        return this.profileService.GetReport(parsedParams).pipe(
+          catchError(err => {
+            console.log('error - ', err);
+            return of([])
+          }),
+          map(data => this.generateTableData(data)),
+          catchError(err => {
+            console.log('error - ', err);
+            return of([])
+          })
+        )
+      }),
     ).subscribe(
       data => {
         this.tableData = data;
+        this.isLoading = false;
+        // this.tableRows.changes.subscribe(() => {
+
+        // })
       },
       err => {
         console.log('error - ', err)
+      },
+      () => {
+        console.log('complete');
       });
-
-    this.metrics$ = this.metricsNamesService.GetMetricsNames({}).pipe(
-      map(metrics => this.generateMetricsNames(metrics))
-    ).subscribe(metrics => this.metrics = metrics);
 
     this.detailsBy$ = this.qanProfileService.getProfileInfo.detailsBy.subscribe(details_by => this.detailsBy = details_by);
     this.fingerprint$ = this.qanProfileService.getProfileInfo.fingerprint.subscribe(fingerprint => this.fingerprint = fingerprint);
@@ -126,11 +135,11 @@ export class ProfileTableComponent implements OnInit, OnDestroy, AfterViewInit {
 
   ngForRendered() {
     const tableHeight = this.qanTable.nativeElement.offsetHeight;
-    if (!this.isFirstRender) {
+    if (this.isNeedScroll) {
       this.componentRef.directiveRef.scrollToRight();
     }
     this.mainTableWrapper.nativeElement.style.setProperty('--table-height', `${tableHeight}px`);
-    this.isFirstRender = false;
+    this.isNeedScroll = false;
   }
 
   showDetails(filter_by, fingerPrint = '') {
@@ -186,6 +195,7 @@ export class ProfileTableComponent implements OnInit, OnDestroy, AfterViewInit {
   addColumn() {
     this.tableData.forEach(query => query.metrics.push(new MetricModel()));
     setTimeout(() => this.componentRef.directiveRef.scrollToRight(), 100);
+    this.isNeedScroll = true;
   }
 
   /**

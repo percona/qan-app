@@ -95,7 +95,7 @@ export class LoadPolygonChartDirective implements OnChanges {
 
     g.append('path')
       .attr('d', areaBar(this.data))
-      .style('fill', '#d9721f');
+      .style('fill', 'rgba(215, 114, 44, 0.6)');
 
     const focusBar = focusG
       .append('path')
@@ -136,7 +136,7 @@ export class LoadPolygonChartDirective implements OnChanges {
       const dateToShow = this.dateFormat.transform(moment(endPoint[this.xkey]).utc());
 
       focusBar.attr('d', areaBar(activeArea));
-      this.dataTooltip = !value ? `NA at ${dateToShow}` : `${load} at ${dateToShow}`;
+      this.dataTooltip = !value ? `NA at ${dateToShow}` : `${load} / sec at ${dateToShow}`;
     });
     svg.on('mouseover', () => focusG.style('display', null));
     svg.on('mouseout', () => focusG.style('display', 'none'));

@@ -1,0 +1,57 @@
+:host {
+  display: flex;
+  width: 100%;
+}
+
+:host.frame {
+  min-height: 400px;
+  border: 1px solid var(--main-border-color);
+}
+
+.grid-table {
+  width: 100%;
+}
+
+.spinner {
+  margin: auto;
+  font-size: 56px;
+}
+
+.search--modal {
+  width: max-content;
+  margin-bottom: var(--main-bottom-indent);
+}
+
+.details-output {
+  display: grid;
+  grid-template-columns: 5fr 1fr;
+  grid-column-gap: 20px;
+  align-items: flex-start;
+}
+
+.query-info {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 21px;
+  padding: 0 10px;
+  margin-bottom: var(--main-bottom-indent);
+}
+
+.query-info__item:not(:first-child) {
+  color: var(--main-highlight-color);
+}
+
+.example-output {
+  color: inherit;
+}
+
+.labels-wrapper {
+  --labels-height: auto;
+
+  height: var(--labels-height);
+}
+
+.labels-wrapper app-details-labels::ng-deep .aside {
+  min-height: auto !important;
+}

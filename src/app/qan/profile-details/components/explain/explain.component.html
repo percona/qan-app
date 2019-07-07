@@ -1,0 +1,42 @@
+<ngb-accordion #acc="ngbAccordion" activeIds="classicPanel">
+  <ngb-panel id="classicPanel">
+    <ng-template ngbPanelTitle>
+      <h5 class="card-header__title">CLASSIC</h5>
+    </ng-template>
+    <ng-template ngbPanelContent>
+      <div class="card-body__content card-body__table">
+        <i *ngIf="isClassicLoading" class="fa fa-spinner fa-spin spinner"></i>
+        <span *ngIf="classicError && !isClassicLoading; else table" class="error-with-margin">{{classicError}}</span>
+        <ng-template #table>
+          <table *ngIf="!classicError && !isClassicLoading">
+            <tr *ngFor="let row of classicOutput">
+              <td *ngFor="let col of row">{{col + ''}}</td>
+            </tr>
+          </table>
+        </ng-template>
+      </div>
+    </ng-template>
+  </ngb-panel>
+  <ngb-panel>
+    <ng-template ngbPanelTitle>
+      <h5 class="card-header__title">JSON</h5>
+    </ng-template>
+    <ng-template ngbPanelContent class="card-body">
+      <div class="card-body__content">
+        <i *ngIf="isJsonLoading" class="fa fa-spinner fa-spin spinner"></i>
+        <span *ngIf="!isJsonLoading && jsonError">{{jsonError}}</span>
+        <app-json-tree *ngIf="!isJsonLoading && !jsonError" [json]="jsonOutput"></app-json-tree>
+      </div>
+    </ng-template>
+  </ngb-panel>
+  <!--  <ngb-panel>-->
+  <!--    <ng-template ngbPanelTitle>-->
+  <!--      <h5 class="card-header__title">Visual</h5>-->
+  <!--    </ng-template>-->
+  <!--    <ng-template ngbPanelContent>-->
+  <!--      <div class="card-body__content">-->
+  <!--        <pre>{{ visualOutput }}</pre>-->
+  <!--      </div>-->
+  <!--    </ng-template>-->
+  <!--  </ngb-panel>-->
+</ngb-accordion>

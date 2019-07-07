@@ -43,7 +43,14 @@ import { DetailsRowComponent } from '../qan/profile-details/components/details-r
 import { DetailsLabelsComponent } from '../qan/profile-details/components/details-labels/details-labels.component';
 import { ExamplesViewerComponent } from '../qan/profile-details/components/examples-viewer/examples-viewer.component';
 import { QueryExampleComponent } from '../qan/profile-details/components/query-example/query-example.component';
+import { ExplainComponent } from '../qan/profile-details/components/explain/explain.component';
 import { FilterMenuViewerComponent } from '../qan/filter-menu-viewer/filter-menu-viewer.component';
+import { ActionsService } from '../pmm-api-services/services/actions.service';
+import { TablesComponent } from '../qan/profile-details/components/tables/tables.component';
+import { TableCreateComponent } from '../qan/profile-details/components/tables/components/table-create/table-create.component';
+import { TableStatusComponent } from '../qan/profile-details/components/tables/components/table-status/table-status.component';
+import { DetailsTableComponent } from '../qan/profile-details/components/details-table/details-table.component';
+import { DetailsFingerprintComponent } from '../qan/profile-details/components/details-fingerprint/details-fingerprint.component';
 
 @NgModule({
   imports: [
@@ -78,7 +85,13 @@ import { FilterMenuViewerComponent } from '../qan/filter-menu-viewer/filter-menu
     DetailsLabelsComponent,
     ExamplesViewerComponent,
     QueryExampleComponent,
+    ExplainComponent,
     FilterMenuViewerComponent,
+    TablesComponent,
+    TableCreateComponent,
+    TableStatusComponent,
+    DetailsTableComponent,
+    DetailsFingerprintComponent,
   ],
   exports: [
     PageNotFoundComponent,
@@ -99,7 +112,13 @@ import { FilterMenuViewerComponent } from '../qan/filter-menu-viewer/filter-menu
     DetailsLabelsComponent,
     ExamplesViewerComponent,
     QueryExampleComponent,
+    ExplainComponent,
     FilterMenuViewerComponent,
+    TablesComponent,
+    TableCreateComponent,
+    TableStatusComponent,
+    DetailsTableComponent,
+    DetailsFingerprintComponent,
   ],
   providers: [
     InstanceService,
@@ -116,7 +135,8 @@ import { FilterMenuViewerComponent } from '../qan/filter-menu-viewer/filter-menu
     InventoryService,
     NodesService,
     ServicesService,
-    AgentsService
+    AgentsService,
+    ActionsService,
   ]
 })
 export class CoreModule { }

@@ -1,9 +1,9 @@
-<aside class="aside">
-  <perfect-scrollbar class="pmm-scrollbar">
+<!--<aside class="aside">-->
+  <perfect-scrollbar [config]="filterScrollConfig" class="pmm-scrollbar">
     <ng-container *ngFor="let filterGroup of currentFilters; let index = index">
       <section *ngIf="filterGroup.items.length" class="aside__filter-group">
         <div class="filter-group__title">
-          <span class="title__text">{{filterGroup.filterGroup}}</span>
+          <span class="title__text">{{humanizeLabels(filterGroup.filterGroup)}}</span>
           <!--        <span *ngIf="checkFilterGroup(index, filter)" class="title__text">{{filter.groupName}}</span>-->
           <!--      <button *ngIf="filterGroup.items.length > defaultLimit" (click)="getAll(filterGroup)" class="filter-group__see-all">-->
           <!--        {{limits[filterGroup.filterGroup] <= defaultLimit ? 'See all' : 'Show less'}}-->
@@ -18,7 +18,10 @@
                 [(ngModel)]="filter.state"
                 type="checkbox">
               <span class="checkbox-container__checkmark"></span>
-              <span class="checkbox-container__label-text">{{filter.value}}</span>
+              <span class="checkbox-container__label-text" [placement]="index > 10 ? 'top-left' : 'bottom-left'"
+                    [ngbTooltip]="isTooltip(filter.value) ? filter.value : ''" tooltipClass="pmm-tooltip">
+                {{ filter.value | ellipsisMiddle }}
+              </span>
             </label>
             <span class="filters__count">
               {{filter.main_metric_percent ? (filter.main_metric_percent | humanize: 'percent') : ''}}
@@ -28,4 +31,4 @@
       </section>
     </ng-container>
   </perfect-scrollbar>
-</aside>
+<!--</aside>-->

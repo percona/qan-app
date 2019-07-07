@@ -52,6 +52,7 @@ export class QanProfileService {
   private iframeQueryParams = this.route.snapshot.queryParams as QueryParams;
   private parseQueryParamDatePipe = new ParseQueryParamDatePipe();
   private defaultGroupBy = 'queryid';
+  private defaultMainMetric = new BehaviorSubject('');
   private currentDetails: ObjectDetails = {};
 
   private profileInfo: ProfileInfo = {
@@ -72,13 +73,12 @@ export class QanProfileService {
     labels: [],
     limit: 10,
     offset: 0,
-    order_by: '-load',
+    order_by: '-query_time',
     period_start_from: this.setTimeRange('from'),
     period_start_to: this.setTimeRange('to')
   });
 
   private group_by = new BehaviorSubject<string>(this.defaultGroupBy);
-
 
   constructor(private route: ActivatedRoute) {
 
@@ -106,6 +106,10 @@ export class QanProfileService {
     this.group_by.next(group_by);
   }
 
+  updateDefaultMainMetric(metric: string) {
+    this.defaultMainMetric.next(metric)
+  }
+
   updateDetailsByValue(details_by: string) {
     this.profileInfo.detailsBy.next(details_by);
   }
@@ -124,5 +128,9 @@ export class QanProfileService {
 
   get getCurrentDetails(): ObjectDetails {
     return this.currentDetails;
+  }
+
+  get getDefaultMainMetric(): BehaviorSubject<string> {
+    return this.defaultMainMetric
   }
 }

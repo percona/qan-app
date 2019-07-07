@@ -6,6 +6,7 @@ export { MongoDBService } from './services/mongo-db.service';
 export { MySQLService } from './services/my-sql.service';
 export { NodeService } from './services/node.service';
 export { PostgreSQLService } from './services/postgre-sql.service';
+export { ProxySQLService } from './services/proxy-sql.service';
 export { ServiceService } from './services/service.service';
 export { FiltersService } from './services/filters.service';
 export { MetricsNamesService } from './services/metrics-names.service';
