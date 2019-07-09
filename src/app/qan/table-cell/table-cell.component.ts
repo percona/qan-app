@@ -10,13 +10,21 @@ import { DataFormatService } from '../services/data-format.service';
 })
 export class TableCellComponent implements OnInit {
   public isSparkline: boolean;
+  public isValues: boolean;
   @Input() metricData: MetricModel;
   @Input() sparklineData: any;
   @Input() totalSum: any;
 
   @Input() set checkSparkline(state) {
     this.isDefaultColumn = this.defaultColumns.includes(this.metricData.metricName);
-    this.isSparkline = state && this.sparklineData.some(item => item[this.setKeyForSparkline(this.metricData.metricName)]);
+    const currentSparkName = this.setKeyForSparkline(this.metricData.metricName);
+    this.sparklineData.forEach(item => {
+      if (item[currentSparkName] === 'NaN') {
+        item[currentSparkName] = 0
+      }
+    });
+    this.isValues = this.sparklineData.some(item => !!item[currentSparkName]);
+    this.isSparkline = state && this.isValues;
   }
 
   private defaultColumns = ['load', 'count', 'latency'];
