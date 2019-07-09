@@ -67,7 +67,7 @@ export class InventoryService {
   humanizeType(type: string) {
     switch (type) {
       case 'mongodb_exporter':
-        return 'MongoDB';
+        return 'MongoDB exporter';
       case 'mysqld_exporter':
         return 'MySQL exporter';
       case 'postgres_exporter':
