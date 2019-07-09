@@ -10,6 +10,7 @@ export interface GetProfileBody {
   first_seen?: boolean;
   group_by?: string,
   include_only_fields?: string[]
+  main_metric?: string
   keyword?: string,
   labels?: LabelsProfile[],
   limit?: number,
@@ -74,6 +75,7 @@ export class QanProfileService {
     limit: 10,
     offset: 0,
     order_by: '-query_time',
+    main_metric: 'query_time',
     period_start_from: this.setTimeRange('from'),
     period_start_to: this.setTimeRange('to')
   });

@@ -71,7 +71,10 @@ export class TableHeaderCellComponent implements OnInit, OnDestroy {
     this.qanProfileService.updateProfileParams(this.currentParams);
 
     if (this.isMainColumn) {
-      this.qanProfileService.updateDefaultMainMetric(this.changeDefaultName(value.name));
+      const processedName = this.changeDefaultName(value.name);
+      this.qanProfileService.updateDefaultMainMetric(processedName);
+      this.currentParams.main_metric = processedName;
+      this.qanProfileService.updateProfileParams(this.currentParams);
     }
   }
 
