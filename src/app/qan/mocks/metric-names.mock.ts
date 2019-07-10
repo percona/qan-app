@@ -43,13 +43,20 @@ export const metricNames = {
       perQueryStatsPipe: 'number'
     }
   },
-  docs_ed: {
-    humanizeName: 'Docs ed',
-    tooltipText: 'The number of ed documents',
-  },
   docs_scanned: {
     humanizeName: 'Docs scanned',
     tooltipText: 'The number of scanned documents',
+    pipeTypes: {
+      ratePipe: 'number',
+      sumPipe: 'number',
+      subSumPipe: 'percent',
+      sparklineType: 'number',
+      perQueryStatsPipe: 'number'
+    }
+  },
+  docs_returned: {
+    humanizeName: 'Docs Returned',
+    tooltipText: 'The number of returned documents',
     pipeTypes: {
       ratePipe: 'number',
       sumPipe: 'number',
@@ -158,7 +165,6 @@ export const metricNames = {
       perQueryStatsPipe: 'time'
     }
   },
-
   innodb_rec_lock_wait: {
     humanizeName: 'Innodb Rec Lock Wait',
     tooltipText: 'Shows how long( in seconds) the query waited for row locks',
@@ -236,7 +242,6 @@ export const metricNames = {
       perQueryStatsPipe: ''
     }
   },
-
   query_length: {
     humanizeName: 'Query Length',
     tooltipText: 'Shows how long the query is',
@@ -336,6 +341,17 @@ export const metricNames = {
       perQueryStatsPipe: 'number'
     }
   },
+  select_range: {
+    humanizeName: 'Select Range',
+    tooltipText: 'The number of joins that used ranges on the first table',
+    pipeTypes: {
+      ratePipe: 'number',
+      sumPipe: 'number',
+      subSumPipe: 'percent',
+      sparklineType: 'number',
+      perQueryStatsPipe: 'number'
+    }
+  },
   select_range_check: {
     humanizeName: 'Select Range Check',
     tooltipText: 'The number of joins without keys that check for key usage after each row',
@@ -423,5 +439,5 @@ export const metricNames = {
       sparklineType: 'number',
       perQueryStatsPipe: 'number'
     }
-  }
+  },
 };
