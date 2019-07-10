@@ -20,6 +20,7 @@ export class TableHeaderCellComponent implements OnInit, OnDestroy {
   @Input() currentColumnName: any;
   @Input() fullData: any;
   @Input() rowMetrics: any;
+
   @Input() set processIndex(index: number) {
     this.index = index;
     this.isMainColumn = !this.index;
@@ -34,7 +35,7 @@ export class TableHeaderCellComponent implements OnInit, OnDestroy {
   public isNotDefaultIcon = false;
 
   constructor(private qanProfileService: QanProfileService) {
-    this.metrics = Object.values(metricData);
+    this.metrics = this.getUniqueObjects(Object.values(metricData));
     this.currentParams = this.qanProfileService.getProfileParams.getValue();
   }
 
@@ -61,6 +62,12 @@ export class TableHeaderCellComponent implements OnInit, OnDestroy {
     this.fullData.forEach(item => item.metrics.splice(this.index, 1));
     this.currentParams.columns.splice(this.index, 1);
   }
+
+  getUniqueObjects(arr) {
+    return Array.from(new Set(arr.map(a => a.humanizeName)))
+      .map(name => arr.find(a => a.humanizeName === name))
+  }
+
 
   setMetricColumn(value) {
     if (!value.name) {
