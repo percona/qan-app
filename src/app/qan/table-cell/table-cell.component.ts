@@ -30,7 +30,7 @@ export class TableCellComponent implements OnInit {
   public isValues: boolean;
   public currentMetricInfo: any;
   public pipeInfo: any;
-  private defaultColumns = ['load', 'count', 'latency'];
+  private defaultColumns = ['load', 'count'];
   public yKey: string;
   public isStats: boolean;
   public isSum: boolean;

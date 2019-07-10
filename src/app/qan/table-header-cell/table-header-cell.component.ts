@@ -70,15 +70,16 @@ export class TableHeaderCellComponent implements OnInit, OnDestroy {
 
 
   setMetricColumn(value) {
-    if (!value.name) {
+    console.log('value - ', value);
+    if (!value.simpleName) {
       return;
     }
-    this.currentParams.columns[this.index] = value.name;
+    this.currentParams.columns[this.index] = value.simpleName;
     this.currentParams.columns = this.currentParams.columns.filter(item => !!item);
     this.qanProfileService.updateProfileParams(this.currentParams);
 
     if (this.isMainColumn) {
-      const processedName = this.changeDefaultName(value.name);
+      const processedName = this.changeDefaultName(value.simpleName);
       this.qanProfileService.updateDefaultMainMetric(processedName);
       this.currentParams.main_metric = processedName;
       this.qanProfileService.updateProfileParams(this.currentParams);
@@ -101,6 +102,7 @@ export class TableHeaderCellComponent implements OnInit, OnDestroy {
       case 'latency':
         return 'm_query_time_sum';
       case 'count':
+      case 'num_queries':
         return 'num_queries';
       default:
         return `m_${name}_sum`

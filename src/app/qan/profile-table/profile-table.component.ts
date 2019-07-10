@@ -18,7 +18,6 @@ import { MetricModel } from './models/metric.model';
 import { ProfileService } from '../../pmm-api-services/services/profile.service';
 import { Subscription } from 'rxjs/internal/Subscription';
 import { catchError, map, switchMap } from 'rxjs/operators';
-import { MetricsNamesService } from '../../pmm-api-services/services/metrics-names.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import * as moment from 'moment';
 import { GetProfileBody, QanProfileService } from '../profile/qan-profile.service';
@@ -71,10 +70,9 @@ export class ProfileTableComponent implements OnInit, OnDestroy, AfterViewInit {
     private router: Router,
     private qanProfileService: QanProfileService,
     private profileService: ProfileService,
-    private metricsNamesService: MetricsNamesService,
   ) {
     this.isLoading = true;
-    this.defaultColumns = ['load', 'count', 'latency'];
+    this.defaultColumns = ['load', 'count', 'num_queries', 'latency'];
 
     this.report$ = this.qanProfileService.getProfileParams.pipe(
       map(params => {
