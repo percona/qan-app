@@ -21,6 +21,17 @@ export const metricData = {
       perQueryStatsPipe: 'number'
     }
   },
+  count: {
+    humanizeName: 'Query Count',
+    tooltipText: 'Count',
+    pipeTypes: {
+      ratePipe: 'number',
+      sumPipe: 'number',
+      subSumPipe: 'percent',
+      sparklineType: 'number',
+      perQueryStatsPipe: 'number'
+    }
+  },
   num_queries_with_errors: {
     humanizeName: 'Query Count with errors',
     tooltipText: 'Query Count with errors',

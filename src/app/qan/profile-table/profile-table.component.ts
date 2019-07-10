@@ -181,7 +181,8 @@ export class ProfileTableComponent implements OnInit, OnDestroy, AfterViewInit {
   generateTableData(data) {
     this.paginationConfig.totalItems = data['total_rows'];
     this.paginationConfig.itemsPerPage = data['limit'];
-    this.currentPage = this.paginationConfig.currentPage = data['offset'] ? data['offset'] / data['limit'] + 1 : 1;
+    this.paginationConfig.currentPage = this.currentPage = data['offset'] ? data['offset'] / data['limit'] + 1 : 1;
+    console.log(`data['rows'] - `, data['rows']);
     const tableRows = data['rows'].map(row => new TableDataModel(row));
 
     tableRows.forEach(row => {

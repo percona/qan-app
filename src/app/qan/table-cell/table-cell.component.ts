@@ -1,7 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { MetricModel } from '../profile-table/models/metric.model';
 import { QanProfileService } from '../profile/qan-profile.service';
-import { DataFormatService } from '../services/data-format.service';
+import { metricData } from '../mocks/metric-data';
 
 @Component({
   selector: 'app-qan-table-cell',
@@ -9,8 +9,6 @@ import { DataFormatService } from '../services/data-format.service';
   styleUrls: ['./table-cell.component.css']
 })
 export class TableCellComponent implements OnInit {
-  public isSparkline: boolean;
-  public isValues: boolean;
   @Input() metricData: MetricModel;
   @Input() sparklineData: any;
   @Input() totalSum: any;
@@ -27,10 +25,13 @@ export class TableCellComponent implements OnInit {
     this.isSparkline = state && this.isValues;
   }
 
+  public metricDataInfo = metricData;
+  public isSparkline: boolean;
+  public isValues: boolean;
+  public currentMetricInfo: any;
+  public pipeInfo: any;
   private defaultColumns = ['load', 'count', 'latency'];
   public yKey: string;
-  public measurement: string;
-  public pipeType: string;
   public isStats: boolean;
   public isSum: boolean;
   public isDefaultColumn: boolean;
@@ -39,32 +40,19 @@ export class TableCellComponent implements OnInit {
   public isNoData: boolean;
   public currentParams: any;
 
-  constructor(
-    private qanProfileService: QanProfileService,
-    private dataFormat: DataFormatService
-  ) {
+  constructor(private qanProfileService: QanProfileService) {
     this.currentParams = this.qanProfileService.getProfileParams.getValue();
   }
 
   ngOnInit() {
+    this.currentMetricInfo = this.metricDataInfo[this.metricData.metricName];
+    this.pipeInfo = this.currentMetricInfo.pipeTypes;
+    this.yKey = this.setKeyForSparkline(this.metricData.metricName);
     this.isStats = Object.keys(this.metricData.stats).includes('min' && 'max');
     this.isSum = this.metricData.stats.sum >= 0;
     this.isCount = this.metricData.metricName === 'count';
     this.isLatency = this.metricData.metricName === 'latency';
-    this.setValuesTypes(this.metricData.metricName);
     this.isNoData = Object.keys(this.metricData.stats).length === 1 && Object.keys(this.metricData.stats)[0] === 'cnt';
-  }
-
-  /**
-   * Set sparkline type and display column for config parameters
-   * @param name - checked column-type name
-   */
-  setValuesTypes(name: string) {
-    const { sumPipe = '', sparklineType = '' } = name ? this.dataFormat.setDataFormat(name) : {};
-
-    this.pipeType = sumPipe;
-    this.measurement = sparklineType;
-    this.yKey = this.setKeyForSparkline(name);
   }
 
   percentFromNumber(total, current) {

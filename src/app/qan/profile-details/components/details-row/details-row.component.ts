@@ -1,6 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { MetricModel } from '../../../profile-table/models/metric.model';
-import { DataFormatService } from '../../../services/data-format.service';
 import { metricData } from '../../../mocks/metric-data';
 
 @Component({
@@ -19,7 +18,7 @@ export class DetailsRowComponent implements OnInit {
   public isSum: boolean;
   public isStats: boolean;
 
-  constructor(private dataFormat: DataFormatService) {
+  constructor() {
   }
 
   ngOnInit() {
