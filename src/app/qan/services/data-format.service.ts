@@ -8,8 +8,8 @@ export class DataFormatService {
   private numberTypes = [
     'rows_sent', 'rows_examined', 'rows_affected', 'merge_passes', 'select_range_check', 'tmp_disk_tables',
     'innodb_io_r_ops', 'no_good_index_used', 'query_length', 'no_index_used', 'rows_read', 'tmp_tables',
-    'select_full_range_join', 'select_range', 'sort_range', 'sort_rows', 'sort_scan', 'response_length',
-    'docs_returned', 'docs_scanned', 'load', 'count', 'num_queries', 'num_queries_with_errors', 'num_queries_with_warnings'
+    'select_full_range_join', 'select_range!!!', 'sort_range', 'sort_rows', 'sort_scan', 'response_length',
+    'docs_returned!!!!', 'docs_scanned', 'load', 'count', 'num_queries', 'num_queries_with_errors', 'num_queries_with_warnings'
   ];
 
   private sizeTypes = [
@@ -24,7 +24,7 @@ export class DataFormatService {
 
   private pagesDistinctTypes = ['innodb_pages_distinct'];
 
-  private defaultColumnsTypes = ['latency'];
+  private defaultColumnsTypes = ['latency !!!'];
 
   public conditions = [
     {
