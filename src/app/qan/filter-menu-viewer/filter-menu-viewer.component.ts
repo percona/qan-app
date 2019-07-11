@@ -53,6 +53,7 @@ export class FilterMenuViewerComponent implements OnInit, OnDestroy {
         filters => {
           this.filters = this.filtersOrder(filters);
           this.sortIdsValues(this.filters);
+          this.hideEmptyLabels(this.filters);
           this.filterMenuService.updateAutocompleteFilters(filters);
           this.isLoading = false;
         },
@@ -93,6 +94,10 @@ export class FilterMenuViewerComponent implements OnInit, OnDestroy {
     }
 
     return indA < indB ? -1 : 1;
+  }
+
+  hideEmptyLabels(array) {
+    array.forEach(group => group.items.every(label => !label.value) ? group.items.length = 0 : group.items);
   }
 
   sortEmptyValues(array) {
