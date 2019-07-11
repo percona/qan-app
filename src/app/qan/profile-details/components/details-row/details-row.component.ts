@@ -1,6 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { MetricModel } from '../../../profile-table/models/metric.model';
-import { metricData } from '../../../mocks/metric-data';
+import { metricCatalogue } from '../../../data/metric-catalogue';
 
 @Component({
   selector: 'app-details-row',
@@ -10,7 +10,7 @@ import { metricData } from '../../../mocks/metric-data';
 export class DetailsRowComponent implements OnInit {
   @Input() currentMetric: MetricModel;
 
-  private metricData = metricData;
+  private metricData = metricCatalogue;
   public currentMetricInfo: any;
   public pipeInfo: any;
   public isLatencyChart: boolean;

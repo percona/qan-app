@@ -1,7 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { MetricModel } from '../profile-table/models/metric.model';
 import { QanProfileService } from '../profile/qan-profile.service';
-import { metricData } from '../mocks/metric-data';
+import { metricCatalogue } from '../data/metric-catalogue';
 
 @Component({
   selector: 'app-qan-table-cell',
@@ -25,7 +25,7 @@ export class TableCellComponent implements OnInit {
     this.isSparkline = state && this.isValues;
   }
 
-  public metricDataInfo = metricData;
+  public metricDataInfo = metricCatalogue;
   public isSparkline: boolean;
   public isValues: boolean;
   public currentMetricInfo: any;

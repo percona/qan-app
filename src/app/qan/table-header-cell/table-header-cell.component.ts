@@ -5,7 +5,7 @@ import { map } from 'rxjs/operators';
 import { GetProfileBody, QanProfileService } from '../profile/qan-profile.service';
 import PerfectScrollbar from 'perfect-scrollbar';
 import { NgSelectComponent } from '@ng-select/ng-select';
-import { metricData } from '../mocks/metric-data';
+import { metricCatalogue } from '../data/metric-catalogue';
 
 @Component({
   selector: 'app-qan-table-header-cell',
@@ -35,13 +35,13 @@ export class TableHeaderCellComponent implements OnInit, OnDestroy {
   public isNotDefaultIcon = false;
 
   constructor(private qanProfileService: QanProfileService) {
-    this.metrics = this.getUniqueObjects(Object.values(metricData));
+    this.metrics = this.getUniqueObjects(Object.values(metricCatalogue));
     this.currentParams = this.qanProfileService.getProfileParams.getValue();
   }
 
   ngOnInit() {
     this.isEmpty = !this.currentColumnName;
-    this.selectedQueryColumn = metricData[this.currentColumnName];
+    this.selectedQueryColumn = metricCatalogue[this.currentColumnName];
     this.params$ = this.qanProfileService.getProfileParams.pipe(
       map(params => params.order_by)
     ).subscribe(

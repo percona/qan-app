@@ -1,4 +1,4 @@
-import { metricData } from '../../mocks/metric-data';
+import { metricCatalogue } from '../../data/metric-catalogue';
 
 export class MetricModel {
   metricName: string;
@@ -8,7 +8,7 @@ export class MetricModel {
   sparkline: any;
 
   constructor(metric: Array<any> = ['', {}], sparkline = []) {
-    const metricsInfo = metricData;
+    const metricsInfo = metricCatalogue;
     const [metricName, stats] = metric;
 
     this.metricName = metricName;

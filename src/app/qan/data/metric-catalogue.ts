@@ -1,4 +1,4 @@
-export const metricData = {
+export const metricCatalogue = {
   bytes_sent: {
     humanizeName: 'Bytes Sent',
     tooltipText: 'The number of bytes sent to all clients',
