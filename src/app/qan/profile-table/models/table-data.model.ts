@@ -24,11 +24,6 @@ export class TableDataModel {
       }
     };
 
-    // row.metrics.latency = {
-    //   stats: {
-    //     sum: row.latency || -1
-    //   }
-    // };
     this.metrics = Object.entries(row.metrics).map(item => new MetricModel(item));
     this.sparkline = row.sparkline || [];
     this.dimension = row.dimension || '';
