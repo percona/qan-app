@@ -53,7 +53,7 @@ export class FilterMenuViewerComponent implements OnInit, OnDestroy {
         filters => {
           this.filters = this.filtersOrder(filters);
           this.sortIdsValues(this.filters);
-          this.hideEmptyLabels(this.filters);
+          // this.hideEmptyLabels(this.filters);
           this.filterMenuService.updateAutocompleteFilters(filters);
           this.isLoading = false;
         },
