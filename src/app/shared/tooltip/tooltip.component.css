@@ -3,8 +3,12 @@
 }
 
 div {
-  background-color: #292929;
-  color: white;
-  padding: 0.5rem 1rem;
+  padding: 1px 5px;
+  font-size: 0.7em;
+  color: black;
+  white-space: pre;
+  text-align: left;
   border-radius: 4px;
+  box-shadow: 1px 1px 1px 1px #afafaf;
+  background-color: #f0f0f0;
 }
