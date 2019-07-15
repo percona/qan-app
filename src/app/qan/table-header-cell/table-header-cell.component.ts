@@ -70,7 +70,6 @@ export class TableHeaderCellComponent implements OnInit, OnDestroy {
 
 
   setMetricColumn(value) {
-    console.log('value - ', value);
     if (!value.simpleName) {
       return;
     }
@@ -78,10 +77,10 @@ export class TableHeaderCellComponent implements OnInit, OnDestroy {
     this.currentParams.columns = this.currentParams.columns.filter(item => !!item);
 
     if (this.isMainColumn) {
-      const processedName = this.changeDefaultName(value.simpleName);
-      this.currentParams.order_by = value.name;
-      this.qanProfileService.updateDefaultMainMetric(this.changeDefaultName(value.name));
+      const processedName = value.simpleName;
+      this.currentParams.order_by = processedName;
       this.currentParams.main_metric = processedName;
+      this.qanProfileService.updateDefaultMainMetric(this.changeDefaultName(processedName));
       this.qanProfileService.updateProfileParams(this.currentParams);
     }
     this.qanProfileService.updateProfileParams(this.currentParams);
