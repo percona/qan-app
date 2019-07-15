@@ -19,10 +19,16 @@ import { LoadPolygonChartDirective } from './load-polygon-chart.directive';
 import { MiddleEllipsisDirective } from './middle-ellipsis.directive';
 import { EllipsisMiddlePipe } from '../src/app/shared/ellipsis-middle.pipe';
 import { HumanizeSymbolPipe } from './humanize-symbol-pipe';
+import { PmmTooltipDirective } from './pmm-tooltip.directive';
+import { TooltipComponent } from './tooltip/tooltip.component';
+import { OverlayModule } from '@angular/cdk/overlay';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 @NgModule({
   imports: [
-    CommonModule
+    CommonModule,
+    OverlayModule,
+    BrowserAnimationsModule,
   ],
   declarations: [
     HumanizePipe,
@@ -39,7 +45,9 @@ import { HumanizeSymbolPipe } from './humanize-symbol-pipe';
     AutofocusDirective,
     HumanizeSymbolPipe,
     MiddleEllipsisDirective,
-    EllipsisMiddlePipe
+    EllipsisMiddlePipe,
+    PmmTooltipDirective,
+    TooltipComponent,
   ],
   exports: [
     MapToIterablePipe,
@@ -54,6 +62,7 @@ import { HumanizeSymbolPipe } from './humanize-symbol-pipe';
     MiddleEllipsisDirective,
     SortingTablePipe,
     EllipsisMiddlePipe,
+    PmmTooltipDirective,
     TableHeadersToMultiplePipe,
     AutofocusDirective,
     CommonModule,
@@ -61,7 +70,9 @@ import { HumanizeSymbolPipe } from './humanize-symbol-pipe';
     HttpClientModule,
     NgbModule,
     RouterModule,
+    TooltipComponent,
   ],
+  entryComponents: [TooltipComponent],
   providers: [
     HumanizeSymbolPipe
   ]

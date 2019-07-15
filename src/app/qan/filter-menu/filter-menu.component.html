@@ -18,8 +18,11 @@
                 [(ngModel)]="filter.state"
                 type="checkbox">
               <span class="checkbox-container__checkmark"></span>
-              <span class="checkbox-container__label-text" [placement]="subIndex > 10 ? 'top-left' : 'bottom-left'"
-                    [ngbTooltip]="isTooltip(filter.value) ? filter.value : ''" tooltipClass="pmm-tooltip">
+<!--              <span class="checkbox-container__label-text" [placement]="subIndex > 10 ? 'top-left' : 'bottom-left'"-->
+<!--                    [ngbTooltip]="isTooltip(filter.value) ? filter.value : ''" tooltipClass="pmm-tooltip">-->
+<!--                {{ filter.value | ellipsisMiddle }}-->
+<!--              </span>-->
+              <span class="checkbox-container__label-text" [appPmmTooltip]="filter.value">
                 {{ filter.value | ellipsisMiddle }}
               </span>
             </label>
