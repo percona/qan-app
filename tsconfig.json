@@ -1,6 +1,7 @@
 {
   "compileOnSave": false,
   "compilerOptions": {
+    "downlevelIteration": true,
     "importHelpers": true,
     "newLine": "LF",
     "outDir": "./dist/out-tsc",
@@ -13,7 +14,8 @@
       "es2016",
       "dom"
     ],
-    "module": "es2015",
+    "module": "esnext",
     "baseUrl": "./"
-  }
+  ,    "target": "es2015"
+}
 }

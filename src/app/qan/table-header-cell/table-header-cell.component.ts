@@ -16,7 +16,7 @@ export class TableHeaderCellComponent implements OnInit, OnDestroy {
   public index: number;
   public isMainColumn: boolean;
 
-  @ViewChild('column') column: NgSelectComponent;
+  @ViewChild('column', { static: true }) column: NgSelectComponent;
   @Input() currentColumnName: any;
   @Input() fullData: any;
   @Input() rowMetrics: any;

@@ -11,7 +11,7 @@ import { MetricModel } from '../profile-table/models/metric.model';
 })
 
 export class ProfileDetailsComponent implements OnInit {
-  @ViewChild('labels', { read: ElementRef }) labelsFilters: ElementRef;
+  @ViewChild('labels', { read: ElementRef, static: false }) labelsFilters: ElementRef;
   protected dbName: string;
   public fingerprint: string;
   public isTotal = false;
