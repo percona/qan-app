@@ -87,6 +87,8 @@
       margin-bottom: 0;
 
       .ng-option {
+        overflow: unset;
+        position: relative;
         background-color: var(--dropdown-background);
 
         &.ng-option-marked {

@@ -8,7 +8,7 @@
 </div>
 <div class="row__item row__cells">
   <span [class.unit.unit--per-sec]="isRate">
-    {{ isRate ? (currentMetric?.stats?.rate | humanize: ratePipe) : '0' }}
+    {{ isRate ? (currentMetric?.stats?.rate | humanize: pipeInfo?.ratePipe) : '0' }}
   </span>
   <div *ngIf="currentMetric?.sparkline.length"
        [appLoadPolygonChart]="currentMetric.sparkline"
@@ -21,17 +21,17 @@
 </div>
 <div class="row__item">
     <span>
-      {{isSum ? (currentMetric?.stats?.sum | humanize: sumPipe) : '0' }}
+      {{isSum ? (currentMetric?.stats?.sum | humanize: pipeInfo?.sumPipe) : '0' }}
     </span>
 </div>
 <div class="row__item row__cells">
     <span [class.unit.unit--avg]="isStats">
-      {{ isStats ? (currentMetric?.stats?.avg | humanize: perQueryStatsPipe) : '0' }}
+      {{ isStats ? (currentMetric?.stats?.avg | humanize: pipeInfo?.perQueryStatsPipe) : '0' }}
     </span>
 
   <div *ngIf="isLatencyChart"
        [appLatencyChart]="currentMetric.stats"
-       [measurement]="perQueryStatsPipe"
+       [measurement]="pipeInfo?.perQueryStatsPipe"
        class="scaling-svg-container app-tooltip"
        data-tooltip="Loading...">
   </div>
