@@ -20,7 +20,6 @@ export class FilterMenuComponent implements OnInit, OnChanges {
   @ViewChildren('checkBoxText') checkBoxText: QueryList<ElementRef>;
   @Input() set processLabels(filters: any) {
     this.currentFilters = filters || [];
-    console.log(this.currentFilters);
     this.toggleLabels();
   }
 

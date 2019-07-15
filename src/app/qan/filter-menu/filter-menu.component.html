@@ -22,7 +22,7 @@
 <!--                    [ngbTooltip]="isTooltip(filter.value) ? filter.value : ''" tooltipClass="pmm-tooltip">-->
 <!--                {{ filter.value | ellipsisMiddle }}-->
 <!--              </span>-->
-              <span class="checkbox-container__label-text" [appPmmTooltip]="filter.value">
+              <span class="checkbox-container__label-text" [appPmmTooltip]="isTooltip(filter.value) ? filter.value : ''">
                 {{ filter.value | ellipsisMiddle }}
               </span>
             </label>

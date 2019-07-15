@@ -31,12 +31,16 @@ export class PmmTooltipDirective implements OnInit {
 
   @HostListener('mouseenter')
   show() {
-    const tooltipRef: ComponentRef<TooltipComponent> = this.overlayRef.attach(new ComponentPortal(TooltipComponent));
-    tooltipRef.instance.text = this.text;
+    if (this.text) {
+      const tooltipRef: ComponentRef<TooltipComponent> = this.overlayRef.attach(new ComponentPortal(TooltipComponent));
+      tooltipRef.instance.text = this.text;
+    }
   }
 
   @HostListener('mouseout')
   hide() {
-    this.overlayRef.detach();
+    if (this.text) {
+      this.overlayRef.detach();
+    }
   }
 }
