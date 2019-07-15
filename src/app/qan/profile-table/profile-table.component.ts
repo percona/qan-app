@@ -30,9 +30,9 @@ import { of } from 'rxjs/internal/observable/of';
 })
 export class ProfileTableComponent implements OnInit, OnDestroy, AfterViewInit {
   @Output() finishRender = new EventEmitter();
-  @ViewChild(PerfectScrollbarComponent) componentRef?: PerfectScrollbarComponent;
-  @ViewChild('qanTable') qanTable: ElementRef;
-  @ViewChild('mainTableWrapper') mainTableWrapper: ElementRef;
+  @ViewChild(PerfectScrollbarComponent, { static: true }) componentRef?: PerfectScrollbarComponent;
+  @ViewChild('qanTable', { static: true }) qanTable: ElementRef;
+  @ViewChild('mainTableWrapper', { static: true }) mainTableWrapper: ElementRef;
   @ViewChildren('tableRows') tableRows: QueryList<any>;
 
   public scrollbarConfig: PerfectScrollbarConfigInterface = {

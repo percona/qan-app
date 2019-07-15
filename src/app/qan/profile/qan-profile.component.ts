@@ -7,10 +7,10 @@ import { ProfileTableComponent } from '../profile-table/profile-table.component'
   styleUrls: ['./qan-profile.component.scss'],
 })
 export class QanProfileComponent implements OnInit {
-  @ViewChild('filter') filter: ElementRef;
-  @ViewChild('pmmQanWrapper') qanWrapper: ElementRef;
-  @ViewChild('table') table: ElementRef;
-  @ViewChild('tableLink') tableComponent: ProfileTableComponent;
+  @ViewChild('filter', { static: false }) filter: ElementRef;
+  @ViewChild('pmmQanWrapper', { static: false }) qanWrapper: ElementRef;
+  @ViewChild('table', { static: false }) table: ElementRef;
+  @ViewChild('tableLink', { static: false }) tableComponent: ProfileTableComponent;
 
   public queryProfile: Array<{}>;
   public profileTotal;

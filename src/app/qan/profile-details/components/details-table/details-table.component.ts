@@ -23,7 +23,7 @@ import { DetailsSparklineModel } from '../../models/details-sparkline.model';
   styleUrls: ['./details-table.component.css']
 })
 export class DetailsTableComponent implements OnInit, AfterViewInit {
-  @ViewChild('table') table: ElementRef;
+  @ViewChild('table', { static: true }) table: ElementRef;
   @ViewChildren('detailsTableRows') tableRows: QueryList<any>;
   @HostBinding('class.frame') isLoading = true;
   @Output() finishRender = new EventEmitter();
