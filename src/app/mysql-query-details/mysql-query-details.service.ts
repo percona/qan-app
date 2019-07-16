@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
-import { Http, Headers, URLSearchParams } from '@angular/http';
 import 'rxjs/add/operator/toPromise';
+import {HttpClient, HttpHeaders, HttpParams} from '@angular/common/http';
 
 export interface QueryClass {
     Id: string;
@@ -43,33 +43,33 @@ export interface ServerSummary {
 @Injectable()
 export class MySQLQueryDetailsService {
 
-    private headers = new Headers({ 'Content-Type': 'application/json' });
+    private headers = new HttpHeaders({ 'Content-Type': 'application/json' });
 
-    constructor(private http: Http) { }
+    constructor(private httpClient: HttpClient) { }
 
     public async getQueryDetails(dbServerUUID, queryUUID, begin, end: string): Promise<QueryDetails> {
         const url = `/qan-api/qan/report/${dbServerUUID}/query/${queryUUID}`;
-        const params = new URLSearchParams();
+        const params = new HttpParams();
         params.set('begin', begin);
         params.set('end', end);
 
-        const response = await this.http
-            .get(url, { headers: this.headers, search: params })
+        const response = await this.httpClient
+            .get(url, { headers: this.headers, params: params })
             .toPromise();
-        return response.json() as QueryDetails;
+        return response as QueryDetails;
     }
 
     public async getSummary(dbServerUUID: string, begin: string, end: string): Promise<ServerSummary> {
         const url = `/qan-api/qan/report/${dbServerUUID}/server-summary`;
 
-        const params = new URLSearchParams();
+        const params = new HttpParams();
         params.set('begin', begin);
         params.set('end', end);
 
-        const response = await this.http
-            .get(url, { headers: this.headers, search: params })
+        const response = await this.httpClient
+            .get(url, { headers: this.headers, params: params })
             .toPromise();
-        return response.json() as ServerSummary;
+        return response as ServerSummary;
     }
 
     getTableInfo(agentUUID: string, dbServerUUID: string, dbName: string, tblName: string) {
@@ -98,10 +98,10 @@ export class MySQLQueryDetailsService {
             Data: btoa(JSON.stringify(data))
         };
 
-        return this.http
+        return this.httpClient
             .put(url, params)
             .toPromise()
-            .then(response => JSON.parse(atob(response.json().Data)));
+            .then(response => JSON.parse(atob(response['Data'])));
     }
 
     getExplain(agentUUID: string, dbServerUUID: string, dbName: string, query: string) {
@@ -120,15 +120,15 @@ export class MySQLQueryDetailsService {
             Data: btoa(JSON.stringify(data))
         };
 
-        return this.http
+        return this.httpClient
             .put(url, params)
             .toPromise()
-            .then(response => response.json());
+            .then(response => response);
     }
 
     updateTables(queryID: string, dbTables: Array<{}>) {
         const url = `/qan-api/queries/${queryID}/tables`;
-        return this.http
+        return this.httpClient
             .put(url, dbTables)
             .toPromise()
             .then(resp => console.log(resp));

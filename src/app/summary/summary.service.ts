@@ -1,14 +1,13 @@
 import { Injectable } from '@angular/core';
-import { Http, Headers } from '@angular/http';
-
 import 'rxjs/add/operator/toPromise';
+import {HttpClient, HttpHeaders} from '@angular/common/http';
 
 @Injectable()
 export class SummaryService {
 
-    private headers = new Headers({ 'Content-Type': 'application/json' });
+    private headers = new HttpHeaders({ 'Content-Type': 'application/json' });
 
-    constructor(private http: Http) { }
+    constructor(private httpClient: HttpClient) { }
 
     public getServer(agentUUID: string, serverUUID: string) {
         const url = `/qan-api/agents/${agentUUID}/cmd`;
@@ -22,24 +21,23 @@ export class SummaryService {
             Data: btoa(JSON.stringify(data))
         };
 
-        return this.http
+        return this.httpClient
             .put(url, params, { headers: this.headers })
             .toPromise()
-            .then(response => response.json())
             .then(resp => {
                 // if not error - continue
-                if (!resp.Error) {
+                if (!resp['Error']) {
                     return resp;
                 }
-                let err = resp.Error;
-                if (resp.Error === 'Executable file not found in $PATH') {
+                let err = resp['Error'];
+                if (resp['Error'] === 'Executable file not found in $PATH') {
                     err = ' - Please install `pt-summary`.';
-                    err += ' (Output: ' +  resp.Error + ')';
+                    err += ' (Output: ' +  resp['Error'] + ')';
                 }
                 throw new Error(err);
             })
             .then(resp => {
-                let str = window.atob(resp.Data);
+                let str = window.atob(resp['Data']);
                 str = str.replace(/\\n/g, '\n');
                 str = str.replace(/\\t/g, '\t');
                 return str.slice(1, -1);
@@ -58,24 +56,23 @@ export class SummaryService {
             Data: btoa(JSON.stringify(data))
         };
 
-        return this.http
+        return this.httpClient
             .put(url, params, { headers: this.headers })
             .toPromise()
-            .then(response => response.json())
             .then(resp => {
                 // if not error - continue
-                if (!resp.Error) {
+                if (!resp['Error']) {
                     return resp;
                 }
-                let err = resp.Error;
-                if (resp.Error === 'Executable file not found in $PATH') {
+                let err = resp['Error'];
+                if (resp['Error'] === 'Executable file not found in $PATH') {
                     err = ' - Please install `pt-mysql-summary`.';
-                    err += ' (Output: ' +  resp.Error + ')';
+                    err += ' (Output: ' +  resp['Error'] + ')';
                 }
                 throw new Error(err);
             })
             .then(resp => {
-                let str = window.atob(resp.Data);
+                let str = window.atob(resp['Data']);
                 str = str.replace(/\\n/g, '\n');
                 str = str.replace(/\\t/g, '\t');
                 return str.slice(1, -1);
@@ -95,28 +92,27 @@ export class SummaryService {
             Data: btoa(JSON.stringify(data))
         };
 
-        return this.http
+        return this.httpClient
             .put(url, params, { headers: this.headers })
             .toPromise()
-            .then(response => response.json())
             .then(resp => {
                 // if not error - continue
-                if (!resp.Error) {
+                if (!resp['Error']) {
                     return resp;
                 }
-                let err = resp.Error;
-                if (resp.Error === 'Executable file not found in $PATH') {
+                let err = resp['Error'];
+                if (resp['Error'] === 'Executable file not found in $PATH') {
                     err = ' - Please install `pt-mongodb-summary`.';
-                    err += ' (Output: ' +  resp.Error + ')';
+                    err += ' (Output: ' +  resp['Error'] + ')';
                 }
-                if (resp.Error === 'Unknown command: GetMongoSummary') {
+                if (resp['Error'] === 'Unknown command: GetMongoSummary') {
                     err = ' - Please update your `pmm-client`.';
-                    err += ' (Output: ' +  resp.Error + ')';
+                    err += ' (Output: ' +  resp['Error'] + ')';
                 }
                 throw new Error(err);
             })
             .then(resp => {
-                let str = window.atob(resp.Data);
+                let str = window.atob(resp['Data']);
                 str = str.replace(/\\n/g, '\n');
                 str = str.replace(/\\t/g, '\t');
                 return str.slice(1, -1);
