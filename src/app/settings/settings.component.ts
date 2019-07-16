@@ -1,11 +1,9 @@
 import {Component} from '@angular/core';
 import {Router, ActivatedRoute} from '@angular/router';
-import {Instance, InstanceService} from '../core/instance.service';
+import {InstanceService} from '../core/instance.service';
 import {CoreComponent} from '../core/core.component';
 import {environment} from '../environment';
 import * as moment from 'moment';
-import 'rxjs/add/observable/interval';
-import 'rxjs/add/operator/map';
 import {SettingsService} from './settings.service';
 import {interval, Observable} from 'rxjs';
 import {map} from 'rxjs/operators';

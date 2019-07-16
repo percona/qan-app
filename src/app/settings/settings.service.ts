@@ -1,6 +1,4 @@
 import {Injectable} from '@angular/core';
-
-import 'rxjs/add/operator/toPromise';
 import {HttpClient, HttpHeaders, HttpParams} from '@angular/common/http';
 
 export type CollectFrom = 'slowlog' | 'perfschema';

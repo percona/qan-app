@@ -1,13 +1,13 @@
-import { Injectable } from '@angular/core';
-import {Headers, Http} from '@angular/http';
+import {Injectable} from '@angular/core';
 import {RemoteInstance, RemoteInstanceNode, RemoteInstanceService} from '../add-remote-instances/add-remote-instance.service';
+import {HttpClient, HttpHeaders} from '@angular/common/http';
 
 @Injectable()
 export class RemoteInstancesListService {
 
-  private headers = new Headers({ 'Content-Type': 'application/json' });
+  private headers = new HttpHeaders({ 'Content-Type': 'application/json' });
 
-  constructor(private http: Http) {
+  constructor(private http: HttpClient) {
   }
 
   async getList(): Promise<RemoteInstance[]> {
@@ -15,14 +15,13 @@ export class RemoteInstancesListService {
     const response = await this.http
       .get(url, { headers: this.headers })
       .toPromise();
-    return response.json().instances as RemoteInstance[];
+    return response['instances'] as RemoteInstance[];
   }
 
   async disable(node: RemoteInstanceNode, service: RemoteInstanceService): Promise<{}> {
     const url = `/managed/v0/${service.type}/${node.id}`;
-    const response = await this.http
+    return await this.http
       .delete(url, {headers: this.headers})
       .toPromise();
-    return response.json();
   }
 }

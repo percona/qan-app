@@ -2,11 +2,13 @@ import {Injectable} from '@angular/core';
 import {HttpClient, HttpHeaders} from '@angular/common/http';
 
 export class RDSCredentials {
-  constructor(public aws_access_key_id = '', public aws_secret_access_key = '') {}
+  constructor(public aws_access_key_id = '', public aws_secret_access_key = '') {
+  }
 }
 
 export class MySQLCredentials {
-  constructor(public username = '', public password = '') {}
+  constructor(public username = '', public password = '') {
+  }
 }
 
 export interface RDSNode {
@@ -29,9 +31,10 @@ export interface RDSInstance {
 @Injectable()
 export class AddAmazonRDSService {
 
-  private headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+  private headers = new HttpHeaders({'Content-Type': 'application/json'});
 
-  constructor(private httpClient: HttpClient) { }
+  constructor(private httpClient: HttpClient) {
+  }
 
   async discover(rdsCredentials: RDSCredentials): Promise<RDSInstance[]> {
     const url = `/managed/v0/rds/discover`;
@@ -40,8 +43,8 @@ export class AddAmazonRDSService {
       aws_secret_access_key: rdsCredentials.aws_secret_access_key
     };
     const response = await this.httpClient
-        .post(url, data, { headers: this.headers })
-        .toPromise();
+      .post(url, data, {headers: this.headers})
+      .toPromise();
     return response['instances'] as RDSInstance[];
   }
 
@@ -50,7 +53,7 @@ export class AddAmazonRDSService {
     const data = {
       aws_access_key_id: rdsCredentials.aws_access_key_id,
       aws_secret_access_key: rdsCredentials.aws_secret_access_key,
-      id: { name: node.name, region: node.region },
+      id: {name: node.name, region: node.region},
       password: mysqlCredentials.password,
       username: mysqlCredentials.username
     };
@@ -62,16 +65,15 @@ export class AddAmazonRDSService {
   async disable(node: RDSNode): Promise<{}> {
     const url = `/managed/v0/rds`;
     const body = {id: {name: node.name, region: node.region}};
-    return await this.httpClient
-      .delete(url, {headers: this.headers, body: body})
+    return await this.httpClient.request('delete', url, {body: body})
       .toPromise();
   }
 
   async getRegistered(): Promise<RDSInstance[]> {
     const url = `/managed/v0/rds`;
     const response = await this.httpClient
-        .get(url, { headers: this.headers })
-        .toPromise();
+      .get(url, {headers: this.headers})
+      .toPromise();
     return response['instances'] as RDSInstance[];
   }
 }

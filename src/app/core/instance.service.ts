@@ -1,5 +1,4 @@
 import { Injectable } from '@angular/core';
-import 'rxjs/add/operator/toPromise';
 import {HttpClient} from '@angular/common/http';
 
 export interface Instance {
