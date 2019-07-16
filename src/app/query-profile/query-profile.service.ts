@@ -23,6 +23,10 @@ export class QueryProfileService {
             );
             params.set('search', search);
         }
+        console.log('begin - ', begin);
+        console.log('end - ', end);
+        console.log('offset - ', offset);
+        console.log('first_seen - ', first_seen);
       return await this.httpClient
           .get(url, {headers: this.headers, params: params})
           .toPromise();

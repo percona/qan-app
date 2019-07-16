@@ -81,6 +81,7 @@ export class QueryProfileComponent extends CoreComponent {
                 this.profileTotal = this.queryProfile[0];
             }
         } catch (err) {
+            console.error(err);
             this.noQueryError = err.name === QanError.errType ? err.message : queryProfileError;
         } finally {
             this.isQuerySwitching = false;
