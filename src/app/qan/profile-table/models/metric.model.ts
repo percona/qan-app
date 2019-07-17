@@ -12,8 +12,13 @@ export class MetricModel {
     const [metricName, stats] = metric;
 
     this.metricName = metricName;
-    this.humanizeMetricName = metricsInfo[metricName].humanizeName;
-    this.tooltipText = metricsInfo[metricName].tooltipText;
+    if (metricsInfo[metricName]) {
+      this.humanizeMetricName = metricsInfo[metricName].humanizeName;
+      this.tooltipText = metricsInfo[metricName].tooltipText;
+    } else {
+      this.humanizeMetricName = metricName;
+      this.tooltipText = metricName;
+    }
     this.stats = stats.stats || stats;
     this.sparkline = sparkline.some(sparklinePoint => sparklinePoint.pointValue) ? sparkline : [];
   }

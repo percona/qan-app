@@ -12,6 +12,14 @@ export class DetailsRowComponent implements OnInit {
 
   private metricData = metricCatalogue;
   public currentMetricInfo: any;
+  public defaultPipeInfo: {
+    ratePipe: 'number',
+    sumPipe: 'number',
+    subSumPipe: 'percent',
+    sparklineType: 'number',
+    perQueryStatsPipe: 'number'
+  };
+
   public pipeInfo: any;
   public isLatencyChart: boolean;
   public isRate: boolean;
@@ -22,8 +30,8 @@ export class DetailsRowComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.currentMetricInfo = this.metricData[this.currentMetric.metricName];
-    this.pipeInfo = this.currentMetricInfo.pipeTypes;
+    this.currentMetricInfo = this.metricData[this.currentMetric.metricName] || this.currentMetric;
+    this.pipeInfo = this.currentMetricInfo.pipeTypes || this.defaultPipeInfo;
     this.isLatencyChart = this.currentMetric.stats.min && this.currentMetric.stats.max;
     this.isRate = this.currentMetric.stats.rate >= 0;
     this.isSum = this.currentMetric.stats.sum >= 0;

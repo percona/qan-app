@@ -34,7 +34,6 @@ export class DetailsTableComponent implements OnInit, AfterViewInit {
   public dimension: string;
   public isTotal = false;
   public details: MetricModel[] = [];
-  private fingerprint$: Subscription;
   private group_by$: Subscription;
   private details$: Subscription;
   private firstDetails: ObjectDetails;
@@ -49,17 +48,7 @@ export class DetailsTableComponent implements OnInit, AfterViewInit {
       switchMap(parsedParams => {
         this.isLoading = true;
         this.currentParams = parsedParams;
-        return this.objectDetailsService.GetMetrics(parsedParams).pipe(
-          catchError(err => of({ metrics: [], sparkline: [] })),
-          map(response => {
-            const withData = Object.entries(response.metrics).filter(metricData => Object.keys(metricData[1]).length);
-            return withData.map(withDataItem => {
-              const sparklineData = this.createSparklineModel(response.sparkline, withDataItem[0]);
-              return new MetricModel(withDataItem, sparklineData)
-            });
-          }),
-          catchError(err => of([]))
-        )
+        return this.getDetailsData(parsedParams);
       }),
     ).subscribe(response => {
       this.details = this.detailsTableOrder(response);
