@@ -11,6 +11,222 @@ export const metricCatalogue = {
       perQueryStatsPipe: 'size'
     }
   },
+  blk_read_time: {
+    humanizeName: 'Reading Blocks Time',
+    tooltipText: 'Total time the statement spent reading blocks, in milliseconds (if track_io_timing is enabled, otherwise zero)',
+    simpleName: 'blk_read_time',
+    pipeTypes: {
+      ratePipe: 'number',
+      sumPipe: 'time',
+      subSumPipe: 'percent',
+      sparklineType: 'number',
+      perQueryStatsPipe: 'time'
+    }
+  },
+  blk_write_time: {
+    humanizeName: 'Writing Blocks Time',
+    tooltipText: 'Total time the statement spent writing blocks, in milliseconds (if track_io_timing is enabled, otherwise zero)',
+    simpleName: 'blk_write_time',
+    pipeTypes: {
+      ratePipe: 'number',
+      sumPipe: 'time',
+      subSumPipe: 'percent',
+      sparklineType: 'number',
+      perQueryStatsPipe: 'time'
+    }
+  },
+  local_blks_dirtied: {
+    humanizeName: 'Local Blocks Dirtied',
+    tooltipText: 'Total number of local blocks dirtied by the statement',
+    simpleName: 'local_blks_dirtied',
+    pipeTypes: {
+      ratePipe: 'number',
+      sumPipe: 'number',
+      subSumPipe: 'percent',
+      sparklineType: 'number',
+      perQueryStatsPipe: 'number'
+    }
+  },
+  local_blks_hit: {
+    humanizeName: 'Local Block Cache Hits',
+    tooltipText: 'Total number of local block cache hits by the statement',
+    simpleName: 'local_blks_hit',
+    pipeTypes: {
+      ratePipe: 'number',
+      sumPipe: 'number',
+      subSumPipe: 'percent',
+      sparklineType: 'number',
+      perQueryStatsPipe: 'number'
+    }
+  },
+  local_blks_read: {
+    humanizeName: 'Local Blocks Read',
+    tooltipText: 'Total number of local blocks read by the statement',
+    simpleName: 'local_blks_read',
+    pipeTypes: {
+      ratePipe: 'number',
+      sumPipe: 'number',
+      subSumPipe: 'percent',
+      sparklineType: 'number',
+      perQueryStatsPipe: 'number'
+    }
+  },
+  local_blks_written: {
+    humanizeName: 'Local Blocks Written',
+    tooltipText: 'Total number of local blocks written by the statement',
+    simpleName: 'local_blks_written',
+    pipeTypes: {
+      ratePipe: 'number',
+      sumPipe: 'number',
+      subSumPipe: 'percent',
+      sparklineType: 'number',
+      perQueryStatsPipe: 'number'
+    }
+  },
+  shared_blks_dirtied: {
+    humanizeName: 'Query Count',
+    tooltipText: 'Count',
+    simpleName: 'shared_blks_dirtied',
+    pipeTypes: {
+      ratePipe: 'number',
+      sumPipe: 'number',
+      subSumPipe: 'percent',
+      sparklineType: 'number',
+      perQueryStatsPipe: 'number'
+    }
+  },
+  shared_blks_hit: {
+    humanizeName: 'Shared Block Cache Hits',
+    tooltipText: 'Total number of shared block cache hits by the statement',
+    simpleName: 'shared_blks_hit',
+    pipeTypes: {
+      ratePipe: 'number',
+      sumPipe: 'number',
+      subSumPipe: 'percent',
+      sparklineType: 'number',
+      perQueryStatsPipe: 'number'
+    }
+  },
+  shared_blks_read: {
+    humanizeName: 'Shared Blocks Read',
+    tooltipText: 'Total number of shared blocks read by the statement\n',
+    simpleName: 'shared_blks_read',
+    pipeTypes: {
+      ratePipe: 'number',
+      sumPipe: 'number',
+      subSumPipe: 'percent',
+      sparklineType: 'number',
+      perQueryStatsPipe: 'number'
+    }
+  },
+  shared_blks_written: {
+    humanizeName: 'Shared Blocks Written',
+    tooltipText: 'Total number of shared blocks written by the statement',
+    simpleName: 'shared_blks_written',
+    pipeTypes: {
+      ratePipe: 'number',
+      sumPipe: 'number',
+      subSumPipe: 'percent',
+      sparklineType: 'number',
+      perQueryStatsPipe: 'number'
+    }
+  },
+  temp_blks_read: {
+    humanizeName: 'Query Count',
+    tooltipText: 'Count',
+    simpleName: 'temp_blks_read',
+    pipeTypes: {
+      ratePipe: 'number',
+      sumPipe: 'number',
+      subSumPipe: 'percent',
+      sparklineType: 'number',
+      perQueryStatsPipe: 'number'
+    }
+  },
+  temp_blks_written: {
+    humanizeName: 'Query Count',
+    tooltipText: 'Count',
+    simpleName: 'temp_blks_written',
+    pipeTypes: {
+      ratePipe: 'number',
+      sumPipe: 'number',
+      subSumPipe: 'percent',
+      sparklineType: 'number',
+      perQueryStatsPipe: 'number'
+    }
+  },
+  dbid: {
+    humanizeName: 'Query Count',
+    tooltipText: 'Count',
+    simpleName: 'dbid',
+    pipeTypes: {
+      ratePipe: 'number',
+      sumPipe: 'number',
+      subSumPipe: 'percent',
+      sparklineType: 'number',
+      perQueryStatsPipe: 'number'
+    }
+  },
+  queryid: {
+    humanizeName: 'Query ID',
+    tooltipText: 'Internal hash code, computed from the statement\'s parse tree',
+    simpleName: 'queryid',
+    pipeTypes: {
+      ratePipe: 'number',
+      sumPipe: 'number',
+      subSumPipe: 'percent',
+      sparklineType: 'number',
+      perQueryStatsPipe: 'number'
+    }
+  },
+  query: {
+    humanizeName: 'Query',
+    tooltipText: 'Text of a representative statement',
+    simpleName: 'query',
+    pipeTypes: {
+      ratePipe: 'number',
+      sumPipe: 'number',
+      subSumPipe: 'percent',
+      sparklineType: 'number',
+      perQueryStatsPipe: 'number'
+    }
+  },
+  total_time: {
+    humanizeName: 'Total time',
+    tooltipText: 'Total time spent in the statement, in milliseconds',
+    simpleName: 'total_time',
+    pipeTypes: {
+      ratePipe: 'number',
+      sumPipe: 'number',
+      subSumPipe: 'percent',
+      sparklineType: 'number',
+      perQueryStatsPipe: 'number'
+    }
+  },
+  rows: {
+    humanizeName: 'Rows',
+    tooltipText: 'Total number of rows retrieved or affected by the statement',
+    simpleName: 'rows',
+    pipeTypes: {
+      ratePipe: 'number',
+      sumPipe: 'number',
+      subSumPipe: 'percent',
+      sparklineType: 'number',
+      perQueryStatsPipe: 'number'
+    }
+  },
+  calls: {
+    humanizeName: 'Calls',
+    tooltipText: 'Number of times executed',
+    simpleName: 'calls',
+    pipeTypes: {
+      ratePipe: 'number',
+      sumPipe: 'number',
+      subSumPipe: 'percent',
+      sparklineType: 'number',
+      perQueryStatsPipe: 'number'
+    }
+  },
   num_queries: {
     humanizeName: 'Query Count',
     tooltipText: 'Count',

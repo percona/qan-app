@@ -2,7 +2,7 @@ import { metricCatalogue } from '../../data/metric-catalogue';
 
 export class MetricModel {
   metricName: string;
-  humanizeMetricName: string;
+  humanizeName: string;
   tooltipText: string;
   stats: any;
   sparkline: any;
@@ -13,14 +13,15 @@ export class MetricModel {
 
     this.metricName = metricName;
     if (metricsInfo[metricName]) {
-      this.humanizeMetricName = metricsInfo[metricName].humanizeName;
+      this.humanizeName = metricsInfo[metricName].humanizeName;
       this.tooltipText = metricsInfo[metricName].tooltipText;
     } else {
-      this.humanizeMetricName = metricName;
+      this.humanizeName = metricName;
       this.tooltipText = metricName;
     }
+
     this.stats = stats.stats || stats;
-    this.sparkline = sparkline.some(sparklinePoint => sparklinePoint.pointValue) ? sparkline : [];
+    this.sparkline = sparkline.length && sparkline.some(sparklinePoint => sparklinePoint.pointValue) ? sparkline : [];
   }
 
 }

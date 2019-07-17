@@ -91,7 +91,8 @@ export class DetailsTableComponent implements OnInit, AfterViewInit {
     return this.objectDetailsService.GetMetrics(detailsParams).pipe(
       catchError(err => of({ metrics: [], sparkline: [] })),
       map(response => {
-        const withData = Object.entries(response.metrics).filter(metricData => Object.keys(metricData[1]).length);
+        const withData = Object.entries(response.metrics)
+          .filter(metricData => Object.keys(metricData[1]).length);
         return withData.map(withDataItem => {
           const sparklineData = this.createSparklineModel(response.sparkline, withDataItem[0]);
           return new MetricModel(withDataItem, sparklineData)

@@ -12,7 +12,7 @@ export class DetailsRowComponent implements OnInit {
 
   private metricData = metricCatalogue;
   public currentMetricInfo: any;
-  public defaultPipeInfo: {
+  public defaultPipeInfo = {
     ratePipe: 'number',
     sumPipe: 'number',
     subSumPipe: 'percent',
