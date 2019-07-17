@@ -84,8 +84,8 @@ export const metricCatalogue = {
     }
   },
   shared_blks_dirtied: {
-    humanizeName: 'Query Count',
-    tooltipText: 'Count',
+    humanizeName: 'Shared Blocks Dirtied',
+    tooltipText: 'Total number of shared blocks dirtied by the statement\n',
     simpleName: 'shared_blks_dirtied',
     pipeTypes: {
       ratePipe: 'number',
@@ -132,8 +132,8 @@ export const metricCatalogue = {
     }
   },
   temp_blks_read: {
-    humanizeName: 'Query Count',
-    tooltipText: 'Count',
+    humanizeName: 'Temp Blocks Read',
+    tooltipText: 'Total number of temp blocks read by the statement',
     simpleName: 'temp_blks_read',
     pipeTypes: {
       ratePipe: 'number',
@@ -144,8 +144,8 @@ export const metricCatalogue = {
     }
   },
   temp_blks_written: {
-    humanizeName: 'Query Count',
-    tooltipText: 'Count',
+    humanizeName: 'Temp Blocks Written',
+    tooltipText: 'Total number of temp blocks written by the statement\n',
     simpleName: 'temp_blks_written',
     pipeTypes: {
       ratePipe: 'number',
@@ -156,8 +156,8 @@ export const metricCatalogue = {
     }
   },
   dbid: {
-    humanizeName: 'Query Count',
-    tooltipText: 'Count',
+    humanizeName: 'DBID',
+    tooltipText: 'OID of database in which the statement was executed\n',
     simpleName: 'dbid',
     pipeTypes: {
       ratePipe: 'number',
