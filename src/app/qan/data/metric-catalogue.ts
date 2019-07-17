@@ -423,7 +423,7 @@ export const metricCatalogue = {
   load: {
     humanizeName: 'Load',
     tooltipText: 'Load',
-    simpleName: 'Load',
+    simpleName: 'load',
     pipeTypes: {
       ratePipe: 'number',
       sumPipe: 'number',

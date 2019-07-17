@@ -72,12 +72,11 @@ export class ProfileTableComponent implements OnInit, OnDestroy, AfterViewInit {
     private profileService: ProfileService,
   ) {
     this.isLoading = true;
-    this.defaultColumns = ['load', 'count', 'num_queries', 'latency'];
 
     this.report$ = this.qanProfileService.getProfileParams.pipe(
       map(params => {
         this.currentParams = params;
-        return this.removeDefaultColumns(params)
+        return params;
       }),
       switchMap(parsedParams => {
         this.isLoading = true;
@@ -166,11 +165,11 @@ export class ProfileTableComponent implements OnInit, OnDestroy, AfterViewInit {
     return array;
   };
 
-  removeDefaultColumns(params) {
-    const parsedParams = JSON.parse(JSON.stringify(params));
-    parsedParams.columns = parsedParams.columns.filter(column => !this.defaultColumns.includes(column));
-    return parsedParams
-  }
+  // removeDefaultColumns(params) {
+  //   const parsedParams = JSON.parse(JSON.stringify(params));
+  //   parsedParams.columns = parsedParams.columns.filter(column => !this.defaultColumns.includes(column));
+  //   return parsedParams
+  // }
 
   generateMetricsNames(metrics) {
     return Object.entries(metrics.data).map(metric => new SelectOptionModel(metric));

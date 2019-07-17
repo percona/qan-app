@@ -80,7 +80,7 @@ export class TableHeaderCellComponent implements OnInit, OnDestroy {
       const processedName = value.simpleName;
       this.currentParams.order_by = processedName;
       this.currentParams.main_metric = processedName;
-      this.qanProfileService.updateDefaultMainMetric(this.changeDefaultName(processedName));
+      this.qanProfileService.updateDefaultMainMetric(processedName);
       this.qanProfileService.updateProfileParams(this.currentParams);
     }
     this.qanProfileService.updateProfileParams(this.currentParams);
@@ -96,16 +96,16 @@ export class TableHeaderCellComponent implements OnInit, OnDestroy {
     setTimeout(() => new PerfectScrollbar('.ng-dropdown-panel-items'), 0)
   }
 
-  changeDefaultName(name) {
-    switch (name) {
-      case 'load':
-      case 'latency':
-        return 'm_query_time_sum';
-      case 'count':
-      case 'num_queries':
-        return 'num_queries';
-      default:
-        return `m_${name}_sum`
-    }
-  }
+  // changeDefaultName(name) {
+  //   switch (name) {
+  //     case 'load':
+  //     case 'latency':
+  //       return 'm_query_time_sum';
+  //     case 'count':
+  //     case 'num_queries':
+  //       return 'num_queries';
+  //     default:
+  //       return `m_${name}_sum`
+  //   }
+  // }
 }
