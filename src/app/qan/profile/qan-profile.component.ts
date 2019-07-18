@@ -32,8 +32,10 @@ export class QanProfileComponent implements OnInit {
   }
 
   checkRender() {
-    const height = this.table.nativeElement.offsetHeight;
-    this.qanWrapper.nativeElement.style.setProperty('--filter-height', `${height}px`);
+    setTimeout(() => {
+      const height = this.table.nativeElement.offsetHeight;
+      this.qanWrapper.nativeElement.style.setProperty('--filter-height', `${height}px`);
+    }, 0);
   }
 
   addColumn() {
