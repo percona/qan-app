@@ -30,7 +30,7 @@ export class TableCellComponent implements OnInit {
   public isValues: boolean;
   public currentMetricInfo: any;
   public pipeInfo: any;
-  private defaultColumns = ['load', 'count'];
+  private defaultColumns = ['load', 'count', 'num_queries'];
   public yKey: string;
   public isStats: boolean;
   public isSum: boolean;
@@ -50,7 +50,7 @@ export class TableCellComponent implements OnInit {
     this.yKey = this.setKeyForSparkline(this.metricData.metricName);
     this.isStats = Object.keys(this.metricData.stats).includes('min' && 'max');
     this.isSum = this.metricData.stats.sum >= 0;
-    this.isCount = this.metricData.metricName === 'count';
+    this.isCount = this.metricData.metricName === 'count' || this.metricData.metricName === 'num_queries';
     this.isLatency = this.metricData.metricName === 'latency';
     this.isNoData = Object.keys(this.metricData.stats).length === 1 && Object.keys(this.metricData.stats)[0] === 'cnt';
   }

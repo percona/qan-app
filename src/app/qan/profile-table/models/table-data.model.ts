@@ -24,6 +24,13 @@ export class TableDataModel {
       }
     };
 
+    row.metrics.num_queries = {
+      stats: {
+        // sum: row.num_queries,
+        qps: row.qps || ''
+      }
+    };
+
     this.metrics = Object.entries(row.metrics).map(item => new MetricModel(item));
     this.sparkline = row.sparkline || [];
     this.dimension = row.dimension || '';
