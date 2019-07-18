@@ -12,12 +12,12 @@
          [measurement]="pipeInfo?.sparklineType">
     </div>
 
-    <div *ngIf="isSum">
-      {{metricData.stats.sum | humanize : pipeInfo?.sumPipe}}
+    <div>
+      {{metricData?.stats?.sum | humanize : pipeInfo?.sumPipe}}
     </div>
 
-    <div *ngIf="!isLatency && isSum" class="unit unit--percent">
-      {{percentFromNumber(totalSum, metricData.stats.sum)}}
+    <div class="unit unit--percent">
+      {{percentFromNumber(totalSum, metricData?.stats?.sum)}}
     </div>
     <div *ngIf="isStats" class="app-tooltip" data-tooltip="Loading..."
          [measurement]="pipeInfo?.sumPipe"
@@ -39,7 +39,7 @@
       {{metricData.stats.sum | humanize : pipeInfo?.sumPipe}}
     </div>
 
-    <div *ngIf="metricData?.stats?.sum && isDefaultColumn && !isLatency">
+    <div *ngIf="metricData?.stats?.sum && isDefaultColumn">
       {{+percentFromNumber(totalSum, metricData.stats.sum) | humanize : 'percent'}}
     </div>
 

@@ -36,7 +36,6 @@ export class TableCellComponent implements OnInit {
   public isSum: boolean;
   public isDefaultColumn: boolean;
   public isCount: boolean;
-  public isLatency: boolean;
   public isNoData: boolean;
   public currentParams: any;
 
@@ -51,12 +50,12 @@ export class TableCellComponent implements OnInit {
     this.isStats = Object.keys(this.metricData.stats).includes('min' && 'max');
     this.isSum = this.metricData.stats.sum >= 0;
     this.isCount = this.metricData.metricName === 'count' || this.metricData.metricName === 'num_queries';
-    this.isLatency = this.metricData.metricName === 'latency';
     this.isNoData = Object.keys(this.metricData.stats).length === 1 && Object.keys(this.metricData.stats)[0] === 'cnt';
   }
 
   percentFromNumber(total, current) {
-    return ((+current / +total) * 100).toFixed(2)
+    const totalItem = total.find(item => item.metricName === this.metricData.metricName);
+    return ((+current / +totalItem.stats.sum) * 100).toFixed(2)
   }
 
   setKeyForSparkline(name: string): string {
