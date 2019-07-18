@@ -88,7 +88,7 @@ export class TableHeaderCellComponent implements OnInit, OnDestroy {
 
   sortBy(selectedColumn) {
     this.isASC = !this.isASC;
-    this.currentParams.order_by = this.isASC ? selectedColumn.name : `-${selectedColumn.name}`;
+    this.currentParams.order_by = this.isASC ? selectedColumn.simpleName : `-${selectedColumn.simpleName}`;
     this.qanProfileService.updateProfileParams(this.currentParams);
   }
 
