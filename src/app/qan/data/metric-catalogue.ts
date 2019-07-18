@@ -84,8 +84,8 @@ export const metricCatalogue = {
     }
   },
   shared_blks_dirtied: {
-    humanizeName: 'Query Count',
-    tooltipText: 'Count',
+    humanizeName: 'Shared Blocks Dirtied',
+    tooltipText: 'Total number of shared blocks dirtied by the statement\n',
     simpleName: 'shared_blks_dirtied',
     pipeTypes: {
       ratePipe: 'number',
@@ -132,8 +132,8 @@ export const metricCatalogue = {
     }
   },
   temp_blks_read: {
-    humanizeName: 'Query Count',
-    tooltipText: 'Count',
+    humanizeName: 'Temp Blocks Read',
+    tooltipText: 'Total number of temp blocks read by the statement',
     simpleName: 'temp_blks_read',
     pipeTypes: {
       ratePipe: 'number',
@@ -144,81 +144,9 @@ export const metricCatalogue = {
     }
   },
   temp_blks_written: {
-    humanizeName: 'Query Count',
-    tooltipText: 'Count',
+    humanizeName: 'Temp Blocks Written',
+    tooltipText: 'Total number of temp blocks written by the statement\n',
     simpleName: 'temp_blks_written',
-    pipeTypes: {
-      ratePipe: 'number',
-      sumPipe: 'number',
-      subSumPipe: 'percent',
-      sparklineType: 'number',
-      perQueryStatsPipe: 'number'
-    }
-  },
-  dbid: {
-    humanizeName: 'Query Count',
-    tooltipText: 'Count',
-    simpleName: 'dbid',
-    pipeTypes: {
-      ratePipe: 'number',
-      sumPipe: 'number',
-      subSumPipe: 'percent',
-      sparklineType: 'number',
-      perQueryStatsPipe: 'number'
-    }
-  },
-  queryid: {
-    humanizeName: 'Query ID',
-    tooltipText: 'Internal hash code, computed from the statement\'s parse tree',
-    simpleName: 'queryid',
-    pipeTypes: {
-      ratePipe: 'number',
-      sumPipe: 'number',
-      subSumPipe: 'percent',
-      sparklineType: 'number',
-      perQueryStatsPipe: 'number'
-    }
-  },
-  query: {
-    humanizeName: 'Query',
-    tooltipText: 'Text of a representative statement',
-    simpleName: 'query',
-    pipeTypes: {
-      ratePipe: 'number',
-      sumPipe: 'number',
-      subSumPipe: 'percent',
-      sparklineType: 'number',
-      perQueryStatsPipe: 'number'
-    }
-  },
-  total_time: {
-    humanizeName: 'Total time',
-    tooltipText: 'Total time spent in the statement, in milliseconds',
-    simpleName: 'total_time',
-    pipeTypes: {
-      ratePipe: 'number',
-      sumPipe: 'number',
-      subSumPipe: 'percent',
-      sparklineType: 'number',
-      perQueryStatsPipe: 'number'
-    }
-  },
-  rows: {
-    humanizeName: 'Rows',
-    tooltipText: 'Total number of rows retrieved or affected by the statement',
-    simpleName: 'rows',
-    pipeTypes: {
-      ratePipe: 'number',
-      sumPipe: 'number',
-      subSumPipe: 'percent',
-      sparklineType: 'number',
-      perQueryStatsPipe: 'number'
-    }
-  },
-  calls: {
-    humanizeName: 'Calls',
-    tooltipText: 'Number of times executed',
-    simpleName: 'calls',
     pipeTypes: {
       ratePipe: 'number',
       sumPipe: 'number',

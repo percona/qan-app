@@ -30,13 +30,12 @@ export class TableCellComponent implements OnInit {
   public isValues: boolean;
   public currentMetricInfo: any;
   public pipeInfo: any;
-  private defaultColumns = ['load', 'count'];
+  private defaultColumns = ['load', 'count', 'num_queries'];
   public yKey: string;
   public isStats: boolean;
   public isSum: boolean;
   public isDefaultColumn: boolean;
   public isCount: boolean;
-  public isLatency: boolean;
   public isNoData: boolean;
   public currentParams: any;
 
@@ -50,13 +49,13 @@ export class TableCellComponent implements OnInit {
     this.yKey = this.setKeyForSparkline(this.metricData.metricName);
     this.isStats = Object.keys(this.metricData.stats).includes('min' && 'max');
     this.isSum = this.metricData.stats.sum >= 0;
-    this.isCount = this.metricData.metricName === 'count';
-    this.isLatency = this.metricData.metricName === 'latency';
+    this.isCount = this.metricData.metricName === 'count' || this.metricData.metricName === 'num_queries';
     this.isNoData = Object.keys(this.metricData.stats).length === 1 && Object.keys(this.metricData.stats)[0] === 'cnt';
   }
 
   percentFromNumber(total, current) {
-    return ((+current / +total) * 100).toFixed(2)
+    const totalItem = total.find(item => item.metricName === this.metricData.metricName);
+    return ((+current / +totalItem.stats.sum) * 100).toFixed(2)
   }
 
   setKeyForSparkline(name: string): string {
@@ -70,8 +69,9 @@ export class TableCellComponent implements OnInit {
   setKeyForDefaultSparkline(name: string): string {
     switch (name) {
       case 'load':
-        return 'm_query_time_sum_per_sec';
+        return 'load';
       case 'count':
+      case 'num_queries':
         return 'num_queries_per_sec';
       case 'latency':
         return 'm_query_time_avg';

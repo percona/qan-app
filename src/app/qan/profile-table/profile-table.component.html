@@ -40,7 +40,7 @@
                     <app-qan-table-cell [metricData]="metric"
                                         [sparklineData]="row.sparkline"
                                         [checkSparkline]="!index"
-                                        [totalSum]="tableData[0][metric.metricName]">
+                                        [totalSum]="tableData[0]['metrics']">
                     </app-qan-table-cell>
                   </ng-container>
                 </tr>
