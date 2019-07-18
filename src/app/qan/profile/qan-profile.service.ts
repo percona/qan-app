@@ -66,7 +66,7 @@ export class QanProfileService {
   };
 
   private profileParams = new BehaviorSubject<GetProfileBody>({
-    columns: ['load', 'count', 'query_time'],
+    columns: ['load', 'num_queries', 'query_time'],
     first_seen: false,
     group_by: this.defaultGroupBy,
     include_only_fields: [],
