@@ -84,7 +84,7 @@ export const metricCatalogue = {
     }
   },
   shared_blks_dirtied: {
-    humanizeName: 'Query Count',
+    humanizeName: 'Shared Blocks Dirtied',
     tooltipText: 'Count',
     simpleName: 'shared_blks_dirtied',
     pipeTypes: {
