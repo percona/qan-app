@@ -51,6 +51,7 @@ export class DetailsTableComponent implements OnInit, AfterViewInit {
         return this.getDetailsData(parsedParams);
       }),
     ).subscribe(response => {
+      console.log('this.details - ', this.details);
       this.details = this.detailsTableOrder(response);
       this.isTotal = !this.currentParams.filter_by;
       this.isLoading = false;
@@ -91,7 +92,7 @@ export class DetailsTableComponent implements OnInit, AfterViewInit {
     return this.objectDetailsService.GetMetrics(detailsParams).pipe(
       catchError(err => of({ metrics: [], sparkline: [] })),
       map(response => {
-        const withData = Object.entries(response.metrics)
+        const withData = Object.entries(response.metrics ? response.metrics : response['totals'])
           .filter(metricData => Object.keys(metricData[1]).length);
         return withData.map(withDataItem => {
           const sparklineData = this.createSparklineModel(response.sparkline, withDataItem[0]);
