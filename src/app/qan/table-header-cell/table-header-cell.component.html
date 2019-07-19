@@ -5,6 +5,7 @@
              (change)="setMetricColumn($event)"
              [clearable]="false"
              (open)="addCustomScroll()"
+             (search)="onSearch()"
              bindLabel="humanizeName"
              #column
              class="pmm-select pmm-select--column">
