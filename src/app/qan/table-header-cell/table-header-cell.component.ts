@@ -1,4 +1,4 @@
-import { Component, HostBinding, Input, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { Component, Input, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { SelectOptionModel } from './modesl/select-option.model';
 import { Subscription } from 'rxjs/internal/Subscription';
 import { map } from 'rxjs/operators';
@@ -33,6 +33,7 @@ export class TableHeaderCellComponent implements OnInit, OnDestroy {
   public isEmpty: boolean;
   public isASC = false;
   public isNotDefaultIcon = false;
+  public scrollbar: any;
 
   constructor(private qanProfileService: QanProfileService) {
     this.metrics = this.getUniqueObjects(Object.values(metricCatalogue));
@@ -93,7 +94,15 @@ export class TableHeaderCellComponent implements OnInit, OnDestroy {
   }
 
   addCustomScroll() {
-    setTimeout(() => new PerfectScrollbar('.ng-dropdown-panel-items'), 0)
+    setTimeout(() => {
+      this.scrollbar = new PerfectScrollbar('.ng-dropdown-panel-items')
+    }, 0)
+  }
+
+  onSearch() {
+    setTimeout(() => {
+      this.scrollbar.update();
+    }, 0);
   }
 
   // changeDefaultName(name) {
