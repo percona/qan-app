@@ -9,6 +9,7 @@ import { metricCatalogue } from '../../../data/metric-catalogue';
 })
 export class DetailsRowComponent implements OnInit {
   @Input() currentMetric: MetricModel;
+  @Input() currentTotals: any;
 
   private metricData = metricCatalogue;
   public currentMetricInfo: any;
@@ -36,5 +37,6 @@ export class DetailsRowComponent implements OnInit {
     this.isRate = this.currentMetric.stats.rate >= 0;
     this.isSum = this.currentMetric.stats.sum >= 0;
     this.isStats = this.currentMetric.stats.avg >= 0;
+    console.log('currentTotals - ', this.currentTotals);
   }
 }
