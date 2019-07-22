@@ -5,6 +5,10 @@
     <span class="grid-table__row--title">Total</span>
     <span class="grid-table__row--title">Per Query Stats</span>
   </header>
-  <app-details-row *ngFor="let detail of details" [currentMetric]="detail" #detailsTableRows></app-details-row>
+  <app-details-row *ngFor="let detail of details.metrics; let index = index"
+                   [currentMetric]="detail"
+                   [currentTotal]="details.totals[index]"
+                   #detailsTableRows>
+  </app-details-row>
 </div>
 <i *ngIf="isLoading" class="fa fa-spinner fa-spin spinner"></i>

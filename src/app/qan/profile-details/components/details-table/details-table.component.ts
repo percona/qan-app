@@ -16,6 +16,7 @@ import { Router } from '@angular/router';
 import { ObjectDetails, QanProfileService } from '../../../profile/qan-profile.service';
 import { ObjectDetailsService } from '../../../../pmm-api-services/services/object-details.service';
 import { DetailsSparklineModel } from '../../models/details-sparkline.model';
+import { DetailsTableDataInterface } from './details-table-data.inteface';
 
 @Component({
   selector: 'app-details-table',
@@ -33,7 +34,7 @@ export class DetailsTableComponent implements OnInit, AfterViewInit {
   public currentParams: any;
   public dimension: string;
   public isTotal = false;
-  public details: MetricModel[] = [];
+  public details: any = {};
   private group_by$: Subscription;
   private details$: Subscription;
   private firstDetails: ObjectDetails;
@@ -51,22 +52,23 @@ export class DetailsTableComponent implements OnInit, AfterViewInit {
         return this.getDetailsData(parsedParams);
       }),
     ).subscribe(response => {
-      console.log('this.details - ', this.details);
-      this.details = this.detailsTableOrder(response);
+      this.details = response;
+      this.details.metrics = this.detailsTableOrder(response['metrics']);
       this.isTotal = !this.currentParams.filter_by;
       this.isLoading = false;
     });
 
     this.group_by$ = this.qanProfileService.getGroupBy
-      .subscribe(() => this.details = [])
+      .subscribe(() => this.details.metrics = [])
   }
 
   ngOnInit() {
     this.firstDetails = this.qanProfileService.getCurrentDetails;
     this.getDetailsData(this.firstDetails).subscribe(response => {
-      this.details = this.detailsTableOrder(response);
+      this.details = response;
+      this.details.metrics = this.detailsTableOrder(response['metrics']);
       this.isLoading = false;
-    })
+    });
   }
 
   ngAfterViewInit() {
@@ -93,11 +95,20 @@ export class DetailsTableComponent implements OnInit, AfterViewInit {
       catchError(err => of({ metrics: [], sparkline: [] })),
       map(response => {
         const withData = Object.entries(response.metrics ? response.metrics : response['totals'])
-          .filter(metricData => Object.keys(metricData[1]).length);
-        return withData.map(withDataItem => {
-          const sparklineData = this.createSparklineModel(response.sparkline, withDataItem[0]);
-          return new MetricModel(withDataItem, sparklineData)
-        });
+          .filter(metricData => Object.keys(metricData[1]).length)
+          .map(withDataItem => {
+            const sparklineData = this.createSparklineModel(response.sparkline, withDataItem[0]);
+            return new MetricModel(withDataItem, sparklineData)
+          }) || [];
+        const withDataTotals = Object.entries(response['totals'])
+          .filter(metricData => Object.keys(metricData[1]).length)
+          .map(withDataTotalsItem => new MetricModel(withDataTotalsItem))
+          .filter(totalsItem => withData
+            .some(metricsItem => metricsItem.metricName === totalsItem.metricName)) || [];
+        return {
+          metrics: withData,
+          totals: withDataTotals
+        };
       }),
       catchError(err => of([])));
   }

@@ -1,4 +1,5 @@
 import { Pipe, PipeTransform } from '@angular/core';
+import { DetailsTableDataInterface } from '../qan/profile-details/components/details-table/details-table-data.inteface';
 
 @Pipe({ name: 'sortingTable' })
 export class SortingTablePipe implements PipeTransform {
