@@ -74,7 +74,7 @@ export class QanProfileService {
     labels: [],
     limit: 10,
     offset: 0,
-    order_by: 'load',
+    order_by: '-load',
     main_metric: 'load',
     period_start_from: this.setTimeRange('from'),
     period_start_to: this.setTimeRange('to')
