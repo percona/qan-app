@@ -1,6 +1,6 @@
 import { MetricModel } from '../../../profile-table/models/metric.model';
 
-export interface DetailsTableDataInteface {
+export interface DetailsTableDataInterface {
   metrics?: MetricModel[];
-  totals?: any;
+  totals?: MetricModel[];
 }

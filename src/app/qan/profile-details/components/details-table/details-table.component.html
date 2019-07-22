@@ -7,6 +7,7 @@
   </header>
   <app-details-row *ngFor="let detail of details.metrics; let index = index"
                    [currentMetric]="detail"
+                   [currentTotal]="details.totals[index]"
                    #detailsTableRows>
   </app-details-row>
 </div>
