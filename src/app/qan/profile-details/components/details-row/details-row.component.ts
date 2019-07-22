@@ -38,10 +38,7 @@ export class DetailsRowComponent implements OnInit {
     this.isRate = this.currentMetric.stats.rate >= 0;
     this.isSum = this.currentMetric.stats.sum >= 0;
     this.isStats = this.currentMetric.stats.avg >= 0;
-    console.log('currentTotal - ', this.currentTotal);
-    console.log('currentMetric - ', this.currentMetric);
     this.percentOfTotal = this.calculatePercentOfTotal(this.currentMetric.stats.sum, this.currentTotal.stats.sum);
-    console.log('this.percentOfTotal - ', this.percentOfTotal);
   }
 
   calculatePercentOfTotal(current, total) {
