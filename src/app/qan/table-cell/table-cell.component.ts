@@ -33,9 +33,7 @@ export class TableCellComponent implements OnInit {
   private defaultColumns = ['load', 'count', 'num_queries'];
   public yKey: string;
   public isStats: boolean;
-  public isSum: boolean;
   public isDefaultColumn: boolean;
-  public isCount: boolean;
   public isNoData: boolean;
   public currentParams: any;
 
@@ -48,15 +46,11 @@ export class TableCellComponent implements OnInit {
     this.pipeInfo = this.currentMetricInfo.pipeTypes;
     this.yKey = this.setKeyForSparkline(this.metricData.metricName);
     this.isStats = Object.keys(this.metricData.stats).includes('min' && 'max');
-    this.isSum = this.metricData.stats.sum >= 0;
-    this.isCount = this.metricData.metricName === 'count' || this.metricData.metricName === 'num_queries';
     this.isNoData = Object.keys(this.metricData.stats).length === 1 && Object.keys(this.metricData.stats)[0] === 'cnt';
   }
 
   percentFromNumber(total, current) {
     const totalItem = total.find(item => item.metricName === this.metricData.metricName);
-    console.log('totalItem - ', totalItem);
-    console.log('current - ', current);
     return ((+current / (+totalItem.stats.sum || +totalItem.stats.sum_per_sec)) * 100).toFixed(2);
   }
 
