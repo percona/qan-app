@@ -55,7 +55,9 @@ export class TableCellComponent implements OnInit {
 
   percentFromNumber(total, current) {
     const totalItem = total.find(item => item.metricName === this.metricData.metricName);
-    return ((+current / +totalItem.stats.sum) * 100).toFixed(2)
+    console.log('totalItem - ', totalItem);
+    console.log('current - ', current);
+    return ((+current / (+totalItem.stats.sum || +totalItem.stats.sum_per_sec)) * 100).toFixed(2);
   }
 
   setKeyForSparkline(name: string): string {

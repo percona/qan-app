@@ -1,58 +1,79 @@
 <div class="cell-inner">
-  <ng-container *ngIf="isDefaultColumn">
-    <div *ngIf="isCount" class="unit unit--qps">
-      {{(metricData.stats.qps || metricData.stats.sum_per_sec) | humanize : 'number'}}
-    </div>
+  <div *ngIf="metricData?.metricName && isSparkline" class="app-tooltip"
+       [appLoadPolygonChart]="sparklineData"
+       data-tooltip="Loading..."
+       xkey="timestamp"
+       [ykey]="yKey"
+       [measurement]="pipeInfo?.sparklineType">
+  </div>
+  <div class="unit unit--qps">
+    {{(metricData?.stats?.qps || metricData?.stats?.sum_per_sec) | humanize : 'number'}}
+  </div>
+  <div *ngIf="metricData?.stats?.sum">
+    {{metricData?.stats?.sum | humanize : pipeInfo?.sumPipe}}
+  </div>
+  <div *ngIf="metricData?.stats?.sum || metricData?.stats?.sum_per_sec" class="unit unit--percent">
+    {{percentFromNumber(totalSum, metricData?.stats?.sum || metricData?.stats?.sum_per_sec)}}
+  </div>
+  <div *ngIf="isStats" class="app-tooltip" data-tooltip="Loading..."
+       [measurement]="pipeInfo?.sumPipe"
+       [appLatencyChart]="metricData?.stats"
+       metricPrefix="Rows_sent">
+  </div>
+<!--  <ng-container *ngIf="isDefaultColumn">-->
+<!--    <div *ngIf="metricData?.metricName && isSparkline" class="app-tooltip"-->
+<!--         [appLoadPolygonChart]="sparklineData"-->
+<!--         data-tooltip="Loading..."-->
+<!--         xkey="timestamp"-->
+<!--         [ykey]="yKey"-->
+<!--         [measurement]="pipeInfo?.sparklineType">-->
+<!--    </div>-->
 
-    <div *ngIf="metricData?.metricName && isSparkline" class="app-tooltip"
-         [appLoadPolygonChart]="sparklineData"
-         data-tooltip="Loading..."
-         xkey="timestamp"
-         [ykey]="yKey"
-         [measurement]="pipeInfo?.sparklineType">
-    </div>
+<!--    <div *ngIf="isCount" class="unit unit&#45;&#45;qps">-->
+<!--      {{(metricData?.stats?.qps || metricData?.stats?.sum_per_sec) | humanize : 'number'}}-->
+<!--    </div>-->
 
-    <div>
-      {{metricData?.stats?.sum | humanize : pipeInfo?.sumPipe}}
-    </div>
+<!--    <div>-->
+<!--      {{metricData?.stats?.sum | humanize : pipeInfo?.sumPipe}}-->
+<!--    </div>-->
 
-    <div class="unit unit--percent">
-      {{percentFromNumber(totalSum, metricData?.stats?.sum)}}
-    </div>
-    <div *ngIf="isStats" class="app-tooltip" data-tooltip="Loading..."
-         [measurement]="pipeInfo?.sumPipe"
-         [appLatencyChart]="metricData?.stats"
-         metricPrefix="Rows_sent">
-    </div>
-  </ng-container>
+<!--    <div class="unit unit&#45;&#45;percent">-->
+<!--      {{percentFromNumber(totalSum, metricData?.stats?.sum)}}-->
+<!--    </div>-->
+<!--    <div *ngIf="isStats" class="app-tooltip" data-tooltip="Loading..."-->
+<!--         [measurement]="pipeInfo?.sumPipe"-->
+<!--         [appLatencyChart]="metricData?.stats"-->
+<!--         metricPrefix="Rows_sent">-->
+<!--    </div>-->
+<!--  </ng-container>-->
 
-  <ng-container *ngIf="!isDefaultColumn">
-    <div *ngIf="metricData?.metricName && isSparkline" class="app-tooltip"
-         [appLoadPolygonChart]="sparklineData"
-         data-tooltip="Loading..."
-         xkey="timestamp"
-         [ykey]="yKey"
-         [measurement]="pipeInfo?.sparklineType">
-    </div>
+<!--  <ng-container *ngIf="!isDefaultColumn">-->
+<!--    <div *ngIf="metricData?.metricName && isSparkline" class="app-tooltip"-->
+<!--         [appLoadPolygonChart]="sparklineData"-->
+<!--         data-tooltip="Loading..."-->
+<!--         xkey="timestamp"-->
+<!--         [ykey]="yKey"-->
+<!--         [measurement]="pipeInfo?.sparklineType">-->
+<!--    </div>-->
 
-    <div *ngIf="metricData?.stats?.sum">
-      {{metricData.stats.sum | humanize : pipeInfo?.sumPipe}}
-    </div>
+<!--    <div *ngIf="metricData?.stats?.sum">-->
+<!--      {{metricData.stats.sum | humanize : pipeInfo?.sumPipe}}-->
+<!--    </div>-->
 
-    <div *ngIf="metricData?.stats?.sum && isDefaultColumn">
-      {{+percentFromNumber(totalSum, metricData.stats.sum) | humanize : 'percent'}}
-    </div>
+<!--    <div *ngIf="metricData?.stats?.sum && isDefaultColumn">-->
+<!--      {{+percentFromNumber(totalSum, metricData.stats.sum) | humanize : 'percent'}}-->
+<!--    </div>-->
 
-    <div *ngIf="isStats" class="app-tooltip"
-         [measurement]="pipeInfo?.sumPipe"
-         [appLatencyChart]="metricData?.stats"
-         data-tooltip="Loading..."
-         metricPrefix="Rows_sent">
-    </div>
-  </ng-container>
+<!--    <div *ngIf="isStats" class="app-tooltip"-->
+<!--         [measurement]="pipeInfo?.sumPipe"-->
+<!--         [appLatencyChart]="metricData?.stats"-->
+<!--         data-tooltip="Loading..."-->
+<!--         metricPrefix="Rows_sent">-->
+<!--    </div>-->
+<!--  </ng-container>-->
 
-  <ng-container *ngIf="isNoData">
-    <div>n/a</div>
-  </ng-container>
+<!--  <ng-container *ngIf="isNoData">-->
+<!--    <div>n/a</div>-->
+<!--  </ng-container>-->
 </div>
 

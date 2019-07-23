@@ -11,18 +11,18 @@ export class TableDataModel {
 
   constructor(row) {
     row.metrics = row.metrics || {};
-    row.metrics.load = {
-      stats: {
-        sum: row.load
-      }
-    };
-
-    row.metrics.count = {
-      stats: {
-        sum: row.num_queries,
-        qps: row.qps || ''
-      }
-    };
+    // row.metrics.load = {
+    //   stats: {
+    //     sum: row.load
+    //   }
+    // };
+    //
+    // row.metrics.count = {
+    //   stats: {
+    //     sum: row.num_queries,
+    //     qps: row.qps || ''
+    //   }
+    // };
 
     this.metrics = Object.entries(row.metrics).map(item => new MetricModel(item));
     this.sparkline = row.sparkline || [];
