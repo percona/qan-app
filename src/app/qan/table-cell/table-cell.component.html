@@ -12,8 +12,8 @@
   <div *ngIf="metricData?.stats?.sum">
     {{metricData?.stats?.sum | humanize : pipeInfo?.sumPipe}}
   </div>
-  <div *ngIf="metricData?.stats?.sum || metricData?.stats?.sum_per_sec" class="unit unit--percent">
-    {{percentFromNumber(totalSum, metricData?.stats?.sum || metricData?.stats?.sum_per_sec)}}
+  <div *ngIf="isPercentOfTotal" class="unit unit--percent">
+    {{percentOfTotal}}
   </div>
   <div *ngIf="isStats" class="app-tooltip" data-tooltip="Loading..."
        [measurement]="pipeInfo?.sumPipe"

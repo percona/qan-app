@@ -28,6 +28,8 @@ export class TableCellComponent implements OnInit {
   public metricDataInfo = metricCatalogue;
   public isSparkline: boolean;
   public isValues: boolean;
+  public isPercentOfTotal: boolean;
+  public percentOfTotal: number;
   public currentMetricInfo: any;
   public pipeInfo: any;
   private defaultColumns = ['load', 'count', 'num_queries'];
@@ -47,11 +49,16 @@ export class TableCellComponent implements OnInit {
     this.yKey = this.setKeyForSparkline(this.metricData.metricName);
     this.isStats = Object.keys(this.metricData.stats).includes('min' && 'max');
     this.isNoData = Object.keys(this.metricData.stats).length === 1 && Object.keys(this.metricData.stats)[0] === 'cnt';
+    this.isPercentOfTotal = !!(this.metricData.stats.sum || this.metricData.stats.sum_per_sec);
+    if (this.isPercentOfTotal) {
+      this.percentOfTotal = +this.percentFromNumber(this.totalSum, this.metricData);
+    }
   }
 
   percentFromNumber(total, current) {
     const totalItem = total.find(item => item.metricName === this.metricData.metricName);
-    return ((+current / (+totalItem.stats.sum || +totalItem.stats.sum_per_sec)) * 100).toFixed(2);
+    const key = current.stats.sum ? 'sum' : 'sum_per_sec';
+    return ((+current.stats[key] / +totalItem.stats[key]) * 100).toFixed(2);
   }
 
   setKeyForSparkline(name: string): string {
