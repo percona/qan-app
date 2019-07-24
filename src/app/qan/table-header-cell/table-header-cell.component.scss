@@ -1,6 +1,7 @@
 :host {
   display: table-cell;
   height: var(--row-heigth);
+  min-width: 200px;
   white-space: nowrap;
   vertical-align: top;
   border-right: 1px solid var(--main-border-color);
