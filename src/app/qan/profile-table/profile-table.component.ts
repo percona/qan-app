@@ -130,10 +130,16 @@ export class ProfileTableComponent implements OnInit, OnDestroy, AfterViewInit {
   ngForRendered() {
     const tableHeight = this.qanTable.nativeElement.offsetHeight;
     if (this.isNeedScroll) {
-      this.componentRef.directiveRef.scrollToRight();
+      this.toEndOfScrollbar();
     }
     this.mainTableWrapper.nativeElement.style.setProperty('--table-height', `${tableHeight}px`);
     this.isNeedScroll = false;
+  }
+
+  toEndOfScrollbar() {
+    setTimeout(() => {
+      this.componentRef.directiveRef.scrollToRight()
+    }, 0);
   }
 
   showDetails(filter_by, fingerPrint = '') {

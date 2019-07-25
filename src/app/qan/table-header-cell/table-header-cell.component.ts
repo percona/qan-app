@@ -1,4 +1,4 @@
-import { Component, Input, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { Component, EventEmitter, Input, OnDestroy, OnInit, Output, ViewChild } from '@angular/core';
 import { SelectOptionModel } from './modesl/select-option.model';
 import { Subscription } from 'rxjs/internal/Subscription';
 import { map } from 'rxjs/operators';
@@ -6,6 +6,7 @@ import { GetProfileBody, QanProfileService } from '../profile/qan-profile.servic
 import PerfectScrollbar from 'perfect-scrollbar';
 import { NgSelectComponent } from '@ng-select/ng-select';
 import { metricCatalogue } from '../data/metric-catalogue';
+import { ProfileTableComponent } from '../profile-table/profile-table.component';
 
 @Component({
   selector: 'app-qan-table-header-cell',
@@ -17,16 +18,21 @@ export class TableHeaderCellComponent implements OnInit, OnDestroy {
   public isMainColumn: boolean;
 
   @ViewChild('column', { static: true }) column: NgSelectComponent;
+  @Output() toEndOfTable = new EventEmitter();
   @Input() currentColumnName: any;
   @Input() fullData: any;
   @Input() rowMetrics: any;
+  @Input() columnQuantity: any;
 
   @Input() set processIndex(index: number) {
     this.index = index;
+    console.log('index - ', index);
+    console.log('columnQuantity - ', this.columnQuantity);
     this.isMainColumn = !this.index;
   };
 
   private params$: Subscription;
+  private profileTable: ProfileTableComponent;
   public metrics: any;
   public selectedQueryColumn: SelectOptionModel;
   public currentParams: GetProfileBody;
@@ -74,6 +80,7 @@ export class TableHeaderCellComponent implements OnInit, OnDestroy {
     if (!value.simpleName) {
       return;
     }
+
     this.currentParams.columns[this.index] = value.simpleName;
     this.currentParams.columns = this.currentParams.columns.filter(item => !!item);
 
@@ -94,6 +101,9 @@ export class TableHeaderCellComponent implements OnInit, OnDestroy {
   }
 
   addCustomScroll() {
+    if (this.index === this.columnQuantity) {
+      this.toEndOfTable.emit();
+    }
     setTimeout(() => {
       this.scrollbar = new PerfectScrollbar('.ng-dropdown-panel-items')
     }, 0)
