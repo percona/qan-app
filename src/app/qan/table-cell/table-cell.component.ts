@@ -29,6 +29,7 @@ export class TableCellComponent implements OnInit {
   public isSparkline: boolean;
   public isValues: boolean;
   public isPercentOfTotal: boolean;
+  public isExistence: boolean;
   public percentOfTotal: number;
   public currentMetricInfo: any;
   public pipeInfo: any;
@@ -44,14 +45,17 @@ export class TableCellComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.currentMetricInfo = this.metricDataInfo[this.metricData.metricName];
-    this.pipeInfo = this.currentMetricInfo.pipeTypes;
-    this.yKey = this.setKeyForSparkline(this.metricData.metricName);
-    this.isStats = Object.keys(this.metricData.stats).includes('min' && 'max');
-    this.isNoData = Object.keys(this.metricData.stats).length === 1 && Object.keys(this.metricData.stats)[0] === 'cnt';
-    this.isPercentOfTotal = !!(this.metricData.stats.sum || this.metricData.stats.sum_per_sec);
-    if (this.isPercentOfTotal) {
-      this.percentOfTotal = +this.percentFromNumber(this.totalSum, this.metricData);
+    this.isExistence = !!this.metricData.metricName;
+    if (this.isExistence) {
+      this.currentMetricInfo = this.metricDataInfo[this.metricData.metricName];
+      this.pipeInfo = this.currentMetricInfo.pipeTypes || {};
+      this.yKey = this.setKeyForSparkline(this.metricData.metricName);
+      this.isStats = Object.keys(this.metricData.stats).includes('min' && 'max');
+      this.isNoData = Object.keys(this.metricData.stats).length === 1 && Object.keys(this.metricData.stats)[0] === 'cnt';
+      this.isPercentOfTotal = !!(this.metricData.stats.sum || this.metricData.stats.sum_per_sec);
+      if (this.isPercentOfTotal) {
+        this.percentOfTotal = +this.percentFromNumber(this.totalSum, this.metricData);
+      }
     }
   }
 
