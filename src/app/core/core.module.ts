@@ -51,6 +51,7 @@ import { TableCreateComponent } from '../qan/profile-details/components/tables/c
 import { TableStatusComponent } from '../qan/profile-details/components/tables/components/table-status/table-status.component';
 import { DetailsTableComponent } from '../qan/profile-details/components/details-table/details-table.component';
 import { DetailsFingerprintComponent } from '../qan/profile-details/components/details-fingerprint/details-fingerprint.component';
+import { TableIndexesComponent } from '../qan/profile-details/components/tables/components/table-indexes/table-indexes.component';
 
 @NgModule({
   imports: [
@@ -92,6 +93,7 @@ import { DetailsFingerprintComponent } from '../qan/profile-details/components/d
     TableStatusComponent,
     DetailsTableComponent,
     DetailsFingerprintComponent,
+    TableIndexesComponent,
   ],
   exports: [
     PageNotFoundComponent,
@@ -119,6 +121,7 @@ import { DetailsFingerprintComponent } from '../qan/profile-details/components/d
     TableStatusComponent,
     DetailsTableComponent,
     DetailsFingerprintComponent,
+    TableIndexesComponent,
   ],
   providers: [
     InstanceService,
