@@ -8665,6 +8665,10 @@
                                 "sum": {
                                   "type": "number",
                                   "format": "float"
+                                },
+                                "sum_per_sec": {
+                                  "type": "number",
+                                  "format": "float"
                                 }
                               }
                             }
@@ -8689,6 +8693,21 @@
                           "description": "Point contains values that represents abscissa (time) and ordinate (volume etc.)\nof every point in a coordinate system of Sparklines.",
                           "type": "object",
                           "properties": {
+                            "load": {
+                              "description": "load is query_time / time_range.",
+                              "type": "number",
+                              "format": "float"
+                            },
+                            "m_blk_read_time_sum_per_sec": {
+                              "description": "Total time the statement spent reading blocks, in milliseconds (if track_io_timing is enabled, otherwise zero).",
+                              "type": "number",
+                              "format": "float"
+                            },
+                            "m_blk_write_time_sum_per_sec": {
+                              "description": "Total time the statement spent writing blocks, in milliseconds (if track_io_timing is enabled, otherwise zero).",
+                              "type": "number",
+                              "format": "float"
+                            },
                             "m_bytes_sent_sum_per_sec": {
                               "description": "The number of bytes sent to all clients.",
                               "type": "number",
@@ -8751,6 +8770,26 @@
                             },
                             "m_innodb_rec_lock_wait_sum_per_sec": {
                               "description": "Shows how long (in seconds) the query waited for row locks.",
+                              "type": "number",
+                              "format": "float"
+                            },
+                            "m_local_blks_dirtied_sum_per_sec": {
+                              "description": "Total number of local blocks dirtied by the statement.",
+                              "type": "number",
+                              "format": "float"
+                            },
+                            "m_local_blks_hit_sum_per_sec": {
+                              "description": "Total number of local block cache hits by the statement.",
+                              "type": "number",
+                              "format": "float"
+                            },
+                            "m_local_blks_read_sum_per_sec": {
+                              "description": "Total number of local blocks read by the statement.",
+                              "type": "number",
+                              "format": "float"
+                            },
+                            "m_local_blks_written_sum_per_sec": {
+                              "description": "Total number of local blocks written by the statement.",
                               "type": "number",
                               "format": "float"
                             },
@@ -8829,6 +8868,26 @@
                               "type": "number",
                               "format": "float"
                             },
+                            "m_shared_blks_dirtied_sum_per_sec": {
+                              "description": "Total number of shared blocks dirtied by the statement.",
+                              "type": "number",
+                              "format": "float"
+                            },
+                            "m_shared_blks_hit_sum_per_sec": {
+                              "description": "PostgreSQL metrics.\n\nTotal number of shared block cache hits by the statement.",
+                              "type": "number",
+                              "format": "float"
+                            },
+                            "m_shared_blks_read_sum_per_sec": {
+                              "description": "Total number of shared blocks read by the statement.",
+                              "type": "number",
+                              "format": "float"
+                            },
+                            "m_shared_blks_written_sum_per_sec": {
+                              "description": "Total number of shared blocks written by the statement.",
+                              "type": "number",
+                              "format": "float"
+                            },
                             "m_sort_range_sum_per_sec": {
                               "description": "The number of sorts that were done using ranges.",
                               "type": "number",
@@ -8841,6 +8900,16 @@
                             },
                             "m_sort_scan_sum_per_sec": {
                               "description": "The number of sorts that were done by scanning the table.",
+                              "type": "number",
+                              "format": "float"
+                            },
+                            "m_temp_blks_read_sum_per_sec": {
+                              "description": "Total number of temp blocks read by the statement.",
+                              "type": "number",
+                              "format": "float"
+                            },
+                            "m_temp_blks_written_sum_per_sec": {
+                              "description": "Total number of temp blocks written by the statement.",
                               "type": "number",
                               "format": "float"
                             },
@@ -8871,6 +8940,16 @@
                             },
                             "num_queries_per_sec": {
                               "description": "number of queries in bucket.",
+                              "type": "number",
+                              "format": "float"
+                            },
+                            "num_queries_with_errors_per_sec": {
+                              "description": "number of queries with errors.",
+                              "type": "number",
+                              "format": "float"
+                            },
+                            "num_queries_with_warnings_per_sec": {
+                              "description": "number of queries with warnings.",
                               "type": "number",
                               "format": "float"
                             },
@@ -9120,6 +9199,21 @@
                     "description": "Point contains values that represents abscissa (time) and ordinate (volume etc.)\nof every point in a coordinate system of Sparklines.",
                     "type": "object",
                     "properties": {
+                      "load": {
+                        "description": "load is query_time / time_range.",
+                        "type": "number",
+                        "format": "float"
+                      },
+                      "m_blk_read_time_sum_per_sec": {
+                        "description": "Total time the statement spent reading blocks, in milliseconds (if track_io_timing is enabled, otherwise zero).",
+                        "type": "number",
+                        "format": "float"
+                      },
+                      "m_blk_write_time_sum_per_sec": {
+                        "description": "Total time the statement spent writing blocks, in milliseconds (if track_io_timing is enabled, otherwise zero).",
+                        "type": "number",
+                        "format": "float"
+                      },
                       "m_bytes_sent_sum_per_sec": {
                         "description": "The number of bytes sent to all clients.",
                         "type": "number",
@@ -9182,6 +9276,26 @@
                       },
                       "m_innodb_rec_lock_wait_sum_per_sec": {
                         "description": "Shows how long (in seconds) the query waited for row locks.",
+                        "type": "number",
+                        "format": "float"
+                      },
+                      "m_local_blks_dirtied_sum_per_sec": {
+                        "description": "Total number of local blocks dirtied by the statement.",
+                        "type": "number",
+                        "format": "float"
+                      },
+                      "m_local_blks_hit_sum_per_sec": {
+                        "description": "Total number of local block cache hits by the statement.",
+                        "type": "number",
+                        "format": "float"
+                      },
+                      "m_local_blks_read_sum_per_sec": {
+                        "description": "Total number of local blocks read by the statement.",
+                        "type": "number",
+                        "format": "float"
+                      },
+                      "m_local_blks_written_sum_per_sec": {
+                        "description": "Total number of local blocks written by the statement.",
                         "type": "number",
                         "format": "float"
                       },
@@ -9260,6 +9374,26 @@
                         "type": "number",
                         "format": "float"
                       },
+                      "m_shared_blks_dirtied_sum_per_sec": {
+                        "description": "Total number of shared blocks dirtied by the statement.",
+                        "type": "number",
+                        "format": "float"
+                      },
+                      "m_shared_blks_hit_sum_per_sec": {
+                        "description": "PostgreSQL metrics.\n\nTotal number of shared block cache hits by the statement.",
+                        "type": "number",
+                        "format": "float"
+                      },
+                      "m_shared_blks_read_sum_per_sec": {
+                        "description": "Total number of shared blocks read by the statement.",
+                        "type": "number",
+                        "format": "float"
+                      },
+                      "m_shared_blks_written_sum_per_sec": {
+                        "description": "Total number of shared blocks written by the statement.",
+                        "type": "number",
+                        "format": "float"
+                      },
                       "m_sort_range_sum_per_sec": {
                         "description": "The number of sorts that were done using ranges.",
                         "type": "number",
@@ -9272,6 +9406,16 @@
                       },
                       "m_sort_scan_sum_per_sec": {
                         "description": "The number of sorts that were done by scanning the table.",
+                        "type": "number",
+                        "format": "float"
+                      },
+                      "m_temp_blks_read_sum_per_sec": {
+                        "description": "Total number of temp blocks read by the statement.",
+                        "type": "number",
+                        "format": "float"
+                      },
+                      "m_temp_blks_written_sum_per_sec": {
+                        "description": "Total number of temp blocks written by the statement.",
                         "type": "number",
                         "format": "float"
                       },
@@ -9305,6 +9449,16 @@
                         "type": "number",
                         "format": "float"
                       },
+                      "num_queries_with_errors_per_sec": {
+                        "description": "number of queries with errors.",
+                        "type": "number",
+                        "format": "float"
+                      },
+                      "num_queries_with_warnings_per_sec": {
+                        "description": "number of queries with warnings.",
+                        "type": "number",
+                        "format": "float"
+                      },
                       "point": {
                         "description": "The serial number of the chart point from the largest time in the time interval to the lowest time in the time range.",
                         "type": "integer",
@@ -9318,6 +9472,47 @@
                       "timestamp": {
                         "description": "Time of point in format RFC3339.",
                         "type": "string"
+                      }
+                    }
+                  }
+                },
+                "totals": {
+                  "type": "object",
+                  "additionalProperties": {
+                    "description": "MetricValues is statistics of specific metric.",
+                    "type": "object",
+                    "properties": {
+                      "avg": {
+                        "type": "number",
+                        "format": "float"
+                      },
+                      "cnt": {
+                        "type": "number",
+                        "format": "float"
+                      },
+                      "max": {
+                        "type": "number",
+                        "format": "float"
+                      },
+                      "min": {
+                        "type": "number",
+                        "format": "float"
+                      },
+                      "p99": {
+                        "type": "number",
+                        "format": "float"
+                      },
+                      "percent_of_total": {
+                        "type": "number",
+                        "format": "float"
+                      },
+                      "rate": {
+                        "type": "number",
+                        "format": "float"
+                      },
+                      "sum": {
+                        "type": "number",
+                        "format": "float"
                       }
                     }
                   }
@@ -9459,6 +9654,186 @@
                       "service_id": {
                         "type": "string"
                       }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "An error response.",
+            "schema": {
+              "description": "ErrorResponse is a message returned on HTTP error.",
+              "type": "object",
+              "properties": {
+                "code": {
+                  "type": "integer",
+                  "format": "int32"
+                },
+                "error": {
+                  "type": "string"
+                },
+                "message": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/ChangeSettings": {
+      "post": {
+        "tags": [
+          "Server"
+        ],
+        "summary": "ChangeSettings changes PMM Server settings.",
+        "operationId": "ChangeSettings",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "disable_telemetry": {
+                  "type": "boolean",
+                  "format": "boolean"
+                },
+                "enable_telemetry": {
+                  "type": "boolean",
+                  "format": "boolean"
+                },
+                "metrics_resolutions": {
+                  "description": "MetricsResolutions represents Prometheus exporters metrics resolutions.",
+                  "type": "object",
+                  "properties": {
+                    "hr": {
+                      "description": "High resolution. Suffix 's' is required in JSON: 1s, 60s, 300s.",
+                      "type": "string"
+                    },
+                    "lr": {
+                      "description": "Low resolution. Suffix 's' is required in JSON: 1s, 60s, 300s.",
+                      "type": "string"
+                    },
+                    "mr": {
+                      "description": "Medium resolution. Suffix 's' is required in JSON: 1s, 60s, 300s.",
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "settings": {
+                  "description": "Settings represents PMM Server settings.",
+                  "type": "object",
+                  "properties": {
+                    "metrics_resolutions": {
+                      "description": "MetricsResolutions represents Prometheus exporters metrics resolutions.",
+                      "type": "object",
+                      "properties": {
+                        "hr": {
+                          "description": "High resolution. Suffix 's' is required in JSON: 1s, 60s, 300s.",
+                          "type": "string"
+                        },
+                        "lr": {
+                          "description": "Low resolution. Suffix 's' is required in JSON: 1s, 60s, 300s.",
+                          "type": "string"
+                        },
+                        "mr": {
+                          "description": "Medium resolution. Suffix 's' is required in JSON: 1s, 60s, 300s.",
+                          "type": "string"
+                        }
+                      }
+                    },
+                    "telemetry": {
+                      "type": "boolean",
+                      "format": "boolean"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "An error response.",
+            "schema": {
+              "description": "ErrorResponse is a message returned on HTTP error.",
+              "type": "object",
+              "properties": {
+                "code": {
+                  "type": "integer",
+                  "format": "int32"
+                },
+                "error": {
+                  "type": "string"
+                },
+                "message": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/GetSettings": {
+      "post": {
+        "tags": [
+          "Server"
+        ],
+        "summary": "GetSettings returns current PMM Server settings.",
+        "operationId": "GetSettings",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "object"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "settings": {
+                  "description": "Settings represents PMM Server settings.",
+                  "type": "object",
+                  "properties": {
+                    "metrics_resolutions": {
+                      "description": "MetricsResolutions represents Prometheus exporters metrics resolutions.",
+                      "type": "object",
+                      "properties": {
+                        "hr": {
+                          "description": "High resolution. Suffix 's' is required in JSON: 1s, 60s, 300s.",
+                          "type": "string"
+                        },
+                        "lr": {
+                          "description": "Low resolution. Suffix 's' is required in JSON: 1s, 60s, 300s.",
+                          "type": "string"
+                        },
+                        "mr": {
+                          "description": "Medium resolution. Suffix 's' is required in JSON: 1s, 60s, 300s.",
+                          "type": "string"
+                        }
+                      }
+                    },
+                    "telemetry": {
+                      "type": "boolean",
+                      "format": "boolean"
                     }
                   }
                 }
