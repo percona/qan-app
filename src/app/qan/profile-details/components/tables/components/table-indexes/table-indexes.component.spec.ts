@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { TableActionComponent } from './table-action.component';
+import { TableIndexesComponent } from './table-indexes.component';
 
-describe('TableActionComponent', () => {
-  let component: TableActionComponent;
-  let fixture: ComponentFixture<TableActionComponent>;
+describe('TableIndexesComponent', () => {
+  let component: TableIndexesComponent;
+  let fixture: ComponentFixture<TableIndexesComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [TableActionComponent]
+      declarations: [TableIndexesComponent]
     })
       .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(TableActionComponent);
+    fixture = TestBed.createComponent(TableIndexesComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

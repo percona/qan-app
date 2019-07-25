@@ -4,11 +4,11 @@ import { catchError, startWith, switchMap } from 'rxjs/operators';
 import { interval, of, Subscription } from 'rxjs';
 
 @Component({
-  selector: 'app-table-action',
-  templateUrl: './table-action.component.html',
-  styleUrls: ['./table-action.component.css']
+  selector: 'app-table-indexes',
+  templateUrl: './table-indexes.component.html',
+  styleUrls: ['./table-indexes.component.css']
 })
-export class TableActionComponent implements OnInit {
+export class TableIndexesComponent implements OnInit {
   @Input() tableName: string;
   @Input() globalConfig: any;
 
