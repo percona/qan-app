@@ -9,8 +9,10 @@ import { metricCatalogue } from '../../../data/metric-catalogue';
 })
 export class DetailsRowComponent implements OnInit {
   @Input() currentMetric: MetricModel;
+  @Input() currentTotal: MetricModel;
 
   private metricData = metricCatalogue;
+  public percentOfTotal: number;
   public currentMetricInfo: any;
   public defaultPipeInfo = {
     ratePipe: 'number',
@@ -36,5 +38,10 @@ export class DetailsRowComponent implements OnInit {
     this.isRate = this.currentMetric.stats.rate >= 0;
     this.isSum = this.currentMetric.stats.sum >= 0;
     this.isStats = this.currentMetric.stats.avg >= 0;
+    this.percentOfTotal = this.calculatePercentOfTotal(this.currentMetric.stats.sum, this.currentTotal.stats.sum);
+  }
+
+  calculatePercentOfTotal(current, total) {
+    return +(+current / +total)
   }
 }
