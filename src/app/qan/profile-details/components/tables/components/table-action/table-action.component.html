@@ -1,1 +1,8 @@
-<p>table-action works!</p>
+<span *ngIf="error && isError; else showOutput">{{error}}</span>
+<ng-template #showOutput>
+  <table>
+    <tr *ngFor="let row of tableDataOutput">
+      <td *ngFor="let col of row">{{col + ''}}</td>
+    </tr>
+  </table>
+</ng-template>
