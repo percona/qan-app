@@ -10,6 +10,7 @@ import { metricCatalogue } from '../../../data/metric-catalogue';
 export class DetailsRowComponent implements OnInit {
   @Input() currentMetric: MetricModel;
   @Input() currentTotal: MetricModel;
+  @Input() allTotals: MetricModel[];
 
   private metricData = metricCatalogue;
   public percentOfTotal: number;
@@ -27,6 +28,7 @@ export class DetailsRowComponent implements OnInit {
   public isRate: boolean;
   public isSum: boolean;
   public isStats: boolean;
+  public isPercentOfTotal: boolean;
 
   constructor() {
   }
@@ -38,10 +40,19 @@ export class DetailsRowComponent implements OnInit {
     this.isRate = this.currentMetric.stats.rate >= 0;
     this.isSum = this.currentMetric.stats.sum >= 0;
     this.isStats = this.currentMetric.stats.avg >= 0;
-    this.percentOfTotal = this.calculatePercentOfTotal(this.currentMetric.stats.sum, this.currentTotal.stats.sum);
+    this.isPercentOfTotal = !!(this.currentMetric.stats.sum || this.currentMetric.stats.sum_per_sec);
+    if (this.isPercentOfTotal) {
+      this.percentOfTotal = +this.percentFromNumber(this.currentTotal, this.currentMetric);
+    }
   }
 
   calculatePercentOfTotal(current, total) {
-    return +(+current / +total)
+    return +((+current / +total) * 100).toFixed(2);
+  }
+
+  percentFromNumber(total, current) {
+    const totalItem = this.allTotals.find(item => item.metricName === this.currentMetric.metricName);
+    const key = current.stats.sum ? 'sum' : 'sum_per_sec';
+    return this.calculatePercentOfTotal(current.stats[key], totalItem.stats[key]);
   }
 }

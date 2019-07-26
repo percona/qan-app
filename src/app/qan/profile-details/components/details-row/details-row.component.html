@@ -22,7 +22,7 @@
       {{isSum ? (currentMetric?.stats?.sum | humanize: pipeInfo?.sumPipe) : '0' }}
     </span>
     <span *ngIf="percentOfTotal" class="total-percent">
-      {{ percentOfTotal | humanize: 'percent' }} of total
+      {{ percentOfTotal }}% of total
     </span>
 </div>
 <div class="row__item row__cells">

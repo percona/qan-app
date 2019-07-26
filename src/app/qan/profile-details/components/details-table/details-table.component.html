@@ -8,6 +8,7 @@
   <app-details-row *ngFor="let detail of details.metrics; let index = index"
                    [currentMetric]="detail"
                    [currentTotal]="details.totals[index]"
+                   [allTotals]="details.totals"
                    #detailsTableRows>
   </app-details-row>
 </div>
