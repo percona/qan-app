@@ -26,8 +26,6 @@ export class TableHeaderCellComponent implements OnInit, OnDestroy {
 
   @Input() set processIndex(index: number) {
     this.index = index;
-    console.log('index - ', index);
-    console.log('columnQuantity - ', this.columnQuantity);
     this.isMainColumn = !this.index;
   };
 

@@ -193,7 +193,6 @@ export class ProfileTableComponent implements OnInit, OnDestroy, AfterViewInit {
 
 
   addColumn() {
-    console.log('this.tableData - ', this.tableData);
     this.tableData.forEach(query => query.metrics.push(new MetricModel()));
     setTimeout(() => this.componentRef.directiveRef.scrollToRight(), 100);
     this.isNeedScroll = true;
