@@ -53,6 +53,7 @@ export class ProfileTableComponent implements OnInit, OnDestroy, AfterViewInit {
   public fingerprint$: Subscription;
   public metrics: SelectOptionModel[];
   public isNeedScroll = false;
+  public event = new Event('hideTooltip');
 
   public selectPaginationConfig = [10, 50, 100];
   public paginationConfig = {
@@ -134,6 +135,7 @@ export class ProfileTableComponent implements OnInit, OnDestroy, AfterViewInit {
     }
     this.mainTableWrapper.nativeElement.style.setProperty('--table-height', `${tableHeight}px`);
     this.isNeedScroll = false;
+    window.dispatchEvent(this.event);
   }
 
   toEndOfScrollbar() {
