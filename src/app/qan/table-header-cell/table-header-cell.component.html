@@ -17,7 +17,7 @@
       <button (click)="removeColumn()">Remove this column</button>
     </ng-template>
     <ng-template ng-option-tmp let-item="item" let-index="index" let-search="searchTerm">
-      <span class="pmm-select__option" [ngbTooltip]="item.tooltipText" placement="right">{{item.humanizeName}}</span>
+      <span class="pmm-select__option" [appPmmTooltip]="item.tooltipText" placement="right">{{item.humanizeName}}</span>
     </ng-template>
   </ng-select>
 
