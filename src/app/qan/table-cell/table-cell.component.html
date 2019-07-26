@@ -1,28 +1,29 @@
-<div class="cell-inner">
-  <div *ngIf="metricData?.metricName && isSparkline" class="app-tooltip"
-       [appLoadPolygonChart]="sparklineData"
-       data-tooltip="Loading..."
-       xkey="timestamp"
-       [ykey]="yKey"
-       [measurement]="pipeInfo?.sparklineType">
-  </div>
-  <div class="unit unit--qps">
-    {{(metricData?.stats?.qps || metricData?.stats?.sum_per_sec) | humanize : 'number'}}
-  </div>
-  <div *ngIf="metricData?.stats?.sum">
-    {{metricData?.stats?.sum | humanize : pipeInfo?.sumPipe}}
-  </div>
-  <div *ngIf="isPercentOfTotal" class="unit unit--percent">
-    {{percentOfTotal}}
-  </div>
-  <div *ngIf="isStats" class="app-tooltip" data-tooltip="Loading..."
-       [measurement]="pipeInfo?.sumPipe"
-       [appLatencyChart]="metricData?.stats"
-       metricPrefix="Rows_sent">
-  </div>
+<ng-container *ngIf="isExistence">
+  <div class="cell-inner">
+    <div *ngIf="metricData?.metricName && isSparkline" class="app-tooltip"
+         [appLoadPolygonChart]="sparklineData"
+         data-tooltip="Loading..."
+         xkey="timestamp"
+         [ykey]="yKey"
+         [measurement]="pipeInfo?.sparklineType">
+    </div>
+    <div class="unit unit--qps">
+      {{(metricData?.stats?.qps || metricData?.stats?.sum_per_sec) | humanize : 'number'}}
+    </div>
+    <div *ngIf="metricData?.stats?.sum">
+      {{metricData?.stats?.sum | humanize : pipeInfo?.sumPipe}}
+    </div>
+    <div *ngIf="isPercentOfTotal" class="unit unit--percent">
+      {{percentOfTotal}}
+    </div>
+    <div *ngIf="isStats" class="app-tooltip" data-tooltip="Loading..."
+         [measurement]="pipeInfo?.sumPipe"
+         [appLatencyChart]="metricData?.stats"
+         metricPrefix="Rows_sent">
+    </div>
 
-  <ng-container *ngIf="isNoData">
-    <div>n/a</div>
-  </ng-container>
-</div>
-
+    <ng-container *ngIf="isNoData">
+      <div>n/a</div>
+    </ng-container>
+  </div>
+</ng-container>

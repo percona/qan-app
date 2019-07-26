@@ -43,8 +43,6 @@ export class TableIndexesComponent implements OnInit {
           this.error = '';
           this.isError = false;
           this.tableDataOutput = JSON.parse(res.output);
-          console.log('res - ', res);
-          console.log('createTableOutput - ', this.tableDataOutput);
         } else {
           this.error = res.error;
           this.isError = true;

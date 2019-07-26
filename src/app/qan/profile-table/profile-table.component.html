@@ -15,6 +15,8 @@
                     <app-qan-table-header-cell [currentColumnName]="metric.metricName"
                                                [fullData]="tableData"
                                                [processIndex]="indexMetrics"
+                                               [columnQuantity]="row.metrics.length - 1"
+                                               (toEndOfTable)="toEndOfScrollbar()"
                                                [rowMetrics]="row.metrics">
                     </app-qan-table-header-cell>
                   </ng-container>
