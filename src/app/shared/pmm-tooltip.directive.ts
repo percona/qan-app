@@ -10,9 +10,11 @@ export class PmmTooltipDirective implements OnInit {
   @Input('appPmmTooltip') text = '';
   private overlayRef: OverlayRef;
 
-  constructor(private overlay: Overlay,
+  constructor(
+    private overlay: Overlay,
     private overlayPositionBuilder: OverlayPositionBuilder,
-    private elementRef: ElementRef) {
+    private elementRef: ElementRef
+  ) {
   }
 
   ngOnInit(): void {
@@ -27,6 +29,9 @@ export class PmmTooltipDirective implements OnInit {
       }]);
 
     this.overlayRef = this.overlay.create({ positionStrategy });
+    window.addEventListener('hideTooltip', () => {
+      this.overlayRef.detach();
+    })
   }
 
   @HostListener('mouseenter')
@@ -38,6 +43,7 @@ export class PmmTooltipDirective implements OnInit {
   }
 
   @HostListener('mouseout')
+  @HostListener('hideTooltip')
   hide() {
     if (this.text) {
       this.overlayRef.detach();

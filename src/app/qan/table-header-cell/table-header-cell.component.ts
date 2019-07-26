@@ -112,17 +112,4 @@ export class TableHeaderCellComponent implements OnInit, OnDestroy {
       this.scrollbar.update();
     }, 0);
   }
-
-  // changeDefaultName(name) {
-  //   switch (name) {
-  //     case 'load':
-  //     case 'latency':
-  //       return 'm_query_time_sum';
-  //     case 'count':
-  //     case 'num_queries':
-  //       return 'num_queries';
-  //     default:
-  //       return `m_${name}_sum`
-  //   }
-  // }
 }
