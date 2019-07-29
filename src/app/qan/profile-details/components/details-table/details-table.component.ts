@@ -16,7 +16,6 @@ import { Router } from '@angular/router';
 import { ObjectDetails, QanProfileService } from '../../../profile/qan-profile.service';
 import { ObjectDetailsService } from '../../../../pmm-api-services/services/object-details.service';
 import { DetailsSparklineModel } from '../../models/details-sparkline.model';
-import { DetailsTableDataInterface } from './details-table-data.inteface';
 
 @Component({
   selector: 'app-details-table',

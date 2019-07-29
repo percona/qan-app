@@ -8,10 +8,18 @@ export class DetailsSparklineModel {
     this.pointOrder = data['point'] || 0;
     this.time_frame = data.time_frame;
     this.timestamp = data.timestamp;
-    this.pointValue = data[this.makeCorrectName(name)] || 0;
+    this.pointValue = data[this.makeCorrectName(name)] && data[this.makeCorrectName(name)] !== 'NaN' ?
+      data[this.makeCorrectName(name)] : 0;
   }
 
   makeCorrectName(name) {
-    return name === 'num_queries' ? 'num_queries_per_sec' : `m_${name}_sum_per_sec`
+    switch (name) {
+      case 'load':
+        return 'load';
+      case 'num_queries':
+        return 'num_queries_per_sec';
+      default:
+        return `m_${name}_sum_per_sec`
+    }
   }
 }
