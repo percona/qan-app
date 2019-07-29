@@ -7,7 +7,7 @@
          [ykey]="yKey"
          [measurement]="pipeInfo?.sparklineType">
     </div>
-    <div class="unit unit--qps">
+    <div>
       {{(metricData?.stats?.qps || metricData?.stats?.sum_per_sec) | humanize : 'number'}}
     </div>
     <div *ngIf="metricData?.stats?.sum">
