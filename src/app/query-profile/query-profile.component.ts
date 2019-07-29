@@ -113,7 +113,6 @@ export class QueryProfileComponent extends CoreComponent {
     }
 
     composeQueryParamsForGrid(queryID: string | null): QueryParams {
-        console.log('queryID - ', queryID);
         const queryParams: QueryParams = Object.assign({}, this.queryParams);
         queryParams.queryID = queryID || 'TOTAL';
         return queryParams;
@@ -143,6 +142,5 @@ export class QueryProfileComponent extends CoreComponent {
       delete params.queryID;
       this.router.navigate(['profile'], { queryParams: params });
       this.isQuerySwitching = false;
-
     }
 }

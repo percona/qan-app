@@ -22,9 +22,9 @@ export class SettingsService {
     public async getAgentLog(agentUUID, begin, end: string): Promise<{}> {
         const url = `/qan-api/agents/${agentUUID}/log`;
 
-        const params = new HttpParams();
-        params.set('begin', begin);
-        params.set('end', end);
+        const params = new HttpParams()
+          .set('begin', begin)
+          .set('end', end);
         const response = await this.httpClient
             .get(url, { headers: this.headers, params: params })
             .toPromise();

@@ -49,9 +49,9 @@ export class MongoQueryDetailsService {
     getQueryDetails(dbServerUUID, queryUUID, begin, end: string): Promise<void | QueryDetails> {
         const url = `/qan-api/qan/report/${dbServerUUID}/query/${queryUUID}`;
 
-        const params = new HttpParams();
-        params.set('begin', begin);
-        params.set('end', end);
+        const params = new HttpParams()
+            .set('begin', begin)
+            .set('end', end);
 
         return this.httpClient
             .get(url, { headers: this.headers, params: params })
@@ -63,9 +63,9 @@ export class MongoQueryDetailsService {
     getSummary(dbServerUUID: string, begin: string, end: string): Promise<void | ServerSummary> {
         const url = `/qan-api/qan/report/${dbServerUUID}/server-summary`;
 
-        const params = new HttpParams();
-        params.set('begin', begin);
-        params.set('end', end);
+        const params = new HttpParams()
+          .set('begin', begin)
+          .set('end', end);
 
         return this.httpClient
             .get(url, { headers: this.headers, params: params })
