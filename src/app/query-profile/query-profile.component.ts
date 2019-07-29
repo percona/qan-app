@@ -1,6 +1,6 @@
 import { CoreComponent, QueryParams, QanError } from '../core/core.component';
 import { Component } from '@angular/core';
-import { Instance, InstanceService } from '../core/instance.service';
+import { InstanceService } from '../core/instance.service';
 import { QueryProfileService } from './query-profile.service';
 import { Router, ActivatedRoute } from '@angular/router';
 import * as moment from 'moment';
@@ -30,8 +30,12 @@ export class QueryProfileComponent extends CoreComponent {
     public isFirsSeenChecked = false;
     public isSearchQuery = false;
 
-    constructor(protected route: ActivatedRoute, protected router: Router,
-        protected instanceService: InstanceService, protected queryProfileService: QueryProfileService) {
+    constructor(
+      protected route: ActivatedRoute,
+      protected router: Router,
+      protected instanceService: InstanceService,
+      protected queryProfileService: QueryProfileService
+    ) {
         super(route, router, instanceService);
     }
 
@@ -58,6 +62,7 @@ export class QueryProfileComponent extends CoreComponent {
     }
 
     public async loadQueries() {
+        this.dbServer = this.instanceService.dbServers[0];
         this.isQuerySwitching = true;
 
         // clear after error
@@ -81,6 +86,7 @@ export class QueryProfileComponent extends CoreComponent {
                 this.profileTotal = this.queryProfile[0];
             }
         } catch (err) {
+            console.error(err);
             this.noQueryError = err.name === QanError.errType ? err.message : queryProfileError;
         } finally {
             this.isQuerySwitching = false;
@@ -136,6 +142,5 @@ export class QueryProfileComponent extends CoreComponent {
       delete params.queryID;
       this.router.navigate(['profile'], { queryParams: params });
       this.isQuerySwitching = false;
-
     }
 }

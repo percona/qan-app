@@ -1,7 +1,5 @@
-import { Injectable } from '@angular/core';
-import { Http, Headers, URLSearchParams } from '@angular/http';
-import 'rxjs/add/operator/toPromise';
-// import { Observable } from 'rxjs/Observable';
+import {Injectable} from '@angular/core';
+import {HttpClient, HttpHeaders, HttpParams} from '@angular/common/http';
 
 export interface QueryClass {
     Id: string;
@@ -44,35 +42,35 @@ export interface ServerSummary {
 @Injectable()
 export class MongoQueryDetailsService {
 
-    private headers = new Headers({ 'Content-Type': 'application/json' });
+    private headers = new HttpHeaders({ 'Content-Type': 'application/json' });
 
-    constructor(private http: Http) { }
+    constructor(private httpClient: HttpClient) { }
 
     getQueryDetails(dbServerUUID, queryUUID, begin, end: string): Promise<void | QueryDetails> {
         const url = `/qan-api/qan/report/${dbServerUUID}/query/${queryUUID}`;
 
-        const params = new URLSearchParams();
-        params.set('begin', begin);
-        params.set('end', end);
+        const params = new HttpParams()
+            .set('begin', begin)
+            .set('end', end);
 
-        return this.http
-            .get(url, { headers: this.headers, search: params })
+        return this.httpClient
+            .get(url, { headers: this.headers, params: params })
             .toPromise()
-            .then(response => response.json() as QueryDetails)
+            .then(response => response as QueryDetails)
             .catch(err => console.log(err));
     }
 
     getSummary(dbServerUUID: string, begin: string, end: string): Promise<void | ServerSummary> {
         const url = `/qan-api/qan/report/${dbServerUUID}/server-summary`;
 
-        const params = new URLSearchParams();
-        params.set('begin', begin);
-        params.set('end', end);
+        const params = new HttpParams()
+          .set('begin', begin)
+          .set('end', end);
 
-        return this.http
-            .get(url, { headers: this.headers, search: params })
+        return this.httpClient
+            .get(url, { headers: this.headers, params: params })
             .toPromise()
-            .then(response => response.json() as ServerSummary)
+            .then(response => response as ServerSummary)
             .catch(err => console.log(err));
     }
 
@@ -102,10 +100,10 @@ export class MongoQueryDetailsService {
             Data: btoa(JSON.stringify(data))
         };
 
-        return this.http
+        return this.httpClient
             .put(url, params)
             .toPromise()
-            .then(response => JSON.parse(atob(response.json().Data)))
+            .then(response => JSON.parse(atob(response['Data'])))
             .catch(err => console.error(err));
     }
 
@@ -125,16 +123,14 @@ export class MongoQueryDetailsService {
             Data: btoa(JSON.stringify(data))
         };
 
-        const response = await this.http
-            .put(url, params)
-            .toPromise();
-
-        return response.json()
+      return await this.httpClient
+          .put(url, params)
+          .toPromise()
     }
 
     updateTables(queryID: string, dbTables: Array<{}>) {
         const url = `/qan-api/queries/${queryID}/tables`;
-        return this.http
+        return this.httpClient
             .put(url, dbTables)
             .toPromise()
             .then(resp => console.log(resp))
