@@ -4,14 +4,19 @@ import { FilterGroupModel } from './models/filter-group.model';
 import { FiltersSearchModel } from './models/filters-search.model';
 import { QanProfileService } from '../profile/qan-profile.service';
 import { BehaviorSubject } from 'rxjs/internal/BehaviorSubject';
+import { QueryParamsService } from '../../core/services/query-params.service';
 
 @Injectable()
 export class FilterMenuService {
   private selected = new BehaviorSubject([]);
   private autocompleteFilters = new Subject();
   public charsLimit = 9;
+  public queryParams: any;
 
-  constructor(private qanProfileService: QanProfileService) {
+  constructor(
+    private qanProfileService: QanProfileService,
+    private queryParamsService: QueryParamsService,
+  ) {
   }
 
   get getAutocompleteFilters() {
@@ -22,9 +27,12 @@ export class FilterMenuService {
     return this.selected;
   }
 
-  updateSelected(newSelected) {
+  updateSelected(newSelected, isNeedToAdd: boolean = false) {
     this.selected.next(newSelected);
     this.addSelectedToResponse(newSelected);
+    if (isNeedToAdd) {
+      this.queryParamsService.addSelectedToURL(newSelected);
+    }
   }
 
   updateAutocompleteFilters(autocomplete) {
