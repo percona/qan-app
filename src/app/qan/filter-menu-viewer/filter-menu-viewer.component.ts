@@ -97,7 +97,7 @@ export class FilterMenuViewerComponent implements OnInit, OnDestroy {
   }
 
   skipNA(array) {
-    console.log('skip na - ', array.map(group => group.items.every(label => !label.value) ? group.items.length = 0 : group.items));
+    array.forEach(group => group.items.every(label => !label.value) ? group.items.length = 0 : group.items);
   }
 
   sortEmptyValues(array) {
