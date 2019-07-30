@@ -52,8 +52,8 @@ export class FilterMenuViewerComponent implements OnInit, OnDestroy {
       .subscribe(
         filters => {
           this.filters = this.filtersOrder(filters);
+          this.skipNA(this.filters);
           this.sortIdsValues(this.filters);
-          // this.hideEmptyLabels(this.filters);
           this.filterMenuService.updateAutocompleteFilters(filters);
           this.isLoading = false;
         },
@@ -80,7 +80,7 @@ export class FilterMenuViewerComponent implements OnInit, OnDestroy {
   }
 
   sortFilters(a, b) {
-    const order = ['environment', 'cluster', 'replication_set', 'database', 'schema', 'server', 'client_host', 'user_name', ''];
+    const order = ['environment', 'cluster', 'replication_set', 'database', 'schema', 'server', 'client_host', 'username', ''];
 
     let indA = order.indexOf(a['filterGroup']);
     let indB = order.indexOf(b['filterGroup']);
@@ -96,7 +96,7 @@ export class FilterMenuViewerComponent implements OnInit, OnDestroy {
     return indA < indB ? -1 : 1;
   }
 
-  hideEmptyLabels(array) {
+  skipNA(array) {
     array.forEach(group => group.items.every(label => !label.value) ? group.items.length = 0 : group.items);
   }
 
