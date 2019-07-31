@@ -5,6 +5,7 @@ import { FilterMenuService } from '../filter-menu/filter-menu.service';
 import { FiltersService } from '../../pmm-api-services/services/filters.service';
 import { catchError, map, switchMap } from 'rxjs/operators';
 import { of } from 'rxjs/internal/observable/of';
+import { QueryParamsService } from '../../core/services/query-params.service';
 
 export interface FiltersGetParams {
   main_metric_name: string,
@@ -31,6 +32,7 @@ export class FilterMenuViewerComponent implements OnInit, OnDestroy {
     private filterService: FiltersService,
     private qanFilterService: FilterMenuService,
     private qanProfileService: QanProfileService,
+    private queryParamsService: QueryParamsService,
   ) {
     this.isLoading = true;
     this.currentParams = this.qanProfileService.getProfileParams.getValue();
@@ -68,6 +70,11 @@ export class FilterMenuViewerComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
+    const params = this.queryParamsService.params;
+    if (params.filters) {
+      this.queryParamsService.decodeSelected(params.filters);
+    }
+    console.log('params - ', params);
   }
 
   ngOnDestroy() {

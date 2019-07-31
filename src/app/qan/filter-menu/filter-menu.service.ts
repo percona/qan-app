@@ -30,6 +30,7 @@ export class FilterMenuService {
   updateSelected(newSelected, isNeedToAdd: boolean = false) {
     this.selected.next(newSelected);
     this.addSelectedToResponse(newSelected);
+    console.log('newSelected - ', newSelected);
     if (isNeedToAdd) {
       this.queryParamsService.addSelectedToURL(newSelected);
     }
