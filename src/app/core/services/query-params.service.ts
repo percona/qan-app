@@ -5,6 +5,7 @@ import { EventsService } from './events.service';
 import { filter } from 'rxjs/operators';
 import { QueryParams } from '../core.component';
 import { Subscription } from 'rxjs';
+import { FilterMenuService } from '../../qan/filter-menu/filter-menu.service';
 
 @Injectable({
   providedIn: 'root'
@@ -17,12 +18,13 @@ export class QueryParamsService implements OnInit {
     private route: ActivatedRoute,
     private router: Router,
     private eventsService: EventsService,
+    private filterMenuService: FilterMenuService,
   ) {
     this.queryParams = this.route.snapshot.queryParams;
   }
 
   ngOnInit(): void {
-    this.subscribeToRouter();
+    // this.subscribeToRouter();
   }
 
   subscribeToRouter() {
@@ -30,13 +32,6 @@ export class QueryParamsService implements OnInit {
       filter((e: any) => e instanceof NavigationEnd)
     ).subscribe((event: Event) => {
       this.queryParams = this.route.snapshot.queryParams as QueryParams;
-      console.log('this.queryParams  - ', this.queryParams);
-      // this.parseParams();
-
-      // trigger overriden method in child component
-      // this.onChangeParams(this.queryParams);
-
-      // this.previousQueryParams = Object.assign({}, this.queryParams);
     });
   }
 
@@ -44,10 +39,8 @@ export class QueryParamsService implements OnInit {
     this.queryParams = new QueryParamsModel(this.route.snapshot.queryParams);
     const params: QueryParamsModel = Object.assign({}, this.queryParams);
     params.filters = '';
-    params.queryID = '';
-    params.search = '';
     if (selected.length) {
-      params.filters = selected.map(filter => `${filter['groupName']}-${filter['filterName']}`).join(',');
+      params.filters = selected.map(filter => `${filter['groupName']}:${filter['filterName']}`).join(',');
     }
     this.router.navigate(['profile'], { queryParams: params });
     this.eventsService.events.sendEvent(this.eventsService.events.updateUrl);
@@ -56,9 +49,15 @@ export class QueryParamsService implements OnInit {
   decodeSelected(selected) {
     const selectedArray = selected
       .split(',')
-      .map(filterStr => filterStr.split('-'));
-
-    console.log('selectedStringArray - ', selectedArray);
+      .map(filterStr => {
+        const divided = filterStr.split(':');
+        return {
+          filterName: divided[1],
+          groupName: divided[0],
+          state: true
+        }
+      });
+    // this.filterMenuService.updateSelected(selectedArray);
   }
 
   get params() {

@@ -74,7 +74,6 @@ export class FilterMenuViewerComponent implements OnInit, OnDestroy {
     if (params.filters) {
       this.queryParamsService.decodeSelected(params.filters);
     }
-    console.log('params - ', params);
   }
 
   ngOnDestroy() {

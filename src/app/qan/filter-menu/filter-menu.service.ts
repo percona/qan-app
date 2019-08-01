@@ -5,17 +5,23 @@ import { FiltersSearchModel } from './models/filters-search.model';
 import { QanProfileService } from '../profile/qan-profile.service';
 import { BehaviorSubject } from 'rxjs/internal/BehaviorSubject';
 import { QueryParamsService } from '../../core/services/query-params.service';
+import { filterGroupList } from './filter-groups-list';
+import { ActivatedRoute } from '@angular/router';
+import { QueryParams } from '../../core/core.component';
 
 @Injectable()
 export class FilterMenuService {
-  private selected = new BehaviorSubject([]);
+  private iframeQueryParams = this.route.snapshot.queryParams as QueryParams;
+  private selected = new BehaviorSubject(this.setSelected(this.iframeQueryParams));
   private autocompleteFilters = new Subject();
   public charsLimit = 9;
   public queryParams: any;
+  public filterGroupList = filterGroupList;
 
   constructor(
     private qanProfileService: QanProfileService,
     private queryParamsService: QueryParamsService,
+    private route: ActivatedRoute,
   ) {
   }
 
@@ -27,10 +33,26 @@ export class FilterMenuService {
     return this.selected;
   }
 
+  setSelected(params) {
+    return params.filters ? this.decodeSelected(params) : [];
+  }
+
+  decodeSelected(params) {
+    return params.filters
+      .split(',')
+      .map(filterStr => {
+        const divided = filterStr.split(':');
+        return {
+          filterName: divided[1],
+          groupName: divided[0],
+          state: true
+        }
+      })
+  }
+
   updateSelected(newSelected, isNeedToAdd: boolean = false) {
     this.selected.next(newSelected);
     this.addSelectedToResponse(newSelected);
-    console.log('newSelected - ', newSelected);
     if (isNeedToAdd) {
       this.queryParamsService.addSelectedToURL(newSelected);
     }
@@ -87,49 +109,6 @@ export class FilterMenuService {
   }
 
   humanNamesForGroup(groupName) {
-    switch (groupName) {
-      case 'environment':
-        return 'Environment';
-      case 'cluster':
-        return 'Cluster';
-      case 'replication_set':
-        return 'Replication Set';
-      case 'database':
-        return 'Database';
-      case 'schema':
-        return 'Schema';
-      case 'server':
-        return 'Server';
-      case 'client_host':
-        return 'Client Host';
-      case 'service_type':
-        return 'Service Type';
-      case 'az':
-        return 'Availability Zone';
-      case 'region':
-        return 'Region Name';
-      case 'node_model':
-        return 'Node Model';
-      case 'container_name':
-        return 'Container Name';
-      case 'username':
-        return 'User Name';
-      case 'agent_id':
-        return 'Agent ID';
-      case 'agent_type':
-        return 'Agent Type';
-      case 'node_id':
-        return 'Node ID';
-      case 'node_type':
-        return 'Node Type';
-      case 'node_name':
-        return 'Node Name';
-      case 'service_id':
-        return 'Service ID';
-      case 'machine_id':
-        return 'Machine ID';
-      default:
-        return groupName
-    }
+    return this.filterGroupList[groupName] ? this.filterGroupList[groupName].humanName : groupName;
   }
 }

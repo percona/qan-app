@@ -22,6 +22,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import * as moment from 'moment';
 import { GetProfileBody, QanProfileService } from '../profile/qan-profile.service';
 import { of } from 'rxjs/internal/observable/of';
+import { FilterMenuService } from '../filter-menu/filter-menu.service';
 
 @Component({
   selector: 'app-qan-table',
@@ -71,6 +72,7 @@ export class ProfileTableComponent implements OnInit, OnDestroy, AfterViewInit {
     private router: Router,
     private qanProfileService: QanProfileService,
     private profileService: ProfileService,
+    private filterMenuService: FilterMenuService,
   ) {
     this.isLoading = true;
 
