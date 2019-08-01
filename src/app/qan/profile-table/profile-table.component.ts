@@ -20,9 +20,10 @@ import { Subscription } from 'rxjs/internal/Subscription';
 import { catchError, map, switchMap } from 'rxjs/operators';
 import { ActivatedRoute, Router } from '@angular/router';
 import * as moment from 'moment';
-import { GetProfileBody, QanProfileService } from '../profile/qan-profile.service';
+import { QanProfileService } from '../profile/qan-profile.service';
 import { of } from 'rxjs/internal/observable/of';
 import { FilterMenuService } from '../filter-menu/filter-menu.service';
+import { GetProfileBody } from '../profile/interfaces/get-profile-body.interfaces';
 
 @Component({
   selector: 'app-qan-table',
@@ -99,6 +100,7 @@ export class ProfileTableComponent implements OnInit, OnDestroy, AfterViewInit {
     ).subscribe(
       data => {
         this.tableData = data;
+        console.log('this.tableData - ', this.tableData);
         this.isLoading = false;
       },
       err => {

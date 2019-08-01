@@ -1,11 +1,12 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { GetProfileBody, QanProfileService } from '../profile/qan-profile.service';
+import { QanProfileService } from '../profile/qan-profile.service';
 import { Subscription } from 'rxjs/internal/Subscription';
 import { FilterMenuService } from '../filter-menu/filter-menu.service';
 import { FiltersService } from '../../pmm-api-services/services/filters.service';
 import { catchError, map, switchMap } from 'rxjs/operators';
 import { of } from 'rxjs/internal/observable/of';
 import { QueryParamsService } from '../../core/services/query-params.service';
+import { GetProfileBody } from '../profile/interfaces/get-profile-body.interfaces';
 
 export interface FiltersGetParams {
   main_metric_name: string,

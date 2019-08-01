@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { SelectOptionModel } from '../table-header-cell/modesl/select-option.model';
 import { GroupByMock } from './mock/group-by.mock';
-import { GetProfileBody, QanProfileService } from '../profile/qan-profile.service';
+import { QanProfileService } from '../profile/qan-profile.service';
+import { GetProfileBody } from '../profile/interfaces/get-profile-body.interfaces';
 
 @Component({
   selector: 'app-main-cell',

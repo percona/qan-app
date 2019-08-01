@@ -2,8 +2,9 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActionsService } from '../../../../pmm-api-services/services/actions.service';
 import { interval, of, Subscription } from 'rxjs';
 import { catchError, finalize, map, startWith, switchMap, take } from 'rxjs/operators';
-import { ObjectDetails, QanProfileService } from '../../../profile/qan-profile.service';
+import { QanProfileService } from '../../../profile/qan-profile.service';
 import { ObjectDetailsService } from '../../../../pmm-api-services/services/object-details.service';
+import { ObjectDetails } from '../../../profile/interfaces/object-details.interface';
 
 @Component({
   selector: 'app-explain',

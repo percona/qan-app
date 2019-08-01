@@ -2,11 +2,12 @@ import { Component, EventEmitter, Input, OnDestroy, OnInit, Output, ViewChild } 
 import { SelectOptionModel } from './modesl/select-option.model';
 import { Subscription } from 'rxjs/internal/Subscription';
 import { map } from 'rxjs/operators';
-import { GetProfileBody, QanProfileService } from '../profile/qan-profile.service';
+import { QanProfileService } from '../profile/qan-profile.service';
 import PerfectScrollbar from 'perfect-scrollbar';
 import { NgSelectComponent } from '@ng-select/ng-select';
 import { metricCatalogue } from '../data/metric-catalogue';
 import { ProfileTableComponent } from '../profile-table/profile-table.component';
+import { GetProfileBody } from '../profile/interfaces/get-profile-body.interfaces';
 
 @Component({
   selector: 'app-qan-table-header-cell',
@@ -30,7 +31,6 @@ export class TableHeaderCellComponent implements OnInit, OnDestroy {
   };
 
   private params$: Subscription;
-  private profileTable: ProfileTableComponent;
   public metrics: any;
   public selectedQueryColumn: SelectOptionModel;
   public currentParams: GetProfileBody;

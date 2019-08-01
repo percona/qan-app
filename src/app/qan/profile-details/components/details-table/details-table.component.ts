@@ -13,9 +13,10 @@ import { catchError, map, switchMap } from 'rxjs/operators';
 import { of, Subscription } from 'rxjs';
 import { MetricModel } from '../../../profile-table/models/metric.model';
 import { Router } from '@angular/router';
-import { ObjectDetails, QanProfileService } from '../../../profile/qan-profile.service';
+import { QanProfileService } from '../../../profile/qan-profile.service';
 import { ObjectDetailsService } from '../../../../pmm-api-services/services/object-details.service';
 import { DetailsSparklineModel } from '../../models/details-sparkline.model';
+import { ObjectDetails } from '../../../profile/interfaces/object-details.interface';
 
 @Component({
   selector: 'app-details-table',
