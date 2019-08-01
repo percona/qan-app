@@ -116,7 +116,6 @@ export class ProfileTableComponent implements OnInit, OnDestroy, AfterViewInit {
 
   ngAfterViewInit() {
     this.tableRows.changes.subscribe(() => {
-      console.log('finish render');
       this.ngForRendered();
       this.finishRender.emit(true);
     })
