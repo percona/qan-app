@@ -104,7 +104,8 @@ export class ProfileTableComponent implements OnInit, OnDestroy, AfterViewInit {
       },
       () => {
         console.log('complete');
-      });
+      }
+    );
 
     this.detailsBy$ = this.qanProfileService.getProfileInfo.detailsBy.subscribe(details_by => this.detailsBy = details_by);
     this.fingerprint$ = this.qanProfileService.getProfileInfo.fingerprint.subscribe(fingerprint => this.fingerprint = fingerprint);
@@ -115,6 +116,7 @@ export class ProfileTableComponent implements OnInit, OnDestroy, AfterViewInit {
 
   ngAfterViewInit() {
     this.tableRows.changes.subscribe(() => {
+      console.log('finish render');
       this.ngForRendered();
       this.finishRender.emit(true);
     })
@@ -129,11 +131,9 @@ export class ProfileTableComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   ngForRendered() {
-    const tableHeight = this.qanTable.nativeElement.offsetHeight;
     if (this.isNeedScroll) {
       this.toEndOfScrollbar();
     }
-    this.mainTableWrapper.nativeElement.style.setProperty('--table-height', `${tableHeight}px`);
     this.isNeedScroll = false;
     window.dispatchEvent(this.event);
   }
