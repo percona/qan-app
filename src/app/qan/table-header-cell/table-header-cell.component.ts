@@ -8,6 +8,7 @@ import { NgSelectComponent } from '@ng-select/ng-select';
 import { metricCatalogue } from '../data/metric-catalogue';
 import { ProfileTableComponent } from '../profile-table/profile-table.component';
 import { GetProfileBody } from '../profile/interfaces/get-profile-body.interfaces';
+import { QueryParamsService } from '../../core/services/query-params.service';
 
 @Component({
   selector: 'app-qan-table-header-cell',
@@ -39,7 +40,10 @@ export class TableHeaderCellComponent implements OnInit, OnDestroy {
   public isNotDefaultIcon = false;
   public scrollbar: any;
 
-  constructor(private qanProfileService: QanProfileService) {
+  constructor(
+    private qanProfileService: QanProfileService,
+    private queryParamsService: QueryParamsService,
+  ) {
     this.metrics = this.getUniqueObjects(Object.values(metricCatalogue));
     this.currentParams = this.qanProfileService.getProfileParams.getValue();
   }
@@ -88,6 +92,7 @@ export class TableHeaderCellComponent implements OnInit, OnDestroy {
       this.currentParams.main_metric = processedName;
       this.qanProfileService.updateDefaultMainMetric(processedName);
       this.qanProfileService.updateProfileParams(this.currentParams);
+      this.queryParamsService.addMainColumnToURL(processedName);
     }
     this.qanProfileService.updateProfileParams(this.currentParams);
   }

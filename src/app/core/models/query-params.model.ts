@@ -1,14 +1,15 @@
 export class QueryParamsModel {
   from: string;
   to: string;
-  'var-host': string;
-  search: string;
-  queryID: string;
-  type: string;
-  tz: string;
-  theme: string;
-  first_seen: boolean;
-  filters: string;
+  'var-host'?: string;
+  search?: string;
+  queryID?: string;
+  type?: string;
+  tz?: string;
+  theme?: string;
+  first_seen?: boolean;
+  filters?: string;
+  main_metric?: string;
 
   constructor(urlParams = {}) {
     this.from = urlParams['from'] || '';
@@ -21,5 +22,6 @@ export class QueryParamsModel {
     this.theme = urlParams['theme'] || '';
     this.first_seen = urlParams['first_seen'] || '';
     this.filters = urlParams['filters'] || '';
+    this.main_metric = urlParams['filters'] || '';
   }
 }

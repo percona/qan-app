@@ -34,6 +34,7 @@ export class ProfileTableComponent implements OnInit, OnDestroy, AfterViewInit {
   @Output() finishRender = new EventEmitter();
   @ViewChild(PerfectScrollbarComponent, { static: true }) componentRef?: PerfectScrollbarComponent;
   @ViewChild('qanTable', { static: true }) qanTable: ElementRef;
+  @ViewChild('rightTableBorder', { static: false }) rightBorder: ElementRef;
   @ViewChild('mainTableWrapper', { static: true }) mainTableWrapper: ElementRef;
   @ViewChildren('tableRows') tableRows: QueryList<any>;
 
@@ -139,6 +140,10 @@ export class ProfileTableComponent implements OnInit, OnDestroy, AfterViewInit {
     }
     this.isNeedScroll = false;
     window.dispatchEvent(this.event);
+    setTimeout(() => {
+      const height = this.qanTable.nativeElement.offsetHeight;
+      this.rightBorder.nativeElement.style.setProperty('--border-height', `${height}px`);
+    }, 0);
   }
 
   toEndOfScrollbar() {

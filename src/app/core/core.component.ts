@@ -17,6 +17,8 @@ export interface QueryParams {
   tz?: string;
   theme?: string;
   first_seen?: boolean;
+  filters?: string;
+  main_metric?: string;
 }
 
 /**

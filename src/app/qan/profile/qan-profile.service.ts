@@ -17,9 +17,10 @@ export class QanProfileService {
   private defaultGroupBy = 'queryid';
   private defaultMainMetric = new BehaviorSubject('');
   private currentDetails: ObjectDetails = {};
+  private defaultColumns = ['load', 'num_queries', 'query_time'];
 
   private params = {
-    columns: ['load', 'num_queries', 'query_time'],
+    columns: this.defaultColumns,
     first_seen: false,
     group_by: this.defaultGroupBy,
     include_only_fields: [],
@@ -28,7 +29,7 @@ export class QanProfileService {
     limit: 10,
     offset: 0,
     order_by: '-load',
-    main_metric: 'load',
+    main_metric: this.iframeQueryParams.main_metric ? this.decodeMainMetric(this.iframeQueryParams.main_metric) : 'load',
     period_start_from: this.setTimeRange('from'),
     period_start_to: this.setTimeRange('to')
   };
@@ -46,7 +47,7 @@ export class QanProfileService {
   private group_by = new BehaviorSubject<string>(this.defaultGroupBy);
 
   constructor(private route: ActivatedRoute) {
-
+    console.log('this.iframeQueryParams - ', this.iframeQueryParams);
   }
 
   setTimeRange(value): string {
@@ -83,6 +84,10 @@ export class QanProfileService {
           state: true
         }
       })
+  }
+
+  decodeMainMetric(main_metric) {
+    return main_metric.length ? main_metric : '';
   }
 
   updateProfileParams(params: GetProfileBody) {
