@@ -29,18 +29,20 @@
 
 .table-wrapper--outer {
   position: relative;
-  //min-height: 400px;
+  min-height: 400px;
   border-top: 1px solid var(--main-border-color);
   background-color: var(--page-background);
 
   .right-table-border {
+    --border-height: 0;
+
     position: absolute;
     z-index: 1;
     top: 0;
     right: 0;
     display: block;
     width: 1px;
-    height: calc(100% - var(--main-bottom-indent));
+    height: var(--border-height);
     background-color: var(--main-border-color);
   }
 }
