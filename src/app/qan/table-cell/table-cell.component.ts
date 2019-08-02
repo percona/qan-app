@@ -51,7 +51,7 @@ export class TableCellComponent implements OnInit {
       this.pipeInfo = this.currentMetricInfo.pipeTypes || {};
       this.yKey = this.setKeyForSparkline(this.metricData.metricName);
       this.isStats = Object.keys(this.metricData.stats).includes('min' && 'max');
-      this.isNoData = Object.keys(this.metricData.stats).length === 1 && Object.keys(this.metricData.stats)[0] === 'cnt';
+      this.isNoData = !Object.values(this.metricData.stats).length;
       this.isPercentOfTotal = !!(this.metricData.stats.sum || this.metricData.stats.sum_per_sec);
       if (this.isPercentOfTotal) {
         this.percentOfTotal = +this.percentFromNumber(this.totalSum, this.metricData);
