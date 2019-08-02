@@ -5,6 +5,7 @@ import { of } from 'rxjs/internal/observable/of';
 import { Subscription } from 'rxjs/internal/Subscription';
 import { QanProfileService } from '../../../profile/qan-profile.service';
 import { FilterMenuService } from '../../../filter-menu/filter-menu.service';
+import { FilterViewerService } from '../../../filter-menu/filter-viewer.service';
 
 @Component({
   selector: 'app-details-labels',
@@ -22,6 +23,7 @@ export class DetailsLabelsComponent implements OnInit, OnDestroy {
     private objectDetailsService: ObjectDetailsService,
     private qanProfileService: QanProfileService,
     private filterMenuService: FilterMenuService,
+    private filterViewerService: FilterViewerService,
   ) {
     this.isLoading = true;
     this.currentDetails = this.qanProfileService.getCurrentDetails;
@@ -32,8 +34,11 @@ export class DetailsLabelsComponent implements OnInit, OnDestroy {
       }))
       .subscribe(
         response => {
-          this.labels = this.filtersOrder(response);
-          this.sortEmptyValues(this.labels);
+          if (response.length) {
+            this.labels = this.filterViewerService.filtersOrder(response);
+            this.labels = this.filterViewerService.skipNA(this.labels);
+            this.filterViewerService.sortIdsValues(this.labels);
+          }
           this.isLoading = false;
         }
       );
@@ -43,8 +48,12 @@ export class DetailsLabelsComponent implements OnInit, OnDestroy {
     this.defaultLabels$ = this.getLabels(this.currentDetails)
       .pipe(take(1))
       .subscribe(response => {
-        this.labels = this.filtersOrder(response);
-        this.sortIdsValues(this.labels);
+        console.log('response - ', response);
+        if (response.length) {
+          this.labels = this.filterViewerService.filtersOrder(response);
+          this.labels = this.filterViewerService.skipNA(this.labels);
+          this.filterViewerService.sortIdsValues(this.labels);
+        }
         this.isLoading = false;
       })
   }
@@ -60,49 +69,5 @@ export class DetailsLabelsComponent implements OnInit, OnDestroy {
   ngOnDestroy() {
     this.defaultLabels$.unsubscribe();
     this.details$.unsubscribe();
-  }
-
-  filtersOrder(detailsTableData) {
-    return detailsTableData.sort((a, b) => this.sortFilters(a, b));
-  }
-
-  sortFilters(a, b) {
-    const order = ['environment', 'cluster', 'replication_set', 'database', 'schema', 'server', 'client_host', 'user_name', ''];
-
-    let indA = order.indexOf(a['filterGroup']);
-    let indB = order.indexOf(b['filterGroup']);
-
-    if (indA === -1) {
-      indA = order.length - 1;
-    }
-
-    if (indB === -1) {
-      indB = order.length - 1;
-    }
-
-    return indA < indB ? -1 : 1;
-  }
-
-  sortEmptyValues(array) {
-    array.sort((a, b) => {
-      if (a.items.every(item => item.value === '') || a.items.every(item => item.value === null)) {
-        return 1
-      }
-      if (b.items.every(item => item.value === '') || b.items.every(item => item.value === null)) {
-        return -1
-      }
-    });
-  }
-
-  sortIdsValues(array) {
-    array.sort((a, b) => {
-      if (a.items.every(label => label.value.includes('_id'))) {
-        return 1
-      }
-
-      if (b.items.every(label => label.value.includes('_id'))) {
-        return -1
-      }
-    })
   }
 }

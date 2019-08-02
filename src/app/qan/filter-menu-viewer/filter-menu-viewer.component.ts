@@ -5,6 +5,7 @@ import { FilterMenuService } from '../filter-menu/filter-menu.service';
 import { FiltersService } from '../../pmm-api-services/services/filters.service';
 import { catchError, map, switchMap } from 'rxjs/operators';
 import { of } from 'rxjs/internal/observable/of';
+import { FilterViewerService } from '../filter-menu/filter-viewer.service';
 
 export interface FiltersGetParams {
   main_metric_name: string,
@@ -31,6 +32,7 @@ export class FilterMenuViewerComponent implements OnInit, OnDestroy {
     private filterService: FiltersService,
     private qanFilterService: FilterMenuService,
     private qanProfileService: QanProfileService,
+    private filterViewerService: FilterViewerService,
   ) {
     this.isLoading = true;
     this.currentParams = this.qanProfileService.getProfileParams.getValue();
@@ -51,9 +53,9 @@ export class FilterMenuViewerComponent implements OnInit, OnDestroy {
       }))
       .subscribe(
         filters => {
-          this.filters = this.filtersOrder(filters);
-          this.skipNA(this.filters);
-          this.sortIdsValues(this.filters);
+          this.filters = this.filterViewerService.filtersOrder(filters);
+          this.filterViewerService.skipNA(this.filters);
+          this.filterViewerService.sortIdsValues(this.filters);
           this.filterMenuService.updateAutocompleteFilters(filters);
           this.isLoading = false;
         },
@@ -73,53 +75,5 @@ export class FilterMenuViewerComponent implements OnInit, OnDestroy {
   ngOnDestroy() {
     this.getFilters$.unsubscribe();
     this.filterSubscription$.unsubscribe();
-  }
-
-  filtersOrder(detailsTableData) {
-    return detailsTableData.sort((a, b) => this.sortFilters(a, b));
-  }
-
-  sortFilters(a, b) {
-    const order = ['environment', 'cluster', 'replication_set', 'database', 'schema', 'server', 'client_host', 'username', ''];
-
-    let indA = order.indexOf(a['filterGroup']);
-    let indB = order.indexOf(b['filterGroup']);
-
-    if (indA === -1) {
-      indA = order.length - 1;
-    }
-
-    if (indB === -1) {
-      indB = order.length - 1;
-    }
-
-    return indA < indB ? -1 : 1;
-  }
-
-  skipNA(array) {
-    array.forEach(group => group.items.every(label => !label.value) ? group.items.length = 0 : group.items);
-  }
-
-  sortEmptyValues(array) {
-    array.sort((a, b) => {
-      if (a.items.every(item => item.value === '') || a.items.every(item => item.value === null)) {
-        return 1
-      }
-      if (b.items.every(item => item.value === '') || b.items.every(item => item.value === null)) {
-        return -1
-      }
-    });
-  }
-
-  sortIdsValues(array) {
-    array.sort((a, b) => {
-      if (a.items.every(label => label.value.includes('_id'))) {
-        return 1
-      }
-
-      if (b.items.every(label => label.value.includes('_id'))) {
-        return -1
-      }
-    })
   }
 }
