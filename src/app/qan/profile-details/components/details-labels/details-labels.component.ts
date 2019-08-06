@@ -48,7 +48,6 @@ export class DetailsLabelsComponent implements OnInit, OnDestroy {
     this.defaultLabels$ = this.getLabels(this.currentDetails)
       .pipe(take(1))
       .subscribe(response => {
-        console.log('response - ', response);
         if (response.length) {
           this.labels = this.filterViewerService.filtersOrder(response);
           this.labels = this.filterViewerService.skipNA(this.labels);

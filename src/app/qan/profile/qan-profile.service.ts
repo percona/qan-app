@@ -20,7 +20,7 @@ export class QanProfileService {
   private defaultColumns = ['load', 'num_queries', 'query_time'];
 
   private params = {
-    columns: this.defaultColumns,
+    columns: this.iframeQueryParams.columns ? this.decodeColumns(this.iframeQueryParams.columns) : this.defaultColumns,
     first_seen: false,
     group_by: this.defaultGroupBy,
     include_only_fields: [],
@@ -56,7 +56,6 @@ export class QanProfileService {
   }
 
   setLabels(iframeQueryParams) {
-    console.log('iframeQueryParams - ', iframeQueryParams);
     return iframeQueryParams.filters ? this.prepareLabelsURLParams(this.decodeLabelsURLParams(iframeQueryParams.filters)) : [];
   }
 
@@ -87,7 +86,12 @@ export class QanProfileService {
   }
 
   decodeMainMetric(main_metric) {
+    console.log('main_metric - ', main_metric);
     return main_metric.length ? main_metric : '';
+  }
+
+  decodeColumns(columns) {
+    return columns.length ? JSON.parse(columns) : '';
   }
 
   updateProfileParams(params: GetProfileBody) {

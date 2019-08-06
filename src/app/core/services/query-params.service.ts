@@ -36,7 +36,14 @@ export class QueryParamsService implements OnInit {
     this.queryParams = new QueryParamsModel(this.route.snapshot.queryParams);
     const params: QueryParamsModel = Object.assign({}, this.queryParams);
     params.main_metric = main_metric;
-    console.log('params.main_metric - ', params.main_metric);
+    this.router.navigate(['profile'], { queryParams: params });
+    this.eventsService.events.sendEvent(this.eventsService.events.updateUrl);
+  }
+
+  addColumnsToURL(columns) {
+    this.queryParams = new QueryParamsModel(this.route.snapshot.queryParams);
+    const params: QueryParamsModel = Object.assign({}, this.queryParams);
+    params.columns = JSON.stringify(columns);
     this.router.navigate(['profile'], { queryParams: params });
     this.eventsService.events.sendEvent(this.eventsService.events.updateUrl);
   }

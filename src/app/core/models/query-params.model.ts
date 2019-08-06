@@ -10,6 +10,7 @@ export class QueryParamsModel {
   first_seen?: boolean;
   filters?: string;
   main_metric?: string;
+  columns?: string;
 
   constructor(urlParams = {}) {
     this.from = urlParams['from'] || '';
@@ -22,6 +23,7 @@ export class QueryParamsModel {
     this.theme = urlParams['theme'] || '';
     this.first_seen = urlParams['first_seen'] || '';
     this.filters = urlParams['filters'] || '';
-    this.main_metric = urlParams['filters'] || '';
+    this.main_metric = urlParams['main_metric'] || '';
+    this.columns = urlParams['columns'] || [];
   }
 }

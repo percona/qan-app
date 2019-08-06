@@ -81,7 +81,6 @@ export class FilterMenuService {
   }
 
   prepareLabels(filters) {
-    console.log('filters - ', filters);
     const arr = [];
     filters.forEach(item => {
       const existed = arr.find(it => it.key === item.groupName);

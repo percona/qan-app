@@ -19,6 +19,7 @@ export interface QueryParams {
   first_seen?: boolean;
   filters?: string;
   main_metric?: string;
+  columns?: string;
 }
 
 /**

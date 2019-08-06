@@ -91,10 +91,11 @@ export class TableHeaderCellComponent implements OnInit, OnDestroy {
       this.currentParams.order_by = `-${processedName}`;
       this.currentParams.main_metric = processedName;
       this.qanProfileService.updateDefaultMainMetric(processedName);
-      this.qanProfileService.updateProfileParams(this.currentParams);
+      // this.qanProfileService.updateProfileParams(this.currentParams);
       this.queryParamsService.addMainColumnToURL(processedName);
     }
     this.qanProfileService.updateProfileParams(this.currentParams);
+    this.queryParamsService.addColumnsToURL(this.currentParams.columns);
   }
 
   sortBy(selectedColumn) {
