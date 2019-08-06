@@ -11,6 +11,7 @@ export class QueryParamsModel {
   filters?: string;
   main_metric?: string;
   columns?: string;
+  order_by?: string;
 
   constructor(urlParams = {}) {
     this.from = urlParams['from'] || '';
@@ -25,5 +26,6 @@ export class QueryParamsModel {
     this.filters = urlParams['filters'] || '';
     this.main_metric = urlParams['main_metric'] || '';
     this.columns = urlParams['columns'] || [];
+    this.order_by = urlParams['order_by'] || [];
   }
 }

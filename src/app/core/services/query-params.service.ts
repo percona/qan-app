@@ -48,6 +48,15 @@ export class QueryParamsService implements OnInit {
     this.eventsService.events.sendEvent(this.eventsService.events.updateUrl);
   }
 
+  addSortingOrderToURL(order_by) {
+    this.queryParams = new QueryParamsModel(this.route.snapshot.queryParams);
+    const params: QueryParamsModel = Object.assign({}, this.queryParams);
+    params.order_by = order_by;
+    this.router.navigate(['profile'], { queryParams: params });
+    this.eventsService.events.sendEvent(this.eventsService.events.updateUrl);
+    console.log('params - ', params);
+  }
+
   get params() {
     return this.queryParams;
   }

@@ -102,6 +102,8 @@ export class TableHeaderCellComponent implements OnInit, OnDestroy {
     this.isASC = !this.isASC;
     this.currentParams.order_by = this.isASC ? selectedColumn.simpleName : `-${selectedColumn.simpleName}`;
     this.qanProfileService.updateProfileParams(this.currentParams);
+    console.log('this.currentParams.order_by - ', this.currentParams.order_by);
+    this.queryParamsService.addSortingOrderToURL(this.currentParams.order_by);
   }
 
   addCustomScroll() {

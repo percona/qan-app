@@ -28,7 +28,7 @@ export class QanProfileService {
     labels: this.setLabels(this.iframeQueryParams),
     limit: 10,
     offset: 0,
-    order_by: '-load',
+    order_by: this.iframeQueryParams.order_by ? this.iframeQueryParams.order_by : '-load',
     main_metric: this.iframeQueryParams.main_metric ? this.decodeMainMetric(this.iframeQueryParams.main_metric) : 'load',
     period_start_from: this.setTimeRange('from'),
     period_start_to: this.setTimeRange('to')
