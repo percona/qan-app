@@ -12,7 +12,7 @@ export class FilterViewerService {
   }
 
   sortFilters(a, b) {
-    const order = ['environment', 'cluster', 'replication_set', 'database', 'schema', 'server', 'client_host', 'username', ''];
+    const order = ['environment', 'cluster', 'replication_set', 'database', 'schema', 'node_name', 'service_name', 'client_host', 'username', ''];
 
     let indA = order.indexOf(a['filterGroup']);
     let indB = order.indexOf(b['filterGroup']);
