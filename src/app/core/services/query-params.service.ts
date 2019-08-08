@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { EventsService } from './events.service';
-import { QueryParams } from '../core.component';
+import { QueryParams } from '../../qan/profile/interfaces/query-params.interface';
 
 @Injectable({
   providedIn: 'root'
@@ -42,6 +42,12 @@ export class QueryParamsService {
   addDetailsToURL(filter_by) {
     const params: QueryParams = this.takeParams();
     params.filter_by = filter_by;
+    this.navigateWithCurrentParams(params);
+  }
+
+  addActiveTabToUrl(tab_id) {
+    const params: QueryParams = this.takeParams();
+    params.active_details_tab = tab_id;
     this.navigateWithCurrentParams(params);
   }
 

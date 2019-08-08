@@ -7,7 +7,7 @@ import { BehaviorSubject } from 'rxjs/internal/BehaviorSubject';
 import { QueryParamsService } from '../../core/services/query-params.service';
 import { filterGroupList } from './filter-groups-list';
 import { ActivatedRoute } from '@angular/router';
-import { QueryParams } from '../../core/core.component';
+import { QueryParams } from '../profile/interfaces/query-params.interface';
 
 @Injectable()
 export class FilterMenuService {

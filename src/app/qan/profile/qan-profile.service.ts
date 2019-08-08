@@ -1,14 +1,13 @@
 import { Injectable } from '@angular/core';
 import { Subject } from 'rxjs/internal/Subject';
 import { BehaviorSubject } from 'rxjs/internal/BehaviorSubject';
-import { QueryParams } from '../../core/core.component';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 import { ParseQueryParamDatePipe } from '../../shared/parse-query-param-date.pipe';
 import { ObjectDetails } from './interfaces/object-details.interface';
 import { ProfileInfo } from './interfaces/profile-info.interfaces';
 import { TimeRange } from './interfaces/time-range.interface';
 import { GetProfileBody } from './interfaces/get-profile-body.interfaces';
-import { LabelsProfile } from './interfaces/labels-profile.interface';
+import { QueryParams } from './interfaces/query-params.interface';
 
 
 @Injectable()

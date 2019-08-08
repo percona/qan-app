@@ -11,7 +11,6 @@ import {
   ViewChildren
 } from '@angular/core';
 import { PerfectScrollbarComponent, PerfectScrollbarConfigInterface } from 'ngx-perfect-scrollbar';
-import { QueryParams } from '../../core/core.component';
 import { SelectOptionModel } from '../table-header-cell/modesl/select-option.model';
 import { TableDataModel } from './models/table-data.model';
 import { MetricModel } from './models/metric.model';
@@ -19,7 +18,6 @@ import { ProfileService } from '../../pmm-api-services/services/profile.service'
 import { Subscription } from 'rxjs/internal/Subscription';
 import { catchError, map, switchMap, takeUntil } from 'rxjs/operators';
 import { ActivatedRoute, Router } from '@angular/router';
-import * as moment from 'moment';
 import { QanProfileService } from '../profile/qan-profile.service';
 import { of } from 'rxjs/internal/observable/of';
 import { GetProfileBody } from '../profile/interfaces/get-profile-body.interfaces';
@@ -45,7 +43,6 @@ export class ProfileTableComponent implements OnInit, OnDestroy, AfterViewInit {
   };
 
   public isLoading: boolean;
-  public iframeQueryParams: QueryParams;
   public tableData: TableDataModel[] | any;
   public currentParams: GetProfileBody;
   public detailsBy: string;
@@ -102,7 +99,6 @@ export class ProfileTableComponent implements OnInit, OnDestroy, AfterViewInit {
       data => {
         this.tableData = data;
         this.isLoading = false;
-        console.log('this.tableData - ', this.tableData);
       },
       err => {
         console.log('error - ', err)
