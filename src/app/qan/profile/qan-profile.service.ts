@@ -56,12 +56,7 @@ export class QanProfileService {
   private profileParams = new BehaviorSubject<GetProfileBody>(this.params);
   private group_by = new BehaviorSubject<string>(this.defaultGroupBy);
 
-  constructor(
-    private route: ActivatedRoute,
-    private router: Router) {
-    if (this.iframeQueryParams.filter_by) {
-      this.router.navigate(['profile/details', this.iframeQueryParams.filter_by])
-    }
+  constructor(private route: ActivatedRoute) {
   }
 
   setTimeRange(value): string {

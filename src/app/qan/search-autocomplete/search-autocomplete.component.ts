@@ -42,26 +42,6 @@ export class SearchAutocompleteComponent implements OnInit, OnDestroy {
   ngOnInit() {
   }
 
-  onScrollToEnd() {
-    this.fetchMore();
-  }
-
-  onScroll({ end }) {
-    if (this.loading || this.autocomplete.length === this.autocompleteBuffer.length) {
-      return;
-    }
-
-    if (end + this.numberOfItemsFromEndBeforeFetchingMore >= this.autocompleteBuffer.length) {
-      this.fetchMore();
-    }
-  }
-
-  private fetchMore() {
-    const len = this.autocompleteBuffer.length;
-    const more = this.autocomplete.slice(len, this.bufferSize + len);
-    this.autocompleteBuffer = this.autocompleteBuffer.concat(more);
-  }
-
   ngOnDestroy() {
     this.autocomplete$.unsubscribe();
   }

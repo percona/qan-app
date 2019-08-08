@@ -14,8 +14,6 @@ import { FilterViewerService } from '../../../filter-menu/filter-viewer.service'
 })
 export class DetailsLabelsComponent implements OnInit, OnDestroy {
   private details$: Subscription;
-  private defaultLabels$: Subscription;
-  public currentDetails: any;
   public labels: any = [];
   public isLoading: boolean;
 
@@ -55,7 +53,6 @@ export class DetailsLabelsComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    this.defaultLabels$.unsubscribe();
     this.details$.unsubscribe();
   }
 }

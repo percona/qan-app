@@ -11,7 +11,7 @@ import { filter } from 'rxjs/operators';
 export interface QueryParams {
   from?: string;
   to?: string;
-  'var-host'?: string; // | string[];
+  'var-host'?: string;
   search?: string;
   queryID?: string;
   tz?: string;

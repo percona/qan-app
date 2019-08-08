@@ -3,8 +3,6 @@ import { FilterMenuService } from './filter-menu.service';
 import { catchError } from 'rxjs/operators';
 import { of } from 'rxjs/internal/observable/of';
 import { PerfectScrollbarConfigInterface } from 'ngx-perfect-scrollbar';
-import PerfectScrollbar from 'perfect-scrollbar';
-// import PerfectScrollbar from '../table-header-cell/table-header-cell.component';
 
 @Component({
   selector: 'app-qan-filter',
@@ -23,8 +21,6 @@ export class FilterMenuComponent implements OnInit, OnChanges {
     this.toggleLabels();
   }
 
-  public limits = {};
-  public defaultLimit = 4;
   public selected: any = this.filterMenuService.getSelected.getValue();
 
   constructor(private filterMenuService: FilterMenuService) {
@@ -37,23 +33,14 @@ export class FilterMenuComponent implements OnInit, OnChanges {
   }
 
   ngOnInit() {
-    // this.addCustomScroll();
-  }
-
-  addCustomScroll() {
-    setTimeout(() => new PerfectScrollbar('.aside'), 0)
   }
 
   ngOnChanges() {
   }
 
-  getAll(group) {
-    this.limits[group.name] = this.limits[group.name] <= this.defaultLimit ? group.values.length - 1 : this.defaultLimit;
-  }
-
   setConfigs(selectedFilter) {
     this.selected = this.makeSelectedArray(selectedFilter);
-    this.filterMenuService.updateSelected(this.selected, true);
+    this.filterMenuService.updateSelected(this.selected);
   }
 
   makeSelectedArray(filter) {

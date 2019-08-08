@@ -50,12 +50,10 @@ export class FilterMenuService {
       })
   }
 
-  updateSelected(newSelected, isNeedToAdd: boolean = false) {
+  updateSelected(newSelected) {
     this.selected.next(newSelected);
     this.addSelectedToResponse(newSelected);
-    if (isNeedToAdd) {
-      this.queryParamsService.addSelectedToURL(newSelected);
-    }
+    this.queryParamsService.addSelectedToURL(newSelected);
   }
 
   updateAutocompleteFilters(autocomplete) {
