@@ -48,7 +48,6 @@ export class ProfileTableComponent implements OnInit, OnDestroy, AfterViewInit {
   public iframeQueryParams: QueryParams;
   public tableData: TableDataModel[] | any;
   public currentParams: GetProfileBody;
-  public defaultColumns: string[];
   public detailsBy: string;
   public fingerprint: string;
   public report$: Subscription;
@@ -122,6 +121,7 @@ export class ProfileTableComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   ngOnInit() {
+    this.detailsBy = this.route.snapshot.queryParams.filter_by;
   }
 
   ngAfterViewInit() {
@@ -180,16 +180,6 @@ export class ProfileTableComponent implements OnInit, OnDestroy, AfterViewInit {
     return array;
   };
 
-  // removeDefaultColumns(params) {
-  //   const parsedParams = JSON.parse(JSON.stringify(params));
-  //   parsedParams.columns = parsedParams.columns.filter(column => !this.defaultColumns.includes(column));
-  //   return parsedParams
-  // }
-
-  generateMetricsNames(metrics) {
-    return Object.entries(metrics.data).map(metric => new SelectOptionModel(metric));
-  }
-
   generateTableData(data) {
     this.paginationConfig.totalItems = data['total_rows'];
     this.paginationConfig.itemsPerPage = data['limit'];
@@ -208,23 +198,6 @@ export class ProfileTableComponent implements OnInit, OnDestroy, AfterViewInit {
     this.tableData.forEach(query => query.metrics.push(new MetricModel()));
     setTimeout(() => this.componentRef.directiveRef.scrollToRight(), 100);
     this.isNeedScroll = true;
-  }
-
-  /**
-   * set timezone based on given query parameter.
-   */
-  setTimeZoneFromParams() {
-    const tz = this.iframeQueryParams.tz || 'browser';
-    const expireDays = moment().utc().add(7, 'y').toString();
-    document.cookie = `timezone=${tz}; expires=${expireDays}; path=/`;
-  }
-
-  setThemeFromParams() {
-    const theme = this.iframeQueryParams.theme || '';
-    if (theme) {
-      const expireDays = moment().utc().add(7, 'y').toString();
-      document.cookie = `theme=app-theme-${theme}; expires=${expireDays}; path=/`;
-    }
   }
 
   pageChanged(event) {
