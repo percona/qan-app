@@ -45,6 +45,7 @@ export class FilterMenuService {
         return {
           filterName: divided[1],
           groupName: divided[0],
+          urlParamName: filterStr,
           state: true
         }
       })

@@ -39,16 +39,25 @@ export class FilterMenuComponent implements OnInit, OnChanges {
   }
 
   setConfigs(selectedFilter) {
-    this.selected = this.makeSelectedArray(selectedFilter);
+    const [filterName, groupName, state, count] = [...selectedFilter];
+    const filter = {
+      filterName: filterName,
+      groupName: groupName,
+      state: state,
+      count: count,
+      urlParamName: `${groupName}:${filterName}`
+    };
+
+    this.selected = this.makeSelectedArray(filter);
     this.filterMenuService.updateSelected(this.selected);
   }
 
   makeSelectedArray(filter) {
     if (filter.state) {
       this.selected.push(filter);
-      return this.getUnique(this.selected, 'filterName');
+      return this.getUnique(this.selected, 'urlParamName');
     } else {
-      return this.selected.filter(item => item.filterName !== filter.filterName);
+      return this.selected.filter(item => item.urlParamName !== filter.urlParamName);
     }
   }
 

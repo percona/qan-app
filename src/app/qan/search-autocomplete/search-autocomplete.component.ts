@@ -15,13 +15,7 @@ export class SearchAutocompleteComponent implements OnInit, OnDestroy {
 
   public selected: any = [];
   private autocomplete$: Subscription;
-  public scrollbarConfig: PerfectScrollbarConfigInterface = {};
-
   autocomplete: any = [];
-  autocompleteBuffer = [];
-  bufferSize = 50;
-  numberOfItemsFromEndBeforeFetchingMore = 10;
-  loading = false;
 
   constructor(
     private qanFilterService: FilterMenuService,
@@ -31,7 +25,6 @@ export class SearchAutocompleteComponent implements OnInit, OnDestroy {
     this.autocomplete$ = this.qanFilterService.getAutocompleteFilters
       .subscribe(configs => {
         this.autocomplete = configs;
-        this.autocompleteBuffer = this.autocomplete.slice(0, this.bufferSize);
       });
 
     this.qanFilterService.getSelected.subscribe(response => {
@@ -63,7 +56,7 @@ export class SearchAutocompleteComponent implements OnInit, OnDestroy {
 
   removeFromSelected(filter) {
     filter.state = false;
-    this.selected = this.selected.filter(item => item['filterName'] !== filter.filterName);
+    this.selected = this.selected.filter(item => item['urlParamName'] !== filter.value.urlParamName);
     this.selected.forEach(item => item['state'] = true);
     this.qanFilterService.updateSelected(this.selected);
   }

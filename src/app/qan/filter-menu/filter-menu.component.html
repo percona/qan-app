@@ -8,7 +8,7 @@
         <ng-container *ngFor="let filter of filterGroup.items">
           <label class="checkbox-container">
             <input
-              (change)="setConfigs({filterName: filter.value, groupName: filterGroup.filterGroup, state: filter.state, count: filter.count})"
+              (change)="setConfigs([filter.value, filterGroup.filterGroup, filter.state, filter.count])"
               [(ngModel)]="filter.state"
               type="checkbox">
             <span class="checkbox-container__checkmark"></span>

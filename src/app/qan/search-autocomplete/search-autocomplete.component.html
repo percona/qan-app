@@ -1,16 +1,3 @@
-<!--<ng-select [items]="autocompleteBuffer"-->
-<!--           [multiple]="true"-->
-<!--           [virtualScroll]="true"-->
-<!--           [(ngModel)]="selected"-->
-<!--           (add)="changeFilterState($event)"-->
-<!--           (remove)="changeFilterState($event.value)"-->
-<!--           (clear)="changeFilterState($event)"-->
-<!--           bindLabel="filterName"-->
-<!--           clearAllText="Reset"-->
-<!--           placeholder="Search by..."-->
-<!--           (scroll)="onScroll($event)"-->
-<!--           (scrollToEnd)="onScrollToEnd()"-->
-<!--           class="pmm-select pmm-select&#45;&#45;search">-->
 <ng-select [items]="autocomplete"
            [multiple]="true"
            [(ngModel)]="selected"
@@ -19,7 +6,7 @@
            (clear)="removeAllFromSelected()"
            (open)="addCustomScroll()"
            [searchFn]="autocompleteSearch"
-           bindLabel="filterName"
+           bindLabel="urlParamName"
            clearAllText="Reset"
            placeholder="Search by..."
            class="pmm-select pmm-select--search">

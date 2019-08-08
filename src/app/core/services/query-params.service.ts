@@ -22,7 +22,7 @@ export class QueryParamsService {
 
   addSelectedToURL(selected) {
     const params: QueryParams = this.takeParams();
-    params.filters = selected.length ? selected.map(filter => `${filter['groupName']}:${filter['filterName']}`).join(',') : '';
+    params.filters = selected.length ? selected.map(filter => filter.urlParamName).join(',') : '';
     this.navigateWithCurrentParams(params);
   }
 
