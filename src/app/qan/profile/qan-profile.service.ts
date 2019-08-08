@@ -2,12 +2,13 @@ import { Injectable } from '@angular/core';
 import { Subject } from 'rxjs/internal/Subject';
 import { BehaviorSubject } from 'rxjs/internal/BehaviorSubject';
 import { QueryParams } from '../../core/core.component';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { ParseQueryParamDatePipe } from '../../shared/parse-query-param-date.pipe';
 import { ObjectDetails } from './interfaces/object-details.interface';
 import { ProfileInfo } from './interfaces/profile-info.interfaces';
 import { TimeRange } from './interfaces/time-range.interface';
 import { GetProfileBody } from './interfaces/get-profile-body.interfaces';
+import { LabelsProfile } from './interfaces/labels-profile.interface';
 
 
 @Injectable()
@@ -34,10 +35,19 @@ export class QanProfileService {
     period_start_to: this.setTimeRange('to')
   };
 
+  private detailsParams: ObjectDetails = {
+    filter_by: this.iframeQueryParams.details_by || '',
+    group_by: this.defaultGroupBy,
+    labels: this.setLabels(this.iframeQueryParams) || [],
+    include_only_fields: [],
+    period_start_from: this.setTimeRange('from'),
+    period_start_to: this.setTimeRange('to')
+  };
+
   private profileInfo: ProfileInfo = {
     timeRange: new Subject<TimeRange>(),
     profile: new Subject<GetProfileBody>(),
-    details: new Subject<ObjectDetails>(),
+    details: new BehaviorSubject<ObjectDetails>(this.detailsParams),
     detailsBy: new BehaviorSubject<string>('default'),
     fingerprint: new BehaviorSubject<string>(''),
     defaultColumns: ['load', 'count', 'latency'],
@@ -46,7 +56,12 @@ export class QanProfileService {
   private profileParams = new BehaviorSubject<GetProfileBody>(this.params);
   private group_by = new BehaviorSubject<string>(this.defaultGroupBy);
 
-  constructor(private route: ActivatedRoute) {
+  constructor(
+    private route: ActivatedRoute,
+    private router: Router) {
+    if (this.iframeQueryParams.details_by) {
+      this.router.navigate(['profile/details', this.iframeQueryParams.details_by])
+    }
     console.log('this.iframeQueryParams - ', this.iframeQueryParams);
   }
 
@@ -111,7 +126,6 @@ export class QanProfileService {
   }
 
   updateDefaultMainMetric(metric: string) {
-    console.log('updateDefaultMainMetric - ', metric);
     this.defaultMainMetric.next(metric)
   }
 

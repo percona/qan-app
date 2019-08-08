@@ -21,6 +21,7 @@ export interface QueryParams {
   main_metric?: string;
   columns?: string;
   order_by?: string;
+  details_by?: string;
 }
 
 /**

@@ -17,13 +17,14 @@ import { TableDataModel } from './models/table-data.model';
 import { MetricModel } from './models/metric.model';
 import { ProfileService } from '../../pmm-api-services/services/profile.service';
 import { Subscription } from 'rxjs/internal/Subscription';
-import { catchError, map, switchMap } from 'rxjs/operators';
+import { catchError, map, switchMap, takeUntil } from 'rxjs/operators';
 import { ActivatedRoute, Router } from '@angular/router';
 import * as moment from 'moment';
 import { QanProfileService } from '../profile/qan-profile.service';
 import { of } from 'rxjs/internal/observable/of';
-import { FilterMenuService } from '../filter-menu/filter-menu.service';
 import { GetProfileBody } from '../profile/interfaces/get-profile-body.interfaces';
+import { QueryParamsService } from '../../core/services/query-params.service';
+import { Subject } from 'rxjs';
 
 @Component({
   selector: 'app-qan-table',
@@ -37,6 +38,7 @@ export class ProfileTableComponent implements OnInit, OnDestroy, AfterViewInit {
   @ViewChild('rightTableBorder', { static: false }) rightBorder: ElementRef;
   @ViewChild('mainTableWrapper', { static: true }) mainTableWrapper: ElementRef;
   @ViewChildren('tableRows') tableRows: QueryList<any>;
+  private destroy$ = new Subject();
 
   public scrollbarConfig: PerfectScrollbarConfigInterface = {
     suppressScrollY: true
@@ -50,9 +52,7 @@ export class ProfileTableComponent implements OnInit, OnDestroy, AfterViewInit {
   public detailsBy: string;
   public fingerprint: string;
   public report$: Subscription;
-  public metrics$: Subscription;
   public detailsBy$: Subscription;
-  public tableRows$: Subscription;
   public fingerprint$: Subscription;
   public metrics: SelectOptionModel[];
   public isNeedScroll = false;
@@ -74,11 +74,12 @@ export class ProfileTableComponent implements OnInit, OnDestroy, AfterViewInit {
     private router: Router,
     private qanProfileService: QanProfileService,
     private profileService: ProfileService,
-    private filterMenuService: FilterMenuService,
+    private queryParamsService: QueryParamsService,
   ) {
     this.isLoading = true;
 
     this.report$ = this.qanProfileService.getProfileParams.pipe(
+      takeUntil(this.destroy$),
       map(params => {
         this.currentParams = params;
         return params;
@@ -102,6 +103,7 @@ export class ProfileTableComponent implements OnInit, OnDestroy, AfterViewInit {
       data => {
         this.tableData = data;
         this.isLoading = false;
+        console.log('this.tableData - ', this.tableData);
       },
       err => {
         console.log('error - ', err)
@@ -111,8 +113,12 @@ export class ProfileTableComponent implements OnInit, OnDestroy, AfterViewInit {
       }
     );
 
-    this.detailsBy$ = this.qanProfileService.getProfileInfo.detailsBy.subscribe(details_by => this.detailsBy = details_by);
-    this.fingerprint$ = this.qanProfileService.getProfileInfo.fingerprint.subscribe(fingerprint => this.fingerprint = fingerprint);
+    this.detailsBy$ = this.qanProfileService.getProfileInfo.detailsBy
+      .pipe(takeUntil(this.destroy$))
+      .subscribe(details_by => this.detailsBy = details_by);
+    this.fingerprint$ = this.qanProfileService.getProfileInfo.fingerprint
+      .pipe(takeUntil(this.destroy$))
+      .subscribe(fingerprint => this.fingerprint = fingerprint);
   }
 
   ngOnInit() {
@@ -126,11 +132,7 @@ export class ProfileTableComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   ngOnDestroy() {
-    this.metrics$.unsubscribe();
-    this.report$.unsubscribe();
-    this.detailsBy$.unsubscribe();
-    this.fingerprint$.unsubscribe();
-    this.tableRows$.unsubscribe();
+    this.destroy$.next();
   }
 
   ngForRendered() {
@@ -154,6 +156,7 @@ export class ProfileTableComponent implements OnInit, OnDestroy, AfterViewInit {
   showDetails(filter_by, fingerPrint = '') {
     this.qanProfileService.updateFingerprint(fingerPrint);
     this.qanProfileService.updateDetailsByValue(filter_by);
+    this.queryParamsService.addDetailsToURL(filter_by);
     this.qanProfileService.updateObjectDetails({
       filter_by: filter_by,
       group_by: this.currentParams.group_by,
@@ -161,6 +164,7 @@ export class ProfileTableComponent implements OnInit, OnDestroy, AfterViewInit {
       period_start_from: this.currentParams.period_start_from,
       period_start_to: this.currentParams.period_start_to
     });
+    // this.router.navigate(['profile/details/', filter_by])
   }
 
   mapOrder(array, order, key) {

@@ -63,12 +63,12 @@ export class DetailsTableComponent implements OnInit, AfterViewInit {
   }
 
   ngOnInit() {
-    this.firstDetails = this.qanProfileService.getCurrentDetails;
-    this.getDetailsData(this.firstDetails).subscribe(response => {
-      this.details = response;
-      this.details.metrics = this.detailsTableOrder(response['metrics']);
-      this.isLoading = false;
-    });
+    // this.firstDetails = this.qanProfileService.getCurrentDetails;
+    // this.getDetailsData(this.firstDetails).subscribe(response => {
+    //   this.details = response;
+    //   this.details.metrics = this.detailsTableOrder(response['metrics']);
+    //   this.isLoading = false;
+    // });
   }
 
   ngAfterViewInit() {

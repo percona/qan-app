@@ -24,7 +24,6 @@ export interface FiltersGetParams {
 export class FilterMenuViewerComponent implements OnInit, OnDestroy {
 
   public currentParams: GetProfileBody;
-  private filterSubscription$: Subscription;
   private getFilters$: Subscription;
   public filters: any = [];
   public isLoading: boolean;
@@ -77,6 +76,5 @@ export class FilterMenuViewerComponent implements OnInit, OnDestroy {
 
   ngOnDestroy() {
     this.getFilters$.unsubscribe();
-    this.filterSubscription$.unsubscribe();
   }
 }
