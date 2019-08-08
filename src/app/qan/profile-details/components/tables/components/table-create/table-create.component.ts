@@ -5,6 +5,7 @@ import { QanProfileService } from '../../../../../profile/qan-profile.service';
 import { interval } from 'rxjs/internal/observable/interval';
 import { ActionsService } from '../../../../../../pmm-api-services/services/actions.service';
 import { of } from 'rxjs/internal/observable/of';
+import { Observable as __Observable } from 'rxjs';
 
 @Component({
   selector: 'app-table-create',
@@ -39,7 +40,7 @@ export class TableCreateComponent implements OnInit, OnDestroy {
   }
 
   private startShowCreateTable(value, tableName) {
-    let startAction;
+    let startAction: __Observable<{ action_id?: string, pmm_agent_id?: string }>;
     switch (value.service_type) {
       case 'mysql':
         startAction = this.actionsService.StartMySQLShowCreateTableAction({
@@ -47,14 +48,14 @@ export class TableCreateComponent implements OnInit, OnDestroy {
           database: value.schema,
           table_name: tableName
         }
-      );
+        );
         break;
       case 'postgresql':
         startAction = this.actionsService.StartPostgreSQLShowCreateTableAction({
-            service_id: value.service_id,
-            database: value.schema,
-            table_name: tableName
-          }
+          service_id: value.service_id,
+          database: value.schema,
+          table_name: tableName
+        }
         );
         break;
       default:
