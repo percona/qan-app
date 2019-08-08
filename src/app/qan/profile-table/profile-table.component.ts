@@ -164,7 +164,7 @@ export class ProfileTableComponent implements OnInit, OnDestroy, AfterViewInit {
       period_start_from: this.currentParams.period_start_from,
       period_start_to: this.currentParams.period_start_to
     });
-    // this.router.navigate(['profile/details/', filter_by])
+    // this.router.navigate(['details/', filter_by])
   }
 
   mapOrder(array, order, key) {

@@ -12,7 +12,7 @@ export class QueryParamsModel {
   main_metric?: string;
   columns?: string;
   order_by?: string;
-  details_by?: string;
+  filter_by?: string;
 
   constructor(urlParams = {}) {
     this.from = urlParams['from'] || '';
@@ -28,6 +28,6 @@ export class QueryParamsModel {
     this.main_metric = urlParams['main_metric'] || '';
     this.columns = urlParams['columns'] || [];
     this.order_by = urlParams['order_by'] || '';
-    this.details_by = urlParams['details_by'] || '';
+    this.filter_by = urlParams['filter_by'] || '';
   }
 }

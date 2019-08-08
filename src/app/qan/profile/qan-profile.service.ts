@@ -36,7 +36,7 @@ export class QanProfileService {
   };
 
   private detailsParams: ObjectDetails = {
-    filter_by: this.iframeQueryParams.details_by || '',
+    filter_by: this.iframeQueryParams.filter_by || '',
     group_by: this.defaultGroupBy,
     labels: this.setLabels(this.iframeQueryParams) || [],
     include_only_fields: [],
@@ -59,10 +59,9 @@ export class QanProfileService {
   constructor(
     private route: ActivatedRoute,
     private router: Router) {
-    if (this.iframeQueryParams.details_by) {
-      this.router.navigate(['profile/details', this.iframeQueryParams.details_by])
+    if (this.iframeQueryParams.filter_by) {
+      this.router.navigate(['profile/details', this.iframeQueryParams.filter_by])
     }
-    console.log('this.iframeQueryParams - ', this.iframeQueryParams);
   }
 
   setTimeRange(value): string {

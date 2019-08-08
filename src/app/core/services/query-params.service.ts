@@ -7,61 +7,57 @@ import { EventsService } from './events.service';
   providedIn: 'root'
 })
 export class QueryParamsService implements OnInit {
-  private queryParams: any;
+  private queryParams: QueryParamsModel;
 
   constructor(
     private route: ActivatedRoute,
     private router: Router,
     private eventsService: EventsService,
   ) {
-    this.queryParams = this.route.snapshot.queryParams;
   }
 
   ngOnInit(): void {
+    this.queryParams = new QueryParamsModel(this.route.snapshot.queryParams);
+    console.log('this.queryParams - ', this.queryParams);
   }
 
   addSelectedToURL(selected) {
-    this.queryParams = new QueryParamsModel(this.route.snapshot.queryParams);
-    const params: QueryParamsModel = Object.assign({}, this.queryParams);
-    params.filters = '';
-    if (selected.length) {
-      params.filters = selected.map(filter => `${filter['groupName']}:${filter['filterName']}`).join(',');
-    }
-    this.router.navigate(this.setRouterLink(), { queryParams: params });
-    this.eventsService.events.sendEvent(this.eventsService.events.updateUrl);
+    const params: QueryParamsModel = this.takeParams();
+    params.filters = selected.length ? selected.map(filter => `${filter['groupName']}:${filter['filterName']}`).join(',') : '';
+    this.navigateWithCurrentParams(params);
   }
 
   addColumnsToURL(columns) {
-    this.queryParams = new QueryParamsModel(this.route.snapshot.queryParams);
-    const params: QueryParamsModel = Object.assign({}, this.queryParams);
+    const params: QueryParamsModel = this.takeParams();
     params.columns = JSON.stringify(columns);
     params.main_metric = columns[0];
-    this.router.navigate(this.setRouterLink(), { queryParams: params });
-    this.eventsService.events.sendEvent(this.eventsService.events.updateUrl);
+    this.navigateWithCurrentParams(params);
   }
 
   addSortingOrderToURL(order_by) {
-    this.queryParams = new QueryParamsModel(this.route.snapshot.queryParams);
-    const params: QueryParamsModel = Object.assign({}, this.queryParams);
+    const params: QueryParamsModel = this.takeParams();
     params.order_by = order_by;
-    this.router.navigate(this.setRouterLink(), { queryParams: params });
-    this.eventsService.events.sendEvent(this.eventsService.events.updateUrl);
+    this.navigateWithCurrentParams(params);
   }
 
-  addDetailsToURL(details_by) {
+  addDetailsToURL(filter_by) {
+    const params: QueryParamsModel = this.takeParams();
+    params.filter_by = filter_by;
+    this.navigateWithCurrentParams(params);
+  }
+
+  takeParams(): QueryParamsModel {
     this.queryParams = new QueryParamsModel(this.route.snapshot.queryParams);
-    const params: QueryParamsModel = Object.assign({}, this.queryParams);
-    params.details_by = details_by;
-    this.router.navigate(['profile/details/', details_by], { queryParams: params });
+    return Object.assign({}, this.queryParams);
+  }
+
+  navigateWithCurrentParams(params) {
+    this.router.navigate(this.setRouterLink(params), { queryParams: params });
     this.eventsService.events.sendEvent(this.eventsService.events.updateUrl);
   }
 
-  get params() {
-    return this.queryParams;
-  }
-
-  setRouterLink() {
-    const detailsBy = this.route.snapshot.queryParams.details_by;
-    return detailsBy ? ['profile/details/', detailsBy] : ['profile'];
+  setRouterLink(params = {}) {
+    const filterBy = this.route.snapshot.queryParams.filter_by || params['filter_by'];
+    return filterBy ? ['profile/details/', filterBy] : ['profile'];
   }
 }
