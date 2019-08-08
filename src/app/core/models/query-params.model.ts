@@ -26,6 +26,6 @@ export class QueryParamsModel {
     this.filters = urlParams['filters'] || '';
     this.main_metric = urlParams['main_metric'] || '';
     this.columns = urlParams['columns'] || [];
-    this.order_by = urlParams['order_by'] || [];
+    this.order_by = urlParams['order_by'] || '';
   }
 }

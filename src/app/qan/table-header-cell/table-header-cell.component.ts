@@ -9,6 +9,7 @@ import { metricCatalogue } from '../data/metric-catalogue';
 import { ProfileTableComponent } from '../profile-table/profile-table.component';
 import { GetProfileBody } from '../profile/interfaces/get-profile-body.interfaces';
 import { QueryParamsService } from '../../core/services/query-params.service';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-qan-table-header-cell',
@@ -43,6 +44,7 @@ export class TableHeaderCellComponent implements OnInit, OnDestroy {
   constructor(
     private qanProfileService: QanProfileService,
     private queryParamsService: QueryParamsService,
+    private route: ActivatedRoute,
   ) {
     this.metrics = this.getUniqueObjects(Object.values(metricCatalogue));
     this.currentParams = this.qanProfileService.getProfileParams.getValue();
@@ -89,21 +91,19 @@ export class TableHeaderCellComponent implements OnInit, OnDestroy {
     if (this.isMainColumn) {
       const processedName = value.simpleName;
       this.currentParams.order_by = `-${processedName}`;
-      this.currentParams.main_metric = processedName;
+      this.queryParamsService.addSortingOrderToURL(this.currentParams.order_by);
       this.qanProfileService.updateDefaultMainMetric(processedName);
-      // this.qanProfileService.updateProfileParams(this.currentParams);
-      this.queryParamsService.addMainColumnToURL(processedName);
     }
+
     this.qanProfileService.updateProfileParams(this.currentParams);
-    this.queryParamsService.addColumnsToURL(this.currentParams.columns);
+    setTimeout(() => this.queryParamsService.addColumnsToURL(this.currentParams.columns), 0);
   }
 
   sortBy(selectedColumn) {
     this.isASC = !this.isASC;
     this.currentParams.order_by = this.isASC ? selectedColumn.simpleName : `-${selectedColumn.simpleName}`;
-    this.qanProfileService.updateProfileParams(this.currentParams);
-    console.log('this.currentParams.order_by - ', this.currentParams.order_by);
     this.queryParamsService.addSortingOrderToURL(this.currentParams.order_by);
+    this.qanProfileService.updateProfileParams(this.currentParams);
   }
 
   addCustomScroll() {

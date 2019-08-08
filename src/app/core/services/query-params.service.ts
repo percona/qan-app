@@ -2,7 +2,6 @@ import { Injectable, OnInit } from '@angular/core';
 import { QueryParamsModel } from '../models/query-params.model';
 import { ActivatedRoute, Router } from '@angular/router';
 import { EventsService } from './events.service';
-import { FilterMenuService } from '../../qan/filter-menu/filter-menu.service';
 
 @Injectable({
   providedIn: 'root'
@@ -32,18 +31,11 @@ export class QueryParamsService implements OnInit {
     this.eventsService.events.sendEvent(this.eventsService.events.updateUrl);
   }
 
-  addMainColumnToURL(main_metric) {
-    this.queryParams = new QueryParamsModel(this.route.snapshot.queryParams);
-    const params: QueryParamsModel = Object.assign({}, this.queryParams);
-    params.main_metric = main_metric;
-    this.router.navigate(['profile'], { queryParams: params });
-    this.eventsService.events.sendEvent(this.eventsService.events.updateUrl);
-  }
-
   addColumnsToURL(columns) {
     this.queryParams = new QueryParamsModel(this.route.snapshot.queryParams);
     const params: QueryParamsModel = Object.assign({}, this.queryParams);
     params.columns = JSON.stringify(columns);
+    params.main_metric = columns[0];
     this.router.navigate(['profile'], { queryParams: params });
     this.eventsService.events.sendEvent(this.eventsService.events.updateUrl);
   }
@@ -54,7 +46,6 @@ export class QueryParamsService implements OnInit {
     params.order_by = order_by;
     this.router.navigate(['profile'], { queryParams: params });
     this.eventsService.events.sendEvent(this.eventsService.events.updateUrl);
-    console.log('params - ', params);
   }
 
   get params() {
