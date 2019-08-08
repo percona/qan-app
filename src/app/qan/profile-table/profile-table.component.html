@@ -21,7 +21,7 @@
                     </app-qan-table-header-cell>
                   </ng-container>
                 </tr>
-                <tr (click)="showDetails(row.dimension, row?.fingerprint)"
+                <tr (click)="showDetails(row)"
                     [routerLink]="['details/', row.rank || 0]"
                     [class.qan-table__row--active]="row.dimension === detailsBy"
                     class="qan-table__row qan-table--body">

@@ -36,7 +36,7 @@ export class DetailsLabelsComponent implements OnInit, OnDestroy {
         response => {
           if (response.length) {
             this.labels = this.filterViewerService.filtersOrder(response);
-            this.labels = this.filterViewerService.skipNA(this.labels);
+            this.filterViewerService.skipNA(this.labels);
             this.filterViewerService.sortIdsValues(this.labels);
           }
           this.isLoading = false;
@@ -51,7 +51,7 @@ export class DetailsLabelsComponent implements OnInit, OnDestroy {
         console.log('response - ', response);
         if (response.length) {
           this.labels = this.filterViewerService.filtersOrder(response);
-          this.labels = this.filterViewerService.skipNA(this.labels);
+          this.filterViewerService.skipNA(this.labels);
           this.filterViewerService.sortIdsValues(this.labels);
         }
         this.isLoading = false;

@@ -56,7 +56,7 @@ export class ApiModule {
       providers: [
         {
           provide: ApiConfiguration,
-          useValue: { rootUrl: customParams.rootUrl }
+          useValue: {rootUrl: customParams.rootUrl}
         }
       ]
     }

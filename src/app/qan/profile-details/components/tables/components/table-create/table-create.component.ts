@@ -39,12 +39,28 @@ export class TableCreateComponent implements OnInit, OnDestroy {
   }
 
   private startShowCreateTable(value, tableName) {
-    this.table$ = this.actionsService.StartMySQLShowCreateTableAction({
-      service_id: value.service_id,
-      database: value.schema,
-      table_name: tableName
+    let startAction;
+    switch (value.service_type) {
+      case 'mysql':
+        startAction = this.actionsService.StartMySQLShowCreateTableAction({
+          service_id: value.service_id,
+          database: value.schema,
+          table_name: tableName
+        }
+      );
+        break;
+      case 'postgresql':
+        startAction = this.actionsService.StartPostgreSQLShowCreateTableAction({
+            service_id: value.service_id,
+            database: value.schema,
+            table_name: tableName
+          }
+        );
+        break;
+      default:
+        return
     }
-    ).pipe(
+    this.table$ = startAction.pipe(
       catchError(error => {
         error.error.done = true;
         return of(error.error)
