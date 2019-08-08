@@ -95,6 +95,8 @@ export class FilterMenuService {
         return 'Client Host';
       case 'service_type':
         return 'Service Type';
+      case 'service_name':
+        return 'Service Name';
       case 'az':
         return 'Availability Zone';
       case 'region':
