@@ -37,11 +37,11 @@ export class TablesComponent implements OnInit, OnDestroy {
     this.example$ = this.qanProfileService.getProfileInfo.details.pipe(
       switchMap(parsedParams => this.getExample(parsedParams)))
       .subscribe(
-        response => this.startTablesActions(response)
+        response => this.startTablesActions(response[0])
       );
     this.defaultExample$ = this.getExample(this.currentDetails)
       .pipe(take(1))
-      .subscribe(response => this.startTablesActions(response));
+      .subscribe(response => this.startTablesActions(response[0]));
 
     this.tablesNames$.pipe(filter(names => !!names.length))
   }
@@ -108,7 +108,7 @@ export class TablesComponent implements OnInit, OnDestroy {
   getExample(responseParams) {
     return this.objectDetailsService.GetQueryExample(responseParams).pipe(
       catchError(err => of({ query_examples: [] })),
-      map(response => response.query_examples[0]),
+      map(response => response.query_examples),
       catchError(err => of([])))
   }
 
