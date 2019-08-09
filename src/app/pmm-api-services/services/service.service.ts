@@ -24,7 +24,7 @@ class ServiceService extends __BaseService {
    * @param body undefined
    * @return A successful response.
    */
-  RemoveServiceMixin1Response(body: {service_id?: string, service_name?: string, service_type?: 'SERVICE_TYPE_INVALID' | 'MYSQL_SERVICE' | 'AMAZON_RDS_MYSQL_SERVICE' | 'MONGODB_SERVICE' | 'POSTGRESQL_SERVICE' | 'PROXYSQL_SERVICE'}): __Observable<__StrictHttpResponse<{}>> {
+  RemoveServiceMixin1Response(body: { service_id?: string, service_name?: string, service_type?: 'SERVICE_TYPE_INVALID' | 'MYSQL_SERVICE' | 'AMAZON_RDS_MYSQL_SERVICE' | 'MONGODB_SERVICE' | 'POSTGRESQL_SERVICE' | 'PROXYSQL_SERVICE' }): __Observable<__StrictHttpResponse<{}>> {
     let __params = this.newParams();
     let __headers = new HttpHeaders();
     let __body: any = null;
@@ -50,7 +50,7 @@ class ServiceService extends __BaseService {
    * @param body undefined
    * @return A successful response.
    */
-  RemoveServiceMixin1(body: {service_id?: string, service_name?: string, service_type?: 'SERVICE_TYPE_INVALID' | 'MYSQL_SERVICE' | 'AMAZON_RDS_MYSQL_SERVICE' | 'MONGODB_SERVICE' | 'POSTGRESQL_SERVICE' | 'PROXYSQL_SERVICE'}): __Observable<{}> {
+  RemoveServiceMixin1(body: { service_id?: string, service_name?: string, service_type?: 'SERVICE_TYPE_INVALID' | 'MYSQL_SERVICE' | 'AMAZON_RDS_MYSQL_SERVICE' | 'MONGODB_SERVICE' | 'POSTGRESQL_SERVICE' | 'PROXYSQL_SERVICE' }): __Observable<{}> {
     return this.RemoveServiceMixin1Response(body).pipe(
       __map(_r => _r.body as {})
     );

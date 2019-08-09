@@ -1,7 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { ActionsService } from '../../../../../../pmm-api-services/services';
 import { catchError, startWith, switchMap } from 'rxjs/operators';
-import {interval, Observable as __Observable, of, Subscription} from 'rxjs';
+import { interval, Observable as __Observable, of, Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-table-indexes',
@@ -30,18 +30,18 @@ export class TableIndexesComponent implements OnInit {
     switch (value.service_type) {
       case 'mysql':
         startAction = this.actionsService.StartMySQLShowIndexAction({
-            service_id: value.service_id,
-            database: value.schema,
-            table_name: tableName
-          }
+          service_id: value.service_id,
+          database: value.schema,
+          table_name: tableName
+        }
         );
         break;
       case 'postgresql':
         startAction = this.actionsService.StartPostgreSQLShowIndexAction({
-            service_id: value.service_id,
-            database: value.schema,
-            table_name: tableName
-          }
+          service_id: value.service_id,
+          database: value.schema,
+          table_name: tableName
+        }
         );
         break;
       default:

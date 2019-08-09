@@ -24,7 +24,7 @@ class MetricsNamesService extends __BaseService {
    * @param body undefined
    * @return A successful response.
    */
-  GetMetricsNamesResponse(body: {}): __Observable<__StrictHttpResponse<{data?: {[key: string]: string}}>> {
+  GetMetricsNamesResponse(body: {}): __Observable<__StrictHttpResponse<{ data?: { [key: string]: string } }>> {
     let __params = this.newParams();
     let __headers = new HttpHeaders();
     let __body: any = null;
@@ -42,7 +42,7 @@ class MetricsNamesService extends __BaseService {
     return this.http.request<any>(req).pipe(
       __filter(_r => _r instanceof HttpResponse),
       __map((_r) => {
-        return _r as __StrictHttpResponse<{data?: {[key: string]: string}}>;
+        return _r as __StrictHttpResponse<{ data?: { [key: string]: string } }>;
       })
     );
   }
@@ -50,9 +50,9 @@ class MetricsNamesService extends __BaseService {
    * @param body undefined
    * @return A successful response.
    */
-  GetMetricsNames(body: {}): __Observable<{data?: {[key: string]: string}}> {
+  GetMetricsNames(body: {}): __Observable<{ data?: { [key: string]: string } }> {
     return this.GetMetricsNamesResponse(body).pipe(
-      __map(_r => _r.body as {data?: {[key: string]: string}})
+      __map(_r => _r.body as { data?: { [key: string]: string } })
     );
   }
 }
