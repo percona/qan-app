@@ -148,15 +148,16 @@ export class ProfileTableComponent implements OnInit, OnDestroy, AfterViewInit {
     }, 0);
   }
 
-  showDetails(filter_by, fingerPrint = '') {
-    this.qanProfileService.updateFingerprint(fingerPrint);
-    this.qanProfileService.updateDetailsByValue(filter_by);
+  showDetails(row: TableDataModel) {
+    this.qanProfileService.updateFingerprint(row.fingerprint || '');
+    this.qanProfileService.updateDetailsByValue(row.dimension);
     this.qanProfileService.updateObjectDetails({
-      filter_by: filter_by,
+      filter_by: row.dimension,
       group_by: this.currentParams.group_by,
       labels: this.currentParams.labels,
       period_start_from: this.currentParams.period_start_from,
-      period_start_to: this.currentParams.period_start_to
+      period_start_to: this.currentParams.period_start_to,
+      tables: row.tables
     });
   }
 
