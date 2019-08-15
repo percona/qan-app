@@ -1,3 +1,2 @@
-<!--<span class="query-info__item">{{dimension || 'TOTAL'}}</span>-->
-<span class="query-info__item">{{'TOTAL'}}</span>
-<span class="query-info__item">{{fingerprint}}</span>
+<span class="query-info__item" >{{ details?.group_by == 'queryid' ? (fingerprint || 'Queries') : (humanizeLabels(details?.group_by) + ': ' + ( details?.filter_by == '' ? 'TOTAL' : details?.filter_by )) }}</span>
+<span class="query-info__item" *ngIf="details?.group_by == 'queryid'">{{ details?.filter_by || 'TOTAL' }}</span>
