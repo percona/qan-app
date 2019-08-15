@@ -49,12 +49,12 @@ export class DetailsLabelsComponent implements OnInit, OnDestroy {
       .pipe(take(1))
       .subscribe(response => {
         console.log('response - ', response);
+        this.isLoading = false;
         if (response.length) {
           this.labels = this.filterViewerService.filtersOrder(response);
           this.filterViewerService.skipNA(this.labels);
           this.filterViewerService.sortIdsValues(this.labels);
         }
-        this.isLoading = false;
       })
   }
 

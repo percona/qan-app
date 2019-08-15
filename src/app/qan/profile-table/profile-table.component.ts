@@ -149,6 +149,7 @@ export class ProfileTableComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   showDetails(row: TableDataModel) {
+    console.log('row', row);
     this.qanProfileService.updateFingerprint(row.fingerprint || '');
     this.qanProfileService.updateDetailsByValue(row.dimension);
     this.qanProfileService.updateObjectDetails({
