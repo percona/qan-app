@@ -20,7 +20,6 @@ export class TableStatusComponent implements OnInit, OnDestroy {
   public showTableStatusOutput: string;
   public statusTableError = '';
   public isError = false;
-  public isExplainLoading: boolean;
 
   constructor(
     private actionsService: ActionsService,
@@ -29,7 +28,15 @@ export class TableStatusComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    this.startMySQLShowTableStatus(this.globalConfig, this.tableName);
+    switch (this.globalConfig.service_type) {
+      case 'mysql':
+        this.startMySQLShowTableStatus(this.globalConfig, this.tableName);
+        break;
+      default:
+        this.statusTableError = 'Not implemented yet.';
+        this.isError = true;
+        return
+    }
   }
 
   ngOnDestroy() {
@@ -62,7 +69,6 @@ export class TableStatusComponent implements OnInit, OnDestroy {
         }
 
         this.status$.unsubscribe();
-        this.isExplainLoading = false;
       }
     });
   }
