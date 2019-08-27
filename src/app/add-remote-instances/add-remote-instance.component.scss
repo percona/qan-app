@@ -1,13 +1,43 @@
 .add-instance-form {
   margin: 0 auto;
-  display: grid;
-  grid-template-columns: 1fr 0.3fr;
-  grid-gap: 1em;
+  display: block;
   align-items: baseline;
-  max-width: 775px;
+  max-width: 1000px;
   width: 100%;
-  padding: 40px 0 40px 10%;
+  padding: 10px 0 10px 2%;
   background-color: var(--element-background);
+
+  .add-instance-panel {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-gap: 1em;
+    width: 100%;
+    margin-bottom: 1em;
+  }
+
+  a.button {
+    float: left;
+  }
+
+  .description {
+    line-height: 40px;
+    vertical-align: middle;
+    margin-left: 10px;
+  }
+  .description.custom-labels {
+    white-space: pre-wrap;
+    line-height: normal;
+  }
+}
+
+::ng-deep .ng-select.pmm-select.pmm-select--inventory {
+  .ng-select-container {
+    background-color: var(--page-background);
+  }
+
+  .ng-dropdown-panel {
+    width: 100%;
+    }
 }
 
 .add-instance-form__title,
@@ -29,37 +59,12 @@
   font-weight: 300;
 }
 
-.fa-info-circle {
-  font-size: 20px;
+.input-field--textarea {
+  height: 80px;
+  font-weight: 300;
 }
 
-div.app-tooltip {
-  position: relative;
-  width: min-content;
+.input-field--checkbox {
+  height: 20px;
 }
 
-div.app-tooltip::before {
-  left: 25px;
-  top: -3px;
-  padding: 5px;
-}
-
-div.app-tooltip--hostname::before {
-  content: 'Public DNS hostname of your instance';
-}
-
-div.app-tooltip--name::before {
-  content: 'Instance name to use';
-}
-
-div.app-tooltip--port::before {
-  content: 'Port your instance is listening on';
-}
-
-div.app-tooltip--username::before {
-  content: 'Your database user name';
-}
-
-div.app-tooltip--password::before {
-  content: 'Your database password';
-}

@@ -4462,6 +4462,14 @@
             "schema": {
               "type": "object",
               "properties": {
+                "address": {
+                  "type": "string",
+                  "title": "Address FIXME https://jira.percona.com/browse/PMM-3786"
+                },
+                "az": {
+                  "description": "Node availability zone. Auto-detected and auto-updated.",
+                  "type": "string"
+                },
                 "custom_labels": {
                   "description": "Custom user-assigned labels.",
                   "type": "object",
@@ -4471,6 +4479,10 @@
                 },
                 "node_name": {
                   "description": "Unique across all Nodes user-defined name. Can't be changed.",
+                  "type": "string"
+                },
+                "region": {
+                  "description": "Node region. Auto-detected and auto-updated.",
                   "type": "string"
                 }
               }
@@ -4487,6 +4499,14 @@
                   "description": "RemoteNode represents generic remote Node. Agents can't run on Remote Nodes.",
                   "type": "object",
                   "properties": {
+                    "address": {
+                      "type": "string",
+                      "title": "Address FIXME https://jira.percona.com/browse/PMM-3786"
+                    },
+                    "az": {
+                      "description": "Node availability zone. Auto-detected and auto-updated.",
+                      "type": "string"
+                    },
                     "custom_labels": {
                       "description": "Custom user-assigned labels. Can be changed.",
                       "type": "object",
@@ -4500,6 +4520,10 @@
                     },
                     "node_name": {
                       "description": "Unique across all Nodes user-defined name. Can't be changed.",
+                      "type": "string"
+                    },
+                    "region": {
+                      "description": "Node region. Auto-detected and auto-updated.",
                       "type": "string"
                     }
                   }
@@ -4754,6 +4778,14 @@
                   "description": "RemoteNode represents generic remote Node. Agents can't run on Remote Nodes.",
                   "type": "object",
                   "properties": {
+                    "address": {
+                      "type": "string",
+                      "title": "Address FIXME https://jira.percona.com/browse/PMM-3786"
+                    },
+                    "az": {
+                      "description": "Node availability zone. Auto-detected and auto-updated.",
+                      "type": "string"
+                    },
                     "custom_labels": {
                       "description": "Custom user-assigned labels. Can be changed.",
                       "type": "object",
@@ -4767,6 +4799,10 @@
                     },
                     "node_name": {
                       "description": "Unique across all Nodes user-defined name. Can't be changed.",
+                      "type": "string"
+                    },
+                    "region": {
+                      "description": "Node region. Auto-detected and auto-updated.",
                       "type": "string"
                     }
                   }
@@ -4954,6 +4990,14 @@
                     "description": "RemoteNode represents generic remote Node. Agents can't run on Remote Nodes.",
                     "type": "object",
                     "properties": {
+                      "address": {
+                        "type": "string",
+                        "title": "Address FIXME https://jira.percona.com/browse/PMM-3786"
+                      },
+                      "az": {
+                        "description": "Node availability zone. Auto-detected and auto-updated.",
+                        "type": "string"
+                      },
                       "custom_labels": {
                         "description": "Custom user-assigned labels. Can be changed.",
                         "type": "object",
@@ -4967,6 +5011,10 @@
                       },
                       "node_name": {
                         "description": "Unique across all Nodes user-defined name. Can't be changed.",
+                        "type": "string"
+                      },
+                      "region": {
+                        "description": "Node region. Auto-detected and auto-updated.",
                         "type": "string"
                       }
                     }
@@ -6509,7 +6557,7 @@
                   "type": "string"
                 },
                 "service_id": {
-                  "description": "Service ID for this Action.",
+                  "description": "Service ID for this Action. Required.",
                   "type": "string"
                 }
               }
@@ -6583,7 +6631,7 @@
                   "type": "string"
                 },
                 "service_id": {
-                  "description": "Service ID for this Action.",
+                  "description": "Service ID for this Action. Required.",
                   "type": "string"
                 }
               }
@@ -6657,7 +6705,7 @@
                   "type": "string"
                 },
                 "service_id": {
-                  "description": "Service ID for this Action.",
+                  "description": "Service ID for this Action. Required.",
                   "type": "string"
                 }
               }
@@ -6727,7 +6775,7 @@
                   "type": "string"
                 },
                 "service_id": {
-                  "description": "Service ID for this Action.",
+                  "description": "Service ID for this Action. Required.",
                   "type": "string"
                 },
                 "table_name": {
@@ -6801,7 +6849,7 @@
                   "type": "string"
                 },
                 "service_id": {
-                  "description": "Service ID for this Action.",
+                  "description": "Service ID for this Action. Required.",
                   "type": "string"
                 },
                 "table_name": {
@@ -6875,7 +6923,7 @@
                   "type": "string"
                 },
                 "service_id": {
-                  "description": "Service ID for this Action.",
+                  "description": "Service ID for this Action. Required.",
                   "type": "string"
                 },
                 "table_name": {
@@ -6945,7 +6993,7 @@
                   "type": "string"
                 },
                 "service_id": {
-                  "description": "Service ID for this Action.",
+                  "description": "Service ID for this Action. Required.",
                   "type": "string"
                 }
               }
@@ -7081,7 +7129,7 @@
                   "type": "string"
                 },
                 "service_id": {
-                  "description": "Service ID for this Action.",
+                  "description": "Service ID for this Action. Required.",
                   "type": "string"
                 },
                 "table_name": {
@@ -7155,7 +7203,7 @@
                   "type": "string"
                 },
                 "service_id": {
-                  "description": "Service ID for this Action.",
+                  "description": "Service ID for this Action. Required.",
                   "type": "string"
                 },
                 "table_name": {
@@ -7481,6 +7529,63 @@
             "schema": {
               "type": "object",
               "properties": {
+                "add_node": {
+                  "description": "AddNodeRequest adds new node to inventory while adding new service.",
+                  "type": "object",
+                  "properties": {
+                    "az": {
+                      "description": "Node availability zone.",
+                      "type": "string"
+                    },
+                    "container_id": {
+                      "description": "Container identifier. If specified, must be a unique Docker container identifier.",
+                      "type": "string"
+                    },
+                    "container_name": {
+                      "description": "Container name.",
+                      "type": "string"
+                    },
+                    "custom_labels": {
+                      "description": "Custom user-assigned labels.",
+                      "type": "object",
+                      "additionalProperties": {
+                        "type": "string"
+                      }
+                    },
+                    "distro": {
+                      "description": "Linux distribution name and version.",
+                      "type": "string"
+                    },
+                    "machine_id": {
+                      "description": "Linux machine-id.\nMust be unique across all Generic Nodes if specified.",
+                      "type": "string"
+                    },
+                    "node_model": {
+                      "description": "Node model.",
+                      "type": "string"
+                    },
+                    "node_name": {
+                      "description": "Unique across all Nodes user-defined name. Can't be changed.",
+                      "type": "string"
+                    },
+                    "node_type": {
+                      "description": "NodeType describes supported Node types.",
+                      "type": "string",
+                      "default": "NODE_TYPE_INVALID",
+                      "enum": [
+                        "NODE_TYPE_INVALID",
+                        "GENERIC_NODE",
+                        "CONTAINER_NODE",
+                        "REMOTE_NODE",
+                        "REMOTE_AMAZON_RDS_NODE"
+                      ]
+                    },
+                    "region": {
+                      "description": "Node region.",
+                      "type": "string"
+                    }
+                  }
+                },
                 "address": {
                   "description": "Node and Service access address (DNS name or IP). Required.",
                   "type": "string"
@@ -7501,7 +7606,10 @@
                   "type": "string"
                 },
                 "node_id": {
-                  "description": "Node identifier on which a service is been running. Required.",
+                  "type": "string",
+                  "title": "Node identifier on which a service is been running. Required.\nUse only one of these paramse (node_id, node_name or add_node)"
+                },
+                "node_name": {
                   "type": "string"
                 },
                 "password": {
@@ -9864,15 +9972,25 @@
                   "type": "object",
                   "properties": {
                     "hr": {
-                      "description": "High resolution. Suffix 's' is required in JSON: 1s, 60s, 300s.",
+                      "description": "High resolution. Suffix 's' is required in JSON: 1s, 60s, 300s, etc.",
                       "type": "string"
                     },
                     "lr": {
-                      "description": "Low resolution. Suffix 's' is required in JSON: 1s, 60s, 300s.",
+                      "description": "Low resolution. Suffix 's' is required in JSON: 1s, 60s, 300s, etc.",
                       "type": "string"
                     },
                     "mr": {
-                      "description": "Medium resolution. Suffix 's' is required in JSON: 1s, 60s, 300s.",
+                      "description": "Medium resolution. Suffix 's' is required in JSON: 1s, 60s, 300s, etc.",
+                      "type": "string"
+                    }
+                  }
+                },
+                "qan": {
+                  "description": "QAN contains query analytics configuration.",
+                  "type": "object",
+                  "properties": {
+                    "data_retention": {
+                      "description": "A number of full days of data retention. Suffix 's' is required in JSON: 86400s, 1209600s, 5184000s, etc.",
                       "type": "string"
                     }
                   }
@@ -9896,15 +10014,25 @@
                       "type": "object",
                       "properties": {
                         "hr": {
-                          "description": "High resolution. Suffix 's' is required in JSON: 1s, 60s, 300s.",
+                          "description": "High resolution. Suffix 's' is required in JSON: 1s, 60s, 300s, etc.",
                           "type": "string"
                         },
                         "lr": {
-                          "description": "Low resolution. Suffix 's' is required in JSON: 1s, 60s, 300s.",
+                          "description": "Low resolution. Suffix 's' is required in JSON: 1s, 60s, 300s, etc.",
                           "type": "string"
                         },
                         "mr": {
-                          "description": "Medium resolution. Suffix 's' is required in JSON: 1s, 60s, 300s.",
+                          "description": "Medium resolution. Suffix 's' is required in JSON: 1s, 60s, 300s, etc.",
+                          "type": "string"
+                        }
+                      }
+                    },
+                    "qan": {
+                      "description": "QAN contains query analytics configuration.",
+                      "type": "object",
+                      "properties": {
+                        "data_retention": {
+                          "description": "A number of full days of data retention. Suffix 's' is required in JSON: 86400s, 1209600s, 5184000s, etc.",
                           "type": "string"
                         }
                       }
@@ -9976,15 +10104,25 @@
                       "type": "object",
                       "properties": {
                         "hr": {
-                          "description": "High resolution. Suffix 's' is required in JSON: 1s, 60s, 300s.",
+                          "description": "High resolution. Suffix 's' is required in JSON: 1s, 60s, 300s, etc.",
                           "type": "string"
                         },
                         "lr": {
-                          "description": "Low resolution. Suffix 's' is required in JSON: 1s, 60s, 300s.",
+                          "description": "Low resolution. Suffix 's' is required in JSON: 1s, 60s, 300s, etc.",
                           "type": "string"
                         },
                         "mr": {
-                          "description": "Medium resolution. Suffix 's' is required in JSON: 1s, 60s, 300s.",
+                          "description": "Medium resolution. Suffix 's' is required in JSON: 1s, 60s, 300s, etc.",
+                          "type": "string"
+                        }
+                      }
+                    },
+                    "qan": {
+                      "description": "QAN contains query analytics configuration.",
+                      "type": "object",
+                      "properties": {
+                        "data_retention": {
+                          "description": "A number of full days of data retention. Suffix 's' is required in JSON: 86400s, 1209600s, 5184000s, etc.",
                           "type": "string"
                         }
                       }
@@ -10155,8 +10293,13 @@
               "type": "object",
               "properties": {
                 "auth_token": {
-                  "description": "Authentication token for getting update status.",
+                  "description": "Authentication token for getting update statuses.",
                   "type": "string"
+                },
+                "log_offset": {
+                  "description": "Progress log offset.",
+                  "type": "integer",
+                  "format": "int64"
                 }
               }
             }
@@ -10203,7 +10346,7 @@
                   "type": "string"
                 },
                 "log_offset": {
-                  "description": "Progress log offset, starts from 0.",
+                  "description": "Progress log offset.",
                   "type": "integer",
                   "format": "int64"
                 }
@@ -10229,7 +10372,7 @@
                     "type": "string"
                   }
                 },
-                "next_log_offset": {
+                "log_offset": {
                   "description": "Progress log offset for the next request.",
                   "type": "integer",
                   "format": "int64"
