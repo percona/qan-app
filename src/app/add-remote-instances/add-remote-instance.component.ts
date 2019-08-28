@@ -98,7 +98,6 @@ export class AddRemoteInstanceComponent implements OnInit {
     if (this.remoteInstanceCredentials.port === undefined || this.remoteInstanceCredentials.port === 0) {
       this.remoteInstanceCredentials.port = this.instanceType === 'PostgreSQL' ? 5432 : 3306; // set default value for port
     }
-    this.remoteInstanceCredentials.pmm_agent_id = '/agent_id/a516ac68-c427-4409-a65d-a39b698c1813'; // TODO: remove
     if (this.remoteInstanceCredentials.pmm_agent_id === undefined || this.remoteInstanceCredentials.pmm_agent_id === '') {
       this.remoteInstanceCredentials.pmm_agent_id = 'pmm-server'; // set default value for pmm agent id
     }
