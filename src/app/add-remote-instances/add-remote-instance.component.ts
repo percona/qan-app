@@ -14,6 +14,7 @@ import { Observable } from 'rxjs';
 import { NodesService } from '../pmm-api-services/services/nodes.service';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { split } from 'ts-node';
+import { MySQLCredentials } from '../add-amazon-rds/add-amazon-rds.service';
 
 @NgModule({
   imports: [NgSelectModule]
@@ -40,9 +41,9 @@ export class AddRemoteInstanceComponent implements OnInit {
   nodeCustomLabels: string;
 
   constructor(public addRemoteInstanceService: AddRemoteInstanceService,
-              private router: Router,
-              private mySQLService: MySQLService,
-              private nodesService: NodesService
+    private router: Router,
+    private mySQLService: MySQLService,
+    private nodesService: NodesService
   ) {
     this.isDemo = environment.demoHosts.includes(location.hostname);
     this.currentUrl = this.router.url;
@@ -145,6 +146,14 @@ export class AddRemoteInstanceComponent implements OnInit {
     this.showAddNodePanel = true;
     this.remoteInstanceCredentials.node_id = null;
     this.remoteInstanceCredentials.add_node = {} as AddNode
+  }
+
+  onMySQLQuerySourceChange(value) {
+    (this.remoteInstanceCredentials as AddMySQLCredentials).qan_mysql_perfschema = false;
+    (this.remoteInstanceCredentials as AddMySQLCredentials).qan_mysql_slowlog = false;
+    if (value != null) {
+      this.remoteInstanceCredentials[value] = true
+    }
   }
 
   onChangeNode(node) {

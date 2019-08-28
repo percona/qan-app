@@ -150,6 +150,15 @@ key2:value2
         <span class="description">
             <a>What does it mean</a>
         </span>
+
+        <div *ngIf="instanceType == 'MySQL'" class="full-row">
+            <input type="radio" name="query-source" [value]=qan_mysql_slowlog (change)="onMySQLQuerySourceChange('qan_mysql_slowlog')">
+            <label class="radio-label">Use slowlog</label>
+            <input type="radio" name="query-source" [value]=qan_mysql_perfschema  (change)="onMySQLQuerySourceChange('qan_mysql_perfschema')" >
+            <label class="radio-label">Use performance schema</label>
+            <input type="radio" name="query-source" (change)="onMySQLQuerySourceChange(null)">
+            <label class="radio-label">Don't track queries metrics</label>
+        </div>
     </div>
 
     <div class="add-instance-form__submit-block">
