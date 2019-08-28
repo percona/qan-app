@@ -1,5 +1,12 @@
 import { Component, NgModule, OnInit } from '@angular/core';
-import { AddMySQLCredentials, AddNode, AddRemoteInstanceService, BaseCredentials, NodeRemote, NodeType } from './add-remote-instance.service'
+import {
+  AddMySQLCredentials,
+  AddNode,
+  AddRemoteInstanceService,
+  BaseCredentials,
+  NodeRemote,
+  NodeType
+} from './add-remote-instance.service'
 import { environment } from '../environment';
 import { Router } from '@angular/router';
 import { MySQLService } from '../pmm-api-services/services/my-sql.service';
@@ -33,9 +40,9 @@ export class AddRemoteInstanceComponent implements OnInit {
   nodeCustomLabels: string;
 
   constructor(public addRemoteInstanceService: AddRemoteInstanceService,
-    private router: Router,
-    private mySQLService: MySQLService,
-    private nodesService: NodesService
+              private router: Router,
+              private mySQLService: MySQLService,
+              private nodesService: NodesService
   ) {
     this.isDemo = environment.demoHosts.includes(location.hostname);
     this.currentUrl = this.router.url;
