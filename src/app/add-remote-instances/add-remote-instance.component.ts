@@ -1,7 +1,7 @@
 import { Component, NgModule, OnInit } from '@angular/core';
 import {
   AddMySQLCredentials,
-  AddNode,
+  AddNodeParams,
   AddRemoteInstanceService,
   BaseCredentials,
   NodeRemote,
@@ -36,23 +36,15 @@ export class AddRemoteInstanceComponent implements OnInit {
   isSubmitted = false;
   instanceType: string;
   currentUrl: string;
-  showAddNodePanel = false;
   customLabels: string;
   nodeCustomLabels: string;
 
   constructor(public addRemoteInstanceService: AddRemoteInstanceService,
     private router: Router,
-    private mySQLService: MySQLService,
-    private nodesService: NodesService
+    private mySQLService: MySQLService
   ) {
     this.isDemo = environment.demoHosts.includes(location.hostname);
     this.currentUrl = this.router.url;
-    this.nodeTypes = Array<NodeType>(
-      new NodeType('GENERIC_NODE', 'Generic Node'),
-      new NodeType('CONTAINER_NODE', 'Container Node'),
-      new NodeType('REMOTE_NODE', 'Remote Node'),
-      new NodeType('REMOTE_AMAZON_RDS_NODE', 'Remote Amazon RDS Node'),
-    )
   }
 
   async ngOnInit() {
@@ -67,25 +59,6 @@ export class AddRemoteInstanceComponent implements OnInit {
         this.remoteInstanceCredentials = {} as AddMySQLCredentials;
         break;
     }
-
-    this.nodesService.ListNodes({}).subscribe(value => {
-      this.nodes = Array<NodeRemote>();
-      if (value.remote !== undefined) {
-        value.remote.forEach(remoteNode => {
-          this.nodes.push(remoteNode)
-        })
-      }
-      if (value.generic !== undefined) {
-        value.generic.forEach(remoteNode => {
-          this.nodes.push(remoteNode)
-        })
-      }
-      if (value.container !== undefined) {
-        value.container.forEach(remoteNode => {
-          this.nodes.push(remoteNode)
-        })
-      }
-    })
   }
 
   async onSubmit(form) {
@@ -101,6 +74,13 @@ export class AddRemoteInstanceComponent implements OnInit {
 
     if (this.remoteInstanceCredentials.service_name === undefined || this.remoteInstanceCredentials.service_name === '') {
       this.remoteInstanceCredentials.service_name = this.remoteInstanceCredentials.address; // set default value for name (like address)
+    }
+
+    if (this.remoteInstanceCredentials.add_node === undefined) {
+      this.remoteInstanceCredentials.add_node = {
+        node_name: this.remoteInstanceCredentials.service_name,
+        node_type: 'REMOTE_NODE'
+      } as AddNodeParams;
     }
 
     if (this.remoteInstanceCredentials.port === undefined || this.remoteInstanceCredentials.port === 0) {
@@ -140,28 +120,5 @@ export class AddRemoteInstanceComponent implements OnInit {
       labels[key] = value
     });
     return labels;
-  }
-
-  async enableAddNodeForm() {
-    this.showAddNodePanel = true;
-    this.remoteInstanceCredentials.node_id = null;
-    this.remoteInstanceCredentials.add_node = {} as AddNode
-  }
-
-  onMySQLQuerySourceChange(value) {
-    (this.remoteInstanceCredentials as AddMySQLCredentials).qan_mysql_perfschema = false;
-    (this.remoteInstanceCredentials as AddMySQLCredentials).qan_mysql_slowlog = false;
-    if (value != null) {
-      this.remoteInstanceCredentials[value] = true
-    }
-  }
-
-  onChangeNode(node) {
-    this.remoteInstanceCredentials.node_id = node.node_id;
-  }
-
-  onChangeNodeType(nodeType) {
-    this.remoteInstanceCredentials.add_node.node_type = nodeType.value;
-    console.log(nodeType)
   }
 }

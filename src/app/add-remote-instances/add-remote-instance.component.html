@@ -1,59 +1,5 @@
 <form #addInstanceForm="ngForm" (ngSubmit)="onSubmit(addInstanceForm)" class="add-instance-form">
     <h5 class="add-instance-form__title">Add remote {{instanceType}} Instance</h5>
-    <div *ngIf="!showAddNodePanel" class="add-instance-panel">
-        <ng-select [(ngModel)]="remoteInstanceCredentials.node_id"
-                   [items]="nodes"
-                   [clearable]="true"
-                   (change)="onChangeNode($event)"
-                   bindLabel="node_name"
-                   bindValue="node_id"
-                   name="NodeSelect" id="nodeselect"
-                   class="pmm-select pmm-select--inventory  pmm-select--column pmm-select--column-main">
-        </ng-select>
-        <div>
-            <a (click)="enableAddNodeForm()" class="button button--dark" id="addService">Add Instance</a>
-          <span class="description">
-            Select host from existed one or add new one
-          </span>
-        </div>
-    </div>
-
-    <div *ngIf="showAddNodePanel" class="add-instance-panel">
-        <h6>Node params</h6><span></span>
-        <input [(ngModel)]="remoteInstanceCredentials.add_node.node_name"
-               [class.input--invalid]="nodename?.errors && isSubmitted"
-               #nodename="ngModel"
-               type="text" class="input-field  input-field--dark"
-               placeholder="*Node name" name="Nodename" id="nodename" required>
-        <span class="description">
-            Name for new node. Should be unique across all Nodes. Can't be changed.
-        </span>
-        <ng-select
-                   [items]="nodeTypes"
-                   [clearable]="false"
-                   (change)="onChangeNodeType($event)"
-                   bindLabel="label"
-                   bindValue="value"
-                   name="NodeTypeSelect" id="nodetypeselect"
-                   class="pmm-select pmm-select--inventory  pmm-select--column pmm-select--column-main">
-        </ng-select>
-        <span class="description">
-            Node type to be registered
-        </span>
-
-        <textarea [(ngModel)]="nodeCustomLabels"
-                  rows="4"
-                  type="text" class="input-field input-field--textarea input-field--dark"
-                  placeholder="Custom labels" id="nodeCustomLabels" name="nodeCustomLabels"></textarea>
-        <div class="description custom-labels">
-            <a>What is Custom labels</a>
-            <span>
-Format:
-key1:value1
-key2:value2
-            </span>
-        </div>
-    </div>
 
     <div class="add-instance-panel">
         <h6>Main details</h6><span></span>
@@ -152,12 +98,12 @@ key2:value2
         </span>
 
         <div *ngIf="instanceType == 'MySQL'" class="full-row">
-            <input type="radio" name="query-source" [value]=qan_mysql_slowlog (change)="onMySQLQuerySourceChange('qan_mysql_slowlog')">
-            <label class="radio-label">Use slowlog</label>
-            <input type="radio" name="query-source" [value]=qan_mysql_perfschema  (change)="onMySQLQuerySourceChange('qan_mysql_perfschema')" >
-            <label class="radio-label">Use performance schema</label>
-            <input type="radio" name="query-source" (change)="onMySQLQuerySourceChange(null)">
-            <label class="radio-label">Don't track queries metrics</label>
+            <input [(ngModel)]="remoteInstanceCredentials.qan_mysql_perfschema"
+                   type="checkbox" class="input-field--dark"
+                   name="qan_mysql_perfschema" id="qan_mysql_perfschema">
+            <label class="description" for="qan_mysql_perfschema">
+                Use performance schema
+            </label>
         </div>
     </div>
 

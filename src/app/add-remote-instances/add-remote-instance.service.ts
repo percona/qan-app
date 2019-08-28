@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 
-export interface AddNode {
+export interface AddNodeParams {
   node_name: string
   node_type: 'NODE_TYPE_INVALID' | 'GENERIC_NODE' | 'CONTAINER_NODE' | 'REMOTE_NODE' | 'REMOTE_AMAZON_RDS_NODE'
   machine_id?: string
@@ -16,7 +16,7 @@ export interface AddNode {
 
 export interface BaseCredentials {
   node_id?: string
-  add_node?: AddNode
+  add_node?: AddNodeParams
   address?: string
   service_name?: string
   port?: number
