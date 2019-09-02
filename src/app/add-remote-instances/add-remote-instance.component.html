@@ -21,7 +21,7 @@
 
         <input [(ngModel)]="remoteInstanceCredentials.port" #port="ngModel"
                type="text" class="input-field input-field--dark" placeholder="Port"
-               [placeholder]="instanceType === 'PostgreSQL' ? 'Port (default: 5432)' : '(default: 3306)'"
+               [placeholder]="'Port (default: '+ defaultPort+')'"
                id="port" name="Port">
         <span class="description">
             Port your service is listening on
@@ -103,6 +103,24 @@ key2:value2
                    name="qan_mysql_perfschema" id="qan_mysql_perfschema">
             <label class="description" for="qan_mysql_perfschema">
                 Use performance schema
+            </label>
+        </div>
+
+        <div *ngIf="instanceType == 'PostgreSQL'" class="full-row">
+            <input [(ngModel)]="remoteInstanceCredentials.qan_postgresql_pgstatements_agent"
+                   type="checkbox" class="input-field--dark"
+                   name="qan_postgresql_pgstatements_agent" id="qan_postgresql_pgstatements_agent">
+            <label class="description" for="qan_postgresql_pgstatements_agent">
+                Use Pg Stat Statements
+            </label>
+        </div>
+
+        <div *ngIf="instanceType == 'MongoDB'" class="full-row">
+            <input [(ngModel)]="remoteInstanceCredentials.qan_mongodb_profiler"
+                   type="checkbox" class="input-field--dark"
+                   name="qan_mongodb_profiler" id="qan_mongodb_profiler">
+            <label class="description" for="qan_mongodb_profiler">
+                Use QAN MongoDB Profiler
             </label>
         </div>
     </div>

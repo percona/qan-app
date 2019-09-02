@@ -1,20 +1,18 @@
 import { Component, NgModule, OnInit } from '@angular/core';
 import {
   AddMySQLCredentials,
+  AddPostgreSQLCredentials,
   AddNodeParams,
   AddRemoteInstanceService,
   BaseCredentials,
   NodeRemote,
-  NodeType
+  AddMongoDBCredentials,
+  AddProxySQLCredentials
 } from './add-remote-instance.service'
 import { environment } from '../environment';
 import { Router } from '@angular/router';
-import { MySQLService } from '../pmm-api-services/services/my-sql.service';
 import { Observable } from 'rxjs';
-import { NodesService } from '../pmm-api-services/services/nodes.service';
 import { NgSelectModule } from '@ng-select/ng-select';
-import { split } from 'ts-node';
-import { MySQLCredentials } from '../add-amazon-rds/add-amazon-rds.service';
 
 @NgModule({
   imports: [NgSelectModule]
@@ -29,7 +27,6 @@ export class AddRemoteInstanceComponent implements OnInit {
 
   remoteInstanceCredentials = {} as BaseCredentials;
   nodes = Array<NodeRemote>();
-  nodeTypes = Array<NodeType>();
   errorMessage: string;
   isDemo = false;
   isLoading = false;
@@ -37,11 +34,10 @@ export class AddRemoteInstanceComponent implements OnInit {
   instanceType: string;
   currentUrl: string;
   customLabels: string;
-  nodeCustomLabels: string;
+  defaultPort = 3306;
 
   constructor(public addRemoteInstanceService: AddRemoteInstanceService,
-    private router: Router,
-    private mySQLService: MySQLService
+    private router: Router
   ) {
     this.isDemo = environment.demoHosts.includes(location.hostname);
     this.currentUrl = this.router.url;
@@ -53,10 +49,23 @@ export class AddRemoteInstanceComponent implements OnInit {
     switch (this.addRemoteInstanceService.checkInstanceType(this.currentUrl)) {
       case 'postgresql':
         this.instanceType = 'PostgreSQL';
+        this.remoteInstanceCredentials = {} as AddPostgreSQLCredentials;
+        this.defaultPort = 5432;
         break;
       case 'mysql':
         this.instanceType = 'MySQL';
         this.remoteInstanceCredentials = {} as AddMySQLCredentials;
+        this.defaultPort = 3306;
+        break;
+      case 'mongodb':
+        this.instanceType = 'MongoDB';
+        this.remoteInstanceCredentials = {} as AddMongoDBCredentials;
+        this.defaultPort = 27017;
+        break;
+      case 'proxysql':
+        this.instanceType = 'ProxySQL';
+        this.remoteInstanceCredentials = {} as AddProxySQLCredentials;
+        this.defaultPort = 6032;
         break;
     }
   }
@@ -84,7 +93,7 @@ export class AddRemoteInstanceComponent implements OnInit {
     }
 
     if (this.remoteInstanceCredentials.port === undefined || this.remoteInstanceCredentials.port === 0) {
-      this.remoteInstanceCredentials.port = this.instanceType === 'PostgreSQL' ? 5432 : 3306; // set default value for port
+      this.remoteInstanceCredentials.port = this.defaultPort; // set default value for port
     }
     if (this.remoteInstanceCredentials.pmm_agent_id === undefined || this.remoteInstanceCredentials.pmm_agent_id === '') {
       this.remoteInstanceCredentials.pmm_agent_id = 'pmm-server'; // set default value for pmm agent id
@@ -94,18 +103,10 @@ export class AddRemoteInstanceComponent implements OnInit {
       this.remoteInstanceCredentials.custom_labels = this.extractCustomLabels(this.customLabels);
     }
 
-    if (this.remoteInstanceCredentials.add_node !== undefined && this.nodeCustomLabels !== undefined) {
-      this.remoteInstanceCredentials.add_node.custom_labels = this.extractCustomLabels(this.nodeCustomLabels);
-    }
-
-    let addObservable: Observable<Object>;
-    switch (this.instanceType) {
-      case 'MySQL':
-        addObservable = this.mySQLService.AddMySQL(this.remoteInstanceCredentials);
-    }
+    const addObservable: Observable<Object> = this.addRemoteInstanceService.addService(this.remoteInstanceCredentials, this.currentUrl);
     addObservable.subscribe(value => {
-      window.parent.location.assign(newURL);
       this.isLoading = false;
+      window.parent.location.assign(newURL);
     }, err => {
       this.errorMessage = err.error.error;
       this.isLoading = false;

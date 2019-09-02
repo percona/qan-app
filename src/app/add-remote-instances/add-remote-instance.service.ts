@@ -1,5 +1,10 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { MySQLService } from '../pmm-api-services/services/my-sql.service';
+import { PostgreSQLService } from '../pmm-api-services/services/postgre-sql.service';
+import { Observable } from 'rxjs';
+import {MongoDBService} from '../pmm-api-services/services/mongo-db.service';
+import {ProxySQLService} from '../pmm-api-services/services/proxy-sql.service';
 
 export interface AddNodeParams {
   node_name: string
@@ -34,6 +39,17 @@ export interface AddMySQLCredentials extends BaseCredentials {
   qan_mysql_perfschema?: boolean
   qan_mysql_slowlog?: boolean
 }
+
+export interface AddPostgreSQLCredentials extends BaseCredentials {
+  qan_postgresql_pgstatements_agent?: boolean
+}
+
+export interface AddMongoDBCredentials extends BaseCredentials {
+  qan_mongodb_profiler?: boolean
+}
+
+// tslint:disable-next-line:no-empty-interface
+export interface AddProxySQLCredentials extends BaseCredentials {}
 
 export interface NodeContainer {
   address?: string
@@ -119,30 +135,34 @@ export class AddRemoteInstanceService {
   private httpHeaders = new HttpHeaders({ 'Content-Type': 'application/json' });
   instanceUrlPart: string;
 
-  constructor(private httpClient: HttpClient) {
+  constructor(
+    private mySQLService: MySQLService,
+    private postgreSQLService: PostgreSQLService,
+    private mongodbService: MongoDBService,
+    private proxySQLService: ProxySQLService
+  ) {
   }
-
-  // async enable(remoteInstanceCredentials: AddMySQLCredentials, currentUrl): Promise<{}> {
-  //   this.instanceUrlPart = this.checkInstanceType(currentUrl);
-  //
-  //   const url = `/managed/v0/${this.instanceUrlPart}`;
-  //   const data = {
-  //     address: remoteInstanceCredentials.address,
-  //     name: remoteInstanceCredentials.name,
-  //     port: remoteInstanceCredentials.port,
-  //     password: remoteInstanceCredentials.password,
-  //     username: remoteInstanceCredentials.username
-  //   };
-  //   return await this.httpClient
-  //     .post(url, data, { headers: this.httpHeaders })
-  //     .toPromise()
-  // }
-
   /**
    * Returns type of remote instance
    * @param currentUrl current page url
    */
   checkInstanceType(currentUrl) {
-    return currentUrl === '/add-remote-postgres' ? 'postgresql' : 'mysql';
+    return currentUrl.replace('/add-remote-', '');
+  }
+
+  addService(remoteInstanceCredentials: BaseCredentials, currentUrl: string) {
+    const instanceType = this.checkInstanceType(currentUrl);
+    switch (instanceType) {
+      case 'mysql':
+        return this.mySQLService.AddMySQL(remoteInstanceCredentials);
+      case 'postgresql':
+        return this.postgreSQLService.AddPostgreSQL(remoteInstanceCredentials);
+      case 'mongodb':
+        return this.mongodbService.AddMongoDB(remoteInstanceCredentials);
+      case 'proxysql':
+        return this.proxySQLService.AddProxySQL(remoteInstanceCredentials);
+      default:
+        return Observable.throw({ error: { error: 'unsupported instance type' } });
+    }
   }
 }
