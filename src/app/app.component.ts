@@ -12,7 +12,6 @@ import * as moment from 'moment';
 })
 export class AppComponent implements OnInit {
   title = 'Query Analytics';
-  version = environment.version;
   isDemo = false;
   hideNav = false;
   isInstancesListEmpty: boolean;
