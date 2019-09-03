@@ -46,7 +46,13 @@ export class LoadPolygonChartDirective implements OnChanges {
 
   findMinY(array) {
     const values = array.map(data => +data[this.ykey] || 0);
-    return Math.min(...values);
+    const minVal = Math.min(...values);
+    const maxVal = Math.max(...values);
+    // We need it to show chart on the middle if the value is constant.
+    if (minVal === maxVal) {
+      return minVal;
+    }
+    return 0;
   }
 
   findHighestX(array) {
