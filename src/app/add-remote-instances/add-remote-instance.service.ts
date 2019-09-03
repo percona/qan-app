@@ -3,8 +3,8 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { MySQLService } from '../pmm-api-services/services/my-sql.service';
 import { PostgreSQLService } from '../pmm-api-services/services/postgre-sql.service';
 import { Observable } from 'rxjs';
-import {MongoDBService} from '../pmm-api-services/services/mongo-db.service';
-import {ProxySQLService} from '../pmm-api-services/services/proxy-sql.service';
+import { MongoDBService } from '../pmm-api-services/services/mongo-db.service';
+import { ProxySQLService } from '../pmm-api-services/services/proxy-sql.service';
 
 export interface AddNodeParams {
   node_name: string
@@ -49,7 +49,7 @@ export interface AddMongoDBCredentials extends BaseCredentials {
 }
 
 // tslint:disable-next-line:no-empty-interface
-export interface AddProxySQLCredentials extends BaseCredentials {}
+export interface AddProxySQLCredentials extends BaseCredentials { }
 
 export interface NodeContainer {
   address?: string
