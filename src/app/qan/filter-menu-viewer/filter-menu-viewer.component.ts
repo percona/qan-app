@@ -54,6 +54,7 @@ export class FilterMenuViewerComponent implements OnInit, OnDestroy {
       .subscribe(
         filters => {
           this.filters = this.filterViewerService.filtersOrder(filters);
+          this.filters = this.filterViewerService.skipIDFilters(this.filters);
           this.filterViewerService.skipNA(this.filters);
           this.filterViewerService.sortIdsValues(this.filters);
           this.filterMenuService.updateAutocompleteFilters(filters);

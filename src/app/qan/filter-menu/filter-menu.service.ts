@@ -33,8 +33,8 @@ export class FilterMenuService {
   }
 
   generateFilterGroup(group) {
-    const filters = Object.entries(group.labels).map(entire => !this.isEmptyObject(entire[1]) ? new FilterGroupModel(entire) : {});
-    return filters.filter(item => !this.isEmptyObject(item));
+    const filters = Object.entries(group.labels).filter(item => !this.isEmptyObject(item)).map(entire => new FilterGroupModel(entire));
+    return filters;
   }
 
   generateAutocomplete(filters) {
