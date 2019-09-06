@@ -4,6 +4,7 @@ import { BehaviorSubject } from 'rxjs/internal/BehaviorSubject';
 import { QueryParams } from '../../core/core.component';
 import { ActivatedRoute } from '@angular/router';
 import { ParseQueryParamDatePipe } from '../../shared/parse-query-param-date.pipe';
+import { ReplaySubject } from 'rxjs';
 
 export interface GetProfileBody {
   columns?: string[];
@@ -61,7 +62,7 @@ export class QanProfileService {
   private profileInfo: ProfileInfo = {
     timeRange: new Subject<TimeRange>(),
     profile: new Subject<GetProfileBody>(),
-    details: new Subject<ObjectDetails>(),
+    details: new ReplaySubject<ObjectDetails>(),
     detailsBy: new BehaviorSubject<string>('default'),
     fingerprint: new BehaviorSubject<string>(''),
     defaultColumns: ['load', 'count', 'latency'],

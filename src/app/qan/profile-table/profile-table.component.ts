@@ -20,7 +20,7 @@ import { Subscription } from 'rxjs/internal/Subscription';
 import { catchError, map, switchMap } from 'rxjs/operators';
 import { ActivatedRoute, Router } from '@angular/router';
 import * as moment from 'moment';
-import { GetProfileBody, QanProfileService } from '../profile/qan-profile.service';
+import { GetProfileBody, ObjectDetails, QanProfileService } from '../profile/qan-profile.service';
 import { of } from 'rxjs/internal/observable/of';
 
 @Component({

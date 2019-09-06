@@ -1,8 +1,8 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { QanProfileService, ObjectDetails } from '../../../profile/qan-profile.service';
 import { FilterMenuService } from '../../../filter-menu/filter-menu.service';
-import { takeUntil } from 'rxjs/operators';
-import { Subject } from 'rxjs';
+import { Observable, Subscription, zip } from 'rxjs';
+import { map } from 'rxjs/operators';
 
 @Component({
   selector: 'app-details-fingerprint',
@@ -10,21 +10,30 @@ import { Subject } from 'rxjs';
   styleUrls: ['./details-fingerprint.component.css']
 })
 export class DetailsFingerprintComponent implements OnInit, OnDestroy {
-  private destroy$ = new Subject();
   public fingerprint: string;
   public details: ObjectDetails;
+  public header: Observable<string>;
   constructor(
     private qanProfileService: QanProfileService,
     private filterMenuService: FilterMenuService
   ) {
-    this.qanProfileService.getProfileInfo.details.pipe(
-      takeUntil(this.destroy$)
-    ).subscribe(
-      details => this.details = details
+    this.header = zip(
+      this.qanProfileService.getProfileInfo.details,
+      this.qanProfileService.getProfileInfo.fingerprint
+    ).pipe(
+      map(
+        zips => {
+          this.details = zips[0];
+          this.fingerprint = zips[1];
+          if (this.details.group_by === 'queryid') {
+            return this.fingerprint || 'Queries'
+          } else {
+            return this.humanizeLabels(this.details.group_by) + ': ' +
+              (this.details.filter_by === '' ? 'TOTAL' : this.details.filter_by);
+          }
+        }
+      )
     );
-    this.qanProfileService.getProfileInfo.fingerprint.pipe(
-      takeUntil(this.destroy$)
-    ).subscribe(fingerprint => this.fingerprint = fingerprint);
   }
 
   humanizeLabels(groupName) {
@@ -35,6 +44,5 @@ export class DetailsFingerprintComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    this.destroy$.next();
   }
 }
