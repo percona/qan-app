@@ -41,8 +41,10 @@ const routes: Routes = [
   { path: 'settings', component: SettingsComponent, pathMatch: 'full', canActivate: [RegisteredInstanceGuard] },
   { path: 'add-instance', component: AddInstanceComponent, pathMatch: 'full' },
   { path: 'add-amazon-rds', component: AddAmazonRDSComponent, pathMatch: 'full' },
-  { path: 'add-remote-postgres', component: AddRemoteInstanceComponent, pathMatch: 'full' },
+  { path: 'add-remote-postgresql', component: AddRemoteInstanceComponent, pathMatch: 'full' },
   { path: 'add-remote-mysql', component: AddRemoteInstanceComponent, pathMatch: 'full' },
+  { path: 'add-remote-mongodb', component: AddRemoteInstanceComponent, pathMatch: 'full' },
+  { path: 'add-remote-proxysql', component: AddRemoteInstanceComponent, pathMatch: 'full' },
   { path: 'pmm-list', component: RemoteInstancesListComponent, pathMatch: 'full' },
   { path: 'pmm-inventory', component: InventoryComponent, pathMatch: 'full' },
   { path: '**', component: PageNotFoundComponent }

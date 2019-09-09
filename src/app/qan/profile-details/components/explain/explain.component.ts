@@ -54,8 +54,18 @@ export class ExplainComponent implements OnInit, OnDestroy {
   }
 
   private startExplainActions(value) {
-    this.startClassic(value);
-    this.startJson(value);
+    switch (value.service_type) {
+      case 'mysql':
+        this.startClassic(value);
+        this.startJson(value);
+        break;
+      default:
+        this.classicError = 'Not implemented yet.';
+        this.isClassicLoading = false;
+        this.jsonError = 'Not implemented yet.';
+        this.isJsonLoading = false;
+        return
+    }
   }
 
   private startClassic(value) {

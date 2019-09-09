@@ -8,5 +8,10 @@
     "target": "http://localhost",
     "secure": false,
     "logLevel": "debug"
+  },
+  "/v0": {
+    "target": "https://localhost:8443",
+    "secure": false,
+    "logLevel": "debug"
   }
 }

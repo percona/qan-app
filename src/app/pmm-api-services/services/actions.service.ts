@@ -21,6 +21,8 @@ class ActionsService extends __BaseService {
   static readonly StartMySQLShowTableStatusActionPath = '/v0/management/Actions/StartMySQLShowTableStatus';
   static readonly StartPTMySQLSummaryActionPath = '/v0/management/Actions/StartPTMySQLSummary';
   static readonly StartPTSummaryActionPath = '/v0/management/Actions/StartPTSummary';
+  static readonly StartPostgreSQLShowCreateTableActionPath = '/v0/management/Actions/StartPostgreSQLShowCreateTable';
+  static readonly StartPostgreSQLShowIndexActionPath = '/v0/management/Actions/StartPostgreSQLShowIndex';
 
   constructor(
     config: __Configuration,
@@ -385,6 +387,78 @@ class ActionsService extends __BaseService {
    */
   StartPTSummaryAction(body: { node_id?: string, pmm_agent_id?: string }): __Observable<{ action_id?: string, pmm_agent_id?: string }> {
     return this.StartPTSummaryActionResponse(body).pipe(
+      __map(_r => _r.body as { action_id?: string, pmm_agent_id?: string })
+    );
+  }
+
+  /**
+   * @param body undefined
+   * @return A successful response.
+   */
+  StartPostgreSQLShowCreateTableActionResponse(body: { database?: string, pmm_agent_id?: string, service_id?: string, table_name?: string }): __Observable<__StrictHttpResponse<{ action_id?: string, pmm_agent_id?: string }>> {
+    let __params = this.newParams();
+    let __headers = new HttpHeaders();
+    let __body: any = null;
+    __body = body;
+    let req = new HttpRequest<any>(
+      'POST',
+      this.rootUrl + `/v0/management/Actions/StartPostgreSQLShowCreateTable`,
+      __body,
+      {
+        headers: __headers,
+        params: __params,
+        responseType: 'json'
+      });
+
+    return this.http.request<any>(req).pipe(
+      __filter(_r => _r instanceof HttpResponse),
+      __map((_r) => {
+        return _r as __StrictHttpResponse<{ action_id?: string, pmm_agent_id?: string }>;
+      })
+    );
+  }
+  /**
+   * @param body undefined
+   * @return A successful response.
+   */
+  StartPostgreSQLShowCreateTableAction(body: { database?: string, pmm_agent_id?: string, service_id?: string, table_name?: string }): __Observable<{ action_id?: string, pmm_agent_id?: string }> {
+    return this.StartPostgreSQLShowCreateTableActionResponse(body).pipe(
+      __map(_r => _r.body as { action_id?: string, pmm_agent_id?: string })
+    );
+  }
+
+  /**
+   * @param body undefined
+   * @return A successful response.
+   */
+  StartPostgreSQLShowIndexActionResponse(body: { database?: string, pmm_agent_id?: string, service_id?: string, table_name?: string }): __Observable<__StrictHttpResponse<{ action_id?: string, pmm_agent_id?: string }>> {
+    let __params = this.newParams();
+    let __headers = new HttpHeaders();
+    let __body: any = null;
+    __body = body;
+    let req = new HttpRequest<any>(
+      'POST',
+      this.rootUrl + `/v0/management/Actions/StartPostgreSQLShowIndex`,
+      __body,
+      {
+        headers: __headers,
+        params: __params,
+        responseType: 'json'
+      });
+
+    return this.http.request<any>(req).pipe(
+      __filter(_r => _r instanceof HttpResponse),
+      __map((_r) => {
+        return _r as __StrictHttpResponse<{ action_id?: string, pmm_agent_id?: string }>;
+      })
+    );
+  }
+  /**
+   * @param body undefined
+   * @return A successful response.
+   */
+  StartPostgreSQLShowIndexAction(body: { database?: string, pmm_agent_id?: string, service_id?: string, table_name?: string }): __Observable<{ action_id?: string, pmm_agent_id?: string }> {
+    return this.StartPostgreSQLShowIndexActionResponse(body).pipe(
       __map(_r => _r.body as { action_id?: string, pmm_agent_id?: string })
     );
   }

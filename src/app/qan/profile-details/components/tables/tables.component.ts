@@ -52,7 +52,14 @@ export class TablesComponent implements OnInit, OnDestroy {
 
   private startTablesActions(value) {
     this.globalConfig = value;
-    this.startClassic(value);
+    switch (value.service_type) {
+      case 'mysql':
+        this.startClassic(value);
+        break;
+      case 'postgresql':
+        this.tablesNames$.next(value.tables);
+        break;
+    }
   }
 
   private startClassic(value) {

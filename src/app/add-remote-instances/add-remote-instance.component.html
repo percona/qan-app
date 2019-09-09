@@ -1,53 +1,136 @@
 <form #addInstanceForm="ngForm" (ngSubmit)="onSubmit(addInstanceForm)" class="add-instance-form">
-  <h5 class="add-instance-form__title">Add remote {{instanceType}} Instance</h5>
-  <input [(ngModel)]="remoteInstanceCredentials.address"
-         [class.input--invalid]="hostname?.errors && isSubmitted"
-         #hostname="ngModel"
-         type="text" class="input-field  input-field--dark"
-         placeholder="*Hostname" name="Hostname" id="hostname" required>
-  <div class="app-tooltip app-tooltip--port cursor-pointer">
-    <i class="fa fa-info-circle" aria-hidden="true"></i>
-  </div>
+    <h5 class="add-instance-form__title">Add remote {{instanceType}} Instance</h5>
 
-  <input [(ngModel)]="remoteInstanceCredentials.name" #name="ngModel"
-         type="text" class="input-field input-field--dark"
-         placeholder="Name (default: Hostname)" id="name" name="Name">
-  <div class="app-tooltip app-tooltip--port cursor-pointer">
-    <i class="fa fa-info-circle" aria-hidden="true"></i>
-  </div>
+    <div class="add-instance-panel">
+        <h6>Main details</h6><span></span>
+        <input [(ngModel)]="remoteInstanceCredentials.address"
+               [class.input--invalid]="hostname?.errors && isSubmitted"
+               #hostname="ngModel"
+               type="text" class="input-field  input-field--dark"
+               placeholder="*Hostname" name="Hostname" id="hostname" required>
+        <span class="description">
+            Public DNS hostname of your instance
+        </span>
 
-  <input [(ngModel)]="remoteInstanceCredentials.port" #port="ngModel"
-         type="text" class="input-field input-field--dark" placeholder="Port"
-         [placeholder]="instanceType === 'PostgreSQL' ? 'Port (default: 5432)' : '(default: 3306)'"
-         id="port" name="Port">
-  <div class="app-tooltip app-tooltip--port cursor-pointer">
-    <i class="fa fa-info-circle" aria-hidden="true"></i>
-  </div>
+        <input [(ngModel)]="remoteInstanceCredentials.service_name" #name="ngModel"
+               type="text" class="input-field input-field--dark"
+               placeholder="Service name (default: Hostname)" id="name" name="Name">
+        <span class="description">
+            Service name to use.
+        </span>
 
-  <input [(ngModel)]="remoteInstanceCredentials.username"
-         [class.input--invalid]="username?.errors && isSubmitted"
-         #username="ngModel"
-         type="text" class="input-field input-field--dark"
-         placeholder="*Username" name="Username" id="username" required>
-  <div class="app-tooltip app-tooltip--username cursor-pointer">
-    <i class="fa fa-info-circle" aria-hidden="true"></i>
-  </div>
+        <input [(ngModel)]="remoteInstanceCredentials.port" #port="ngModel"
+               type="text" class="input-field input-field--dark" placeholder="Port"
+               [placeholder]="'Port (default: '+ defaultPort+')'"
+               id="port" name="Port">
+        <span class="description">
+            Port your service is listening on
+        </span>
 
-  <input [(ngModel)]="remoteInstanceCredentials.password"
-         [class.input--invalid]="password?.errors && isSubmitted"
-         #password="ngModel"
-         type="password" class="input-field input-field--dark"
-         placeholder="*Password" name="Password" id="password" required>
-  <div class="app-tooltip app-tooltip--password cursor-pointer">
-    <i class="fa fa-info-circle" aria-hidden="true"></i>
-  </div>
+        <input [(ngModel)]="remoteInstanceCredentials.username"
+               [class.input--invalid]="username?.errors && isSubmitted"
+               #username="ngModel"
+               type="text" class="input-field input-field--dark"
+               placeholder="*Username" name="Username" id="username" required>
+        <span class="description">
+            Your database user name
+        </span>
 
-  <div class="add-instance-form__submit-block">
-    <button type="submit" [disabled]="isDemo" class="button button--dark" id="addInstance">Add instance</button>
-    <div *ngIf="errorMessage && isSubmitted && addInstanceForm.valid">*{{ errorMessage }}</div>
-    <div *ngIf="isSubmitted && !addInstanceForm.valid">Fields marked with an asterisk (*) are required</div>
-    <div *ngIf="isLoading" class="spinner-wrapper">
-      <i class="fa fa-spinner fa-pulse fa-2x fa-fw"></i>
+        <input [(ngModel)]="remoteInstanceCredentials.password"
+               [class.input--invalid]="password?.errors && isSubmitted"
+               #password="ngModel"
+               type="password" class="input-field input-field--dark"
+               placeholder="*Password" name="Password" id="password" required>
+        <span class="description">
+            Your database password
+        </span>
     </div>
-  </div>
+
+    <div class="add-instance-panel">
+        <h6>Labels</h6><span></span>
+        <input [(ngModel)]="remoteInstanceCredentials.environment"
+               type="text" class="input-field  input-field--dark"
+               placeholder="Environment" name="environment" id="environment">
+        <span class="description">
+            <a>What is Environment label</a>
+        </span>
+
+        <input [(ngModel)]="remoteInstanceCredentials.replication_set"
+               type="text" class="input-field input-field--dark"
+               placeholder="Replication set" id="replication_set" name="replication_set">
+        <span class="description">
+            <a>What is Replication set label</a>
+        </span>
+
+        <input [(ngModel)]="remoteInstanceCredentials.cluster"
+               type="text" class="input-field input-field--dark"
+               placeholder="Cluster" id="cluster" name="cluster">
+        <span class="description">
+            <a>What is Cluster label</a>
+        </span>
+
+        <textarea [(ngModel)]="customLabels"
+                  rows="4"
+               type="text" class="input-field input-field--textarea input-field--dark"
+                  placeholder="Custom labels" id="customlabels" name="customlabels"></textarea>
+        <div class="description custom-labels">
+            <a>What is Custom labels</a>
+            <span>
+Format:
+key1:value1
+key2:value2
+            </span>
+        </div>
+    </div>
+
+    <div class="add-instance-panel">
+        <h6>Additional options</h6><span></span>
+        <div>
+            <input [(ngModel)]="remoteInstanceCredentials.skip_connection_check"
+                   type="checkbox" class="input-field--dark"
+                   name="skip_connection_check" id="skip_connection_check">
+            <label class="description" for="skip_connection_check">
+                Skip connection check
+            </label>
+        </div>
+        <span class="description">
+            <a>What does it mean</a>
+        </span>
+
+        <div *ngIf="instanceType == 'MySQL'" class="full-row">
+            <input [(ngModel)]="remoteInstanceCredentials.qan_mysql_perfschema"
+                   type="checkbox" class="input-field--dark"
+                   name="qan_mysql_perfschema" id="qan_mysql_perfschema">
+            <label class="description" for="qan_mysql_perfschema">
+                Use performance schema
+            </label>
+        </div>
+
+        <div *ngIf="instanceType == 'PostgreSQL'" class="full-row">
+            <input [(ngModel)]="remoteInstanceCredentials.qan_postgresql_pgstatements_agent"
+                   type="checkbox" class="input-field--dark"
+                   name="qan_postgresql_pgstatements_agent" id="qan_postgresql_pgstatements_agent">
+            <label class="description" for="qan_postgresql_pgstatements_agent">
+                Use Pg Stat Statements
+            </label>
+        </div>
+
+        <div *ngIf="instanceType == 'MongoDB'" class="full-row">
+            <input [(ngModel)]="remoteInstanceCredentials.qan_mongodb_profiler"
+                   type="checkbox" class="input-field--dark"
+                   name="qan_mongodb_profiler" id="qan_mongodb_profiler">
+            <label class="description" for="qan_mongodb_profiler">
+                Use QAN MongoDB Profiler
+            </label>
+        </div>
+    </div>
+
+    <div class="add-instance-form__submit-block">
+        <button type="submit" [disabled]="isDemo" class="button button--dark" id="addInstance">Add service</button>
+        <div *ngIf="errorMessage && isSubmitted && addInstanceForm.valid">*{{ errorMessage }}</div>
+        <div *ngIf="isSubmitted && !addInstanceForm.valid">Fields marked with an asterisk (*) are required</div>
+        <div *ngIf="isLoading" class="spinner-wrapper">
+            <i class="fa fa-spinner fa-pulse fa-2x fa-fw"></i>
+        </div>
+    </div>
 </form>

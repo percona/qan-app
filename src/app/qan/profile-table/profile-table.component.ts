@@ -18,7 +18,8 @@ import { ProfileService } from '../../pmm-api-services/services/profile.service'
 import { Subscription } from 'rxjs/internal/Subscription';
 import { catchError, map, switchMap, takeUntil } from 'rxjs/operators';
 import { ActivatedRoute, Router } from '@angular/router';
-import { QanProfileService } from '../profile/qan-profile.service';
+import * as moment from 'moment';
+import { ObjectDetails, QanProfileService } from '../profile/qan-profile.service';
 import { of } from 'rxjs/internal/observable/of';
 import { GetProfileBody } from '../profile/interfaces/get-profile-body.interfaces';
 import { QueryParamsService } from '../../core/services/query-params.service';
@@ -149,16 +150,17 @@ export class ProfileTableComponent implements OnInit, OnDestroy, AfterViewInit {
     }, 0);
   }
 
-  showDetails(filter_by, fingerPrint = '') {
-    this.qanProfileService.updateFingerprint(fingerPrint);
-    this.qanProfileService.updateDetailsByValue(filter_by);
+  showDetails(row: TableDataModel) {
+    this.qanProfileService.updateFingerprint(row.fingerprint || '');
+    this.qanProfileService.updateDetailsByValue(row.dimension);
     this.queryParamsService.addDetailsToURL(filter_by);
     this.qanProfileService.updateObjectDetails({
-      filter_by: filter_by,
+      filter_by: row.dimension,
       group_by: this.currentParams.group_by,
       labels: this.currentParams.labels,
       period_start_from: this.currentParams.period_start_from,
-      period_start_to: this.currentParams.period_start_to
+      period_start_to: this.currentParams.period_start_to,
+      tables: row.tables
     });
   }
 

@@ -1,3 +1,2 @@
-<!--<span class="query-info__item">{{dimension || 'TOTAL'}}</span>-->
-<span class="query-info__item">{{'TOTAL'}}</span>
-<span class="query-info__item">{{fingerprint}}</span>
+<span class="query-info__item" >{{ header | async }}</span>
+<span class="query-info__item" *ngIf="details?.group_by == 'queryid'">{{ details?.filter_by || 'TOTAL' }}</span>

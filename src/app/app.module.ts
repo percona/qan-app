@@ -22,9 +22,6 @@ export function getInstances(instanceService: InstanceService) {
 @NgModule({
   declarations: [
     AppComponent,
-    AddAmazonRDSComponent,
-    AddRemoteInstanceComponent,
-    AddInstanceComponent,
   ],
   imports: [
     AppRoutingModule,
@@ -44,6 +41,6 @@ export function getInstances(instanceService: InstanceService) {
       multi: true
     }
   ],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent, AddRemoteInstanceComponent]
 })
 export class AppModule { }

@@ -8,6 +8,7 @@ import { ProfileInfo } from './interfaces/profile-info.interfaces';
 import { TimeRange } from './interfaces/time-range.interface';
 import { GetProfileBody } from './interfaces/get-profile-body.interfaces';
 import { QueryParams } from './interfaces/query-params.interface';
+import { ReplaySubject } from 'rxjs';
 
 
 @Injectable()

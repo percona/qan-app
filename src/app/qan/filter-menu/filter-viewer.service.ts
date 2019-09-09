@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { FilterGroupModel } from './models/filter-group.model';
 
 @Injectable({
   providedIn: 'root'
@@ -7,7 +8,7 @@ export class FilterViewerService {
 
   constructor() { }
 
-  filtersOrder(detailsTableData) {
+  filtersOrder(detailsTableData: Array<FilterGroupModel>): Array<FilterGroupModel> {
     return detailsTableData.sort((a, b) => this.sortFilters(a, b));
   }
 
@@ -54,5 +55,9 @@ export class FilterViewerService {
         return -1
       }
     })
+  }
+
+  skipIDFilters(filters: Array<FilterGroupModel>) {
+    return filters.filter(item => !item.filterGroup.endsWith('_id'));
   }
 }

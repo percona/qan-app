@@ -30,7 +30,7 @@
                   <td class="qan-table__cell qan-table__cell--second-c qan-table__cell--fixed ">
                     <div class="overlay-container">
                     <span *ngIf="!row.fingerprint" [class.font--roboto-bold]="!index" class=" overlay-container__item qan-table__abstract">
-                      {{row.dimension || 'TOTAL'}}
+                      {{row.dimension || (index ? 'n/a' : 'TOTAL')}}
                     </span>
                       <span *ngIf="row.fingerprint" [class.font--roboto-bold]="!index" class=" overlay-container__item qan-table__abstract">
                       {{index ? row.fingerprint : 'TOTAL'}}

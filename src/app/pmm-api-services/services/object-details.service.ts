@@ -98,7 +98,7 @@ class ObjectDetailsService extends __BaseService {
    * @param body undefined
    * @return A successful response.
    */
-  GetQueryExampleResponse(body: { filter_by?: string, group_by?: string, labels?: Array<{ key?: string, value?: Array<string> }>, limit?: number, period_start_from?: string, period_start_to?: string }): __Observable<__StrictHttpResponse<{ query_examples?: Array<{ agent_id?: string, example?: string, example_format?: 'EXAMPLE_FORMAT_INVALID' | 'EXAMPLE' | 'FINGERPRINT', example_metrics?: string, example_type?: 'EXAMPLE_TYPE_INVALID' | 'RANDOM' | 'SLOWEST' | 'FASTEST' | 'WITH_ERROR', is_truncated?: number, schema?: string, service_id?: string }> }>> {
+  GetQueryExampleResponse(body: { filter_by?: string, group_by?: string, labels?: Array<{ key?: string, value?: Array<string> }>, limit?: number, period_start_from?: string, period_start_to?: string }): __Observable<__StrictHttpResponse<{ query_examples?: Array<{ example?: string, example_format?: 'EXAMPLE_FORMAT_INVALID' | 'EXAMPLE' | 'FINGERPRINT', example_metrics?: string, example_type?: 'EXAMPLE_TYPE_INVALID' | 'RANDOM' | 'SLOWEST' | 'FASTEST' | 'WITH_ERROR', is_truncated?: number, schema?: string, service_id?: string, service_type?: string, tables?: Array<string> }> }>> {
     let __params = this.newParams();
     let __headers = new HttpHeaders();
     let __body: any = null;
@@ -116,7 +116,7 @@ class ObjectDetailsService extends __BaseService {
     return this.http.request<any>(req).pipe(
       __filter(_r => _r instanceof HttpResponse),
       __map((_r) => {
-        return _r as __StrictHttpResponse<{ query_examples?: Array<{ agent_id?: string, example?: string, example_format?: 'EXAMPLE_FORMAT_INVALID' | 'EXAMPLE' | 'FINGERPRINT', example_metrics?: string, example_type?: 'EXAMPLE_TYPE_INVALID' | 'RANDOM' | 'SLOWEST' | 'FASTEST' | 'WITH_ERROR', is_truncated?: number, schema?: string, service_id?: string }> }>;
+        return _r as __StrictHttpResponse<{ query_examples?: Array<{ example?: string, example_format?: 'EXAMPLE_FORMAT_INVALID' | 'EXAMPLE' | 'FINGERPRINT', example_metrics?: string, example_type?: 'EXAMPLE_TYPE_INVALID' | 'RANDOM' | 'SLOWEST' | 'FASTEST' | 'WITH_ERROR', is_truncated?: number, schema?: string, service_id?: string, service_type?: string, tables?: Array<string> }> }>;
       })
     );
   }
@@ -124,9 +124,9 @@ class ObjectDetailsService extends __BaseService {
    * @param body undefined
    * @return A successful response.
    */
-  GetQueryExample(body: { filter_by?: string, group_by?: string, labels?: Array<{ key?: string, value?: Array<string> }>, limit?: number, period_start_from?: string, period_start_to?: string }): __Observable<{ query_examples?: Array<{ agent_id?: string, example?: string, example_format?: 'EXAMPLE_FORMAT_INVALID' | 'EXAMPLE' | 'FINGERPRINT', example_metrics?: string, example_type?: 'EXAMPLE_TYPE_INVALID' | 'RANDOM' | 'SLOWEST' | 'FASTEST' | 'WITH_ERROR', is_truncated?: number, schema?: string, service_id?: string }> }> {
+  GetQueryExample(body: { filter_by?: string, group_by?: string, labels?: Array<{ key?: string, value?: Array<string> }>, limit?: number, period_start_from?: string, period_start_to?: string }): __Observable<{ query_examples?: Array<{ example?: string, example_format?: 'EXAMPLE_FORMAT_INVALID' | 'EXAMPLE' | 'FINGERPRINT', example_metrics?: string, example_type?: 'EXAMPLE_TYPE_INVALID' | 'RANDOM' | 'SLOWEST' | 'FASTEST' | 'WITH_ERROR', is_truncated?: number, schema?: string, service_id?: string, service_type?: string, tables?: Array<string> }> }> {
     return this.GetQueryExampleResponse(body).pipe(
-      __map(_r => _r.body as { query_examples?: Array<{ agent_id?: string, example?: string, example_format?: 'EXAMPLE_FORMAT_INVALID' | 'EXAMPLE' | 'FINGERPRINT', example_metrics?: string, example_type?: 'EXAMPLE_TYPE_INVALID' | 'RANDOM' | 'SLOWEST' | 'FASTEST' | 'WITH_ERROR', is_truncated?: number, schema?: string, service_id?: string }> })
+      __map(_r => _r.body as { query_examples?: Array<{ example?: string, example_format?: 'EXAMPLE_FORMAT_INVALID' | 'EXAMPLE' | 'FINGERPRINT', example_metrics?: string, example_type?: 'EXAMPLE_TYPE_INVALID' | 'RANDOM' | 'SLOWEST' | 'FASTEST' | 'WITH_ERROR', is_truncated?: number, schema?: string, service_id?: string, service_type?: string, tables?: Array<string> }> })
     );
   }
 }

@@ -52,6 +52,9 @@ import { TableStatusComponent } from '../qan/profile-details/components/tables/c
 import { DetailsTableComponent } from '../qan/profile-details/components/details-table/details-table.component';
 import { DetailsFingerprintComponent } from '../qan/profile-details/components/details-fingerprint/details-fingerprint.component';
 import { TableIndexesComponent } from '../qan/profile-details/components/tables/components/table-indexes/table-indexes.component';
+import { AddAmazonRDSComponent } from '../add-amazon-rds/add-amazon-rds.component';
+import { AddRemoteInstanceComponent } from '../add-remote-instances/add-remote-instance.component';
+import { AddInstanceComponent } from '../add-instance/add-instance.component';
 
 @NgModule({
   imports: [
@@ -94,6 +97,9 @@ import { TableIndexesComponent } from '../qan/profile-details/components/tables/
     DetailsTableComponent,
     DetailsFingerprintComponent,
     TableIndexesComponent,
+    AddAmazonRDSComponent,
+    AddRemoteInstanceComponent,
+    AddInstanceComponent,
   ],
   exports: [
     PageNotFoundComponent,
@@ -122,6 +128,9 @@ import { TableIndexesComponent } from '../qan/profile-details/components/tables/
     DetailsTableComponent,
     DetailsFingerprintComponent,
     TableIndexesComponent,
+    AddAmazonRDSComponent,
+    AddRemoteInstanceComponent,
+    AddInstanceComponent,
   ],
   providers: [
     InstanceService,
