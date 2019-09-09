@@ -7,16 +7,15 @@ import { QueryParams } from '../../qan/profile/interfaces/query-params.interface
   providedIn: 'root'
 })
 export class QueryParamsService {
-  private queryParams: QueryParams;
 
   constructor(
     private route: ActivatedRoute,
     private router: Router,
     private eventsService: EventsService,
   ) {
-    this.queryParams = this.route.snapshot.queryParams as QueryParams;
-    if (this.queryParams.filter_by) {
-      this.router.navigate(['profile/details', this.queryParams.filter_by], { queryParams: this.queryParams });
+    const queryParams = this.takeParams();
+    if (queryParams.filter_by) {
+      this.router.navigate(['profile/details', queryParams.filter_by], { queryParams: queryParams });
     }
   }
 
@@ -52,17 +51,27 @@ export class QueryParamsService {
   }
 
   takeParams(): QueryParams {
-    this.queryParams = this.route.snapshot.queryParams as QueryParams;
-    return Object.assign({}, this.queryParams);
+    return this.getJsonFromUrl();
   }
 
   navigateWithCurrentParams(params) {
-    this.router.navigate(this.setRouterLink(params), { queryParams: params });
+    const routerLink = this.setRouterLink(params);
+    this.router.navigate(routerLink, { queryParams: params });
     this.eventsService.events.sendEvent(this.eventsService.events.updateUrl);
   }
 
   setRouterLink(params = {}) {
     const filterBy = this.route.snapshot.queryParams.filter_by || params['filter_by'];
     return filterBy ? ['profile/details/', filterBy] : ['profile'];
+  }
+
+  getJsonFromUrl() {
+    const query = location.search.substr(1);
+    const result = {};
+    query.split('&').forEach(function(part) {
+      const item = part.split('=');
+      result[item[0]] = decodeURIComponent(item[1]);
+    });
+    return result;
   }
 }
