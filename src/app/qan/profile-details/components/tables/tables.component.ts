@@ -53,6 +53,11 @@ export class TablesComponent implements OnInit, OnDestroy {
     this.globalConfig = value;
     switch (value.service_type) {
       case 'mysql':
+        console.log('table action', value);
+        if (true) {
+          this.tablesError = 'Cannot display table info without query example at this moment.'
+          return;
+        }
         this.startClassic(value);
         break;
       case 'postgresql':
