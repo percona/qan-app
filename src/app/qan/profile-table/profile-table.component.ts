@@ -18,8 +18,7 @@ import { ProfileService } from '../../pmm-api-services/services/profile.service'
 import { Subscription } from 'rxjs/internal/Subscription';
 import { catchError, map, switchMap, takeUntil } from 'rxjs/operators';
 import { ActivatedRoute, Router } from '@angular/router';
-import * as moment from 'moment';
-import { ObjectDetails, QanProfileService } from '../profile/qan-profile.service';
+import { QanProfileService } from '../profile/qan-profile.service';
 import { of } from 'rxjs/internal/observable/of';
 import { GetProfileBody } from '../profile/interfaces/get-profile-body.interfaces';
 import { QueryParamsService } from '../../core/services/query-params.service';
@@ -153,7 +152,7 @@ export class ProfileTableComponent implements OnInit, OnDestroy, AfterViewInit {
   showDetails(row: TableDataModel) {
     this.qanProfileService.updateFingerprint(row.fingerprint || '');
     this.qanProfileService.updateDetailsByValue(row.dimension);
-    this.queryParamsService.addDetailsToURL(filter_by);
+    this.queryParamsService.addDetailsToURL(row.dimension);
     this.qanProfileService.updateObjectDetails({
       filter_by: row.dimension,
       group_by: this.currentParams.group_by,

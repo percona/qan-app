@@ -38,6 +38,12 @@ export class QueryParamsService {
     this.navigateWithCurrentParams(params);
   }
 
+  addDimension(group_by: string) {
+    const params: QueryParams = this.takeParams();
+    params.group_by = group_by;
+    this.navigateWithCurrentParams(params);
+  }
+
   addDetailsToURL(filter_by) {
     const params: QueryParams = this.takeParams();
     params.filter_by = filter_by;

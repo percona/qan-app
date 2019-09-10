@@ -6,5 +6,7 @@ export interface ObjectDetails {
   labels?: LabelsProfile[],
   include_only_fields?: string[]
   period_start_from?: string,
-  period_start_to?: string
+  period_start_to?: string,
+  tables?: string[]
+  type?: string
 }

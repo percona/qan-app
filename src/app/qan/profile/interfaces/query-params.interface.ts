@@ -11,6 +11,7 @@ export interface QueryParams {
   main_metric?: string;
   columns?: string;
   order_by?: string;
+  group_by?: string;
   filter_by?: string;
   active_details_tab?: string;
 }

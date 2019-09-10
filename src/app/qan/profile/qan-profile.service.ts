@@ -23,7 +23,7 @@ export class QanProfileService {
   private params = {
     columns: this.iframeQueryParams.columns ? this.decodeColumns(this.iframeQueryParams.columns) : this.defaultColumns,
     first_seen: false,
-    group_by: this.defaultGroupBy,
+    group_by: this.iframeQueryParams.group_by || this.defaultGroupBy,
     include_only_fields: [],
     keyword: '',
     labels: this.setLabels(this.iframeQueryParams),
@@ -37,7 +37,7 @@ export class QanProfileService {
 
   private detailsParams: ObjectDetails = {
     filter_by: this.iframeQueryParams.filter_by || '',
-    group_by: this.defaultGroupBy,
+    group_by: this.iframeQueryParams.group_by || this.defaultGroupBy,
     labels: this.setLabels(this.iframeQueryParams) || [],
     include_only_fields: [],
     period_start_from: this.setTimeRange('from'),

@@ -40,7 +40,6 @@ export abstract class CoreComponent implements OnDestroy {
     this.dbServers = instanceService.dbServers;
     this.dbServerMap = instanceService.dbServerMap;
     this.subscribeToRouter();
-    console.log('core ');
   }
 
   /**
