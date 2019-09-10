@@ -29,6 +29,7 @@ export class LoadPolygonChartDirective implements OnChanges {
   @Input() xkey: string;
   @Input() ykey: string;
   @Input() measurement: string;
+  @Input() metricName: string;
   @Input() width = 300;
   @Input() height = 30;
 
@@ -141,8 +142,10 @@ export class LoadPolygonChartDirective implements OnChanges {
       const load = this.humanize.transform(value, this.measurement);
       const dateToShow = this.dateFormat.transform(moment(endPoint[this.xkey]).utc());
 
+      const isTimeBased = this.metricName.endsWith('_time') || this.metricName.endsWith('_wait') || this.metricName === 'load';
+
       focusBar.attr('d', areaBar(activeArea));
-      this.dataTooltip = !value ? `NA at ${dateToShow}` : `${load} / sec at ${dateToShow}`;
+      this.dataTooltip = !value ? `NA at ${dateToShow}` : `${load} ${isTimeBased ? '' : '/ sec'} at ${dateToShow}`;
     });
     svg.on('mouseover', () => focusG.style('display', null));
     svg.on('mouseout', () => focusG.style('display', 'none'));
