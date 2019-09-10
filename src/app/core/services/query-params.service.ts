@@ -25,7 +25,7 @@ export class QueryParamsService {
     this.navigateWithCurrentParams(params);
   }
 
-  addColumnsToURL(columns) {
+  setColumnsToURL(columns) {
     const params: QueryParams = this.takeParams();
     params.columns = JSON.stringify(columns);
     params.main_metric = columns[0];

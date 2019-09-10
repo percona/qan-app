@@ -72,6 +72,11 @@ export class TableHeaderCellComponent implements OnInit, OnDestroy {
   removeColumn() {
     this.fullData.forEach(item => item.metrics.splice(this.index, 1));
     this.currentParams.columns.splice(this.index, 1);
+    if (this.isMainColumn) {
+      this.currentParams.main_metric = this.currentParams.columns[0];
+    }
+    this.qanProfileService.updateProfileParams(this.currentParams);
+    setTimeout(() => this.queryParamsService.setColumnsToURL(this.currentParams.columns), 0);
   }
 
   getUniqueObjects(arr) {
@@ -97,7 +102,7 @@ export class TableHeaderCellComponent implements OnInit, OnDestroy {
     }
 
     this.qanProfileService.updateProfileParams(this.currentParams);
-    setTimeout(() => this.queryParamsService.addColumnsToURL(this.currentParams.columns), 0);
+    setTimeout(() => this.queryParamsService.setColumnsToURL(this.currentParams.columns), 0);
   }
 
   sortBy(selectedColumn) {
