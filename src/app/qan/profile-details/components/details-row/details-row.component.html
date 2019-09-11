@@ -8,11 +8,12 @@
   <span [class.unit.unit--per-sec]="isRate">
     {{ isRate ? (currentMetric?.stats?.rate | humanize: pipeInfo?.ratePipe) : '0' }}
   </span>
-  <div *ngIf="currentMetric?.sparkline?.length"
+  <div *ngIf="currentMetric?.metricName && currentMetric?.sparkline?.length"
        [appLoadPolygonChart]="currentMetric?.sparkline"
        [width]="150"
        class="scaling-svg-container app-tooltip"
        xkey="timestamp" ykey="pointValue"
+       [metricName]="currentMetric?.metricName"
        measurement="number">
     <!--    todo: check measurement type-->
   </div>

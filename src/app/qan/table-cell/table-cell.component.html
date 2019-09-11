@@ -5,6 +5,7 @@
          data-tooltip="Loading..."
          xkey="timestamp"
          [ykey]="yKey"
+         [metricName]="metricData?.metricName"
          [measurement]="pipeInfo?.sparklineType">
     </div>
     <div *ngIf="metricData?.stats?.qps || metricData?.stats?.sum_per_sec">
