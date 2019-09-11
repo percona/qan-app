@@ -11,17 +11,18 @@ import {
   ViewChildren
 } from '@angular/core';
 import { PerfectScrollbarComponent, PerfectScrollbarConfigInterface } from 'ngx-perfect-scrollbar';
-import { QueryParams } from '../../core/core.component';
 import { SelectOptionModel } from '../table-header-cell/modesl/select-option.model';
 import { TableDataModel } from './models/table-data.model';
 import { MetricModel } from './models/metric.model';
 import { ProfileService } from '../../pmm-api-services/services/profile.service';
 import { Subscription } from 'rxjs/internal/Subscription';
-import { catchError, map, switchMap } from 'rxjs/operators';
+import { catchError, map, switchMap, takeUntil } from 'rxjs/operators';
 import { ActivatedRoute, Router } from '@angular/router';
-import * as moment from 'moment';
-import { GetProfileBody, ObjectDetails, QanProfileService } from '../profile/qan-profile.service';
+import { QanProfileService } from '../profile/qan-profile.service';
 import { of } from 'rxjs/internal/observable/of';
+import { GetProfileBody } from '../profile/interfaces/get-profile-body.interfaces';
+import { QueryParamsService } from '../../core/services/query-params.service';
+import { Subject } from 'rxjs';
 
 @Component({
   selector: 'app-qan-table',
@@ -35,22 +36,19 @@ export class ProfileTableComponent implements OnInit, OnDestroy, AfterViewInit {
   @ViewChild('rightTableBorder', { static: false }) rightBorder: ElementRef;
   @ViewChild('mainTableWrapper', { static: true }) mainTableWrapper: ElementRef;
   @ViewChildren('tableRows') tableRows: QueryList<any>;
+  private destroy$ = new Subject();
 
   public scrollbarConfig: PerfectScrollbarConfigInterface = {
     suppressScrollY: true
   };
 
   public isLoading: boolean;
-  public iframeQueryParams: QueryParams;
   public tableData: TableDataModel[] | any;
   public currentParams: GetProfileBody;
-  public defaultColumns: string[];
   public detailsBy: string;
   public fingerprint: string;
   public report$: Subscription;
-  public metrics$: Subscription;
   public detailsBy$: Subscription;
-  public tableRows$: Subscription;
   public fingerprint$: Subscription;
   public metrics: SelectOptionModel[];
   public isNeedScroll = false;
@@ -72,10 +70,12 @@ export class ProfileTableComponent implements OnInit, OnDestroy, AfterViewInit {
     private router: Router,
     private qanProfileService: QanProfileService,
     private profileService: ProfileService,
+    private queryParamsService: QueryParamsService,
   ) {
     this.isLoading = true;
 
     this.report$ = this.qanProfileService.getProfileParams.pipe(
+      takeUntil(this.destroy$),
       map(params => {
         this.currentParams = params;
         return params;
@@ -108,11 +108,16 @@ export class ProfileTableComponent implements OnInit, OnDestroy, AfterViewInit {
       }
     );
 
-    this.detailsBy$ = this.qanProfileService.getProfileInfo.detailsBy.subscribe(details_by => this.detailsBy = details_by);
-    this.fingerprint$ = this.qanProfileService.getProfileInfo.fingerprint.subscribe(fingerprint => this.fingerprint = fingerprint);
+    this.detailsBy$ = this.qanProfileService.getProfileInfo.detailsBy
+      .pipe(takeUntil(this.destroy$))
+      .subscribe(details_by => this.detailsBy = details_by);
+    this.fingerprint$ = this.qanProfileService.getProfileInfo.fingerprint
+      .pipe(takeUntil(this.destroy$))
+      .subscribe(fingerprint => this.fingerprint = fingerprint);
   }
 
   ngOnInit() {
+    this.detailsBy = this.route.snapshot.queryParams.filter_by;
   }
 
   ngAfterViewInit() {
@@ -123,11 +128,7 @@ export class ProfileTableComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   ngOnDestroy() {
-    this.metrics$.unsubscribe();
-    this.report$.unsubscribe();
-    this.detailsBy$.unsubscribe();
-    this.fingerprint$.unsubscribe();
-    this.tableRows$.unsubscribe();
+    this.destroy$.next();
   }
 
   ngForRendered() {
@@ -149,9 +150,9 @@ export class ProfileTableComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   showDetails(row: TableDataModel) {
-    console.log('row', row);
     this.qanProfileService.updateFingerprint(row.fingerprint || '');
     this.qanProfileService.updateDetailsByValue(row.dimension);
+    this.queryParamsService.addDetailsToURL(row.dimension);
     this.qanProfileService.updateObjectDetails({
       filter_by: row.dimension,
       group_by: this.currentParams.group_by,
@@ -176,16 +177,6 @@ export class ProfileTableComponent implements OnInit, OnDestroy, AfterViewInit {
     return array;
   };
 
-  // removeDefaultColumns(params) {
-  //   const parsedParams = JSON.parse(JSON.stringify(params));
-  //   parsedParams.columns = parsedParams.columns.filter(column => !this.defaultColumns.includes(column));
-  //   return parsedParams
-  // }
-
-  generateMetricsNames(metrics) {
-    return Object.entries(metrics.data).map(metric => new SelectOptionModel(metric));
-  }
-
   generateTableData(data) {
     this.paginationConfig.totalItems = data['total_rows'];
     this.paginationConfig.itemsPerPage = data['limit'];
@@ -204,23 +195,6 @@ export class ProfileTableComponent implements OnInit, OnDestroy, AfterViewInit {
     this.tableData.forEach(query => query.metrics.push(new MetricModel()));
     setTimeout(() => this.componentRef.directiveRef.scrollToRight(), 100);
     this.isNeedScroll = true;
-  }
-
-  /**
-   * set timezone based on given query parameter.
-   */
-  setTimeZoneFromParams() {
-    const tz = this.iframeQueryParams.tz || 'browser';
-    const expireDays = moment().utc().add(7, 'y').toString();
-    document.cookie = `timezone=${tz}; expires=${expireDays}; path=/`;
-  }
-
-  setThemeFromParams() {
-    const theme = this.iframeQueryParams.theme || '';
-    if (theme) {
-      const expireDays = moment().utc().add(7, 'y').toString();
-      document.cookie = `theme=app-theme-${theme}; expires=${expireDays}; path=/`;
-    }
   }
 
   pageChanged(event) {

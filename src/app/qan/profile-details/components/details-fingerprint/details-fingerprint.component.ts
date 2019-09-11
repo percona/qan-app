@@ -1,8 +1,9 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { QanProfileService, ObjectDetails } from '../../../profile/qan-profile.service';
+import { QanProfileService } from '../../../profile/qan-profile.service';
 import { FilterMenuService } from '../../../filter-menu/filter-menu.service';
 import { Observable, Subscription, zip } from 'rxjs';
 import { map } from 'rxjs/operators';
+import { ObjectDetails } from '../../../profile/interfaces/object-details.interface';
 
 @Component({
   selector: 'app-details-fingerprint',

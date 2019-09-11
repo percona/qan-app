@@ -10,7 +10,7 @@
     "logLevel": "debug"
   },
   "/v0": {
-    "target": "https://localhost:8443",
+    "target": "https://localhost:443",
     "secure": false,
     "logLevel": "debug"
   }

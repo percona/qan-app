@@ -14,8 +14,6 @@ import { FilterViewerService } from '../../../filter-menu/filter-viewer.service'
 })
 export class DetailsLabelsComponent implements OnInit, OnDestroy {
   private details$: Subscription;
-  private defaultLabels$: Subscription;
-  public currentDetails: any;
   public labels: any = [];
   public isLoading: boolean;
 
@@ -26,7 +24,6 @@ export class DetailsLabelsComponent implements OnInit, OnDestroy {
     private filterViewerService: FilterViewerService,
   ) {
     this.isLoading = true;
-    this.currentDetails = this.qanProfileService.getCurrentDetails;
     this.details$ = this.qanProfileService.getProfileInfo.details.pipe(
       switchMap(parsedParams => {
         this.isLoading = true;
@@ -45,17 +42,6 @@ export class DetailsLabelsComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    this.defaultLabels$ = this.getLabels(this.currentDetails)
-      .pipe(take(1))
-      .subscribe(response => {
-        console.log('response - ', response);
-        this.isLoading = false;
-        if (response.length) {
-          this.labels = this.filterViewerService.filtersOrder(response);
-          this.filterViewerService.skipNA(this.labels);
-          this.filterViewerService.sortIdsValues(this.labels);
-        }
-      })
   }
 
   getLabels(responseParams) {
@@ -67,7 +53,6 @@ export class DetailsLabelsComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    this.defaultLabels$.unsubscribe();
     this.details$.unsubscribe();
   }
 }

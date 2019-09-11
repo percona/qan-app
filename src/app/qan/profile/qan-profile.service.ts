@@ -1,55 +1,15 @@
 import { Injectable } from '@angular/core';
 import { Subject } from 'rxjs/internal/Subject';
 import { BehaviorSubject } from 'rxjs/internal/BehaviorSubject';
-import { QueryParams } from '../../core/core.component';
 import { ActivatedRoute } from '@angular/router';
 import { ParseQueryParamDatePipe } from '../../shared/parse-query-param-date.pipe';
+import { ObjectDetails } from './interfaces/object-details.interface';
+import { ProfileInfo } from './interfaces/profile-info.interfaces';
+import { TimeRange } from './interfaces/time-range.interface';
+import { GetProfileBody } from './interfaces/get-profile-body.interfaces';
+import { QueryParams } from './interfaces/query-params.interface';
 import { ReplaySubject } from 'rxjs';
 
-export interface GetProfileBody {
-  columns?: string[];
-  first_seen?: boolean;
-  group_by?: string,
-  include_only_fields?: string[]
-  main_metric?: string
-  keyword?: string,
-  labels?: LabelsProfile[],
-  limit?: number,
-  offset?: number,
-  order_by?: string,
-  period_start_from?: string,
-  period_start_to?: string
-}
-
-export interface ObjectDetails {
-  filter_by?: string,
-  group_by?: string,
-  labels?: LabelsProfile[],
-  include_only_fields?: string[]
-  period_start_from?: string,
-  period_start_to?: string,
-  tables?: string[]
-  type?: string
-}
-
-export interface TimeRange {
-  period_start_from: string,
-  period_start_to: string
-}
-
-export interface LabelsProfile {
-  key: string;
-  value: string[];
-}
-
-export interface ProfileInfo {
-  timeRange: Subject<TimeRange>,
-  profile: Subject<GetProfileBody>,
-  details: Subject<ObjectDetails>,
-  detailsBy: Subject<string>,
-  fingerprint: Subject<string>,
-  defaultColumns: string[]
-}
 
 @Injectable()
 export class QanProfileService {
@@ -58,40 +18,88 @@ export class QanProfileService {
   private defaultGroupBy = 'queryid';
   private defaultMainMetric = new BehaviorSubject('');
   private currentDetails: ObjectDetails = {};
+  private defaultColumns = ['load', 'num_queries', 'query_time'];
+
+  private params = {
+    columns: this.iframeQueryParams.columns ? this.decodeColumns(this.iframeQueryParams.columns) : this.defaultColumns,
+    first_seen: false,
+    group_by: this.iframeQueryParams.group_by || this.defaultGroupBy,
+    include_only_fields: [],
+    keyword: '',
+    labels: this.setLabels(this.iframeQueryParams),
+    limit: 10,
+    offset: 0,
+    order_by: this.iframeQueryParams.order_by || '-load',
+    main_metric: this.iframeQueryParams.main_metric || 'load',
+    period_start_from: this.setTimeRange('from'),
+    period_start_to: this.setTimeRange('to')
+  };
+
+  private detailsParams: ObjectDetails = {
+    filter_by: this.iframeQueryParams.filter_by || '',
+    group_by: this.iframeQueryParams.group_by || this.defaultGroupBy,
+    labels: this.setLabels(this.iframeQueryParams) || [],
+    include_only_fields: [],
+    period_start_from: this.setTimeRange('from'),
+    period_start_to: this.setTimeRange('to')
+  };
 
   private profileInfo: ProfileInfo = {
     timeRange: new Subject<TimeRange>(),
     profile: new Subject<GetProfileBody>(),
-    details: new ReplaySubject<ObjectDetails>(),
+    details: new BehaviorSubject<ObjectDetails>(this.detailsParams),
     detailsBy: new BehaviorSubject<string>('default'),
     fingerprint: new BehaviorSubject<string>(''),
     defaultColumns: ['load', 'count', 'latency'],
   };
 
-  private profileParams = new BehaviorSubject<GetProfileBody>({
-    columns: ['load', 'num_queries', 'query_time'],
-    first_seen: false,
-    group_by: this.defaultGroupBy,
-    include_only_fields: [],
-    keyword: '',
-    labels: [],
-    limit: 10,
-    offset: 0,
-    order_by: '-load',
-    main_metric: 'load',
-    period_start_from: this.setTimeRange('from'),
-    period_start_to: this.setTimeRange('to')
-  });
-
+  private profileParams = new BehaviorSubject<GetProfileBody>(this.params);
   private group_by = new BehaviorSubject<string>(this.defaultGroupBy);
 
   constructor(private route: ActivatedRoute) {
-
   }
 
   setTimeRange(value): string {
     const processed = this.parseQueryParamDatePipe.transform(this.iframeQueryParams[value], value);
     return processed.utc().format('YYYY-MM-DDTHH:mm:ssZ');
+  }
+
+  setLabels(iframeQueryParams) {
+    return iframeQueryParams.filters ? this.prepareLabelsURLParams(this.decodeLabelsURLParams(iframeQueryParams.filters)) : [];
+  }
+
+  prepareLabelsURLParams(labels) {
+    const arr = [];
+    labels.forEach(item => {
+      const existed = arr.find(it => it.key === item.groupName);
+      if (!existed) {
+        arr.push({ key: item.groupName, value: [item.filterName] })
+      } else {
+        existed.value.push(item.filterName);
+      }
+    });
+    return arr;
+  }
+
+  decodeLabelsURLParams(params) {
+    return params
+      .split(',')
+      .map(filterStr => {
+        const divided = filterStr.split(':');
+        return {
+          filterName: divided[1],
+          groupName: divided[0],
+          state: true
+        }
+      })
+  }
+
+  decodeMainMetric(main_metric) {
+    return main_metric.length ? main_metric : '';
+  }
+
+  decodeColumns(columns) {
+    return columns.length ? JSON.parse(columns) : '';
   }
 
   updateProfileParams(params: GetProfileBody) {
