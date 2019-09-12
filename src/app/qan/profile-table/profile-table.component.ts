@@ -152,7 +152,7 @@ export class ProfileTableComponent implements OnInit, OnDestroy, AfterViewInit {
   showDetails(row: TableDataModel) {
     this.qanProfileService.updateFingerprint(row.fingerprint || '');
     this.qanProfileService.updateDetailsByValue(row.dimension);
-    this.queryParamsService.addDetailsToURL(row.dimension);
+    this.queryParamsService.addDetailsToURL(row.dimension || 0);
     this.qanProfileService.updateObjectDetails({
       filter_by: row.dimension,
       group_by: this.currentParams.group_by,
