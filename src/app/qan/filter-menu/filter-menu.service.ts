@@ -14,7 +14,6 @@ export class FilterMenuService {
   private iframeQueryParams = this.route.snapshot.queryParams as QueryParams;
   private selected = new BehaviorSubject(this.setSelected(this.iframeQueryParams));
   private autocompleteFilters = new Subject();
-  public charsLimit = 9;
   public queryParams: any;
   public filterGroupList = filterGroupList;
 
@@ -103,8 +102,8 @@ export class FilterMenuService {
     }
   }
 
-  checkForTooltip(value) {
-    return value.length > this.charsLimit && value.includes('id')
+  checkForTooltip(value, charsLimit) {
+    return value.length > charsLimit
   }
 
   humanNamesForGroup(groupName) {

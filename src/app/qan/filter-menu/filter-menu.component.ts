@@ -23,6 +23,7 @@ export class FilterMenuComponent implements OnInit, OnChanges {
 
   public expanded = {};
   public defaultLimit = 5;
+  private charsLimit = 15;
   public selected: any = this.filterMenuService.getSelected.getValue();
 
   constructor(private filterMenuService: FilterMenuService) {
@@ -106,7 +107,7 @@ export class FilterMenuComponent implements OnInit, OnChanges {
   }
 
   isTooltip(value) {
-    return this.filterMenuService.checkForTooltip(value);
+    return this.filterMenuService.checkForTooltip(value, this.charsLimit);
   }
 
   isExpanded(filterGroup) {
