@@ -3,22 +3,27 @@
     <section *ngIf="filterGroup.items.length" class="aside__filter-group">
       <div class="filter-group__title">
         <span class="title__text">{{humanizeLabels(filterGroup.filterGroup)}}</span>
+          <button *ngIf="filterGroup.items.length > defaultLimit" (click)="toggleExpanded(filterGroup)" class="filter-group__see-all">
+              {{ isExpanded(filterGroup) ? 'Show top ' + defaultLimit : 'See all' }}
+          </button>
       </div>
       <div class="filter-group__filters">
-        <ng-container *ngFor="let filter of filterGroup.items">
-          <label class="checkbox-container">
-            <input
-              (change)="setConfigs([filter.value, filterGroup.filterGroup, filter.state, filter.count])"
-              [(ngModel)]="filter.state"
-              type="checkbox">
-            <span class="checkbox-container__checkmark"></span>
-            <span class="checkbox-container__label-text" [appPmmTooltip]="isTooltip(filter.value) ? filter.value : ''">
-              {{ filter.value | ellipsisMiddle }}
-            </span>
-          </label>
-          <span class="filters__count">
-            {{filter.main_metric_percent ? (filter.main_metric_percent | humanize: 'percent') : ''}}
-          </span>
+        <ng-container *ngFor="let filter of filterGroup.items; let subIndex = index">
+            <ng-container  *ngIf="isExpanded(filterGroup) || subIndex < defaultLimit">
+              <label class="checkbox-container">
+                <input
+                  (change)="setConfigs([filter.value, filterGroup.filterGroup, filter.state, filter.count])"
+                  [(ngModel)]="filter.state"
+                  type="checkbox">
+                <span class="checkbox-container__checkmark"></span>
+                <span class="checkbox-container__label-text" [appPmmTooltip]="isTooltip(filter.value) ? filter.value : ''">
+                  {{ filter.value | ellipsisMiddle }}
+                </span>
+              </label>
+              <span class="filters__count">
+                {{filter.main_metric_percent ? (filter.main_metric_percent | humanize: 'percent') : ''}}
+              </span>
+            </ng-container>
         </ng-container>
       </div>
     </section>

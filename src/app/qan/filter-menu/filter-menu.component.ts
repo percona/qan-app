@@ -21,6 +21,8 @@ export class FilterMenuComponent implements OnInit, OnChanges {
     this.toggleLabels();
   }
 
+  public expanded = {};
+  public defaultLimit = 5;
   public selected: any = this.filterMenuService.getSelected.getValue();
 
   constructor(private filterMenuService: FilterMenuService) {
@@ -36,6 +38,10 @@ export class FilterMenuComponent implements OnInit, OnChanges {
   }
 
   ngOnChanges() {
+  }
+
+  toggleExpanded(group) {
+    this.expanded[group.filterGroup] = !this.isExpanded(group);
   }
 
   setConfigs(selectedFilter) {
@@ -101,5 +107,9 @@ export class FilterMenuComponent implements OnInit, OnChanges {
 
   isTooltip(value) {
     return this.filterMenuService.checkForTooltip(value);
+  }
+
+  isExpanded(filterGroup) {
+    return this.expanded.hasOwnProperty(filterGroup.filterGroup) && this.expanded[filterGroup.filterGroup]
   }
 }
