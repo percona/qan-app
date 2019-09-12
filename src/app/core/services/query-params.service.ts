@@ -68,7 +68,8 @@ export class QueryParamsService {
 
   setRouterLink(params = {}) {
     const filterBy = this.route.snapshot.queryParams.filter_by || params['filter_by'];
-    return filterBy ? ['profile/details/', filterBy] : ['profile'];
+    console.log(filterBy, this.route.snapshot.queryParams.filter_by, params['filter_by']);
+    return filterBy !== undefined ? ['profile/details/', filterBy] : ['profile'];
   }
 
   getJsonFromUrl() {
@@ -76,7 +77,9 @@ export class QueryParamsService {
     const result = {};
     query.split('&').forEach(function(part) {
       const item = part.split('=');
-      result[item[0]] = decodeURIComponent(item[1]);
+      if (item[0] !== '') {
+        result[item[0]] = decodeURIComponent(item[1]);
+      }
     });
     return result;
   }
