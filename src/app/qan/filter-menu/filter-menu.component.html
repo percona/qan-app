@@ -17,7 +17,7 @@
                   type="checkbox">
                 <span class="checkbox-container__checkmark"></span>
                 <span class="checkbox-container__label-text" [appPmmTooltip]="isTooltip(filter.value) ? filter.value : ''">
-                  {{ filter.value | ellipsisMiddle }}
+                  {{ filter.value | ellipsisMiddle: charsLimit }}
                 </span>
               </label>
               <span class="filters__count">
