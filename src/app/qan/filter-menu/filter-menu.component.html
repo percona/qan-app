@@ -8,7 +8,7 @@
           </button>
       </div>
       <div class="filter-group__filters">
-        <ng-container *ngFor="let filter of filterGroup.items">
+        <ng-container *ngFor="let filter of filterGroup.items; let subIndex = index">
             <ng-container  *ngIf="isExpanded(filterGroup) || subIndex < defaultLimit">
               <label class="checkbox-container">
                 <input

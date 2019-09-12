@@ -41,7 +41,7 @@ export class FilterMenuComponent implements OnInit, OnChanges {
   }
 
   toggleExpanded(group) {
-    this.expanded[group.name] = !this.isExpanded(group);
+    this.expanded[group.filterGroup] = !this.isExpanded(group);
   }
 
   setConfigs(selectedFilter) {
@@ -110,6 +110,6 @@ export class FilterMenuComponent implements OnInit, OnChanges {
   }
 
   isExpanded(filterGroup) {
-    return this.expanded.hasOwnProperty(filterGroup.name) && this.expanded[filterGroup.name]
+    return this.expanded.hasOwnProperty(filterGroup.filterGroup) && this.expanded[filterGroup.filterGroup]
   }
 }
