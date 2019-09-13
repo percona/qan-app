@@ -56,6 +56,13 @@ export class ExplainComponent implements OnInit, OnDestroy {
   private startExplainActions(value) {
     switch (value.service_type) {
       case 'mysql':
+        if (!('example' in value) || value.example !== '') {
+          this.classicError = 'Cannot display query explain without query example at this time.';
+          this.isClassicLoading = false;
+          this.jsonError = 'Cannot display query explain without query example at this time.';
+          this.isJsonLoading = false;
+          return;
+        }
         this.startClassic(value);
         this.startJson(value);
         break;
