@@ -3,8 +3,6 @@ import { FilterMenuService } from './filter-menu.service';
 import { catchError } from 'rxjs/operators';
 import { of } from 'rxjs/internal/observable/of';
 import { PerfectScrollbarConfigInterface } from 'ngx-perfect-scrollbar';
-import PerfectScrollbar from 'perfect-scrollbar';
-// import PerfectScrollbar from '../table-header-cell/table-header-cell.component';
 
 @Component({
   selector: 'app-qan-filter',
@@ -23,8 +21,9 @@ export class FilterMenuComponent implements OnInit, OnChanges {
     this.toggleLabels();
   }
 
-  public limits = {};
-  public defaultLimit = 4;
+  public expanded = {};
+  public defaultLimit = 5;
+  private charsLimit = 15;
   public selected: any = this.filterMenuService.getSelected.getValue();
 
   constructor(private filterMenuService: FilterMenuService) {
@@ -37,31 +36,35 @@ export class FilterMenuComponent implements OnInit, OnChanges {
   }
 
   ngOnInit() {
-    // this.addCustomScroll();
-  }
-
-  addCustomScroll() {
-    setTimeout(() => new PerfectScrollbar('.aside'), 0)
   }
 
   ngOnChanges() {
   }
 
-  getAll(group) {
-    this.limits[group.name] = this.limits[group.name] <= this.defaultLimit ? group.values.length - 1 : this.defaultLimit;
+  toggleExpanded(group) {
+    this.expanded[group.filterGroup] = !this.isExpanded(group);
   }
 
   setConfigs(selectedFilter) {
-    this.selected = this.makeSelectedArray(selectedFilter);
+    const [filterName, groupName, state, count] = [...selectedFilter];
+    const filter = {
+      filterName: filterName,
+      groupName: groupName,
+      state: state,
+      count: count,
+      urlParamName: `${groupName}:${filterName}`
+    };
+
+    this.selected = this.makeSelectedArray(filter);
     this.filterMenuService.updateSelected(this.selected);
   }
 
   makeSelectedArray(filter) {
     if (filter.state) {
       this.selected.push(filter);
-      return this.getUnique(this.selected, 'filterName');
+      return this.getUnique(this.selected, 'urlParamName');
     } else {
-      return this.selected.filter(item => item.filterName !== filter.filterName);
+      return this.selected.filter(item => item.urlParamName !== filter.urlParamName);
     }
   }
 
@@ -104,6 +107,10 @@ export class FilterMenuComponent implements OnInit, OnChanges {
   }
 
   isTooltip(value) {
-    return this.filterMenuService.checkForTooltip(value);
+    return this.filterMenuService.checkForTooltip(value, this.charsLimit);
+  }
+
+  isExpanded(filterGroup) {
+    return this.expanded.hasOwnProperty(filterGroup.filterGroup) && this.expanded[filterGroup.filterGroup]
   }
 }

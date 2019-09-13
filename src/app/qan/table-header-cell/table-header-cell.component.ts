@@ -2,11 +2,14 @@ import { Component, EventEmitter, Input, OnDestroy, OnInit, Output, ViewChild } 
 import { SelectOptionModel } from './modesl/select-option.model';
 import { Subscription } from 'rxjs/internal/Subscription';
 import { map } from 'rxjs/operators';
-import { GetProfileBody, QanProfileService } from '../profile/qan-profile.service';
+import { QanProfileService } from '../profile/qan-profile.service';
 import PerfectScrollbar from 'perfect-scrollbar';
 import { NgSelectComponent } from '@ng-select/ng-select';
 import { metricCatalogue } from '../data/metric-catalogue';
 import { ProfileTableComponent } from '../profile-table/profile-table.component';
+import { GetProfileBody } from '../profile/interfaces/get-profile-body.interfaces';
+import { QueryParamsService } from '../../core/services/query-params.service';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-qan-table-header-cell',
@@ -30,7 +33,6 @@ export class TableHeaderCellComponent implements OnInit, OnDestroy {
   };
 
   private params$: Subscription;
-  private profileTable: ProfileTableComponent;
   public metrics: any;
   public selectedQueryColumn: SelectOptionModel;
   public currentParams: GetProfileBody;
@@ -39,7 +41,11 @@ export class TableHeaderCellComponent implements OnInit, OnDestroy {
   public isNotDefaultIcon = false;
   public scrollbar: any;
 
-  constructor(private qanProfileService: QanProfileService) {
+  constructor(
+    private qanProfileService: QanProfileService,
+    private queryParamsService: QueryParamsService,
+    private route: ActivatedRoute,
+  ) {
     this.metrics = this.getUniqueObjects(Object.values(metricCatalogue));
     this.currentParams = this.qanProfileService.getProfileParams.getValue();
   }
@@ -66,6 +72,11 @@ export class TableHeaderCellComponent implements OnInit, OnDestroy {
   removeColumn() {
     this.fullData.forEach(item => item.metrics.splice(this.index, 1));
     this.currentParams.columns.splice(this.index, 1);
+    if (this.isMainColumn) {
+      this.currentParams.main_metric = this.currentParams.columns[0];
+    }
+    this.qanProfileService.updateProfileParams(this.currentParams);
+    setTimeout(() => this.queryParamsService.setColumnsToURL(this.currentParams.columns), 0);
   }
 
   getUniqueObjects(arr) {
@@ -86,15 +97,18 @@ export class TableHeaderCellComponent implements OnInit, OnDestroy {
       const processedName = value.simpleName;
       this.currentParams.order_by = `-${processedName}`;
       this.currentParams.main_metric = processedName;
+      this.queryParamsService.addSortingOrderToURL(this.currentParams.order_by);
       this.qanProfileService.updateDefaultMainMetric(processedName);
-      this.qanProfileService.updateProfileParams(this.currentParams);
     }
+
     this.qanProfileService.updateProfileParams(this.currentParams);
+    setTimeout(() => this.queryParamsService.setColumnsToURL(this.currentParams.columns), 0);
   }
 
   sortBy(selectedColumn) {
     this.isASC = !this.isASC;
     this.currentParams.order_by = this.isASC ? selectedColumn.simpleName : `-${selectedColumn.simpleName}`;
+    this.queryParamsService.addSortingOrderToURL(this.currentParams.order_by);
     this.qanProfileService.updateProfileParams(this.currentParams);
   }
 

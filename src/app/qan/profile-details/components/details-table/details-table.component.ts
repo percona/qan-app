@@ -13,9 +13,10 @@ import { catchError, map, switchMap } from 'rxjs/operators';
 import { of, Subscription } from 'rxjs';
 import { MetricModel } from '../../../profile-table/models/metric.model';
 import { Router } from '@angular/router';
-import { ObjectDetails, QanProfileService } from '../../../profile/qan-profile.service';
+import { QanProfileService } from '../../../profile/qan-profile.service';
 import { ObjectDetailsService } from '../../../../pmm-api-services/services/object-details.service';
 import { DetailsSparklineModel } from '../../models/details-sparkline.model';
+import { ObjectDetails } from '../../../profile/interfaces/object-details.interface';
 
 @Component({
   selector: 'app-details-table',
@@ -62,12 +63,12 @@ export class DetailsTableComponent implements OnInit, AfterViewInit {
   }
 
   ngOnInit() {
-    this.firstDetails = this.qanProfileService.getCurrentDetails;
-    this.getDetailsData(this.firstDetails).subscribe(response => {
-      this.details = response;
-      this.details.metrics = this.detailsTableOrder(response['metrics']);
-      this.isLoading = false;
-    });
+    // this.firstDetails = this.qanProfileService.getCurrentDetails;
+    // this.getDetailsData(this.firstDetails).subscribe(response => {
+    //   this.details = response;
+    //   this.details.metrics = this.detailsTableOrder(response['metrics']);
+    //   this.isLoading = false;
+    // });
   }
 
   ngAfterViewInit() {

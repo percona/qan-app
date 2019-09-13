@@ -1,10 +1,11 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { catchError, map, switchMap, take } from 'rxjs/operators';
-import { ObjectDetails, QanProfileService } from '../../../profile/qan-profile.service';
+import { QanProfileService } from '../../../profile/qan-profile.service';
 import { ObjectDetailsService } from '../../../../pmm-api-services/services/object-details.service';
 import { Subscription } from 'rxjs/internal/Subscription';
 import { of } from 'rxjs/internal/observable/of';
 import { ProfileDetailsService } from '../../profile-details.service';
+import { ObjectDetails } from '../../../profile/interfaces/object-details.interface';
 
 @Component({
   selector: 'app-examples-viewer',

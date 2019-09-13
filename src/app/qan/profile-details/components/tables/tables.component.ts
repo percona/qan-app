@@ -1,12 +1,13 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActionsService } from '../../../../pmm-api-services/services/actions.service';
 import { ObjectDetailsService } from '../../../../pmm-api-services/services/object-details.service';
-import { ObjectDetails, QanProfileService } from '../../../profile/qan-profile.service';
+import { QanProfileService } from '../../../profile/qan-profile.service';
 import { Subscription } from 'rxjs/internal/Subscription';
 import { catchError, filter, map, startWith, switchMap, take } from 'rxjs/operators';
 import { interval } from 'rxjs/internal/observable/interval';
 import { of } from 'rxjs/internal/observable/of';
 import { BehaviorSubject } from 'rxjs/internal/BehaviorSubject';
+import { ObjectDetails } from '../../../profile/interfaces/object-details.interface';
 
 @Component({
   selector: 'app-tables',

@@ -1,11 +1,13 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { GetProfileBody, QanProfileService } from '../profile/qan-profile.service';
+import { QanProfileService } from '../profile/qan-profile.service';
 import { Subscription } from 'rxjs/internal/Subscription';
 import { FilterMenuService } from '../filter-menu/filter-menu.service';
 import { FiltersService } from '../../pmm-api-services/services/filters.service';
 import { catchError, map, switchMap } from 'rxjs/operators';
 import { of } from 'rxjs/internal/observable/of';
 import { FilterViewerService } from '../filter-menu/filter-viewer.service';
+import { QueryParamsService } from '../../core/services/query-params.service';
+import { GetProfileBody } from '../profile/interfaces/get-profile-body.interfaces';
 
 export interface FiltersGetParams {
   main_metric_name: string,
@@ -22,7 +24,6 @@ export interface FiltersGetParams {
 export class FilterMenuViewerComponent implements OnInit, OnDestroy {
 
   public currentParams: GetProfileBody;
-  private filterSubscription$: Subscription;
   private getFilters$: Subscription;
   public filters: any = [];
   public isLoading: boolean;
@@ -32,6 +33,7 @@ export class FilterMenuViewerComponent implements OnInit, OnDestroy {
     private filterService: FiltersService,
     private qanFilterService: FilterMenuService,
     private qanProfileService: QanProfileService,
+    private queryParamsService: QueryParamsService,
     private filterViewerService: FilterViewerService,
   ) {
     this.isLoading = true;
@@ -75,6 +77,5 @@ export class FilterMenuViewerComponent implements OnInit, OnDestroy {
 
   ngOnDestroy() {
     this.getFilters$.unsubscribe();
-    this.filterSubscription$.unsubscribe();
   }
 }

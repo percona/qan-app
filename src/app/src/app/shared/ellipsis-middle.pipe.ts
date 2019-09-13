@@ -1,4 +1,4 @@
-import { Pipe, PipeTransform } from '@angular/core';
+import { Input, Pipe, PipeTransform } from '@angular/core';
 import { HumanizeSymbolPipe } from '../../../shared/humanize-symbol-pipe';
 import { FilterMenuService } from '../../../qan/filter-menu/filter-menu.service';
 
@@ -6,8 +6,7 @@ import { FilterMenuService } from '../../../qan/filter-menu/filter-menu.service'
   name: 'ellipsisMiddle'
 })
 export class EllipsisMiddlePipe implements PipeTransform {
-  public charsLimit = 9;
-  public charsToView = 4;
+  public defaultCharsLimit = 9;
 
   constructor(
     private _humanizeSymbol: HumanizeSymbolPipe,
@@ -17,9 +16,14 @@ export class EllipsisMiddlePipe implements PipeTransform {
   }
 
 
-  transform(value: any, args?: any): any {
-    return this.filterMenuService.checkForTooltip(value) ?
-      value.slice(0, this.charsToView) + '...' + value.slice(-this.charsToView) : this._humanizeSymbol.transform(value);
+  transform(value: any, charsLimit?: number): any {
+    if (charsLimit === undefined) {
+      charsLimit = this.defaultCharsLimit
+    }
+    const charsToViewEnd = 4;
+    const charsToViewBegin = charsLimit - charsToViewEnd - 3;
+    return this.filterMenuService.checkForTooltip(value, charsLimit) ?
+      value.slice(0, charsToViewBegin) + '...' + value.slice(-charsToViewEnd) : this._humanizeSymbol.transform(value);
   }
 
 }

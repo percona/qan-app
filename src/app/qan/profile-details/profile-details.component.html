@@ -1,6 +1,6 @@
 <app-details-fingerprint></app-details-fingerprint>
-<ngb-tabset class="pmm-grafana-tabset">
-  <ngb-tab title="Details">
+<ngb-tabset class="pmm-grafana-tabset" [activeId]="activeTabId" (tabChange)="onTabChange($event)">
+  <ngb-tab [title]="tabs.details.title" [id]="tabs.details.id">
     <ng-template ngbTabContent>
       <section class="details-output">
         <app-details-table (finishRender)="onFinishDetailsTableRender($event)"></app-details-table>
@@ -8,17 +8,17 @@
       </section>
     </ng-template>
   </ngb-tab>
-  <ngb-tab *ngIf="!isTotal" title="Examples">
+  <ngb-tab *ngIf="!isTotal" [title]="tabs.examples.title" [id]="tabs.examples.id">
     <ng-template ngbTabContent>
       <app-examples-viewer></app-examples-viewer>
     </ng-template>
   </ngb-tab>
-  <ngb-tab *ngIf="!isTotal" title="Explain">
+  <ngb-tab *ngIf="!isTotal" [title]="tabs.explain.title" [id]="tabs.explain.id">
     <ng-template ngbTabContent>
       <app-explain></app-explain>
     </ng-template>
   </ngb-tab>
-  <ngb-tab *ngIf="!isTotal" title="Tables">
+  <ngb-tab *ngIf="!isTotal" [title]="tabs.tables.title" [id]="tabs.tables.id">
     <ng-template ngbTabContent>
       <app-tables></app-tables>
     </ng-template>

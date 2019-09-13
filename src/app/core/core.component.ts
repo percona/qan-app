@@ -7,17 +7,7 @@ import * as moment from 'moment';
 import { environment } from '../environment';
 import { Subscription } from 'rxjs/internal/Subscription';
 import { filter } from 'rxjs/operators';
-
-export interface QueryParams {
-  from?: string;
-  to?: string;
-  'var-host'?: string; // | string[];
-  search?: string;
-  queryID?: string;
-  tz?: string;
-  theme?: string;
-  first_seen?: boolean;
-}
+import { QueryParams } from '../qan/profile/interfaces/query-params.interface';
 
 /**
  * Base class for all components.
