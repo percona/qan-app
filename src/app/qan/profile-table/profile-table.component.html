@@ -34,7 +34,7 @@
                       {{row.dimension || (index ? 'n/a' : 'TOTAL')}}
                     </span>
                       <span *ngIf="row.fingerprint" [class.font--roboto-bold]="!index" class=" overlay-container__item qan-table__abstract">
-                      {{index ? row.fingerprint : 'TOTAL'}}
+                      {{index ? row.fingerprint : 'TOTAL' }}
                     </span>
                     </div>
                   </td>
@@ -61,15 +61,18 @@
                            nextLabel=">"
                            (pageChange)="pageChanged($event)">
       </pagination-controls>
-      <div class="results-per-page">
-        <span>Results per page</span>
-        <ng-select [searchable]="false"
-                   [(ngModel)]="perPage"
-                   [items]="selectPaginationConfig"
-                   [clearable]="false"
-                   (change)="onChangePerPage($event)"
-                   class="pmm-select pmm-select--column pmm-select--column-main">
-        </ng-select>
+      <div class="pagination-tools__right-column">
+        <span class="total-items">{{ showTotalItems() }}</span>
+        <div class="results-per-page">
+          <span>Results per page</span>
+          <ng-select [searchable]="false"
+                     [(ngModel)]="perPage"
+                     [items]="selectPaginationConfig"
+                     [clearable]="false"
+                     (change)="onChangePerPage($event)"
+                     class="pmm-select pmm-select--column pmm-select--column-main">
+          </ng-select>
+        </div>
       </div>
     </div>
   <i *ngIf="isLoading" class="fa fa-spinner fa-spin spinner"></i>
