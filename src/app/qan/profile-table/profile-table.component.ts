@@ -23,6 +23,7 @@ import { of } from 'rxjs/internal/observable/of';
 import { GetProfileBody } from '../profile/interfaces/get-profile-body.interfaces';
 import { QueryParamsService } from '../../core/services/query-params.service';
 import { Subject } from 'rxjs';
+import { GroupByMock } from '../main-cell/mock/group-by.mock';
 
 @Component({
   selector: 'app-qan-table',
@@ -205,6 +206,15 @@ export class ProfileTableComponent implements OnInit, OnDestroy, AfterViewInit {
   onChangePerPage(event) {
     this.currentParams.limit = this.perPage = this.paginationConfig.itemsPerPage = event;
     this.qanProfileService.updateProfileParams(this.currentParams);
+  }
+
+  showTotalItems() {
+    const dimensionsMap = {
+      queryid: 'queries',
+    };
+    const dimension = dimensionsMap[this.currentParams.group_by] ?
+      dimensionsMap[this.currentParams.group_by] : `${GroupByMock[this.currentParams.group_by]}s`;
+    return `${this.paginationConfig.totalItems} distinct ${dimension}`
   }
 
 }

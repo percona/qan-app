@@ -158,6 +158,16 @@ th.qan-table__cell--fixed {
 
   width: 100%;
   height: auto;
+
+  .total-items {
+    align-items: end;
+    margin-right: 20px;
+  }
+}
+
+.pagination-tools__right-column {
+  display: flex;
+  align-items: center;
 }
 
 .results-per-page {
