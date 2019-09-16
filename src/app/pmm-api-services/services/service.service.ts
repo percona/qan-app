@@ -11,7 +11,7 @@ import { map as __map, filter as __filter } from 'rxjs/operators';
   providedIn: 'root',
 })
 class ServiceService extends __BaseService {
-  static readonly RemoveServiceMixin1Path = '/v0/management/Service/Remove';
+  static readonly RemoveServiceMixin2Path = '/v1/management/Service/Remove';
 
   constructor(
     config: __Configuration,
@@ -24,14 +24,14 @@ class ServiceService extends __BaseService {
    * @param body undefined
    * @return A successful response.
    */
-  RemoveServiceMixin1Response(body: { service_id?: string, service_name?: string, service_type?: 'SERVICE_TYPE_INVALID' | 'MYSQL_SERVICE' | 'AMAZON_RDS_MYSQL_SERVICE' | 'MONGODB_SERVICE' | 'POSTGRESQL_SERVICE' | 'PROXYSQL_SERVICE' }): __Observable<__StrictHttpResponse<{}>> {
+  RemoveServiceMixin2Response(body: { service_id?: string, service_name?: string, service_type?: 'SERVICE_TYPE_INVALID' | 'MYSQL_SERVICE' | 'MONGODB_SERVICE' | 'POSTGRESQL_SERVICE' | 'PROXYSQL_SERVICE' }): __Observable<__StrictHttpResponse<{}>> {
     let __params = this.newParams();
     let __headers = new HttpHeaders();
     let __body: any = null;
     __body = body;
     let req = new HttpRequest<any>(
       'POST',
-      this.rootUrl + `/v0/management/Service/Remove`,
+      this.rootUrl + `/v1/management/Service/Remove`,
       __body,
       {
         headers: __headers,
@@ -50,8 +50,8 @@ class ServiceService extends __BaseService {
    * @param body undefined
    * @return A successful response.
    */
-  RemoveServiceMixin1(body: { service_id?: string, service_name?: string, service_type?: 'SERVICE_TYPE_INVALID' | 'MYSQL_SERVICE' | 'AMAZON_RDS_MYSQL_SERVICE' | 'MONGODB_SERVICE' | 'POSTGRESQL_SERVICE' | 'PROXYSQL_SERVICE' }): __Observable<{}> {
-    return this.RemoveServiceMixin1Response(body).pipe(
+  RemoveServiceMixin2(body: { service_id?: string, service_name?: string, service_type?: 'SERVICE_TYPE_INVALID' | 'MYSQL_SERVICE' | 'MONGODB_SERVICE' | 'POSTGRESQL_SERVICE' | 'PROXYSQL_SERVICE' }): __Observable<{}> {
+    return this.RemoveServiceMixin2Response(body).pipe(
       __map(_r => _r.body as {})
     );
   }

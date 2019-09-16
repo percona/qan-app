@@ -1,3 +1,8 @@
+export { FiltersService } from './services/filters.service';
+export { MetricsNamesService } from './services/metrics-names.service';
+export { ProfileService } from './services/profile.service';
+export { ObjectDetailsService } from './services/object-details.service';
+export { ServerService } from './services/server.service';
 export { AgentsService } from './services/agents.service';
 export { NodesService } from './services/nodes.service';
 export { ServicesService } from './services/services.service';
@@ -8,8 +13,3 @@ export { NodeService } from './services/node.service';
 export { PostgreSQLService } from './services/postgre-sql.service';
 export { ProxySQLService } from './services/proxy-sql.service';
 export { ServiceService } from './services/service.service';
-export { FiltersService } from './services/filters.service';
-export { MetricsNamesService } from './services/metrics-names.service';
-export { ProfileService } from './services/profile.service';
-export { ObjectDetailsService } from './services/object-details.service';
-export { ServerService } from './services/server.service';

@@ -52,34 +52,28 @@
                type="text" class="input-field  input-field--dark"
                placeholder="Environment" name="environment" id="environment">
         <span class="description">
-            <a>What is Environment label</a>
         </span>
 
         <input [(ngModel)]="remoteInstanceCredentials.replication_set"
                type="text" class="input-field input-field--dark"
                placeholder="Replication set" id="replication_set" name="replication_set">
         <span class="description">
-            <a>What is Replication set label</a>
         </span>
 
         <input [(ngModel)]="remoteInstanceCredentials.cluster"
                type="text" class="input-field input-field--dark"
                placeholder="Cluster" id="cluster" name="cluster">
         <span class="description">
-            <a>What is Cluster label</a>
         </span>
 
         <textarea [(ngModel)]="customLabels"
-                  rows="4"
+                  rows="5"
                type="text" class="input-field input-field--textarea input-field--dark"
-                  placeholder="Custom labels" id="customlabels" name="customlabels"></textarea>
-        <div class="description custom-labels">
-            <a>What is Custom labels</a>
-            <span>
+                  placeholder="Custom labels
 Format:
 key1:value1
-key2:value2
-            </span>
+key2:value2" id="customlabels" name="customlabels"></textarea>
+        <div class="description custom-labels">
         </div>
     </div>
 
@@ -94,7 +88,26 @@ key2:value2
             </label>
         </div>
         <span class="description">
-            <a>What does it mean</a>
+        </span>
+        <div>
+            <input [(ngModel)]="remoteInstanceCredentials.tls"
+                   type="checkbox" class="input-field--dark"
+                   name="tls" id="tls">
+            <label class="description" for="tls">
+                Use TLS for database connections.
+            </label>
+        </div>
+        <span class="description">
+        </span>
+        <div>
+            <input [(ngModel)]="remoteInstanceCredentials.tls_skip_verify"
+                   type="checkbox" class="input-field--dark"
+                   name="tls_skip_verify" id="tls_skip_verify">
+            <label class="description" for="tls_skip_verify">
+                Skip TLS certificate and hostname validation
+            </label>
+        </div>
+        <span class="description">
         </span>
 
         <div *ngIf="instanceType == 'MySQL'" class="full-row">
