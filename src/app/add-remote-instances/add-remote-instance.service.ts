@@ -8,7 +8,7 @@ import { ProxySQLService } from '../pmm-api-services/services/proxy-sql.service'
 
 export interface AddNodeParams {
   node_name: string
-  node_type: 'NODE_TYPE_INVALID' | 'GENERIC_NODE' | 'CONTAINER_NODE' | 'REMOTE_NODE' | 'REMOTE_AMAZON_RDS_NODE'
+  node_type: 'NODE_TYPE_INVALID' | 'GENERIC_NODE' | 'CONTAINER_NODE' | 'REMOTE_NODE'
   machine_id?: string
   distro?: string
   container_id?: string
@@ -33,6 +33,8 @@ export interface BaseCredentials {
   custom_labels?: { [key: string]: string }
   pmm_agent_id?: string
   skip_connection_check?: boolean
+  tls?: boolean
+  tls_skip_verify?: boolean
 }
 
 export interface AddMySQLCredentials extends BaseCredentials {

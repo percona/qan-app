@@ -11,13 +11,12 @@ import { map as __map, filter as __filter } from 'rxjs/operators';
   providedIn: 'root',
 })
 class NodesService extends __BaseService {
-  static readonly AddContainerNodePath = '/v0/inventory/Nodes/AddContainer';
-  static readonly AddGenericNodePath = '/v0/inventory/Nodes/AddGeneric';
-  static readonly AddRemoteNodePath = '/v0/inventory/Nodes/AddRemote';
-  static readonly AddRemoteAmazonRDSNodePath = '/v0/inventory/Nodes/AddRemoteAmazonRDS';
-  static readonly GetNodePath = '/v0/inventory/Nodes/Get';
-  static readonly ListNodesPath = '/v0/inventory/Nodes/List';
-  static readonly RemoveNodePath = '/v0/inventory/Nodes/Remove';
+  static readonly AddContainerNodePath = '/v1/inventory/Nodes/AddContainer';
+  static readonly AddGenericNodePath = '/v1/inventory/Nodes/AddGeneric';
+  static readonly AddRemoteNodePath = '/v1/inventory/Nodes/AddRemote';
+  static readonly GetNodePath = '/v1/inventory/Nodes/Get';
+  static readonly ListNodesPath = '/v1/inventory/Nodes/List';
+  static readonly RemoveNodePath = '/v1/inventory/Nodes/Remove';
 
   constructor(
     config: __Configuration,
@@ -37,7 +36,7 @@ class NodesService extends __BaseService {
     __body = body;
     let req = new HttpRequest<any>(
       'POST',
-      this.rootUrl + `/v0/inventory/Nodes/AddContainer`,
+      this.rootUrl + `/v1/inventory/Nodes/AddContainer`,
       __body,
       {
         headers: __headers,
@@ -73,7 +72,7 @@ class NodesService extends __BaseService {
     __body = body;
     let req = new HttpRequest<any>(
       'POST',
-      this.rootUrl + `/v0/inventory/Nodes/AddGeneric`,
+      this.rootUrl + `/v1/inventory/Nodes/AddGeneric`,
       __body,
       {
         headers: __headers,
@@ -102,14 +101,14 @@ class NodesService extends __BaseService {
    * @param body undefined
    * @return A successful response.
    */
-  AddRemoteNodeResponse(body: { address?: string, az?: string, custom_labels?: { [key: string]: string }, node_name?: string, region?: string }): __Observable<__StrictHttpResponse<{ remote?: { address?: string, az?: string, custom_labels?: { [key: string]: string }, node_id?: string, node_name?: string, region?: string } }>> {
+  AddRemoteNodeResponse(body: { address?: string, az?: string, custom_labels?: { [key: string]: string }, node_model?: string, node_name?: string, region?: string }): __Observable<__StrictHttpResponse<{ remote?: { address?: string, az?: string, custom_labels?: { [key: string]: string }, node_id?: string, node_model?: string, node_name?: string, region?: string } }>> {
     let __params = this.newParams();
     let __headers = new HttpHeaders();
     let __body: any = null;
     __body = body;
     let req = new HttpRequest<any>(
       'POST',
-      this.rootUrl + `/v0/inventory/Nodes/AddRemote`,
+      this.rootUrl + `/v1/inventory/Nodes/AddRemote`,
       __body,
       {
         headers: __headers,
@@ -120,7 +119,7 @@ class NodesService extends __BaseService {
     return this.http.request<any>(req).pipe(
       __filter(_r => _r instanceof HttpResponse),
       __map((_r) => {
-        return _r as __StrictHttpResponse<{ remote?: { address?: string, az?: string, custom_labels?: { [key: string]: string }, node_id?: string, node_name?: string, region?: string } }>;
+        return _r as __StrictHttpResponse<{ remote?: { address?: string, az?: string, custom_labels?: { [key: string]: string }, node_id?: string, node_model?: string, node_name?: string, region?: string } }>;
       })
     );
   }
@@ -128,9 +127,9 @@ class NodesService extends __BaseService {
    * @param body undefined
    * @return A successful response.
    */
-  AddRemoteNode(body: { address?: string, az?: string, custom_labels?: { [key: string]: string }, node_name?: string, region?: string }): __Observable<{ remote?: { address?: string, az?: string, custom_labels?: { [key: string]: string }, node_id?: string, node_name?: string, region?: string } }> {
+  AddRemoteNode(body: { address?: string, az?: string, custom_labels?: { [key: string]: string }, node_model?: string, node_name?: string, region?: string }): __Observable<{ remote?: { address?: string, az?: string, custom_labels?: { [key: string]: string }, node_id?: string, node_model?: string, node_name?: string, region?: string } }> {
     return this.AddRemoteNodeResponse(body).pipe(
-      __map(_r => _r.body as { remote?: { address?: string, az?: string, custom_labels?: { [key: string]: string }, node_id?: string, node_name?: string, region?: string } })
+      __map(_r => _r.body as { remote?: { address?: string, az?: string, custom_labels?: { [key: string]: string }, node_id?: string, node_model?: string, node_name?: string, region?: string } })
     );
   }
 
@@ -138,14 +137,14 @@ class NodesService extends __BaseService {
    * @param body undefined
    * @return A successful response.
    */
-  AddRemoteAmazonRDSNodeResponse(body: { custom_labels?: { [key: string]: string }, instance?: string, node_name?: string, region?: string }): __Observable<__StrictHttpResponse<{ remote_amazon_rds?: { custom_labels?: { [key: string]: string }, instance?: string, node_id?: string, node_name?: string, region?: string } }>> {
+  GetNodeResponse(body: { node_id?: string }): __Observable<__StrictHttpResponse<{ container?: { address?: string, az?: string, container_id?: string, container_name?: string, custom_labels?: { [key: string]: string }, machine_id?: string, node_id?: string, node_model?: string, node_name?: string, region?: string }, generic?: { address?: string, az?: string, custom_labels?: { [key: string]: string }, distro?: string, machine_id?: string, node_id?: string, node_model?: string, node_name?: string, region?: string }, remote?: { address?: string, az?: string, custom_labels?: { [key: string]: string }, node_id?: string, node_model?: string, node_name?: string, region?: string } }>> {
     let __params = this.newParams();
     let __headers = new HttpHeaders();
     let __body: any = null;
     __body = body;
     let req = new HttpRequest<any>(
       'POST',
-      this.rootUrl + `/v0/inventory/Nodes/AddRemoteAmazonRDS`,
+      this.rootUrl + `/v1/inventory/Nodes/Get`,
       __body,
       {
         headers: __headers,
@@ -156,7 +155,7 @@ class NodesService extends __BaseService {
     return this.http.request<any>(req).pipe(
       __filter(_r => _r instanceof HttpResponse),
       __map((_r) => {
-        return _r as __StrictHttpResponse<{ remote_amazon_rds?: { custom_labels?: { [key: string]: string }, instance?: string, node_id?: string, node_name?: string, region?: string } }>;
+        return _r as __StrictHttpResponse<{ container?: { address?: string, az?: string, container_id?: string, container_name?: string, custom_labels?: { [key: string]: string }, machine_id?: string, node_id?: string, node_model?: string, node_name?: string, region?: string }, generic?: { address?: string, az?: string, custom_labels?: { [key: string]: string }, distro?: string, machine_id?: string, node_id?: string, node_model?: string, node_name?: string, region?: string }, remote?: { address?: string, az?: string, custom_labels?: { [key: string]: string }, node_id?: string, node_model?: string, node_name?: string, region?: string } }>;
       })
     );
   }
@@ -164,45 +163,9 @@ class NodesService extends __BaseService {
    * @param body undefined
    * @return A successful response.
    */
-  AddRemoteAmazonRDSNode(body: { custom_labels?: { [key: string]: string }, instance?: string, node_name?: string, region?: string }): __Observable<{ remote_amazon_rds?: { custom_labels?: { [key: string]: string }, instance?: string, node_id?: string, node_name?: string, region?: string } }> {
-    return this.AddRemoteAmazonRDSNodeResponse(body).pipe(
-      __map(_r => _r.body as { remote_amazon_rds?: { custom_labels?: { [key: string]: string }, instance?: string, node_id?: string, node_name?: string, region?: string } })
-    );
-  }
-
-  /**
-   * @param body undefined
-   * @return A successful response.
-   */
-  GetNodeResponse(body: { node_id?: string }): __Observable<__StrictHttpResponse<{ container?: { address?: string, az?: string, container_id?: string, container_name?: string, custom_labels?: { [key: string]: string }, machine_id?: string, node_id?: string, node_model?: string, node_name?: string, region?: string }, generic?: { address?: string, az?: string, custom_labels?: { [key: string]: string }, distro?: string, machine_id?: string, node_id?: string, node_model?: string, node_name?: string, region?: string }, remote?: { address?: string, az?: string, custom_labels?: { [key: string]: string }, node_id?: string, node_name?: string, region?: string }, remote_amazon_rds?: { custom_labels?: { [key: string]: string }, instance?: string, node_id?: string, node_name?: string, region?: string } }>> {
-    let __params = this.newParams();
-    let __headers = new HttpHeaders();
-    let __body: any = null;
-    __body = body;
-    let req = new HttpRequest<any>(
-      'POST',
-      this.rootUrl + `/v0/inventory/Nodes/Get`,
-      __body,
-      {
-        headers: __headers,
-        params: __params,
-        responseType: 'json'
-      });
-
-    return this.http.request<any>(req).pipe(
-      __filter(_r => _r instanceof HttpResponse),
-      __map((_r) => {
-        return _r as __StrictHttpResponse<{ container?: { address?: string, az?: string, container_id?: string, container_name?: string, custom_labels?: { [key: string]: string }, machine_id?: string, node_id?: string, node_model?: string, node_name?: string, region?: string }, generic?: { address?: string, az?: string, custom_labels?: { [key: string]: string }, distro?: string, machine_id?: string, node_id?: string, node_model?: string, node_name?: string, region?: string }, remote?: { address?: string, az?: string, custom_labels?: { [key: string]: string }, node_id?: string, node_name?: string, region?: string }, remote_amazon_rds?: { custom_labels?: { [key: string]: string }, instance?: string, node_id?: string, node_name?: string, region?: string } }>;
-      })
-    );
-  }
-  /**
-   * @param body undefined
-   * @return A successful response.
-   */
-  GetNode(body: { node_id?: string }): __Observable<{ container?: { address?: string, az?: string, container_id?: string, container_name?: string, custom_labels?: { [key: string]: string }, machine_id?: string, node_id?: string, node_model?: string, node_name?: string, region?: string }, generic?: { address?: string, az?: string, custom_labels?: { [key: string]: string }, distro?: string, machine_id?: string, node_id?: string, node_model?: string, node_name?: string, region?: string }, remote?: { address?: string, az?: string, custom_labels?: { [key: string]: string }, node_id?: string, node_name?: string, region?: string }, remote_amazon_rds?: { custom_labels?: { [key: string]: string }, instance?: string, node_id?: string, node_name?: string, region?: string } }> {
+  GetNode(body: { node_id?: string }): __Observable<{ container?: { address?: string, az?: string, container_id?: string, container_name?: string, custom_labels?: { [key: string]: string }, machine_id?: string, node_id?: string, node_model?: string, node_name?: string, region?: string }, generic?: { address?: string, az?: string, custom_labels?: { [key: string]: string }, distro?: string, machine_id?: string, node_id?: string, node_model?: string, node_name?: string, region?: string }, remote?: { address?: string, az?: string, custom_labels?: { [key: string]: string }, node_id?: string, node_model?: string, node_name?: string, region?: string } }> {
     return this.GetNodeResponse(body).pipe(
-      __map(_r => _r.body as { container?: { address?: string, az?: string, container_id?: string, container_name?: string, custom_labels?: { [key: string]: string }, machine_id?: string, node_id?: string, node_model?: string, node_name?: string, region?: string }, generic?: { address?: string, az?: string, custom_labels?: { [key: string]: string }, distro?: string, machine_id?: string, node_id?: string, node_model?: string, node_name?: string, region?: string }, remote?: { address?: string, az?: string, custom_labels?: { [key: string]: string }, node_id?: string, node_name?: string, region?: string }, remote_amazon_rds?: { custom_labels?: { [key: string]: string }, instance?: string, node_id?: string, node_name?: string, region?: string } })
+      __map(_r => _r.body as { container?: { address?: string, az?: string, container_id?: string, container_name?: string, custom_labels?: { [key: string]: string }, machine_id?: string, node_id?: string, node_model?: string, node_name?: string, region?: string }, generic?: { address?: string, az?: string, custom_labels?: { [key: string]: string }, distro?: string, machine_id?: string, node_id?: string, node_model?: string, node_name?: string, region?: string }, remote?: { address?: string, az?: string, custom_labels?: { [key: string]: string }, node_id?: string, node_model?: string, node_name?: string, region?: string } })
     );
   }
 
@@ -210,14 +173,14 @@ class NodesService extends __BaseService {
    * @param body undefined
    * @return A successful response.
    */
-  ListNodesResponse(body: {}): __Observable<__StrictHttpResponse<{ container?: Array<{ address?: string, az?: string, container_id?: string, container_name?: string, custom_labels?: { [key: string]: string }, machine_id?: string, node_id?: string, node_model?: string, node_name?: string, region?: string }>, generic?: Array<{ address?: string, az?: string, custom_labels?: { [key: string]: string }, distro?: string, machine_id?: string, node_id?: string, node_model?: string, node_name?: string, region?: string }>, remote?: Array<{ address?: string, az?: string, custom_labels?: { [key: string]: string }, node_id?: string, node_name?: string, region?: string }>, remote_amazon_rds?: Array<{ custom_labels?: { [key: string]: string }, instance?: string, node_id?: string, node_name?: string, region?: string }> }>> {
+  ListNodesResponse(body: {}): __Observable<__StrictHttpResponse<{ container?: Array<{ address?: string, az?: string, container_id?: string, container_name?: string, custom_labels?: { [key: string]: string }, machine_id?: string, node_id?: string, node_model?: string, node_name?: string, region?: string }>, generic?: Array<{ address?: string, az?: string, custom_labels?: { [key: string]: string }, distro?: string, machine_id?: string, node_id?: string, node_model?: string, node_name?: string, region?: string }>, remote?: Array<{ address?: string, az?: string, custom_labels?: { [key: string]: string }, node_id?: string, node_model?: string, node_name?: string, region?: string }> }>> {
     let __params = this.newParams();
     let __headers = new HttpHeaders();
     let __body: any = null;
     __body = body;
     let req = new HttpRequest<any>(
       'POST',
-      this.rootUrl + `/v0/inventory/Nodes/List`,
+      this.rootUrl + `/v1/inventory/Nodes/List`,
       __body,
       {
         headers: __headers,
@@ -228,7 +191,7 @@ class NodesService extends __BaseService {
     return this.http.request<any>(req).pipe(
       __filter(_r => _r instanceof HttpResponse),
       __map((_r) => {
-        return _r as __StrictHttpResponse<{ container?: Array<{ address?: string, az?: string, container_id?: string, container_name?: string, custom_labels?: { [key: string]: string }, machine_id?: string, node_id?: string, node_model?: string, node_name?: string, region?: string }>, generic?: Array<{ address?: string, az?: string, custom_labels?: { [key: string]: string }, distro?: string, machine_id?: string, node_id?: string, node_model?: string, node_name?: string, region?: string }>, remote?: Array<{ address?: string, az?: string, custom_labels?: { [key: string]: string }, node_id?: string, node_name?: string, region?: string }>, remote_amazon_rds?: Array<{ custom_labels?: { [key: string]: string }, instance?: string, node_id?: string, node_name?: string, region?: string }> }>;
+        return _r as __StrictHttpResponse<{ container?: Array<{ address?: string, az?: string, container_id?: string, container_name?: string, custom_labels?: { [key: string]: string }, machine_id?: string, node_id?: string, node_model?: string, node_name?: string, region?: string }>, generic?: Array<{ address?: string, az?: string, custom_labels?: { [key: string]: string }, distro?: string, machine_id?: string, node_id?: string, node_model?: string, node_name?: string, region?: string }>, remote?: Array<{ address?: string, az?: string, custom_labels?: { [key: string]: string }, node_id?: string, node_model?: string, node_name?: string, region?: string }> }>;
       })
     );
   }
@@ -236,9 +199,9 @@ class NodesService extends __BaseService {
    * @param body undefined
    * @return A successful response.
    */
-  ListNodes(body: {}): __Observable<{ container?: Array<{ address?: string, az?: string, container_id?: string, container_name?: string, custom_labels?: { [key: string]: string }, machine_id?: string, node_id?: string, node_model?: string, node_name?: string, region?: string }>, generic?: Array<{ address?: string, az?: string, custom_labels?: { [key: string]: string }, distro?: string, machine_id?: string, node_id?: string, node_model?: string, node_name?: string, region?: string }>, remote?: Array<{ address?: string, az?: string, custom_labels?: { [key: string]: string }, node_id?: string, node_name?: string, region?: string }>, remote_amazon_rds?: Array<{ custom_labels?: { [key: string]: string }, instance?: string, node_id?: string, node_name?: string, region?: string }> }> {
+  ListNodes(body: {}): __Observable<{ container?: Array<{ address?: string, az?: string, container_id?: string, container_name?: string, custom_labels?: { [key: string]: string }, machine_id?: string, node_id?: string, node_model?: string, node_name?: string, region?: string }>, generic?: Array<{ address?: string, az?: string, custom_labels?: { [key: string]: string }, distro?: string, machine_id?: string, node_id?: string, node_model?: string, node_name?: string, region?: string }>, remote?: Array<{ address?: string, az?: string, custom_labels?: { [key: string]: string }, node_id?: string, node_model?: string, node_name?: string, region?: string }> }> {
     return this.ListNodesResponse(body).pipe(
-      __map(_r => _r.body as { container?: Array<{ address?: string, az?: string, container_id?: string, container_name?: string, custom_labels?: { [key: string]: string }, machine_id?: string, node_id?: string, node_model?: string, node_name?: string, region?: string }>, generic?: Array<{ address?: string, az?: string, custom_labels?: { [key: string]: string }, distro?: string, machine_id?: string, node_id?: string, node_model?: string, node_name?: string, region?: string }>, remote?: Array<{ address?: string, az?: string, custom_labels?: { [key: string]: string }, node_id?: string, node_name?: string, region?: string }>, remote_amazon_rds?: Array<{ custom_labels?: { [key: string]: string }, instance?: string, node_id?: string, node_name?: string, region?: string }> })
+      __map(_r => _r.body as { container?: Array<{ address?: string, az?: string, container_id?: string, container_name?: string, custom_labels?: { [key: string]: string }, machine_id?: string, node_id?: string, node_model?: string, node_name?: string, region?: string }>, generic?: Array<{ address?: string, az?: string, custom_labels?: { [key: string]: string }, distro?: string, machine_id?: string, node_id?: string, node_model?: string, node_name?: string, region?: string }>, remote?: Array<{ address?: string, az?: string, custom_labels?: { [key: string]: string }, node_id?: string, node_model?: string, node_name?: string, region?: string }> })
     );
   }
 
@@ -253,7 +216,7 @@ class NodesService extends __BaseService {
     __body = body;
     let req = new HttpRequest<any>(
       'POST',
-      this.rootUrl + `/v0/inventory/Nodes/Remove`,
+      this.rootUrl + `/v1/inventory/Nodes/Remove`,
       __body,
       {
         headers: __headers,

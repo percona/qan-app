@@ -3,6 +3,11 @@ import { NgModule, ModuleWithProviders } from '@angular/core';
 import { HttpClientModule } from '@angular/common/http';
 import { ApiConfiguration, ApiConfigurationInterface } from './api-configuration';
 
+import { FiltersService } from './services/filters.service';
+import { MetricsNamesService } from './services/metrics-names.service';
+import { ProfileService } from './services/profile.service';
+import { ObjectDetailsService } from './services/object-details.service';
+import { ServerService } from './services/server.service';
 import { AgentsService } from './services/agents.service';
 import { NodesService } from './services/nodes.service';
 import { ServicesService } from './services/services.service';
@@ -13,11 +18,6 @@ import { NodeService } from './services/node.service';
 import { PostgreSQLService } from './services/postgre-sql.service';
 import { ProxySQLService } from './services/proxy-sql.service';
 import { ServiceService } from './services/service.service';
-import { FiltersService } from './services/filters.service';
-import { MetricsNamesService } from './services/metrics-names.service';
-import { ProfileService } from './services/profile.service';
-import { ObjectDetailsService } from './services/object-details.service';
-import { ServerService } from './services/server.service';
 
 /**
  * Provider for all Api services, plus ApiConfiguration
@@ -32,6 +32,11 @@ import { ServerService } from './services/server.service';
   declarations: [],
   providers: [
     ApiConfiguration,
+    FiltersService,
+    MetricsNamesService,
+    ProfileService,
+    ObjectDetailsService,
+    ServerService,
     AgentsService,
     NodesService,
     ServicesService,
@@ -41,12 +46,7 @@ import { ServerService } from './services/server.service';
     NodeService,
     PostgreSQLService,
     ProxySQLService,
-    ServiceService,
-    FiltersService,
-    MetricsNamesService,
-    ProfileService,
-    ObjectDetailsService,
-    ServerService
+    ServiceService
   ],
 })
 export class ApiModule {
