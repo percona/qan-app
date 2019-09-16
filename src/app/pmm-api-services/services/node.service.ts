@@ -11,7 +11,7 @@ import { map as __map, filter as __filter } from 'rxjs/operators';
   providedIn: 'root',
 })
 class NodeService extends __BaseService {
-  static readonly RegisterPath = '/v0/management/Node/Register';
+  static readonly RegisterPath = '/v1/management/Node/Register';
 
   constructor(
     config: __Configuration,
@@ -31,7 +31,7 @@ class NodeService extends __BaseService {
     __body = body;
     let req = new HttpRequest<any>(
       'POST',
-      this.rootUrl + `/v0/management/Node/Register`,
+      this.rootUrl + `/v1/management/Node/Register`,
       __body,
       {
         headers: __headers,
