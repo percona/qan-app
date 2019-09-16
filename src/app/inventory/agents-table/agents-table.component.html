@@ -17,7 +17,7 @@
         <span *ngIf="agentData?.service_id">service_id: {{agentData.service_id}}</span>
         <span *ngIf="agentData?.status">status: {{agentData.status}}</span>
         <span *ngIf="agentData?.username">username: {{agentData.username}}</span>
-        <span *ngIf="agentData?.password">password: {{agentData.password}}</span>
+        <span *ngIf="agentData?.username">password: ******</span>
         <span *ngIf="agentData?.disabled && !isString(agentData?.disabled)">disabled: {{agentData.disabled}}</span>
         <span *ngIf="agentData?.service_ids?.length">
           service_ids: <span *ngFor="let service_id of agentData.service_ids">{{service_id}} </span>
