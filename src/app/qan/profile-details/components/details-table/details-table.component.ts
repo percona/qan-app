@@ -38,6 +38,7 @@ export class DetailsTableComponent implements OnInit, AfterViewInit {
   private group_by$: Subscription;
   private details$: Subscription;
   private firstDetails: ObjectDetails;
+  public queryCount: any;
 
   constructor(
     protected router: Router,
@@ -54,6 +55,7 @@ export class DetailsTableComponent implements OnInit, AfterViewInit {
     ).subscribe(response => {
       this.details = response;
       this.details.metrics = this.detailsTableOrder(response['metrics']);
+      this.queryCount = this.details.metrics.find(item => item.metricName === 'num_queries').stats['sum'];
       this.isTotal = !this.currentParams.filter_by;
       this.isLoading = false;
     });
