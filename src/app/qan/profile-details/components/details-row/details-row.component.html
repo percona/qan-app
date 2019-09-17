@@ -28,7 +28,7 @@
 </div>
 <div class="row__item row__cells">
   <span>
-    {{ isStats ? (currentMetric?.stats?.avg | humanize: pipeInfo?.perQueryStatsPipe) : '0' }}
+    {{ isStats ? (currentMetric?.stats?.avg | humanize: pipeInfo?.perQueryStatsPipe) : isSum ? perQueryStat() : '0' }}
   </span>
 
   <div *ngIf="isLatencyChart"
