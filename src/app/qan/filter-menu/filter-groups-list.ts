@@ -31,6 +31,10 @@ export const filterGroupList = {
     humanName: 'Service Type',
     defaultName: 'service_type'
   },
+  service_name: {
+    humanName: 'Service Name',
+    defaultName: 'service_name'
+  },
   az: {
     humanName: 'Availability Zone',
     defaultName: 'az'
