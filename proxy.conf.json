@@ -13,5 +13,10 @@
     "target": "https://localhost:443",
     "secure": false,
     "logLevel": "debug"
+  },
+  "/v1": {
+    "target": "https://localhost:443",
+    "secure": false,
+    "logLevel": "debug"
   }
 }

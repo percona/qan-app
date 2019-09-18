@@ -41,13 +41,6 @@ export class ExamplesViewerComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    this.defaultExample$ = this.getExample(this.currentDetails)
-      .pipe(take(1))
-      .subscribe(response => {
-        this.exampleParams = response;
-        this.profileDetailsService.updateExamples(this.exampleParams);
-        this.isLoading = false;
-      })
   }
 
   ngOnDestroy() {

@@ -1,7 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActionsService } from '../../../../pmm-api-services/services/actions.service';
 import { interval, of, Subscription } from 'rxjs';
-import { catchError, finalize, map, startWith, switchMap, take } from 'rxjs/operators';
+import { catchError, finalize, map, startWith, switchMap, takeWhile } from 'rxjs/operators';
 import { QanProfileService } from '../../../profile/qan-profile.service';
 import { ObjectDetailsService } from '../../../../pmm-api-services/services/object-details.service';
 import { ObjectDetails } from '../../../profile/interfaces/object-details.interface';
@@ -44,10 +44,6 @@ export class ExplainComponent implements OnInit, OnDestroy {
           this.startExplainActions(response[0])
         }
       );
-
-    this.defaultExample$ = this.getExample(this.currentDetails)
-      .pipe(take(1))
-      .subscribe(response => this.startExplainActions(response[0]))
   }
 
   ngOnInit() {
@@ -86,7 +82,8 @@ export class ExplainComponent implements OnInit, OnDestroy {
         error.error.done = true;
         return of(error.error)
       }),
-      switchMap((item) => !item.error ? this.getActionResult(item) : of(item))
+      switchMap((item) => !item.error ? this.getActionResult(item) : of(item)),
+      takeWhile(val => this.isClassicLoading)
     ).subscribe(res => {
       if (res.done) {
         if (!res.error) {
@@ -113,7 +110,8 @@ export class ExplainComponent implements OnInit, OnDestroy {
         error.error.done = true;
         return of(error.error)
       }),
-      switchMap((item) => !item.error ? this.getActionResult(item) : of(item))
+      switchMap((item) => !item.error ? this.getActionResult(item) : of(item)),
+      takeWhile(val => this.isJsonLoading)
     ).subscribe(
       res => {
         if (res.done) {
@@ -158,8 +156,6 @@ export class ExplainComponent implements OnInit, OnDestroy {
     if (this.jsonStart$) {
       this.jsonStart$.unsubscribe()
     }
-    this.example$.unsubscribe();
-    this.defaultExample$.unsubscribe();
   }
 
 }
