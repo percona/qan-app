@@ -54,7 +54,7 @@ export class TablesComponent implements OnInit, OnDestroy {
     this.globalConfig = value;
     switch (value.service_type) {
       case 'mysql':
-        if (!('example' in value) || value.example !== '') {
+        if (!('example' in value) || value.example === '') {
           this.tablesError = 'Cannot display table info without query example at this moment.'
           return;
         }
