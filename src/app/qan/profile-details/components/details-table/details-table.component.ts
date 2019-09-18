@@ -98,6 +98,7 @@ export class DetailsTableComponent implements OnInit, AfterViewInit {
       map(response => {
         const withData = Object.entries(response.metrics ? response.metrics : response['totals'])
           .filter(metricData => Object.keys(metricData[1]).length)
+          .filter(metricData => !(metricData[1]['cnt'] !== 0 && metricData[1]['sum'] === undefined))
           .map(withDataItem => {
             const sparklineData = this.createSparklineModel(response.sparkline, withDataItem[0]);
             return new MetricModel(withDataItem, sparklineData)
