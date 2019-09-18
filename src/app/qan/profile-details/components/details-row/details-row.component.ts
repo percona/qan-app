@@ -52,8 +52,9 @@ export class DetailsRowComponent implements OnInit {
   }
 
   percentFromNumber(total, current) {
+    const totalItem = this.allTotals.find(item => item.metricName === this.currentMetric.metricName);
     const key = current.stats.sum ? 'sum' : 'sum_per_sec';
-    return this.calculatePercentOfTotal(current.stats[key], total.stats[key]);
+    return this.calculatePercentOfTotal(current.stats[key], totalItem.stats[key]);
   }
 
   perQueryStat() {
