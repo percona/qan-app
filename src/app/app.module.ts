@@ -12,10 +12,6 @@ import { SharedModule } from './shared/shared.module';
 
 import { InstanceService } from './core/services/instance.service';
 
-export function getInstances(instanceService: InstanceService) {
-  return function() { return instanceService.getDBServers(); };
-}
-
 @NgModule({
   declarations: [
     AppComponent,
@@ -31,12 +27,6 @@ export function getInstances(instanceService: InstanceService) {
   ],
   providers: [
     InstanceService,
-    {
-      provide: APP_INITIALIZER,
-      useFactory: getInstances,
-      deps: [InstanceService],
-      multi: true
-    }
   ],
   bootstrap: [AppComponent]
 })
