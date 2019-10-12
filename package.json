@@ -40,6 +40,7 @@
     "highlight.js": "9.12.0",
     "hoek": "^5.0.4",
     "jszip": "^3.2.2",
+    "lodash.template": ">=4.5.0",
     "moment": "^2.24.0",
     "ngx-clipboard": "^12.2.0",
     "ngx-pagination": "^3.3.1",
@@ -48,12 +49,12 @@
     "perfect-scrollbar": "^1.4.0",
     "renderjson": "github:caldwell/renderjson",
     "rxjs": "^6.5.2",
+    "sql-formatter": "^2.3.3",
     "stream": "0.0.2",
     "ts-helpers": "1.1.2",
     "tslib": "^1.10.0",
     "vkbeautify": "^0.99.3",
-    "zone.js": "~0.9.1",
-    "lodash.template": ">=4.5.0"
+    "zone.js": "~0.9.1"
   },
   "devDependencies": {
     "@angular-devkit/build-angular": "~0.801.1",
