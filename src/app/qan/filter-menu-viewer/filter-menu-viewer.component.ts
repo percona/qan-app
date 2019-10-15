@@ -39,6 +39,29 @@ export class FilterMenuViewerComponent implements OnInit, OnDestroy {
     this.isLoading = true;
     this.currentParams = this.qanProfileService.getProfileParams.getValue();
 
+    this.filterMenuService.getSelected.pipe(
+      catchError(err => of([]))
+    ).subscribe(response => {
+      const labels = this.prepareLabelsURLParams(response);
+      this.getFilters(labels);
+    });
+
+  }
+
+  prepareLabelsURLParams(labels) {
+    const arr = [];
+    labels.forEach(item => {
+      const existed = arr.find(it => it.key === item.groupName);
+      if (!existed) {
+        arr.push({ key: item.groupName, value: [item.filterName] })
+      } else {
+        existed.value.push(item.filterName);
+      }
+    });
+    return arr;
+  }
+
+  getFilters(labels: any[] = []) {
     this.getFilters$ = this.qanProfileService.getDefaultMainMetric.pipe(
       switchMap(metricName => {
         this.isLoading = true;
@@ -46,7 +69,8 @@ export class FilterMenuViewerComponent implements OnInit, OnDestroy {
           {
             main_metric_name: metricName,
             period_start_from: this.currentParams.period_start_from,
-            period_start_to: this.currentParams.period_start_to
+            period_start_to: this.currentParams.period_start_to,
+            labels: labels
           }).pipe(
             catchError(err => of({ error: err.error })),
             map(response =>
