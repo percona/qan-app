@@ -69,7 +69,7 @@ class ActionsService extends __BaseService {
    * @param body undefined
    * @return A successful response.
    */
-  GetActionResponse(body: { action_id?: string }): __Observable<__StrictHttpResponse<{ action_id?: string, done?: boolean, error?: string, output?: string, pmm_agent_id?: string }>> {
+  GetActionResponse(body: { action_id?: string }): __Observable<__StrictHttpResponse<{ action_id?: string, pmm_agent_id?: string, output?: string, done?: boolean, error?: string }>> {
     let __params = this.newParams();
     let __headers = new HttpHeaders();
     let __body: any = null;
@@ -87,7 +87,7 @@ class ActionsService extends __BaseService {
     return this.http.request<any>(req).pipe(
       __filter(_r => _r instanceof HttpResponse),
       __map((_r) => {
-        return _r as __StrictHttpResponse<{ action_id?: string, done?: boolean, error?: string, output?: string, pmm_agent_id?: string }>;
+        return _r as __StrictHttpResponse<{ action_id?: string, pmm_agent_id?: string, output?: string, done?: boolean, error?: string }>;
       })
     );
   }
@@ -95,9 +95,9 @@ class ActionsService extends __BaseService {
    * @param body undefined
    * @return A successful response.
    */
-  GetAction(body: { action_id?: string }): __Observable<{ action_id?: string, done?: boolean, error?: string, output?: string, pmm_agent_id?: string }> {
+  GetAction(body: { action_id?: string }): __Observable<{ action_id?: string, pmm_agent_id?: string, output?: string, done?: boolean, error?: string }> {
     return this.GetActionResponse(body).pipe(
-      __map(_r => _r.body as { action_id?: string, done?: boolean, error?: string, output?: string, pmm_agent_id?: string })
+      __map(_r => _r.body as { action_id?: string, pmm_agent_id?: string, output?: string, done?: boolean, error?: string })
     );
   }
 
@@ -105,7 +105,7 @@ class ActionsService extends __BaseService {
    * @param body undefined
    * @return A successful response.
    */
-  StartMySQLExplainActionResponse(body: { database?: string, pmm_agent_id?: string, query?: string, service_id?: string, tls?: boolean, tls_skip_verify?: boolean }): __Observable<__StrictHttpResponse<{ action_id?: string, pmm_agent_id?: string }>> {
+  StartMySQLExplainActionResponse(body: { pmm_agent_id?: string, service_id?: string, query?: string, database?: string }): __Observable<__StrictHttpResponse<{ action_id?: string, pmm_agent_id?: string }>> {
     let __params = this.newParams();
     let __headers = new HttpHeaders();
     let __body: any = null;
@@ -131,7 +131,7 @@ class ActionsService extends __BaseService {
    * @param body undefined
    * @return A successful response.
    */
-  StartMySQLExplainAction(body: { database?: string, pmm_agent_id?: string, query?: string, service_id?: string, tls?: boolean, tls_skip_verify?: boolean }): __Observable<{ action_id?: string, pmm_agent_id?: string }> {
+  StartMySQLExplainAction(body: { pmm_agent_id?: string, service_id?: string, query?: string, database?: string }): __Observable<{ action_id?: string, pmm_agent_id?: string }> {
     return this.StartMySQLExplainActionResponse(body).pipe(
       __map(_r => _r.body as { action_id?: string, pmm_agent_id?: string })
     );
@@ -141,7 +141,7 @@ class ActionsService extends __BaseService {
    * @param body undefined
    * @return A successful response.
    */
-  StartMySQLExplainJSONActionResponse(body: { database?: string, pmm_agent_id?: string, query?: string, service_id?: string, tls?: boolean, tls_skip_verify?: boolean }): __Observable<__StrictHttpResponse<{ action_id?: string, pmm_agent_id?: string }>> {
+  StartMySQLExplainJSONActionResponse(body: { pmm_agent_id?: string, service_id?: string, query?: string, database?: string }): __Observable<__StrictHttpResponse<{ action_id?: string, pmm_agent_id?: string }>> {
     let __params = this.newParams();
     let __headers = new HttpHeaders();
     let __body: any = null;
@@ -167,7 +167,7 @@ class ActionsService extends __BaseService {
    * @param body undefined
    * @return A successful response.
    */
-  StartMySQLExplainJSONAction(body: { database?: string, pmm_agent_id?: string, query?: string, service_id?: string, tls?: boolean, tls_skip_verify?: boolean }): __Observable<{ action_id?: string, pmm_agent_id?: string }> {
+  StartMySQLExplainJSONAction(body: { pmm_agent_id?: string, service_id?: string, query?: string, database?: string }): __Observable<{ action_id?: string, pmm_agent_id?: string }> {
     return this.StartMySQLExplainJSONActionResponse(body).pipe(
       __map(_r => _r.body as { action_id?: string, pmm_agent_id?: string })
     );
@@ -177,7 +177,7 @@ class ActionsService extends __BaseService {
    * @param body undefined
    * @return A successful response.
    */
-  StartMySQLExplainTraditionalJSONActionResponse(body: { database?: string, pmm_agent_id?: string, query?: string, service_id?: string, tls?: boolean, tls_skip_verify?: boolean }): __Observable<__StrictHttpResponse<{ action_id?: string, pmm_agent_id?: string }>> {
+  StartMySQLExplainTraditionalJSONActionResponse(body: { pmm_agent_id?: string, service_id?: string, query?: string, database?: string }): __Observable<__StrictHttpResponse<{ action_id?: string, pmm_agent_id?: string }>> {
     let __params = this.newParams();
     let __headers = new HttpHeaders();
     let __body: any = null;
@@ -203,7 +203,7 @@ class ActionsService extends __BaseService {
    * @param body undefined
    * @return A successful response.
    */
-  StartMySQLExplainTraditionalJSONAction(body: { database?: string, pmm_agent_id?: string, query?: string, service_id?: string, tls?: boolean, tls_skip_verify?: boolean }): __Observable<{ action_id?: string, pmm_agent_id?: string }> {
+  StartMySQLExplainTraditionalJSONAction(body: { pmm_agent_id?: string, service_id?: string, query?: string, database?: string }): __Observable<{ action_id?: string, pmm_agent_id?: string }> {
     return this.StartMySQLExplainTraditionalJSONActionResponse(body).pipe(
       __map(_r => _r.body as { action_id?: string, pmm_agent_id?: string })
     );
@@ -213,7 +213,7 @@ class ActionsService extends __BaseService {
    * @param body undefined
    * @return A successful response.
    */
-  StartMySQLShowCreateTableActionResponse(body: { database?: string, pmm_agent_id?: string, service_id?: string, table_name?: string, tls?: boolean, tls_skip_verify?: boolean }): __Observable<__StrictHttpResponse<{ action_id?: string, pmm_agent_id?: string }>> {
+  StartMySQLShowCreateTableActionResponse(body: { pmm_agent_id?: string, service_id?: string, table_name?: string, database?: string }): __Observable<__StrictHttpResponse<{ action_id?: string, pmm_agent_id?: string }>> {
     let __params = this.newParams();
     let __headers = new HttpHeaders();
     let __body: any = null;
@@ -239,7 +239,7 @@ class ActionsService extends __BaseService {
    * @param body undefined
    * @return A successful response.
    */
-  StartMySQLShowCreateTableAction(body: { database?: string, pmm_agent_id?: string, service_id?: string, table_name?: string, tls?: boolean, tls_skip_verify?: boolean }): __Observable<{ action_id?: string, pmm_agent_id?: string }> {
+  StartMySQLShowCreateTableAction(body: { pmm_agent_id?: string, service_id?: string, table_name?: string, database?: string }): __Observable<{ action_id?: string, pmm_agent_id?: string }> {
     return this.StartMySQLShowCreateTableActionResponse(body).pipe(
       __map(_r => _r.body as { action_id?: string, pmm_agent_id?: string })
     );
@@ -249,7 +249,7 @@ class ActionsService extends __BaseService {
    * @param body undefined
    * @return A successful response.
    */
-  StartMySQLShowIndexActionResponse(body: { database?: string, pmm_agent_id?: string, service_id?: string, table_name?: string, tls?: boolean, tls_skip_verify?: boolean }): __Observable<__StrictHttpResponse<{ action_id?: string, pmm_agent_id?: string }>> {
+  StartMySQLShowIndexActionResponse(body: { pmm_agent_id?: string, service_id?: string, table_name?: string, database?: string }): __Observable<__StrictHttpResponse<{ action_id?: string, pmm_agent_id?: string }>> {
     let __params = this.newParams();
     let __headers = new HttpHeaders();
     let __body: any = null;
@@ -275,7 +275,7 @@ class ActionsService extends __BaseService {
    * @param body undefined
    * @return A successful response.
    */
-  StartMySQLShowIndexAction(body: { database?: string, pmm_agent_id?: string, service_id?: string, table_name?: string, tls?: boolean, tls_skip_verify?: boolean }): __Observable<{ action_id?: string, pmm_agent_id?: string }> {
+  StartMySQLShowIndexAction(body: { pmm_agent_id?: string, service_id?: string, table_name?: string, database?: string }): __Observable<{ action_id?: string, pmm_agent_id?: string }> {
     return this.StartMySQLShowIndexActionResponse(body).pipe(
       __map(_r => _r.body as { action_id?: string, pmm_agent_id?: string })
     );
@@ -285,7 +285,7 @@ class ActionsService extends __BaseService {
    * @param body undefined
    * @return A successful response.
    */
-  StartMySQLShowTableStatusActionResponse(body: { database?: string, pmm_agent_id?: string, service_id?: string, table_name?: string, tls?: boolean, tls_skip_verify?: boolean }): __Observable<__StrictHttpResponse<{ action_id?: string, pmm_agent_id?: string }>> {
+  StartMySQLShowTableStatusActionResponse(body: { pmm_agent_id?: string, service_id?: string, table_name?: string, database?: string }): __Observable<__StrictHttpResponse<{ action_id?: string, pmm_agent_id?: string }>> {
     let __params = this.newParams();
     let __headers = new HttpHeaders();
     let __body: any = null;
@@ -311,7 +311,7 @@ class ActionsService extends __BaseService {
    * @param body undefined
    * @return A successful response.
    */
-  StartMySQLShowTableStatusAction(body: { database?: string, pmm_agent_id?: string, service_id?: string, table_name?: string, tls?: boolean, tls_skip_verify?: boolean }): __Observable<{ action_id?: string, pmm_agent_id?: string }> {
+  StartMySQLShowTableStatusAction(body: { pmm_agent_id?: string, service_id?: string, table_name?: string, database?: string }): __Observable<{ action_id?: string, pmm_agent_id?: string }> {
     return this.StartMySQLShowTableStatusActionResponse(body).pipe(
       __map(_r => _r.body as { action_id?: string, pmm_agent_id?: string })
     );
@@ -321,7 +321,7 @@ class ActionsService extends __BaseService {
    * @param body undefined
    * @return A successful response.
    */
-  StartPostgreSQLShowCreateTableActionResponse(body: { database?: string, pmm_agent_id?: string, service_id?: string, table_name?: string, tls?: boolean, tls_skip_verify?: boolean }): __Observable<__StrictHttpResponse<{ action_id?: string, pmm_agent_id?: string }>> {
+  StartPostgreSQLShowCreateTableActionResponse(body: { pmm_agent_id?: string, service_id?: string, table_name?: string, database?: string }): __Observable<__StrictHttpResponse<{ action_id?: string, pmm_agent_id?: string }>> {
     let __params = this.newParams();
     let __headers = new HttpHeaders();
     let __body: any = null;
@@ -347,7 +347,7 @@ class ActionsService extends __BaseService {
    * @param body undefined
    * @return A successful response.
    */
-  StartPostgreSQLShowCreateTableAction(body: { database?: string, pmm_agent_id?: string, service_id?: string, table_name?: string, tls?: boolean, tls_skip_verify?: boolean }): __Observable<{ action_id?: string, pmm_agent_id?: string }> {
+  StartPostgreSQLShowCreateTableAction(body: { pmm_agent_id?: string, service_id?: string, table_name?: string, database?: string }): __Observable<{ action_id?: string, pmm_agent_id?: string }> {
     return this.StartPostgreSQLShowCreateTableActionResponse(body).pipe(
       __map(_r => _r.body as { action_id?: string, pmm_agent_id?: string })
     );
@@ -357,7 +357,7 @@ class ActionsService extends __BaseService {
    * @param body undefined
    * @return A successful response.
    */
-  StartPostgreSQLShowIndexActionResponse(body: { database?: string, pmm_agent_id?: string, service_id?: string, table_name?: string, tls?: boolean, tls_skip_verify?: boolean }): __Observable<__StrictHttpResponse<{ action_id?: string, pmm_agent_id?: string }>> {
+  StartPostgreSQLShowIndexActionResponse(body: { pmm_agent_id?: string, service_id?: string, table_name?: string, database?: string }): __Observable<__StrictHttpResponse<{ action_id?: string, pmm_agent_id?: string }>> {
     let __params = this.newParams();
     let __headers = new HttpHeaders();
     let __body: any = null;
@@ -383,7 +383,7 @@ class ActionsService extends __BaseService {
    * @param body undefined
    * @return A successful response.
    */
-  StartPostgreSQLShowIndexAction(body: { database?: string, pmm_agent_id?: string, service_id?: string, table_name?: string, tls?: boolean, tls_skip_verify?: boolean }): __Observable<{ action_id?: string, pmm_agent_id?: string }> {
+  StartPostgreSQLShowIndexAction(body: { pmm_agent_id?: string, service_id?: string, table_name?: string, database?: string }): __Observable<{ action_id?: string, pmm_agent_id?: string }> {
     return this.StartPostgreSQLShowIndexActionResponse(body).pipe(
       __map(_r => _r.body as { action_id?: string, pmm_agent_id?: string })
     );
