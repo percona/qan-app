@@ -63,6 +63,11 @@ export class QueryProfileComponent extends CoreComponent {
 
     public async loadQueries() {
         this.dbServer = this.instanceService.dbServers[0];
+        for (const dbServer of this.instanceService.dbServers) {
+            if (dbServer.Name === this.queryParams['var-host']) {
+                this.dbServer = dbServer;
+            }
+        }
         this.isQuerySwitching = true;
 
         // clear after error
