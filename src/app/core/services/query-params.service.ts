@@ -7,21 +7,60 @@ import { QueryParams } from '../../qan/profile/interfaces/query-params.interface
   providedIn: 'root'
 })
 export class QueryParamsService {
-
   constructor(
     private route: ActivatedRoute,
     private router: Router,
-    private eventsService: EventsService,
+    private eventsService: EventsService
   ) {
     const queryParams = this.takeParams();
     if (queryParams.filter_by) {
-      this.router.navigate(['profile/details', queryParams.filter_by], { queryParams: queryParams });
+      this.router.navigate(['profile/details', queryParams.filter_by], {
+        queryParams: queryParams
+      });
     }
   }
 
   addSelectedToURL(selected) {
     const params: QueryParams = this.takeParams();
-    params.filters = selected.length ? selected.map(filter => filter.urlParamName).join(',') : '';
+
+    const parametersGroups = [
+      'az',
+      'city',
+      'client_host',
+      'cluster',
+      'container_id',
+      'container_name',
+      'database',
+      'environment',
+      'machine_id',
+      'node_id',
+      'node_model',
+      'node_name',
+      'node_type',
+      'region',
+      'replication_set',
+      'schema',
+      'service_id',
+      'service_name',
+      'service_type',
+      'username'
+    ];
+
+    parametersGroups.forEach(parameterName => {
+      if (params[`var-${parameterName}`]) {
+        delete params[`var-${parameterName}`];
+      }
+    });
+    selected.forEach(filter => {
+      if (params[`var-${filter.groupName}`]) {
+        params[`var-${filter.groupName}`] = [
+          ...params[`var-${filter.groupName}`],
+          filter.filterName
+        ].filter((value, index, self) => self.indexOf(value) === index);
+      } else {
+        params[`var-${filter.groupName}`] = [filter.filterName];
+      }
+    });
     this.navigateWithCurrentParams(params);
   }
 
@@ -67,18 +106,34 @@ export class QueryParamsService {
   }
 
   setRouterLink(params = {}) {
-    const filterBy = this.route.snapshot.queryParams.filter_by || params['filter_by'];
-    console.log(filterBy, this.route.snapshot.queryParams.filter_by, params['filter_by']);
-    return filterBy !== undefined ? ['profile/details/', filterBy] : ['profile'];
+    const filterBy =
+      this.route.snapshot.queryParams.filter_by || params['filter_by'];
+    console.log(
+      filterBy,
+      this.route.snapshot.queryParams.filter_by,
+      params['filter_by']
+    );
+    return filterBy !== undefined
+      ? ['profile/details/', filterBy]
+      : ['profile'];
   }
 
   getJsonFromUrl() {
     const query = location.search.substr(1);
     const result = {};
     query.split('&').forEach(function(part) {
-      const item = part.split('=');
-      if (item[0] !== '') {
-        result[item[0]] = decodeURIComponent(item[1]);
+      const [groupName, value] = part.split('=');
+      if (groupName !== '') {
+        if (groupName.startsWith('var-') && result[groupName]) {
+          result[groupName] = [
+            ...result[groupName],
+            decodeURIComponent(value)
+          ].filter((item, index, self) => self.indexOf(item) === item);
+        } else if (groupName.startsWith('var-')) {
+          result[groupName] = [decodeURIComponent(value)];
+        } else {
+          result[groupName] = decodeURIComponent(value);
+        }
       }
     });
     return result;
