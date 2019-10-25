@@ -30,6 +30,7 @@ dist/qan-app-*.tar.gz
 npm-debug.log
 testem.log
 /typings
+dist/
 
 # e2e
 /e2e/*.js
