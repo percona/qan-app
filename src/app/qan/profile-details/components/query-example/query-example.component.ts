@@ -1,6 +1,7 @@
 import { Component, Input } from '@angular/core';
 import * as vkbeautify from 'vkbeautify';
 import * as hljs from 'highlight.js';
+import sqlFormatter from 'sql-formatter';
 
 @Component({
   selector: 'app-query-example',
@@ -10,34 +11,46 @@ import * as hljs from 'highlight.js';
 export class QueryExampleComponent {
   @Input() exampleParam: any;
   @Input() beatify: boolean;
+  @Input() serviceType: string;
 
   public isCopied = false;
   event = new Event('showSuccessNotification');
 
-  constructor() {
-  }
+  constructor() {}
 
   /**
    * Fix beautify dispalying text, will be delete after approve https://github.com/vkiryukhin/vkBeautify/pull/25
    * @param {string} text
    * @returns {string}
    */
+
   fixBeautifyText(text: string): string {
-    return vkbeautify.sql(text.toLowerCase()).replace('explain', 'EXPLAIN ').replace('  ', ' ');
+    return sqlFormatter
+      .format(text.toLowerCase())
+      .replace('explain', 'EXPLAIN ')
+      .replace('  ', ' ');
   }
 
   highlightExampleQuery(exampleText) {
+    // TODO: add syntax highlighting
     if (this.beatify) {
-      exampleText = this.fixBeautifyText(exampleText);
+      switch (this.serviceType) {
+        case 'mongodb':
+          return vkbeautify.json(exampleText, 2);
+        case 'SQL':
+          return this.fixBeautifyText(exampleText);
+        default:
+          return this.fixBeautifyText(exampleText);
+      }
     }
-    return hljs.highlight('sql', exampleText).value;
+    return '';
   }
 
   showSuccessNotification() {
     this.isCopied = true;
     window.parent.document.dispatchEvent(this.event);
     setTimeout(() => {
-      this.isCopied = false
+      this.isCopied = false;
     }, 3000);
   }
 }

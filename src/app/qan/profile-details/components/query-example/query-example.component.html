@@ -1,10 +1,12 @@
-<pre class="example-output">
-  <code [innerHTML]="highlightExampleQuery(exampleParam)"></code>
+<pre class="example-output" [innerHTML]="highlightExampleQuery(exampleParam)">
 </pre>
-<button class="copy-button"
-        id="copyQueryExample"
-        ngxClipboard
-        (cbOnSuccess)="showSuccessNotification()"
-        [class.copy-button--active]="isCopied"
-        [cbContent]="exampleParam">Copy to clipboard
+<button
+  class="copy-button"
+  id="copyQueryExample"
+  ngxClipboard
+  (cbOnSuccess)="showSuccessNotification()"
+  [class.copy-button--active]="isCopied"
+  [cbContent]="exampleParam"
+>
+  Copy to clipboard
 </button>
