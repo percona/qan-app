@@ -15,7 +15,7 @@
     "build": "ng build qan-app  --base-href '/qan/' --aot --output-path 'dist/qan-app' --prod --progress --output-hashing=all",
     "pack": "cd dist/; tar -czf qan-app-`date +%Y%m%dT%H%m%S`.tar.gz qan-app",
     "clean": "rm -r dist/*",
-    "pmm-api-gen": " ng-swagger-gen -c ./swagger-gen-config/ng-swagger-public.json && ng-swagger-gen -c ./swagger-gen-config/ng-swagger-public.json"
+    "pmm-api-gen": " ng-swagger-gen -c ./swagger-gen-config/ng-swagger-public.json && ng-swagger-gen -c ./swagger-gen-config/ng-swagger-private.json"
   },
   "private": true,
   "dependencies": {
