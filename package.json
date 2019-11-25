@@ -5,7 +5,8 @@
   "angular-cli": {},
   "scripts": {
     "ng": "PATH=$(npm bin):$PATH; ng",
-    "start": "ng build qan-app  --base-href '/qan/' --aot --output-path 'dist/qan-app' --watch --progress --output-hashing=all",
+    "start": "ng serve --proxy-config proxy.conf.json",
+    "start:docker": "ng build qan-app  --base-href '/qan/' --aot --output-path 'dist/qan-app' --watch --progress --output-hashing=all",
     "lint": "ng lint",
     "format": "tsfmt -r",
     "test": "ng test",
