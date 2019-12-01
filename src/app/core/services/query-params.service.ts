@@ -108,11 +108,6 @@ export class QueryParamsService {
   setRouterLink(params = {}) {
     const filterBy =
       this.route.snapshot.queryParams.filter_by || params['filter_by'];
-    console.log(
-      filterBy,
-      this.route.snapshot.queryParams.filter_by,
-      params['filter_by']
-    );
     return filterBy !== undefined
       ? ['profile/details/', filterBy]
       : ['profile'];
@@ -128,7 +123,7 @@ export class QueryParamsService {
           result[groupName] = [
             ...result[groupName],
             decodeURIComponent(value)
-          ].filter((item, index, self) => self.indexOf(item) === item);
+          ].filter((item, index, self) => self.indexOf(item) === index);
         } else if (groupName.startsWith('var-')) {
           result[groupName] = [decodeURIComponent(value)];
         } else {
