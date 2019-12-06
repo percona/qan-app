@@ -12,17 +12,26 @@ import { QueryParams } from '../profile/interfaces/query-params.interface';
 @Injectable()
 export class FilterMenuService {
   private iframeQueryParams = this.route.snapshot.queryParams as QueryParams;
-  private selected = new BehaviorSubject(this.setSelected(this.iframeQueryParams));
+  private selected = new BehaviorSubject(
+    this.setSelected(this.iframeQueryParams)
+  );
   private autocompleteFilters = new Subject();
   public queryParams: any;
   public filterGroupList = filterGroupList;
 
+  static isEmptyObject(obj) {
+    return !Object.keys(obj).length;
+  }
+
+  static checkForTooltip(value, charsLimit) {
+    return value.length > charsLimit;
+  }
+
   constructor(
     private qanProfileService: QanProfileService,
     private queryParamsService: QueryParamsService,
-    private route: ActivatedRoute,
-  ) {
-  }
+    private route: ActivatedRoute
+  ) {}
 
   get getAutocompleteFilters() {
     return this.autocompleteFilters;
@@ -33,21 +42,37 @@ export class FilterMenuService {
   }
 
   setSelected(params) {
-    return params.filters ? this.decodeSelected(params) : [];
+    return this.decodeSelected(params);
   }
 
   decodeSelected(params) {
-    return params.filters
-      .split(',')
-      .map(filterStr => {
-        const divided = filterStr.split(':');
-        return {
-          filterName: divided[1],
-          groupName: divided[0],
-          urlParamName: filterStr,
-          state: true
-        }
-      })
+    return Object.keys(params).reduce((acc, param) => {
+      if (!param.startsWith('var-')) {
+        return acc;
+      }
+
+      const groupName = param.replace('var-', '');
+      if (Array.isArray(params[param])) {
+        params[param].forEach(value => {
+          acc.push({
+            filterName: value,
+            groupName: groupName,
+            urlParamName: `${groupName}/${value}`,
+            state: true
+          });
+        });
+        return acc;
+      }
+
+      acc.push({
+        filterName: params[param],
+        groupName: groupName,
+        urlParamName: `${groupName}/${params[param]}`,
+        state: true
+      });
+
+      return acc;
+    }, []);
   }
 
   updateSelected(newSelected) {
@@ -62,20 +87,18 @@ export class FilterMenuService {
   }
 
   generateFilterGroup(group) {
-    const filters = Object.entries(group.labels).filter(item => !this.isEmptyObject(item)).map(entire => new FilterGroupModel(entire));
-    return filters;
+    return Object.entries(group.labels)
+      .filter(item => !FilterMenuService.isEmptyObject(item))
+      .map(entire => new FilterGroupModel(entire));
   }
 
   generateAutocomplete(filters) {
     const generated = filters.map(responseItem =>
-      responseItem.items.map(item =>
-        new FiltersSearchModel(responseItem.filterGroup, item)
-      ));
-    return [].concat(...generated)
-  }
-
-  isEmptyObject(obj) {
-    return !Object.keys(obj).length
+      responseItem.items.map(
+        item => new FiltersSearchModel(responseItem.filterGroup, item)
+      )
+    );
+    return [].concat(...generated);
   }
 
   prepareLabels(filters) {
@@ -83,12 +106,12 @@ export class FilterMenuService {
     filters.forEach(item => {
       const existed = arr.find(it => it.key === item.groupName);
       if (!existed) {
-        arr.push({ key: item.groupName, value: [item.filterName] })
+        arr.push({ key: item.groupName, value: [item.filterName] });
       } else {
         existed.value.push(item.filterName);
       }
     });
-    return arr
+    return arr;
   }
 
   addSelectedToResponse(selected) {
@@ -102,11 +125,9 @@ export class FilterMenuService {
     }
   }
 
-  checkForTooltip(value, charsLimit) {
-    return value.length > charsLimit
-  }
-
   humanNamesForGroup(groupName) {
-    return this.filterGroupList[groupName] ? this.filterGroupList[groupName].humanName : groupName;
+    return this.filterGroupList[groupName]
+      ? this.filterGroupList[groupName].humanName
+      : groupName;
   }
 }
