@@ -41,8 +41,9 @@
                 {{ filter.value | ellipsisMiddle: charsLimit }}
               </span>
             </label>
-            <li *ngIf="!isSelectable"
-            [appPmmTooltip]="isTooltip(filter.value) ? filter.value : ''" >{{ filter.value | ellipsisMiddle: charsLimit }}</li>
+            <li class="filter-group__list-item" *ngIf="!isSelectable" [appPmmTooltip]="isTooltip(filter.value) ? filter.value : ''" >
+	        {{ filter.value | ellipsisMiddle: charsLimit }}
+	     </li>
             <span class="filters__count">
               {{
                 filter.main_metric_percent
