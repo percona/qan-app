@@ -1,4 +1,4 @@
-<app-qan-filter *ngIf="!isLoading; else spinner" [processLabels]="labels"></app-qan-filter>
+<app-qan-filter *ngIf="!isLoading; else spinner" [isSelectable]="false" [processLabels]="labels"></app-qan-filter>
 <ng-template #spinner>
   <i class="fa fa-spinner fa-spin"></i>
 </ng-template>
