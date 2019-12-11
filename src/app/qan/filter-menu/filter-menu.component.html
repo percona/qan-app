@@ -20,7 +20,7 @@
           <ng-container
             *ngIf="isExpanded(filterGroup) || subIndex < defaultLimit"
           >
-            <label class="checkbox-container">
+            <label *ngIf="isSelectable" class="checkbox-container">
               <input
                 (change)="
                   setConfigs([
@@ -41,6 +41,9 @@
                 {{ filter.value | ellipsisMiddle: charsLimit }}
               </span>
             </label>
+            <li class="filter-group__list-item" *ngIf="!isSelectable" [appPmmTooltip]="isTooltip(filter.value) ? filter.value : ''" >
+	        {{ filter.value | ellipsisMiddle: charsLimit }}
+	     </li>
             <span class="filters__count">
               {{
                 filter.main_metric_percent

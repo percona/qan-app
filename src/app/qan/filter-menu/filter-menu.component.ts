@@ -30,6 +30,11 @@ export class FilterMenuComponent implements OnInit, OnChanges {
     this.toggleLabels();
   }
 
+  // isSelectable is used to display *Labels* in the filter component and
+  // in object details label list component in different way.
+  @Input()
+  isSelectable = true;
+
   public expanded = {};
   public defaultLimit = 5;
   private charsLimit = 15;
@@ -44,9 +49,9 @@ export class FilterMenuComponent implements OnInit, OnChanges {
       });
   }
 
-  ngOnInit() {}
+  ngOnInit() { }
 
-  ngOnChanges() {}
+  ngOnChanges() { }
 
   toggleExpanded(group) {
     this.expanded[group.filterGroup] = !this.isExpanded(group);
