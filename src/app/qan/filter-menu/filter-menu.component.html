@@ -22,6 +22,7 @@
           >
             <label *ngIf="isSelectable" class="checkbox-container">
               <input
+                [disabled]="!!!filter.main_metric_percent"
                 (change)="
                   setConfigs([
                     filter.value,
@@ -46,9 +47,7 @@
 	     </li>
             <span class="filters__count">
               {{
-                filter.main_metric_percent
-                  ? (filter.main_metric_percent | humanize: "percentRounded")
-                  : ""
+                !!!filter.main_metric_percent ? '' : (filter.main_metric_percent < 0.01 ? '< 1%' : (filter.main_metric_percent | humanize: 'percentRounded'))
               }}
             </span>
           </ng-container>
