@@ -51,6 +51,10 @@ export const filterGroupList = {
     humanName: 'Container Name',
     defaultName: 'container_name'
   },
+  container_id: {
+    humanName: 'Container ID',
+    defaultName: 'container_id'
+  },
   username: {
     humanName: 'User Name',
     defaultName: 'username'
