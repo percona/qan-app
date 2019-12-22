@@ -24,11 +24,11 @@ export class SearchAutocompleteComponent implements OnInit, OnDestroy {
   ) {
     this.autocomplete$ = this.qanFilterService.getAutocompleteFilters
       .subscribe(configs => {
-        this.autocomplete = configs;
+        this.autocomplete = configs
       });
 
     this.qanFilterService.getSelected.subscribe(response => {
-      this.selected = response;
+      this.selected = response.filter(item => !item.groupName.endsWith('_id'));
     });
   }
 
