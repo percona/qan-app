@@ -20,7 +20,7 @@ export class QueryProfileService {
       .set('begin', begin)
       .set('end', end)
       .set('offset', String(offset))
-      .set('first_seen', first_seen)
+      .set('first_seen', String(!!first_seen))
       .set('search', searchValue);
 
     return await this.httpClient
