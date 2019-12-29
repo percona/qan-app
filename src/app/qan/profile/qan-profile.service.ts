@@ -66,7 +66,7 @@ export class QanProfileService {
 
   setLabels(iframeQueryParams) {
     return Object.keys(iframeQueryParams).filter(key => key.startsWith('var-')).map(key => ({
-      key: key.replace('var-',''),
+      key: key.replace('var-', ''),
       value: Array.isArray(iframeQueryParams[key]) ? iframeQueryParams[key] : [iframeQueryParams[key]]
     }))
   }
