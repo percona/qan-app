@@ -69,6 +69,7 @@
     "@types/numeral": "0.0.25",
     "@types/vkbeautify": "0.99.2",
     "codelyzer": "^5.0.1",
+    "handlebars": "^4.5.3",
     "jasmine": "^3.4.0",
     "jasmine-core": "^3.4.0",
     "jasmine-spec-reporter": "4.2.1",
