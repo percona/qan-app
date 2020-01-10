@@ -103,7 +103,7 @@ export class FilterMenuService {
 
   prepareLabels(filters) {
     const arr = [];
-    filters.forEach(item => {
+    filters.filter(item => !item.groupName.endsWith('_id')).forEach(item => {
       const existed = arr.find(it => it.key === item.groupName);
       if (!existed) {
         arr.push({ key: item.groupName, value: [item.filterName] });

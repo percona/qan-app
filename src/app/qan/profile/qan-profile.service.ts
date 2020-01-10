@@ -65,33 +65,10 @@ export class QanProfileService {
   }
 
   setLabels(iframeQueryParams) {
-    return iframeQueryParams.filters ? this.prepareLabelsURLParams(this.decodeLabelsURLParams(iframeQueryParams.filters)) : [];
-  }
-
-  prepareLabelsURLParams(labels) {
-    const arr = [];
-    labels.forEach(item => {
-      const existed = arr.find(it => it.key === item.groupName);
-      if (!existed) {
-        arr.push({ key: item.groupName, value: [item.filterName] })
-      } else {
-        existed.value.push(item.filterName);
-      }
-    });
-    return arr;
-  }
-
-  decodeLabelsURLParams(params) {
-    return params
-      .split(',')
-      .map(filterStr => {
-        const divided = filterStr.split(':');
-        return {
-          filterName: divided[1],
-          groupName: divided[0],
-          state: true
-        }
-      })
+    return Object.keys(iframeQueryParams).filter(key => key.startsWith('var-') && !key.endsWith('_id')).map(key => ({
+      key: key.replace('var-', ''),
+      value: Array.isArray(iframeQueryParams[key]) ? iframeQueryParams[key] : [iframeQueryParams[key]]
+    }))
   }
 
   decodeMainMetric(main_metric) {
