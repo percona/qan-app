@@ -10,7 +10,7 @@
           (click)="toggleExpanded(filterGroup)"
           class="filter-group__see-all"
         >
-          {{ isExpanded(filterGroup) ? "Show top " + defaultLimit : "See all" }}
+          {{ isExpanded(filterGroup) ? "Show top " + defaultLimit : "See all (" + filterGroup.items.length + ")"  }}
         </button>
       </div>
       <div class="filter-group__filters">
