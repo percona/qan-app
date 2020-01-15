@@ -179,7 +179,7 @@ export class ProfileTableComponent implements OnInit, OnDestroy, AfterViewInit {
   };
 
   generateTableData(data) {
-    this.paginationConfig.totalItems = (data['total_rows'] - data['limit'] === 1) ? data['total_rows'] + 1 : data['total_rows']
+    this.paginationConfig.totalItems = (data['total_rows'] - data['limit'] === 1) ? data['total_rows'] + 1 : data['total_rows'];
     this.paginationConfig.itemsPerPage = data['limit'];
     this.paginationConfig.currentPage = this.currentPage = data['offset'] ? data['offset'] / data['limit'] + 1 : 1;
     const tableRows = data['rows'].map(row => new TableDataModel(row));
@@ -213,7 +213,7 @@ export class ProfileTableComponent implements OnInit, OnDestroy, AfterViewInit {
     };
     const dimension = dimensionsMap[this.currentParams.group_by] ?
       dimensionsMap[this.currentParams.group_by] : `${GroupByMock[this.currentParams.group_by]}s`;
-    return `${this.tableData['total_rows']} distinct ${dimension}`
+    return `${this.tableData['total_rows']} distinct ${dimension}`;
   }
 
 }
