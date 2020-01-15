@@ -1,16 +1,18 @@
 dist: trusty
-sudo: false
 
 language: node_js
 node_js:
   - "10"
 
-addons:
-  apt:
-    sources:
-      - google-chrome
-    packages:
-      - google-chrome-stable
+# addons:
+#   apt:
+#     sources:
+#       - google-chrome
+#     packages:
+#       - google-chrome-stable
+
+before_install:
+  - sudo apt-get -yq --no-install-suggests --allow-unauthenticated --no-install-recommends $(travis_apt_get_options) install google-chrome-stable
 
 cache:
   directories:
