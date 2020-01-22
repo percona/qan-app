@@ -7,6 +7,7 @@
 <div class="row__item row__cells">
   <span [class.unit.unit--per-sec]="isRate">
     {{ isRate ? (currentMetric?.stats?.rate | humanize: pipeInfo?.ratePipe) : '0' }}
+    {{ currentMetricInfo?.units}}
   </span>
   <div *ngIf="currentMetric?.metricName && currentMetric?.sparkline?.length"
        [appLoadPolygonChart]="currentMetric?.sparkline"

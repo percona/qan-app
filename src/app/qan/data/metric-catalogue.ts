@@ -159,6 +159,7 @@ export const metricCatalogue = {
     humanizeName: 'Query Count',
     tooltipText: 'Count',
     simpleName: 'num_queries',
+    units: 'QPS',
     pipeTypes: {
       ratePipe: 'number',
       sumPipe: 'number',
@@ -171,6 +172,7 @@ export const metricCatalogue = {
     humanizeName: 'Query Count',
     tooltipText: 'Count',
     simpleName: 'count',
+    units: 'QPS',
     pipeTypes: {
       ratePipe: 'number',
       sumPipe: 'number',
