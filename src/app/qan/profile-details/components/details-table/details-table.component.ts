@@ -58,6 +58,10 @@ export class DetailsTableComponent implements OnInit, AfterViewInit {
       .subscribe(response => {
         this.details = response;
         this.details.metrics = this.detailsTableOrder(response['metrics']);
+        this.details.metricDictionary = response['metrics'].reduce((metricsDict, metric) => {
+          metricsDict[metric.metricName] = metric;
+          return metricsDict
+        }, {})
         this.queryCount = this.details.metrics.find(
           item => item.metricName === 'num_queries'
         ).stats['sum'];
