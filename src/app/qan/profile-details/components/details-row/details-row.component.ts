@@ -44,7 +44,7 @@ export class DetailsRowComponent implements OnInit {
     this.isSum = this.currentMetric.stats.sum >= 0;
     this.isStats = this.currentMetric.stats.avg >= 0;
     this.isPercentOfTotal = !!(this.currentMetric.stats.sum || this.currentMetric.stats.sum_per_sec);
-    this.complexMetric = this.currentMetricInfo.metricRelation(this.allMetrics)
+    this.complexMetric = this.currentMetricInfo.metricRelation(this.allMetrics);
     if (this.isPercentOfTotal) {
       this.percentOfTotal = +this.percentFromNumber(this.currentTotal, this.currentMetric);
     }
