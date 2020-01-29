@@ -71,7 +71,7 @@ export const metricCatalogue = {
       const mainMetric = _.get(data, ['bytes_sent', 'stats', 'sum']);
       const divider = _.get(data, ['rows_sent', 'stats', 'sum']);
 
-      if (mainMetric || divider) {
+      if (!mainMetric || !divider) {
         return '';
       }
       return `${transform(mainMetric / divider)} per row sent`;
@@ -347,7 +347,7 @@ export const metricCatalogue = {
       const mainMetric = _.get(data, ['filesort', 'stats', 'sum']);
       const divider = _.get(data, ['num_queries', 'stats', 'sum']);
 
-      if (mainMetric || divider) {
+      if (!mainMetric || !divider) {
         return '';
       }
       return `${transform(mainMetric / divider)} per query`;
@@ -369,7 +369,7 @@ export const metricCatalogue = {
       const mainMetric = _.get(data, ['filesort_on_disk', 'stats', 'sum']);
       const divider = _.get(data, ['num_queries', 'stats', 'sum']);
 
-      if (mainMetric || divider) {
+      if (!mainMetric || !divider) {
         return '';
       }
 
@@ -392,7 +392,7 @@ export const metricCatalogue = {
       const mainMetric = _.get(data, ['full_join', 'stats', 'sum']);
       const divider = _.get(data, ['num_queries', 'stats', 'sum']);
 
-      if (mainMetric || divider) {
+      if (!mainMetric || !divider) {
         return '';
       }
 
@@ -415,7 +415,7 @@ export const metricCatalogue = {
       const mainMetric = _.get(data, ['full_scan', 'stats', 'sum']);
       const divider = _.get(data, ['num_queries', 'stats', 'sum']);
 
-      if (mainMetric || divider) {
+      if (!mainMetric || !divider) {
         return '';
       }
 
@@ -438,7 +438,7 @@ export const metricCatalogue = {
       const mainMetric = _.get(data, ['innodb_io_r_bytes', 'stats', 'sum']);
       const divider = _.get(data, ['innodb_io_r_ops', 'stats', 'sum']);
 
-      if (mainMetric || divider) {
+      if (!mainMetric || !divider) {
         return '';
       }
 
@@ -476,7 +476,7 @@ export const metricCatalogue = {
       const mainMetric = _.get(data, ['innodb_io_r_wait', 'stats', 'avg']);
       const divider = _.get(data, ['query_time', 'stats', 'avg']);
 
-      if (mainMetric || divider) {
+      if (!mainMetric || !divider) {
         return '';
       }
 
@@ -516,7 +516,7 @@ export const metricCatalogue = {
       const mainMetric = _.get(data, ['innodb_queue_wait', 'stats', 'avg']);
       const divider = _.get(data, ['query_time', 'stats', 'avg']);
 
-      if (mainMetric || divider) {
+      if (!mainMetric || !divider) {
         return '';
       }
 
@@ -539,7 +539,7 @@ export const metricCatalogue = {
       const mainMetric = _.get(data, ['innodb_rec_lock_wait', 'stats', 'avg']);
       const divider = _.get(data, ['query_time', 'stats', 'avg']);
 
-      if (mainMetric || divider) {
+      if (!mainMetric || !divider) {
         return '';
       }
 
@@ -576,7 +576,7 @@ export const metricCatalogue = {
       const mainMetric = _.get(data, ['lock_time', 'stats', 'avg']);
       const divider = _.get(data, ['query_time', 'stats', 'avg']);
 
-      if (mainMetric || divider) {
+      if (!mainMetric || !divider) {
         return '';
       }
 
@@ -600,7 +600,7 @@ export const metricCatalogue = {
       const mainMetric = _.get(data, ['merge_passes', 'stats', 'sum']);
       const divider = _.get(data, ['filesort', 'stats', 'sum']);
 
-      if (mainMetric || divider) {
+      if (!mainMetric || !divider) {
         return '';
       }
 
@@ -651,7 +651,7 @@ export const metricCatalogue = {
       const mainMetric = _.get(data, ['qc_hit', 'stats', 'sum']);
       const divider = _.get(data, ['num_queries', 'stats', 'sum']);
 
-      if (mainMetric || divider) {
+      if (!mainMetric || !divider) {
         return '';
       }
 
@@ -730,7 +730,7 @@ export const metricCatalogue = {
       const mainMetric = _.get(data, ['rows_examined', 'stats', 'sum']);
       const divider = _.get(data, ['rows_sent', 'stats', 'sum']);
 
-      if (mainMetric || divider) {
+      if (!mainMetric || !divider) {
         return '';
       }
 
@@ -867,7 +867,7 @@ export const metricCatalogue = {
       const mainMetric = _.get(data, ['tmp_disk_tables', 'stats', 'sum']);
       const divider = _.get(data, ['tmp_table_on_disk', 'stats', 'sum']);
 
-      if (mainMetric || divider) {
+      if (!mainMetric || !divider) {
         return '';
       }
 
@@ -890,7 +890,7 @@ export const metricCatalogue = {
       const mainMetric = _.get(data, ['tmp_table', 'stats', 'sum']);
       const divider = _.get(data, ['num_queries', 'stats', 'sum']);
 
-      if (mainMetric || divider) {
+      if (!mainMetric || !divider) {
         return '';
       }
 
@@ -913,7 +913,7 @@ export const metricCatalogue = {
       const mainMetric = _.get(data, ['tmp_table_on_disk', 'stats', 'sum']);
       const divider = _.get(data, ['num_queries', 'stats', 'sum']);
 
-      if (mainMetric || divider) {
+      if (!mainMetric || !divider) {
         return '';
       }
 
@@ -937,7 +937,7 @@ export const metricCatalogue = {
       const mainMetric = _.get(data, ['tmp_table_sizes', 'stats', 'sum']);
       const divider = _.get(data, ['tmp_table_on_disk', 'stats', 'sum']);
 
-      if (mainMetric || divider) {
+      if (!mainMetric || !divider) {
         return '';
       }
 
@@ -960,7 +960,7 @@ export const metricCatalogue = {
       const mainMetric = _.get(data, ['tmp_tables', 'stats', 'sum']);
       const divider = _.get(data, ['tmp_table', 'stats', 'sum']);
 
-      if (mainMetric || divider) {
+      if (!mainMetric || !divider) {
         return '';
       }
 
