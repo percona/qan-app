@@ -213,7 +213,7 @@ export class ProfileTableComponent implements OnInit, OnDestroy, AfterViewInit {
     };
     const dimension = dimensionsMap[this.currentParams.group_by] ?
       dimensionsMap[this.currentParams.group_by] : `${GroupByMock[this.currentParams.group_by]}s`;
-    return `${this.tableData['total_rows']} distinct ${dimension}`;
+    return `${this.paginationConfig.totalItems} distinct ${dimension}`;
   }
 
 }
