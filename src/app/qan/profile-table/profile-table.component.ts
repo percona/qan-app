@@ -10,7 +10,10 @@ import {
   ViewChild,
   ViewChildren
 } from '@angular/core';
-import { PerfectScrollbarComponent, PerfectScrollbarConfigInterface } from 'ngx-perfect-scrollbar';
+import {
+  PerfectScrollbarComponent,
+  PerfectScrollbarConfigInterface
+} from 'ngx-perfect-scrollbar';
 import { SelectOptionModel } from '../table-header-cell/modesl/select-option.model';
 import { TableDataModel } from './models/table-data.model';
 import { MetricModel } from './models/metric.model';
@@ -32,7 +35,8 @@ import { GroupByMock } from '../main-cell/mock/group-by.mock';
 })
 export class ProfileTableComponent implements OnInit, OnDestroy, AfterViewInit {
   @Output() finishRender = new EventEmitter();
-  @ViewChild(PerfectScrollbarComponent, { static: true }) componentRef?: PerfectScrollbarComponent;
+  @ViewChild(PerfectScrollbarComponent, { static: true })
+  componentRef?: PerfectScrollbarComponent;
   @ViewChild('qanTable', { static: true }) qanTable: ElementRef;
   @ViewChild('rightTableBorder', { static: false }) rightBorder: ElementRef;
   @ViewChild('mainTableWrapper', { static: true }) mainTableWrapper: ElementRef;
@@ -60,7 +64,7 @@ export class ProfileTableComponent implements OnInit, OnDestroy, AfterViewInit {
     id: 'qan-table-pagination',
     itemsPerPage: this.selectPaginationConfig[0],
     currentPage: 1,
-    totalItems: 0,
+    totalItems: 0
   };
 
   public currentPage = this.paginationConfig.currentPage;
@@ -71,50 +75,52 @@ export class ProfileTableComponent implements OnInit, OnDestroy, AfterViewInit {
     private router: Router,
     private qanProfileService: QanProfileService,
     private profileService: ProfileService,
-    private queryParamsService: QueryParamsService,
+    private queryParamsService: QueryParamsService
   ) {
     this.isLoading = true;
 
-    this.report$ = this.qanProfileService.getProfileParams.pipe(
-      takeUntil(this.destroy$),
-      map(params => {
-        this.currentParams = params;
-        return params;
-      }),
-      switchMap(parsedParams => {
-        this.isLoading = true;
+    this.report$ = this.qanProfileService.getProfileParams
+      .pipe(
+        takeUntil(this.destroy$),
+        map(params => {
+          this.currentParams = params;
+          return params;
+        }),
+        switchMap(parsedParams => {
+          this.isLoading = true;
 
-        return this.profileService.GetReport(parsedParams).pipe(
-          catchError(err => {
-            console.log('error - ', err);
-            return of([])
-          }),
-          map(data => this.generateTableData(data)),
-          catchError(err => {
-            console.log('error - ', err);
-            return of([])
-          })
-        )
-      }),
-    ).subscribe(
-      data => {
-        this.tableData = data;
-        this.isLoading = false;
-      },
-      err => {
-        console.log('error - ', err)
-      },
-      () => {
-        console.log('complete');
-      }
-    );
+          return this.profileService.GetReport(parsedParams).pipe(
+            catchError(err => {
+              console.log('error - ', err);
+              return of([]);
+            }),
+            map(data => this.generateTableData(data)),
+            catchError(err => {
+              console.log('error - ', err);
+              return of([]);
+            })
+          );
+        })
+      )
+      .subscribe(
+        data => {
+          this.tableData = data;
+          this.isLoading = false;
+        },
+        err => {
+          console.log('error - ', err);
+        },
+        () => {
+          console.log('complete');
+        }
+      );
 
     this.detailsBy$ = this.qanProfileService.getProfileInfo.detailsBy
       .pipe(takeUntil(this.destroy$))
-      .subscribe(details_by => this.detailsBy = details_by);
+      .subscribe(details_by => (this.detailsBy = details_by));
     this.fingerprint$ = this.qanProfileService.getProfileInfo.fingerprint
       .pipe(takeUntil(this.destroy$))
-      .subscribe(fingerprint => this.fingerprint = fingerprint);
+      .subscribe(fingerprint => (this.fingerprint = fingerprint));
   }
 
   ngOnInit() {
@@ -125,7 +131,7 @@ export class ProfileTableComponent implements OnInit, OnDestroy, AfterViewInit {
     this.tableRows.changes.subscribe(() => {
       this.ngForRendered();
       this.finishRender.emit(true);
-    })
+    });
   }
 
   ngOnDestroy() {
@@ -140,13 +146,16 @@ export class ProfileTableComponent implements OnInit, OnDestroy, AfterViewInit {
     window.dispatchEvent(this.event);
     setTimeout(() => {
       const height = this.qanTable.nativeElement.offsetHeight;
-      this.rightBorder.nativeElement.style.setProperty('--border-height', `${height}px`);
+      this.rightBorder.nativeElement.style.setProperty(
+        '--border-height',
+        `${height}px`
+      );
     }, 0);
   }
 
   toEndOfScrollbar() {
     setTimeout(() => {
-      this.componentRef.directiveRef.scrollToRight()
+      this.componentRef.directiveRef.scrollToRight();
     }, 0);
   }
 
@@ -176,20 +185,30 @@ export class ProfileTableComponent implements OnInit, OnDestroy, AfterViewInit {
     });
 
     return array;
-  };
+  }
 
   generateTableData(data) {
-    this.paginationConfig.totalItems = (data['total_rows'] - data['limit'] === 1) ? data['total_rows'] + 1 : data['total_rows'];
+    this.paginationConfig.totalItems =
+      data['total_rows'] - data['limit'] === 1
+        ? data['total_rows'] + 1
+        : data['total_rows'];
     this.paginationConfig.itemsPerPage = data['limit'];
-    this.paginationConfig.currentPage = this.currentPage = data['offset'] ? data['offset'] / data['limit'] + 1 : 1;
+    this.paginationConfig.currentPage = this.currentPage = data['offset']
+      ? data['offset'] / data['limit'] + 1
+      : 1;
     const tableRows = data['rows'].map(row => new TableDataModel(row));
     tableRows.forEach(row => {
-      row.metrics = row.metrics.filter(metric => this.currentParams.columns.includes(metric.metricName));
-      row.metrics = this.mapOrder(row.metrics, this.currentParams.columns, 'metricName');
+      row.metrics = row.metrics.filter(metric =>
+        this.currentParams.columns.includes(metric.metricName)
+      );
+      row.metrics = this.mapOrder(
+        row.metrics,
+        this.currentParams.columns,
+        'metricName'
+      );
     });
     return tableRows;
   }
-
 
   addColumn() {
     this.tableData.forEach(query => query.metrics.push(new MetricModel()));
@@ -209,13 +228,11 @@ export class ProfileTableComponent implements OnInit, OnDestroy, AfterViewInit {
 
   showTotalItems() {
     const dimensionsMap = {
-      queryid: 'queries',
+      queryid: 'queries'
     };
     const { group_by } = this.currentParams;
-    const dimension = dimensionsMap[this.currentParams.group_by]
-      ? dimensionsMap[group_by]
-      : `${GroupByMock[group_by]}s`;
+    const dimensionMap = dimensionsMap[group_by];
+    const dimension = dimensionMap ? dimensionMap : `${GroupByMock[group_by]}s`;
     return `${this.paginationConfig.totalItems} distinct ${dimension}`;
   }
-
 }
