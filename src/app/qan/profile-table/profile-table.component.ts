@@ -211,8 +211,10 @@ export class ProfileTableComponent implements OnInit, OnDestroy, AfterViewInit {
     const dimensionsMap = {
       queryid: 'queries',
     };
-    const dimension = dimensionsMap[this.currentParams.group_by] ?
-      dimensionsMap[this.currentParams.group_by] : `${GroupByMock[this.currentParams.group_by]}s`;
+    const { group_by } = this.currentParams;
+    const dimension = dimensionsMap[this.currentParams.group_by]
+      ? dimensionsMap[group_by]
+      : `${GroupByMock[group_by]}s`;
     return `${this.paginationConfig.totalItems} distinct ${dimension}`;
   }
 
