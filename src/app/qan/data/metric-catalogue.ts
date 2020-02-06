@@ -315,7 +315,16 @@ export const metricCatalogue = {
     humanizeName: 'Docs scanned',
     tooltipText: 'The number of scanned documents',
     simpleName: 'docs_scanned',
-    metricRelation: () => '',
+    metricRelation: data => {
+      const mainMetric = _.get(data, ['rows_examined', 'stats', 'sum']);
+      const divider = _.get(data, ['rows_sent', 'stats', 'sum']);
+
+      if (!mainMetric || !divider) {
+        return '';
+      }
+
+      return `${transform(mainMetric / divider)} per row sent`;
+    },
     units: Units.PER_SEC,
     pipeTypes: {
       ratePipe: 'number',
@@ -698,7 +707,16 @@ export const metricCatalogue = {
     humanizeName: 'Response Length',
     tooltipText: 'The response length of the query result in bytes',
     simpleName: 'response_length',
-    metricRelation: () => '',
+    metricRelation: data => {
+      const mainMetric = _.get(data, ['bytes_sent', 'stats', 'sum']);
+      const divider = _.get(data, ['rows_sent', 'stats', 'sum']);
+
+      if (!mainMetric || !divider) {
+        return '';
+      }
+
+      return `${transform(mainMetric / divider, 'size')} bytes/row`;
+    },
     units: Units.PER_SEC,
     pipeTypes: {
       ratePipe: 'number',

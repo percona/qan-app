@@ -10,10 +10,10 @@
     </div>
     <div *ngIf="metricData?.stats?.qps || metricData?.stats?.sum_per_sec">
       {{(metricData?.stats?.qps || metricData?.stats?.sum_per_sec) | humanize : 'number'}}
+      {{ currentMetricInfo?.units}}
     </div>
     <div>
       {{metricData?.stats?.sum | humanize : pipeInfo?.sumPipe}}
-      {{ currentMetricInfo?.units}}
     </div>
     <div *ngIf="isPercentOfTotal" class="unit unit--percent">
       {{percentOfTotal}}
