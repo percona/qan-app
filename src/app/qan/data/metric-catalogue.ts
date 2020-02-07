@@ -259,7 +259,7 @@ export const metricCatalogue = {
     humanizeName: 'Query Count',
     tooltipText: 'Count',
     simpleName: 'num_queries',
-    units: Units.QPS,
+    units: Units.PER_SEC,
     metricRelation: () => '',
     pipeTypes: {
       ratePipe: 'number',
@@ -273,7 +273,7 @@ export const metricCatalogue = {
     humanizeName: 'Query Count',
     tooltipText: 'Count',
     simpleName: 'count',
-    units: Units.QPS,
+    units: Units.PER_SEC,
     metricRelation: () => '',
     pipeTypes: {
       ratePipe: 'number',
@@ -491,7 +491,7 @@ export const metricCatalogue = {
 
       return `${transform(mainMetric / divider)} of query time`;
     },
-    units: Units.NONE,
+    units: Units.LOAD,
     pipeTypes: {
       ratePipe: 'number',
       sumPipe: 'time',
