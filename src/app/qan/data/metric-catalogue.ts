@@ -316,8 +316,8 @@ export const metricCatalogue = {
     tooltipText: 'The number of scanned documents',
     simpleName: 'docs_scanned',
     metricRelation: data => {
-      const mainMetric = _.get(data, ['rows_examined', 'stats', 'sum']);
-      const divider = _.get(data, ['rows_sent', 'stats', 'sum']);
+      const mainMetric = _.get(data, ['docs_scanned', 'stats', 'sum']);
+      const divider = _.get(data, ['docs_returned', 'stats', 'sum']);
 
       if (!mainMetric || !divider) {
         return '';
@@ -708,8 +708,8 @@ export const metricCatalogue = {
     tooltipText: 'The response length of the query result in bytes',
     simpleName: 'response_length',
     metricRelation: data => {
-      const mainMetric = _.get(data, ['bytes_sent', 'stats', 'sum']);
-      const divider = _.get(data, ['rows_sent', 'stats', 'sum']);
+      const mainMetric = _.get(data, ['response_length', 'stats', 'sum']);
+      const divider = _.get(data, ['docs_returned', 'stats', 'sum']);
 
       if (!mainMetric || !divider) {
         return '';
