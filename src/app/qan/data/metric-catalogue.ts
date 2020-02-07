@@ -259,7 +259,7 @@ export const metricCatalogue = {
     humanizeName: 'Query Count',
     tooltipText: 'Count',
     simpleName: 'num_queries',
-    units: Units.PER_SEC,
+    units: Units.QPS,
     metricRelation: () => '',
     pipeTypes: {
       ratePipe: 'number',
@@ -273,7 +273,7 @@ export const metricCatalogue = {
     humanizeName: 'Query Count',
     tooltipText: 'Count',
     simpleName: 'count',
-    units: Units.PER_SEC,
+    units: Units.QPS,
     metricRelation: () => '',
     pipeTypes: {
       ratePipe: 'number',
