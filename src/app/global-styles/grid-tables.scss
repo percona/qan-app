@@ -78,7 +78,7 @@
 
 //Query details metrics table
 .grid-table__row--metrics {
-  grid-template-columns: repeat(4, 2fr);
+  grid-template-columns: 15% 25% 35% 25%;
 }
 
 .grid-table__row--two-columns {

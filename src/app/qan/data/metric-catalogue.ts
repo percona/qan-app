@@ -259,7 +259,7 @@ export const metricCatalogue = {
     humanizeName: 'Query Count',
     tooltipText: 'Count',
     simpleName: 'num_queries',
-    units: Units.PER_SEC,
+    units: Units.QPS,
     metricRelation: () => '',
     pipeTypes: {
       ratePipe: 'number',
@@ -273,7 +273,7 @@ export const metricCatalogue = {
     humanizeName: 'Query Count',
     tooltipText: 'Count',
     simpleName: 'count',
-    units: Units.PER_SEC,
+    units: Units.QPS,
     metricRelation: () => '',
     pipeTypes: {
       ratePipe: 'number',
@@ -489,7 +489,7 @@ export const metricCatalogue = {
         return '';
       }
 
-      return `${transform(mainMetric / divider)} of query time`;
+      return `${transform(mainMetric / divider, 'percent')} of query time`;
     },
     units: Units.LOAD,
     pipeTypes: {
@@ -529,7 +529,7 @@ export const metricCatalogue = {
         return '';
       }
 
-      return `${transform(mainMetric / divider)} of query time`;
+      return `${transform(mainMetric / divider, 'percent')} of query time`;
     },
     units: Units.NONE,
     pipeTypes: {
@@ -552,7 +552,7 @@ export const metricCatalogue = {
         return '';
       }
 
-      return `${transform(mainMetric / divider)} of query time`;
+      return `${transform(mainMetric / divider, 'percent')} of query time`;
     },
     units: Units.AVG_LOAD,
     pipeTypes: {
@@ -589,7 +589,7 @@ export const metricCatalogue = {
         return '';
       }
 
-      return `${transform(mainMetric / divider)} of query time`;
+      return `${transform(mainMetric / divider, 'percent')} of query time`;
     },
     units: Units.AVG_LOAD,
     pipeTypes: {
@@ -694,7 +694,7 @@ export const metricCatalogue = {
     tooltipText: 'The statement execution time in seconds',
     simpleName: 'query_time',
     metricRelation: () => '',
-    units: Units.PER_SEC,
+    units: Units.AVG_LOAD,
     pipeTypes: {
       ratePipe: 'number',
       sumPipe: 'time',
