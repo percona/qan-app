@@ -56,6 +56,7 @@ const Units = {
   AVG_LOAD: '(avg load)',
   LOAD: 'load',
   PER_SEC: '(per sec)',
+  BYTES_PER_SEC: 'Bytes (per sec)',
   QPS: 'QPS',
   AVG: 'avg',
   PERCENT: '%',
@@ -288,7 +289,7 @@ export const metricCatalogue = {
     tooltipText: 'Query Count with errors',
     simpleName: 'num_queries_with_errors',
     metricRelation: () => '',
-    units: Units.PER_SEC,
+    units: Units.QPS,
     pipeTypes: {
       ratePipe: 'number',
       sumPipe: 'number',
@@ -302,7 +303,7 @@ export const metricCatalogue = {
     tooltipText: 'Query Count with warnings',
     simpleName: 'num_queries_with_warnings',
     metricRelation: () => '',
-    units: Units.PER_SEC,
+    units: Units.QPS,
     pipeTypes: {
       ratePipe: 'number',
       sumPipe: 'number',
@@ -694,7 +695,7 @@ export const metricCatalogue = {
     tooltipText: 'The statement execution time in seconds',
     simpleName: 'query_time',
     metricRelation: () => '',
-    units: Units.AVG_LOAD,
+    units: Units.LOAD,
     pipeTypes: {
       ratePipe: 'number',
       sumPipe: 'time',
@@ -717,7 +718,7 @@ export const metricCatalogue = {
 
       return `${transform(mainMetric / divider, 'size')} bytes/row`;
     },
-    units: Units.PER_SEC,
+    units: Units.BYTES_PER_SEC,
     pipeTypes: {
       ratePipe: 'number',
       sumPipe: 'number',
