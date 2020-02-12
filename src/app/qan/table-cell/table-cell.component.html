@@ -10,7 +10,7 @@
     </div>
     <div *ngIf="metricData?.stats?.qps || metricData?.stats?.sum_per_sec">
       {{(metricData?.stats?.qps || metricData?.stats?.sum_per_sec) | humanize : 'number'}}
-      {{ (!isSparkline ? currentMetricInfo?.units : '')}}
+      {{ currentMetricInfo?.units }}
     </div>
     <div *ngIf="metricData?.stats?.sum">
       {{metricData?.stats?.sum | humanize : pipeInfo?.sumPipe}}
