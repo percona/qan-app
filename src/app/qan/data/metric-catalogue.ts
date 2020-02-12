@@ -177,7 +177,7 @@ export const metricCatalogue = {
     tooltipText: 'Total number of shared blocks dirtied by the statement\n',
     simpleName: 'shared_blks_dirtied',
     metricRelation: () => '',
-    units: Units.NONE,
+    units: Units.PER_SEC,
     pipeTypes: {
       ratePipe: 'number',
       sumPipe: 'number',
@@ -191,7 +191,7 @@ export const metricCatalogue = {
     tooltipText: 'Total number of shared block cache hits by the statement',
     simpleName: 'shared_blks_hit',
     metricRelation: () => '',
-    units: Units.NONE,
+    units: Units.PER_SEC,
     pipeTypes: {
       ratePipe: 'number',
       sumPipe: 'number',
@@ -205,7 +205,7 @@ export const metricCatalogue = {
     tooltipText: 'Total number of shared blocks read by the statement\n',
     simpleName: 'shared_blks_read',
     metricRelation: () => '',
-    units: Units.NONE,
+    units: Units.PER_SEC,
     pipeTypes: {
       ratePipe: 'number',
       sumPipe: 'number',
@@ -219,7 +219,7 @@ export const metricCatalogue = {
     tooltipText: 'Total number of shared blocks written by the statement',
     simpleName: 'shared_blks_written',
     metricRelation: () => '',
-    units: Units.NONE,
+    units: Units.PER_SEC,
     pipeTypes: {
       ratePipe: 'number',
       sumPipe: 'number',
@@ -340,7 +340,7 @@ export const metricCatalogue = {
     tooltipText: 'The number of returned documents',
     simpleName: 'docs_returned',
     metricRelation: () => '',
-    units: Units.NONE,
+    units: Units.PER_SEC,
     pipeTypes: {
       ratePipe: 'number',
       sumPipe: 'number',
@@ -431,7 +431,7 @@ export const metricCatalogue = {
 
       return `${transform(mainMetric / divider)} per query`;
     },
-    units: Units.NONE,
+    units: Units.PER_SEC,
     pipeTypes: {
       ratePipe: 'number',
       sumPipe: 'number',
@@ -644,7 +644,7 @@ export const metricCatalogue = {
     tooltipText: 'The number of queries without index',
     simpleName: 'no_index_used',
     metricRelation: () => '',
-    units: Units.NONE,
+    units: Units.PER_SEC,
     pipeTypes: {
       ratePipe: 'number',
       sumPipe: 'number',
@@ -892,7 +892,7 @@ export const metricCatalogue = {
 
       return `${transform(mainMetric / divider)} per query`;
     },
-    units: Units.NONE,
+    units: Units.PER_SEC,
     pipeTypes: {
       ratePipe: 'number',
       sumPipe: 'number',
@@ -985,7 +985,7 @@ export const metricCatalogue = {
 
       return `${transform(mainMetric / divider)} per query`;
     },
-    units: Units.NONE,
+    units: Units.PER_SEC,
     pipeTypes: {
       ratePipe: 'number',
       sumPipe: 'number',
