@@ -12,6 +12,7 @@ export class DetailsRowComponent implements OnInit {
   @Input() currentTotal: MetricModel;
   @Input() allTotals: MetricModel[];
   @Input() queryCount: any;
+  @Input() allMetrics: MetricModel[];
 
   private metricData = metricCatalogue;
   public percentOfTotal: number;
@@ -30,6 +31,7 @@ export class DetailsRowComponent implements OnInit {
   public isSum: boolean;
   public isStats: boolean;
   public isPercentOfTotal: boolean;
+  public complexMetric: string
 
   constructor() {
   }
@@ -42,6 +44,7 @@ export class DetailsRowComponent implements OnInit {
     this.isSum = this.currentMetric.stats.sum >= 0;
     this.isStats = this.currentMetric.stats.avg >= 0;
     this.isPercentOfTotal = !!(this.currentMetric.stats.sum || this.currentMetric.stats.sum_per_sec);
+    this.complexMetric = this.currentMetricInfo.metricRelation(this.allMetrics);
     if (this.isPercentOfTotal) {
       this.percentOfTotal = +this.percentFromNumber(this.currentTotal, this.currentMetric);
     }

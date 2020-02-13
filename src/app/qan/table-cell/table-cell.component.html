@@ -10,6 +10,7 @@
     </div>
     <div *ngIf="metricData?.stats?.qps || metricData?.stats?.sum_per_sec">
       {{(metricData?.stats?.qps || metricData?.stats?.sum_per_sec) | humanize : 'number'}}
+      {{ currentMetricInfo?.units }}
     </div>
     <div *ngIf="metricData?.stats?.sum">
       {{metricData?.stats?.sum | humanize : pipeInfo?.sumPipe}}
@@ -22,7 +23,6 @@
          [appLatencyChart]="metricData?.stats"
          metricPrefix="Rows_sent">
     </div>
-
     <ng-container *ngIf="isNoData">
       <div>n/a</div>
     </ng-container>

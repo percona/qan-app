@@ -8,7 +8,7 @@ import {
   Output,
   QueryList,
   ViewChild,
-  ViewChildren
+  ViewChildren,
 } from '@angular/core';
 import { catchError, map, switchMap } from 'rxjs/operators';
 import { of, Subscription } from 'rxjs';
@@ -22,7 +22,7 @@ import { ObjectDetails } from '../../../profile/interfaces/object-details.interf
 @Component({
   selector: 'app-details-table',
   templateUrl: './details-table.component.html',
-  styleUrls: ['./details-table.component.css']
+  styleUrls: ['./details-table.component.css'],
 })
 export class DetailsTableComponent implements OnInit, AfterViewInit {
   @ViewChild('table', { static: true }) table: ElementRef;
@@ -58,6 +58,13 @@ export class DetailsTableComponent implements OnInit, AfterViewInit {
       .subscribe(response => {
         this.details = response;
         this.details.metrics = this.detailsTableOrder(response['metrics']);
+        this.details.metricDictionary = response['metrics'].reduce(
+          (metricsDict, metric) => {
+            metricsDict[metric.metricName] = metric;
+            return metricsDict;
+          },
+          {}
+        );
         this.queryCount = this.details.metrics.find(
           item => item.metricName === 'num_queries'
         ).stats['sum'];
@@ -101,7 +108,7 @@ export class DetailsTableComponent implements OnInit, AfterViewInit {
   getDetailsData(detailsParams) {
     return this.objectDetailsService.GetMetrics(detailsParams).pipe(
       catchError(err => of({ metrics: [], sparkline: [] })),
-      map(response => {
+      map((response) => {
         const withData =
           Object.entries(
             response.metrics ? response.metrics : response['totals']
@@ -132,7 +139,7 @@ export class DetailsTableComponent implements OnInit, AfterViewInit {
             ) || [];
         return {
           metrics: withData,
-          totals: withDataTotals
+          totals: withDataTotals,
         };
       }),
       catchError(err => of([]))
@@ -148,7 +155,7 @@ export class DetailsTableComponent implements OnInit, AfterViewInit {
       'lock_time',
       'rows_sent',
       'rows_examined',
-      ''
+      '',
     ];
 
     let indA = order.indexOf(a['metricName']);

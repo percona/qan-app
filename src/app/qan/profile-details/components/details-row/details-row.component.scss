@@ -1,6 +1,6 @@
 :host {
   display: grid;
-  grid-template-columns: repeat(4, 2fr);
+  grid-template-columns: 15% 25% 35% 25%;
   align-items: center;
   height: 100%;
   color: inherit;
@@ -29,4 +29,9 @@
 .total-percent {
   margin-left: 5px;
   color: var(--main-highlight-color);
+}
+
+.complex-metric {
+  margin-left: 5px;
+  color: #288031;
 }
