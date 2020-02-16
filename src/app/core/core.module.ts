@@ -6,15 +6,7 @@ import { PageNotFoundComponent } from './page-not-found/page-not-found.component
 import { InstanceService } from './services/instance.service';
 import { QanProfileComponent } from '../qan/profile/qan-profile.component';
 import { QanProfileService } from '../qan/profile/qan-profile.service';
-import { SummaryComponent } from '../summary/summary.component';
-import { SummaryService } from '../summary/summary.service';
-import { SettingsComponent } from '../settings/settings.component';
-import { SettingsService } from '../settings/settings.service';
-import { AddAmazonRDSService } from '../add-amazon-rds/add-amazon-rds.service';
-import { AddRemoteInstanceService } from '../add-remote-instances/add-remote-instance.service';
-import { RemoteInstancesListService } from '../remote-instances-list/remote-instances-list.service';
 import { ClipboardModule } from 'ngx-clipboard';
-import { RemoteInstancesListComponent } from '../remote-instances-list/remote-instances-list.component';
 import { EditColumnComponent } from '../qan/edit-column/edit-column.component';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { FilterMenuComponent } from '../qan/filter-menu/filter-menu.component';
@@ -26,14 +18,9 @@ import { SearchAutocompleteComponent } from '../qan/search-autocomplete/search-a
 import { ProfileDetailsComponent } from '../qan/profile-details/profile-details.component';
 import { ProfileDetailsService } from '../qan/profile-details/profile-details.service';
 import { ApiModule } from '../pmm-api-services/api.module';
-import { InventoryService } from '../inventory/inventory.service';
 import { NodesService } from '../pmm-api-services/services/nodes.service';
 import { ServicesService } from '../pmm-api-services/services/services.service';
 import { AgentsService } from '../pmm-api-services/services/agents.service';
-import { InventoryComponent } from '../inventory/inventory.component';
-import { ServicesTableComponent } from '../inventory/services-table/services-table.component';
-import { AgentsTableComponent } from '../inventory/agents-table/agents-table.component';
-import { NodesTableComponent } from '../inventory/nodes-table/nodes-table.component';
 import { TableCellComponent } from '../qan/table-cell/table-cell.component';
 import { ProfileTableComponent } from '../qan/profile-table/profile-table.component';
 import { TableHeaderCellComponent } from '../qan/table-header-cell/table-header-cell.component';
@@ -52,9 +39,6 @@ import { TableStatusComponent } from '../qan/profile-details/components/tables/c
 import { DetailsTableComponent } from '../qan/profile-details/components/details-table/details-table.component';
 import { DetailsFingerprintComponent } from '../qan/profile-details/components/details-fingerprint/details-fingerprint.component';
 import { TableIndexesComponent } from '../qan/profile-details/components/tables/components/table-indexes/table-indexes.component';
-import { AddAmazonRDSComponent } from '../add-amazon-rds/add-amazon-rds.component';
-import { AddRemoteInstanceComponent } from '../add-remote-instances/add-remote-instance.component';
-import { AddInstanceComponent } from '../add-instance/add-instance.component';
 
 @NgModule({
   imports: [
@@ -64,23 +48,16 @@ import { AddInstanceComponent } from '../add-instance/add-instance.component';
     NgSelectModule,
     NgxPaginationModule,
     PerfectScrollbarModule,
-    ApiModule
+    ApiModule,
   ],
   declarations: [
     PageNotFoundComponent,
     QanProfileComponent,
     FilterMenuComponent,
-    SummaryComponent,
-    SettingsComponent,
     JSONTreeComponent,
     SearchAutocompleteComponent,
-    RemoteInstancesListComponent,
     EditColumnComponent,
     ProfileDetailsComponent,
-    InventoryComponent,
-    ServicesTableComponent,
-    AgentsTableComponent,
-    NodesTableComponent,
     ProfileTableComponent,
     TableHeaderCellComponent,
     TableCellComponent,
@@ -97,25 +74,15 @@ import { AddInstanceComponent } from '../add-instance/add-instance.component';
     DetailsTableComponent,
     DetailsFingerprintComponent,
     TableIndexesComponent,
-    AddAmazonRDSComponent,
-    AddRemoteInstanceComponent,
-    AddInstanceComponent,
   ],
   exports: [
     PageNotFoundComponent,
     QanProfileComponent,
     FilterMenuComponent,
-    SummaryComponent,
-    SettingsComponent,
     JSONTreeComponent,
     SearchAutocompleteComponent,
-    RemoteInstancesListComponent,
     EditColumnComponent,
     ProfileDetailsComponent,
-    InventoryComponent,
-    ServicesTableComponent,
-    AgentsTableComponent,
-    NodesTableComponent,
     DetailsRowComponent,
     DetailsLabelsComponent,
     ExamplesViewerComponent,
@@ -128,27 +95,18 @@ import { AddInstanceComponent } from '../add-instance/add-instance.component';
     DetailsTableComponent,
     DetailsFingerprintComponent,
     TableIndexesComponent,
-    AddAmazonRDSComponent,
-    AddRemoteInstanceComponent,
-    AddInstanceComponent,
   ],
   providers: [
     InstanceService,
     QanProfileService,
-    SummaryService,
-    SettingsService,
-    AddAmazonRDSService,
-    AddRemoteInstanceService,
     ProfileDetailsService,
-    RemoteInstancesListService,
     EditColumnService,
     FilterMenuService,
     FilterSearchService,
-    InventoryService,
     NodesService,
     ServicesService,
     AgentsService,
     ActionsService,
-  ]
+  ],
 })
-export class CoreModule { }
+export class CoreModule {}
