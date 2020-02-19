@@ -6,7 +6,7 @@ import sqlFormatter from 'sql-formatter';
 @Component({
   selector: 'app-query-example',
   templateUrl: './query-example.component.html',
-  styleUrls: ['./query-example.component.css']
+  styleUrls: ['./query-example.component.css'],
 })
 export class QueryExampleComponent {
   @Input() exampleParam: any;
@@ -43,7 +43,7 @@ export class QueryExampleComponent {
           return this.fixBeautifyText(exampleText);
       }
     }
-    return '';
+    return exampleText;
   }
 
   showSuccessNotification() {
