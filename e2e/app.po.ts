@@ -10,6 +10,7 @@ export class QanAppPage {
   }
 
   isMainPresent() {
+    // @ts-ignore
     return $('app-root').$('main').isPresent();
   }
 }

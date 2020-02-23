@@ -13,7 +13,7 @@
         "test:coverage-report": "open coverage/index.html",
         "e2e": "ng e2e --proxy-config proxy.conf.json",
         "server": "PATH=$(npm bin):$PATH; webpack-dev-server --config webpack.config.js",
-        "build": "ng build qan-app  --base-href '/qan/' --aot --output-path 'dist/qan-app' --prod --progress --output-hashing=all",
+        "build": "ng build qan-app  --base-href '/qan/' --aot --output-path 'dist/qan-app' --prod --progress --output-hashing=all --ts-config=tsconfig.json",
         "pack": "cd dist/; tar -czf qan-app-`date +%Y%m%dT%H%m%S`.tar.gz qan-app",
         "clean": "rm -r dist/*",
         "pmm-api-gen": " ng-swagger-gen -c ./swagger-gen-config/ng-swagger-public.json && ng-swagger-gen -c ./swagger-gen-config/ng-swagger-private.json"
@@ -33,6 +33,7 @@
         "@ng-bootstrap/ng-bootstrap": "^4.2.1",
         "@ng-select/ng-select": "^2.20.5",
         "@types/d3-shape": "^1.3.1",
+        "@types/jquery": "^3.3.33",
         "@types/jszip": "^3.1.6",
         "bootstrap": "^4.3.1",
         "core-js": "^2.6.9",
@@ -50,13 +51,13 @@
         "perfect-scrollbar": "^1.4.0",
         "renderjson": "github:caldwell/renderjson",
         "rxjs": "^6.5.2",
+        "serialize-javascript": ">=2.1.1",
         "sql-formatter": "^2.3.3",
         "stream": "0.0.2",
         "ts-helpers": "1.1.2",
         "tslib": "^1.10.0",
         "vkbeautify": "^0.99.3",
-        "zone.js": "~0.9.1",
-        "serialize-javascript": ">=2.1.1"
+        "zone.js": "~0.9.1"
     },
     "devDependencies": {
         "@angular-devkit/build-angular": "~0.801.1",
@@ -65,7 +66,7 @@
         "@types/d3": "5.0.0",
         "@types/highlight.js": "9.12.3",
         "@types/jasmine": "2.8.8",
-        "@types/node": "^10.14.12",
+        "@types/node": "^10.17.16",
         "@types/numeral": "0.0.25",
         "@types/vkbeautify": "0.99.2",
         "codelyzer": "^5.0.1",
