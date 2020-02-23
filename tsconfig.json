@@ -10,12 +10,11 @@
     "moduleResolution": "node",
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
-    "lib": [
-      "es2016",
-      "dom"
-    ],
+    "lib": ["es2019", "dom"],
+    "typeRoots": ["node_modules/@types"],
     "module": "esnext",
-    "baseUrl": "./"
-  ,    "target": "es2015"
-}
+    "baseUrl": "./",
+    "target": "es2015"
+  },
+  "exclude": ["node_modules", "src/**/*.spec.ts"]
 }
