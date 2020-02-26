@@ -8,7 +8,10 @@
          [metricName]="metricData?.metricName"
          [measurement]="pipeInfo?.sparklineType">
     </div>
-    <div *ngIf="metricData?.stats?.qps || metricData?.stats?.sum_per_sec">
+    <div *ngIf="isTimeMetric && metricData?.stats?.avg">
+      {{(metricData?.stats?.avg) | humanize : 'time'}} (per query)
+    </div>
+    <div *ngIf="!isTimeMetric && (metricData?.stats?.qps || metricData?.stats?.sum_per_sec)">
       {{(metricData?.stats?.qps || metricData?.stats?.sum_per_sec) | humanize : 'number'}}
       {{ currentMetricInfo?.units }}
     </div>

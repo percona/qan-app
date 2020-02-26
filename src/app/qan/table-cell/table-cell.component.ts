@@ -12,6 +12,7 @@ export class TableCellComponent implements OnInit {
   @Input() metricData: MetricModel;
   @Input() sparklineData: any;
   @Input() totalSum: any;
+  private isTimeMetric: boolean;
 
   @Input() set checkSparkline(state) {
     this.isDefaultColumn = this.defaultColumns.includes(this.metricData.metricName);
@@ -53,6 +54,7 @@ export class TableCellComponent implements OnInit {
       this.isStats = Object.keys(this.metricData.stats).includes('min' && 'max');
       this.isNoData = !Object.values(this.metricData.stats).length;
       this.isPercentOfTotal = !!(this.metricData.stats.sum || this.metricData.stats.sum_per_sec);
+      this.isTimeMetric = this.metricData.metricName.endsWith('_time');
       if (this.isPercentOfTotal) {
         this.percentOfTotal = +this.percentFromNumber(this.totalSum, this.metricData);
       }
