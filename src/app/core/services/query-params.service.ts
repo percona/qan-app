@@ -106,8 +106,7 @@ export class QueryParamsService {
   }
 
   setRouterLink(params = {}) {
-    const filterBy =
-      this.route.snapshot.queryParams.filter_by || params['filter_by'];
+    const filterBy = params['filter_by'];
     return filterBy !== undefined
       ? ['profile/details/', filterBy]
       : ['profile'];
