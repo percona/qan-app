@@ -106,7 +106,7 @@ export class DetailsTableComponent implements OnInit, AfterViewInit {
   }
 
   getDetailsData(detailsParams) {
-    if (detailsParams.filter_by == "0") {
+    if (detailsParams.filter_by === '0') {
       detailsParams.filter_by = ''
     }
     return this.objectDetailsService.GetMetrics(detailsParams).pipe(
