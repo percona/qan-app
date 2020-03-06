@@ -1,79 +1,127 @@
-<div class="content-table-wrapper" [class.content-table-wrapper--border]="isLoading">
+<div
+  class="content-table-wrapper"
+  [class.content-table-wrapper--border]="isLoading"
+>
   <div [hidden]="isLoading" class="main-wrapper" #mainTableWrapper>
-      <div class="table-wrapper--outer">
-        <perfect-scrollbar [config]="scrollbarConfig" class="pmm-scrollbar">
-          <div class="table-wrapper--inner">
-            <table class="qan-table" #qanTable>
-              <ng-container
-                *ngFor="let row of tableData | paginate: paginationConfig; let index = index; let last = last" #tableRows>
-                <tr *ngIf="!index" class="qan-table__row qan-table__row--heading">
-                  <th class="text-color--dark qan-table__cell qan-table__cell--fixed qan-table__cell--first-c">#</th>
-                  <th class="qan-table__cell qan-table__cell--fixed qan-table__cell--second-c">
-                    <app-main-cell></app-main-cell>
-                  </th>
-                  <ng-container *ngFor="let metric of row.metrics; let indexMetrics = index">
-                    <app-qan-table-header-cell [currentColumnName]="metric.metricName"
-                                               [fullData]="tableData"
-                                               [processIndex]="indexMetrics"
-                                               [columnQuantity]="row.metrics.length - 1"
-                                               (toEndOfTable)="toEndOfScrollbar()"
-                                               [rowMetrics]="row.metrics">
-                    </app-qan-table-header-cell>
-                  </ng-container>
-                </tr>
-                <tr (click)="showDetails(row)"
-                    [routerLink]="['details/', row.rank ? row.rank : 0]"
-                    [class.qan-table__row--active]="row.dimension === detailsBy"
-                    class="qan-table__row qan-table--body">
-                  <td class="qan-table__cell qan-table__cell--first-c qan-table__cell--fixed">
-                    {{index ? currentPage * perPage - perPage + index : ''}}
-                  </td>
-                  <td class="qan-table__cell qan-table__cell--second-c qan-table__cell--fixed ">
-                    <div class="overlay-container">
-                    <span *ngIf="!row.fingerprint" [class.font--roboto-bold]="!index" class=" overlay-container__item qan-table__abstract">
-                      {{row.dimension || (index ? 'n/a' : 'TOTAL')}}
+    <div class="table-wrapper--outer">
+      <perfect-scrollbar [config]="scrollbarConfig" class="pmm-scrollbar">
+        <div class="table-wrapper--inner">
+          <table class="qan-table" #qanTable>
+            <ng-container
+              *ngFor="
+                let row of tableData | paginate: paginationConfig;
+                let index = index;
+                let last = last
+              "
+              #tableRows
+            >
+              <tr *ngIf="!index" class="qan-table__row qan-table__row--heading">
+                <th
+                  class="text-color--dark qan-table__cell qan-table__cell--fixed qan-table__cell--first-c"
+                >
+                  #
+                </th>
+                <th
+                  class="qan-table__cell qan-table__cell--fixed qan-table__cell--second-c"
+                >
+                  <app-main-cell></app-main-cell>
+                </th>
+                <ng-container
+                  *ngFor="let metric of row.metrics; let indexMetrics = index"
+                >
+                  <app-qan-table-header-cell
+                    [currentColumnName]="metric.metricName"
+                    [fullData]="tableData"
+                    [processIndex]="indexMetrics"
+                    [columnQuantity]="row.metrics.length - 1"
+                    (toEndOfTable)="toEndOfScrollbar()"
+                    [rowMetrics]="row.metrics"
+                  >
+                  </app-qan-table-header-cell>
+                </ng-container>
+              </tr>
+              <tr
+                (click)="showDetails(row)"
+                [routerLink]="['details/', row.rank ? row.rank : 0]"
+                [class.qan-table__row--active]="
+                  detailsBy == '0'
+                    ? row.dimension === ''
+                    : row.dimension === detailsBy
+                "
+                class="qan-table__row qan-table--body"
+              >
+                <td
+                  class="qan-table__cell qan-table__cell--first-c qan-table__cell--fixed"
+                >
+                  {{ index ? currentPage * perPage - perPage + index : '' }}
+                </td>
+                <td
+                  class="qan-table__cell qan-table__cell--second-c qan-table__cell--fixed "
+                >
+                  <div class="overlay-container">
+                    <span
+                      *ngIf="!row.fingerprint"
+                      [class.font--roboto-bold]="!index"
+                      class=" overlay-container__item qan-table__abstract"
+                    >
+                      {{ row.dimension || (index ? 'n/a' : 'TOTAL') }}
                     </span>
-                      <span *ngIf="row.fingerprint" [class.font--roboto-bold]="!index" class=" overlay-container__item qan-table__abstract">
-                      {{index ? row.fingerprint : 'TOTAL' }}
+                    <span
+                      *ngIf="row.fingerprint"
+                      [class.font--roboto-bold]="!index"
+                      class=" overlay-container__item qan-table__abstract"
+                    >
+                      {{ index ? row.fingerprint : 'TOTAL' }}
                     </span>
-                    </div>
-                  </td>
-                  <ng-container *ngFor="let metric of row.metrics; let index = index">
-                    <app-qan-table-cell [metricData]="metric"
-                                        [sparklineData]="row.sparkline"
-                                        [checkSparkline]="!index"
-                                        [totalSum]="tableData[0]['metrics']">
-                    </app-qan-table-cell>
-                  </ng-container>
-                </tr>
-              </ng-container>
-            </table>
-          </div>
-        </perfect-scrollbar>
-        <span class="right-table-border" #rightTableBorder></span>
-      </div>
-    </div>
-  <div *ngIf="paginationConfig.totalItems > 10 && !isLoading" class="pagination-tools">
-      <pagination-controls id="qan-table-pagination"
-                           class="pmm-pagination"
-                           autoHide="true"
-                           previousLabel="<"
-                           nextLabel=">"
-                           (pageChange)="pageChanged($event)">
-      </pagination-controls>
-      <div class="pagination-tools__right-column">
-        <span class="total-items">{{ showTotalItems() }}</span>
-        <div class="results-per-page">
-          <span>Results per page</span>
-          <ng-select [searchable]="false"
-                     [(ngModel)]="perPage"
-                     [items]="selectPaginationConfig"
-                     [clearable]="false"
-                     (change)="onChangePerPage($event)"
-                     class="pmm-select pmm-select--column pmm-select--column-main">
-          </ng-select>
+                  </div>
+                </td>
+                <ng-container
+                  *ngFor="let metric of row.metrics; let index = index"
+                >
+                  <app-qan-table-cell
+                    [metricData]="metric"
+                    [sparklineData]="row.sparkline"
+                    [checkSparkline]="!index"
+                    [totalSum]="tableData[0]['metrics']"
+                  >
+                  </app-qan-table-cell>
+                </ng-container>
+              </tr>
+            </ng-container>
+          </table>
         </div>
+      </perfect-scrollbar>
+      <span class="right-table-border" #rightTableBorder></span>
+    </div>
+  </div>
+  <div
+    *ngIf="paginationConfig.totalItems > 10 && !isLoading"
+    class="pagination-tools"
+  >
+    <pagination-controls
+      id="qan-table-pagination"
+      class="pmm-pagination"
+      autoHide="true"
+      previousLabel="<"
+      nextLabel=">"
+      (pageChange)="pageChanged($event)"
+    >
+    </pagination-controls>
+    <div class="pagination-tools__right-column">
+      <span class="total-items">{{ showTotalItems() }}</span>
+      <div class="results-per-page">
+        <span>Results per page</span>
+        <ng-select
+          [searchable]="false"
+          [(ngModel)]="perPage"
+          [items]="selectPaginationConfig"
+          [clearable]="false"
+          (change)="onChangePerPage($event)"
+          class="pmm-select pmm-select--column pmm-select--column-main"
+        >
+        </ng-select>
       </div>
     </div>
+  </div>
   <i *ngIf="isLoading" class="fa fa-spinner fa-spin spinner"></i>
 </div>
