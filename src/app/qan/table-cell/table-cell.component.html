@@ -14,7 +14,11 @@
       </span>
     </div>
     <div *ngIf="!isTimeMetric && (metricData?.stats?.qps || metricData?.stats?.sum_per_sec)">
-      <span *ngIf="currentMetricInfo?.units === '(per sec)' || currentMetricInfo?.units === 'Bytes'" class="app-tooltip" data-tooltip="Per second">
+      <span *ngIf="currentMetricInfo?.units === 'Bytes'" class="app-tooltip" data-tooltip="Per second">
+        {{(metricData?.stats?.qps || metricData?.stats?.sum_per_sec) | humanize : 'number'}}
+        Bytes
+      </span>
+      <span *ngIf="currentMetricInfo?.units === '(per sec)'" class="app-tooltip" data-tooltip="Per second">
         {{(metricData?.stats?.qps || metricData?.stats?.sum_per_sec) | humanize : 'number'}}
       </span>
       <span *ngIf="currentMetricInfo?.units !== '(per sec)' && currentMetricInfo?.units !== 'Bytes'">
