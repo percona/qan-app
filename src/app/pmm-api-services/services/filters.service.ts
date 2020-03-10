@@ -24,7 +24,7 @@ class FiltersService extends __BaseService {
    * @param body undefined
    * @return A successful response.
    */
-  GetResponse(body: {labels?: Array<{key?: string, value?: Array<string>}>, main_metric_name?: string, period_start_from?: string, period_start_to?: string}): __Observable<__StrictHttpResponse<{labels?: {[key: string]: {name?: Array<{main_metric_per_sec?: number, main_metric_percent?: number, value?: string}>}}}>> {
+  GetResponse(body: { period_start_from?: string, period_start_to?: string, main_metric_name?: string, labels?: Array<{ key?: string, value?: Array<string> }> }): __Observable<__StrictHttpResponse<{ labels?: { [key: string]: { name?: Array<{ value?: string, main_metric_percent?: number, main_metric_per_sec?: number }> } } }>> {
     let __params = this.newParams();
     let __headers = new HttpHeaders();
     let __body: any = null;
@@ -42,7 +42,7 @@ class FiltersService extends __BaseService {
     return this.http.request<any>(req).pipe(
       __filter(_r => _r instanceof HttpResponse),
       __map((_r) => {
-        return _r as __StrictHttpResponse<{labels?: {[key: string]: {name?: Array<{main_metric_per_sec?: number, main_metric_percent?: number, value?: string}>}}}>;
+        return _r as __StrictHttpResponse<{ labels?: { [key: string]: { name?: Array<{ value?: string, main_metric_percent?: number, main_metric_per_sec?: number }> } } }>;
       })
     );
   }
@@ -50,9 +50,9 @@ class FiltersService extends __BaseService {
    * @param body undefined
    * @return A successful response.
    */
-  Get(body: {labels?: Array<{key?: string, value?: Array<string>}>, main_metric_name?: string, period_start_from?: string, period_start_to?: string}): __Observable<{labels?: {[key: string]: {name?: Array<{main_metric_per_sec?: number, main_metric_percent?: number, value?: string}>}}}> {
+  Get(body: { period_start_from?: string, period_start_to?: string, main_metric_name?: string, labels?: Array<{ key?: string, value?: Array<string> }> }): __Observable<{ labels?: { [key: string]: { name?: Array<{ value?: string, main_metric_percent?: number, main_metric_per_sec?: number }> } } }> {
     return this.GetResponse(body).pipe(
-      __map(_r => _r.body as {labels?: {[key: string]: {name?: Array<{main_metric_per_sec?: number, main_metric_percent?: number, value?: string}>}}})
+      __map(_r => _r.body as { labels?: { [key: string]: { name?: Array<{ value?: string, main_metric_percent?: number, main_metric_per_sec?: number }> } } })
     );
   }
 }

@@ -30,7 +30,7 @@ class ServicesService extends __BaseService {
    * @param body undefined
    * @return A successful response.
    */
-  AddMongoDBServiceResponse(body: {service_name?: string, node_id?: string, address?: string, port?: number, environment?: string, cluster?: string, replication_set?: string, custom_labels?: {[key: string]: string}}): __Observable<__StrictHttpResponse<{mongodb?: {service_id?: string, service_name?: string, node_id?: string, address?: string, port?: number, environment?: string, cluster?: string, replication_set?: string, custom_labels?: {[key: string]: string}}}>> {
+  AddMongoDBServiceResponse(body: { service_name?: string, node_id?: string, address?: string, port?: number, environment?: string, cluster?: string, replication_set?: string, custom_labels?: { [key: string]: string } }): __Observable<__StrictHttpResponse<{ mongodb?: { service_id?: string, service_name?: string, node_id?: string, address?: string, port?: number, environment?: string, cluster?: string, replication_set?: string, custom_labels?: { [key: string]: string } } }>> {
     let __params = this.newParams();
     let __headers = new HttpHeaders();
     let __body: any = null;
@@ -48,7 +48,7 @@ class ServicesService extends __BaseService {
     return this.http.request<any>(req).pipe(
       __filter(_r => _r instanceof HttpResponse),
       __map((_r) => {
-        return _r as __StrictHttpResponse<{mongodb?: {service_id?: string, service_name?: string, node_id?: string, address?: string, port?: number, environment?: string, cluster?: string, replication_set?: string, custom_labels?: {[key: string]: string}}}>;
+        return _r as __StrictHttpResponse<{ mongodb?: { service_id?: string, service_name?: string, node_id?: string, address?: string, port?: number, environment?: string, cluster?: string, replication_set?: string, custom_labels?: { [key: string]: string } } }>;
       })
     );
   }
@@ -56,9 +56,9 @@ class ServicesService extends __BaseService {
    * @param body undefined
    * @return A successful response.
    */
-  AddMongoDBService(body: {service_name?: string, node_id?: string, address?: string, port?: number, environment?: string, cluster?: string, replication_set?: string, custom_labels?: {[key: string]: string}}): __Observable<{mongodb?: {service_id?: string, service_name?: string, node_id?: string, address?: string, port?: number, environment?: string, cluster?: string, replication_set?: string, custom_labels?: {[key: string]: string}}}> {
+  AddMongoDBService(body: { service_name?: string, node_id?: string, address?: string, port?: number, environment?: string, cluster?: string, replication_set?: string, custom_labels?: { [key: string]: string } }): __Observable<{ mongodb?: { service_id?: string, service_name?: string, node_id?: string, address?: string, port?: number, environment?: string, cluster?: string, replication_set?: string, custom_labels?: { [key: string]: string } } }> {
     return this.AddMongoDBServiceResponse(body).pipe(
-      __map(_r => _r.body as {mongodb?: {service_id?: string, service_name?: string, node_id?: string, address?: string, port?: number, environment?: string, cluster?: string, replication_set?: string, custom_labels?: {[key: string]: string}}})
+      __map(_r => _r.body as { mongodb?: { service_id?: string, service_name?: string, node_id?: string, address?: string, port?: number, environment?: string, cluster?: string, replication_set?: string, custom_labels?: { [key: string]: string } } })
     );
   }
 
@@ -66,7 +66,7 @@ class ServicesService extends __BaseService {
    * @param body undefined
    * @return A successful response.
    */
-  AddMySQLServiceResponse(body: {service_name?: string, node_id?: string, address?: string, port?: number, environment?: string, cluster?: string, replication_set?: string, custom_labels?: {[key: string]: string}}): __Observable<__StrictHttpResponse<{mysql?: {service_id?: string, service_name?: string, node_id?: string, address?: string, port?: number, environment?: string, cluster?: string, replication_set?: string, custom_labels?: {[key: string]: string}}}>> {
+  AddMySQLServiceResponse(body: { service_name?: string, node_id?: string, address?: string, port?: number, environment?: string, cluster?: string, replication_set?: string, custom_labels?: { [key: string]: string } }): __Observable<__StrictHttpResponse<{ mysql?: { service_id?: string, service_name?: string, node_id?: string, address?: string, port?: number, environment?: string, cluster?: string, replication_set?: string, custom_labels?: { [key: string]: string } } }>> {
     let __params = this.newParams();
     let __headers = new HttpHeaders();
     let __body: any = null;
@@ -84,7 +84,7 @@ class ServicesService extends __BaseService {
     return this.http.request<any>(req).pipe(
       __filter(_r => _r instanceof HttpResponse),
       __map((_r) => {
-        return _r as __StrictHttpResponse<{mysql?: {service_id?: string, service_name?: string, node_id?: string, address?: string, port?: number, environment?: string, cluster?: string, replication_set?: string, custom_labels?: {[key: string]: string}}}>;
+        return _r as __StrictHttpResponse<{ mysql?: { service_id?: string, service_name?: string, node_id?: string, address?: string, port?: number, environment?: string, cluster?: string, replication_set?: string, custom_labels?: { [key: string]: string } } }>;
       })
     );
   }
@@ -92,9 +92,9 @@ class ServicesService extends __BaseService {
    * @param body undefined
    * @return A successful response.
    */
-  AddMySQLService(body: {service_name?: string, node_id?: string, address?: string, port?: number, environment?: string, cluster?: string, replication_set?: string, custom_labels?: {[key: string]: string}}): __Observable<{mysql?: {service_id?: string, service_name?: string, node_id?: string, address?: string, port?: number, environment?: string, cluster?: string, replication_set?: string, custom_labels?: {[key: string]: string}}}> {
+  AddMySQLService(body: { service_name?: string, node_id?: string, address?: string, port?: number, environment?: string, cluster?: string, replication_set?: string, custom_labels?: { [key: string]: string } }): __Observable<{ mysql?: { service_id?: string, service_name?: string, node_id?: string, address?: string, port?: number, environment?: string, cluster?: string, replication_set?: string, custom_labels?: { [key: string]: string } } }> {
     return this.AddMySQLServiceResponse(body).pipe(
-      __map(_r => _r.body as {mysql?: {service_id?: string, service_name?: string, node_id?: string, address?: string, port?: number, environment?: string, cluster?: string, replication_set?: string, custom_labels?: {[key: string]: string}}})
+      __map(_r => _r.body as { mysql?: { service_id?: string, service_name?: string, node_id?: string, address?: string, port?: number, environment?: string, cluster?: string, replication_set?: string, custom_labels?: { [key: string]: string } } })
     );
   }
 
@@ -102,7 +102,7 @@ class ServicesService extends __BaseService {
    * @param body undefined
    * @return A successful response.
    */
-  AddPostgreSQLServiceResponse(body: {service_name?: string, node_id?: string, address?: string, port?: number, environment?: string, cluster?: string, replication_set?: string, custom_labels?: {[key: string]: string}}): __Observable<__StrictHttpResponse<{postgresql?: {service_id?: string, service_name?: string, node_id?: string, address?: string, port?: number, environment?: string, cluster?: string, replication_set?: string, custom_labels?: {[key: string]: string}}}>> {
+  AddPostgreSQLServiceResponse(body: { service_name?: string, node_id?: string, address?: string, port?: number, environment?: string, cluster?: string, replication_set?: string, custom_labels?: { [key: string]: string } }): __Observable<__StrictHttpResponse<{ postgresql?: { service_id?: string, service_name?: string, node_id?: string, address?: string, port?: number, environment?: string, cluster?: string, replication_set?: string, custom_labels?: { [key: string]: string } } }>> {
     let __params = this.newParams();
     let __headers = new HttpHeaders();
     let __body: any = null;
@@ -120,7 +120,7 @@ class ServicesService extends __BaseService {
     return this.http.request<any>(req).pipe(
       __filter(_r => _r instanceof HttpResponse),
       __map((_r) => {
-        return _r as __StrictHttpResponse<{postgresql?: {service_id?: string, service_name?: string, node_id?: string, address?: string, port?: number, environment?: string, cluster?: string, replication_set?: string, custom_labels?: {[key: string]: string}}}>;
+        return _r as __StrictHttpResponse<{ postgresql?: { service_id?: string, service_name?: string, node_id?: string, address?: string, port?: number, environment?: string, cluster?: string, replication_set?: string, custom_labels?: { [key: string]: string } } }>;
       })
     );
   }
@@ -128,9 +128,9 @@ class ServicesService extends __BaseService {
    * @param body undefined
    * @return A successful response.
    */
-  AddPostgreSQLService(body: {service_name?: string, node_id?: string, address?: string, port?: number, environment?: string, cluster?: string, replication_set?: string, custom_labels?: {[key: string]: string}}): __Observable<{postgresql?: {service_id?: string, service_name?: string, node_id?: string, address?: string, port?: number, environment?: string, cluster?: string, replication_set?: string, custom_labels?: {[key: string]: string}}}> {
+  AddPostgreSQLService(body: { service_name?: string, node_id?: string, address?: string, port?: number, environment?: string, cluster?: string, replication_set?: string, custom_labels?: { [key: string]: string } }): __Observable<{ postgresql?: { service_id?: string, service_name?: string, node_id?: string, address?: string, port?: number, environment?: string, cluster?: string, replication_set?: string, custom_labels?: { [key: string]: string } } }> {
     return this.AddPostgreSQLServiceResponse(body).pipe(
-      __map(_r => _r.body as {postgresql?: {service_id?: string, service_name?: string, node_id?: string, address?: string, port?: number, environment?: string, cluster?: string, replication_set?: string, custom_labels?: {[key: string]: string}}})
+      __map(_r => _r.body as { postgresql?: { service_id?: string, service_name?: string, node_id?: string, address?: string, port?: number, environment?: string, cluster?: string, replication_set?: string, custom_labels?: { [key: string]: string } } })
     );
   }
 
@@ -138,7 +138,7 @@ class ServicesService extends __BaseService {
    * @param body undefined
    * @return A successful response.
    */
-  AddProxySQLServiceResponse(body: {service_name?: string, node_id?: string, address?: string, port?: number, environment?: string, cluster?: string, replication_set?: string, custom_labels?: {[key: string]: string}}): __Observable<__StrictHttpResponse<{proxysql?: {service_id?: string, service_name?: string, node_id?: string, address?: string, port?: number, environment?: string, cluster?: string, replication_set?: string, custom_labels?: {[key: string]: string}}}>> {
+  AddProxySQLServiceResponse(body: { service_name?: string, node_id?: string, address?: string, port?: number, environment?: string, cluster?: string, replication_set?: string, custom_labels?: { [key: string]: string } }): __Observable<__StrictHttpResponse<{ proxysql?: { service_id?: string, service_name?: string, node_id?: string, address?: string, port?: number, environment?: string, cluster?: string, replication_set?: string, custom_labels?: { [key: string]: string } } }>> {
     let __params = this.newParams();
     let __headers = new HttpHeaders();
     let __body: any = null;
@@ -156,7 +156,7 @@ class ServicesService extends __BaseService {
     return this.http.request<any>(req).pipe(
       __filter(_r => _r instanceof HttpResponse),
       __map((_r) => {
-        return _r as __StrictHttpResponse<{proxysql?: {service_id?: string, service_name?: string, node_id?: string, address?: string, port?: number, environment?: string, cluster?: string, replication_set?: string, custom_labels?: {[key: string]: string}}}>;
+        return _r as __StrictHttpResponse<{ proxysql?: { service_id?: string, service_name?: string, node_id?: string, address?: string, port?: number, environment?: string, cluster?: string, replication_set?: string, custom_labels?: { [key: string]: string } } }>;
       })
     );
   }
@@ -164,9 +164,9 @@ class ServicesService extends __BaseService {
    * @param body undefined
    * @return A successful response.
    */
-  AddProxySQLService(body: {service_name?: string, node_id?: string, address?: string, port?: number, environment?: string, cluster?: string, replication_set?: string, custom_labels?: {[key: string]: string}}): __Observable<{proxysql?: {service_id?: string, service_name?: string, node_id?: string, address?: string, port?: number, environment?: string, cluster?: string, replication_set?: string, custom_labels?: {[key: string]: string}}}> {
+  AddProxySQLService(body: { service_name?: string, node_id?: string, address?: string, port?: number, environment?: string, cluster?: string, replication_set?: string, custom_labels?: { [key: string]: string } }): __Observable<{ proxysql?: { service_id?: string, service_name?: string, node_id?: string, address?: string, port?: number, environment?: string, cluster?: string, replication_set?: string, custom_labels?: { [key: string]: string } } }> {
     return this.AddProxySQLServiceResponse(body).pipe(
-      __map(_r => _r.body as {proxysql?: {service_id?: string, service_name?: string, node_id?: string, address?: string, port?: number, environment?: string, cluster?: string, replication_set?: string, custom_labels?: {[key: string]: string}}})
+      __map(_r => _r.body as { proxysql?: { service_id?: string, service_name?: string, node_id?: string, address?: string, port?: number, environment?: string, cluster?: string, replication_set?: string, custom_labels?: { [key: string]: string } } })
     );
   }
 
@@ -174,7 +174,7 @@ class ServicesService extends __BaseService {
    * @param body undefined
    * @return A successful response.
    */
-  GetServiceResponse(body: {service_id?: string}): __Observable<__StrictHttpResponse<{mysql?: {service_id?: string, service_name?: string, node_id?: string, address?: string, port?: number, environment?: string, cluster?: string, replication_set?: string, custom_labels?: {[key: string]: string}}, mongodb?: {service_id?: string, service_name?: string, node_id?: string, address?: string, port?: number, environment?: string, cluster?: string, replication_set?: string, custom_labels?: {[key: string]: string}}, postgresql?: {service_id?: string, service_name?: string, node_id?: string, address?: string, port?: number, environment?: string, cluster?: string, replication_set?: string, custom_labels?: {[key: string]: string}}, proxysql?: {service_id?: string, service_name?: string, node_id?: string, address?: string, port?: number, environment?: string, cluster?: string, replication_set?: string, custom_labels?: {[key: string]: string}}}>> {
+  GetServiceResponse(body: { service_id?: string }): __Observable<__StrictHttpResponse<{ mongodb?: { service_id?: string, service_name?: string, node_id?: string, address?: string, port?: number, environment?: string, cluster?: string, replication_set?: string, custom_labels?: { [key: string]: string } }, mysql?: { service_id?: string, service_name?: string, node_id?: string, address?: string, port?: number, environment?: string, cluster?: string, replication_set?: string, custom_labels?: { [key: string]: string } }, postgresql?: { service_id?: string, service_name?: string, node_id?: string, address?: string, port?: number, environment?: string, cluster?: string, replication_set?: string, custom_labels?: { [key: string]: string } }, proxysql?: { service_id?: string, service_name?: string, node_id?: string, address?: string, port?: number, environment?: string, cluster?: string, replication_set?: string, custom_labels?: { [key: string]: string } } }>> {
     let __params = this.newParams();
     let __headers = new HttpHeaders();
     let __body: any = null;
@@ -192,7 +192,7 @@ class ServicesService extends __BaseService {
     return this.http.request<any>(req).pipe(
       __filter(_r => _r instanceof HttpResponse),
       __map((_r) => {
-        return _r as __StrictHttpResponse<{mysql?: {service_id?: string, service_name?: string, node_id?: string, address?: string, port?: number, environment?: string, cluster?: string, replication_set?: string, custom_labels?: {[key: string]: string}}, mongodb?: {service_id?: string, service_name?: string, node_id?: string, address?: string, port?: number, environment?: string, cluster?: string, replication_set?: string, custom_labels?: {[key: string]: string}}, postgresql?: {service_id?: string, service_name?: string, node_id?: string, address?: string, port?: number, environment?: string, cluster?: string, replication_set?: string, custom_labels?: {[key: string]: string}}, proxysql?: {service_id?: string, service_name?: string, node_id?: string, address?: string, port?: number, environment?: string, cluster?: string, replication_set?: string, custom_labels?: {[key: string]: string}}}>;
+        return _r as __StrictHttpResponse<{ mongodb?: { service_id?: string, service_name?: string, node_id?: string, address?: string, port?: number, environment?: string, cluster?: string, replication_set?: string, custom_labels?: { [key: string]: string } }, mysql?: { service_id?: string, service_name?: string, node_id?: string, address?: string, port?: number, environment?: string, cluster?: string, replication_set?: string, custom_labels?: { [key: string]: string } }, postgresql?: { service_id?: string, service_name?: string, node_id?: string, address?: string, port?: number, environment?: string, cluster?: string, replication_set?: string, custom_labels?: { [key: string]: string } }, proxysql?: { service_id?: string, service_name?: string, node_id?: string, address?: string, port?: number, environment?: string, cluster?: string, replication_set?: string, custom_labels?: { [key: string]: string } } }>;
       })
     );
   }
@@ -200,9 +200,9 @@ class ServicesService extends __BaseService {
    * @param body undefined
    * @return A successful response.
    */
-  GetService(body: {service_id?: string}): __Observable<{mysql?: {service_id?: string, service_name?: string, node_id?: string, address?: string, port?: number, environment?: string, cluster?: string, replication_set?: string, custom_labels?: {[key: string]: string}}, mongodb?: {service_id?: string, service_name?: string, node_id?: string, address?: string, port?: number, environment?: string, cluster?: string, replication_set?: string, custom_labels?: {[key: string]: string}}, postgresql?: {service_id?: string, service_name?: string, node_id?: string, address?: string, port?: number, environment?: string, cluster?: string, replication_set?: string, custom_labels?: {[key: string]: string}}, proxysql?: {service_id?: string, service_name?: string, node_id?: string, address?: string, port?: number, environment?: string, cluster?: string, replication_set?: string, custom_labels?: {[key: string]: string}}}> {
+  GetService(body: { service_id?: string }): __Observable<{ mongodb?: { service_id?: string, service_name?: string, node_id?: string, address?: string, port?: number, environment?: string, cluster?: string, replication_set?: string, custom_labels?: { [key: string]: string } }, mysql?: { service_id?: string, service_name?: string, node_id?: string, address?: string, port?: number, environment?: string, cluster?: string, replication_set?: string, custom_labels?: { [key: string]: string } }, postgresql?: { service_id?: string, service_name?: string, node_id?: string, address?: string, port?: number, environment?: string, cluster?: string, replication_set?: string, custom_labels?: { [key: string]: string } }, proxysql?: { service_id?: string, service_name?: string, node_id?: string, address?: string, port?: number, environment?: string, cluster?: string, replication_set?: string, custom_labels?: { [key: string]: string } } }> {
     return this.GetServiceResponse(body).pipe(
-      __map(_r => _r.body as {mysql?: {service_id?: string, service_name?: string, node_id?: string, address?: string, port?: number, environment?: string, cluster?: string, replication_set?: string, custom_labels?: {[key: string]: string}}, mongodb?: {service_id?: string, service_name?: string, node_id?: string, address?: string, port?: number, environment?: string, cluster?: string, replication_set?: string, custom_labels?: {[key: string]: string}}, postgresql?: {service_id?: string, service_name?: string, node_id?: string, address?: string, port?: number, environment?: string, cluster?: string, replication_set?: string, custom_labels?: {[key: string]: string}}, proxysql?: {service_id?: string, service_name?: string, node_id?: string, address?: string, port?: number, environment?: string, cluster?: string, replication_set?: string, custom_labels?: {[key: string]: string}}})
+      __map(_r => _r.body as { mongodb?: { service_id?: string, service_name?: string, node_id?: string, address?: string, port?: number, environment?: string, cluster?: string, replication_set?: string, custom_labels?: { [key: string]: string } }, mysql?: { service_id?: string, service_name?: string, node_id?: string, address?: string, port?: number, environment?: string, cluster?: string, replication_set?: string, custom_labels?: { [key: string]: string } }, postgresql?: { service_id?: string, service_name?: string, node_id?: string, address?: string, port?: number, environment?: string, cluster?: string, replication_set?: string, custom_labels?: { [key: string]: string } }, proxysql?: { service_id?: string, service_name?: string, node_id?: string, address?: string, port?: number, environment?: string, cluster?: string, replication_set?: string, custom_labels?: { [key: string]: string } } })
     );
   }
 
@@ -210,7 +210,7 @@ class ServicesService extends __BaseService {
    * @param body undefined
    * @return A successful response.
    */
-  ListServicesResponse(body: {node_id?: string, service_type?: 'SERVICE_TYPE_INVALID' | 'MYSQL_SERVICE' | 'MONGODB_SERVICE' | 'POSTGRESQL_SERVICE' | 'PROXYSQL_SERVICE'}): __Observable<__StrictHttpResponse<{mysql?: Array<{service_id?: string, service_name?: string, node_id?: string, address?: string, port?: number, environment?: string, cluster?: string, replication_set?: string, custom_labels?: {[key: string]: string}}>, mongodb?: Array<{service_id?: string, service_name?: string, node_id?: string, address?: string, port?: number, environment?: string, cluster?: string, replication_set?: string, custom_labels?: {[key: string]: string}}>, postgresql?: Array<{service_id?: string, service_name?: string, node_id?: string, address?: string, port?: number, environment?: string, cluster?: string, replication_set?: string, custom_labels?: {[key: string]: string}}>, proxysql?: Array<{service_id?: string, service_name?: string, node_id?: string, address?: string, port?: number, environment?: string, cluster?: string, replication_set?: string, custom_labels?: {[key: string]: string}}>}>> {
+  ListServicesResponse(body: { node_id?: string }): __Observable<__StrictHttpResponse<{ mysql?: Array<{ service_id?: string, service_name?: string, node_id?: string, address?: string, port?: number, environment?: string, cluster?: string, replication_set?: string, custom_labels?: { [key: string]: string } }>, mongodb?: Array<{ service_id?: string, service_name?: string, node_id?: string, address?: string, port?: number, environment?: string, cluster?: string, replication_set?: string, custom_labels?: { [key: string]: string } }>, postgresql?: Array<{ service_id?: string, service_name?: string, node_id?: string, address?: string, port?: number, environment?: string, cluster?: string, replication_set?: string, custom_labels?: { [key: string]: string } }>, proxysql?: Array<{ service_id?: string, service_name?: string, node_id?: string, address?: string, port?: number, environment?: string, cluster?: string, replication_set?: string, custom_labels?: { [key: string]: string } }> }>> {
     let __params = this.newParams();
     let __headers = new HttpHeaders();
     let __body: any = null;
@@ -228,7 +228,7 @@ class ServicesService extends __BaseService {
     return this.http.request<any>(req).pipe(
       __filter(_r => _r instanceof HttpResponse),
       __map((_r) => {
-        return _r as __StrictHttpResponse<{mysql?: Array<{service_id?: string, service_name?: string, node_id?: string, address?: string, port?: number, environment?: string, cluster?: string, replication_set?: string, custom_labels?: {[key: string]: string}}>, mongodb?: Array<{service_id?: string, service_name?: string, node_id?: string, address?: string, port?: number, environment?: string, cluster?: string, replication_set?: string, custom_labels?: {[key: string]: string}}>, postgresql?: Array<{service_id?: string, service_name?: string, node_id?: string, address?: string, port?: number, environment?: string, cluster?: string, replication_set?: string, custom_labels?: {[key: string]: string}}>, proxysql?: Array<{service_id?: string, service_name?: string, node_id?: string, address?: string, port?: number, environment?: string, cluster?: string, replication_set?: string, custom_labels?: {[key: string]: string}}>}>;
+        return _r as __StrictHttpResponse<{ mysql?: Array<{ service_id?: string, service_name?: string, node_id?: string, address?: string, port?: number, environment?: string, cluster?: string, replication_set?: string, custom_labels?: { [key: string]: string } }>, mongodb?: Array<{ service_id?: string, service_name?: string, node_id?: string, address?: string, port?: number, environment?: string, cluster?: string, replication_set?: string, custom_labels?: { [key: string]: string } }>, postgresql?: Array<{ service_id?: string, service_name?: string, node_id?: string, address?: string, port?: number, environment?: string, cluster?: string, replication_set?: string, custom_labels?: { [key: string]: string } }>, proxysql?: Array<{ service_id?: string, service_name?: string, node_id?: string, address?: string, port?: number, environment?: string, cluster?: string, replication_set?: string, custom_labels?: { [key: string]: string } }> }>;
       })
     );
   }
@@ -236,9 +236,9 @@ class ServicesService extends __BaseService {
    * @param body undefined
    * @return A successful response.
    */
-  ListServices(body: {node_id?: string, service_type?: 'SERVICE_TYPE_INVALID' | 'MYSQL_SERVICE' | 'MONGODB_SERVICE' | 'POSTGRESQL_SERVICE' | 'PROXYSQL_SERVICE'}): __Observable<{mysql?: Array<{service_id?: string, service_name?: string, node_id?: string, address?: string, port?: number, environment?: string, cluster?: string, replication_set?: string, custom_labels?: {[key: string]: string}}>, mongodb?: Array<{service_id?: string, service_name?: string, node_id?: string, address?: string, port?: number, environment?: string, cluster?: string, replication_set?: string, custom_labels?: {[key: string]: string}}>, postgresql?: Array<{service_id?: string, service_name?: string, node_id?: string, address?: string, port?: number, environment?: string, cluster?: string, replication_set?: string, custom_labels?: {[key: string]: string}}>, proxysql?: Array<{service_id?: string, service_name?: string, node_id?: string, address?: string, port?: number, environment?: string, cluster?: string, replication_set?: string, custom_labels?: {[key: string]: string}}>}> {
+  ListServices(body: { node_id?: string }): __Observable<{ mysql?: Array<{ service_id?: string, service_name?: string, node_id?: string, address?: string, port?: number, environment?: string, cluster?: string, replication_set?: string, custom_labels?: { [key: string]: string } }>, mongodb?: Array<{ service_id?: string, service_name?: string, node_id?: string, address?: string, port?: number, environment?: string, cluster?: string, replication_set?: string, custom_labels?: { [key: string]: string } }>, postgresql?: Array<{ service_id?: string, service_name?: string, node_id?: string, address?: string, port?: number, environment?: string, cluster?: string, replication_set?: string, custom_labels?: { [key: string]: string } }>, proxysql?: Array<{ service_id?: string, service_name?: string, node_id?: string, address?: string, port?: number, environment?: string, cluster?: string, replication_set?: string, custom_labels?: { [key: string]: string } }> }> {
     return this.ListServicesResponse(body).pipe(
-      __map(_r => _r.body as {mysql?: Array<{service_id?: string, service_name?: string, node_id?: string, address?: string, port?: number, environment?: string, cluster?: string, replication_set?: string, custom_labels?: {[key: string]: string}}>, mongodb?: Array<{service_id?: string, service_name?: string, node_id?: string, address?: string, port?: number, environment?: string, cluster?: string, replication_set?: string, custom_labels?: {[key: string]: string}}>, postgresql?: Array<{service_id?: string, service_name?: string, node_id?: string, address?: string, port?: number, environment?: string, cluster?: string, replication_set?: string, custom_labels?: {[key: string]: string}}>, proxysql?: Array<{service_id?: string, service_name?: string, node_id?: string, address?: string, port?: number, environment?: string, cluster?: string, replication_set?: string, custom_labels?: {[key: string]: string}}>})
+      __map(_r => _r.body as { mysql?: Array<{ service_id?: string, service_name?: string, node_id?: string, address?: string, port?: number, environment?: string, cluster?: string, replication_set?: string, custom_labels?: { [key: string]: string } }>, mongodb?: Array<{ service_id?: string, service_name?: string, node_id?: string, address?: string, port?: number, environment?: string, cluster?: string, replication_set?: string, custom_labels?: { [key: string]: string } }>, postgresql?: Array<{ service_id?: string, service_name?: string, node_id?: string, address?: string, port?: number, environment?: string, cluster?: string, replication_set?: string, custom_labels?: { [key: string]: string } }>, proxysql?: Array<{ service_id?: string, service_name?: string, node_id?: string, address?: string, port?: number, environment?: string, cluster?: string, replication_set?: string, custom_labels?: { [key: string]: string } }> })
     );
   }
 
@@ -246,7 +246,7 @@ class ServicesService extends __BaseService {
    * @param body undefined
    * @return A successful response.
    */
-  RemoveServiceResponse(body: {service_id?: string, force?: boolean}): __Observable<__StrictHttpResponse<{}>> {
+  RemoveServiceResponse(body: { service_id?: string, force?: boolean }): __Observable<__StrictHttpResponse<{}>> {
     let __params = this.newParams();
     let __headers = new HttpHeaders();
     let __body: any = null;
@@ -272,7 +272,7 @@ class ServicesService extends __BaseService {
    * @param body undefined
    * @return A successful response.
    */
-  RemoveService(body: {service_id?: string, force?: boolean}): __Observable<{}> {
+  RemoveService(body: { service_id?: string, force?: boolean }): __Observable<{}> {
     return this.RemoveServiceResponse(body).pipe(
       __map(_r => _r.body as {})
     );

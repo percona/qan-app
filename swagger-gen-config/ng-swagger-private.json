@@ -7,7 +7,7 @@
   "minParamsForContainer": 2,
   "sortParams": "desc",
   "defaultTag": "Api",
-  "removeStaleFiles": false,
+  "removeStaleFiles": true,
   "modelIndex": true,
   "serviceIndex": true,
   "apiModule": true,
