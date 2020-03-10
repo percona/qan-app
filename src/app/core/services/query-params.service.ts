@@ -4,7 +4,7 @@ import { EventsService } from './events.service';
 import { QueryParams } from '../../qan/profile/interfaces/query-params.interface';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class QueryParamsService {
   constructor(
@@ -15,7 +15,7 @@ export class QueryParamsService {
     const queryParams = this.takeParams();
     if (queryParams.filter_by) {
       this.router.navigate(['profile/details', queryParams.filter_by], {
-        queryParams: queryParams
+        queryParams: queryParams,
       });
     }
   }
@@ -43,7 +43,7 @@ export class QueryParamsService {
       'service_id',
       'service_name',
       'service_type',
-      'username'
+      'username',
     ];
 
     parametersGroups.forEach(parameterName => {
@@ -55,12 +55,13 @@ export class QueryParamsService {
       if (params[`var-${filter.groupName}`]) {
         params[`var-${filter.groupName}`] = [
           ...params[`var-${filter.groupName}`],
-          filter.filterName
+          filter.filterName,
         ].filter((value, index, self) => self.indexOf(value) === index);
       } else {
         params[`var-${filter.groupName}`] = [filter.filterName];
       }
     });
+    delete params.filter_by;
     this.navigateWithCurrentParams(params);
   }
 
@@ -74,12 +75,14 @@ export class QueryParamsService {
   addSortingOrderToURL(order_by) {
     const params: QueryParams = this.takeParams();
     params.order_by = order_by;
+    delete params.filter_by;
     this.navigateWithCurrentParams(params);
   }
 
   addDimension(group_by: string) {
     const params: QueryParams = this.takeParams();
     params.group_by = group_by;
+    delete params.filter_by;
     this.navigateWithCurrentParams(params);
   }
 
@@ -121,7 +124,7 @@ export class QueryParamsService {
         if (groupName.startsWith('var-') && result[groupName]) {
           result[groupName] = [
             ...result[groupName],
-            decodeURIComponent(value)
+            decodeURIComponent(value),
           ].filter((item, index, self) => self.indexOf(item) === index);
         } else if (groupName.startsWith('var-')) {
           result[groupName] = [decodeURIComponent(value)];
