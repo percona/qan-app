@@ -24,7 +24,7 @@ class ServiceService extends __BaseService {
    * @param body undefined
    * @return A successful response.
    */
-  RemoveServiceMixin2Response(body: { service_type?: 'SERVICE_TYPE_INVALID' | 'MYSQL_SERVICE' | 'MONGODB_SERVICE' | 'POSTGRESQL_SERVICE' | 'PROXYSQL_SERVICE', service_id?: string, service_name?: string }): __Observable<__StrictHttpResponse<{}>> {
+  RemoveServiceMixin2Response(body: {service_type?: 'SERVICE_TYPE_INVALID' | 'MYSQL_SERVICE' | 'MONGODB_SERVICE' | 'POSTGRESQL_SERVICE' | 'PROXYSQL_SERVICE', service_id?: string, service_name?: string}): __Observable<__StrictHttpResponse<{}>> {
     let __params = this.newParams();
     let __headers = new HttpHeaders();
     let __body: any = null;
@@ -50,7 +50,7 @@ class ServiceService extends __BaseService {
    * @param body undefined
    * @return A successful response.
    */
-  RemoveServiceMixin2(body: { service_type?: 'SERVICE_TYPE_INVALID' | 'MYSQL_SERVICE' | 'MONGODB_SERVICE' | 'POSTGRESQL_SERVICE' | 'PROXYSQL_SERVICE', service_id?: string, service_name?: string }): __Observable<{}> {
+  RemoveServiceMixin2(body: {service_type?: 'SERVICE_TYPE_INVALID' | 'MYSQL_SERVICE' | 'MONGODB_SERVICE' | 'POSTGRESQL_SERVICE' | 'PROXYSQL_SERVICE', service_id?: string, service_name?: string}): __Observable<{}> {
     return this.RemoveServiceMixin2Response(body).pipe(
       __map(_r => _r.body as {})
     );
