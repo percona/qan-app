@@ -56,7 +56,7 @@ const Units = {
   AVG_LOAD: '(avg load)',
   LOAD: 'load',
   PER_SEC: '(per sec)',
-  BYTES_PER_SEC: 'Bytes (per sec)',
+  BYTES_PER_SEC: 'Bytes',
   QPS: 'QPS',
   AVG: 'avg',
   PERCENT: '%',
