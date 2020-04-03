@@ -63,6 +63,7 @@
     "@types/node": "^10.14.12",
     "@types/numeral": "0.0.25",
     "@types/vkbeautify": "0.99.2",
+    "acorn": "6.4.1",
     "codelyzer": "^5.0.1",
     "handlebars": "^4.5.3",
     "jasmine": "^3.4.0",
@@ -76,6 +77,8 @@
     "karma-jasmine": "1.1.2",
     "karma-jasmine-html-reporter": "^1.4.2",
     "karma-remap-istanbul": "0.6.0",
+    "kind-of": "^6.0.3",
+    "minimist": "^1.2.2",
     "ng-swagger-gen": "^1.7.1",
     "protractor": "5.4.0",
     "raw-loader": "^0.5.1",
@@ -84,7 +87,6 @@
     "ts-node": "^7.0.1",
     "tslint": "5.11.0",
     "typescript": "3.4.5",
-    "typescript-formatter": "^7.2.2",
-    "acorn": "6.4.1"
+    "typescript-formatter": "^7.2.2"
   }
 }
