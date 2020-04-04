@@ -78,7 +78,7 @@
     "karma-jasmine-html-reporter": "^1.4.2",
     "karma-remap-istanbul": "0.6.0",
     "kind-of": "^6.0.3",
-    "minimist": "^1.2.2",
+    "minimist": "^1.2.3",
     "ng-swagger-gen": "^1.7.1",
     "protractor": "5.4.0",
     "raw-loader": "^0.5.1",
