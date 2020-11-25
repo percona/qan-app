@@ -34,7 +34,7 @@
     "core-js": "^2.6.9",
     "d3": "^5.9.7",
     "font-awesome": "4.7.0",
-    "highlight.js": "9.12.0",
+    "highlight.js": "10.1.2",
     "hoek": "^5.0.4",
     "jszip": "^3.2.2",
     "moment": "^2.24.0",
