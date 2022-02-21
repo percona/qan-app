@@ -1,6 +1,6 @@
 {
   "name": "qan-app",
-  "version": "v1.17.4",
+  "version": "v1.17.5",
   "license": "AGPL-3.0",
   "angular-cli": {},
   "scripts": {
