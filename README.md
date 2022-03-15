@@ -1,6 +1,5 @@
 # QAN App
 
-[![Codacy Badge](https://api.codacy.com/project/badge/Grade/dda40c1517c749b989e26b2ad0cc4d63)](https://www.codacy.com/app/Percona/qan-app?utm_source=github.com&utm_medium=referral&utm_content=percona/qan-app&utm_campaign=Badge_Grade)
 [![CLA assistant](https://cla-assistant.percona.com/readme/badge/percona/qan-app)](https://cla-assistant.percona.com/percona/qan-app)
 
 ## Development server
